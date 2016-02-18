@@ -9,6 +9,7 @@ using Android.OS;
 
 namespace SmartKar.Droid
 {
+    //TODO
     [Activity(Label = "SmartKar", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
     {
