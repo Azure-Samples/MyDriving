@@ -222,6 +222,10 @@
     <Compile Include="Screens\TripsViewController.designer.cs">
       <DependentUpon>TripsViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Screens\CurrentTripViewController.cs" />
+    <Compile Include="Screens\CurrentTripViewController.designer.cs">
+      <DependentUpon>CurrentTripViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
