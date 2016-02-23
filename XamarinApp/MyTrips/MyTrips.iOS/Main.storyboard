@@ -83,6 +83,9 @@
                                 <state key="normal" title="Login with Facebook" backgroundImage="login_facebook.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="BtnFacebook_TouchUpInside:" destination="xFX-AO-ONA" id="403" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4Z-lF-v1s">
                                 <rect key="frame" x="165" y="330" width="270" height="40"/>
@@ -93,6 +96,9 @@
                                 <state key="normal" title="Login with Twitter" backgroundImage="login_twitter.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="BtnTwitter_TouchUpInside:" destination="xFX-AO-ONA" id="404" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5gI-NP-Vuc">
                                 <rect key="frame" x="165" y="380" width="270" height="40"/>
@@ -103,6 +109,9 @@
                                 <state key="normal" title="Login with Microsoft" backgroundImage="login_microsoft.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="BtnMicrosoft_TouchUpInside:" destination="xFX-AO-ONA" id="405" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jfr-4V-iBu">
                                 <rect key="frame" x="165" y="160" width="270" height="100"/>
@@ -126,6 +135,9 @@
                     </view>
                     <connections>
                         <outlet property="btnFacebook" destination="TaY-iW-FeZ" id="name-outlet-TaY-iW-FeZ"/>
+                        <outlet property="imgLogo" destination="Jfr-4V-iBu" id="name-outlet-Jfr-4V-iBu"/>
+                        <outlet property="btnTwitter" destination="y4Z-lF-v1s" id="name-outlet-y4Z-lF-v1s"/>
+                        <outlet property="btnMicrosoft" destination="5gI-NP-Vuc" id="name-outlet-5gI-NP-Vuc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gRX-qT-noD" userLabel="First Responder" sceneMemberID="firstResponder"/>
