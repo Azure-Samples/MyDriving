@@ -247,6 +247,7 @@
     <Compile Include="Cells\TripTableViewCell.designer.cs">
       <DependentUpon>TripTableViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\WayPointCircle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -259,6 +260,7 @@
   <ItemGroup>
     <Folder Include="Screens\" />
     <Folder Include="Cells\" />
+    <Folder Include="CustomControls\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\login_facebook.png" />
