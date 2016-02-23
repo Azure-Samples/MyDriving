@@ -226,6 +226,10 @@
     <Compile Include="Screens\CurrentTripViewController.designer.cs">
       <DependentUpon>CurrentTripViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Screens\LoginViewController.cs" />
+    <Compile Include="Screens\LoginViewController.designer.cs">
+      <DependentUpon>LoginViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -237,5 +241,10 @@
   </Target>
   <ItemGroup>
     <Folder Include="Screens\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\login_facebook.png" />
+    <BundleResource Include="Resources\login_microsoft.png" />
+    <BundleResource Include="Resources\login_twitter.png" />
   </ItemGroup>
 </Project>
