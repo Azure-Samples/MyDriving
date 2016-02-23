@@ -9,8 +9,6 @@ namespace MyTrips.iOS
 {
     public partial class TripMapView : MKMapView
     {
-		MKPolylineRenderer polylineRenderer;
-
         public TripMapView (IntPtr handle) : base (handle)
 		{
 			ConfigureRouteDrawing();	
