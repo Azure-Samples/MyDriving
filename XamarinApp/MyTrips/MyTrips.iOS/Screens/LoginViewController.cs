@@ -24,9 +24,9 @@ namespace MyTrips.iOS
 		{
 			base.ViewDidAppear(animated);
 
-			btnFacebook.FadeIn(0.2, 0.5f);
-			btnTwitter.FadeIn(0.2, 0.7f);
-			btnMicrosoft.FadeIn(0.2, 1);
+			btnFacebook.FadeIn(0.3, 0.3f);
+			btnTwitter.FadeIn(0.3, 0.5f);
+			btnMicrosoft.FadeIn(0.3, 0.7f);
 		}
 
 		partial void BtnFacebook_TouchUpInside(UIButton sender)

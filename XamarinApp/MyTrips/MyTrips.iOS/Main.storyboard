@@ -65,7 +65,7 @@
         <!--Login View Controller-->
         <scene sceneID="rFy-qi-X4F">
             <objects>
-                <viewController id="xFX-AO-ONA" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController id="xFX-AO-ONA" customClass="LoginViewController" sceneMemberID="viewController" storyboardIdentifier="loginViewController" useStoryboardIdentifierAsRestorationIdentifier="YES">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="WrW-eL-4rx"/>
                         <viewControllerLayoutGuide type="bottom" id="OzZ-ud-M8m"/>
