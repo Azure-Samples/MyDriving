@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BaseDataObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Feedback.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Route.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SampleData\TripSampleData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Trip.cs" />
   </ItemGroup>
 </Project>
