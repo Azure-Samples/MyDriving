@@ -5,7 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace MyTrips.Helpers
+namespace MyTrips.Utils
 {
     /// <summary>
     /// This is the Settings static class that can be used in your Core solution or in any
@@ -33,6 +33,33 @@ namespace MyTrips.Helpers
         {
             get { return settings ?? (settings = new Settings()); }
         }
+
+        const string HubSetting1Key = "hub_setting_1";
+        static readonly string HubSetting1Default = string.Empty;
+
+        public string HubSetting1
+        {
+            get { return AppSettings.GetValueOrDefault<string>(HubSetting1Key, HubSetting1Default); }
+            set
+            {
+                if (AppSettings.AddOrUpdateValue<string>(HubSetting1Key, value))
+                    OnPropertyChanged();
+            }
+        }
+
+        const string HubSetting2Key = "hub_setting_2";
+        static readonly string HubSetting2Default = string.Empty;
+
+        public string HubSetting2
+        {
+            get { return AppSettings.GetValueOrDefault<string>(HubSetting2Key, HubSetting2Default); }
+            set
+            {
+                if (AppSettings.AddOrUpdateValue<string>(HubSetting2Key, value))
+                    OnPropertyChanged();
+            }
+        }
+            
 
 
         const string PushNotificationsEnabledKey = "push_enabled";

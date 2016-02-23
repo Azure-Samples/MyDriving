@@ -1,24 +1,35 @@
 ﻿using MvvmHelpers;
-using MyTrips.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MyTrips.Utils;
+using MyTrips.DataStore.Abstractions;
+
+//Use Mock
+using MyTrips.DataStore.Mock;
+using MyTrips.DataStore.Mock.Stores;
+
+//Use Azure
+//using MyTrips.DataStore.Azure;
+//using MyTrips.DataStore.Azure.Stores;
 
 namespace MyTrips.ViewModel
 {
     public class ViewModelBase : BaseViewModel
     {
-
+        
         public static void Init()
         {
+            ServiceLocator.Instance.Add<IFeedbackStore, FeedbackStore>();
+            ServiceLocator.Instance.Add<IRouteStore, RouteStore>();
+            ServiceLocator.Instance.Add<ITripStore, TripStore>();
+            ServiceLocator.Instance.Add<IStoreManager, StoreManager>();
         }
 
         public Settings Settings
         {
-            get { return Helpers.Settings.Current; }
+            get { return Settings.Current; }
         }
+
+        IStoreManager storeManager;
+        public IStoreManager StoreManager => storeManager ?? (storeManager = ServiceLocator.Instance.Resolve<IStoreManager>()); 
 
     }
 
