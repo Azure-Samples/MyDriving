@@ -17,7 +17,7 @@ namespace MyTrips.ViewModel
 {
     public class CurrentTripViewModel : ViewModelBase
     {
-		Trip CurrentTrip { get; set; }
+		public Trip CurrentTrip { get; set; }
 
 		public CurrentTripViewModel()
 		{
@@ -46,6 +46,7 @@ namespace MyTrips.ViewModel
 					Geolocator.DesiredAccuracy = 25;
 
 					// Trip start time
+					CurrentTrip.StartTime = DateTime.UtcNow;
 
 					var startingPostion = await Geolocator.GetPositionAsync (timeoutMilliseconds: 2500);
 					var point = new Point
@@ -56,12 +57,8 @@ namespace MyTrips.ViewModel
 
 					CurrentTrip.Points.Add(point);
 
-					// TODO: Subscribe to this in iOS & Android projects to update map. 
 					Geolocator.PositionChanged += Geolocator_PositionChanged;
-
 					await Geolocator.StartListeningAsync(1, 1);
-
-					System.Diagnostics.Debug.WriteLine(Geolocator.IsListening);
 				}
 				else
 				{
@@ -93,12 +90,10 @@ namespace MyTrips.ViewModel
 
 				if (Geolocator.IsGeolocationAvailable && Geolocator.IsGeolocationEnabled)
 				{
-					// TODO: Unsubscribe on iOS / Android to avoid memory leak.
 					Geolocator.PositionChanged -= Geolocator_PositionChanged;
-
 					await Geolocator.StopListeningAsync();
 
-					// trip end time
+					CurrentTrip.EndTime = DateTime.UtcNow;
 				}
 				else
 				{

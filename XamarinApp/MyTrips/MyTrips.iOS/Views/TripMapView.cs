@@ -20,6 +20,12 @@ namespace MyTrips.iOS
 			AddOverlay(routeOverlay);
 		}
 
+		public void DrawRoute(CLLocationCoordinate2D[] route)
+		{
+			var routeOverlay = MKPolyline.FromCoordinates(route);
+			AddOverlay(routeOverlay);
+		}
+
 		public CLLocationCoordinate2D[] route = new CLLocationCoordinate2D[] {
 			new CLLocationCoordinate2D(37.797534, -122.401827),
 			new CLLocationCoordinate2D(37.797510, -122.402060),
