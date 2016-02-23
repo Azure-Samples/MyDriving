@@ -41,7 +41,7 @@ namespace MyTrips.iOS
 			await ViewModel.ExecuteStartTrackingTripCommandAsync();
 			ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
 
-			tripMapView.ShowsUserLocation = true;
+			tripMapView.ShowsUserLocation = false;
 		}
 
 		void Geolocator_PositionChanged(object sender, Plugin.Geolocator.Abstractions.PositionEventArgs e)
