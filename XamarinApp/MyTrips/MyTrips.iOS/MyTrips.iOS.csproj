@@ -256,6 +256,7 @@
       <DependentUpon>TripMapView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\CarAnnotation.cs" />
+    <Compile Include="Views\WaypointAnnotation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
