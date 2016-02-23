@@ -184,6 +184,14 @@ namespace MyTrips.iOS
 			}
 		}
 
+		public static void FadeIn(this UIView view, double duration, float delay)
+		{
+			UIView.Animate(duration, delay, UIViewAnimationOptions.CurveEaseIn,
+			               () =>{
+				view.Alpha = 1;
+			},() =>{ });
+		}
+
 		public static void StopAnimation(this UIView view)
 		{
 			view.Layer.RemoveAllAnimations();
@@ -193,6 +201,7 @@ namespace MyTrips.iOS
 		{
 			return view.Layer.AnimationKeys.Count() > 0;
 		}
+
 		#endregion
 
 		#region Size & Positon
