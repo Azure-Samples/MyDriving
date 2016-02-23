@@ -40,6 +40,18 @@ namespace MyTrips.iOS
 				annotationView.CanShowCallout = false;
 			}
 
+			if (annotation is PhotoAnnotation)
+			{
+				annotationView = mapView.DequeueReusableAnnotation(CAR_ANNOTATION);
+
+				if (annotationView == null)
+					annotationView = new MKAnnotationView(annotation, CAR_ANNOTATION);
+
+				// TODO: Make this the car photo
+				annotationView.Image = UIImage.FromBundle(Images.CarAnnotationImage);
+				annotationView.CanShowCallout = false;
+			}
+
 			if (annotation is WaypointAnnotation)
 			{
 				annotationView = mapView.DequeueReusableAnnotation(WAYPOINT_ANNOTATION);
@@ -53,6 +65,16 @@ namespace MyTrips.iOS
 			}
 
 			return annotationView;
+		}
+
+		public override void DidSelectAnnotationView(MKMapView mapView, MKAnnotationView view)
+		{
+			base.DidSelectAnnotationView(mapView, view);
+
+			if (view.Annotation is PhotoAnnotation)
+			{
+				// TODO: Implement navigation to photo detail page.
+			}
 		}
 	}
 }
