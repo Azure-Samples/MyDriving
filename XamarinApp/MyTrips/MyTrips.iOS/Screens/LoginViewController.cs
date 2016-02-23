@@ -29,9 +29,10 @@ namespace MyTrips.iOS
 			btnMicrosoft.FadeIn(0.3, 0.7f);
 		}
 
-		partial void BtnFacebook_TouchUpInside(UIButton sender)
+		async partial void BtnFacebook_TouchUpInside(UIButton sender)
 		{
-			throw new NotImplementedException();
+			//TODO Implement signing in.
+			await DismissViewControllerAsync(true);
 		}
 
 		partial void BtnTwitter_TouchUpInside(UIButton sender)

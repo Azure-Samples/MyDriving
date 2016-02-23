@@ -11,11 +11,12 @@ namespace MyTrips.iOS
 		{
 		}
 
+		bool authenticated = false;
+
 		async public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
 
-			var authenticated = false;
 
 			//TODO Check if the user is authenticated. 
 			if (authenticated == false)
@@ -25,6 +26,9 @@ namespace MyTrips.iOS
 					return;
 
 				await PresentViewControllerAsync(viewController, false);
+
+				//TODO We shouldn't manually set this but I've done it whilst we wait for other things to be put in place. Once the backend is working and we can actually auth, we should remove this.
+				authenticated = true; 
 			}
 		}
 	}
