@@ -11,11 +11,11 @@ using UIKit;
 
 namespace MyTrips.iOS
 {
-	[Register ("TripsViewController")]
-	partial class TripsViewController
-	{
-		void ReleaseDesignerOutlets ()
-		{
-		}
-	}
+    [Register ("TripTableViewCell")]
+    partial class TripTableViewCell
+    {
+        void ReleaseDesignerOutlets ()
+        {
+        }
+    }
 }
