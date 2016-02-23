@@ -21,8 +21,10 @@ namespace MyTrips.iOS
 			base.ViewDidLoad();
 
 			tripMapView.Delegate = new MapViewDelegate ();
-
 			tripMapView.AddAnnotations (new CarAnnotation (locBoston));
+
+			tripMapView.Camera.CenterCoordinate = new CLLocationCoordinate2D(37.797534, -122.401827);
+			tripMapView.Camera.Altitude = 5000;
 		}
 	}
 }

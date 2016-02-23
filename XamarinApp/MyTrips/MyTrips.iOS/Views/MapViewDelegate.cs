@@ -11,6 +11,17 @@ namespace MyTrips.iOS
 		static string CAR_ANNOTATION = "CAR_ANNOTATION";
 		static string WAYPOINT_ANNOTATION = "WAYPOINT_ANNOTATION";
 
+		public override MKOverlayRenderer OverlayRenderer(MKMapView mapView, IMKOverlay overlay)
+		{
+			var polylineRenderer = new MKPolylineRenderer (overlay as MKPolyline);
+			polylineRenderer.FillColor = UIColor.Blue;
+			polylineRenderer.StrokeColor = UIColor.Red;
+			polylineRenderer.LineWidth = 3;
+			polylineRenderer.Alpha = 0.4f;
+
+			return polylineRenderer;
+		}
+
 		public override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
 		{
 			MKAnnotationView annotationView = null;
@@ -37,7 +48,7 @@ namespace MyTrips.iOS
 					annotationView = new MKAnnotationView (annotation, WAYPOINT_ANNOTATION);
 
 				// A or B
-				annotationView.AddSubview(new WayPointCircle());
+				// annotationView.AddSubview(new WayPointCircle());
 				annotationView.CanShowCallout = false;
 			}
 

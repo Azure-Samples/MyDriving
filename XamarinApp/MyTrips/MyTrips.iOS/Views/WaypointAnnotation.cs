@@ -3,9 +3,9 @@ using CoreLocation;
 
 namespace MyTrips.iOS
 {
-	public class EndpointAnnotation : BaseCustomAnnotation
+	public class WaypointAnnotation : BaseCustomAnnotation
 	{
-		public EndpointAnnotation(CLLocationCoordinate2D annotationLocation) : base(annotationLocation)
+		public WaypointAnnotation(CLLocationCoordinate2D annotationLocation) : base(annotationLocation)
 		{ 
 
 		}
