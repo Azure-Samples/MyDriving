@@ -26,6 +26,8 @@ namespace MyTrips.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::PCLStorage.Resource.String.ApplicationName = global::MyTrips.Droid.Resource.String.ApplicationName;
+			global::PCLStorage.Resource.String.Hello = global::MyTrips.Droid.Resource.String.Hello;
 		}
 		
 		public partial class Animation
@@ -2480,6 +2482,12 @@ namespace MyTrips.Droid
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f090017
+			public const int ApplicationName = 2131296279;
+			
+			// aapt resource value: 0x7f090016
+			public const int Hello = 2131296278;
+			
 			// aapt resource value: 0x7f090000
 			public const int abc_action_bar_home_description = 2131296256;
 			
@@ -2537,8 +2545,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f090012
 			public const int abc_toolbar_collapse_description = 2131296274;
 			
-			// aapt resource value: 0x7f090017
-			public const int app_name = 2131296279;
+			// aapt resource value: 0x7f090019
+			public const int app_name = 2131296281;
 			
 			// aapt resource value: 0x7f090014
 			public const int appbar_scrolling_view_behavior = 2131296276;
@@ -2546,8 +2554,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f090015
 			public const int character_counter_pattern = 2131296277;
 			
-			// aapt resource value: 0x7f090016
-			public const int hello = 2131296278;
+			// aapt resource value: 0x7f090018
+			public const int hello = 2131296280;
 			
 			// aapt resource value: 0x7f090013
 			public const int status_bar_notification_info_overflow = 2131296275;

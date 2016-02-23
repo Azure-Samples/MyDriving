@@ -3,10 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using MyTrips.Helpers;
 
 namespace MyTrips.ViewModel
 {
-    class SettingsViewModel : ViewModelBase
+    public class SettingsViewModel : ViewModelBase
     {
+        //Use Settings.HubSetting1
+        //Use Settings.HubSetting2
+
+        ICommand  logoutCommand;
+        public ICommand LogoutCommand =>
+            logoutCommand ?? (logoutCommand = new RelayCommand(async () => await ExecuteLogoutCommandAsync())); 
+
+        async Task ExecuteLogoutCommandAsync()
+        {
+            //logout here
+        }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyTrips.DataStore.Abstractions
 {
-    interface ITripStore : IBaseStore<Trip>
+    public interface ITripStore : IBaseStore<Trip>
     {
     }
 }
