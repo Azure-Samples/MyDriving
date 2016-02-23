@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyTrips.Helpers
+namespace MyTrips.Utils
 {
     /// <summary>
     /// Simple ServiceLocator implementation.
