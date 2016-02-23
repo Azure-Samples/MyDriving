@@ -100,6 +100,11 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="lblTitle" destination="4sJ-6h-h5Q" id="name-outlet-4sJ-6h-h5Q"/>
+                                    <outlet property="lblDaysAgo" destination="Coz-nh-1fi" id="name-outlet-Coz-nh-1fi"/>
+                                    <outlet property="lblMiles" destination="awd-Ib-QQx" id="name-outlet-awd-Ib-QQx"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
