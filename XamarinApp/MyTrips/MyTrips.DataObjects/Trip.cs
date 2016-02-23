@@ -10,9 +10,9 @@ namespace MyTrips.DataObjects
 
         public DateTime Time { get; set; }
 
-        public string Latitude { get; set; }
+        public double Latitude { get; set; }
 
-        public string Longitude { get; set; }
+        public double Longitude { get; set; }
     }
 
 
@@ -20,7 +20,7 @@ namespace MyTrips.DataObjects
     {
         public string Name { get; set; }
 
-        public List<Point> Points { get; set; }
+		public List<Point> Points { get; set; }
 
         public double Distance { get; set; }
 
