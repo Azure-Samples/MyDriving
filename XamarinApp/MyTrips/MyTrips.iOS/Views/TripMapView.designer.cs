@@ -11,19 +11,11 @@ using UIKit;
 
 namespace MyTrips.iOS
 {
-    [Register ("CurrentTripViewController")]
-    partial class CurrentTripViewController
+    [Register ("TripMapView")]
+    partial class TripMapView
     {
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        MyTrips.iOS.TripMapView tripMapView { get; set; }
-
         void ReleaseDesignerOutlets ()
         {
-            if (tripMapView != null) {
-                tripMapView.Dispose ();
-                tripMapView = null;
-            }
         }
     }
 }

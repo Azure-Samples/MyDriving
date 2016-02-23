@@ -35,14 +35,16 @@ namespace MyTrips.iOS
 			await DismissViewControllerAsync(true);
 		}
 
-		partial void BtnTwitter_TouchUpInside(UIButton sender)
+		async partial void BtnTwitter_TouchUpInside(UIButton sender)
 		{
-			throw new NotImplementedException();
+			//TODO Implement signing in.
+			await DismissViewControllerAsync(true);		
 		}
 
-		partial void BtnMicrosoft_TouchUpInside(UIButton sender)
+		async partial void BtnMicrosoft_TouchUpInside(UIButton sender)
 		{
-			throw new NotImplementedException();
+			//TODO Implement signing in.
+			await DismissViewControllerAsync(true);		
 		}
 	}
 }
