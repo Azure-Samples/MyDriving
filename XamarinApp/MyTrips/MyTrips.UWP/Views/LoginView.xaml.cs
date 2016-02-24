@@ -74,5 +74,11 @@ namespace MyTrips.UWP.Views
             }
             WelcomeText.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
+
+        //This button is temporary - intended to make it easier to debug app
+        private void SkipAuthBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(MainMenuView));
+        }
     }
 }

@@ -16,17 +16,24 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace MyTrips.UWP
+namespace MyTrips.UWP.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainMenuView : Page
     {
-        public MainPage()
+        public MainMenuView()
         {
             this.InitializeComponent();
             this.ViewModel = new PastTripsViewModel();
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            await this.ViewModel.ExecuteLoadPastTripsCommandAsync();
         }
 
         public PastTripsViewModel ViewModel { get; set; }

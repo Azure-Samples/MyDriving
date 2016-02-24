@@ -34,6 +34,7 @@ namespace MyTrips.UWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            ViewModel.ViewModelBase.Init();
         }
 
         /// <summary>
