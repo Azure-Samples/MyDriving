@@ -4,6 +4,8 @@ using UIKit;
 
 using MyTrips.ViewModel;
 
+using Humanizer;
+
 namespace MyTrips.iOS
 {
     public partial class TripsTableViewController : UITableViewController
@@ -46,9 +48,8 @@ namespace MyTrips.iOS
 			var trip = ViewModel.Trips[indexPath.Row];
 			cell.LocationName = trip.Name;
 
-			// TODO: Use humanizer for this
-			cell.TimeAgo = trip.EndTime.ToShortTimeString();
-			cell.Distance = trip.Distance.ToString ();
+			cell.TimeAgo = trip.EndTime.Humanize();
+			cell.Distance = $"{trip.Distance.ToString ()} miles";
 
 			return cell;
 		}
