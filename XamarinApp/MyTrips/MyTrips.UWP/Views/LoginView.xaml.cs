@@ -78,7 +78,8 @@ namespace MyTrips.UWP.Views
         //This button is temporary - intended to make it easier to debug app
         private void SkipAuthBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(MainMenuView));
+            Window.Current.Content = new SplitViewShell(this.Frame);
+            this.Frame.Navigate(typeof(PastTripsMenuView));
         }
     }
 }
