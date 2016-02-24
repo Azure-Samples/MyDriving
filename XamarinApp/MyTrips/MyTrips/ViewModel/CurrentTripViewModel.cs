@@ -17,15 +17,18 @@ namespace MyTrips.ViewModel
 {
     public class CurrentTripViewModel : ViewModelBase
     {
-		Trip CurrentTrip { get; set; }
+		public Trip CurrentTrip { get; set; }
 
 		public CurrentTripViewModel()
 		{
 			CurrentTrip = new Trip();
-			CurrentTrip.Points = new List<Point>();
+            CurrentTrip.Trail = new List<Trail>
+            {
+                    new Trail()
+            };
 		}
 
-		public IGeolocator Geolocator { get; set; } = CrossGeolocator.Current;
+		public IGeolocator Geolocator { get; } = CrossGeolocator.Current;
 
 		ICommand  startTrackingTripCommand;
 		public ICommand StartTrackingTrip =>
@@ -45,23 +48,23 @@ namespace MyTrips.ViewModel
 					Geolocator.AllowsBackgroundUpdates = true;
 					Geolocator.DesiredAccuracy = 25;
 
+                    var startingPostion = await Geolocator.GetPositionAsync (timeoutMilliseconds: 2500);
+                    var trail = new Trail
+                        {
+                            TimeStamp = DateTime.UtcNow,
+                            Latitude = startingPostion.Latitude,
+                            Longitude = startingPostion.Longitude,
+                            
+                        };
 					// Trip start time
+                    CurrentTrip.Trail[0].TimeStamp = DateTime.UtcNow;
 
-					var startingPostion = await Geolocator.GetPositionAsync (timeoutMilliseconds: 2500);
-					var point = new Point
-					{
-						Latitude = startingPostion.Latitude,
-						Longitude = startingPostion.Longitude
-					};
+                    
+					
+                    CurrentTrip.Trail.Add(trail);
 
-					CurrentTrip.Points.Add(point);
-
-					// TODO: Subscribe to this in iOS & Android projects to update map. 
 					Geolocator.PositionChanged += Geolocator_PositionChanged;
-
 					await Geolocator.StartListeningAsync(1, 1);
-
-					System.Diagnostics.Debug.WriteLine(Geolocator.IsListening);
 				}
 				else
 				{
@@ -93,12 +96,8 @@ namespace MyTrips.ViewModel
 
 				if (Geolocator.IsGeolocationAvailable && Geolocator.IsGeolocationEnabled)
 				{
-					// TODO: Unsubscribe on iOS / Android to avoid memory leak.
 					Geolocator.PositionChanged -= Geolocator_PositionChanged;
-
 					await Geolocator.StopListeningAsync();
-
-					// trip end time
 				}
 				else
 				{
@@ -116,15 +115,18 @@ namespace MyTrips.ViewModel
 		}
 
 		void Geolocator_PositionChanged(object sender, PositionEventArgs e)
-		{
-			var userLocation = e.Position;
-			var point = new Point
-			{
-				Latitude = userLocation.Latitude,
-				Longitude = userLocation.Longitude
-			};
+        {
+            var userLocation = e.Position;
 
-			CurrentTrip.Points.Add (point);
+            var trail = new Trail
+                {
+                    TimeStamp = DateTime.UtcNow,
+                    Latitude = userLocation.Latitude,
+                    Longitude = userLocation.Longitude,
+                };
+			
+
+            CurrentTrip.Trail.Add (trail);
 		}
 	}
 }

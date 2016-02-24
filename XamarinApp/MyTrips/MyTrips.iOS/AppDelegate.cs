@@ -11,6 +11,7 @@ namespace MyTrips.iOS
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
 			ThemeManager.ApplyTheme ();
+			ViewModel.ViewModelBase.Init();
 
 			return true;
 		}
