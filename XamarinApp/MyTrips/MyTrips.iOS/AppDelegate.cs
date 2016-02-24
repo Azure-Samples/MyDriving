@@ -1,6 +1,8 @@
 ﻿using Foundation;
 using UIKit;
 
+using Plugin.Geolocator;
+
 namespace MyTrips.iOS
 {
 	[Register ("AppDelegate")]
@@ -11,11 +13,10 @@ namespace MyTrips.iOS
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
 			ThemeManager.ApplyTheme ();
+
 			ViewModel.ViewModelBase.Init();
 
 			return true;
 		}
 	}
 }
-
-
