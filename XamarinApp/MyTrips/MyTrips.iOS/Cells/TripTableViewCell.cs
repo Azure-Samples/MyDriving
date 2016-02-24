@@ -8,11 +8,13 @@ namespace MyTrips.iOS
     {
         public TripTableViewCell (IntPtr handle) : base (handle)
         {
+			
         }
 
 		public TripTableViewCell(NSString cellId)
 			: base(UITableViewCellStyle.Default, cellId)
 		{
+
 		}
 
 		public string LocationName

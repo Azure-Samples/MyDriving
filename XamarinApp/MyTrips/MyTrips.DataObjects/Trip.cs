@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Humanizer;
 
 namespace MyTrips.DataObjects
 {
@@ -21,8 +22,9 @@ namespace MyTrips.DataObjects
         //TODO: need to have logic in app that actually calculates this; or maybe be calculated on backend
         public string TotalDistance { get; set; }
 
-        //TODO: need to have logic in app that actually calculates this 
-        public string DaysSinceRecording { get; set; }
+        public DateTime TimeStamp { get; set; }
+
+        public string TimeAgo => TimeStamp.Humanize();
 
         public List<Trail> Trail { get; set; }
     }
@@ -49,8 +51,10 @@ namespace MyTrips.DataObjects
     {
         public string Key { get; set; }
 
+
         public string Value { get; set; }
     }
+
 
     //TODO: Conflicting with structure discussed with Haishi - commenting out for now and can discuss in next sync meeting
     //public class Point : BaseDataObject

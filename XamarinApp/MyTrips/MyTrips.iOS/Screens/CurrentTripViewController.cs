@@ -1,29 +1,37 @@
 using Foundation;
 using System;
+using System.Collections.Generic;
 using System.CodeDom.Compiler;
 using UIKit;
 
 using MapKit;
 using CoreLocation;
 
+using MyTrips.ViewModel;
+
 namespace MyTrips.iOS
 {
 	partial class CurrentTripViewController : UIViewController
 	{
+		List<CLLocationCoordinate2D> route;
+
 		CLLocationCoordinate2D locBoston = new CLLocationCoordinate2D(42.3601, -71.0589);
-		CLLocationManager locationManager = new CLLocationManager();
 
 		CarAnnotation currentLocationAnnotation;
+		MapViewDelegate mapDelegate;
+
+		CurrentTripViewModel ViewModel { get; set; }
 
 		public CurrentTripViewController (IntPtr handle) : base (handle)
 		{
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
-			tripMapView.Delegate = new MapViewDelegate ();
+			mapDelegate = new MapViewDelegate();
+			tripMapView.Delegate = mapDelegate;
 
 			currentLocationAnnotation = new CarAnnotation(locBoston);
 			tripMapView.AddAnnotations(currentLocationAnnotation);
@@ -31,26 +39,50 @@ namespace MyTrips.iOS
 			tripMapView.Camera.CenterCoordinate = new CLLocationCoordinate2D(37.797534, -122.401827);
 			tripMapView.Camera.Altitude = 5000;
 
-			// TODO: Add a graceful way to handle permission issues.
-			if (UIDevice.CurrentDevice.CheckSystemVersion (8, 0) == true) {
-				locationManager.RequestAlwaysAuthorization();
-			}
+			// Start tracking current trip
+			// TODO: Make this a button.
+			ViewModel = new CurrentTripViewModel();
+			await ViewModel.ExecuteStartTrackingTripCommandAsync();
+			ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
 
-			tripMapView.ShowsUserLocation = true;
+			// Start route
+			route = new List<CLLocationCoordinate2D>();
+            var firstPoint = ViewModel.CurrentTrip.Trail?[0];
+            if (firstPoint != null)
+            {
+                //TODO write an extension for this
+                var firstCoordinate = new CLLocationCoordinate2D(firstPoint.Latitude, firstPoint.Longitude);
+                route.Add(firstCoordinate);
+            }
+
+			tripMapView.ShowsUserLocation = false;
 		}
 
-		public void UserLocationChanged(CLLocationCoordinate2D newLocation)
+		void Geolocator_PositionChanged(object sender, Plugin.Geolocator.Abstractions.PositionEventArgs e)
 		{
+			var position = e.Position;
+			var coordinate = new CLLocationCoordinate2D(position.Latitude, position.Longitude);
+
 			// Update annotations
 			tripMapView.RemoveAnnotation(currentLocationAnnotation);
 
-			currentLocationAnnotation = new CarAnnotation(newLocation);
+			currentLocationAnnotation = new CarAnnotation(coordinate);
 
 			tripMapView.AddAnnotation(currentLocationAnnotation);
 
 			// Move map camera
-			tripMapView.Camera.CenterCoordinate = newLocation;
-			tripMapView.Camera.Altitude = 5000;
+			tripMapView.Camera.CenterCoordinate = coordinate;
+
+			// Add coordinate to route
+			route.Add(coordinate);
+
+			// Draw updated route
+			var newMKPolylineCooordinates = new CLLocationCoordinate2D[] {
+				route[route.Count-1],
+				route[route.Count-2]
+			};
+
+			tripMapView.DrawRoute(newMKPolylineCooordinates);
 		}
 	}
 }
