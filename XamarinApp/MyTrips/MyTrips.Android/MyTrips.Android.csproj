@@ -163,13 +163,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseActivity.cs" />
-    <Compile Include="Fragments\Fragment1.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Fragments\FragmentPastTrips.cs" />
+    <Compile Include="Fragments\FragmentCurrentTrip.cs" />
+    <Compile Include="Fragments\FragmentSettings.cs" />
+    <Compile Include="Fragments\FragmentRecommendedRoutes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -183,11 +185,15 @@
     <AndroidResource Include="Resources\layout\nav_header.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\fragment1.axml">
-      <SubType>AndroidResource</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_past_trips.axml" />
     <AndroidResource Include="Resources\layout\item_trip.axml" />
+    <AndroidResource Include="Resources\layout\item_recommended_route.axml" />
+    <AndroidResource Include="Resources\layout\fragment_routes.axml" />
+    <AndroidResource Include="Resources\layout\fragment_settings.axml" />
+    <AndroidResource Include="Resources\layout\fragment_current_trip.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\trip_details.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\main.axml" />
