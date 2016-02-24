@@ -1,5 +1,4 @@
-﻿using MyTrips.SampleData;
-using MyTrips.ViewModel;
+﻿using MyTrips.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
