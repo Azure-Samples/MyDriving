@@ -46,18 +46,7 @@ namespace MyTrips.Droid
             {
                 e.MenuItem.SetChecked(true);
 
-                switch (e.MenuItem.ItemId)
-                {
-                    case Resource.Id.menu_past_trips:
-                        ListItemClicked(0);
-                        break;
-                    case Resource.Id.menu_current_trip:
-                        ListItemClicked(1);
-                        break;
-                    case Resource.Id.menu_settings:
-                        ListItemClicked(2);
-                        break;
-                }
+                ListItemClicked(e.MenuItem.ItemId);
 
                 Snackbar.Make(drawerLayout, "You selected: " + e.MenuItem.TitleFormatted, Snackbar.LengthLong)
                     .Show();
@@ -69,30 +58,33 @@ namespace MyTrips.Droid
             //if first time you will want to go ahead and click first item.
             if (savedInstanceState == null)
             {
-                ListItemClicked(0);
+                ListItemClicked(Resource.Id.menu_past_trips);
             }
         }
 
         int oldPosition = -1;
-        private void ListItemClicked(int position)
+        private void ListItemClicked(int itemId)
         {
             //this way we don't load twice, but you might want to modify this a bit.
-            if (position == oldPosition)
+            if (itemId == oldPosition)
                 return;
 
-            oldPosition = position;
+            oldPosition = itemId;
 
             Android.Support.V4.App.Fragment fragment = null;
-            switch (position)
+            switch (itemId)
             {
-                case 0:
+                case Resource.Id.menu_past_trips:
                     fragment = FragmentPastTrips.NewInstance();
                     break;
-                case 1:
-                    fragment = Fragment1.NewInstance();
+                case Resource.Id.menu_current_trip:
+                    fragment = FragmentCurrentTrip.NewInstance();
                     break;
-                case 2:
-                    fragment = Fragment1.NewInstance();
+                case Resource.Id.menu_routes:
+                    fragment = FragmentRecommendedRoutes.NewInstance();
+                    break;
+                case Resource.Id.menu_settings:
+                    fragment = FragmentSettings.NewInstance();
                     break;
             }
 
