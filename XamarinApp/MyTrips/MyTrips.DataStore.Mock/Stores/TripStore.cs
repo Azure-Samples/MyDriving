@@ -28,7 +28,7 @@ namespace MyTrips.DataStore.Mock.Stores
             for(int i = 0; i < 5; i++)
             {
                 var trip = JsonConvert.DeserializeObject<Trip>(json);
-                trip.Name += " #" + i.ToString();
+                trip.TripId += " #" + i.ToString();
                 Trips.Add(trip);
             }
 
