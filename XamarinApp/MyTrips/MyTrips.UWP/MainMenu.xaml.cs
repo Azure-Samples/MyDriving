@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyTrips.SampleData;
+using MyTrips.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +27,18 @@ namespace MyTrips.UWP
         public MainPage()
         {
             this.InitializeComponent();
+            this.ViewModel = new PastTripsViewModel();
+        }
+
+        public PastTripsViewModel ViewModel { get; set; }
+
+        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
