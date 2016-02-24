@@ -166,6 +166,7 @@
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Fragments\FragmentPastTrips.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -182,6 +183,7 @@
     <AndroidResource Include="Resources\layout\fragment1.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\fragment_past_trips.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\main.axml" />
