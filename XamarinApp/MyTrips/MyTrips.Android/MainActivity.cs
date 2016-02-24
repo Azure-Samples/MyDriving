@@ -86,7 +86,7 @@ namespace MyTrips.Droid
             switch (position)
             {
                 case 0:
-                    fragment = Fragment1.NewInstance();
+                    fragment = FragmentPastTrips.NewInstance();
                     break;
                 case 1:
                     fragment = Fragment1.NewInstance();

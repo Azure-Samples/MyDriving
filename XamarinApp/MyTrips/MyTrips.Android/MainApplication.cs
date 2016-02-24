@@ -20,6 +20,7 @@ namespace MyTrips.Droid
         {
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
+            ViewModel.ViewModelBase.Init();
             //A great place to initialize Xamarin.Insights and Dependency Services!
         }
 
