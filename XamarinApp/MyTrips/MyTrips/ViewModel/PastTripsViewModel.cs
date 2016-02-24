@@ -9,47 +9,39 @@ using MyTrips.Utils;
 using MvvmHelpers;
 using MyTrips.DataObjects;
 using System.Collections.ObjectModel;
-using MyTrips.SampleData;
 
 namespace MyTrips.ViewModel
 {
     public class PastTripsViewModel : ViewModelBase
     {
-        private ObservableCollection<Trip> pastTrips;
+        
 
-        public ObservableCollection<Trip> PastTrips { get { return this.pastTrips; } }
+        public ObservableRangeCollection<Trip> Trips { get; } = new ObservableRangeCollection<Trip>();
 
-        public PastTripsViewModel()
+        ICommand  loadPastTripsCommand;
+        public ICommand LoadPastTripsCommand =>
+            loadPastTripsCommand ?? (loadPastTripsCommand = new RelayCommand(async () => await ExecuteLoadPastTripsCommandAsync())); 
+
+        public async Task ExecuteLoadPastTripsCommandAsync()
         {
-            var trips = TripSampleData.GetTrips();
-            this.pastTrips = new ObservableCollection<Trip>(trips);
-        }
-
-        //TODO: commenting out for now...will follow up on this
-        //ICommand  loadPastTripsCommand;
-        //public ICommand LoadPastTripsCommand =>
-        //    loadPastTripsCommand ?? (loadPastTripsCommand = new RelayCommand(async () => await ExecuteLoadPastTripsCommandAsync())); 
-
-        //public async Task ExecuteLoadPastTripsCommandAsync()
-        //{
-        //    if(IsBusy)
-        //        return;
+            if(IsBusy)
+                return;
             
-        //    try 
-        //    {
-        //        IsBusy = true;
+            try 
+            {
+                IsBusy = true;
 
-        //        Trips.ReplaceRange(await StoreManager.TripStore.GetItemsAsync());
+                Trips.ReplaceRange(await StoreManager.TripStore.GetItemsAsync());
 
-        //    }
-        //    catch (Exception ex) 
-        //    {
-        //        Logger.Instance.Report(ex);
-        //    } 
-        //    finally 
-        //    {
-        //        IsBusy = false;
-        //    }
-        //}
+            }
+            catch (Exception ex) 
+            {
+                Logger.Instance.Report(ex);
+            } 
+            finally 
+            {
+                IsBusy = false;
+            }
+        }
     }
 }

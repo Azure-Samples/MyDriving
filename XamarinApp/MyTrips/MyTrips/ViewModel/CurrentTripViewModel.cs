@@ -22,10 +22,13 @@ namespace MyTrips.ViewModel
 		public CurrentTripViewModel()
 		{
 			CurrentTrip = new Trip();
-			CurrentTrip.Points = new List<Point>();
+            CurrentTrip.Trail = new List<Trail>
+            {
+                    new Trail()
+            };
 		}
 
-		public IGeolocator Geolocator { get; set; } = CrossGeolocator.Current;
+		public IGeolocator Geolocator { get; } = CrossGeolocator.Current;
 
 		ICommand  startTrackingTripCommand;
 		public ICommand StartTrackingTrip =>
@@ -45,17 +48,20 @@ namespace MyTrips.ViewModel
 					Geolocator.AllowsBackgroundUpdates = true;
 					Geolocator.DesiredAccuracy = 25;
 
+                    var startingPostion = await Geolocator.GetPositionAsync (timeoutMilliseconds: 2500);
+                    var trail = new Trail
+                        {
+                            TimeStamp = DateTime.UtcNow,
+                            Latitude = startingPostion.Latitude,
+                            Longitude = startingPostion.Longitude,
+                            
+                        };
 					// Trip start time
-					CurrentTrip.StartTime = DateTime.UtcNow;
+                    CurrentTrip.Trail[0].TimeStamp = DateTime.UtcNow;
 
-					var startingPostion = await Geolocator.GetPositionAsync (timeoutMilliseconds: 2500);
-					var point = new Point
-					{
-						Latitude = startingPostion.Latitude,
-						Longitude = startingPostion.Longitude
-					};
-
-					CurrentTrip.Points.Add(point);
+                    
+					
+                    CurrentTrip.Trail.Add(trail);
 
 					Geolocator.PositionChanged += Geolocator_PositionChanged;
 					await Geolocator.StartListeningAsync(1, 1);
@@ -92,8 +98,6 @@ namespace MyTrips.ViewModel
 				{
 					Geolocator.PositionChanged -= Geolocator_PositionChanged;
 					await Geolocator.StopListeningAsync();
-
-					CurrentTrip.EndTime = DateTime.UtcNow;
 				}
 				else
 				{
@@ -111,15 +115,18 @@ namespace MyTrips.ViewModel
 		}
 
 		void Geolocator_PositionChanged(object sender, PositionEventArgs e)
-		{
-			var userLocation = e.Position;
-			var point = new Point
-			{
-				Latitude = userLocation.Latitude,
-				Longitude = userLocation.Longitude
-			};
+        {
+            var userLocation = e.Position;
 
-			CurrentTrip.Points.Add (point);
+            var trail = new Trail
+                {
+                    TimeStamp = DateTime.UtcNow,
+                    Latitude = userLocation.Latitude,
+                    Longitude = userLocation.Longitude,
+                };
+			
+
+            CurrentTrip.Trail.Add (trail);
 		}
 	}
 }

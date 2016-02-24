@@ -47,9 +47,13 @@ namespace MyTrips.iOS
 
 			// Start route
 			route = new List<CLLocationCoordinate2D>();
-			var firstPoint = ViewModel.CurrentTrip.Points[0];
-			var firstCoordinate = new CLLocationCoordinate2D(firstPoint.Latitude, firstPoint.Longitude);
-			route.Add(firstCoordinate);
+            var firstPoint = ViewModel.CurrentTrip.Trail?[0];
+            if (firstPoint != null)
+            {
+                //TODO write an extension for this
+                var firstCoordinate = new CLLocationCoordinate2D(firstPoint.Latitude, firstPoint.Longitude);
+                route.Add(firstCoordinate);
+            }
 
 			tripMapView.ShowsUserLocation = false;
 		}

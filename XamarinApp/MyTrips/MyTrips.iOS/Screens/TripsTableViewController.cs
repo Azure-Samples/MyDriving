@@ -46,10 +46,10 @@ namespace MyTrips.iOS
 			}
 
 			var trip = ViewModel.Trips[indexPath.Row];
-			cell.LocationName = trip.Name;
+            cell.LocationName = trip.TripId;
 
-			cell.TimeAgo = trip.EndTime.Humanize();
-			cell.Distance = $"{trip.Distance.ToString ()} miles";
+            cell.TimeAgo = trip.TimeAgo;
+            cell.Distance = $"{trip.TotalDistance} miles";
 
 			return cell;
 		}
