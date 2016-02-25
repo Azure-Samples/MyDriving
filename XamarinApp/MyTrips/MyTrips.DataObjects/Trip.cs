@@ -27,6 +27,8 @@ namespace MyTrips.DataObjects
         public string TimeAgo => TimeStamp.Humanize();
 
         public IList<Trail> Trail { get; set; }
+
+        public IList<Photo> Photos { get; set; }
     }
 
     public class Trail : BaseDataObject
@@ -44,7 +46,8 @@ namespace MyTrips.DataObjects
 
         public DateTime TimeStamp { get; set; }
 
-        public List<Telemetry> Telemetry { get; set; }
+        public IList<Telemetry> Telemetry { get; set; }
+
     }
 
     public class Telemetry : BaseDataObject
