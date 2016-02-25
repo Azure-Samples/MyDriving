@@ -163,6 +163,8 @@ namespace MyTrips.Utils
             }
         }
 
+        public bool IsLoggedIn => (!string.IsNullOrWhiteSpace(AuthToken) && !string.IsNullOrWhiteSpace(UserId));
+
         const string LoginAttemptsKey = "login_attempts";
         const int LoginAttemptsDefault = 0;
         public int LoginAttempts

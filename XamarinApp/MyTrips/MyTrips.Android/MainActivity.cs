@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace MyTrips.Droid
 {
-	[Activity (Label = "MyTrips.Droid", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity (Label = "My Trips", Icon = "@drawable/icon", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : BaseActivity
     {
 
@@ -28,13 +28,13 @@ namespace MyTrips.Droid
         {
             get
             {
-                return Resource.Layout.main;
+                return Resource.Layout.activity_main;
             }
         }
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle bundle)
         {
-            base.OnCreate(savedInstanceState);
+            base.OnCreate(bundle);
 
             InitializeHockeyApp();
             drawerLayout = this.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
@@ -60,7 +60,7 @@ namespace MyTrips.Droid
 
 
             //if first time you will want to go ahead and click first item.
-            if (savedInstanceState == null)
+            if (bundle == null)
             {
                 ListItemClicked(Resource.Id.menu_past_trips);
             }
@@ -68,7 +68,7 @@ namespace MyTrips.Droid
 
         void InitializeHockeyApp()
         {
-            if (!string.IsNullOrWhiteSpace(Logger.HockeyAppKey))
+            if (string.IsNullOrWhiteSpace(Logger.HockeyAppKey))
                 return;
             // Register the crash manager before Initializing the trace writer
             HockeyApp.CrashManager.Register (this, Logger.HockeyAppKey); 
