@@ -19,7 +19,9 @@ namespace MyTrips.ViewModel
             var manager = ServiceLocator.Instance.Resolve<IStoreManager>() as MyTrips.DataStore.Azure.StoreManager;
 
             if (manager != null)
+            {
                 client = MyTrips.DataStore.Azure.StoreManager.MobileService;
+            }
             
             authentication = ServiceLocator.Instance.Resolve<IAuthentication>();
 

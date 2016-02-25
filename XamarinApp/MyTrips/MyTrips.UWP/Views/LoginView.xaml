@@ -10,8 +10,12 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock x:Name="WelcomeText" HorizontalAlignment="Left" Margin="100,105,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Visibility="Collapsed"/>
         <StackPanel VerticalAlignment="Center">
-            <Button Name="FaceBookButtonLogin" Click="FaceBookButtonLogin_Click" 
-                Visibility="Visible" HorizontalAlignment="Center">Log in with Facebook</Button>
+            <Button Command="{Binding LoginFacebookCommand}" 
+                Visibility="Visible" HorizontalAlignment="Center">Login with Facebook</Button>
+            <Button Command="{Binding LoginTwitterCommand}"  Margin="0,10,0,0"
+                Visibility="Visible" HorizontalAlignment="Center">Login with Twitter</Button>
+            <Button Command="{Binding LoginMicrosoftCommand}"  Margin="0,10,0,0"
+                Visibility="Visible" HorizontalAlignment="Center">Login with Microsoft</Button>
             <!--This button is temporary - intended only to make it easier to debug\test app-->
             <Button x:Name="SkipAuthBtn" HorizontalAlignment="Center" Margin="0,10,0,0"  Content="Skip Auth"  Click="SkipAuthBtn_Click"/>
         </StackPanel>
