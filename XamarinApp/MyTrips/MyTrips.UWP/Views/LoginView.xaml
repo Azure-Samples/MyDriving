@@ -7,13 +7,45 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock x:Name="WelcomeText" HorizontalAlignment="Left" Margin="100,105,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Visibility="Collapsed"/>
-        <StackPanel VerticalAlignment="Center">
-            <Button Name="FaceBookButtonLogin" Click="FaceBookButtonLogin_Click" 
-                Visibility="Visible" HorizontalAlignment="Center">Log in with Facebook</Button>
-            <!--This button is temporary - intended only to make it easier to debug\test app-->
-            <Button x:Name="SkipAuthBtn" HorizontalAlignment="Center" Margin="0,10,0,0"  Content="Skip Auth"  Click="SkipAuthBtn_Click"/>
+    <Grid Name="Login" Background="{StaticResource MainBackgroundColor}" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel x:Name="LoginButtons" VerticalAlignment="Center" Grid.Row="1" Visibility="Visible" Margin="50,0,50,0">
+            <Button x:Name="FaceBookButtonLogin" Click="FaceBookButtonLogin_Click"  HorizontalAlignment="Stretch" Margin="0,15,0,0"   
+                    Background="{StaticResource FacebookLoginButtonColor}"  Height="40" MaxWidth="300">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="{StaticResource FacebookLogo}" HorizontalAlignment="Left" Height="25" Width="25"/>
+                    <TextBlock Text="Login with Facebook"  Margin="15,0,5,0"/>
+                </StackPanel>
+            </Button>
+            
+            <Button x:Name="TwitterButtonLogin" Click="FaceBookButtonLogin_Click"  Style="{StaticResource LoginButtonStyle}" 
+                    Background="{StaticResource TwitterLoginButtonColor}"  >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Image Source="{StaticResource TwitterLogo}" HorizontalAlignment="Left" Height="25" Width="25"/>
+                <TextBlock Text="Login with Twitter"  Margin="15,0,5,0"/>
+        </StackPanel> 
+                
+            </Button>
+            <Button x:Name="MSAButtonLogin" Click="FaceBookButtonLogin_Click"  Style="{StaticResource LoginButtonStyle}"  
+                    Background="{StaticResource MSALoginButtonColor}"  >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Image Source="{StaticResource MicrosoftLogo}" HorizontalAlignment="Left" Height="25" Width="25"/>
+                    <TextBlock Text="Login with Microsoft"  Margin="15,0,5,0"/>
+                </StackPanel>
+
+            </Button>
         </StackPanel>
+
+        <!--This button is temporary - intended only to make it easier to debug\test app-->
+        <Button x:Name="SkipAuthBtn" HorizontalAlignment="Center" Margin="0,10,0,0"  Content="Skip Auth"  Click="SkipAuthBtn_Click" Grid.Row="2" VerticalAlignment="Top"/>
+
+        <TextBlock x:Name="WelcomeText" HorizontalAlignment="Left" Margin="100,105,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Visibility="Collapsed"/>
     </Grid>
+
+  
 </Page>

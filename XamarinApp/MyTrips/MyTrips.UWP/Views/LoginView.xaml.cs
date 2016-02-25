@@ -61,8 +61,7 @@ namespace MyTrips.UWP.Views
             // Login the user and then load data from the mobile app.
             if (await AuthenticateWFacebookAsync())
             {
-                // Hide the login button and load items from the mobile app.
-                FaceBookButtonLogin.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                LoginButtons.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
                 WelcomeText.Text = "Welcome. UserID = " + user.UserId;
 
