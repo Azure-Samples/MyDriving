@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="MyTrips.UWP.Views.MainMenuView"
+    x:Class="MyTrips.UWP.Views.PastTripsMenuView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MyTrips.DataObjects"
@@ -7,28 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-
-
-
     <Grid Background="#162129">
         <StackPanel>
-            <!--<SplitView x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
-               CompactPaneLength="50" OpenPaneLength="150">
-            <SplitView.Pane>
-                <StackPanel Background="Gray">
-                </StackPanel>
-            </SplitView.Pane>
-            <SplitView.Content>
-                <Grid>
-                    <TextBlock Text="SplitView Basic" FontSize="54" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Grid>
-            </SplitView.Content>
-        </SplitView>-->
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Background="Transparent" Click="HamburgerButton_Click" VerticalAlignment="Center"/>
-                <TextBlock Text="TRIPS" HorizontalAlignment="Left" FontSize="10.667" VerticalAlignment="Center"/>
-            </StackPanel>
-            <ListView x:Name="listView" ItemsSource="{x:Bind ViewModel.Trips}" Margin="10,0,10,0" SelectionChanged="listView_SelectionChanged">
+            <TextBlock Text="TRIPS" FontSize="10.667" Margin="5,5,0,0"/>
+            <ListView x:Name="listView" ItemsSource="{x:Bind ViewModel.Trips}" Margin="0,10,10,0" SelectionChanged="listView_SelectionChanged">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalAlignment" Value="Stretch" />

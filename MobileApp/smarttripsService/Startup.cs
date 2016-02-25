@@ -1,9 +1,9 @@
-﻿using Microsoft.Owin;
+using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(MobileApp.Startup))]
+[assembly: OwinStartup(typeof(smarttripsService.Startup))]
 
-namespace MobileApp
+namespace smarttripsService
 {
     public partial class Startup
     {
