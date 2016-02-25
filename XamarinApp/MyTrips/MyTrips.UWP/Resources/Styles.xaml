@@ -9,6 +9,16 @@
         <Setter Property="Margin" Value="0,15,0,0"/>
         <Setter Property="Height" Value="40"/>
         <Setter Property="MaxWidth" Value="300"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}"  BorderThickness="1" Padding="2">
+                        <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
     </Style>
     
 </ResourceDictionary>

@@ -15,15 +15,15 @@
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="LoginButtons" VerticalAlignment="Center" Grid.Row="1" Visibility="Visible" Margin="50,0,50,0">
-            <Button x:Name="FaceBookButtonLogin" Click="FaceBookButtonLogin_Click"  HorizontalAlignment="Stretch" Margin="0,15,0,0"   
+            <Button x:Name="FaceBookButtonLogin" Click="FaceBookButtonLogin_Click"  Style="{StaticResource LoginButtonStyle}" 
                     Background="{StaticResource FacebookLoginButtonColor}"  Height="40" MaxWidth="300">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Source="{StaticResource FacebookLogo}" HorizontalAlignment="Left" Height="25" Width="25"/>
                     <TextBlock Text="Login with Facebook"  Margin="15,0,5,0"/>
                 </StackPanel>
             </Button>
-            
-            <Button x:Name="TwitterButtonLogin" Click="FaceBookButtonLogin_Click"  Style="{StaticResource LoginButtonStyle}" 
+
+            <Button x:Name="TwitterButtonLogin" Click="FaceBookButtonLogin_Click"  Style="{StaticResource LoginButtonStyle}"
                     Background="{StaticResource TwitterLoginButtonColor}"  >
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Image Source="{StaticResource TwitterLogo}" HorizontalAlignment="Left" Height="25" Width="25"/>
