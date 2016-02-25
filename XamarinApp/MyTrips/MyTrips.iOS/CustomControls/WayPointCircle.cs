@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace MyTrips.iOS.CustomControls
 {
-	[Register("WayPointCircle") DesignTimeVisible(true)]
+	[Register("WayPointCircle"), DesignTimeVisible(true)]
 	public class WayPointCircle : UIView
 	{
 		public WayPointCircle()
