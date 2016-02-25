@@ -136,7 +136,7 @@ namespace MyTrips.ViewModel
 
         ICommand  takePhotoCommand;
         public ICommand TakePhotoCommand =>
-            takePhotoCommand ?? (takePhotoCommand = new Command(async () => await ExecuteTakePhotoCommandAsync())); 
+            takePhotoCommand ?? (takePhotoCommand = new RelayCommand(async () => await ExecuteTakePhotoCommandAsync())); 
 
         async Task ExecuteTakePhotoCommandAsync()
         {
