@@ -11,7 +11,8 @@ Task ("Default").Does (() =>
 	RestoreComponents ("./MyTrips.sln", new XamarinComponentRestoreSettings
 	{
 		Email = username,
-		Password = password
+		Password = password,
+		ToolPath = "./tools/xamarin-component.exe"
 	});
 
 });
