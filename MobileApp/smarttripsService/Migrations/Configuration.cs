@@ -18,7 +18,7 @@ namespace smarttripsService.Migrations
         protected override void Seed(smarttripsService.Models.smarttripsContext context)
         {
             seedTrips(context);
-           // seedTripPoints(context);
+           //seedTripPoints(context);
         }
         private void seedTripPoints(smarttripsService.Models.smarttripsContext context)
         {
@@ -82,7 +82,8 @@ namespace smarttripsService.Migrations
                     StartDate = new DateTime(2016,2,1, 12,34,50),
                     StartingLatitude = 47.606557f,
                     StartingLongitude = -122.336555f,
-                    Rate = 5
+                    Rate = 5,
+                    UserId = "hbai@microsoft.com"
                     },
                 new Trip {
                     Id = "2",
@@ -91,7 +92,8 @@ namespace smarttripsService.Migrations
                     StartDate = new DateTime(2015,1,18, 20,14,20),
                     StartingLatitude = 37.807055f,
                     StartingLongitude = -122.475603f,
-                    Rate = 3
+                    Rate = 3,
+                    UserId = "scott.gu2016@outlook.com"
                     },
             };
 
