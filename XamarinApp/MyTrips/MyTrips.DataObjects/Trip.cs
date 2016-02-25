@@ -26,7 +26,7 @@ namespace MyTrips.DataObjects
 
         public string TimeAgo => TimeStamp.Humanize();
 
-        public List<Trail> Trail { get; set; }
+        public IList<Trail> Trail { get; set; }
     }
 
     public class Trail : BaseDataObject

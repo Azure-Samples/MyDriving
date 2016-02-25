@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using Windows.UI.Popups;
+using MyTrips.ViewModel;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -26,52 +27,39 @@ namespace MyTrips.UWP.Views
     /// </summary>
     public sealed partial class LoginView : Page
     {
-        // Define a member variable for storing the signed-in user. 
-        private MobileServiceUser user;
-
-        // Define a method that performs the authentication process
-        // using a Facebook sign-in. 
-        private async System.Threading.Tasks.Task<bool> AuthenticateWFacebookAsync()
-        {
-          
-            bool success = false;
-            try
-            {
-                // Sign-in using Facebook authentication.
-                user = await App.MobileService
-                    .LoginAsync(MobileServiceAuthenticationProvider.Facebook);
-
-                success = true;
-            }
-            catch (InvalidOperationException)
-            {
-                
-            }
-            return success;
-        }
 
 
+
+        LoginViewModel viewModel;
         public LoginView()
         {
             this.InitializeComponent();
+            DataContext = viewModel = new LoginViewModel();
+            //Make sure you turn on azure in the ViewModelBase 
         }
 
-        private async void FaceBookButtonLogin_Click(object sender, RoutedEventArgs e)
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            // Login the user and then load data from the mobile app.
-            if (await AuthenticateWFacebookAsync())
+            switch (e.PropertyName)
             {
-                LoginButtons.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-
-                WelcomeText.Text = "Welcome. UserID = " + user.UserId;
-
-                //await RefreshTodoItems();
+                case nameof(viewModel.IsLoggedIn):
+                    WelcomeText.Text = "Welcome. UserID = " + Utils.Settings.Current.UserId;
+                    break;
             }
-            else
-            {
-                WelcomeText.Text = "Login failed";
-            }
-            WelcomeText.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        }
+
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
+            WelcomeText.Text = "Welcome. UserID = " + Utils.Settings.Current.UserId;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            viewModel.PropertyChanged -= ViewModel_PropertyChanged;
         }
 
         //This button is temporary - intended to make it easier to debug app
