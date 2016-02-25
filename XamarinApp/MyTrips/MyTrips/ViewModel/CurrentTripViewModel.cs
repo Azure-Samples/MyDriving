@@ -13,6 +13,8 @@ using MyTrips.Utils;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using MvvmHelpers;
+using Plugin.Media.Abstractions;
+using Plugin.Media;
 
 namespace MyTrips.ViewModel
 {
@@ -24,9 +26,16 @@ namespace MyTrips.ViewModel
 		{
 			CurrentTrip = new Trip();
             CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
+            CurrentTrip.Photos = new ObservableRangeCollection<Photo>();
 		}
 
-		public IGeolocator Geolocator { get; } = CrossGeolocator.Current;
+		public IGeolocator Geolocator => CrossGeolocator.Current;
+
+        public IMedia Media => CrossMedia.Current;
+
+
+
+
 
 		ICommand  startTrackingTripCommand;
 		public ICommand StartTrackingTripCommand =>
@@ -124,5 +133,55 @@ namespace MyTrips.ViewModel
 
             CurrentTrip.Trail.Add (trail);
 		}
+
+        ICommand  takePhotoCommand;
+        public ICommand TakePhotoCommand =>
+            takePhotoCommand ?? (takePhotoCommand = new RelayCommand(async () => await ExecuteTakePhotoCommandAsync())); 
+
+        async Task ExecuteTakePhotoCommandAsync()
+        {
+            try 
+            {
+                
+                await Media.Initialize();
+
+                if(!Media.IsCameraAvailable || !Media.IsTakePhotoSupported)
+                    return;
+
+                var locationTask = Geolocator.GetPositionAsync(2500);
+                var photo = await Media.TakePhotoAsync(new StoreCameraMediaOptions
+                    {
+                        DefaultCamera = CameraDevice.Rear,
+                        Directory = "MyTrips",
+                        Name = "MyTrips_",
+                        SaveToAlbum = true
+                    });
+
+                if(photo == null)
+                {
+                    return;
+                }
+
+
+                var local = await locationTask;
+                var photoDB = new Photo
+                    {
+                        PhotoUrl = photo.Path,
+                        Latitude = local.Latitude,
+                        Longitude = local.Longitude, 
+                        TimeStamp = DateTime.UtcNow,
+                        TripId = CurrentTrip.Id
+                    };
+
+                CurrentTrip.Photos.Add(photoDB);
+
+                photo.Dispose();
+                
+            } 
+            catch (Exception ex) 
+            {
+                Logger.Instance.Report(ex);
+            }
+        }
 	}
 }
