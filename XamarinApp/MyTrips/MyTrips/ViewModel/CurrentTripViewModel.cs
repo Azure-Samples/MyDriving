@@ -14,6 +14,7 @@ using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using MvvmHelpers;
 using Plugin.Media.Abstractions;
+using Plugin.Media;
 
 namespace MyTrips.ViewModel
 {
