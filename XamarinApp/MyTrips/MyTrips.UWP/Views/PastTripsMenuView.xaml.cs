@@ -1,5 +1,4 @@
-﻿using MyTrips.SampleData;
-using MyTrips.ViewModel;
+﻿using MyTrips.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,24 +16,27 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace MyTrips.UWP
+namespace MyTrips.UWP.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class PastTripsMenuView : Page
     {
-        public MainPage()
+        public PastTripsMenuView()
         {
             this.InitializeComponent();
             this.ViewModel = new PastTripsViewModel();
         }
 
-        public PastTripsViewModel ViewModel { get; set; }
-
-        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
+
+            await this.ViewModel.ExecuteLoadPastTripsCommandAsync();
         }
+
+        public PastTripsViewModel ViewModel { get; set; }
 
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

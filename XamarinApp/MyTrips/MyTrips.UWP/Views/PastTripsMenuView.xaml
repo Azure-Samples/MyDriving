@@ -1,0 +1,46 @@
+﻿<Page
+    x:Class="MyTrips.UWP.Views.PastTripsMenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyTrips.DataObjects"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="#162129">
+        <StackPanel>
+            <TextBlock Text="TRIPS" FontSize="10.667" Margin="5,5,0,0"/>
+            <ListView x:Name="listView" ItemsSource="{x:Bind ViewModel.Trips}" Margin="0,10,10,0" SelectionChanged="listView_SelectionChanged">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Background" Value="#23313B" />
+                        <Setter Property="BorderThickness" Value="3" />
+                        <Setter Property="BorderBrush" Value="#162129" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:Trip">
+                        <StackPanel>
+                            <TextBlock Text="{x:Bind TripId}" Margin="0,5,0,0"/>
+                            <Grid  Margin="0" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="1" HorizontalAlignment="Stretch" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="{x:Bind TimeAgo}" Grid.Row="1" HorizontalAlignment="Left" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
+                                    <TextBlock Text="{x:Bind TotalDistance}" Grid.Row="1" HorizontalAlignment="Right" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
+                                </Grid>
+                            </Grid>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</Page>
