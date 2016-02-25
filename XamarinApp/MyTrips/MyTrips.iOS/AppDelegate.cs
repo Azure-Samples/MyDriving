@@ -7,6 +7,8 @@ using HockeyApp;
 using System;
 using System.Threading.Tasks;
 
+using Plugin.Geolocator;
+
 namespace MyTrips.iOS
 {
     [Register("AppDelegate")]
@@ -53,5 +55,3 @@ namespace MyTrips.iOS
         }
     }
 }
-
-
