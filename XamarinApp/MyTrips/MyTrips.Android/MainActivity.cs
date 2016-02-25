@@ -10,10 +10,14 @@ using MyTrips.Droid.Fragments;
 using Android.Support.V7.App;
 using Android.Support.V4.View;
 using Android.Support.Design.Widget;
+using MyTrips.Utils;
+using Android.Runtime;
+using System;
+using System.Threading.Tasks;
 
 namespace MyTrips.Droid
 {
-	[Activity (Label = "MyTrips.Droid", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity (Label = "My Trips", Icon = "@drawable/icon", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : BaseActivity
     {
 
@@ -24,15 +28,15 @@ namespace MyTrips.Droid
         {
             get
             {
-                return Resource.Layout.main;
+                return Resource.Layout.activity_main;
             }
         }
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle bundle)
         {
-            base.OnCreate(savedInstanceState);
+            base.OnCreate(bundle);
 
-
+            InitializeHockeyApp();
             drawerLayout = this.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
 
             //Set hamburger items menu
@@ -46,18 +50,7 @@ namespace MyTrips.Droid
             {
                 e.MenuItem.SetChecked(true);
 
-                switch (e.MenuItem.ItemId)
-                {
-                    case Resource.Id.menu_past_trips:
-                        ListItemClicked(0);
-                        break;
-                    case Resource.Id.menu_current_trip:
-                        ListItemClicked(1);
-                        break;
-                    case Resource.Id.menu_settings:
-                        ListItemClicked(2);
-                        break;
-                }
+                ListItemClicked(e.MenuItem.ItemId);
 
                 Snackbar.Make(drawerLayout, "You selected: " + e.MenuItem.TitleFormatted, Snackbar.LengthLong)
                     .Show();
@@ -67,32 +60,66 @@ namespace MyTrips.Droid
 
 
             //if first time you will want to go ahead and click first item.
-            if (savedInstanceState == null)
+            if (bundle == null)
             {
-                ListItemClicked(0);
+                ListItemClicked(Resource.Id.menu_past_trips);
             }
         }
 
+        void InitializeHockeyApp()
+        {
+            if (string.IsNullOrWhiteSpace(Logger.HockeyAppKey))
+                return;
+            // Register the crash manager before Initializing the trace writer
+            HockeyApp.CrashManager.Register (this, Logger.HockeyAppKey); 
+
+            //Register to with the Update Manager
+            HockeyApp.UpdateManager.Register (this, Logger.HockeyAppKey);
+
+            // Initialize the Trace Writer
+            HockeyApp.TraceWriter.Initialize ();
+
+            // Wire up Unhandled Expcetion handler from Android
+            AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) => 
+                {
+                    // Use the trace writer to log exceptions so HockeyApp finds them
+                    HockeyApp.TraceWriter.WriteTrace(args.Exception);
+                    args.Handled = true;
+                };
+
+            // Wire up the .NET Unhandled Exception handler
+            AppDomain.CurrentDomain.UnhandledException +=
+                (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.ExceptionObject);
+
+            // Wire up the unobserved task exception handler
+            TaskScheduler.UnobservedTaskException += 
+                (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
+
+        }
+
         int oldPosition = -1;
-        private void ListItemClicked(int position)
+        private void ListItemClicked(int itemId)
         {
             //this way we don't load twice, but you might want to modify this a bit.
-            if (position == oldPosition)
+            if (itemId == oldPosition)
                 return;
 
-            oldPosition = position;
+            oldPosition = itemId;
 
             Android.Support.V4.App.Fragment fragment = null;
-            switch (position)
+            switch (itemId)
             {
-                case 0:
-                    fragment = Fragment1.NewInstance();
+                case Resource.Id.menu_past_trips:
+                    fragment = FragmentPastTrips.NewInstance();
                     break;
-                case 1:
-                    fragment = Fragment1.NewInstance();
+                case Resource.Id.menu_current_trip:
+                    fragment = FragmentCurrentTrip.NewInstance();
                     break;
-                case 2:
-                    fragment = Fragment1.NewInstance();
+                case Resource.Id.menu_routes:
+                    fragment = FragmentRecommendedRoutes.NewInstance();
+                    break;
+                case Resource.Id.menu_settings:
+                    fragment = FragmentSettings.NewInstance();
                     break;
             }
 
