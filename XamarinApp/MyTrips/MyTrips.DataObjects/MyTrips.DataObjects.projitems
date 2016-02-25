@@ -13,5 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Feedback.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Route.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Trip.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Photo.cs" />
   </ItemGroup>
 </Project>
