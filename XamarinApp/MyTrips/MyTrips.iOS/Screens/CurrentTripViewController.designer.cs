@@ -16,10 +16,19 @@ namespace MyTrips.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton recordButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         MyTrips.iOS.TripMapView tripMapView { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
+            if (recordButton != null) {
+                recordButton.Dispose ();
+                recordButton = null;
+            }
+
             if (tripMapView != null) {
                 tripMapView.Dispose ();
                 tripMapView = null;

@@ -54,13 +54,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRIP_CELL_IDENTIFIER" rowHeight="92" id="wsw-rT-lg4" customClass="TripTableViewCell">
-                                <rect key="frame" x="0.0" y="92" width="600" height="92"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="92"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wsw-rT-lg4" id="I5f-5D-1GT">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="91"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="91.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scott @ Redmond" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4sJ-6h-h5Q">
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scott @ Redmond" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4sJ-6h-h5Q" misplaced="YES">
                                             <rect key="frame" x="16" y="18" width="584" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="TZU-jT-qon"/>
@@ -70,16 +70,16 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ekt-qP-hxY">
-                                            <rect key="frame" x="16" y="46" width="568" height="29"/>
+                                            <rect key="frame" x="16" y="46" width="135" height="20.5"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" misplaced="YES" text="1 day ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Coz-nh-1fi">
-                                                    <rect key="frame" x="0.0" y="0.0" width="74" height="29"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="1 day ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Coz-nh-1fi" fixedFrame="YES">
+                                                    <rect key="frame" x="0.0" y="0.0" width="73.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" red="0.29803922770000002" green="0.50980395079999996" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="14 miles" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="awd-Ib-QQx">
-                                                    <rect key="frame" x="74" y="0.0" width="494" height="29"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14 miles" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="awd-Ib-QQx" fixedFrame="YES">
+                                                    <rect key="frame" x="73.5" y="0.0" width="61.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" red="0.29803922770000002" green="0.50980395079999996" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -273,15 +273,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="392" customClass="TripMapView">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="392" customClass="TripMapView" fixedFrame="YES">
                                 <rect key="frame" x="0.0" y="65" width="600" height="491"/>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="416" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="277" y="517" width="46" height="30"/>
+                                <state key="normal" title="Start">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <constraints>
+                                    <constraint id="423" firstAttribute="width" constant="46"/>
+                                </constraints>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint id="421" firstItem="348" firstAttribute="trailing" secondItem="416" secondAttribute="trailing" constant="277"/>
+                            <constraint id="422" firstItem="348" firstAttribute="bottom" secondItem="416" secondAttribute="bottom" constant="53"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Current Trip" id="347"/>
                     <connections>
                         <outlet property="tripMapView" destination="392" id="name-outlet-392"/>
+                        <outlet property="recordButton" destination="416" id="name-outlet-416"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="349" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -293,5 +307,6 @@
         <image name="login_facebook.png" width="589" height="89"/>
         <image name="login_microsoft.png" width="589" height="89"/>
         <image name="login_twitter.png" width="589" height="89"/>
+        <image name="car_annotation.jpeg" width="75" height="56"/>
     </resources>
 </document>

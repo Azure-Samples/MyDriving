@@ -21,6 +21,7 @@ namespace MyTrips.ViewModel
     public class CurrentTripViewModel : ViewModelBase
     {
 		public Trip CurrentTrip { get; set; }
+		public bool Recording { get; set; }
 
 		public CurrentTripViewModel()
 		{
@@ -61,15 +62,14 @@ namespace MyTrips.ViewModel
 
                     var startingPostion = await Geolocator.GetPositionAsync (timeoutMilliseconds: 2500);
                     var trail = new Trail
-                        {
+                    {
                             TimeStamp = DateTime.UtcNow,
                             Latitude = startingPostion.Latitude,
                             Longitude = startingPostion.Longitude,
                             
-                        };
+                    };
 					
                     CurrentTrip.Trail.Add(trail);
-
 				}
 				else
 				{

@@ -22,6 +22,11 @@ namespace MyTrips.iOS
 			return polylineRenderer;
 		}
 
+		public override async void DidFinishRenderingMap(MKMapView mapView, bool fullyRendered)
+		{
+			// TODO: DO your thing mike!
+		}
+
 		public override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
 		{
 			MKAnnotationView annotationView = null;
