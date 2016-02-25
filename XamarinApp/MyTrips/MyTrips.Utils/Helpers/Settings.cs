@@ -7,6 +7,13 @@ using System.Runtime.CompilerServices;
 
 namespace MyTrips.Utils
 {
+    public enum LoginAccount
+    {
+        None = 0,
+        Facebook = 1,
+        Microsoft = 2,
+        Twitter = 3,
+    }
     /// <summary>
     /// This is the Settings static class that can be used in your Core solution or in any
     /// of your client applications. All settings are laid out the same exact way with getters
@@ -33,6 +40,38 @@ namespace MyTrips.Utils
         {
             get { return settings ?? (settings = new Settings()); }
         }
+
+        const string DatabaseIdKey = "azure_database";
+        static readonly int DatabaseIdDefault = 0;
+
+        public int DatabaseId
+        {
+            get { return AppSettings.GetValueOrDefault<int>(DatabaseIdKey, DatabaseIdDefault); }
+            set
+            {
+                AppSettings.AddOrUpdateValue<int>(DatabaseIdKey, value);
+            }
+        }
+
+        public int UpdateDatabaseId()
+        {
+            return DatabaseId++;
+        }
+
+        const string LoginAccountKey = "login_account";
+        static readonly LoginAccount LoginAccountDefault = LoginAccount.None;
+
+
+        public LoginAccount LoginAccount
+        {
+            get { return  (LoginAccount)AppSettings.GetValueOrDefault<int>(LoginAccountKey, (int)LoginAccountDefault); }
+            set
+            {
+                if (AppSettings.AddOrUpdateValue<int>(LoginAccountKey, (int)value))
+                    OnPropertyChanged();
+            }
+        }
+
 
         const string HubSetting1Key = "hub_setting_1";
         static readonly string HubSetting1Default = string.Empty;
@@ -92,53 +131,36 @@ namespace MyTrips.Utils
             }
         }
 
-        const string GooglePlayCheckedKey = "play_checked";
-        static readonly bool GooglePlayCheckedDefault = false;
+        const string UserIdKey = "userid";
+        static readonly string UserIdDefault = string.Empty;
 
-        public bool GooglePlayChecked
+     
+
+        public string UserId
         {
-            get { return AppSettings.GetValueOrDefault<bool>(GooglePlayCheckedKey, GooglePlayCheckedDefault); }
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(UserIdKey, UserIdDefault);
+            }
             set
             {
-                AppSettings.AddOrUpdateValue<bool>(GooglePlayCheckedKey, value);
+                AppSettings.AddOrUpdateValue<string>(UserIdKey, value);
             }
         }
 
-        const string AttemptedPushKey = "attempted_push";
-        static readonly bool AttemptedPushDefault = false;
+        const string AuthTokenKey = "authtoken";
+        static readonly string AuthTokenDefault = string.Empty;
 
-        public bool AttemptedPush
+        public string AuthToken
         {
-            get { return AppSettings.GetValueOrDefault<bool>(AttemptedPushKey, AttemptedPushDefault); }
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(AuthTokenKey, AuthTokenDefault);
+            }
             set
             {
-                AppSettings.AddOrUpdateValue<bool>(AttemptedPushKey, value);
+                AppSettings.AddOrUpdateValue<string>(AuthTokenKey, value);
             }
-        }
-
-
-        const string PushRegisteredKey = "push_registered";
-        static readonly bool PushRegisteredDefault = false;
-
-        public bool PushRegistered
-        {
-            get { return AppSettings.GetValueOrDefault<bool>(PushRegisteredKey, PushRegisteredDefault); }
-            set
-            {
-                AppSettings.AddOrUpdateValue<bool>(PushRegisteredKey, value);
-            }
-        }
-
-
-
-
-        const string NeedsSyncKey = "needs_sync";
-        const bool NeedsSyncDefault = true;
-        public bool NeedsSync
-        {
-            get { return AppSettings.GetValueOrDefault<bool>(NeedsSyncKey, NeedsSyncDefault) || LastSync < DateTime.Now.AddDays(-1); }
-            set { AppSettings.AddOrUpdateValue<bool>(NeedsSyncKey, value); }
-
         }
 
         const string LoginAttemptsKey = "login_attempts";

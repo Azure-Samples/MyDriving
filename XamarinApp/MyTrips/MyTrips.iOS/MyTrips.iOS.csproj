@@ -146,6 +146,9 @@
       <HintPath>..\..\packages\PCLStorage.1.0.2\lib\portable-Xamarin.iOS+Xamarin.Mac\PCLStorage.Abstractions.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="HockeyApp.iOS">
+      <HintPath>..\..\Components\hockeyappios-3.8.5.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyTrips.DataStore.Abstractions\MyTrips.DataStore.Abstractions.csproj">
@@ -277,6 +280,7 @@
     <Compile Include="Views\CarAnnotation.cs" />
     <Compile Include="Views\WaypointAnnotation.cs" />
     <Compile Include="Views\PhotoAnnotation.cs" />
+    <Compile Include="Helpers\Authentication.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -297,5 +301,11 @@
     <BundleResource Include="Resources\login_microsoft.png" />
     <BundleResource Include="Resources\login_twitter.png" />
     <BundleResource Include="Resources\car_annotation.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="hockeyappios">
+      <Version>3.8.5.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
 </Project>

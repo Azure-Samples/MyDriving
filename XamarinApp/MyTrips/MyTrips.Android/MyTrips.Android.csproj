@@ -138,6 +138,12 @@
     <Reference Include="Humanizer, Version=2.0.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e">
       <HintPath>..\..\packages\Humanizer.Core.2.0.1\lib\dotnet\Humanizer.dll</HintPath>
     </Reference>
+    <Reference Include="HockeyApp.Android">
+      <HintPath>..\..\Components\hockeyappandroid-3.7.0.0\lib\android\HockeyApp.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="UrlImageViewHelper">
+      <HintPath>..\..\Components\urlimageviewhelper-1.0.4.1\lib\android\UrlImageViewHelper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyTrips.DataStore.Abstractions\MyTrips.DataStore.Abstractions.csproj">
@@ -172,6 +178,7 @@
     <Compile Include="Fragments\FragmentCurrentTrip.cs" />
     <Compile Include="Fragments\FragmentSettings.cs" />
     <Compile Include="Fragments\FragmentRecommendedRoutes.cs" />
+    <Compile Include="Helpers\Authentication.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -245,4 +252,14 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
+  <ItemGroup>
+    <XamarinComponentReference Include="hockeyappandroid">
+      <Version>3.7.0.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="urlimageviewhelper">
+      <Version>1.0.4.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
 </Project>
