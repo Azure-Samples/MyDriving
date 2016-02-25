@@ -21,9 +21,9 @@ namespace MyTrips.UWP.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainMenuView : Page
+    public sealed partial class PastTripsMenuView : Page
     {
-        public MainMenuView()
+        public PastTripsMenuView()
         {
             this.InitializeComponent();
             this.ViewModel = new PastTripsViewModel();
@@ -37,10 +37,6 @@ namespace MyTrips.UWP.Views
         }
 
         public PastTripsViewModel ViewModel { get; set; }
-
-        private void HamburgerButton_Click(object sender, RoutedEventArgs e)
-        {
-        }
 
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

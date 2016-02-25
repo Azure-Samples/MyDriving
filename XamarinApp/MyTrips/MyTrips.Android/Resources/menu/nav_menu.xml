@@ -9,6 +9,9 @@
             android:id="@+id/menu_current_trip"
             android:title="Current Trip" />
         <item
+            android:id="@+id/menu_routes"
+            android:title="Recommended Routes" />
+        <item
             android:id="@+id/menu_settings"
             android:title="Settings" />
     </group>

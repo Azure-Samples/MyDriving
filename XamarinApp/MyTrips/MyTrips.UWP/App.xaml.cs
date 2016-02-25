@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyTrips.Utils;
+using MyTrips.UWP.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,6 +19,8 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.WindowsAzure.MobileServices;
 using MyTrips.UWP.Views;
 
+using MyTrips.Interfaces;
+
 namespace MyTrips.UWP
 {
     /// <summary>
@@ -24,8 +28,6 @@ namespace MyTrips.UWP
     /// </summary>
     sealed partial class App : Application
     {
-        public static MobileServiceClient MobileService = new MobileServiceClient("https://smartkar.azurewebsites.net");
-
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -60,6 +62,8 @@ namespace MyTrips.UWP
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
+
+                ServiceLocator.Instance.Add<IAuthentication, Authentication>();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
