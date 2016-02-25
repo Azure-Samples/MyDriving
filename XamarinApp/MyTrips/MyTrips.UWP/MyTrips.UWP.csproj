@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Authentication.cs" />
     <Compile Include="MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
@@ -139,11 +140,16 @@
       <Project>{42f3d3df-b854-4a5b-9c94-f3d823116ad5}</Project>
       <Name>MyTrips.DataStore.Mock</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyTrips.Utils\MyTrips.Utils.csproj">
+      <Project>{cef8cb82-b2bf-42d0-998c-8c50a4ca7ae6}</Project>
+      <Name>MyTrips.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyTrips\MyTrips.csproj">
       <Project>{a68cccda-e4a5-4128-920f-ac00ecb9e3e6}</Project>
       <Name>MyTrips</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

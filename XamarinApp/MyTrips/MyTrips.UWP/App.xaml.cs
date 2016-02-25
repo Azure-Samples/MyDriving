@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyTrips.Utils;
+using MyTrips.UWP.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +16,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+
+using MyTrips.Interfaces;
 
 namespace MyTrips.UWP
 {
@@ -55,6 +59,8 @@ namespace MyTrips.UWP
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
+
+                ServiceLocator.Instance.Add<IAuthentication, Authentication>();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
