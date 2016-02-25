@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "HockeySDK.UWP": "3.1.1-build36794",
     "Humanizer.Core": "2.0.1",
     "Microsoft.Azure.Mobile.Client.SQLiteStore": "2.0.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
