@@ -7,7 +7,7 @@ namespace MyTrips.iOS
 	{
 		public WaypointAnnotation(CLLocationCoordinate2D annotationLocation) : base(annotationLocation)
 		{ 
-
+			
 		}
 	}
 }

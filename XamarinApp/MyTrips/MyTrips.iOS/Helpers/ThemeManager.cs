@@ -6,7 +6,7 @@ namespace MyTrips.iOS
 	public class ThemeManager
 	{
 		static UIColor PRIMARY = "607DB8".ToColor ();
-		static UIColor PRIMARY_DARK = "455A64".ToColor ();
+		static UIColor PRIMARY_DARK = "111820".ToColor ();
 	    static UIColor PRIMARY_LIGHT = "CFD8DC".ToColor ();
 		static UIColor ACCENT = "FF4081".ToColor ();
 		static UIColor PRIMARY_TEXT = "212121".ToColor ();
@@ -16,16 +16,24 @@ namespace MyTrips.iOS
 
 		public static void ApplyTheme ()
 		{
+			
 			// Status Bar
 			UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
 
 			// Navigation Bar
 			UINavigationBar.Appearance.BarTintColor = PRIMARY_DARK;
 			UINavigationBar.Appearance.SetTitleTextAttributes (new UITextAttributes {
-				TextColor = UIColor.White
+				Font = UIFont.FromName("AvenirNext-Medium", 17),
+				TextColor = PRIMARY
 			});
 
-			UITabBar.Appearance.TintColor = PRIMARY;
+			UITabBarItem.Appearance.SetTitleTextAttributes (new UITextAttributes {
+				Font = UIFont.FromName("AvenirNext", 15),
+				TextColor = PRIMARY.Lighten(5)
+			}, UIControlState.Normal);
+
+			//UITabBar.Appearance.TintColor = PRIMARY;
+
 		}
 	}
 }

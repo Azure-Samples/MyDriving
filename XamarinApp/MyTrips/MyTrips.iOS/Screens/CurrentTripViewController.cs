@@ -23,6 +23,7 @@ namespace MyTrips.iOS
 		{
 		}
 
+		// TODO: Add start/endpoints
 		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
@@ -109,8 +110,6 @@ namespace MyTrips.iOS
 				// Start recording
 				await ViewModel.ExecuteStartTrackingTripCommandAsync();
 
-				// Add start point annotation
-
 				// Change button text
 				recordButton.SetTitle("Stop", UIControlState.Normal);
 			}
@@ -119,8 +118,6 @@ namespace MyTrips.iOS
 			{
 				// Stop recording
 				// await ViewModel.ExecuteStopTrackingTripCommandAsync();
-
-				// Add ending annotation
 
 				// Change button text
 				recordButton.SetTitle("Start", UIControlState.Normal);
