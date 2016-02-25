@@ -63,6 +63,9 @@
     <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HockeyApp.iOS">
+      <HintPath>..\..\Components\hockeyappios-3.8.5.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -279,6 +282,7 @@
     <Compile Include="Views\CarAnnotation.cs" />
     <Compile Include="Views\WaypointAnnotation.cs" />
     <Compile Include="Views\PhotoAnnotation.cs" />
+    <Compile Include="Helpers\Authentication.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -288,16 +292,17 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
-  <ItemGroup>
-    <Folder Include="Screens\" />
-    <Folder Include="Cells\" />
-    <Folder Include="CustomControls\" />
-    <Folder Include="Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BundleResource Include="Resources\login_facebook.png" />
     <BundleResource Include="Resources\login_microsoft.png" />
     <BundleResource Include="Resources\login_twitter.png" />
     <BundleResource Include="Resources\car_annotation.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="hockeyappios">
+      <Version>3.8.5.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
   </ItemGroup>
 </Project>

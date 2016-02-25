@@ -1,62 +1,100 @@
 ﻿using System;
 using MyTrips.DataStore.Abstractions;
+using Microsoft.WindowsAzure.MobileServices;
+using System.Threading.Tasks;
+using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
+using Microsoft.WindowsAzure.MobileServices.Sync;
+using MyTrips.Utils;
+using MyTrips.DataObjects;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyTrips.DataStore.Azure
 {
     public class StoreManager : IStoreManager
     {
-        public StoreManager()
-        {
-        }
+        public static MobileServiceClient MobileService { get; set; }
+
+
 
         #region IStoreManager implementation
 
-        public System.Threading.Tasks.Task InitializeAsync()
+        public async Task InitializeAsync()
         {
-            throw new NotImplementedException();
+            if (IsInitialized)
+                return;
+            var handler = new AuthHandler();
+
+            //Create our client
+            MobileService = new MobileServiceClient("https://smarttrips.azurewebsites.net");
+
+            handler.Client = MobileService;
+
+            if (!string.IsNullOrWhiteSpace (Settings.Current.AuthToken) && !string.IsNullOrWhiteSpace (Settings.Current.UserId)) {
+                MobileService.CurrentUser = new MobileServiceUser (Settings.Current.UserId);
+                MobileService.CurrentUser.MobileServiceAuthenticationToken = Settings.Current.AuthToken;
+            }
+
+            if (handler != null)
+                handler.Client = MobileService;
+            
+            var path = $"syncstore{Settings.Current.DatabaseId}.db";
+            //setup our local sqlite store and intialize our table
+            var store = new MobileServiceSQLiteStore(path);
+
+            store.DefineTable<Feedback>();
+            store.DefineTable<Route>();
+            store.DefineTable<Telemetry>();
+            store.DefineTable<Trail>();
+            store.DefineTable<Trip>();
+
+            await MobileService.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler()).ConfigureAwait(false);
+
+
+            IsInitialized = true;
         }
 
-        public System.Threading.Tasks.Task<bool> SyncAllAsync(bool syncUserSpecific)
+        public async Task<bool> SyncAllAsync(bool syncUserSpecific)
         {
-            throw new NotImplementedException();
+
+            if(!IsInitialized)
+                await InitializeAsync();
+
+            var taskList = new List<Task<bool>>();
+            taskList.Add(TripStore.SyncAsync());
+            taskList.Add(FeedbackStore.SyncAsync());
+            taskList.Add(RouteStore.SyncAsync());
+
+
+            var successes = await Task.WhenAll(taskList).ConfigureAwait(false);
+            return successes.Any(x => !x);//if any were a failure.
         }
 
-        public System.Threading.Tasks.Task DropEverythingAsync()
+        public Task DropEverythingAsync()
         {
-            throw new NotImplementedException();
+            Settings.Current.UpdateDatabaseId();
+            TripStore.DropTable();
+            FeedbackStore.DropTable();
+            RouteStore.DropTable();
+            IsInitialized = false;
+            return Task.FromResult(true);
         }
 
         public bool IsInitialized
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            private set;
         }
 
-        public ITripStore TripStore
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        ITripStore tripStore;
+        public ITripStore TripStore => tripStore ?? (tripStore = ServiceLocator.Instance.Resolve<ITripStore>());
 
-        public IFeedbackStore FeedbackStore
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        IFeedbackStore feedbackStore;
+        public IFeedbackStore FeedbackStore => feedbackStore ?? (feedbackStore = ServiceLocator.Instance.Resolve<IFeedbackStore>());
 
-        public IRouteStore RouteStore
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        IRouteStore routeStore;
+        public IRouteStore RouteStore => routeStore ?? (routeStore = ServiceLocator.Instance.Resolve<IRouteStore>());
+
 
         #endregion
     }

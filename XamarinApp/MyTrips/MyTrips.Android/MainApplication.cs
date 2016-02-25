@@ -4,6 +4,10 @@ using Android.App;
 using Android.OS;
 using Android.Runtime;
 using Plugin.CurrentActivity;
+using MyTrips.Utils;
+using MyTrips.Interfaces;
+using MyTrips.Droid.Helpers;
+using System.Threading.Tasks;
 
 namespace MyTrips.Droid
 {
@@ -21,7 +25,8 @@ namespace MyTrips.Droid
             base.OnCreate();
             RegisterActivityLifecycleCallbacks(this);
             ViewModel.ViewModelBase.Init();
-            //A great place to initialize Xamarin.Insights and Dependency Services!
+            ServiceLocator.Instance.Add<IAuthentication, Authentication>();
+  
         }
 
         public override void OnTerminate()
@@ -55,10 +60,14 @@ namespace MyTrips.Droid
         public void OnActivityStarted(Activity activity)
         {
             CrossCurrentActivity.Current.Activity = activity;
+            HockeyApp.Tracking.StartUsage(activity);
         }
 
         public void OnActivityStopped(Activity activity)
         {
+            HockeyApp.Tracking.StopUsage(activity);
         }
+
+
     }
 }
