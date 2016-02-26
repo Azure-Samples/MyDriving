@@ -17,30 +17,66 @@ namespace MyTrips.iOS
 		CarAnnotation currentLocationAnnotation;
 		TripMapViewDelegate mapDelegate;
 
+		public PastTripsDetailViewModel PastTripsDetailViewModel { get; set; }
+
 		CurrentTripViewModel ViewModel { get; set; }
 
 		public CurrentTripViewController (IntPtr handle) : base (handle)
 		{
 		}
 
-		// TODO: Add start/endpoints
 		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
-			// Setup view model
-			ViewModel = new CurrentTripViewModel ();
-			ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
-			await ViewModel.ExecuteStartTrackingTripCommandAsync();
+			if (PastTripsDetailViewModel == null)
+			{
+				// Setup view model
+				ViewModel = new CurrentTripViewModel();
+				ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
+				await ViewModel.ExecuteStartTrackingTripCommandAsync();
 
-			// Configure MKMapView
-			mapDelegate = new TripMapViewDelegate();
-			tripMapView.Delegate = mapDelegate;
-			tripMapView.ShowsUserLocation = false;
-			tripMapView.Camera.Altitude = 5000;
+				// Configure MKMapView
+				mapDelegate = new TripMapViewDelegate();
+				tripMapView.Delegate = mapDelegate;
+				tripMapView.ShowsUserLocation = false;
+				tripMapView.Camera.Altitude = 5000;
 
-			// Setup button
-			recordButton.TouchUpInside += RecordButton_TouchUpInside;
+				// Setup button
+				recordButton.TouchUpInside += RecordButton_TouchUpInside;
+			}
+			else
+			{
+				// Update navigation bar title
+				NavigationItem.Title = PastTripsDetailViewModel.Title;
+
+				var count = PastTripsDetailViewModel.Trip.Trail.Count;
+
+				// Setup map
+				mapDelegate = new TripMapViewDelegate();
+				tripMapView.Delegate = mapDelegate;
+				tripMapView.ShowsUserLocation = false;
+				tripMapView.Camera.Altitude = 10000;
+				tripMapView.SetVisibleMapRect(MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Trail.ToCoordinateArray()).BoundingMapRect, new UIEdgeInsets(25, 25, 25, 25), false);
+
+				// Draw route
+				tripMapView.DrawRoute(PastTripsDetailViewModel.Trip.Trail.ToCoordinateArray ());
+
+				// Draw start waypoint
+				var startAnnotation = new MKPointAnnotation();
+				startAnnotation.SetCoordinate (PastTripsDetailViewModel.Trip.Trail[0].ToCoordinate ());
+				startAnnotation.Title = "A";
+				tripMapView.AddAnnotation(startAnnotation);
+
+				// Draw end waypoint
+				var endAnnotation = new MKPointAnnotation();
+				endAnnotation.SetCoordinate (PastTripsDetailViewModel.Trip.Trail[count-1].ToCoordinate ());
+				endAnnotation.Title = "B";
+				tripMapView.AddAnnotation(endAnnotation);
+
+				// Hide record button
+				recordButton.Hidden = true;
+			}
 		}
 
 		void Geolocator_PositionChanged(object sender, Plugin.Geolocator.Abstractions.PositionEventArgs e)

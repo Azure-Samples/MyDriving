@@ -22,10 +22,10 @@ namespace MyTrips.iOS
 		}
 
 		// TODO: Add animation after map finishes rendering.
-		public override async void DidFinishRenderingMap(MKMapView mapView, bool fullyRendered)
-		{
+		//public override async void DidFinishRenderingMap(MKMapView mapView, bool fullyRendered)
+		//{
 			
-		}
+		//}
 
 		public override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
 		{

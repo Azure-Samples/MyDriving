@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using CoreAnimation;
@@ -8,6 +9,7 @@ using Foundation;
 using UIKit;
 
 using Plugin.Geolocator.Abstractions;
+using MyTrips.DataObjects;
 
 namespace MyTrips.iOS
 {
@@ -332,6 +334,23 @@ namespace MyTrips.iOS
 		public static CLLocationCoordinate2D ToCoordinate(this Position position)
 		{
 			return new CLLocationCoordinate2D(position.Latitude, position.Longitude);
+		}
+
+		public static CLLocationCoordinate2D ToCoordinate(this Trail trail)
+		{
+			return new CLLocationCoordinate2D(trail.Latitude, trail.Longitude);
+		}
+
+		public static CLLocationCoordinate2D[] ToCoordinateArray(this IList<Trail> trail)
+		{
+			var count = trail.Count;
+			var coordinates = new CLLocationCoordinate2D[count];
+			for (int i = 0; i < count; i++)
+			{
+				coordinates[i] = trail[i].ToCoordinate();
+			}
+
+			return coordinates;
 		}
 		#endregion
 	}

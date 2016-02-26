@@ -27,6 +27,19 @@ namespace MyTrips.iOS
 			await ViewModel.ExecuteLoadPastTripsCommandAsync();
 		}
 
+		public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+		{
+			if (segue.Identifier == "pastTripSegue")
+			{
+				var navController = (UINavigationController)segue.DestinationViewController;
+				var controller = navController.TopViewController as CurrentTripViewController;
+				var indexPath = TableView.IndexPathForCell(sender as UITableViewCell);
+				var trip = ViewModel.Trips[indexPath.Row];
+
+				controller.PastTripsDetailViewModel = new PastTripsDetailViewModel(trip);
+			}
+		}
+
 		#region UITableViewSource
 		public override nint RowsInSection(UITableView tableView, nint section)
 		{
