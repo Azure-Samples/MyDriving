@@ -160,11 +160,12 @@ namespace MyTrips.iOS
 				annotation.Title = "A";
 				tripMapView.AddAnnotation(annotation);
 
-				UpdateRecordButton(false);
+				UpdateRecordButton(true);
+				ResetDetailsView();
 			}
 			else
 			{
-				UpdateRecordButton(true);
+				UpdateRecordButton(false);
 
 				// Add ending waypoint
 				var annotation = new MKPointAnnotation();
@@ -210,6 +211,27 @@ namespace MyTrips.iOS
 			currentLocationAnnotation = new CarAnnotation(coordinate);
 			tripMapView.AddAnnotation(currentLocationAnnotation);
 			tripMapView.Camera.CenterCoordinate = coordinate;
+		}
+
+		void ResetDetailsView()
+		{
+			var duration = 0.5f;
+
+			lblMpg.Text = "0";
+			lblMpg.Pop(duration, 0, 1);
+
+			lblGallons.Text = "0";
+			lblGallons.Pop(duration, 0, 1);
+
+			lblDistance.Text = "0";
+			lblDistance.Pop(duration, 0, 1);
+
+			lblDuration.Text = "0:00";
+			lblDuration.Pop(duration, 0, 1);
+
+			lblCost.Text = "$0.00";
+			lblCost.Pop(duration, 0, 1);
+
 		}
 	}
 }
