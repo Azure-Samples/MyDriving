@@ -11,6 +11,7 @@ namespace MyTrips.iOS
     public partial class TripsTableViewController : UITableViewController
     {
 		const string TRIP_CELL_IDENTIFIER = "TRIP_CELL_IDENTIFIER";
+		const string PAST_TRIP_SEGUE_IDENTIFIER = "pastTripSegue";
 
 		PastTripsViewModel ViewModel { get; set; }
 
@@ -29,7 +30,7 @@ namespace MyTrips.iOS
 
 		public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
 		{
-			if (segue.Identifier == "pastTripSegue")
+			if (segue.Identifier == PAST_TRIP_SEGUE_IDENTIFIER)
 			{
 				var controller = segue.DestinationViewController as CurrentTripViewController;
 				var indexPath = TableView.IndexPathForCell(sender as UITableViewCell);
@@ -58,7 +59,6 @@ namespace MyTrips.iOS
             cell.LocationName = trip.TripId;
             cell.TimeAgo = trip.TimeAgo;
 			cell.Distance = trip.TotalDistance;
-			cell.SelectedBackgroundView = new UIView(cell.Frame) { BackgroundColor = cell.BackgroundColor.Lighten(2) };
 
 			return cell;
 		}
