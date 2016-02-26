@@ -1,9 +1,12 @@
 ﻿using System;
-using MyTrips.Interfaces;
-using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
-using MyTrips.Utils;
+
 using Foundation;
+
+using MyTrips.Interfaces;
+using MyTrips.Utils;
+
+using Microsoft.WindowsAzure.MobileServices;
 
 namespace MyTrips.iOS.Helpers
 {
@@ -55,4 +58,3 @@ namespace MyTrips.iOS.Helpers
         }
     }
 }
-

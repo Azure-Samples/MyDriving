@@ -1,26 +1,31 @@
 ﻿using System;
 
 using UIKit;
-using Foundation;
 using MapKit;
 
 namespace MyTrips.iOS
 {
-	public class MapViewDelegate : MKMapViewDelegate
+	public class TripMapViewDelegate : MKMapViewDelegate
 	{
-		static string CAR_ANNOTATION = "CAR_ANNOTATION";
-		static string WAYPOINT_ANNOTATION = "WAYPOINT_ANNOTATION";
+		const string CAR_ANNOTATION = "CAR_ANNOTATION";
+		const string WAYPOINT_ANNOTATION = "WAYPOINT_ANNOTATION";
 
 		public override MKOverlayRenderer OverlayRenderer(MKMapView mapView, IMKOverlay overlay)
 		{
-			var polylineRenderer = new MKPolylineRenderer (overlay as MKPolyline);
-			polylineRenderer.FillColor = UIColor.Blue;
-			polylineRenderer.StrokeColor = UIColor.Red;
-			polylineRenderer.LineWidth = 3;
-			polylineRenderer.Alpha = 0.4f;
-
-			return polylineRenderer;
+			return new MKPolylineRenderer(overlay as MKPolyline)
+			{
+				Alpha = (nfloat) 0.4,
+				LineWidth = (nfloat) 3.0,
+				FillColor = UIColor.Blue,
+				StrokeColor = UIColor.Red
+			};
 		}
+
+		// TODO: Add animation after map finishes rendering.
+		//public override async void DidFinishRenderingMap(MKMapView mapView, bool fullyRendered)
+		//{
+			
+		//}
 
 		public override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
 		{
@@ -47,7 +52,7 @@ namespace MyTrips.iOS
 				if (annotationView == null)
 					annotationView = new MKAnnotationView(annotation, CAR_ANNOTATION);
 
-				// TODO: Make this the car photo
+				// TODO: Update to actual car photo.
 				annotationView.Image = UIImage.FromBundle(Images.CarAnnotationImage);
 				annotationView.CanShowCallout = false;
 			}
@@ -59,7 +64,7 @@ namespace MyTrips.iOS
 				if (annotationView == null)
 					annotationView = new MKAnnotationView (annotation, WAYPOINT_ANNOTATION);
 
-				// A or B
+				// TODO: Pass in A or B to show start and end points.
 				// annotationView.AddSubview(new WayPointCircle());
 				annotationView.CanShowCallout = false;
 			}
@@ -69,11 +74,10 @@ namespace MyTrips.iOS
 
 		public override void DidSelectAnnotationView(MKMapView mapView, MKAnnotationView view)
 		{
-			base.DidSelectAnnotationView(mapView, view);
-
+			// TODO: Implement navigation to photo detail page
 			if (view.Annotation is PhotoAnnotation)
 			{
-				// TODO: Implement navigation to photo detail page.
+
 			}
 		}
 	}

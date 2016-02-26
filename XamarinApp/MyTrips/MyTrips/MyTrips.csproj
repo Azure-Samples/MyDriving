@@ -42,6 +42,7 @@
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\TripDetailsViewModel.cs" />
     <Compile Include="Interfaces\IAuthentication.cs" />
+    <Compile Include="ViewModel\PastTripsDetailViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
