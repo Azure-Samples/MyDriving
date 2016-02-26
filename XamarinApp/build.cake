@@ -1,5 +1,3 @@
-#addin nuget:https://nuget.org/api/v2/?package=Cake.FileHelpers&version=1.0.3.2
-#addin nuget:https://nuget.org/api/v2/?package=Cake.Xamarin&version=1.2.3
 #addin "Cake.Xamarin"
 
 var username = EnvironmentVariable("XamarinLicenseUser");
