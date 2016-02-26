@@ -36,7 +36,7 @@ namespace MyTrips.Droid.Fragments
             GeolocationHelper.Current.LocationServiceConnected += (sender, e) =>
                 {
                     viewModel = GeolocationHelper.Current.LocationService.ViewModel;
-                    viewModel.Recording = true;
+                    viewModel.IsRecording = true;
                     var list = viewModel.CurrentTrip.Trail as ObservableRangeCollection<Trail>;
                     list.CollectionChanged += TrailUpdated;
 

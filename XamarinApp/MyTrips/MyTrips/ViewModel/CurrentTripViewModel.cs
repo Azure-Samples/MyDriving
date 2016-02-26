@@ -20,8 +20,22 @@ namespace MyTrips.ViewModel
 {
     public class CurrentTripViewModel : ViewModelBase
     {
+        
 		public Trip CurrentTrip { get; set; }
-		public bool Recording { get; set; }
+
+        bool isRecording;
+		public bool IsRecording
+        {
+            get { return isRecording; }
+            set { SetProperty(ref isRecording, value); }
+        }
+
+        Position position;
+        public Position CurrentPosition
+        {
+            get { return position;}
+            set { SetProperty(ref position, value); }
+        }
 
 		public CurrentTripViewModel()
 		{
@@ -110,7 +124,7 @@ namespace MyTrips.ViewModel
 		void Geolocator_PositionChanged(object sender, PositionEventArgs e)
         {
 			// Only update the route if we are meant to be recording coordinates
-			if (Recording)
+			if (IsRecording)
 			{
 				var userLocation = e.Position;
 
@@ -124,6 +138,8 @@ namespace MyTrips.ViewModel
 
 				CurrentTrip.Trail.Add (trail);
 			}
+
+            CurrentPosition = e.Position;
 		}
 
         ICommand  takePhotoCommand;

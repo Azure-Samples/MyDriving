@@ -106,7 +106,7 @@ namespace MyTrips.iOS
 			var coordinate = e.Position.ToCoordinate();
 			UpdateCarAnnotationPosition (coordinate);
 
-			if (ViewModel.Recording)
+			if (ViewModel.IsRecording)
 			{
 				// If we already haven't starting tracking route yet, start that.
 				if (route == null)
@@ -152,7 +152,7 @@ namespace MyTrips.iOS
 			var position = await ViewModel.Geolocator.GetPositionAsync();
 			var coordinate = position.ToCoordinate();
 
-			if (!ViewModel.Recording)
+			if (!ViewModel.IsRecording)
 			{
 				// Add starting waypoint
 				var annotation = new MKPointAnnotation();
@@ -174,7 +174,7 @@ namespace MyTrips.iOS
 				tripMapView.AddAnnotation(annotation);
 			}
 
-			ViewModel.Recording = !ViewModel.Recording;
+			ViewModel.IsRecording = !ViewModel.IsRecording;
 		}
 
 		void UpdateRecordButton(bool isRecording)

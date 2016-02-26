@@ -43,8 +43,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stores\BaseStore.cs" />
-    <Compile Include="Stores\FeedbackStore.cs" />
-    <Compile Include="Stores\RouteStore.cs" />
     <Compile Include="Stores\TripStore.cs" />
     <Compile Include="StoreManager.cs" />
     <Compile Include="AuthHandler.cs" />
