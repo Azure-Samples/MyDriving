@@ -48,6 +48,9 @@ namespace MyTrips.iOS
 				recordButton.Layer.BorderColor = UIColor.White.CGColor;
 				recordButton.Layer.BorderWidth = 2;
 				recordButton.TouchUpInside += RecordButton_TouchUpInside;
+
+				waypointA.Hidden = true;
+				waypointB.Hidden = true;
 			}
 			else
 			{
@@ -80,6 +83,8 @@ namespace MyTrips.iOS
 
 				// Hide record button
 				recordButton.Hidden = true;
+				waypointA.Hidden = false;
+				waypointB.Hidden = false;
 			}
 		}
 

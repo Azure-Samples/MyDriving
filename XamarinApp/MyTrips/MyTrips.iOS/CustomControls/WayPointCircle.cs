@@ -24,12 +24,14 @@ namespace MyTrips.iOS.CustomControls
 			Text = "A";
 			BackgroundColor = UIColor.FromRGBA(0.882f, 0.133f, 0.180f, 1.000f);
 			BorderColor = UIColor.White;
+			borderWidth = 2;
 			SetNeedsDisplay();
 		}
 
 		private UIColor color;
 		private UIColor borderColor;
 		private string text;
+		private nfloat borderWidth;
 
 		[Export("Color"), Browsable(true)]
 		public UIColor Color	 
@@ -73,6 +75,20 @@ namespace MyTrips.iOS.CustomControls
 			}
 		}
 
+		[Export("BorderWidth"), Browsable(true)]
+		public nfloat BorderWidth	 
+		{
+			get 
+			{ 
+				return borderWidth; 
+			}
+			set 
+			{ 
+				borderWidth = value;
+				SetNeedsDisplay ();
+			}
+		}
+
 		public override void Draw(CGRect frame)
 		{
 			base.Draw(frame);
@@ -86,7 +102,7 @@ namespace MyTrips.iOS.CustomControls
 			BackgroundColor.SetFill();
 			circlePath.Fill();
 			BorderColor.SetStroke();
-			circlePath.LineWidth = 4.0f;
+			circlePath.LineWidth = BorderWidth;
 			circlePath.Stroke();
 			UIColor.White.SetFill();
 			var circleStyle = new NSMutableParagraphStyle ();

@@ -22,6 +22,14 @@ namespace MyTrips.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         MyTrips.iOS.TripMapView tripMapView { get; set; }
 
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        MyTrips.iOS.CustomControls.WayPointCircle waypointA { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        MyTrips.iOS.CustomControls.WayPointCircle waypointB { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
             if (recordButton != null) {
@@ -32,6 +40,16 @@ namespace MyTrips.iOS
             if (tripMapView != null) {
                 tripMapView.Dispose ();
                 tripMapView = null;
+            }
+
+            if (waypointA != null) {
+                waypointA.Dispose ();
+                waypointA = null;
+            }
+
+            if (waypointB != null) {
+                waypointB.Dispose ();
+                waypointB = null;
             }
         }
     }
