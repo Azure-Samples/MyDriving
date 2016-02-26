@@ -1,0 +1,23 @@
+﻿<Page
+    x:Class="MyTrips.UWP.Views.LoginView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyTrips.UWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock x:Name="WelcomeText" HorizontalAlignment="Left" Margin="100,105,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Visibility="Collapsed"/>
+        <StackPanel VerticalAlignment="Center">
+            <Button Command="{Binding LoginFacebookCommand}" 
+                Visibility="Visible" HorizontalAlignment="Center">Login with Facebook</Button>
+            <Button Command="{Binding LoginTwitterCommand}"  Margin="0,10,0,0"
+                Visibility="Visible" HorizontalAlignment="Center">Login with Twitter</Button>
+            <Button Command="{Binding LoginMicrosoftCommand}"  Margin="0,10,0,0"
+                Visibility="Visible" HorizontalAlignment="Center">Login with Microsoft</Button>
+            <!--This button is temporary - intended only to make it easier to debug\test app-->
+            <Button x:Name="SkipAuthBtn" HorizontalAlignment="Center" Margin="0,10,0,0"  Content="Skip Auth"  Click="SkipAuthBtn_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -21,6 +21,9 @@ namespace MyTrips.ViewModel
             ServiceLocator.Instance.Add<IRouteStore, RouteStore>();
             ServiceLocator.Instance.Add<ITripStore, TripStore>();
             ServiceLocator.Instance.Add<IStoreManager, StoreManager>();
+
+            //TODO: Put this somewhere....
+            ServiceLocator.Instance.Resolve<IStoreManager>().InitializeAsync();
         }
 
         public Settings Settings

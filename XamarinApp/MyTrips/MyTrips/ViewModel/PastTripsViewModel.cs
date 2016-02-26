@@ -14,11 +14,10 @@ namespace MyTrips.ViewModel
 {
     public class PastTripsViewModel : ViewModelBase
     {
-        
-
         public ObservableRangeCollection<Trip> Trips { get; } = new ObservableRangeCollection<Trip>();
 
         ICommand  loadPastTripsCommand;
+
         public ICommand LoadPastTripsCommand =>
             loadPastTripsCommand ?? (loadPastTripsCommand = new RelayCommand(async () => await ExecuteLoadPastTripsCommandAsync())); 
 

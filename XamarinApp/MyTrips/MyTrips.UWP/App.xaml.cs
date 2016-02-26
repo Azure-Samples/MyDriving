@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.WindowsAzure.MobileServices;
+using MyTrips.UWP.Views;
 
 using MyTrips.Interfaces;
 
@@ -34,6 +36,9 @@ namespace MyTrips.UWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            ViewModel.ViewModelBase.Init();
+            // Added the AppId's provided by Thomas Dohmke. 
+            Microsoft.HockeyApp.HockeyClient.Current.Configure("5bff51e242a84d99bddbc6037071656a");
         }
 
         /// <summary>
@@ -78,7 +83,7 @@ namespace MyTrips.UWP
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                rootFrame.Navigate(typeof(LoginView), e.Arguments);
             }
             // Ensure the current window is active
             Window.Current.Activate();
@@ -106,6 +111,21 @@ namespace MyTrips.UWP
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            // do we need this?
+#if WINDOWS_PHONE_APP
+    if (args.Kind == ActivationKind.WebAuthenticationBrokerContinuation)
+    {
+        // Completes the sign-in process started by LoginAsync.
+        // Change 'MobileService' to the name of your MobileServiceClient instance. 
+        App.MobileService.LoginComplete(args as WebAuthenticationBrokerContinuationEventArgs);
+    }
+#endif
+
+            base.OnActivated(args);
         }
     }
 }
