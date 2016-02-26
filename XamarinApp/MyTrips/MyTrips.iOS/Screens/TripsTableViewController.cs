@@ -31,8 +31,7 @@ namespace MyTrips.iOS
 		{
 			if (segue.Identifier == "pastTripSegue")
 			{
-				var navController = (UINavigationController)segue.DestinationViewController;
-				var controller = navController.TopViewController as CurrentTripViewController;
+				var controller = segue.DestinationViewController as CurrentTripViewController;
 				var indexPath = TableView.IndexPathForCell(sender as UITableViewCell);
 				var trip = ViewModel.Trips[indexPath.Row];
 

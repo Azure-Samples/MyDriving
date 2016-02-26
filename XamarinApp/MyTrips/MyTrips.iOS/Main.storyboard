@@ -112,7 +112,7 @@
                                     <outlet property="lblDaysAgo" destination="Coz-nh-1fi" id="name-outlet-Coz-nh-1fi"/>
                                     <outlet property="lblMiles" destination="awd-Ib-QQx" id="name-outlet-awd-Ib-QQx"/>
                                     <outlet property="lblTitle" destination="4sJ-6h-h5Q" id="name-outlet-4sJ-6h-h5Q"/>
-                                    <segue id="833" destination="341" kind="showDetail" identifier="pastTripSegue"/>
+                                    <segue id="1126" destination="343" kind="push" identifier="pastTripSegue"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
