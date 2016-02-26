@@ -120,7 +120,7 @@
                             <outlet property="delegate" destination="6jy-8W-wUe" id="Sx4-3u-vpv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="jye-GE-rQI">
+                    <navigationItem key="navigationItem" id="jye-GE-rQI" title="Trips">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="6L9-iO-xsa">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </barButtonItem>
@@ -448,6 +448,6 @@
         <image name="login_facebook.png" width="589" height="89"/>
         <image name="login_microsoft.png" width="589" height="89"/>
         <image name="login_twitter.png" width="589" height="89"/>
-        <image name="car_annotation.jpeg" width="75" height="56"/>
+        <image name="car_annotation.png" width="59" height="45"/>
     </resources>
 </document>

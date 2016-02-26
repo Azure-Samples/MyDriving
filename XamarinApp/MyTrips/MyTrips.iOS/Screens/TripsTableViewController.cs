@@ -23,9 +23,7 @@ namespace MyTrips.iOS
 		{
 			base.ViewDidLoad();
 
-			// TODO: Grab data for UITableView.
 			ViewModel = new PastTripsViewModel();
-
 			await ViewModel.ExecuteLoadPastTripsCommandAsync();
 		}
 
@@ -37,7 +35,6 @@ namespace MyTrips.iOS
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			// No need to check for null; storyboards always return a dequeable cell.
 			var cell = tableView.DequeueReusableCell(TRIP_CELL_IDENTIFIER) as TripTableViewCell;
 
 			if (cell == null)
@@ -47,7 +44,6 @@ namespace MyTrips.iOS
 
 			var trip = ViewModel.Trips[indexPath.Row];
             cell.LocationName = trip.TripId;
-
             cell.TimeAgo = trip.TimeAgo;
 			cell.Distance = trip.TotalDistance;
 
