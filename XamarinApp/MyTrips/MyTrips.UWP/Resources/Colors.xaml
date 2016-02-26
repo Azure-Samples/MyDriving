@@ -1,0 +1,11 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyTrips.UWP">
+
+    <SolidColorBrush x:Key="MainBackgroundColor" Color="#162129"/>
+    <SolidColorBrush x:Key="FacebookLoginButtonColor" Color="#FF685BE6"/>
+    <SolidColorBrush x:Key="TwitterLoginButtonColor" Color="#FF64AAE8"/>
+    <SolidColorBrush x:Key="MSALoginButtonColor" Color="#FF829DB0"/>
+    
+</ResourceDictionary>

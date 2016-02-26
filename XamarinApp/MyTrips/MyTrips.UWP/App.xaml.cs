@@ -28,6 +28,8 @@ namespace MyTrips.UWP
     /// </summary>
     sealed partial class App : Application
     {
+        public static string MobileAppsUrl = "https://smartkar.azurewebsites.net";
+        public static MobileServiceClient MobileService = new MobileServiceClient(MobileAppsUrl);
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -37,6 +39,8 @@ namespace MyTrips.UWP
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             ViewModel.ViewModelBase.Init();
+            // Added the AppId's provided by Thomas Dohmke. 
+            Microsoft.HockeyApp.HockeyClient.Current.Configure("5bff51e242a84d99bddbc6037071656a");
         }
 
         /// <summary>
