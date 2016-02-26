@@ -42,8 +42,7 @@ namespace MyTrips.Droid.Activities
             }
 
             viewModel = new TripDetailsViewModel();
-            viewModel.TripId = Intent.GetStringExtra(nameof(viewModel.TripId));
-            SupportActionBar.Title = viewModel.TripId;
+            viewModel.TripId = Intent.GetStringExtra("Id");
             var mapFrag = (SupportMapFragment) SupportFragmentManager.FindFragmentById(Resource.Id.map);
             mapFrag.GetMapAsync(this);
         }
@@ -54,6 +53,7 @@ namespace MyTrips.Droid.Activities
 
             await viewModel.ExecuteLoadTripCommandAsync();
 
+            SupportActionBar.Title = viewModel.CurrentTrip.TripId;
             SetupMap();
 
         }
