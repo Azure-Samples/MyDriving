@@ -43,6 +43,10 @@ namespace MyTrips.iOS
 				tripMapView.Camera.Altitude = 5000;
 
 				// Setup button
+				recordButton.Layer.CornerRadius = recordButton.Frame.Width / 2;
+				recordButton.Layer.MasksToBounds = true;
+				recordButton.Layer.BorderColor = UIColor.White.CGColor;
+				recordButton.Layer.BorderWidth = 2;
 				recordButton.TouchUpInside += RecordButton_TouchUpInside;
 			}
 			else
@@ -139,10 +143,18 @@ namespace MyTrips.iOS
 				annotation.SetCoordinate (coordinate);
 				annotation.Title = "A";
 				tripMapView.AddAnnotation(annotation);
+
+				// Setup button
+				UIView.Animate(0.5, 0.2, UIViewAnimationOptions.CurveEaseIn, () =>{
+					recordButton.Layer.CornerRadius = 4;
+					},() =>{ });
+
 			}
 			else
 			{
-				recordButton.SetTitle("Start", UIControlState.Normal);
+				UIView.Animate(0.5, 0.2, UIViewAnimationOptions.CurveEaseIn, () =>{
+					recordButton.Layer.CornerRadius = recordButton.Frame.Width / 2;
+				},() =>{ });
 
 				// Add ending waypoint
 				var annotation = new MKPointAnnotation();
