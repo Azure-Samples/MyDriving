@@ -152,8 +152,6 @@ namespace MyTrips.iOS
 
 			if (!ViewModel.Recording)
 			{
-				recordButton.SetTitle("Stop", UIControlState.Normal);
-
 				// Add starting waypoint
 				var annotation = new MKPointAnnotation();
 				annotation.SetCoordinate (coordinate);
