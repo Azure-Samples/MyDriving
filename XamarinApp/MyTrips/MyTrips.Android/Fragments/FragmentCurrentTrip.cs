@@ -98,6 +98,12 @@ namespace MyTrips.Droid.Fragments
             
             if ((viewModel?.CurrentTrip?.Trail?.Count).GetValueOrDefault() == 0)
                 return;
+
+            if(mapView.Width == 0)
+            {
+                mapView.PostDelayed (() => { SetupMap();}, 500);
+                return;
+            }
             
             var start = viewModel.CurrentTrip.Trail[0];
             car = new MarkerOptions();

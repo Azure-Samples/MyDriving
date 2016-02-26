@@ -98,7 +98,7 @@ namespace MyTrips.Droid
         }
 
         int oldPosition = -1;
-        private void ListItemClicked(int itemId)
+        void ListItemClicked(int itemId)
         {
             //this way we don't load twice, but you might want to modify this a bit.
             if (itemId == oldPosition)
@@ -126,6 +126,8 @@ namespace MyTrips.Droid
             SupportFragmentManager.BeginTransaction()
                 .Replace(Resource.Id.content_frame, fragment)
                 .Commit();
+
+            navigationView.SetCheckedItem(itemId);
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -133,11 +135,25 @@ namespace MyTrips.Droid
             switch (item.ItemId)
             {
                 case Android.Resource.Id.Home:
-                    drawerLayout.OpenDrawer(Android.Support.V4.View.GravityCompat.Start);
+                    drawerLayout.OpenDrawer(GravityCompat.Start);
                     return true;
             }
             return base.OnOptionsItemSelected(item);
         }
+
+        public override void OnBackPressed()
+        {
+
+            if (drawerLayout.IsDrawerOpen((int)GravityFlags.Start))
+            {
+                drawerLayout.OpenDrawer(GravityCompat.Start);
+             }
+            else
+            {
+                base.OnBackPressed();
+            }
+        }
+
     }
 }
 

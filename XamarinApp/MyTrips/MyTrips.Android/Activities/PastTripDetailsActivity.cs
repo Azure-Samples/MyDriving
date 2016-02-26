@@ -43,6 +43,7 @@ namespace MyTrips.Droid.Activities
 
             viewModel = new TripDetailsViewModel();
             viewModel.TripId = Intent.GetStringExtra(nameof(viewModel.TripId));
+            SupportActionBar.Title = viewModel.TripId;
             var mapFrag = (SupportMapFragment) SupportFragmentManager.FindFragmentById(Resource.Id.map);
             mapFrag.GetMapAsync(this);
         }
@@ -62,9 +63,6 @@ namespace MyTrips.Droid.Activities
         {
             var start = viewModel.CurrentTrip.Trail[0];
 
-           
-      
-
             car = new MarkerOptions();
             car.SetPosition(new LatLng(start.Latitude, start.Longitude));
             car.SetTitle("The Car");
@@ -83,8 +81,16 @@ namespace MyTrips.Droid.Activities
                 boundsPoints.Include (point);
 
             var bounds = boundsPoints.Build ();
-            map.MoveCamera (CameraUpdateFactory.NewLatLngBounds (bounds, 48));
+            map.MoveCamera (CameraUpdateFactory.NewLatLngBounds (bounds, 56));
 
+        }
+
+        public override bool OnOptionsItemSelected (IMenuItem item)
+        {
+            if (item.ItemId == Android.Resource.Id.Home)
+                Finish ();
+
+            return base.OnOptionsItemSelected (item);
         }
     }
 }
