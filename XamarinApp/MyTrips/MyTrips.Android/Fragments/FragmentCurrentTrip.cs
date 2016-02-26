@@ -41,6 +41,7 @@ namespace MyTrips.Droid.Fragments
             GeolocationHelper.Current.LocationServiceConnected += (sender, e) =>
                 {
                     viewModel = GeolocationHelper.Current.LocationService.ViewModel;
+                    viewModel.Recording = true;
                     var list = viewModel.CurrentTrip.Trail as ObservableRangeCollection<Trail>;
                     list.CollectionChanged += TrailUpdated;
 
@@ -95,7 +96,7 @@ namespace MyTrips.Droid.Fragments
             if (map == null)
                 return;
             
-            if (viewModel?.CurrentTrip?.Trail.Count == 0)
+            if ((viewModel?.CurrentTrip?.Trail?.Count).GetValueOrDefault() == 0)
                 return;
             
             var start = viewModel.CurrentTrip.Trail[0];
@@ -112,6 +113,8 @@ namespace MyTrips.Droid.Fragments
             UpdateCamera();
         }
 
+
+        bool setZoom = true;
         void UpdateMap(Trail trail)
         {
             if(map == null)
@@ -124,18 +127,25 @@ namespace MyTrips.Droid.Fragments
             var rectOptions = new PolylineOptions();
             rectOptions.Add(points);
             map.AddPolyline(rectOptions);
+            map.AddMarker(car);
             UpdateCamera();
         }
 
         void UpdateCamera()
         {
-            var boundsPoints = new LatLngBounds.Builder ();
-            var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
-            foreach(var point in points)
-                boundsPoints.Include (point);
 
-            var bounds = boundsPoints.Build ();
-            map.MoveCamera (CameraUpdateFactory.NewLatLngBounds (bounds, 24));
+            var current = viewModel.CurrentTrip.Trail[viewModel.CurrentTrip.Trail.Count - 1];
+
+            if (setZoom)
+            {
+                map.AnimateCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(current.Latitude, current.Longitude), 13));
+                setZoom = false;
+            }
+            else
+            {
+                map.AnimateCamera(CameraUpdateFactory.NewLatLng(new LatLng(current.Latitude, current.Longitude)));
+            }
+         
         }
 
         public override void OnResume()

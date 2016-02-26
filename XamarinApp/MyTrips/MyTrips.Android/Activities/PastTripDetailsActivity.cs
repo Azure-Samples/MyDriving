@@ -40,7 +40,9 @@ namespace MyTrips.Droid.Activities
                 Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.primary_dark)));
                 Window.DecorView.SystemUiVisibility = StatusBarVisibility.Visible;
             }
+
             viewModel = new TripDetailsViewModel();
+            viewModel.TripId = Intent.GetStringExtra(nameof(viewModel.TripId));
             var mapFrag = (SupportMapFragment) SupportFragmentManager.FindFragmentById(Resource.Id.map);
             mapFrag.GetMapAsync(this);
         }
@@ -81,7 +83,7 @@ namespace MyTrips.Droid.Activities
                 boundsPoints.Include (point);
 
             var bounds = boundsPoints.Build ();
-            map.MoveCamera (CameraUpdateFactory.NewLatLngBounds (bounds, 24));
+            map.MoveCamera (CameraUpdateFactory.NewLatLngBounds (bounds, 48));
 
         }
     }

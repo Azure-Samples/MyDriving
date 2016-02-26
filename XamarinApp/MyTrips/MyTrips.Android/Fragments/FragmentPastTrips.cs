@@ -81,7 +81,10 @@ namespace MyTrips.Droid.Fragments
 
         void OnItemClick (object sender, int position)
         {
-            StartActivity(new Intent(Activity, typeof(PastTripDetailsActivity)));
+            var trip = viewModel.Trips[position];
+            var intent = new Intent(Activity, typeof(PastTripDetailsActivity));
+            intent.PutExtra(nameof(trip.TripId), trip.Id);
+            StartActivity(intent);
         }
     }
 
