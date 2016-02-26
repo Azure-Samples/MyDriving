@@ -5,4 +5,16 @@
     xmlns:local="using:MyTrips.UWP"
     RequestedTheme="Dark">
 
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- Dictionaries -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Colors.xaml"/>
+                <ResourceDictionary Source="/Resources/Resources.xaml"/>
+                <ResourceDictionary Source="/Resources/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </Application.Resources>
+    
 </Application>

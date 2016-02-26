@@ -42,7 +42,7 @@ namespace MyTrips.UWP.Views
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var trip = (Trip)e.AddedItems[0];
-            this.Frame.Navigate(typeof(PastTripMapView),trip);
+            //    this.Frame.Navigate(typeof(PastTripMapView),trip);  PastTripMapView does not exist
         }
 
     }
