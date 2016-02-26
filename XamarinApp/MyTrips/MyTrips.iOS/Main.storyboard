@@ -487,6 +487,11 @@
                         <outlet property="tripMapView" destination="392" id="name-outlet-392"/>
                         <outlet property="waypointA" destination="J9a-D3-Z8G" id="name-outlet-J9a-D3-Z8G"/>
                         <outlet property="waypointB" destination="BaQ-lU-L90" id="name-outlet-BaQ-lU-L90"/>
+                        <outlet property="lblMpg" destination="Pn8-hb-ZOi" id="name-outlet-Pn8-hb-ZOi"/>
+                        <outlet property="lblGallons" destination="KSU-zj-gjI" id="name-outlet-KSU-zj-gjI"/>
+                        <outlet property="lblDistance" destination="uaA-uf-xcK" id="name-outlet-uaA-uf-xcK"/>
+                        <outlet property="lblDuration" destination="abr-WA-SpR" id="name-outlet-abr-WA-SpR"/>
+                        <outlet property="lblCost" destination="PuR-yp-5sP" id="name-outlet-PuR-yp-5sP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="349" userLabel="First Responder" sceneMemberID="firstResponder"/>

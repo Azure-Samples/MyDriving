@@ -16,6 +16,26 @@ namespace MyTrips.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblCost { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblDistance { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblDuration { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblGallons { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblMpg { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton recordButton { get; set; }
 
         [Outlet]
@@ -32,6 +52,31 @@ namespace MyTrips.iOS
 
         void ReleaseDesignerOutlets ()
         {
+            if (lblCost != null) {
+                lblCost.Dispose ();
+                lblCost = null;
+            }
+
+            if (lblDistance != null) {
+                lblDistance.Dispose ();
+                lblDistance = null;
+            }
+
+            if (lblDuration != null) {
+                lblDuration.Dispose ();
+                lblDuration = null;
+            }
+
+            if (lblGallons != null) {
+                lblGallons.Dispose ();
+                lblGallons = null;
+            }
+
+            if (lblMpg != null) {
+                lblMpg.Dispose ();
+                lblMpg = null;
+            }
+
             if (recordButton != null) {
                 recordButton.Dispose ();
                 recordButton = null;
