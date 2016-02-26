@@ -8,6 +8,7 @@ using MapKit;
 using CoreLocation;
 
 using MyTrips.ViewModel;
+using CoreAnimation;
 
 namespace MyTrips.iOS
 {
@@ -28,6 +29,7 @@ namespace MyTrips.iOS
 		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+			UpdateRecordButton(false);
 
 			if (PastTripsDetailViewModel == null)
 			{
@@ -152,7 +154,6 @@ namespace MyTrips.iOS
 
 			if (!ViewModel.Recording)
 			{
-				recordButton.SetTitle("Stop", UIControlState.Normal);
 
 				// Add starting waypoint
 				var annotation = new MKPointAnnotation();
@@ -160,17 +161,11 @@ namespace MyTrips.iOS
 				annotation.Title = "A";
 				tripMapView.AddAnnotation(annotation);
 
-				// Setup button
-				UIView.Animate(0.5, 0.2, UIViewAnimationOptions.CurveEaseIn, () =>{
-					recordButton.Layer.CornerRadius = 4;
-					},() =>{ });
-
+				UpdateRecordButton(false);
 			}
 			else
 			{
-				UIView.Animate(0.5, 0.2, UIViewAnimationOptions.CurveEaseIn, () =>{
-					recordButton.Layer.CornerRadius = recordButton.Frame.Width / 2;
-				},() =>{ });
+				UpdateRecordButton(true);
 
 				// Add ending waypoint
 				var annotation = new MKPointAnnotation();
@@ -180,6 +175,30 @@ namespace MyTrips.iOS
 			}
 
 			ViewModel.Recording = !ViewModel.Recording;
+		}
+
+		void UpdateRecordButton(bool isRecording)
+		{
+			//Corner Radius
+			var radiusAnimation = CABasicAnimation.FromKeyPath("cornerRadius");
+			radiusAnimation.TimingFunction = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseIn);
+			radiusAnimation.From = NSNumber.FromNFloat(recordButton.Layer.CornerRadius);
+
+			//Border Thickness
+			var borderAnimation = CABasicAnimation.FromKeyPath("borderWidth");
+			borderAnimation.TimingFunction = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseIn);
+			radiusAnimation.From = NSNumber.FromNFloat(recordButton.Layer.BorderWidth);
+
+			//Animation Group
+			var animationGroup = CAAnimationGroup.CreateAnimation();
+			animationGroup.Animations = new CAAnimation[] { radiusAnimation, borderAnimation };
+			animationGroup.Duration = 0.6;
+			animationGroup.FillMode = CAFillMode.Forwards;
+
+			recordButton.Layer.CornerRadius = isRecording ? 4 : recordButton.Frame.Width / 2;
+			recordButton.Layer.BorderWidth = isRecording ? 2 : 3;
+
+			recordButton.Layer.AddAnimation(animationGroup, "borderChanges");
 		}
 
 		void UpdateCarAnnotationPosition(CLLocationCoordinate2D coordinate)
