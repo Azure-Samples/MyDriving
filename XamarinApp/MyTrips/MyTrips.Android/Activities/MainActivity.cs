@@ -68,13 +68,13 @@ namespace MyTrips.Droid
 
         void InitializeHockeyApp()
         {
-            if (string.IsNullOrWhiteSpace(Logger.HockeyAppKey))
+            if (string.IsNullOrWhiteSpace(Logger.HockeyAppKeyAndroid))
                 return;
             // Register the crash manager before Initializing the trace writer
-            HockeyApp.CrashManager.Register (this, Logger.HockeyAppKey); 
+            HockeyApp.CrashManager.Register (this, Logger.HockeyAppKeyAndroid); 
 
             //Register to with the Update Manager
-            HockeyApp.UpdateManager.Register (this, Logger.HockeyAppKey);
+            HockeyApp.UpdateManager.Register (this, Logger.HockeyAppKeyAndroid);
 
             // Initialize the Trace Writer
             HockeyApp.TraceWriter.Initialize ();

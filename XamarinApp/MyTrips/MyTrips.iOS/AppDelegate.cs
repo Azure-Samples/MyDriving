@@ -24,7 +24,7 @@ namespace MyTrips.iOS
 
 			ServiceLocator.Instance.Add<IAuthentication, Authentication>();
 
-			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppKey))
+			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppKeyiOS))
 			{
 				Setup.EnableCustomCrashReporting(() =>
 					{
@@ -33,7 +33,7 @@ namespace MyTrips.iOS
 						var manager = BITHockeyManager.SharedHockeyManager;
 
 						//Configure it to use our APP_ID
-						manager.Configure(Logger.HockeyAppKey);
+						manager.Configure(Logger.HockeyAppKeyiOS);
 
 						//Start the manager
 						manager.StartManager();
@@ -58,12 +58,11 @@ namespace MyTrips.iOS
 	[Register("TripApplication")]
 	public class TripApplication : UIApplication
 	{
-		// TODO: Leave feedback on shake.
 		public override void MotionBegan(UIEventSubtype motion, UIEvent evt)
 		{
 			if (motion == UIEventSubtype.MotionShake)
 			{
-				
+                BITHockeyManager.SharedHockeyManager.FeedbackManager.ShowFeedbackComposeViewWithGeneratedScreenshot();
 			}
 		}
 	}
