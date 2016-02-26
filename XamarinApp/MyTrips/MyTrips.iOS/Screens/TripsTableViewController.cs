@@ -58,6 +58,7 @@ namespace MyTrips.iOS
             cell.LocationName = trip.TripId;
             cell.TimeAgo = trip.TimeAgo;
 			cell.Distance = trip.TotalDistance;
+			cell.SelectedBackgroundView = new UIView(cell.Frame) { BackgroundColor = cell.BackgroundColor.Lighten(2) };
 
 			return cell;
 		}
