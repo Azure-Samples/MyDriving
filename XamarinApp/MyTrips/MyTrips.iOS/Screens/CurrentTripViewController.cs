@@ -15,7 +15,7 @@ namespace MyTrips.iOS
 	{
 		List<CLLocationCoordinate2D> route;
 		CarAnnotation currentLocationAnnotation;
-		MapViewDelegate mapDelegate;
+		TripMapViewDelegate mapDelegate;
 
 		CurrentTripViewModel ViewModel { get; set; }
 
@@ -32,7 +32,7 @@ namespace MyTrips.iOS
 			ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
 
 			// Configure MKMapView
-			mapDelegate = new MapViewDelegate();
+			mapDelegate = new TripMapViewDelegate();
 			tripMapView.Delegate = mapDelegate;
 
 			var currentLocation = await ViewModel.Geolocator.GetPositionAsync();

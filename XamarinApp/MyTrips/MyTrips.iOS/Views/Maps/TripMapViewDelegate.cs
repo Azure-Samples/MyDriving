@@ -6,7 +6,7 @@ using MapKit;
 
 namespace MyTrips.iOS
 {
-	public class MapViewDelegate : MKMapViewDelegate
+	public class TripMapViewDelegate : MKMapViewDelegate
 	{
 		static string CAR_ANNOTATION = "CAR_ANNOTATION";
 		static string WAYPOINT_ANNOTATION = "WAYPOINT_ANNOTATION";

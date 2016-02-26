@@ -272,17 +272,17 @@
       <DependentUpon>TripTableViewCell.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\WayPointCircle.cs" />
-    <Compile Include="Views\MapViewDelegate.cs" />
     <Compile Include="Helpers\Images.cs" />
-    <Compile Include="Views\BaseCustomAnnotation.cs" />
-    <Compile Include="Views\TripMapView.cs" />
-    <Compile Include="Views\TripMapView.designer.cs">
+    <Compile Include="Helpers\Authentication.cs" />
+    <Compile Include="Views\Annotations\BaseCustomAnnotation.cs" />
+    <Compile Include="Views\Annotations\PhotoAnnotation.cs" />
+    <Compile Include="Views\Annotations\WaypointAnnotation.cs" />
+    <Compile Include="Views\Annotations\CarAnnotation.cs" />
+    <Compile Include="Views\Maps\MapViewDelegate.cs" />
+    <Compile Include="Views\Maps\TripMapView.cs" />
+    <Compile Include="Views\Maps\TripMapView.designer.cs">
       <DependentUpon>TripMapView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\CarAnnotation.cs" />
-    <Compile Include="Views\WaypointAnnotation.cs" />
-    <Compile Include="Views\PhotoAnnotation.cs" />
-    <Compile Include="Helpers\Authentication.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -304,5 +304,9 @@
       <Version>3.8.5.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Annotations\" />
+    <Folder Include="Views\Maps\" />
   </ItemGroup>
 </Project>
