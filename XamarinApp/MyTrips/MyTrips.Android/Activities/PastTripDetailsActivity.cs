@@ -1,15 +1,9 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
-using Android.Widget;
 using Android.Content.PM;
 using Android.Graphics;
 using Android.Support.V4.Content;
@@ -35,7 +29,7 @@ namespace MyTrips.Droid.Activities
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            if ((int)global::Android.OS.Build.VERSION.SdkInt >= 21)
+            if ((int)Build.VERSION.SdkInt >= 21)
             {
                 Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.primary_dark)));
                 Window.DecorView.SystemUiVisibility = StatusBarVisibility.Visible;

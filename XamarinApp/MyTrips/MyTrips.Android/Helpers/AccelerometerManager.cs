@@ -6,9 +6,13 @@ using Math = System.Math;
 
 namespace MyTrips.Droid.Helpers
 {
+    public interface IAccelerometerListener
+    {
+        void OnAccelerationChanged(float x, float y, float z);
+        void OnShake(float force);
+    }
     public class AccelerometerManager
     {
-
         Sensor sensor;
         readonly SensorManager sensorManager;
 
@@ -18,7 +22,7 @@ namespace MyTrips.Droid.Helpers
         public AccelerometerManager(Context context, IAccelerometerListener listener)
         {
             eventListener = new ShakeSensorEventListener(listener);
-            sensorManager = (SensorManager) context.GetSystemService(Context.SensorService);
+            sensorManager = (SensorManager)context.GetSystemService(Context.SensorService);
             IsSupported = sensorManager.GetSensorList(SensorType.Accelerometer).Count > 0;
         }
 
@@ -60,15 +64,15 @@ namespace MyTrips.Droid.Helpers
         }
 
 
-        private class ShakeSensorEventListener : Object, ISensorEventListener
+        class ShakeSensorEventListener : Object, ISensorEventListener
         {
-            private long now, timeDiff, lastUpdate, lastShake = 0;
-            private float x, y, z, lastX, lastY, lastZ, force = 0;
-            private IAccelerometerListener listener;
+            long now, timeDiff, lastUpdate, lastShake = 0;
+            float x, y, z, lastX, lastY, lastZ, force = 0;
+            IAccelerometerListener listener;
 
             //Accuracy Configuration
             public float Threshold { get; set; }
-            public int Interval {get; set;}
+            public int Interval { get; set; }
 
 
             public ShakeSensorEventListener(IAccelerometerListener listener)
@@ -109,7 +113,7 @@ namespace MyTrips.Droid.Helpers
                         force = Math.Abs(x + y + z - lastX - lastY - lastZ);
                         if (Float.Compare(force, Threshold) > 0)
                         {
-                            if(now - lastShake >= Interval)
+                            if (now - lastShake >= Interval)
                                 listener.OnShake(force);
 
                             lastShake = now;
@@ -123,7 +127,7 @@ namespace MyTrips.Droid.Helpers
                 }
                 finally
                 {
-                    listener.OnAccelerationChanged(x,y,z);
+                    listener.OnAccelerationChanged(x, y, z);
                 }
             }
         }

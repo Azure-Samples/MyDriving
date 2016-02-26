@@ -12,58 +12,46 @@ using HockeyApp;
 
 namespace MyTrips.iOS
 {
-	[Register("AppDelegate")]
-	public class AppDelegate : UIApplicationDelegate
-	{
-		public override UIWindow Window { get; set; }
+    [Register("AppDelegate")]
+    public class AppDelegate : UIApplicationDelegate
+    {
+        public override UIWindow Window { get; set; }
 
-		public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
-		{
-			ThemeManager.ApplyTheme();
-			ViewModel.ViewModelBase.Init();
+        public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
+        {
+            ThemeManager.ApplyTheme();
+            ViewModel.ViewModelBase.Init();
 
-			ServiceLocator.Instance.Add<IAuthentication, Authentication>();
+            ServiceLocator.Instance.Add<IAuthentication, Authentication>();
 
-			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppKeyiOS))
-			{
-				Setup.EnableCustomCrashReporting(() =>
-					{
+            if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
+            {
+                Setup.EnableCustomCrashReporting(() =>
+                    {
+                        var manager = BITHockeyManager.SharedHockeyManager;
+                        manager.Configure(Logger.HockeyAppiOS);
+                        manager.StartManager();
+                        manager.Authenticator.AuthenticateInstallation();
+                        AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+                            Setup.ThrowExceptionAsNative(e.ExceptionObject);
+                        TaskScheduler.UnobservedTaskException += (sender, e) =>
+                            Setup.ThrowExceptionAsNative(e.Exception);
+                    });
+            }
 
-						//Get the shared instance
-						var manager = BITHockeyManager.SharedHockeyManager;
+            return true;
+        }
+    }
 
-						//Configure it to use our APP_ID
-						manager.Configure(Logger.HockeyAppKeyiOS);
-
-						//Start the manager
-						manager.StartManager();
-
-						//Authenticate (there are other authentication options)
-						manager.Authenticator.AuthenticateInstallation();
-
-						//Rethrow any unhandled .NET exceptions as native iOS 
-						// exceptions so the stack traces appear nicely in HockeyApp
-						AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
-							Setup.ThrowExceptionAsNative(e.ExceptionObject);
-
-						TaskScheduler.UnobservedTaskException += (sender, e) =>
-							Setup.ThrowExceptionAsNative(e.Exception);
-					});
-			}
-
-			return true;
-		}
-	}
-
-	[Register("TripApplication")]
-	public class TripApplication : UIApplication
-	{
-		public override void MotionBegan(UIEventSubtype motion, UIEvent evt)
-		{
-			if (motion == UIEventSubtype.MotionShake)
-			{
+    [Register("TripApplication")]
+    public class TripApplication : UIApplication
+    {
+        public override void MotionBegan(UIEventSubtype motion, UIEvent evt)
+        {
+            if (motion == UIEventSubtype.MotionShake)
+            {
                 BITHockeyManager.SharedHockeyManager.FeedbackManager.ShowFeedbackComposeViewWithGeneratedScreenshot();
-			}
-		}
-	}
+            }
+        }
+    }
 }

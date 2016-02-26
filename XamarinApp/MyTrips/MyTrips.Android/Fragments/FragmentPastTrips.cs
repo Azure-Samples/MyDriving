@@ -14,18 +14,8 @@ namespace MyTrips.Droid.Fragments
 {
     public class FragmentPastTrips : Fragment
     {
-        public override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
 
-            // Create your fragment here
-        }
-
-        public static FragmentPastTrips NewInstance()
-        {
-            var frag1 = new FragmentPastTrips { Arguments = new Bundle() };
-            return frag1;
-        }
+        public static FragmentPastTrips NewInstance() => new FragmentPastTrips { Arguments = new Bundle() };
 
         RecyclerView recyclerView;
         SwipeRefreshLayout refresher;
@@ -42,8 +32,7 @@ namespace MyTrips.Droid.Fragments
             recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             refresher = view.FindViewById<SwipeRefreshLayout>(Resource.Id.refresher);
 
-            refresher.Refresh += (sender, e) => 
-                viewModel.LoadPastTripsCommand.Execute(null);
+            refresher.Refresh += (sender, e) => viewModel.LoadPastTripsCommand.Execute(null);
 
             adapter = new TripAdapter(viewModel);
             adapter.ItemClick += OnItemClick;

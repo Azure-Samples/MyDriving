@@ -15,15 +15,10 @@ namespace MyTrips.Droid.Fragments
 {
     public class FragmentCurrentTrip : Fragment, IOnMapReadyCallback  
     {
-        TextView latText;
-        TextView longText;
-        TextView altText;
+        TextView latText, longText, altText;
 
-        public static FragmentCurrentTrip NewInstance()
-        {
-            var frag1 = new FragmentCurrentTrip { Arguments = new Bundle() };
-            return frag1;
-        }
+        public static FragmentCurrentTrip NewInstance() => new FragmentCurrentTrip { Arguments = new Bundle() };;
+
 
         CurrentTripViewModel viewModel;
         GoogleMap map;
