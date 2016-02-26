@@ -28,99 +28,91 @@ namespace MyTrips.iOS
 		{
 			base.ViewDidLoad();
 
+			// Setup view model
 			ViewModel = new CurrentTripViewModel ();
 			ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
+			await ViewModel.ExecuteStartTrackingTripCommandAsync();
 
 			// Configure MKMapView
 			mapDelegate = new TripMapViewDelegate();
 			tripMapView.Delegate = mapDelegate;
-
-			var currentLocation = await ViewModel.Geolocator.GetPositionAsync();
-			var currentCoordinate = new CLLocationCoordinate2D(currentLocation.Latitude, currentLocation.Longitude);
-			tripMapView.Camera.CenterCoordinate = currentCoordinate;
-
 			tripMapView.ShowsUserLocation = false;
 			tripMapView.Camera.Altitude = 5000;
 
-			// TODO: Configure this to update if driving, but not recording.
-			currentLocationAnnotation = new CarAnnotation(currentCoordinate);
-			tripMapView.AddAnnotations(currentLocationAnnotation);
-
+			// Setup button
 			recordButton.TouchUpInside += RecordButton_TouchUpInside;
-
-			// TODO: Figure out a better way to do this - the collection will contain points that 
-			// aren't part of trip - but setup for Geolocator needs to be here to update annotations
-			// in the event that they haven't started a trip yet, but are driving
-			await ViewModel.ExecuteStartTrackingTripCommandAsync();
 		}
 
 		void Geolocator_PositionChanged(object sender, Plugin.Geolocator.Abstractions.PositionEventArgs e)
 		{
-			var position = e.Position;
-			var coordinate = new CLLocationCoordinate2D(position.Latitude, position.Longitude);
-
+			var coordinate = e.Position.ToCoordinate();
 			UpdateCarAnnotationPosition (coordinate);
 
 			if (ViewModel.Recording)
 			{
-				// Means we haven't starting tracking route yet.
+				// If we already haven't starting tracking route yet, start that.
 				if (route == null)
-				{
-					route = new List<CLLocationCoordinate2D>();
-
-					var count = ViewModel.CurrentTrip.Trail.Count;
-					if (count == 0)
-					{
-						//TODO write an extension for this
-						var firstCoordinate = coordinate;
-						route.Add(firstCoordinate);
-					}
-					else
-					{
-						var firstPoint = ViewModel.CurrentTrip.Trail?[0];
-						var firstCoordinate = new CLLocationCoordinate2D(firstPoint.Latitude, firstPoint.Longitude);
-						route.Add(firstCoordinate);
-					}
-				}
+					StartTrackingRoute(coordinate);
+				// Draw from last known coordinate to new coordinate.
+				else
+					DrawNewRouteWaypoint(coordinate);
 			}
+		}
 
-			// If recording, draw routes
-			if (ViewModel.Recording)
-			{
-				route.Add(coordinate);
+		void DrawNewRouteWaypoint(CLLocationCoordinate2D coordinate)
+		{
+			route.Add(coordinate);
 
-				// Draw updated route
-				var newMKPolylineCooordinates = new CLLocationCoordinate2D[] {
+			// Draw updated route
+			var newMKPolylineCooordinates = new CLLocationCoordinate2D[] {
 					route[route.Count-1],
 					route[route.Count-2]
 				};
 
-				tripMapView.DrawRoute(newMKPolylineCooordinates);
+			tripMapView.DrawRoute(newMKPolylineCooordinates);
+		}
+
+		void StartTrackingRoute(CLLocationCoordinate2D coordinate)
+		{
+			route = new List<CLLocationCoordinate2D>();
+
+			var count = ViewModel.CurrentTrip.Trail.Count;
+			if (count == 0)
+			{
+				route.Add(coordinate);
+			}
+			else
+			{
+				var firstPoint = ViewModel.CurrentTrip.Trail?[0];
+				var firstCoordinate = new CLLocationCoordinate2D(firstPoint.Latitude, firstPoint.Longitude);
+				route.Add(firstCoordinate);
 			}
 		}
 
 		async void RecordButton_TouchUpInside(object sender, EventArgs e)
 		{
-			// Not recording yet
+			var position = await ViewModel.Geolocator.GetPositionAsync();
+			var coordinate = position.ToCoordinate();
+
 			if (!ViewModel.Recording)
 			{
-				// TODO: Temp workaround to comment above
-				ViewModel.CurrentTrip.Trail.Clear();
-
-				// Start recording
-				await ViewModel.ExecuteStartTrackingTripCommandAsync();
-
-				// Change button text
 				recordButton.SetTitle("Stop", UIControlState.Normal);
+
+				// Add starting waypoint
+				var annotation = new MKPointAnnotation();
+				annotation.SetCoordinate (coordinate);
+				annotation.Title = "A";
+				tripMapView.AddAnnotation(annotation);
 			}
-			// Recording
 			else
 			{
-				// Stop recording
-				// await ViewModel.ExecuteStopTrackingTripCommandAsync();
-
-				// Change button text
 				recordButton.SetTitle("Start", UIControlState.Normal);
+
+				// Add ending waypoint
+				var annotation = new MKPointAnnotation();
+				annotation.SetCoordinate (coordinate);
+				annotation.Title = "B";
+				tripMapView.AddAnnotation(annotation);
 			}
 
 			ViewModel.Recording = !ViewModel.Recording;
@@ -128,10 +120,13 @@ namespace MyTrips.iOS
 
 		void UpdateCarAnnotationPosition(CLLocationCoordinate2D coordinate)
 		{
-			tripMapView.RemoveAnnotation(currentLocationAnnotation);
+			if (currentLocationAnnotation != null)
+			{
+				tripMapView.RemoveAnnotation(currentLocationAnnotation);
+			}
+
 			currentLocationAnnotation = new CarAnnotation(coordinate);
 			tripMapView.AddAnnotation(currentLocationAnnotation);
-
 			tripMapView.Camera.CenterCoordinate = coordinate;
 		}
 	}

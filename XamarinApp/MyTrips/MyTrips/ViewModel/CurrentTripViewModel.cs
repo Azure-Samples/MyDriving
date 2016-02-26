@@ -56,20 +56,8 @@ namespace MyTrips.ViewModel
 					Geolocator.AllowsBackgroundUpdates = true;
 					Geolocator.DesiredAccuracy = 25;
 
-
                     Geolocator.PositionChanged += Geolocator_PositionChanged;
                     await Geolocator.StartListeningAsync(1, 1);
-
-                    var startingPostion = await Geolocator.GetPositionAsync (timeoutMilliseconds: 2500);
-                    var trail = new Trail
-                    {
-                            TimeStamp = DateTime.UtcNow,
-                            Latitude = startingPostion.Latitude,
-                            Longitude = startingPostion.Longitude,
-                            
-                    };
-					
-                    CurrentTrip.Trail.Add(trail);
 				}
 				else
 				{
@@ -121,17 +109,21 @@ namespace MyTrips.ViewModel
 
 		void Geolocator_PositionChanged(object sender, PositionEventArgs e)
         {
-            var userLocation = e.Position;
+			// Only update the route if we are meant to be recording coordinates
+			if (Recording)
+			{
+				var userLocation = e.Position;
 
-            var trail = new Trail
-                {
-                    TimeStamp = DateTime.UtcNow,
-                    Latitude = userLocation.Latitude,
-                    Longitude = userLocation.Longitude,
-                };
-			
+				var trail = new Trail
+				{
+					TimeStamp = DateTime.UtcNow,
+					Latitude = userLocation.Latitude,
+					Longitude = userLocation.Longitude,
+				};
 
-            CurrentTrip.Trail.Add (trail);
+
+				CurrentTrip.Trail.Add (trail);
+			}
 		}
 
         ICommand  takePhotoCommand;

@@ -3,8 +3,11 @@ using System.Linq;
 
 using CoreAnimation;
 using CoreGraphics;
+using CoreLocation;
 using Foundation;
 using UIKit;
+
+using Plugin.Geolocator.Abstractions;
 
 namespace MyTrips.iOS
 {
@@ -323,6 +326,13 @@ namespace MyTrips.iOS
 			return UIColor.FromRGBA(r, g, b, a);
 		}
 
+		#endregion
+
+		#region Coordinates
+		public static CLLocationCoordinate2D ToCoordinate(this Position position)
+		{
+			return new CLLocationCoordinate2D(position.Latitude, position.Longitude);
+		}
 		#endregion
 	}
 }

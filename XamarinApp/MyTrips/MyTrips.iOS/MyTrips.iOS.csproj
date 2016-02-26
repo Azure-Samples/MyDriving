@@ -298,7 +298,7 @@
     <BundleResource Include="Resources\login_facebook.png" />
     <BundleResource Include="Resources\login_microsoft.png" />
     <BundleResource Include="Resources\login_twitter.png" />
-    <BundleResource Include="Resources\car_annotation.jpeg" />
+    <BundleResource Include="Resources\car_annotation.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">
