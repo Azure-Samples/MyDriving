@@ -278,11 +278,12 @@
     <Compile Include="Views\Annotations\PhotoAnnotation.cs" />
     <Compile Include="Views\Annotations\WaypointAnnotation.cs" />
     <Compile Include="Views\Annotations\CarAnnotation.cs" />
-    <Compile Include="Views\Maps\MapViewDelegate.cs" />
+    <Compile Include="Views\Maps\TripMapViewDelegate.cs" />
     <Compile Include="Views\Maps\TripMapView.cs" />
     <Compile Include="Views\Maps\TripMapView.designer.cs">
       <DependentUpon>TripMapView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Colors.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
