@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.preference.PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android"
+		 android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <android.support.v7.preference.PreferenceCategory
+            android:title="Settings">
+
+        <android.support.v7.preference.CheckBoxPreference
+                android:key="checkbox_preference"
+                android:title="Title"
+                android:summary="Summary" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+    <android.support.v7.preference.PreferenceCategory
+            android:title="Dialogo Based">
+
+        <android.support.v7.preference.EditTextPreference
+                android:key="edittext_preference"
+                android:title="Title"
+                android:summary="Summary"
+                android:dialogTitle="Dialog Title" />
+		
+       <android.support.v7.preference.EditTextPreference
+                android:key="edittext_preference2"
+                android:title="Title"
+                android:summary="Summary"
+                android:dialogTitle="Dialog Title" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+    <android.support.v7.preference.PreferenceCategory
+            android:title="Launch Preferences">
+
+        <!-- This PreferenceScreen tag serves as a screen break (similar to page break
+             in word processing). Like for other preference types, we assign a key
+             here so it is able to save and restore its instance state. -->
+        <android.support.v7.preference.PreferenceScreen
+                android:key="screen_preference"
+                android:title="Title Screen Preference"
+                android:summary="Summary">
+
+            <!-- You can place more preferences here that will be shown on the next screen. -->
+
+            <android.support.v7.preference.CheckBoxPreference
+                    android:key="next_screen_checkbox_preference"
+                    android:title="Title"
+                    android:summary="Summary" />
+
+        </android.support.v7.preference.PreferenceScreen>
+
+        <android.support.v7.preference.PreferenceScreen
+                android:title="Title"
+                android:summary="Summary">
+
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://www.microsoft.com.com" />
+
+        </android.support.v7.preference.PreferenceScreen>
+
+    </android.support.v7.preference.PreferenceCategory>
+
+    <android.support.v7.preference.PreferenceCategory
+            android:title="Attributes">
+
+        <android.support.v7.preference.CheckBoxPreference
+                android:key="parent_checkbox_preference"
+                android:title="Title"
+                android:summary="Summary" />
+
+        <!-- The visual style of a child is defined by this styled theme attribute. -->
+        <android.support.v7.preference.CheckBoxPreference
+                android:key="child_checkbox_preference"
+                android:dependency="parent_checkbox_preference"
+                android:layout="?android:attr/preferenceLayoutChild"
+                android:title="Title"
+                android:summary="Summary" />
+
+    </android.support.v7.preference.PreferenceCategory>
+
+</android.support.v7.preference.PreferenceScreen>

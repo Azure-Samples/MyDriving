@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTrips.Utils", "MyTrips\My
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTrips.Analysis", "MyTrips\MyTrips.Analysis\MyTrips.Analysis.csproj", "{DECDBFA1-1EFB-4BE6-B042-A47E0B013FF6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObdLibUWP", "..\OBDLibrary\ObdLibUWP\ObdLibUWP.csproj", "{812692D4-C638-4FD1-AEA7-407824B134A6}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MyTrips\MyTrips.DataObjects\MyTrips.DataObjects.projitems*{bd4403c0-6cd5-4030-b1a3-7ad98b9b80ca}*SharedItemsImports = 13
@@ -503,6 +505,48 @@ Global
 		{DECDBFA1-1EFB-4BE6-B042-A47E0B013FF6}.Release|x64.Build.0 = Release|iPhoneSimulator
 		{DECDBFA1-1EFB-4BE6-B042-A47E0B013FF6}.Release|x86.ActiveCfg = Release|iPhoneSimulator
 		{DECDBFA1-1EFB-4BE6-B042-A47E0B013FF6}.Release|x86.Build.0 = Release|iPhoneSimulator
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|Any CPU.Build.0 = Release|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|ARM.ActiveCfg = Release|ARM
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|ARM.Build.0 = Release|ARM
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|iPhoneSimulator.Build.0 = Release|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|Mixed Platforms.ActiveCfg = Release|x86
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|Mixed Platforms.Build.0 = Release|x86
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|x64.ActiveCfg = Release|x64
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|x64.Build.0 = Release|x64
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|x86.ActiveCfg = Release|x86
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.AppStore|x86.Build.0 = Release|x86
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|ARM.ActiveCfg = Debug|ARM
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|ARM.Build.0 = Debug|ARM
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|x64.ActiveCfg = Debug|x64
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|x64.Build.0 = Debug|x64
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|x86.ActiveCfg = Debug|x86
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Debug|x86.Build.0 = Debug|x86
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|ARM.ActiveCfg = Release|ARM
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|ARM.Build.0 = Release|ARM
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|iPhone.Build.0 = Release|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|Mixed Platforms.Build.0 = Release|x86
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|x64.ActiveCfg = Release|x64
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|x64.Build.0 = Release|x64
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|x86.ActiveCfg = Release|x86
+		{812692D4-C638-4FD1-AEA7-407824B134A6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

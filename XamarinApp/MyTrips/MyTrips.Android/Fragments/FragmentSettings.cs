@@ -1,20 +1,17 @@
 using Android.OS;
-using Android.Support.V4.App;
-using Android.Views;
+using Android.Support.V7.Preferences;
 
 
 namespace MyTrips.Droid.Fragments
 {
-    public class FragmentSettings : Fragment
+    public class FragmentSettings : PreferenceFragmentCompat
     {
      
         public static FragmentSettings NewInstance() => new FragmentSettings { Arguments = new Bundle() };
 
-
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override void OnCreatePreferences(Bundle p0, string p1)
         {
-            base.OnCreateView(inflater, container, savedInstanceState);
-            return inflater.Inflate(Resource.Layout.fragment_settings, null);
+            AddPreferencesFromResource(Resource.Xml.preferences);
         }
     }
 }

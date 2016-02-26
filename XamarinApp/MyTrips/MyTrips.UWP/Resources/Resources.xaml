@@ -1,0 +1,11 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyTrips.UWP">
+
+
+    <BitmapImage x:Key="FacebookLogo" UriSource="ms-appx:///Assets/Login/FBLogo.png"/>
+    <BitmapImage x:Key="TwitterLogo" UriSource="ms-appx:///Assets/Login/TwitterLogo.png"/>
+    <BitmapImage x:Key="MicrosoftLogo" UriSource="ms-appx:///Assets/Login/MSLogo.jpg"/>
+    
+</ResourceDictionary>
