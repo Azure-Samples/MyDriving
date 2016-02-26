@@ -43,6 +43,7 @@ namespace MyTrips.iOS
 				tripMapView.Camera.Altitude = 5000;
 
 				// Setup button
+				recordButton.Hidden = true;
 				recordButton.Layer.CornerRadius = recordButton.Frame.Width / 2;
 				recordButton.Layer.MasksToBounds = true;
 				recordButton.Layer.BorderColor = UIColor.White.CGColor;
@@ -85,6 +86,16 @@ namespace MyTrips.iOS
 				recordButton.Hidden = true;
 				waypointA.Hidden = false;
 				waypointB.Hidden = false;
+			}
+		}
+
+		public override void ViewDidAppear(bool animated)
+		{
+			base.ViewDidAppear(animated);
+
+			if (recordButton.Hidden)
+			{
+				recordButton.Pop(0.5, 0, 1);
 			}
 		}
 

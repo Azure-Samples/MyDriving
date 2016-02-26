@@ -68,9 +68,10 @@ namespace MyTrips.iOS
 			view.Layer.AddAnimation(animation, "shake");
 		}
 
-		public static void Pop(this UIView view, double duration, int repeatCount, float force)
+		public static void Pop(this UIView view, double duration, int repeatCount, float force, double delay = 0)
 		{
 			CAKeyFrameAnimation animation = CAKeyFrameAnimation.FromKeyPath("transform.scale");
+			animation.BeginTime = CAAnimation.CurrentMediaTime() + delay;
 			animation.TimingFunction = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseInEaseOut);
 			animation.KeyTimes = new NSNumber[]
 			{
@@ -92,7 +93,8 @@ namespace MyTrips.iOS
 				            NSNumber.FromFloat(0.2f * force),
 				            NSNumber.FromFloat(0)
 			};
-
+			if (view.Hidden == true)
+				view.Hidden = false;
 			view.Layer.AddAnimation(animation, "pop");
 		}
 
