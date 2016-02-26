@@ -93,7 +93,7 @@ namespace MyTrips.iOS
 		{
 			base.ViewDidAppear(animated);
 
-			if (recordButton.Hidden)
+			if (recordButton.Hidden == true && PastTripsDetailViewModel == null)
 			{
 				recordButton.Pop(0.5, 0, 1);
 			}
