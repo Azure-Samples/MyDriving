@@ -194,6 +194,8 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="Activities\PastTripDetailsActivity.cs" />
+    <Compile Include="Helpers\AccelerometerManager.cs" />
+    <Compile Include="Helpers\IAccelerometerListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
