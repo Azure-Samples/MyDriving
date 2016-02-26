@@ -49,7 +49,7 @@ namespace MyTrips.iOS
             cell.LocationName = trip.TripId;
 
             cell.TimeAgo = trip.TimeAgo;
-            cell.Distance = $"{trip.TotalDistance} miles";
+			cell.Distance = trip.TotalDistance;
 
 			return cell;
 		}
