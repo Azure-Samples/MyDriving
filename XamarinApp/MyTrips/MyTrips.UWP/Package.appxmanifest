@@ -26,5 +26,6 @@
     <Capability Name="internetClient" />
     <DeviceCapability Name="location" />
     <DeviceCapability Name="webcam" />
+    <DeviceCapability Name="bluetooth" />
   </Capabilities>
 </Package>
