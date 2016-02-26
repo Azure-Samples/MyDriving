@@ -97,6 +97,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Authentication.cs" />
+    <Compile Include="Views\PastTripMapView.xaml.cs">
+      <DependentUpon>PastTripMapView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RecommendedRoutes.xaml.cs">
       <DependentUpon>RecommendedRoutes.xaml</DependentUpon>
     </Compile>
@@ -138,6 +141,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\PastTripMapView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\RecommendedRoutes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
