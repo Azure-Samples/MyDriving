@@ -9,6 +9,7 @@
         <Setter Property="Margin" Value="0,15,0,0"/>
         <Setter Property="Height" Value="40"/>
         <Setter Property="MaxWidth" Value="300"/>
+        <!-- For rounded corners  -->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -18,7 +19,9 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
+       
     </Style>
-    
+
+  
+
 </ResourceDictionary>
