@@ -17,7 +17,7 @@ namespace MyTrips.Droid.Fragments
     {
         TextView latText, longText, altText;
 
-        public static FragmentCurrentTrip NewInstance() => new FragmentCurrentTrip { Arguments = new Bundle() };;
+        public static FragmentCurrentTrip NewInstance() => new FragmentCurrentTrip { Arguments = new Bundle() };
 
 
         CurrentTripViewModel viewModel;
