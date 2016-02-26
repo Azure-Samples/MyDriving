@@ -21,6 +21,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Windows.UI;
 using Windows.UI.Core;
+using MyTrips.Utils;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -94,8 +95,23 @@ namespace MyTrips.UWP.Views
 
         private async void FaceBookButtonLogin_Click(object sender, RoutedEventArgs e)
         {
+            Login(LoginAccount.Facebook);
+        }
+
+        private async void  TwitterButtonLogin_Click(object sender, RoutedEventArgs e)
+        {
+            Login(LoginAccount.Twitter);    
+        }
+
+        private async void MicrosoftButtonLogin_Click(object sender, RoutedEventArgs e)
+        {
+            Login(LoginAccount.Microsoft);
+        }
+
+        private async void Login(LoginAccount provider)
+        {
             // Login the user and then load data from the mobile app.
-            if (await AuthenticateWFacebookAsync())
+            if (await AuthenticateAsync(provider))
             {
                 LoginButtons.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 this.ShowSuccessfulLogin();
@@ -125,45 +141,37 @@ namespace MyTrips.UWP.Views
         // Define a member variable for storing the signed-in user. 
         private MobileServiceUser user;
 
-        // Define a method that performs the authentication process
-        // using a Facebook sign-in. 
-        private async System.Threading.Tasks.Task<bool> AuthenticateWFacebookAsync()
+        //Temp code to use for login until we're properly connected to mobile server 
+        private async System.Threading.Tasks.Task<bool> AuthenticateAsync(LoginAccount provider)
         {
 
-            bool success = false;
+            bool success = true;
             try
             {
-                // Sign-in using Facebook authentication.
-                user = await App.MobileService
-                    .LoginAsync(MobileServiceAuthenticationProvider.Facebook);
-
-                success = true;
+                switch(provider)
+                {
+                    case LoginAccount.Facebook:
+                        user = await App.MobileService
+                   .LoginAsync(MobileServiceAuthenticationProvider.Facebook);
+                        break;
+                   case LoginAccount.Twitter:
+                        user = await App.MobileService
+                   .LoginAsync(MobileServiceAuthenticationProvider.Twitter);
+                        break;
+                    case LoginAccount.Microsoft:
+                        user = await App.MobileService
+                   .LoginAsync(MobileServiceAuthenticationProvider.MicrosoftAccount);
+                        break;
+                    default: success = false;
+                        break;
+                }
             }
             catch (InvalidOperationException)
             {
-
+                success = false;
             }
             return success;
         }
-
-        //public async Task<string> GetFacebookUserDataAsync()
-        //{
-        //    HttpClient httpClient = CreateHttpClient();
-
-        //    //string url = "https://graph.facebook.com/v2.5/me?fields=first_name&access_token=" + accessToken;
-          
-
-        //    string url = App.MobileAppsUrl + "/tables";
-        //    var response = await httpClient.GetStringAsync(url);
-        //    return response;
-        //}
-
-        //private HttpClient CreateHttpClient()
-        //{
-        //    var httpClient = new HttpClient();
-        //    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        //    return httpClient;
-        //}
 
     }
 }

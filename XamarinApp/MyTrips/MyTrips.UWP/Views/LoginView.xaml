@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Name="Login" Background="{StaticResource MainBackgroundColor}" >
+    <Grid Name="LoginGrid" Background="{StaticResource MainBackgroundColor}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -17,22 +17,25 @@
         <StackPanel x:Name="LoginButtons" VerticalAlignment="Center" Grid.Row="1" Visibility="Visible" Margin="50,0,50,0">
             <Button x:Name="FaceBookButtonLogin"  Click="FaceBookButtonLogin_Click"   Style="{StaticResource LoginButtonStyle}" 
                     Background="{StaticResource FacebookLoginButtonColor}"  Height="40" MaxWidth="300">
+                <!-- To Do replace click event with  Command="{Binding LoginFacebookCommand}"  -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Source="{StaticResource FacebookLogo}" HorizontalAlignment="Left" Height="25" Width="25"/>
                     <TextBlock Text="Login with Facebook"  Margin="15,0,5,0"/>
                 </StackPanel>
             </Button>
 
-            <Button x:Name="TwitterButtonLogin" Command="{Binding LoginTwitterCommand}"  Style="{StaticResource LoginButtonStyle}"
+            <Button x:Name="TwitterButtonLogin" Style="{StaticResource LoginButtonStyle}"  Click="TwitterButtonLogin_Click"
                     Background="{StaticResource TwitterLoginButtonColor}"  >
+                <!-- To Do replace click event with  Command="{Binding LoginMicrosoftCommand}"  -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Image Source="{StaticResource TwitterLogo}" HorizontalAlignment="Left" Height="25" Width="25"/>
                 <TextBlock Text="Login with Twitter"  Margin="15,0,5,0"/>
                 </StackPanel>           
             </Button>
 
-            <Button x:Name="MSAButtonLogin" Command="{Binding LoginMicrosoftCommand}"    Style="{StaticResource LoginButtonStyle}"  
+            <Button x:Name="MSAButtonLogin"   Style="{StaticResource LoginButtonStyle}"  Click="MicrosoftButtonLogin_Click"
                     Background="{StaticResource MSALoginButtonColor}"  >
+                <!-- To Do replace click event with  Command="{Binding LoginMicrosoftCommand}"  -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Name="MSAImage"  Source="{StaticResource MicrosoftLogo}" HorizontalAlignment="Left" Height="25" Width="25"/>
                     <TextBlock Text="Login with Microsoft"  Margin="15,0,5,0"/>
