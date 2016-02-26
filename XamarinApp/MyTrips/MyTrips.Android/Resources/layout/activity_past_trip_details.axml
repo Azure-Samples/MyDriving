@@ -1,34 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <TextView
-        android:text="Waiting on location updates..."
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_width="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
-        android:id="@+id/textView1" />
-    <TextView
-        android:text="latitude"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/lat"
-        android:paddingLeft="25dp" />
-    <TextView
-        android:text="longitude"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/longx"
-        android:paddingLeft="25dp" />
-    <TextView
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/alt"
-        android:paddingLeft="25dp" />
+        android:layout_width="match_parent"
+        android:id="@+id/toolbar_layout">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            app:layout_scrollFlags="scroll|enterAlways" />
+    </android.support.design.widget.AppBarLayout>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -135,9 +119,10 @@
                 android:text="Cost" />
         </LinearLayout>
     </LinearLayout>
-    <com.google.android.gms.maps.MapView
+    <fragment
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        class="com.google.android.gms.maps.SupportMapFragment" />
 </LinearLayout>

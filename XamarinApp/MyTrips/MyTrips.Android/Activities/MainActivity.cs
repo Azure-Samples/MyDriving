@@ -115,7 +115,7 @@ namespace MyTrips.Droid
                 case Resource.Id.menu_current_trip:
                     fragment = FragmentCurrentTrip.NewInstance();
                     break;
-                case Resource.Id.menu_routes:
+                case Resource.Id.menu_profile:
                     fragment = FragmentRecommendedRoutes.NewInstance();
                     break;
                 case Resource.Id.menu_settings:

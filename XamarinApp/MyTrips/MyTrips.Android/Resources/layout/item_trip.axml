@@ -9,7 +9,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         local:cardElevation="2dp"
-        local:cardCornerRadius="2dp">
+        local:cardCornerRadius="2dp"
+        android:foreground="?android:attr/selectableItemBackground">
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
