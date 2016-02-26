@@ -5,6 +5,9 @@ using Android.Support.V7.Widget;
 using Android.Support.V4.Widget;
 using Android.Widget;
 using MyTrips.ViewModel;
+using System;
+using MyTrips.Droid.Activities;
+using Android.Content;
 
 
 namespace MyTrips.Droid.Fragments
@@ -43,6 +46,7 @@ namespace MyTrips.Droid.Fragments
                 viewModel.LoadPastTripsCommand.Execute(null);
 
             adapter = new TripAdapter(viewModel);
+            adapter.ItemClick += OnItemClick;
             layoutManager = new LinearLayoutManager(Activity);
             recyclerView.SetLayoutManager(layoutManager);
             recyclerView.SetAdapter(adapter);
@@ -74,6 +78,11 @@ namespace MyTrips.Droid.Fragments
             base.OnStop();
             viewModel.PropertyChanged -= ViewModel_PropertyChanged;
         }
+
+        void OnItemClick (object sender, int position)
+        {
+            StartActivity(new Intent(Activity, typeof(PastTripDetailsActivity)));
+        }
     }
 
 
@@ -82,16 +91,18 @@ namespace MyTrips.Droid.Fragments
         public TextView Title {get;set;}
         public TextView Subtitle {get;set;}
 
-        public TripViewHolder(View itemView) : base (itemView)
+        public TripViewHolder(View itemView, Action<int> listener) : base (itemView)
         {
             Title = itemView.FindViewById<TextView>(Resource.Id.text_title);
             Subtitle = itemView.FindViewById<TextView>(Resource.Id.text_subtitle);
+            itemView.Click += (sender, e) => listener (AdapterPosition);
         }
     }
 
     public class TripAdapter : RecyclerView.Adapter
     {
-        
+        public event EventHandler<int> ItemClick;
+
         PastTripsViewModel viewModel;
         public TripAdapter(PastTripsViewModel viewModel)
         {
@@ -100,7 +111,7 @@ namespace MyTrips.Droid.Fragments
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) =>
-            new TripViewHolder(LayoutInflater.From(parent.Context).Inflate(Resource.Layout.item_trip, parent, false));
+            new TripViewHolder(LayoutInflater.From(parent.Context).Inflate(Resource.Layout.item_trip, parent, false), OnClick);
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
@@ -115,6 +126,11 @@ namespace MyTrips.Droid.Fragments
 
         public override int ItemCount => viewModel.Trips.Count;
 
+        void OnClick (int position)
+        {
+            if (ItemClick != null)
+                ItemClick (this, position);
+        }
     }
 
 

@@ -165,7 +165,12 @@ namespace MyTrips.DataStore.Mock.Stores
             if (!initialized)
                 await InitializeStoreAsync();
 
-            return Trips.FirstOrDefault(t => t.Id == id);
+            var trip = Trips.FirstOrDefault(t => t.Id == id);
+
+            if (trip == null)
+                trip = Trips[0];
+
+            return trip;
         }
     }
 }
