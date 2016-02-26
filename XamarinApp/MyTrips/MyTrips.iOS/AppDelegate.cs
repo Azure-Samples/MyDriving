@@ -1,13 +1,14 @@
-﻿using Foundation;
+﻿using System;
+using System.Threading.Tasks;
+
+using Foundation;
 using UIKit;
+
 using MyTrips.Utils;
 using MyTrips.Interfaces;
 using MyTrips.iOS.Helpers;
-using HockeyApp;
-using System;
-using System.Threading.Tasks;
 
-using Plugin.Geolocator;
+using HockeyApp;
 
 namespace MyTrips.iOS
 {
@@ -57,9 +58,13 @@ namespace MyTrips.iOS
 	[Register("TripApplication")]
 	public class TripApplication : UIApplication
 	{
+		// TODO: Leave feedback on shake.
 		public override void MotionBegan(UIEventSubtype motion, UIEvent evt)
 		{
-			//TODO Implement shake
+			if (motion == UIEventSubtype.MotionShake)
+			{
+				
+			}
 		}
 	}
 }
