@@ -39,6 +39,8 @@ namespace MyTrips.UWP
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             ViewModel.ViewModelBase.Init();
+            // Added the AppId's provided by Thomas Dohmke. 
+            Microsoft.HockeyApp.HockeyClient.Current.Configure("5bff51e242a84d99bddbc6037071656a");
         }
 
         /// <summary>
