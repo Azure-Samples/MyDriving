@@ -14,27 +14,29 @@ namespace MyTrips.iOS
 			// Navigation Bar
 			UINavigationBar.Appearance.BarTintColor = Colors.PRIMARY_DARK;
 			UINavigationBar.Appearance.TintColor = Colors.PRIMARY;
-			UINavigationBar.Appearance.SetTitleTextAttributes (new UITextAttributes {
+			UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes
+			{
 				Font = UIFont.FromName("AvenirNext-Medium", 17),
-				TextColor = Colors.PRIMARY
+				TextColor = UIColor.White
 			});
 
 			UIBarButtonItem.Appearance.SetTitleTextAttributes (new UITextAttributes {
 				Font = UIFont.FromName("AvenirNext-Medium", 15),
-				TextColor = Colors.PRIMARY,
+				TextColor = UIColor.White,
 
 			}, UIControlState.Normal);
 
 
-			UITabBarItem.Appearance.SetTitleTextAttributes (new UITextAttributes {
+			UITabBarItem.Appearance.SetTitleTextAttributes(new UITextAttributes
+			{
 				Font = UIFont.FromName("AvenirNext", 15),
-				TextColor = Colors.PRIMARY.Lighten(5)
+				TextColor = UIColor.White,
 			}, UIControlState.Normal);
 
 
 
-			//UITabBar.Appearance.TintColor = PRIMARY;
-
+			UITabBar.Appearance.TintColor = UIColor.White;
+			UITabBar.Appearance.SelectedImageTintColor = "4571AF".ToUIColor();
 		}
 	}
 }

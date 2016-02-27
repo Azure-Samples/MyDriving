@@ -271,7 +271,6 @@
     <Compile Include="Cells\TripTableViewCell.designer.cs">
       <DependentUpon>TripTableViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\WayPointCircle.cs" />
     <Compile Include="Helpers\Images.cs" />
     <Compile Include="Helpers\Authentication.cs" />
     <Compile Include="Views\Annotations\BaseCustomAnnotation.cs" />
@@ -284,6 +283,7 @@
       <DependentUpon>TripMapView.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Colors.cs" />
+    <Compile Include="CustomControls\TripSlider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -299,6 +299,15 @@
     <BundleResource Include="Resources\login_microsoft.png" />
     <BundleResource Include="Resources\login_twitter.png" />
     <BundleResource Include="Resources\car_annotation.png" />
+    <BundleResource Include="Resources\tabbar_currenttrip.png" />
+    <BundleResource Include="Resources\tabbar_currenttrip%402x.png" />
+    <BundleResource Include="Resources\tabbar_currenttrip%403x.png" />
+    <BundleResource Include="Resources\tabbar_settings.png" />
+    <BundleResource Include="Resources\tabbar_settings%402x.png" />
+    <BundleResource Include="Resources\tabbar_settings%403x.png" />
+    <BundleResource Include="Resources\tabbar_trips.png" />
+    <BundleResource Include="Resources\tabbar_trips%402x.png" />
+    <BundleResource Include="Resources\tabbar_trips%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">
@@ -309,5 +318,6 @@
   <ItemGroup>
     <Folder Include="Views\Annotations\" />
     <Folder Include="Views\Maps\" />
+    <Folder Include="CustomControls\" />
   </ItemGroup>
 </Project>

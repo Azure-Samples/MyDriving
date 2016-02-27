@@ -31,6 +31,14 @@ namespace MyTrips.iOS
 			base.ViewDidLoad();
 			UpdateRecordButton(false);
 
+			wayPointA.Layer.CornerRadius = wayPointA.Frame.Width / 2;
+			wayPointA.Layer.BorderWidth = 2;
+			wayPointA.Layer.BorderColor = UIColor.White.CGColor;
+
+			wayPointB.Layer.CornerRadius = wayPointB.Frame.Width / 2;
+			wayPointB.Layer.BorderWidth = 2;
+			wayPointB.Layer.BorderColor = UIColor.White.CGColor;
+
 			if (PastTripsDetailViewModel == null)
 			{
 				// Setup view model
@@ -52,8 +60,8 @@ namespace MyTrips.iOS
 				recordButton.Layer.BorderWidth = 2;
 				recordButton.TouchUpInside += RecordButton_TouchUpInside;
 
-				waypointA.Hidden = true;
-				waypointB.Hidden = true;
+				wayPointA.Hidden = true;
+				wayPointB.Hidden = true;
 			}
 			else
 			{
@@ -86,8 +94,8 @@ namespace MyTrips.iOS
 
 				// Hide record button
 				recordButton.Hidden = true;
-				waypointA.Hidden = false;
-				waypointB.Hidden = false;
+				wayPointA.Hidden = false;
+				wayPointA.Hidden = false;
 			}
 		}
 

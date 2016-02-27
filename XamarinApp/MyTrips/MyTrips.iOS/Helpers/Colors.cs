@@ -5,7 +5,7 @@ namespace MyTrips.iOS
 	public class Colors
 	{
 		public static UIColor PRIMARY = "607DB8".ToUIColor ();
-		public static UIColor PRIMARY_DARK = "111820".ToUIColor ();
+		public static UIColor PRIMARY_DARK = "6AC7BA".ToUIColor ();
 		public static UIColor PRIMARY_LIGHT = "CFD8DC".ToUIColor ();
 		public static UIColor ACCENT = "FF4081".ToUIColor ();
 		public static UIColor PRIMARY_TEXT = "212121".ToUIColor ();
