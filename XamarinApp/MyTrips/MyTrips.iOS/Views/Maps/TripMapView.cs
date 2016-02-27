@@ -15,11 +15,6 @@ namespace MyTrips.iOS
 
 		public void DrawRoute(CLLocationCoordinate2D[] route)
 		{
-			Console.WriteLine(route.Length);
-
-			foreach (var r in route)
-				Console.WriteLine("{0}, {1}", r.Latitude, r.Longitude);
-			
 			var routeOverlay = MKPolyline.FromCoordinates(route);
 			AddOverlay(routeOverlay);
 		}
