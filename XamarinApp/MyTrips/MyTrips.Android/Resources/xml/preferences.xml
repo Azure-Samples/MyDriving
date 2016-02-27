@@ -1,102 +1,98 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.preference.PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android"
-		 android:layout_width="match_parent" android:layout_height="match_parent">
+<PreferenceScreen  
+		xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v7.preference.PreferenceCategory
+    <PreferenceCategory
             android:title="Account">
 
-        <android.support.v7.preference.Preference
-                android:key="checkbox_preference"
+        <Preference
                 android:title="Logout" />
 
-    </android.support.v7.preference.PreferenceCategory>
+    </PreferenceCategory>
 
-	<android.support.v7.preference.PreferenceCategory
+	<PreferenceCategory
             android:title="Perferences">
 
-        <android.support.v7.preference.CheckBoxPreference
+        <CheckBoxPreference
                 android:key="metric_distance"
                 android:title="Metric Distance"
 			    android:summary="Use Kilometers instead of Miles"/>
 		
-		<android.support.v7.preference.Preference
+		<CheckBoxPreference
                 android:key="metric_units"
                 android:title="Metric Units"
 			    android:summary="Use Liters instead of Gallons"/>
 
-    </android.support.v7.preference.PreferenceCategory>
+    </PreferenceCategory>
 
 	
 
-    <android.support.v7.preference.PreferenceCategory
+    <PreferenceCategory
             android:title="IoT Hub Configuration">
 
-        <android.support.v7.preference.EditTextPreference
+        <EditTextPreference
                 android:key="hub_setting_1"
                 android:title="Hub Setting 1"
                 android:dialogTitle="Hub Setting 1" />
 		
-       <android.support.v7.preference.EditTextPreference
-                android:key="hub_setting_"
+       <EditTextPreference
+                android:key="hub_setting_2"
                 android:title="Hub Setting 2"
                 android:dialogTitle="Hub Setting 2" />
 
-    </android.support.v7.preference.PreferenceCategory>
+    </PreferenceCategory>
 
-    <android.support.v7.preference.PreferenceCategory
+    <PreferenceCategory
             android:title="About MyTrips">
 
-        <android.support.v7.preference.Preference
+        <Preference
                 android:title="Copyright 2016"
                 android:summary="Microsoft">
 
             <intent android:action="android.intent.action.VIEW"
                     android:data="http://www.microsoft.com" />
 
-        </android.support.v7.preference.Preference>
+        </Preference>
 
-		  <android.support.v7.preference.Preference
+		  <Preference
                 android:title="Privacy Policy">
 
             <intent android:action="android.intent.action.VIEW"
                     android:data="http://www.microsoft.com" />
 
-        </android.support.v7.preference.Preference>
+        </Preference>
 
-		    <android.support.v7.preference.Preference
+		    <Preference
                 android:title="Terms of Use">
 
             <intent android:action="android.intent.action.VIEW"
                     android:data="http://www.microsoft.com" />
 
-        </android.support.v7.preference.Preference>
+        </Preference>
 		
-		 <android.support.v7.preference.Preference
+		 <Preference
                 android:title="Open Source Notice">
 
             <intent android:action="android.intent.action.VIEW"
                     android:data="http://www.github.com" />
 
-        </android.support.v7.preference.Preference>
+        </Preference>
 			
-		 <android.support.v7.preference.Preference
+		 <Preference
                 android:title="Open Source on GitHub">
 
             <intent android:action="android.intent.action.VIEW"
                     android:data="http://www.github.com" />
 
-        </android.support.v7.preference.Preference>
+        </Preference>
 			
-		 <android.support.v7.preference.Preference
+		 <Preference
                 android:title="Built in C# with Xamarin">
 
             <intent android:action="android.intent.action.VIEW"
                     android:data="http://www.xamarin.com" />
 
-        </android.support.v7.preference.Preference>
+        </Preference>
 
-    </android.support.v7.preference.PreferenceCategory>
-
-   
-
-</android.support.v7.preference.PreferenceScreen>
+    </PreferenceCategory>
+</PreferenceScreen>
