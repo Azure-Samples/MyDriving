@@ -1,13 +1,10 @@
 ﻿using Android.App;
 using Android.Content.PM;
-using Android.Content.Res;
 using Android.OS;
 using Android.Support.V4.Widget;
 using Android.Views;
-using Android.Widget;
 
 using MyTrips.Droid.Fragments;
-using Android.Support.V7.App;
 using Android.Support.V4.View;
 using Android.Support.Design.Widget;
 using MyTrips.Utils;
@@ -17,20 +14,14 @@ using System.Threading.Tasks;
 
 namespace MyTrips.Droid
 {
-    [Activity (Label = "My Trips", Icon = "@drawable/icon", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "My Trips", Icon = "@drawable/icon", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : BaseActivity
     {
 
         DrawerLayout drawerLayout;
         NavigationView navigationView;
 
-        protected override int LayoutResource
-        {
-            get
-            {
-                return Resource.Layout.activity_main;
-            }
-        }
+        protected override int LayoutResource => Resource.Layout.activity_main;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -52,8 +43,8 @@ namespace MyTrips.Droid
 
                 ListItemClicked(e.MenuItem.ItemId);
 
-                Snackbar.Make(drawerLayout, "You selected: " + e.MenuItem.TitleFormatted, Snackbar.LengthLong)
-                    .Show();
+
+                SupportActionBar.Title = e.MenuItem.TitleFormatted.ToString();
 
                 drawerLayout.CloseDrawers();
             };
@@ -61,44 +52,31 @@ namespace MyTrips.Droid
 
             //if first time you will want to go ahead and click first item.
             if (bundle == null)
-            {
                 ListItemClicked(Resource.Id.menu_past_trips);
-            }
+
         }
 
         void InitializeHockeyApp()
         {
-            if (string.IsNullOrWhiteSpace(Logger.HockeyAppKey))
+            if (string.IsNullOrWhiteSpace(Logger.HockeyAppAndroid))
                 return;
-            // Register the crash manager before Initializing the trace writer
-            HockeyApp.CrashManager.Register (this, Logger.HockeyAppKey); 
 
-            //Register to with the Update Manager
-            HockeyApp.UpdateManager.Register (this, Logger.HockeyAppKey);
+            HockeyApp.CrashManager.Register(this, Logger.HockeyAppAndroid);
+            HockeyApp.UpdateManager.Register(this, Logger.HockeyAppAndroid);
+            HockeyApp.TraceWriter.Initialize();
 
-            // Initialize the Trace Writer
-            HockeyApp.TraceWriter.Initialize ();
-
-            // Wire up Unhandled Expcetion handler from Android
-            AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) => 
+            AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
                 {
-                    // Use the trace writer to log exceptions so HockeyApp finds them
                     HockeyApp.TraceWriter.WriteTrace(args.Exception);
                     args.Handled = true;
                 };
-
-            // Wire up the .NET Unhandled Exception handler
-            AppDomain.CurrentDomain.UnhandledException +=
-                (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.ExceptionObject);
-
-            // Wire up the unobserved task exception handler
-            TaskScheduler.UnobservedTaskException += 
-                (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
+            AppDomain.CurrentDomain.UnhandledException += (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.ExceptionObject);
+            TaskScheduler.UnobservedTaskException += (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
 
         }
 
         int oldPosition = -1;
-        private void ListItemClicked(int itemId)
+        void ListItemClicked(int itemId)
         {
             //this way we don't load twice, but you might want to modify this a bit.
             if (itemId == oldPosition)
@@ -115,7 +93,7 @@ namespace MyTrips.Droid
                 case Resource.Id.menu_current_trip:
                     fragment = FragmentCurrentTrip.NewInstance();
                     break;
-                case Resource.Id.menu_routes:
+                case Resource.Id.menu_profile:
                     fragment = FragmentRecommendedRoutes.NewInstance();
                     break;
                 case Resource.Id.menu_settings:
@@ -126,6 +104,8 @@ namespace MyTrips.Droid
             SupportFragmentManager.BeginTransaction()
                 .Replace(Resource.Id.content_frame, fragment)
                 .Commit();
+
+            navigationView.SetCheckedItem(itemId);
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -133,11 +113,25 @@ namespace MyTrips.Droid
             switch (item.ItemId)
             {
                 case Android.Resource.Id.Home:
-                    drawerLayout.OpenDrawer(Android.Support.V4.View.GravityCompat.Start);
+                    drawerLayout.OpenDrawer(GravityCompat.Start);
                     return true;
             }
             return base.OnOptionsItemSelected(item);
         }
+
+        public override void OnBackPressed()
+        {
+
+            if (drawerLayout.IsDrawerOpen((int)GravityFlags.Start))
+            {
+                drawerLayout.OpenDrawer(GravityCompat.Start);
+            }
+            else
+            {
+                base.OnBackPressed();
+            }
+        }
+
     }
 }
 

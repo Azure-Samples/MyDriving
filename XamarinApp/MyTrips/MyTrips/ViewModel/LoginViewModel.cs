@@ -10,8 +10,6 @@ namespace MyTrips.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-
-
         MobileServiceClient client = null;
         IAuthentication authentication;
         public LoginViewModel()

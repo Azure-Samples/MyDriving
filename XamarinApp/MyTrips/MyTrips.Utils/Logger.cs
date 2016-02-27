@@ -9,7 +9,9 @@ namespace MyTrips.Utils
 {
     public class Logger : ILogger
     {
-        public static string HockeyAppKey => string.Empty;
+        public static string HockeyAppiOS => "09f39eb0435c431ebe954f6faf3a1537";
+        public static string HockeyAppAndroid => "a8d04f91d07f4e5c91be4034805af61b";
+        public static string HockeyAppUWP => "5bff51e242a84d99bddbc6037071656a";
 
         static ILogger instance;
         public static ILogger Instance

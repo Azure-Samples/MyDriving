@@ -7,19 +7,7 @@ namespace MyTrips.Droid.Fragments
 {
     public class FragmentRecommendedRoutes : Fragment
     {
-        public override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-
-            // Create your fragment here
-        }
-
-        public static FragmentRecommendedRoutes NewInstance()
-        {
-            var frag1 = new FragmentRecommendedRoutes { Arguments = new Bundle() };
-            return frag1;
-        }
-
+        public static FragmentRecommendedRoutes NewInstance() => new FragmentRecommendedRoutes { Arguments = new Bundle() };
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

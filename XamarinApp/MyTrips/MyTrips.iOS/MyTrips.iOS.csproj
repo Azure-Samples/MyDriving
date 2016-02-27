@@ -63,9 +63,6 @@
     <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HockeyApp.iOS">
-      <HintPath>..\..\Components\hockeyappios-3.8.5.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -80,10 +77,6 @@
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Mobile.SQLiteStore, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <HintPath>..\..\packages\Microsoft.Azure.Mobile.Client.SQLiteStore.2.0.1\lib\portable-win+net45+wp8+wpa81+monotouch+monoandroid\Microsoft.WindowsAzure.Mobile.SQLiteStore.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="MvvmHelpers, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\Refractored.MvvmHelpers.1.0.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+UAP10\MvvmHelpers.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
@@ -136,6 +129,7 @@
     </Reference>
     <Reference Include="Humanizer">
       <HintPath>..\..\packages\Humanizer.Core.2.0.1\lib\portable-win+net45+wp8+wpa81\Humanizer.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PCLStorage">
       <HintPath>..\..\packages\PCLStorage.1.0.2\lib\portable-Xamarin.iOS+Xamarin.Mac\PCLStorage.dll</HintPath>
@@ -145,11 +139,17 @@
       <HintPath>..\..\packages\PCLStorage.1.0.2\lib\portable-Xamarin.iOS+Xamarin.Mac\PCLStorage.Abstractions.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="HockeyApp.iOS">
+      <HintPath>..\..\Components\hockeyappios-3.8.5.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
+    </Reference>
     <Reference Include="Plugin.Geolocator">
       <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\Xamarin.iOS10\Plugin.Geolocator.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.Geolocator.Abstractions">
       <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\Xamarin.iOS10\Plugin.Geolocator.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmHelpers">
+      <HintPath>..\..\packages\Refractored.MvvmHelpers.1.0.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+UAP10\MvvmHelpers.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -272,17 +272,18 @@
       <DependentUpon>TripTableViewCell.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\WayPointCircle.cs" />
-    <Compile Include="Views\MapViewDelegate.cs" />
     <Compile Include="Helpers\Images.cs" />
-    <Compile Include="Views\BaseCustomAnnotation.cs" />
-    <Compile Include="Views\TripMapView.cs" />
-    <Compile Include="Views\TripMapView.designer.cs">
+    <Compile Include="Helpers\Authentication.cs" />
+    <Compile Include="Views\Annotations\BaseCustomAnnotation.cs" />
+    <Compile Include="Views\Annotations\PhotoAnnotation.cs" />
+    <Compile Include="Views\Annotations\WaypointAnnotation.cs" />
+    <Compile Include="Views\Annotations\CarAnnotation.cs" />
+    <Compile Include="Views\Maps\TripMapViewDelegate.cs" />
+    <Compile Include="Views\Maps\TripMapView.cs" />
+    <Compile Include="Views\Maps\TripMapView.designer.cs">
       <DependentUpon>TripMapView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\CarAnnotation.cs" />
-    <Compile Include="Views\WaypointAnnotation.cs" />
-    <Compile Include="Views\PhotoAnnotation.cs" />
-    <Compile Include="Helpers\Authentication.cs" />
+    <Compile Include="Helpers\Colors.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -297,12 +298,16 @@
     <BundleResource Include="Resources\login_facebook.png" />
     <BundleResource Include="Resources\login_microsoft.png" />
     <BundleResource Include="Resources\login_twitter.png" />
-    <BundleResource Include="Resources\car_annotation.jpeg" />
+    <BundleResource Include="Resources\car_annotation.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">
       <Version>3.8.5.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Annotations\" />
+    <Folder Include="Views\Maps\" />
   </ItemGroup>
 </Project>

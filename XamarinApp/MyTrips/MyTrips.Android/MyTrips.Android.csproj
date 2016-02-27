@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -145,6 +145,21 @@
     <Reference Include="Xamarin.Android.Support.Design">
       <HintPath>..\..\packages\Xamarin.Android.Support.Design.23.1.1.0\lib\MonoAndroid403\Xamarin.Android.Support.Design.dll</HintPath>
     </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Basement">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Basement.29.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Basement.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Base">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Base.29.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Maps">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Maps.29.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Maps.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.Preference">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v7.Preference.23.1.1.0\lib\MonoAndroid41\Xamarin.Android.Support.v7.Preference.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v14.Preference">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v14.Preference.23.1.1.0\lib\MonoAndroid41\Xamarin.Android.Support.v14.Preference.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyTrips.DataStore.Abstractions\MyTrips.DataStore.Abstractions.csproj">
@@ -169,9 +184,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseActivity.cs" />
     <Compile Include="Helpers\Settings.cs" />
-    <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -180,10 +193,14 @@
     <Compile Include="Fragments\FragmentSettings.cs" />
     <Compile Include="Fragments\FragmentRecommendedRoutes.cs" />
     <Compile Include="Helpers\Authentication.cs" />
-    <Compile Include="LoginActivity.cs" />
-    <Compile Include="SplashActivity.cs" />
     <Compile Include="Services\GeolocationService.cs" />
     <Compile Include="Services\GeolocationHelper.cs" />
+    <Compile Include="Activities\BaseActivity.cs" />
+    <Compile Include="Activities\LoginActivity.cs" />
+    <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="Activities\SplashActivity.cs" />
+    <Compile Include="Activities\PastTripDetailsActivity.cs" />
+    <Compile Include="Helpers\AccelerometerManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -201,7 +218,6 @@
     <AndroidResource Include="Resources\layout\item_trip.axml" />
     <AndroidResource Include="Resources\layout\item_recommended_route.axml" />
     <AndroidResource Include="Resources\layout\fragment_routes.axml" />
-    <AndroidResource Include="Resources\layout\fragment_settings.axml" />
     <AndroidResource Include="Resources\layout\fragment_current_trip.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
@@ -209,6 +225,8 @@
     <AndroidResource Include="Resources\layout\activity_login.axml" />
     <AndroidResource Include="Resources\layout\activity_main.axml" />
     <AndroidResource Include="Resources\values\dimen.xml" />
+    <AndroidResource Include="Resources\layout\activity_past_trip_details.axml" />
+    <AndroidResource Include="Resources\xml\preferences.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -269,5 +287,9 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Activities\" />
+    <Folder Include="Resources\xml\" />
+  </ItemGroup>
 </Project>

@@ -5,24 +5,17 @@ using Android.Support.V7.Widget;
 using Android.Support.V4.Widget;
 using Android.Widget;
 using MyTrips.ViewModel;
+using System;
+using MyTrips.Droid.Activities;
+using Android.Content;
 
 
 namespace MyTrips.Droid.Fragments
 {
     public class FragmentPastTrips : Fragment
     {
-        public override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
 
-            // Create your fragment here
-        }
-
-        public static FragmentPastTrips NewInstance()
-        {
-            var frag1 = new FragmentPastTrips { Arguments = new Bundle() };
-            return frag1;
-        }
+        public static FragmentPastTrips NewInstance() => new FragmentPastTrips { Arguments = new Bundle() };
 
         RecyclerView recyclerView;
         SwipeRefreshLayout refresher;
@@ -39,10 +32,10 @@ namespace MyTrips.Droid.Fragments
             recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             refresher = view.FindViewById<SwipeRefreshLayout>(Resource.Id.refresher);
 
-            refresher.Refresh += (sender, e) => 
-                viewModel.LoadPastTripsCommand.Execute(null);
+            refresher.Refresh += (sender, e) => viewModel.LoadPastTripsCommand.Execute(null);
 
             adapter = new TripAdapter(viewModel);
+            adapter.ItemClick += OnItemClick;
             layoutManager = new LinearLayoutManager(Activity);
             recyclerView.SetLayoutManager(layoutManager);
             recyclerView.SetAdapter(adapter);
@@ -74,24 +67,36 @@ namespace MyTrips.Droid.Fragments
             base.OnStop();
             viewModel.PropertyChanged -= ViewModel_PropertyChanged;
         }
+
+        void OnItemClick (object sender, int position)
+        {
+            var trip = viewModel.Trips[position];
+            var intent = new Intent(Activity, typeof(PastTripDetailsActivity));
+            intent.PutExtra(nameof(trip.Id), trip.Id);
+            StartActivity(intent);
+        }
     }
 
 
     public class TripViewHolder : RecyclerView.ViewHolder
     {
         public TextView Title {get;set;}
-        public TextView Subtitle {get;set;}
+        public TextView Date {get;set;}
+        public TextView Distance {get;set;}
 
-        public TripViewHolder(View itemView) : base (itemView)
+        public TripViewHolder(View itemView, Action<int> listener) : base (itemView)
         {
             Title = itemView.FindViewById<TextView>(Resource.Id.text_title);
-            Subtitle = itemView.FindViewById<TextView>(Resource.Id.text_subtitle);
+            Distance = itemView.FindViewById<TextView>(Resource.Id.text_distance);
+            Date = itemView.FindViewById<TextView>(Resource.Id.text_date);
+            itemView.Click += (sender, e) => listener (AdapterPosition);
         }
     }
 
     public class TripAdapter : RecyclerView.Adapter
     {
-        
+        public event EventHandler<int> ItemClick;
+
         PastTripsViewModel viewModel;
         public TripAdapter(PastTripsViewModel viewModel)
         {
@@ -100,7 +105,7 @@ namespace MyTrips.Droid.Fragments
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) =>
-            new TripViewHolder(LayoutInflater.From(parent.Context).Inflate(Resource.Layout.item_trip, parent, false));
+            new TripViewHolder(LayoutInflater.From(parent.Context).Inflate(Resource.Layout.item_trip, parent, false), OnClick);
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
@@ -110,11 +115,17 @@ namespace MyTrips.Droid.Fragments
 
             var trip = viewModel.Trips[position];
             vh.Title.Text = trip.TripId;
-            vh.Subtitle.Text = trip.TotalDistance;
+            vh.Distance.Text = trip.TotalDistance;
+            vh.Date.Text = trip.TimeAgo;
         }
 
         public override int ItemCount => viewModel.Trips.Count;
 
+        void OnClick (int position)
+        {
+            if (ItemClick != null)
+                ItemClick (this, position);
+        }
     }
 
 

@@ -1,13 +1,14 @@
-﻿using Foundation;
+﻿using System;
+using System.Threading.Tasks;
+
+using Foundation;
 using UIKit;
+
 using MyTrips.Utils;
 using MyTrips.Interfaces;
 using MyTrips.iOS.Helpers;
-using HockeyApp;
-using System;
-using System.Threading.Tasks;
 
-using Plugin.Geolocator;
+using HockeyApp;
 
 namespace MyTrips.iOS
 {
@@ -23,35 +24,34 @@ namespace MyTrips.iOS
 
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
 
-            if (!string.IsNullOrWhiteSpace(Logger.HockeyAppKey))
+            if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
             {
                 Setup.EnableCustomCrashReporting(() =>
                     {
-
-                        //Get the shared instance
                         var manager = BITHockeyManager.SharedHockeyManager;
-
-                        //Configure it to use our APP_ID
-                        manager.Configure(Logger.HockeyAppKey);
-
-                        //Start the manager
+                        manager.Configure(Logger.HockeyAppiOS);
                         manager.StartManager();
-
-                        //Authenticate (there are other authentication options)
                         manager.Authenticator.AuthenticateInstallation();
-
-                        //Rethrow any unhandled .NET exceptions as native iOS 
-                        // exceptions so the stack traces appear nicely in HockeyApp
-                        AppDomain.CurrentDomain.UnhandledException += (sender, e) => 
+                        AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
                             Setup.ThrowExceptionAsNative(e.ExceptionObject);
-
-                        TaskScheduler.UnobservedTaskException += (sender, e) => 
+                        TaskScheduler.UnobservedTaskException += (sender, e) =>
                             Setup.ThrowExceptionAsNative(e.Exception);
                     });
-
             }
 
             return true;
+        }
+    }
+
+    [Register("TripApplication")]
+    public class TripApplication : UIApplication
+    {
+        public override void MotionBegan(UIEventSubtype motion, UIEvent evt)
+        {
+            if (motion == UIEventSubtype.MotionShake)
+            {
+                BITHockeyManager.SharedHockeyManager.FeedbackManager.ShowFeedbackComposeViewWithGeneratedScreenshot();
+            }
         }
     }
 }

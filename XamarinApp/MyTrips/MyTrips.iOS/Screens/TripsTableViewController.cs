@@ -11,6 +11,7 @@ namespace MyTrips.iOS
     public partial class TripsTableViewController : UITableViewController
     {
 		const string TRIP_CELL_IDENTIFIER = "TRIP_CELL_IDENTIFIER";
+		const string PAST_TRIP_SEGUE_IDENTIFIER = "pastTripSegue";
 
 		PastTripsViewModel ViewModel { get; set; }
 
@@ -23,10 +24,20 @@ namespace MyTrips.iOS
 		{
 			base.ViewDidLoad();
 
-			// TODO: Grab data for UITableView.
 			ViewModel = new PastTripsViewModel();
-
 			await ViewModel.ExecuteLoadPastTripsCommandAsync();
+		}
+
+		public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+		{
+			if (segue.Identifier == PAST_TRIP_SEGUE_IDENTIFIER)
+			{
+				var controller = segue.DestinationViewController as CurrentTripViewController;
+				var indexPath = TableView.IndexPathForCell(sender as UITableViewCell);
+				var trip = ViewModel.Trips[indexPath.Row];
+
+				controller.PastTripsDetailViewModel = new PastTripsDetailViewModel(trip);
+			}
 		}
 
 		#region UITableViewSource
@@ -37,7 +48,6 @@ namespace MyTrips.iOS
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			// No need to check for null; storyboards always return a dequeable cell.
 			var cell = tableView.DequeueReusableCell(TRIP_CELL_IDENTIFIER) as TripTableViewCell;
 
 			if (cell == null)
@@ -47,9 +57,8 @@ namespace MyTrips.iOS
 
 			var trip = ViewModel.Trips[indexPath.Row];
             cell.LocationName = trip.TripId;
-
             cell.TimeAgo = trip.TimeAgo;
-            cell.Distance = $"{trip.TotalDistance} miles";
+			cell.Distance = trip.TotalDistance;
 
 			return cell;
 		}

@@ -13,7 +13,7 @@ namespace MyTrips.ViewModel
         public Trip CurrentTrip {get;set;}
         ICommand  loadTripCommand;
         public ICommand LoadTripCommand =>
-        loadTripCommand ?? (loadTripCommand = new RelayCommand(async () => await ExecuteLoadTripCommandAsync())); 
+            loadTripCommand ?? (loadTripCommand = new RelayCommand(async () => await ExecuteLoadTripCommandAsync())); 
 
         public async Task ExecuteLoadTripCommandAsync()
         {
