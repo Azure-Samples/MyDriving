@@ -19,6 +19,7 @@ namespace MyTrips.Droid
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            InitActivityTransitions();
             SetContentView(LayoutResource);
             Toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             if (Toolbar != null)
@@ -52,6 +53,16 @@ namespace MyTrips.Droid
             
         }
 
+        void InitActivityTransitions() 
+        {
+            if ((int)Build.VERSION.SdkInt >= 21) 
+            {
+                var transition = new Android.Transitions.Slide();
+                transition.ExcludeTarget(Android.Resource.Id.StatusBarBackground, true);
+                Window.EnterTransition = transition;
+                Window.ReturnTransition = transition;
+            }
+        }
 
         protected override void OnStop()
         {

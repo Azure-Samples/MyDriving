@@ -69,12 +69,18 @@ namespace MyTrips.Droid.Fragments
             viewModel.PropertyChanged -= ViewModel_PropertyChanged;
         }
 
-        void OnItemClick(object sender, int position)
+        void OnItemClick(object sender, TripClickEventArgs args)
         {
-            var trip = viewModel.Trips[position];
+            var view = sender as View;
+            var options = ActivityOptionsCompat.MakeSceneTransitionAnimation(
+                Activity, args.View.FindViewById(Resource.Id.full_rating), "rating");
+            
+            
+            var trip = viewModel.Trips[args.Position];
             var intent = new Intent(Activity, typeof(PastTripDetailsActivity));
             intent.PutExtra(nameof(trip.Id), trip.Id);
-            StartActivity(intent);
+            intent.PutExtra(nameof(trip.Rating), trip.Rating);
+            ActivityCompat.StartActivity(Activity, intent, options.ToBundle());
         }
     }
 
@@ -88,7 +94,7 @@ namespace MyTrips.Droid.Fragments
         public ImageView Photo { get; set; }
         public RatingCircle RatingCircle { get; set; }
 
-        public TripViewHolder(View itemView, Action<int> listener) : base(itemView)
+        public TripViewHolder(View itemView, Action<TripClickEventArgs> listener) : base(itemView)
         {
             Title = itemView.FindViewById<TextView>(Resource.Id.text_title);
             Distance = itemView.FindViewById<TextView>(Resource.Id.text_distance);
@@ -96,13 +102,20 @@ namespace MyTrips.Droid.Fragments
             Photo = itemView.FindViewById<ImageView>(Resource.Id.photo);
             Rating = itemView.FindViewById<TextView>(Resource.Id.text_rating);
             RatingCircle = itemView.FindViewById<RatingCircle>(Resource.Id.rating_circle);
-            itemView.Click += (sender, e) => listener(AdapterPosition);
+            itemView.Click += (sender, e) => listener(new TripClickEventArgs { View = sender as View, Position = AdapterPosition });
         }
+    }
+
+    public class TripClickEventArgs : EventArgs
+    {
+        public View View { get; set; }
+        public int Position { get; set; }
     }
 
     public class TripAdapter : RecyclerView.Adapter
     {
-        public event EventHandler<int> ItemClick;
+        
+        public event EventHandler<TripClickEventArgs> ItemClick;
 
         PastTripsViewModel viewModel;
         public TripAdapter(PastTripsViewModel viewModel)
@@ -137,10 +150,10 @@ namespace MyTrips.Droid.Fragments
 
         public override int ItemCount => viewModel.Trips.Count;
 
-        void OnClick(int position)
+        void OnClick(TripClickEventArgs args)
         {
             if (ItemClick != null)
-                ItemClick(this, position);
+                ItemClick(this, args);
         }
     }
 

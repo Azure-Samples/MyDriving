@@ -228,6 +228,31 @@
     <AndroidResource Include="Resources\values\dimen.xml" />
     <AndroidResource Include="Resources\layout\activity_past_trip_details.axml" />
     <AndroidResource Include="Resources\xml\preferences.xml" />
+    <AndroidResource Include="Resources\drawable\ic_info.png" />
+    <AndroidResource Include="Resources\drawable\ic_car_red.png" />
+    <AndroidResource Include="Resources\drawable\ic_car_blue.png" />
+    <AndroidResource Include="Resources\drawable\ic_end_point.png" />
+    <AndroidResource Include="Resources\drawable\ic_start_point.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\menu_past_trips.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\menu_past_trips.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\menu_past_trips.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\menu_past_trips.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\menu_past_trips.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\menu_settings.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\menu_settings.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\menu_settings.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\menu_settings.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\menu_settings.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\menu_profile.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\menu_profile.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\menu_profile.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\menu_profile.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\menu_profile.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\menu_current_trip.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\menu_current_trip.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\menu_current_trip.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\menu_current_trip.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\menu_current_trip.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

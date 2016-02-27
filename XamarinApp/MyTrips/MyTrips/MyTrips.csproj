@@ -43,6 +43,8 @@
     <Compile Include="ViewModel\TripDetailsViewModel.cs" />
     <Compile Include="Interfaces\IAuthentication.cs" />
     <Compile Include="ViewModel\PastTripsDetailViewModel.cs" />
+    <Compile Include="Model\BingHelper.cs" />
+    <Compile Include="Model\BingResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

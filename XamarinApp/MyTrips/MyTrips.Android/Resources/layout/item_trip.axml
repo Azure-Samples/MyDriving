@@ -28,7 +28,9 @@
             <FrameLayout
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:id="@+id/full_rating"
+                android:transitionName="rating">
                 <mytrips.droid.controls.RatingCircle
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"

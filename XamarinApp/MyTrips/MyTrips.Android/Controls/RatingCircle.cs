@@ -63,9 +63,14 @@ namespace MyTrips.Droid.Controls
             {
                 rating = value;
                 currentRating = 0;
-                Start(1);
+                if (PlayAnimation)
+                    Start(1);
+                else
+                    Invalidate();
             }
         }
+
+        public bool PlayAnimation { get; set; } = true;
 
         Bitmap bitmap;
         Canvas canvas;
@@ -110,7 +115,8 @@ namespace MyTrips.Droid.Controls
             this.canvas.DrawColor(Color.Transparent, PorterDuff.Mode.Clear);
 
 
-            var sweepAngle = (currentRating / 100f) * 360;
+
+            var sweepAngle = PlayAnimation ? (currentRating / 100f) * 360 : (Rating / 100f) * 360;
             if (sweepAngle > 0f)
             {
                 this.canvas.DrawArc(circleOuterBounds, 270, sweepAngle, true, circlePaint);

@@ -1,5 +1,6 @@
 using Android.OS;
 using Android.Support.V4.App;
+using Android.Support.V4.Content;
 using Android.Views;
 using Android.Widget;
 using MyTrips.Droid.Services;
@@ -9,7 +10,10 @@ using MyTrips.DataObjects;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using System.Linq;
+using System;
 
+using Android.Graphics;
+using Android.Graphics.Drawables;
 
 namespace MyTrips.Droid.Fragments
 {
@@ -40,7 +44,7 @@ namespace MyTrips.Droid.Fragments
                     var list = viewModel.CurrentTrip.Trail as ObservableRangeCollection<Trail>;
                     list.CollectionChanged += TrailUpdated;
 
-                    if(car == null)
+                    if(carMarker == null)
                         SetupMap();
                 };
             latText = view.FindViewById<TextView>(Resource.Id.lat);
@@ -58,7 +62,7 @@ namespace MyTrips.Droid.Fragments
                 longText.Text = $"Longitude: {item.Longitude}";
                 altText.Text = $"Altitude: {item.TimeStamp}";
 
-                if(car != null)
+                if(carMarker != null)
                     UpdateMap(item);
                 else
                     SetupMap();
@@ -85,7 +89,8 @@ namespace MyTrips.Droid.Fragments
                 SetupMap();
         }
 
-        MarkerOptions car;
+        Marker carMarker;
+        PolylineOptions driveLine;
         void SetupMap()
         {
             if (map == null)
@@ -101,18 +106,29 @@ namespace MyTrips.Droid.Fragments
             }
             
             var start = viewModel.CurrentTrip.Trail[0];
-            car = new MarkerOptions();
+            var startPoint = new LatLng(start.Latitude, start.Longitude);
+
+
+            var logicalDensity = Resources.DisplayMetrics.Density;
+            var thicknessCar = (int)Math.Ceiling(24 * logicalDensity + .5f);
+
+            var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_car_red) as BitmapDrawable;
+            var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessCar, thicknessCar, false);
+
+            var car = new MarkerOptions();
             car.SetPosition(new LatLng(start.Latitude, start.Longitude));
-            car.SetTitle("The Car");
-            car.SetIcon(BitmapDescriptorFactory.DefaultMarker (BitmapDescriptorFactory.HueCyan));
-            map.AddMarker(car);
+            car.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
+            car.Anchor(.5f, .5f);
+            carMarker = map.AddMarker(car);
 
             var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
-            var rectOptions = new PolylineOptions();
-            rectOptions.Add(points);
-            rectOptions.InvokeColor(ActivityCompat.GetColor(Activity, Resource.Color.accent));
-            map.AddPolyline(rectOptions);
-            UpdateCamera();
+            driveLine = new PolylineOptions();
+            driveLine.Add(points);
+            driveLine.Visible(true);
+            driveLine.InvokeZIndex(30f);
+            driveLine.InvokeColor(ActivityCompat.GetColor(Activity, Resource.Color.accent));
+            map.AddPolyline(driveLine);
+            UpdateCamera(startPoint);
         }
 
 
@@ -122,32 +138,29 @@ namespace MyTrips.Droid.Fragments
             if(map == null)
                 return;
             var latlng = new LatLng(trail.Latitude, trail.Longitude);
-            car.SetPosition(latlng);
-
-            map.Clear();
-            var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
-            var rectOptions = new PolylineOptions();
-            rectOptions.Add(points);
-            rectOptions.InvokeColor(ActivityCompat.GetColor(Activity, Resource.Color.accent));
-            map.AddPolyline(rectOptions);
-            map.AddMarker(car);
-            UpdateCamera();
+            Activity.RunOnUiThread(() =>
+            {
+                carMarker.Position = latlng;
+                driveLine.Add(latlng);
+                map.AddPolyline(driveLine);
+                UpdateCamera(latlng);
+            });
         }
 
 
-        void UpdateCamera()
+        void UpdateCamera(LatLng latlng)
         {
 
             var current = viewModel.CurrentTrip.Trail[viewModel.CurrentTrip.Trail.Count - 1];
 
             if (setZoom)
             {
-                map.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(current.Latitude, current.Longitude), 13));
+                map.MoveCamera(CameraUpdateFactory.NewLatLngZoom(latlng, 14));
                 setZoom = false;
             }
             else
             {
-                map.MoveCamera(CameraUpdateFactory.NewLatLng(new LatLng(current.Latitude, current.Longitude)));
+                map.MoveCamera(CameraUpdateFactory.NewLatLng(latlng));
             }
          
         }
