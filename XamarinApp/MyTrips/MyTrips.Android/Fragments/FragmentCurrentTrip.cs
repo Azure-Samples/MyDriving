@@ -116,6 +116,7 @@ namespace MyTrips.Droid.Fragments
         }
 
 
+        bool setZoom = true;
         void UpdateMap(Trail trail)
         {
             if(map == null)
@@ -132,13 +133,22 @@ namespace MyTrips.Droid.Fragments
             UpdateCamera();
         }
 
+
         void UpdateCamera()
         {
 
             var current = viewModel.CurrentTrip.Trail[viewModel.CurrentTrip.Trail.Count - 1];
 
-            map.AnimateCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(current.Latitude, current.Longitude), 13));
-
+            if (setZoom)
+            {
+                map.MoveCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(current.Latitude, current.Longitude), 13));
+                setZoom = false;
+            }
+            else
+            {
+                map.MoveCamera(CameraUpdateFactory.NewLatLng(new LatLng(current.Latitude, current.Longitude)));
+            }
+         
         }
 
         public override void OnResume()
