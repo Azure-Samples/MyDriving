@@ -191,7 +191,6 @@
     <Compile Include="Fragments\FragmentPastTrips.cs" />
     <Compile Include="Fragments\FragmentCurrentTrip.cs" />
     <Compile Include="Fragments\FragmentSettings.cs" />
-    <Compile Include="Fragments\FragmentRecommendedRoutes.cs" />
     <Compile Include="Helpers\Authentication.cs" />
     <Compile Include="Services\GeolocationService.cs" />
     <Compile Include="Services\GeolocationHelper.cs" />
@@ -201,6 +200,8 @@
     <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="Activities\PastTripDetailsActivity.cs" />
     <Compile Include="Helpers\AccelerometerManager.cs" />
+    <Compile Include="Controls\RatingCircle.cs" />
+    <Compile Include="Fragments\FragmentProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -217,7 +218,7 @@
     <AndroidResource Include="Resources\layout\fragment_past_trips.axml" />
     <AndroidResource Include="Resources\layout\item_trip.axml" />
     <AndroidResource Include="Resources\layout\item_recommended_route.axml" />
-    <AndroidResource Include="Resources\layout\fragment_routes.axml" />
+    <AndroidResource Include="Resources\layout\fragment_profile.axml" />
     <AndroidResource Include="Resources\layout\fragment_current_trip.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
@@ -291,5 +292,6 @@
     <Folder Include="Services\" />
     <Folder Include="Activities\" />
     <Folder Include="Resources\xml\" />
+    <Folder Include="Controls\" />
   </ItemGroup>
 </Project>

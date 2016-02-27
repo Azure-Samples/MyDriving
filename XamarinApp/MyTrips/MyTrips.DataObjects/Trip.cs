@@ -24,6 +24,8 @@ namespace MyTrips.DataObjects
 
         public DateTime TimeStamp { get; set; }
 
+        public int Rating { get; set; }
+
         public string TimeAgo => TimeStamp.Humanize();
 
         public IList<Trail> Trail { get; set; }

@@ -5,14 +5,14 @@ using Android.Views;
 
 namespace MyTrips.Droid.Fragments
 {
-    public class FragmentRecommendedRoutes : Fragment
+    public class FragmentProfile : Fragment
     {
-        public static FragmentRecommendedRoutes NewInstance() => new FragmentRecommendedRoutes { Arguments = new Bundle() };
+        public static FragmentProfile NewInstance() => new FragmentProfile { Arguments = new Bundle() };
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
-            return inflater.Inflate(Resource.Layout.fragment_routes, null);
+            return inflater.Inflate(Resource.Layout.fragment_profile, null);
         }
     }
 }

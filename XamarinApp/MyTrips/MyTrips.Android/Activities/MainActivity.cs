@@ -94,7 +94,7 @@ namespace MyTrips.Droid
                     fragment = FragmentCurrentTrip.NewInstance();
                     break;
                 case Resource.Id.menu_profile:
-                    fragment = FragmentRecommendedRoutes.NewInstance();
+                    fragment = FragmentProfile.NewInstance();
                     break;
                 case Resource.Id.menu_settings:
                     fragment = FragmentSettings.NewInstance();

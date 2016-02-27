@@ -26,6 +26,7 @@ namespace MyTrips.Droid.Activities
 
         GoogleMap map;
         TripDetailsViewModel viewModel;
+        SupportMapFragment mapFrag;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -37,7 +38,7 @@ namespace MyTrips.Droid.Activities
 
             viewModel = new TripDetailsViewModel();
             viewModel.TripId = Intent.GetStringExtra("Id");
-            var mapFrag = (SupportMapFragment) SupportFragmentManager.FindFragmentById(Resource.Id.map);
+            mapFrag = (SupportMapFragment) SupportFragmentManager.FindFragmentById(Resource.Id.map);
             mapFrag.GetMapAsync(this);
         }
 
@@ -55,6 +56,12 @@ namespace MyTrips.Droid.Activities
         MarkerOptions car;
         void SetupMap()
         {
+
+            if (mapFrag.View.Width == 0)
+            {
+                mapFrag.View.PostDelayed (() => { SetupMap();}, 500);
+                return;
+            }
             var start = viewModel.CurrentTrip.Trail[0];
 
             car = new MarkerOptions();

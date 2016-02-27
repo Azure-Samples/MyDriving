@@ -15,6 +15,7 @@ namespace MyTrips.DataStore.Mock.Stores
         bool initialized;
         List<Trip> Trips {get;set;}
 
+        static Random random;
         static void AddTripDetails(Trip trip, int id, double lat, double lng, DateTime timestamp)
         {
             Trail pt = new Trail();
@@ -33,11 +34,16 @@ namespace MyTrips.DataStore.Mock.Stores
 
         public static List<Trip> GetTrips()
         {
+            random = new Random();
             Trip trip1 = new Trip();
             trip1.UserId = "Scott";
             trip1.TripId = trip1.UserId + "@Redmond";
             trip1.TotalDistance = "34 miles";
-
+            trip1.Photos = new List<Photo>();
+            trip1.Photos.Add(new Photo
+            {
+                PhotoUrl = "http://cplinc.com/wp-content/uploads/2014/02/MS-1.jpg"
+            });
             var startTime = DateTime.UtcNow;
             trip1.TimeStamp = startTime;
             var timeIncrement = 1;
@@ -189,15 +195,27 @@ namespace MyTrips.DataStore.Mock.Stores
             {
                 var json = ResourceLoader.GetEmbeddedResourceString(Assembly.Load(new AssemblyName("MyTrips.DataStore.Mock")), "sampletrip.json");
                 trip6 = JsonConvert.DeserializeObject<Trip>(json);
+                trip6.Photos = new List<Photo>();
+                trip6.Photos.Add(new Photo
+                {
+                    PhotoUrl = "http://www.livingwilderness.com/seattle/space-needle-fog.jpg"
+                });
             }
             catch (Exception ex)
             {
             }
 
-            return new List<Trip>
+
+
+            var items = new List<Trip>
             { 
                 trip1, trip2, trip3, trip4, trip5, trip6
             };
+
+            foreach (var item in items)
+                item.Rating = random.Next(30, 100);
+
+            return items;
         }
 
         public override Task InitializeStoreAsync()

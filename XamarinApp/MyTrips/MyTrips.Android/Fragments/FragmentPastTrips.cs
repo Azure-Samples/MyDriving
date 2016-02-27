@@ -7,6 +7,7 @@ using Android.Widget;
 using MyTrips.ViewModel;
 using System;
 using MyTrips.Droid.Activities;
+using MyTrips.Droid.Controls;
 using Android.Content;
 
 
@@ -48,11 +49,11 @@ namespace MyTrips.Droid.Fragments
         {
             base.OnStart();
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            if(viewModel.Trips.Count == 0)
+            if (viewModel.Trips.Count == 0)
                 viewModel.LoadPastTripsCommand.Execute(null);
         }
 
-        void ViewModel_PropertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -68,7 +69,7 @@ namespace MyTrips.Droid.Fragments
             viewModel.PropertyChanged -= ViewModel_PropertyChanged;
         }
 
-        void OnItemClick (object sender, int position)
+        void OnItemClick(object sender, int position)
         {
             var trip = viewModel.Trips[position];
             var intent = new Intent(Activity, typeof(PastTripDetailsActivity));
@@ -80,16 +81,22 @@ namespace MyTrips.Droid.Fragments
 
     public class TripViewHolder : RecyclerView.ViewHolder
     {
-        public TextView Title {get;set;}
-        public TextView Date {get;set;}
-        public TextView Distance {get;set;}
+        public TextView Title { get; set; }
+        public TextView Date { get; set; }
+        public TextView Distance { get; set; }
+        public TextView Rating { get; set; }
+        public ImageView Photo { get; set; }
+        public RatingCircle RatingCircle { get; set; }
 
-        public TripViewHolder(View itemView, Action<int> listener) : base (itemView)
+        public TripViewHolder(View itemView, Action<int> listener) : base(itemView)
         {
             Title = itemView.FindViewById<TextView>(Resource.Id.text_title);
             Distance = itemView.FindViewById<TextView>(Resource.Id.text_distance);
             Date = itemView.FindViewById<TextView>(Resource.Id.text_date);
-            itemView.Click += (sender, e) => listener (AdapterPosition);
+            Photo = itemView.FindViewById<ImageView>(Resource.Id.photo);
+            Rating = itemView.FindViewById<TextView>(Resource.Id.text_rating);
+            RatingCircle = itemView.FindViewById<RatingCircle>(Resource.Id.rating_circle);
+            itemView.Click += (sender, e) => listener(AdapterPosition);
         }
     }
 
@@ -117,14 +124,23 @@ namespace MyTrips.Droid.Fragments
             vh.Title.Text = trip.TripId;
             vh.Distance.Text = trip.TotalDistance;
             vh.Date.Text = trip.TimeAgo;
+            vh.Photo.Visibility = (trip?.Photos?.Count).GetValueOrDefault() > 0 ? ViewStates.Visible : ViewStates.Gone;
+            vh.Rating.Text = trip.Rating.ToString();
+            vh.RatingCircle.Rating = trip.Rating;
+
+            if (vh.Photo.Visibility == ViewStates.Visible)
+            {
+                Koush.UrlImageViewHelper.SetUrlDrawable (vh.Photo, trip.Photos[0].PhotoUrl);
+            }
+
         }
 
         public override int ItemCount => viewModel.Trips.Count;
 
-        void OnClick (int position)
+        void OnClick(int position)
         {
             if (ItemClick != null)
-                ItemClick (this, position);
+                ItemClick(this, position);
         }
     }
 

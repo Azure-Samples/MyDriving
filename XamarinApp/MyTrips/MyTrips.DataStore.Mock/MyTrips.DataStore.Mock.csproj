@@ -38,6 +38,7 @@
     <Compile Include="StoreManager.cs" />
     <Compile Include="Stores\BaseStore.cs" />
     <Compile Include="Stores\TripStore.cs" />
+    <Compile Include="Stores\PhotoStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MvvmHelpers, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null">

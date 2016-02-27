@@ -83,6 +83,9 @@ namespace MyTrips.DataStore.Azure
         ITripStore tripStore;
         public ITripStore TripStore => tripStore ?? (tripStore = ServiceLocator.Instance.Resolve<ITripStore>());
 
+        IPhotoStore photoStore;
+        public IPhotoStore PhotoStore => photoStore ?? (photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
+
         #endregion
     }
 }

@@ -15,6 +15,7 @@ namespace MyTrips.DataStore.Abstractions
         Task<bool> UpdateAsync(T item);
         Task<bool> RemoveAsync(T item);
         Task<bool> SyncAsync();
+        Task<bool> PullLatestAsync();
 
         void DropTable();
 
