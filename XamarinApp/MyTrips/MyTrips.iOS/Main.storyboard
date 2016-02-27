@@ -534,6 +534,11 @@
         <image name="tabbar_trips.png" width="28" height="22"/>
         <image name="car_annotation.png" width="59" height="45"/>
         <image name="tabbar_currenttrip.png" width="28" height="12"/>
+        <image name="Map/car_annotation_red.png" width="32.5" height="32.5"/>
+        <image name="Map/car_annotation_blue.png" width="32.5" height="32.5"/>
+        <image name="Map/waypoint_b.png" width="24" height="24"/>
+        <image name="Map/waypoint_tip.png" width="20.5" height="20.5"/>
+        <image name="Map/waypoint_a.png" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="1126"/>
