@@ -518,6 +518,7 @@
                         <outlet property="tripMapView" destination="392" id="name-outlet-392"/>
                         <outlet property="wayPointA" destination="ZNp-gY-zWd" id="name-outlet-ZNp-gY-zWd"/>
                         <outlet property="wayPointB" destination="Jx0-Jn-t00" id="name-outlet-Jx0-Jn-t00"/>
+                        <outlet property="tripSlider" destination="2or-G6-xUj" id="name-outlet-2or-G6-xUj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="349" userLabel="First Responder" sceneMemberID="firstResponder"/>

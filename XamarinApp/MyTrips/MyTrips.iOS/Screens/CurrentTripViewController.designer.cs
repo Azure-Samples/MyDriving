@@ -44,6 +44,10 @@ namespace MyTrips.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UISlider tripSlider { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton wayPointA { get; set; }
 
         [Outlet]
@@ -85,6 +89,11 @@ namespace MyTrips.iOS
             if (tripMapView != null) {
                 tripMapView.Dispose ();
                 tripMapView = null;
+            }
+
+            if (tripSlider != null) {
+                tripSlider.Dispose ();
+                tripSlider = null;
             }
 
             if (wayPointA != null) {

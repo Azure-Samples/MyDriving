@@ -60,8 +60,12 @@ namespace MyTrips.iOS
 				recordButton.Layer.BorderWidth = 2;
 				recordButton.TouchUpInside += RecordButton_TouchUpInside;
 
+				// Hide slider waypoints
 				wayPointA.Hidden = true;
 				wayPointB.Hidden = true;
+
+				// Hide trip slider
+				tripSlider.Hidden = true;
 			}
 			else
 			{
