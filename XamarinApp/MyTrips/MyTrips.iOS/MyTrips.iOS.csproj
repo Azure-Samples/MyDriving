@@ -308,6 +308,11 @@
     <BundleResource Include="Resources\tabbar_trips.png" />
     <BundleResource Include="Resources\tabbar_trips%402x.png" />
     <BundleResource Include="Resources\tabbar_trips%403x.png" />
+    <BundleResource Include="Resources\Map\waypoint_a.png" />
+    <BundleResource Include="Resources\Map\waypoint_b%402x.png" />
+    <BundleResource Include="Resources\Map\car_annotation_blue%402x.png" />
+    <BundleResource Include="Resources\Map\car_annotation_red%402x.png" />
+    <BundleResource Include="Resources\Map\waypoint_tip%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">
@@ -319,5 +324,6 @@
     <Folder Include="Views\Annotations\" />
     <Folder Include="Views\Maps\" />
     <Folder Include="CustomControls\" />
+    <Folder Include="Resources\Map\" />
   </ItemGroup>
 </Project>

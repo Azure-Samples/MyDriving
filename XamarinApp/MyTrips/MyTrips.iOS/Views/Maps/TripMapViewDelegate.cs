@@ -10,14 +10,25 @@ namespace MyTrips.iOS
 		const string CAR_ANNOTATION = "CAR_ANNOTATION";
 		const string WAYPOINT_ANNOTATION = "WAYPOINT_ANNOTATION";
 
+		UIColor color;
+		double alpha;
+
+		public TripMapViewDelegate(UIColor color, double alpha)
+		{
+			this.color = color;
+			this.alpha = alpha;
+		}
+
 		public override MKOverlayRenderer OverlayRenderer(MKMapView mapView, IMKOverlay overlay)
 		{
+			// SHould be blue for past trips, red for current trips.
+			// Make alpha higher for past trips - like .8
 			return new MKPolylineRenderer(overlay as MKPolyline)
 			{
-				Alpha = (nfloat) 0.4,
-				LineWidth = (nfloat) 3.0,
-				FillColor = UIColor.Blue,
-				StrokeColor = UIColor.Red
+				Alpha = (nfloat)alpha,
+				LineWidth = (nfloat)4.0,
+				FillColor = color,
+				StrokeColor = color
 			};
 		}
 
@@ -41,19 +52,15 @@ namespace MyTrips.iOS
 				if (annotationView == null)
 					annotationView = new MKAnnotationView (annotation, CAR_ANNOTATION);
 
-				annotationView.Image = UIImage.FromBundle(Images.CarAnnotationImage);
-				annotationView.CanShowCallout = false;
-			}
+				if (((CarAnnotation)annotation).Color == "Blue")
+				{
+					annotationView.Image = UIImage.FromBundle(Images.CarAnnotationBlue);
+				}
+				else
+				{
+					annotationView.Image = UIImage.FromBundle(Images.CarAnnotationRed);
+				}
 
-			if (annotation is PhotoAnnotation)
-			{
-				annotationView = mapView.DequeueReusableAnnotation(CAR_ANNOTATION);
-
-				if (annotationView == null)
-					annotationView = new MKAnnotationView(annotation, CAR_ANNOTATION);
-
-				// TODO: Update to actual car photo.
-				annotationView.Image = UIImage.FromBundle(Images.CarAnnotationImage);
 				annotationView.CanShowCallout = false;
 			}
 
@@ -62,10 +69,17 @@ namespace MyTrips.iOS
 				annotationView = mapView.DequeueReusableAnnotation(WAYPOINT_ANNOTATION);
 
 				if (annotationView == null)
-					annotationView = new MKAnnotationView (annotation, WAYPOINT_ANNOTATION);
+					annotationView = new MKAnnotationView(annotation, WAYPOINT_ANNOTATION);
 
-				// TODO: Pass in A or B to show start and end points.
-				// annotationView.AddSubview(new WayPointCircle());
+				if (((WaypointAnnotation)annotation).Waypoint == "A")
+				{
+					annotationView.Image = UIImage.FromBundle(Images.WaypointAnnotationA);
+				}
+				else
+				{
+					annotationView.Image = UIImage.FromBundle(Images.WaypointAnnotationB);
+				}
+
 				annotationView.CanShowCallout = false;
 			}
 
