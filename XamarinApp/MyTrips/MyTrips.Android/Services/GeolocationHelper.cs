@@ -23,6 +23,9 @@ namespace MyTrips.Droid.Services
 
         private static GeolocationHelper current;
 
+        static bool isRunning;
+        public bool IsRunning => isRunning;
+
         public GeolocationService LocationService
         {
             get
@@ -58,6 +61,9 @@ namespace MyTrips.Droid.Services
 
         public static Task StartLocationService()
         {
+            if (isRunning)
+                return Task.FromResult(true);
+            isRunning = true;
             // Starting a service like this is blocking, so we want to do it on a background thread
             return Task.Run(() =>
                 { 
@@ -81,6 +87,9 @@ namespace MyTrips.Droid.Services
 
         public static void StopLocationService()
         {
+            if (!isRunning)
+                return;
+            isRunning = false;
             // Check for nulls in case StartLocationService task has not yet completed.
             Log.Debug("App", "StopLocationService");
 

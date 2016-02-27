@@ -2,6 +2,8 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using MyTrips.Droid.Helpers;
+using Plugin.Permissions;
+using Android.Content.PM;
 
 namespace MyTrips.Droid
 {
@@ -33,14 +35,23 @@ namespace MyTrips.Droid
             accelerometerManager = new AccelerometerManager(this, this);
         }
 
+
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
         public void OnAccelerationChanged(float x, float y, float z)
         {
 
         }
-
+        bool canShowFeedback;
         public void OnShake(float force)
         {
-            HockeyApp.FeedbackManager.TakeScreenshot(this);
+            if (!canShowFeedback)
+                return;
+            canShowFeedback = false;
             HockeyApp.FeedbackManager.ShowFeedbackActivity(this);
         }
 
@@ -48,6 +59,7 @@ namespace MyTrips.Droid
         protected override void OnResume()
         {
             base.OnResume();
+            canShowFeedback = true;
             if (accelerometerManager.IsSupported)
                 accelerometerManager.StartListening();
             

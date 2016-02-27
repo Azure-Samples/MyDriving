@@ -49,6 +49,11 @@ namespace MyTrips.Droid
                 drawerLayout.CloseDrawers();
             };
 
+            if (Intent.GetBooleanExtra("tracking", false))
+            {
+                ListItemClicked(Resource.Id.menu_current_trip);
+                return;
+            }
 
             //if first time you will want to go ahead and click first item.
             if (bundle == null)

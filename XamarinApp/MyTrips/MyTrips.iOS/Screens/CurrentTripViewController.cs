@@ -182,7 +182,10 @@ namespace MyTrips.iOS
 				tripMapView.AddAnnotation(endEndpoint);
 			}
 
-			ViewModel.IsRecording = !ViewModel.IsRecording;
+            if (ViewModel.IsRecording)
+                ViewModel.StopRecordingTripCommand.Execute(null);
+            else
+                ViewModel.StartRecordingTripCommand.Execute(null);
 		}
 
 		void TripSlider_ValueChanged(object sender, EventArgs e)

@@ -27,7 +27,7 @@ namespace MyTrips.ViewModel
 		public bool IsRecording
         {
             get { return isRecording; }
-            set { SetProperty(ref isRecording, value); }
+            private set { SetProperty(ref isRecording, value); }
         }
 
         Position position;
@@ -49,7 +49,54 @@ namespace MyTrips.ViewModel
         public IMedia Media => CrossMedia.Current;
 
 
+        ICommand  startRecordingTripCommand;
+        public ICommand StartRecordingTripCommand =>
+        startRecordingTripCommand ?? (startRecordingTripCommand = new RelayCommand(async () => await ExecuteStartRecordingTripCommandAsync()));
 
+        public async Task ExecuteStartRecordingTripCommandAsync()
+        {
+            if (IsBusy || IsRecording)
+                return;
+
+            try
+            {
+                IsRecording = true;
+            }
+            catch
+            {
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        ICommand  stopRecordingTripCommand;
+        public ICommand StopRecordingTripCommand =>
+        stopRecordingTripCommand ?? (stopRecordingTripCommand = new RelayCommand(async () => await ExecuteStopRecordingTripCommandAsync()));
+
+        public async Task ExecuteStopRecordingTripCommandAsync()
+        {
+            if (IsBusy || !IsRecording)
+                return;
+
+            try
+            {
+                IsRecording = false;
+
+                //TODO: Insert into database
+                CurrentTrip = new Trip();
+                CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
+                CurrentTrip.Photos = new ObservableRangeCollection<Photo>();
+            }
+            catch
+            {
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
 
 
 		ICommand  startTrackingTripCommand;
@@ -162,7 +209,8 @@ namespace MyTrips.ViewModel
                         DefaultCamera = CameraDevice.Rear,
                         Directory = "MyTrips",
                         Name = "MyTrips_",
-                        SaveToAlbum = true
+                        SaveToAlbum = true,    
+                        PhotoSize = PhotoSize.Small
                     });
 
                 if(photo == null)
@@ -181,6 +229,7 @@ namespace MyTrips.ViewModel
                         TripId = CurrentTrip.Id
                     };
 
+                //TODO: 
                 CurrentTrip.Photos.Add(photoDB);
 
                 photo.Dispose();

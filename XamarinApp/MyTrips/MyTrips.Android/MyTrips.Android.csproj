@@ -79,12 +79,6 @@
     <Reference Include="Plugin.Geolocator.Abstractions, Version=3.0.4.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\MonoAndroid10\Plugin.Geolocator.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Plugin.Media, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\Xam.Plugin.Media.2.3.0\lib\MonoAndroid10\Plugin.Media.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.Media.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\Xam.Plugin.Media.2.3.0\lib\MonoAndroid10\Plugin.Media.Abstractions.dll</HintPath>
-    </Reference>
     <Reference Include="Plugin.Permissions, Version=1.1.6.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\packages\Plugin.Permissions.1.1.7\lib\MonoAndroid10\Plugin.Permissions.dll</HintPath>
     </Reference>
@@ -159,6 +153,12 @@
     </Reference>
     <Reference Include="Xamarin.Android.Support.v14.Preference">
       <HintPath>..\..\packages\Xamarin.Android.Support.v14.Preference.23.1.1.0\lib\MonoAndroid41\Xamarin.Android.Support.v14.Preference.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Media">
+      <HintPath>..\..\packages\Xam.Plugin.Media.2.4.0-beta2\lib\MonoAndroid10\Plugin.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Media.Abstractions">
+      <HintPath>..\..\packages\Xam.Plugin.Media.2.4.0-beta2\lib\MonoAndroid10\Plugin.Media.Abstractions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +253,12 @@
     <AndroidResource Include="Resources\drawable-xhdpi\menu_current_trip.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\menu_current_trip.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\menu_current_trip.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_camera.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_camera.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_camera.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_camera.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_camera.png" />
+    <AndroidResource Include="Resources\menu\menu_current_trip.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
