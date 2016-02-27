@@ -90,10 +90,16 @@ namespace MyTrips.iOS
 				var endEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Trail[count - 1].ToCoordinate (), "B");
 				tripMapView.AddAnnotation(endEndpoint);
 
+				var carCoordinate = PastTripsDetailViewModel.Trip.Trail[count / 2].ToCoordinate ();
+				currentLocationAnnotation = new CarAnnotation(carCoordinate, "Blue");
+				tripMapView.AddAnnotation(currentLocationAnnotation);
+
 				// Hide record button
 				recordButton.Hidden = true;
 				wayPointA.Hidden = false;
 				wayPointA.Hidden = false;
+
+				ConfigureSlider();
 			}
 		}
 
@@ -179,6 +185,14 @@ namespace MyTrips.iOS
 			ViewModel.IsRecording = !ViewModel.IsRecording;
 		}
 
+		void TripSlider_ValueChanged(object sender, EventArgs e)
+		{
+			// Move car to coordinate
+			var value = (int)tripSlider.Value;
+			var coordinate = PastTripsDetailViewModel.Trip.Trail[value].ToCoordinate();
+			UpdateCarAnnotationPosition(coordinate);
+		}
+
 		void UpdateRecordButton(bool isRecording)
 		{
 			//Corner Radius
@@ -210,9 +224,16 @@ namespace MyTrips.iOS
 				tripMapView.RemoveAnnotation(currentLocationAnnotation);
 			}
 
-			if (ViewModel.IsRecording)
+			if (ViewModel != null)
 			{
-				currentLocationAnnotation = new CarAnnotation(coordinate, "Red");
+				if (ViewModel.IsRecording)
+				{
+					currentLocationAnnotation = new CarAnnotation(coordinate, "Red");
+				}
+				else
+				{
+					currentLocationAnnotation = new CarAnnotation(coordinate, "Blue");
+				}
 			}
 			else
 			{
@@ -241,7 +262,16 @@ namespace MyTrips.iOS
 
 			lblCost.Text = "$0.00";
 			lblCost.Pop(duration, 0, 1);
+		}
 
+		void ConfigureSlider()
+		{
+			var dataPoints = PastTripsDetailViewModel.Trip.Trail.Count - 1;
+			tripSlider.MinValue = 0;
+			tripSlider.MaxValue = dataPoints;
+			tripSlider.Value = PastTripsDetailViewModel.Trip.Trail.Count / 2;
+
+			tripSlider.ValueChanged += TripSlider_ValueChanged;
 		}
 	}
 }
