@@ -81,12 +81,14 @@ namespace MyTrips.Droid.Fragments
     public class TripViewHolder : RecyclerView.ViewHolder
     {
         public TextView Title {get;set;}
-        public TextView Subtitle {get;set;}
+        public TextView Date {get;set;}
+        public TextView Distance {get;set;}
 
         public TripViewHolder(View itemView, Action<int> listener) : base (itemView)
         {
             Title = itemView.FindViewById<TextView>(Resource.Id.text_title);
-            Subtitle = itemView.FindViewById<TextView>(Resource.Id.text_subtitle);
+            Distance = itemView.FindViewById<TextView>(Resource.Id.text_distance);
+            Date = itemView.FindViewById<TextView>(Resource.Id.text_date);
             itemView.Click += (sender, e) => listener (AdapterPosition);
         }
     }
@@ -113,7 +115,8 @@ namespace MyTrips.Droid.Fragments
 
             var trip = viewModel.Trips[position];
             vh.Title.Text = trip.TripId;
-            vh.Subtitle.Text = trip.TotalDistance;
+            vh.Distance.Text = trip.TotalDistance;
+            vh.Date.Text = trip.TimeAgo;
         }
 
         public override int ItemCount => viewModel.Trips.Count;

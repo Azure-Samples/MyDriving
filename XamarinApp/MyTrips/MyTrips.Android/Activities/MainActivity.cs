@@ -43,8 +43,8 @@ namespace MyTrips.Droid
 
                 ListItemClicked(e.MenuItem.ItemId);
 
-                Snackbar.Make(drawerLayout, "You selected: " + e.MenuItem.TitleFormatted, Snackbar.LengthLong)
-                    .Show();
+
+                SupportActionBar.Title = e.MenuItem.TitleFormatted.ToString();
 
                 drawerLayout.CloseDrawers();
             };

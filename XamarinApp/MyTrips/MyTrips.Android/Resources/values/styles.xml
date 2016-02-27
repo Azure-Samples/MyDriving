@@ -21,6 +21,7 @@
       <item name="actionBarStyle">@style/MyTheme.ActionBar</item>
       <item name="android:windowContentOverlay">@null</item>
     -->
+		  <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="MyTheme.ActionBar" parent="style/Widget.AppCompat.Light.ActionBar.Solid">

@@ -52,7 +52,7 @@ namespace MyTrips.Droid.Fragments
 
         void TrailUpdated (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            Activity.RunOnUiThread (() => {
+            Activity?.RunOnUiThread (() => {
                 var item = viewModel.CurrentTrip.Trail[viewModel.CurrentTrip.Trail.Count - 1];
                 latText.Text = $"Latitude: {item.Latitude}";
                 longText.Text = $"Longitude: {item.Longitude}";
@@ -110,12 +110,12 @@ namespace MyTrips.Droid.Fragments
             var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
             var rectOptions = new PolylineOptions();
             rectOptions.Add(points);
+            rectOptions.InvokeColor(ActivityCompat.GetColor(Activity, Resource.Color.accent));
             map.AddPolyline(rectOptions);
             UpdateCamera();
         }
 
 
-        bool setZoom = true;
         void UpdateMap(Trail trail)
         {
             if(map == null)
@@ -137,16 +137,8 @@ namespace MyTrips.Droid.Fragments
 
             var current = viewModel.CurrentTrip.Trail[viewModel.CurrentTrip.Trail.Count - 1];
 
-            if (setZoom)
-            {
-                map.AnimateCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(current.Latitude, current.Longitude), 13));
-                setZoom = false;
-            }
-            else
-            {
-                map.AnimateCamera(CameraUpdateFactory.NewLatLng(new LatLng(current.Latitude, current.Longitude)));
-            }
-         
+            map.AnimateCamera(CameraUpdateFactory.NewLatLngZoom(new LatLng(current.Latitude, current.Longitude), 13));
+
         }
 
         public override void OnResume()
