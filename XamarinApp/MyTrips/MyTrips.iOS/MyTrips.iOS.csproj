@@ -298,7 +298,6 @@
     <BundleResource Include="Resources\login_facebook.png" />
     <BundleResource Include="Resources\login_microsoft.png" />
     <BundleResource Include="Resources\login_twitter.png" />
-    <BundleResource Include="Resources\car_annotation.png" />
     <BundleResource Include="Resources\tabbar_currenttrip.png" />
     <BundleResource Include="Resources\tabbar_currenttrip%402x.png" />
     <BundleResource Include="Resources\tabbar_currenttrip%403x.png" />
@@ -308,7 +307,7 @@
     <BundleResource Include="Resources\tabbar_trips.png" />
     <BundleResource Include="Resources\tabbar_trips%402x.png" />
     <BundleResource Include="Resources\tabbar_trips%403x.png" />
-    <BundleResource Include="Resources\Map\waypoint_a.png" />
+    <BundleResource Include="Resources\Map\waypoint_a%402x.png" />
     <BundleResource Include="Resources\Map\waypoint_b%402x.png" />
     <BundleResource Include="Resources\Map\car_annotation_blue%402x.png" />
     <BundleResource Include="Resources\Map\car_annotation_red%402x.png" />
