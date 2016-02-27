@@ -128,6 +128,7 @@ namespace MyTrips.Droid.Fragments
             var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
             var rectOptions = new PolylineOptions();
             rectOptions.Add(points);
+            rectOptions.InvokeColor(ActivityCompat.GetColor(Activity, Resource.Color.accent));
             map.AddPolyline(rectOptions);
             map.AddMarker(car);
             UpdateCamera();
