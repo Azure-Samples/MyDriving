@@ -145,9 +145,11 @@
     </Reference>
     <Reference Include="Plugin.Media">
       <HintPath>..\..\packages\Xam.Plugin.Media.2.4.0-beta2\lib\Xamarin.iOS10\Plugin.Media.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Plugin.Media.Abstractions">
       <HintPath>..\..\packages\Xam.Plugin.Media.2.4.0-beta2\lib\Xamarin.iOS10\Plugin.Media.Abstractions.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +284,14 @@
     </Compile>
     <Compile Include="Helpers\Colors.cs" />
     <Compile Include="CustomControls\TripSlider.cs" />
+    <Compile Include="Screens\ProfileTableViewController.cs" />
+    <Compile Include="Screens\ProfileTableViewController.designer.cs">
+      <DependentUpon>ProfileTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cells\ProfileStatCell.cs" />
+    <Compile Include="Cells\ProfileStatCell.designer.cs">
+      <DependentUpon>ProfileStatCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
