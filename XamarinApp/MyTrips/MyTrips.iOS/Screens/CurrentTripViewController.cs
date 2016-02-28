@@ -183,9 +183,9 @@ namespace MyTrips.iOS
 			}
 
             if (ViewModel.IsRecording)
-                ViewModel.StopRecordingTripCommand.Execute(null);
+                await ViewModel.StopRecordingTripAsync();
             else
-                ViewModel.StartRecordingTripCommand.Execute(null);
+                await ViewModel.StartRecordingTripAsync();
 		}
 
 		void TripSlider_ValueChanged(object sender, EventArgs e)

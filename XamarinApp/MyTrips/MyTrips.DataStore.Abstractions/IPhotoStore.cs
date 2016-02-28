@@ -9,7 +9,6 @@ namespace MyTrips.DataStore.Abstractions
 {
     public interface IPhotoStore : IBaseStore<Photo>
     {
-        Task<Photo> GetTripMainPhoto(string tripId);
         Task<IEnumerable<Photo>> GetTripPhotos(string tripId);
     }
 }

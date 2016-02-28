@@ -9,6 +9,7 @@ using MyTrips.Helpers;
 
 using MyTrips.DataObjects;
 using MyTrips.Utils;
+using MyTrips.Model;
 
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
@@ -39,6 +40,7 @@ namespace MyTrips.ViewModel
 		public CurrentTripViewModel()
 		{
 			CurrentTrip = new Trip();
+
             CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
             CurrentTrip.Photos = new ObservableRangeCollection<Photo>();
 		}
@@ -48,14 +50,11 @@ namespace MyTrips.ViewModel
         public IMedia Media => CrossMedia.Current;
 
 
-        ICommand  startRecordingTripCommand;
-        public ICommand StartRecordingTripCommand =>
-        startRecordingTripCommand ?? (startRecordingTripCommand = new RelayCommand(async () => await ExecuteStartRecordingTripCommandAsync()));
-
-        public async Task ExecuteStartRecordingTripCommandAsync()
+ 
+        public async Task<bool> StartRecordingTripAsync()
         {
             if (IsBusy || IsRecording)
-                return;
+                return false;
 
             try
             {
@@ -67,16 +66,15 @@ namespace MyTrips.ViewModel
             finally
             {
             }
+
+            return true;
         }
 
-        ICommand  stopRecordingTripCommand;
-        public ICommand StopRecordingTripCommand =>
-        stopRecordingTripCommand ?? (stopRecordingTripCommand = new RelayCommand(async () => await ExecuteStopRecordingTripCommandAsync()));
-
-        public async Task ExecuteStopRecordingTripCommandAsync()
+   
+        public async Task<bool> StopRecordingTripAsync()
         {
             if (IsBusy || !IsRecording)
-                return;
+                return false;
 
             try
             {
@@ -85,21 +83,40 @@ namespace MyTrips.ViewModel
                 IsBusy = true;
                 #if DEBUG
                 await Task.Delay(5000);
-                #endif
+#endif
 
-                //TODO: Insert into database
+                //TODO: use real city here
+                CurrentTrip.MainPhotoUrl = await BingHelper.QueryBingImages("Seattle", CurrentPosition.Latitude, CurrentPosition.Longitude);
+                CurrentTrip.Rating = 90;
+                CurrentTrip.TimeStamp = DateTime.UtcNow;
+                CurrentTrip.TotalDistance = "10 miles";
+                CurrentTrip.TripId = "James@" + DateTime.Today.Day.ToString();
+
+                await StoreManager.TripStore.InsertAsync(CurrentTrip);
+
+                foreach (var photo in CurrentTrip.Photos)
+                {
+                    photo.TripId = CurrentTrip.Id;
+                    await StoreManager.PhotoStore.InsertAsync(photo);
+                }
+
                 CurrentTrip = new Trip();
                 CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
                 CurrentTrip.Photos = new ObservableRangeCollection<Photo>();
                 OnPropertyChanged(nameof(CurrentTrip));
+
+                return true;
             }
-            catch
+            catch(Exception ex)
             {
+                Logger.Instance.Report(ex);
             }
             finally
             {
                 IsBusy = false;
             }
+
+            return false;
         }
 
 
@@ -226,8 +243,7 @@ namespace MyTrips.ViewModel
                         PhotoUrl = photo.Path,
                         Latitude = local.Latitude,
                         Longitude = local.Longitude, 
-                        TimeStamp = DateTime.UtcNow,
-                        TripId = CurrentTrip.Id
+                        TimeStamp = DateTime.UtcNow
                     };
 
                 //TODO: 

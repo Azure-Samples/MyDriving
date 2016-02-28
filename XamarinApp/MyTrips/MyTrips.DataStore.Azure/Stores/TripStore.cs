@@ -21,8 +21,8 @@ namespace MyTrips.DataStore.Azure.Stores
             foreach (var item in items)
             {
                 item.Photos = new List<Photo>();
-                var photo = await photoStore.GetTripMainPhoto(item.Id);
-                if (photo != null)
+                var photos = await photoStore.GetTripPhotos(item.Id);
+                foreach(var photo in photos)
                     item.Photos.Add(photo);
             }
 

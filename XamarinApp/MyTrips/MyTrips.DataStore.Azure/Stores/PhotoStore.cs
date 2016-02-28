@@ -19,19 +19,9 @@ namespace MyTrips.DataStore.Azure.Stores
             return Task.FromResult(true);
         }
 
-        public async Task<Photo> GetTripMainPhoto(string tripId)
+        public Task<IEnumerable<Photo>> GetTripPhotos(string tripId)
         {
-            var items = await GetTripPhotos(tripId);
-
-            if (items.Count() > 0)
-                return items.ElementAt(0);
-
-            return null;
-        }
-
-        public async Task<IEnumerable<Photo>> GetTripPhotos(string tripId)
-        {
-            return await Table.Where(s => s.TripId == tripId).ToEnumerableAsync();
+            return Table.Where(s => s.TripId == tripId).ToEnumerableAsync();
         }
     }
 }

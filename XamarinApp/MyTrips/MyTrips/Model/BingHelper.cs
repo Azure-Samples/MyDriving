@@ -11,7 +11,7 @@ namespace MyTrips.Model
 
 		public static async Task<string> QueryBingImages(string city, double latitude, double longitude)
 		{
-            var bingQuery = $"https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=%27{city}%27&Adult=%27Strict%27&Latitude={latitude}&Longitude={longitude}&ImageFilters=%27Size%3AMedium%2BAspect%3AWide%27&$top=1";
+            var bingQuery = $"https://api.datamarket.azure.com/Bing/Search/v1/Image?Query=%27{city}%27&Adult=%27Strict%27&Latitude={latitude}&Longitude={longitude}&ImageFilters=%27Size%3AMedium%2BAspect%3AWide%27&$top=1&$format=json";
 			var handler = new HttpClientHandler 
             {
 				Credentials = new System.Net.NetworkCredential(key, key)

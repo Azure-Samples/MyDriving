@@ -1,4 +1,5 @@
 using Android.OS;
+using Android.App;
 using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Views;
@@ -21,7 +22,7 @@ using MyTrips.Droid.Controls;
 
 namespace MyTrips.Droid.Fragments
 {
-    public class FragmentCurrentTrip : Fragment, IOnMapReadyCallback  
+    public class FragmentCurrentTrip : Android.Support.V4.App.Fragment, IOnMapReadyCallback  
     {
         public static FragmentCurrentTrip NewInstance() => new FragmentCurrentTrip { Arguments = new Bundle() };
 
@@ -109,16 +110,18 @@ namespace MyTrips.Droid.Fragments
                         break;
                     if (viewModel.IsRecording)
                     {
-                      
-                        viewModel.StopRecordingTripCommand.Execute(null);
+
                         AddEndMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
+                        UpdateCarIcon(false);
+                        viewModel.StopRecordingTripAsync().ContinueWith((arg) => { });
                     }
                     else
                     {
-                        viewModel.StartRecordingTripCommand.Execute(null);
                         AddStartMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
-
-                        UpdateCarIcon();
+                        viewModel.StartRecordingTripAsync().ContinueWith((arg) =>
+                        {
+                            UpdateCarIcon(true);
+                        });
                     }
 
                     break;
@@ -128,32 +131,38 @@ namespace MyTrips.Droid.Fragments
 
         void AddStartMarker(LatLng start)
         {
-            var logicalDensity = Resources.DisplayMetrics.Density;
-            var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
+            Activity?.RunOnUiThread(() =>
+            {
+                var logicalDensity = Resources.DisplayMetrics.Density;
+                var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
 
-            var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_start_point) as BitmapDrawable;
-            var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
+                var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_start_point) as BitmapDrawable;
+                var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
 
-            var startMarker = new MarkerOptions();
-            startMarker.SetPosition(new LatLng(start.Latitude, start.Longitude));
-            startMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
-            startMarker.Anchor(.5f, .5f);
-            map.AddMarker(startMarker);
+                var startMarker = new MarkerOptions();
+                startMarker.SetPosition(new LatLng(start.Latitude, start.Longitude));
+                startMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
+                startMarker.Anchor(.5f, .5f);
+                map.AddMarker(startMarker);
+            });
         }
 
         void AddEndMarker(LatLng end)
         {
-            var logicalDensity = Resources.DisplayMetrics.Density;
-            var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
-            var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_end_point) as BitmapDrawable;
-            var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
+            Activity?.RunOnUiThread(() =>
+            {
+                var logicalDensity = Resources.DisplayMetrics.Density;
+                var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
+                var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_end_point) as BitmapDrawable;
+                var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
 
-            var endMarker = new MarkerOptions();
-            endMarker.SetPosition(new LatLng(end.Latitude, end.Longitude));
-            endMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
-            endMarker.Anchor(.5f, .5f);
+                var endMarker = new MarkerOptions();
+                endMarker.SetPosition(new LatLng(end.Latitude, end.Longitude));
+                endMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
+                endMarker.Anchor(.5f, .5f);
 
-            map.AddMarker(endMarker);
+                map.AddMarker(endMarker);
+            });
         }
 
         void TrailUpdated (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -199,20 +208,22 @@ namespace MyTrips.Droid.Fragments
             }
             catch (Exception ex)
             {
-
+                
             }
 
         }
 
-        void UpdateCarIcon()
+        void UpdateCarIcon(bool recording)
         {
+            Activity?.RunOnUiThread(() =>
+            {
+                var logicalDensity = Resources.DisplayMetrics.Density;
+                var thicknessCar = (int)Math.Ceiling(24 * logicalDensity + .5f);
+                var b = ContextCompat.GetDrawable(Activity, recording ? Resource.Drawable.ic_car_red : Resource.Drawable.ic_car_blue) as BitmapDrawable;
+                var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessCar, thicknessCar, false);
 
-            var logicalDensity = Resources.DisplayMetrics.Density;
-            var thicknessCar = (int)Math.Ceiling(24 * logicalDensity + .5f);
-            var b = ContextCompat.GetDrawable(Activity, viewModel.IsRecording ? Resource.Drawable.ic_car_red : Resource.Drawable.ic_car_blue) as BitmapDrawable;
-            var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessCar, thicknessCar, false);
-
-            carMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
+                carMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
+            });
         }
 
         public override void OnStop()
@@ -244,18 +255,21 @@ namespace MyTrips.Droid.Fragments
                 mapView.PostDelayed (() => { SetupMap();}, 500);
                 return;
             }
+
             
             Trail start = null;
-            if(viewModel.CurrentTrip.Trail.Count != 0)
-             start = viewModel.CurrentTrip.Trail[0];
-            
+            if (viewModel.CurrentTrip.Trail.Count != 0)
+                start = viewModel.CurrentTrip.Trail[0];
+
             UpdateCar(start == null ? null : new LatLng(start.Latitude, start.Longitude));
-            var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
-            driveLine = new PolylineOptions();
-            driveLine.Add(points);
-            driveLine.Visible(true);
-            driveLine.InvokeColor(ActivityCompat.GetColor(Activity, Resource.Color.accent));
-            map.AddPolyline(driveLine);
+            Activity.RunOnUiThread(() =>
+            {   var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
+                driveLine = new PolylineOptions();
+                driveLine.Add(points);
+                driveLine.Visible(true);
+                driveLine.InvokeColor(ActivityCompat.GetColor(Activity, Resource.Color.accent));
+                map.AddPolyline(driveLine);
+            });
             if (start != null)
             {
                 UpdateCamera(carMarker.Position);
@@ -283,18 +297,21 @@ namespace MyTrips.Droid.Fragments
         {
             if (latlng == null || map == null)
                 return;
-
-            if (carMarker == null)
+            Activity.RunOnUiThread(() =>
             {
-                var car = new MarkerOptions();
-                car.SetPosition(latlng);
-                car.Anchor(.5f, .5f);
-                carMarker = map.AddMarker(car);
-                UpdateCarIcon();
+                if (carMarker == null)
+                {
 
-                return;
-            }
-            carMarker.Position = latlng;
+                    var car = new MarkerOptions();
+                    car.SetPosition(latlng);
+                    car.Anchor(.5f, .5f);
+                    carMarker = map.AddMarker(car);
+                    UpdateCarIcon(viewModel.IsRecording);
+
+                    return;
+                }
+                carMarker.Position = latlng;
+            });
         }
             
 
@@ -303,16 +320,18 @@ namespace MyTrips.Droid.Fragments
         {
             if (map == null)
                 return;
-            
-            if (setZoom)
+            Activity.RunOnUiThread(() =>
             {
-                map.MoveCamera(CameraUpdateFactory.NewLatLngZoom(latlng, 14));
-                setZoom = false;
-            }
-            else
-            {
-                map.MoveCamera(CameraUpdateFactory.NewLatLng(latlng));
-            }
+                if (setZoom)
+                {
+                    map.MoveCamera(CameraUpdateFactory.NewLatLngZoom(latlng, 14));
+                    setZoom = false;
+                }
+                else
+                {
+                    map.MoveCamera(CameraUpdateFactory.NewLatLng(latlng));
+                }
+            });
          
         }
 

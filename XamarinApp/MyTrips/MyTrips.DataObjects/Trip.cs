@@ -15,6 +15,10 @@ namespace MyTrips.DataObjects
             this.Trail = new List<Trail>();
         }
 
+        /// <summary>
+        /// This is actually the name
+        /// </summary>
+        /// <value>The trip identifier.</value>
         public string TripId { get; set; }
 
         public string UserId { get; set; }
@@ -43,7 +47,6 @@ namespace MyTrips.DataObjects
         }
 
         public int TrailId { get; set; }
-
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }

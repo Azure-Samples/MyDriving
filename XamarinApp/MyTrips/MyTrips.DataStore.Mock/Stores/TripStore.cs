@@ -142,7 +142,7 @@ namespace MyTrips.DataStore.Mock.Stores
             trip5.TripId = trip5.UserId + "@SF";
             trip5.TotalDistance = "3 miles";
 
-            startTime = DateTime.Now.AddYears(4);
+            startTime = DateTime.Now.AddYears(-4);
             trip5.TimeStamp = startTime;
             timeIncrement = 1;
             AddTripDetails(trip5, 2, 37.63973671, -122.44194609, startTime.AddMinutes(timeIncrement++));
@@ -228,7 +228,7 @@ namespace MyTrips.DataStore.Mock.Stores
             if (!initialized)
                 await InitializeStoreAsync();
             
-            return Trips;
+            return Trips.OrderByDescending(s => s.TimeStamp);
         }
 
         public override async Task<Trip> GetItemAsync(string id)
@@ -242,6 +242,13 @@ namespace MyTrips.DataStore.Mock.Stores
                 trip = Trips[0];
 
             return trip;
+        }
+
+        public override async Task<bool> InsertAsync(Trip item)
+        {
+            item.Id = Guid.NewGuid().ToString();
+            Trips.Add(item);
+            return true;
         }
     }
 }

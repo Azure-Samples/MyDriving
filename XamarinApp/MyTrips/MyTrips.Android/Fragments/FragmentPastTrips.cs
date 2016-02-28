@@ -11,6 +11,7 @@ using MyTrips.Droid.Controls;
 using Android.Content;
 
 
+
 namespace MyTrips.Droid.Fragments
 {
     public class FragmentPastTrips : Fragment
@@ -35,13 +36,20 @@ namespace MyTrips.Droid.Fragments
 
             refresher.Refresh += (sender, e) => viewModel.LoadPastTripsCommand.Execute(null);
 
-            adapter = new TripAdapter(viewModel);
-            adapter.ItemClick += OnItemClick;
-            layoutManager = new LinearLayoutManager(Activity);
-            recyclerView.SetLayoutManager(layoutManager);
-            recyclerView.SetAdapter(adapter);
 
             return view;
+        }
+
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+
+            adapter = new TripAdapter(Activity, viewModel);
+            adapter.ItemClick += OnItemClick;
+            layoutManager = new LinearLayoutManager(Activity);
+            layoutManager.Orientation = LinearLayoutManager.Vertical;
+            recyclerView.SetLayoutManager(layoutManager);
+            recyclerView.SetAdapter(adapter);
         }
 
 
@@ -117,10 +125,19 @@ namespace MyTrips.Droid.Fragments
         public event EventHandler<TripClickEventArgs> ItemClick;
 
         PastTripsViewModel viewModel;
-        public TripAdapter(PastTripsViewModel viewModel)
+        Android.App.Activity activity;
+        public TripAdapter(Android.App.Activity activity, PastTripsViewModel viewModel)
         {
+            this.activity = activity;
             this.viewModel = viewModel;
-            this.viewModel.Trips.CollectionChanged += (sender, e) => NotifyDataSetChanged();
+
+            this.viewModel.Trips.CollectionChanged += (sender, e) =>
+            {
+                this.activity.RunOnUiThread(() => 
+                {
+                    NotifyDataSetChanged();
+                });
+            };
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) =>

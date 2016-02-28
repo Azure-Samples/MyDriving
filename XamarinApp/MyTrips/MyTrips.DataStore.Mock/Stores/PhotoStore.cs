@@ -3,11 +3,17 @@ using MyTrips.DataObjects;
 using MyTrips.DataStore.Abstractions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyTrips.DataStore.Mock.Stores
 {
     public class PhotoStore : BaseStore<Photo>, IPhotoStore
     {
+        List<Photo> photos;
+        public PhotoStore()
+        {
+            photos = new List<Photo>();
+        }
         public override Task<bool> PullLatestAsync()
         {
             return Task.FromResult(true);
@@ -18,14 +24,16 @@ namespace MyTrips.DataStore.Mock.Stores
             return Task.FromResult(true);
         }
 
-        public async Task<Photo> GetTripMainPhoto(string tripId)
+
+        public Task<IEnumerable<Photo>> GetTripPhotos(string tripId)
         {
-            return null;
+            return Task.FromResult(photos.Where(a => a.TripId == tripId));
         }
 
-        public async Task<IEnumerable<Photo>> GetTripPhotos(string tripId)
+        public override Task<bool> InsertAsync(Photo item)
         {
-            return new List<Photo>();
+            photos.Add(item);
+            return Task.FromResult(true);
         }
 
     }
