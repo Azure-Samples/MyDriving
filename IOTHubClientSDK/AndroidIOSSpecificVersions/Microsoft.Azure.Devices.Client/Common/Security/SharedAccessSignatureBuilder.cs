@@ -10,7 +10,7 @@ namespace Microsoft.Azure.Devices.Client
     using System.Collections.Generic;
 #endif
     using System.Globalization;
-#if WINDOWS_UWP && !__ANDROID__
+#if WINDOWS_UWP && !__ANDROID__ && !__IOS__
     using Windows.Security.Cryptography;
     using Windows.Security.Cryptography.Core;
     using System.Runtime.InteropServices.WindowsRuntime;
@@ -135,7 +135,7 @@ namespace Microsoft.Azure.Devices.Client
 #endif
         }
 
-#if WINDOWS_UWP
+#if WINDOWS_UWP && !__ANDROID__ && !__IOS__
         static string Sign(string requestString, string key)
         {
             var algo = MacAlgorithmProvider.OpenAlgorithm(MacAlgorithmNames.HmacSha256);

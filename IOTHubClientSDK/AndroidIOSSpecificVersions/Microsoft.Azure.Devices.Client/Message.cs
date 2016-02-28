@@ -6,9 +6,9 @@ namespace Microsoft.Azure.Devices.Client
     using System;
     using System.IO;
     using System.Threading;
-#if WINDOWS_UWP && !NETMF && !__ANDROID__
+#if WINDOWS_UWP && !NETMF && !__ANDROID__ && !__IOS__
     using Windows.Storage.Streams;
-#elif !NETMF && !__ANDROID__
+#elif !NETMF && !__ANDROID__ && !__IOS__
     using Microsoft.Azure.Amqp;
 #endif
 
