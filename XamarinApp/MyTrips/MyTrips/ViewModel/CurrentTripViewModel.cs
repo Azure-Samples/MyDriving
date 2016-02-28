@@ -62,8 +62,8 @@ namespace MyTrips.ViewModel
                 var trail = new Trail
                 {
                     TimeStamp = DateTime.UtcNow,
-                    Latitude = CurrentTrip.Latitude,
-                    Longitude = CurrentTrip.Longitude,
+                    Latitude = CurrentPosition.Latitude,
+                    Longitude = CurrentPosition.Longitude,
                 };
 
 
