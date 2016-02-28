@@ -14,7 +14,11 @@ namespace MyTrips.Droid.Fragments
         public override void OnCreatePreferences(Bundle p0, string p1)
         {
             AddPreferencesFromResource(Resource.Xml.preferences);
+        }
 
+        public override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
             var logout = FindPreference("logout");
             logout.PreferenceClick += (sender, e) =>
             {
@@ -27,16 +31,16 @@ namespace MyTrips.Droid.Fragments
                     var intent = new Intent(Activity, typeof(LoginActivity));
                     intent.AddFlags(ActivityFlags.ClearTop);
                     Activity.StartActivity(intent);
+                    Activity.Finish();
 
                 }).SetNegativeButton(Android.Resource.String.Cancel, delegate
                 {
-                   
+
                 });
 
                 var alert = builder.Create();
                 alert.Show();
             };
         }
-
     }
 }

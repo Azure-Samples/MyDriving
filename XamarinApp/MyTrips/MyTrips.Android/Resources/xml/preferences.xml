@@ -7,7 +7,7 @@
 
         <Preference
 				
-				android:key="lotout"
+				android:key="logout"
                 android:title="Logout" />
 
     </PreferenceCategory>
