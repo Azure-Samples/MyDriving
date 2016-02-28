@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Devices.Client
 
     // C# using aliases cannot name an unbound generic type declaration without supplying type arguments
     // Therefore, define a separate alias for each type argument
-#if WINDOWS_UWP
+#if WINDOWS_UWP && !__ANDROID__
     using AsyncTask = Windows.Foundation.IAsyncAction;
     using AsyncTaskOfMessage = Windows.Foundation.IAsyncOperation<Message>;
 #else

@@ -3,6 +3,7 @@
 
 namespace Microsoft.Azure.Devices.Client
 {
+    #if !__ANDROID__
     using System;
     using System.Threading.Tasks;
     using Windows.Foundation;
@@ -60,4 +61,5 @@ namespace Microsoft.Azure.Devices.Client
         //     Changing of correlation identity.
         Transfer = 4096
     }
+    #endif
 }

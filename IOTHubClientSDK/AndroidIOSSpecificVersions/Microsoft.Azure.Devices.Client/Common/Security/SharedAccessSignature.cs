@@ -8,7 +8,7 @@ namespace Microsoft.Azure.Devices.Client
     using System.Collections.Generic;
     using System.Globalization;
 
-#if WINDOWS_UWP
+#if WINDOWS_UWP && !__ANDROID__
     using Windows.Security.Cryptography;
     using Windows.Security.Cryptography.Core;
     using System.Runtime.InteropServices.WindowsRuntime;
