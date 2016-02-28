@@ -265,7 +265,7 @@ namespace MyTrips.Droid.Fragments
                 start = viewModel.CurrentTrip.Trail[0];
 
             UpdateCar(start == null ? null : new LatLng(start.Latitude, start.Longitude));
-            Activity.RunOnUiThread(() =>
+            Activity?.RunOnUiThread(() =>
             {   var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
                 driveLine = new PolylineOptions();
                 driveLine.Add(points);
@@ -287,7 +287,7 @@ namespace MyTrips.Droid.Fragments
             if(map == null)
                 return;
             var latlng = new LatLng(trail.Latitude, trail.Longitude);
-            Activity.RunOnUiThread(() =>
+            Activity?.RunOnUiThread(() =>
             {
                 UpdateCar(latlng);
                 driveLine.Add(latlng);
@@ -300,7 +300,7 @@ namespace MyTrips.Droid.Fragments
         {
             if (latlng == null || map == null)
                 return;
-            Activity.RunOnUiThread(() =>
+            Activity?.RunOnUiThread(() =>
             {
                 if (carMarker == null)
                 {
@@ -323,7 +323,7 @@ namespace MyTrips.Droid.Fragments
         {
             if (map == null)
                 return;
-            Activity.RunOnUiThread(() =>
+            Activity?.RunOnUiThread(() =>
             {
                 if (setZoom)
                 {
