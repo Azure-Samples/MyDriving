@@ -138,14 +138,8 @@
                             <outlet property="delegate" destination="6jy-8W-wUe" id="Sx4-3u-vpv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Trips" id="jye-GE-rQI">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="6L9-iO-xsa">
-                            <color key="tintColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="btnAdd" destination="6L9-iO-xsa" id="name-outlet-6L9-iO-xsa"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="Trips" id="jye-GE-rQI"/>
+                    <connections/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aju-MC-3Cp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
