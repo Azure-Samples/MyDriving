@@ -20,8 +20,7 @@ namespace MyTrips.ViewModel
 {
     public class CurrentTripViewModel : ViewModelBase
     {
-        
-		public Trip CurrentTrip { get; set; }
+        public Trip CurrentTrip { get; private set; }
 
         bool isRecording;
 		public bool IsRecording
@@ -67,7 +66,6 @@ namespace MyTrips.ViewModel
             }
             finally
             {
-                IsBusy = false;
             }
         }
 
@@ -82,12 +80,19 @@ namespace MyTrips.ViewModel
 
             try
             {
+                IsBusy = true;
+                #if DEBUG
+                await Task.Delay(5000);
+                #endif
+
+
                 IsRecording = false;
 
                 //TODO: Insert into database
                 CurrentTrip = new Trip();
                 CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
                 CurrentTrip.Photos = new ObservableRangeCollection<Photo>();
+                OnPropertyChanged(nameof(CurrentTrip));
             }
             catch
             {
@@ -110,7 +115,6 @@ namespace MyTrips.ViewModel
 
 			try 
 			{
-				IsBusy = true;
 
 				if (Geolocator.IsGeolocationAvailable && Geolocator.IsGeolocationEnabled)
 				{
@@ -131,7 +135,7 @@ namespace MyTrips.ViewModel
 			} 
 			finally 
 			{
-				IsBusy = false;
+
 			}
 		}
 
@@ -146,7 +150,6 @@ namespace MyTrips.ViewModel
 
 			try 
 			{
-				IsBusy = true;
 
 				if (Geolocator.IsGeolocationAvailable && Geolocator.IsGeolocationEnabled)
 				{
@@ -164,7 +167,6 @@ namespace MyTrips.ViewModel
 			} 
 			finally 
 			{
-				IsBusy = false;
 			}
 		}
 

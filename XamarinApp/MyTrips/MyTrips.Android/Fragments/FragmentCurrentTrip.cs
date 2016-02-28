@@ -53,8 +53,7 @@ namespace MyTrips.Droid.Fragments
         {
             viewModel = GeolocationHelper.Current.LocationService.ViewModel;
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            var list = viewModel.CurrentTrip.Trail as ObservableRangeCollection<Trail>;
-            list.CollectionChanged += TrailUpdated;
+            ResetTrip();
 
             if(carMarker == null)
                 SetupMap();
@@ -75,8 +74,26 @@ namespace MyTrips.Droid.Fragments
                     var latlng = new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude);
                     UpdateCar(latlng);
                     UpdateCamera(latlng);
-                break;
+                    break;
+                case nameof(viewModel.CurrentTrip):
+                    ResetTrip();
+                    map.Clear();
+                    carMarker = null;
+                    SetupMap();
+                    break;
+                case nameof(viewModel.IsBusy):
+                    if (viewModel.IsBusy)
+                        AndroidHUD.AndHUD.Shared.Show(Activity, "Saving Trip...", -1, AndroidHUD.MaskType.Clear);
+                    else
+                        AndroidHUD.AndHUD.Shared.Dismiss(Activity);
+                    break;
             }
+        }
+
+        void ResetTrip()
+        {
+            var list = viewModel.CurrentTrip.Trail as ObservableRangeCollection<Trail>;
+            list.CollectionChanged += TrailUpdated;
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -84,20 +101,59 @@ namespace MyTrips.Droid.Fragments
             switch (item.ItemId)
             {
                 case Resource.Id.menu_take_photo:
-                    viewModel?.TakePhotoCommand.Execute(null);
+                    if(!(viewModel?.IsBusy).GetValueOrDefault())
+                        viewModel?.TakePhotoCommand.Execute(null);
                     break;
                 case Resource.Id.menu_toggle:
-                    if (viewModel == null)
+                    if (viewModel == null || viewModel.CurrentPosition == null || viewModel.IsBusy)
                         break;
                     if (viewModel.IsRecording)
+                    {
+                      
                         viewModel.StopRecordingTripCommand.Execute(null);
+                        AddEndMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
+                    }
                     else
+                    {
                         viewModel.StartRecordingTripCommand.Execute(null);
+                        AddStartMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
 
-                    UpdateCarIcon();
+                        UpdateCarIcon();
+                    }
+
                     break;
             }
             return base.OnOptionsItemSelected(item);
+        }
+
+        void AddStartMarker(LatLng start)
+        {
+            var logicalDensity = Resources.DisplayMetrics.Density;
+            var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
+
+            var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_start_point) as BitmapDrawable;
+            var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
+
+            var startMarker = new MarkerOptions();
+            startMarker.SetPosition(new LatLng(start.Latitude, start.Longitude));
+            startMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
+            startMarker.Anchor(.5f, .5f);
+            map.AddMarker(startMarker);
+        }
+
+        void AddEndMarker(LatLng end)
+        {
+            var logicalDensity = Resources.DisplayMetrics.Density;
+            var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
+            var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_end_point) as BitmapDrawable;
+            var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
+
+            var endMarker = new MarkerOptions();
+            endMarker.SetPosition(new LatLng(end.Latitude, end.Longitude));
+            endMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
+            endMarker.Anchor(.5f, .5f);
+
+            map.AddMarker(endMarker);
         }
 
         void TrailUpdated (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -193,9 +249,6 @@ namespace MyTrips.Droid.Fragments
             if(viewModel.CurrentTrip.Trail.Count != 0)
              start = viewModel.CurrentTrip.Trail[0];
             
-
-
-           
             UpdateCar(start == null ? null : new LatLng(start.Latitude, start.Longitude));
             var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
             driveLine = new PolylineOptions();
@@ -203,8 +256,11 @@ namespace MyTrips.Droid.Fragments
             driveLine.Visible(true);
             driveLine.InvokeColor(ActivityCompat.GetColor(Activity, Resource.Color.accent));
             map.AddPolyline(driveLine);
-            if(start != null)
+            if (start != null)
+            {
                 UpdateCamera(carMarker.Position);
+                AddStartMarker(new LatLng(start.Latitude, start.Longitude));
+            }
         }
 
 

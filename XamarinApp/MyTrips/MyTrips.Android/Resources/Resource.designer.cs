@@ -28,6 +28,43 @@ namespace MyTrips.Droid
 		{
 			global::PCLStorage.Resource.String.ApplicationName = global::MyTrips.Droid.Resource.String.ApplicationName;
 			global::PCLStorage.Resource.String.Hello = global::MyTrips.Droid.Resource.String.Hello;
+			global::AndroidHUD.Resource.Attribute.ahBarColor = global::MyTrips.Droid.Resource.Attribute.ahBarColor;
+			global::AndroidHUD.Resource.Attribute.ahBarLength = global::MyTrips.Droid.Resource.Attribute.ahBarLength;
+			global::AndroidHUD.Resource.Attribute.ahBarWidth = global::MyTrips.Droid.Resource.Attribute.ahBarWidth;
+			global::AndroidHUD.Resource.Attribute.ahCircleColor = global::MyTrips.Droid.Resource.Attribute.ahCircleColor;
+			global::AndroidHUD.Resource.Attribute.ahDelayMillis = global::MyTrips.Droid.Resource.Attribute.ahDelayMillis;
+			global::AndroidHUD.Resource.Attribute.ahRadius = global::MyTrips.Droid.Resource.Attribute.ahRadius;
+			global::AndroidHUD.Resource.Attribute.ahRimColor = global::MyTrips.Droid.Resource.Attribute.ahRimColor;
+			global::AndroidHUD.Resource.Attribute.ahRimWidth = global::MyTrips.Droid.Resource.Attribute.ahRimWidth;
+			global::AndroidHUD.Resource.Attribute.ahSpinSpeed = global::MyTrips.Droid.Resource.Attribute.ahSpinSpeed;
+			global::AndroidHUD.Resource.Attribute.ahText = global::MyTrips.Droid.Resource.Attribute.ahText;
+			global::AndroidHUD.Resource.Attribute.ahTextColor = global::MyTrips.Droid.Resource.Attribute.ahTextColor;
+			global::AndroidHUD.Resource.Attribute.ahTextSize = global::MyTrips.Droid.Resource.Attribute.ahTextSize;
+			global::AndroidHUD.Resource.Drawable.ic_errorstatus = global::MyTrips.Droid.Resource.Drawable.ic_errorstatus;
+			global::AndroidHUD.Resource.Drawable.ic_successstatus = global::MyTrips.Droid.Resource.Drawable.ic_successstatus;
+			global::AndroidHUD.Resource.Drawable.roundedbg = global::MyTrips.Droid.Resource.Drawable.roundedbg;
+			global::AndroidHUD.Resource.Drawable.roundedbgdark = global::MyTrips.Droid.Resource.Drawable.roundedbgdark;
+			global::AndroidHUD.Resource.Id.loadingImage = global::MyTrips.Droid.Resource.Id.loadingImage;
+			global::AndroidHUD.Resource.Id.loadingProgressBar = global::MyTrips.Droid.Resource.Id.loadingProgressBar;
+			global::AndroidHUD.Resource.Id.loadingProgressWheel = global::MyTrips.Droid.Resource.Id.loadingProgressWheel;
+			global::AndroidHUD.Resource.Id.textViewStatus = global::MyTrips.Droid.Resource.Id.textViewStatus;
+			global::AndroidHUD.Resource.Layout.loading = global::MyTrips.Droid.Resource.Layout.loading;
+			global::AndroidHUD.Resource.Layout.loadingimage = global::MyTrips.Droid.Resource.Layout.loadingimage;
+			global::AndroidHUD.Resource.Layout.loadingprogress = global::MyTrips.Droid.Resource.Layout.loadingprogress;
+			global::AndroidHUD.Resource.String.library_name = global::MyTrips.Droid.Resource.String.library_name;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel = global::MyTrips.Droid.Resource.Styleable.ProgressWheel;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahBarColor = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahBarColor;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahBarLength = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahBarLength;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahBarWidth = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahBarWidth;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahCircleColor = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahCircleColor;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahDelayMillis = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahDelayMillis;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahRadius = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahRadius;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahRimColor = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahRimColor;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahRimWidth = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahRimWidth;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahSpinSpeed = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahSpinSpeed;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahText;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahTextColor;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahTextSize;
 		}
 		
 		public partial class Animation
@@ -189,6 +226,42 @@ namespace MyTrips.Droid
 			
 			// aapt resource value: 0x7f01010a
 			public const int activityChooserViewStyle = 2130772234;
+			
+			// aapt resource value: 0x7f010165
+			public const int ahBarColor = 2130772325;
+			
+			// aapt resource value: 0x7f01016d
+			public const int ahBarLength = 2130772333;
+			
+			// aapt resource value: 0x7f01016c
+			public const int ahBarWidth = 2130772332;
+			
+			// aapt resource value: 0x7f01016a
+			public const int ahCircleColor = 2130772330;
+			
+			// aapt resource value: 0x7f010169
+			public const int ahDelayMillis = 2130772329;
+			
+			// aapt resource value: 0x7f01016b
+			public const int ahRadius = 2130772331;
+			
+			// aapt resource value: 0x7f010166
+			public const int ahRimColor = 2130772326;
+			
+			// aapt resource value: 0x7f010167
+			public const int ahRimWidth = 2130772327;
+			
+			// aapt resource value: 0x7f010168
+			public const int ahSpinSpeed = 2130772328;
+			
+			// aapt resource value: 0x7f010162
+			public const int ahText = 2130772322;
+			
+			// aapt resource value: 0x7f010163
+			public const int ahTextColor = 2130772323;
+			
+			// aapt resource value: 0x7f010164
+			public const int ahTextSize = 2130772324;
 			
 			// aapt resource value: 0x7f01012d
 			public const int alertDialogButtonGroupStyle = 2130772269;
@@ -2298,31 +2371,43 @@ namespace MyTrips.Droid
 			public const int ic_end_point = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int ic_info = 2130837623;
+			public const int ic_errorstatus = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int ic_menu = 2130837624;
+			public const int ic_info = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int ic_start_point = 2130837625;
+			public const int ic_menu = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int Icon = 2130837626;
+			public const int ic_start_point = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int menu_current_trip = 2130837627;
+			public const int ic_successstatus = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int menu_past_trips = 2130837628;
+			public const int Icon = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int menu_profile = 2130837629;
+			public const int menu_current_trip = 2130837629;
 			
 			// aapt resource value: 0x7f02007e
-			public const int menu_settings = 2130837630;
+			public const int menu_past_trips = 2130837630;
 			
 			// aapt resource value: 0x7f02007f
-			public const int notification_template_icon_bg = 2130837631;
+			public const int menu_profile = 2130837631;
+			
+			// aapt resource value: 0x7f020080
+			public const int menu_settings = 2130837632;
+			
+			// aapt resource value: 0x7f020083
+			public const int notification_template_icon_bg = 2130837635;
+			
+			// aapt resource value: 0x7f020081
+			public const int roundedbg = 2130837633;
+			
+			// aapt resource value: 0x7f020082
+			public const int roundedbgdark = 2130837634;
 			
 			static Drawable()
 			{
@@ -2337,8 +2422,8 @@ namespace MyTrips.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0b00a8
-			public const int action0 = 2131427496;
+			// aapt resource value: 0x7f0b00ac
+			public const int action0 = 2131427500;
 			
 			// aapt resource value: 0x7f0b0065
 			public const int action_bar = 2131427429;
@@ -2364,8 +2449,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b0066
 			public const int action_context_bar = 2131427430;
 			
-			// aapt resource value: 0x7f0b00ac
-			public const int action_divider = 2131427500;
+			// aapt resource value: 0x7f0b00b0
+			public const int action_divider = 2131427504;
 			
 			// aapt resource value: 0x7f0b0003
 			public const int action_menu_divider = 2131427331;
@@ -2433,8 +2518,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b0099
 			public const int button_update = 2131427481;
 			
-			// aapt resource value: 0x7f0b00a9
-			public const int cancel_action = 2131427497;
+			// aapt resource value: 0x7f0b00ad
+			public const int cancel_action = 2131427501;
 			
 			// aapt resource value: 0x7f0b0020
 			public const int center = 2131427360;
@@ -2448,8 +2533,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b005d
 			public const int checkbox = 2131427421;
 			
-			// aapt resource value: 0x7f0b00af
-			public const int chronometer = 2131427503;
+			// aapt resource value: 0x7f0b00b3
+			public const int chronometer = 2131427507;
 			
 			// aapt resource value: 0x7f0b0029
 			public const int clip_horizontal = 2131427369;
@@ -2505,8 +2590,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b0023
 			public const int end = 2131427363;
 			
-			// aapt resource value: 0x7f0b00b4
-			public const int end_padder = 2131427508;
+			// aapt resource value: 0x7f0b00b8
+			public const int end_padder = 2131427512;
 			
 			// aapt resource value: 0x7f0b0018
 			public const int enterAlways = 2131427352;
@@ -2550,8 +2635,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b004d
 			public const int icon = 2131427405;
 			
-			// aapt resource value: 0x7f0b00b5
-			public const int icon_frame = 2131427509;
+			// aapt resource value: 0x7f0b00b9
+			public const int icon_frame = 2131427513;
 			
 			// aapt resource value: 0x7f0b0010
 			public const int icon_only = 2131427344;
@@ -2562,8 +2647,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b004a
 			public const int image = 2131427402;
 			
-			// aapt resource value: 0x7f0b00b3
-			public const int info = 2131427507;
+			// aapt resource value: 0x7f0b00b7
+			public const int info = 2131427511;
 			
 			// aapt resource value: 0x7f0b0078
 			public const int input_email = 2131427448;
@@ -2580,11 +2665,11 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b000a
 			public const int item_touch_helper_previous_elevation = 2131427338;
 			
-			// aapt resource value: 0x7f0b00b9
-			public const int label_author = 2131427513;
+			// aapt resource value: 0x7f0b00bd
+			public const int label_author = 2131427517;
 			
-			// aapt resource value: 0x7f0b00ba
-			public const int label_date = 2131427514;
+			// aapt resource value: 0x7f0b00be
+			public const int label_date = 2131427518;
 			
 			// aapt resource value: 0x7f0b007f
 			public const int label_last_updated = 2131427455;
@@ -2592,8 +2677,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b0074
 			public const int label_message = 2131427444;
 			
-			// aapt resource value: 0x7f0b00bb
-			public const int label_text = 2131427515;
+			// aapt resource value: 0x7f0b00bf
+			public const int label_text = 2131427519;
 			
 			// aapt resource value: 0x7f0b0097
 			public const int label_title = 2131427479;
@@ -2607,23 +2692,23 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b0015
 			public const int light = 2131427349;
 			
-			// aapt resource value: 0x7f0b00ad
-			public const int line1 = 2131427501;
-			
 			// aapt resource value: 0x7f0b00b1
-			public const int line3 = 2131427505;
+			public const int line1 = 2131427505;
 			
-			// aapt resource value: 0x7f0b00b7
-			public const int list = 2131427511;
+			// aapt resource value: 0x7f0b00b5
+			public const int line3 = 2131427509;
+			
+			// aapt resource value: 0x7f0b00bb
+			public const int list = 2131427515;
 			
 			// aapt resource value: 0x7f0b0030
 			public const int listMode = 2131427376;
 			
-			// aapt resource value: 0x7f0b00bc
-			public const int list_attachments = 2131427516;
+			// aapt resource value: 0x7f0b00c0
+			public const int list_attachments = 2131427520;
 			
-			// aapt resource value: 0x7f0b00b6
-			public const int list_container = 2131427510;
+			// aapt resource value: 0x7f0b00ba
+			public const int list_container = 2131427514;
 			
 			// aapt resource value: 0x7f0b0083
 			public const int list_feedback_messages = 2131427459;
@@ -2631,29 +2716,38 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b004c
 			public const int list_item = 2131427404;
 			
+			// aapt resource value: 0x7f0b00aa
+			public const int loadingImage = 2131427498;
+			
+			// aapt resource value: 0x7f0b00a8
+			public const int loadingProgressBar = 2131427496;
+			
+			// aapt resource value: 0x7f0b00ab
+			public const int loadingProgressWheel = 2131427499;
+			
 			// aapt resource value: 0x7f0b0094
 			public const int map = 2131427476;
 			
-			// aapt resource value: 0x7f0b00ab
-			public const int media_actions = 2131427499;
+			// aapt resource value: 0x7f0b00af
+			public const int media_actions = 2131427503;
 			
-			// aapt resource value: 0x7f0b00c0
-			public const int menu_current_trip = 2131427520;
+			// aapt resource value: 0x7f0b00c4
+			public const int menu_current_trip = 2131427524;
 			
-			// aapt resource value: 0x7f0b00bf
-			public const int menu_past_trips = 2131427519;
+			// aapt resource value: 0x7f0b00c3
+			public const int menu_past_trips = 2131427523;
+			
+			// aapt resource value: 0x7f0b00c5
+			public const int menu_profile = 2131427525;
+			
+			// aapt resource value: 0x7f0b00c6
+			public const int menu_settings = 2131427526;
 			
 			// aapt resource value: 0x7f0b00c1
-			public const int menu_profile = 2131427521;
+			public const int menu_take_photo = 2131427521;
 			
 			// aapt resource value: 0x7f0b00c2
-			public const int menu_settings = 2131427522;
-			
-			// aapt resource value: 0x7f0b00bd
-			public const int menu_take_photo = 2131427517;
-			
-			// aapt resource value: 0x7f0b00be
-			public const int menu_toggle = 2131427518;
+			public const int menu_toggle = 2131427522;
 			
 			// aapt resource value: 0x7f0b003e
 			public const int middle = 2131427390;
@@ -2808,14 +2902,14 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b0027
 			public const int start = 2131427367;
 			
-			// aapt resource value: 0x7f0b00aa
-			public const int status_bar_latest_event_content = 2131427498;
+			// aapt resource value: 0x7f0b00ae
+			public const int status_bar_latest_event_content = 2131427502;
 			
 			// aapt resource value: 0x7f0b0070
 			public const int submit_area = 2131427440;
 			
-			// aapt resource value: 0x7f0b00b8
-			public const int switchWidget = 2131427512;
+			// aapt resource value: 0x7f0b00bc
+			public const int switchWidget = 2131427516;
 			
 			// aapt resource value: 0x7f0b0031
 			public const int tabMode = 2131427377;
@@ -2823,14 +2917,17 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b000f
 			public const int terrain = 2131427343;
 			
-			// aapt resource value: 0x7f0b00b2
-			public const int text = 2131427506;
+			// aapt resource value: 0x7f0b00b6
+			public const int text = 2131427510;
 			
-			// aapt resource value: 0x7f0b00b0
-			public const int text2 = 2131427504;
+			// aapt resource value: 0x7f0b00b4
+			public const int text2 = 2131427508;
 			
 			// aapt resource value: 0x7f0b0058
 			public const int textSpacerNoButtons = 2131427416;
+			
+			// aapt resource value: 0x7f0b00a9
+			public const int textViewStatus = 2131427497;
 			
 			// aapt resource value: 0x7f0b0090
 			public const int text_cost = 2131427472;
@@ -2859,8 +2956,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0b00a5
 			public const int text_title = 2131427493;
 			
-			// aapt resource value: 0x7f0b00ae
-			public const int time = 2131427502;
+			// aapt resource value: 0x7f0b00b2
+			public const int time = 2131427506;
 			
 			// aapt resource value: 0x7f0b004e
 			public const int title = 2131427406;
@@ -3114,88 +3211,97 @@ namespace MyTrips.Droid
 			public const int item_trip = 2130903087;
 			
 			// aapt resource value: 0x7f030030
-			public const int nav_header = 2130903088;
+			public const int loading = 2130903088;
 			
 			// aapt resource value: 0x7f030031
-			public const int notification_media_action = 2130903089;
+			public const int loadingimage = 2130903089;
 			
 			// aapt resource value: 0x7f030032
-			public const int notification_media_cancel_action = 2130903090;
+			public const int loadingprogress = 2130903090;
 			
 			// aapt resource value: 0x7f030033
-			public const int notification_template_big_media = 2130903091;
+			public const int nav_header = 2130903091;
 			
 			// aapt resource value: 0x7f030034
-			public const int notification_template_big_media_narrow = 2130903092;
+			public const int notification_media_action = 2130903092;
 			
 			// aapt resource value: 0x7f030035
-			public const int notification_template_lines = 2130903093;
+			public const int notification_media_cancel_action = 2130903093;
 			
 			// aapt resource value: 0x7f030036
-			public const int notification_template_media = 2130903094;
+			public const int notification_template_big_media = 2130903094;
 			
 			// aapt resource value: 0x7f030037
-			public const int notification_template_part_chronometer = 2130903095;
+			public const int notification_template_big_media_narrow = 2130903095;
 			
 			// aapt resource value: 0x7f030038
-			public const int notification_template_part_time = 2130903096;
+			public const int notification_template_lines = 2130903096;
 			
 			// aapt resource value: 0x7f030039
-			public const int preference = 2130903097;
+			public const int notification_template_media = 2130903097;
 			
 			// aapt resource value: 0x7f03003a
-			public const int preference_category = 2130903098;
+			public const int notification_template_part_chronometer = 2130903098;
 			
 			// aapt resource value: 0x7f03003b
-			public const int preference_category_material = 2130903099;
+			public const int notification_template_part_time = 2130903099;
 			
 			// aapt resource value: 0x7f03003c
-			public const int preference_dialog_edittext = 2130903100;
+			public const int preference = 2130903100;
 			
 			// aapt resource value: 0x7f03003d
-			public const int preference_information = 2130903101;
+			public const int preference_category = 2130903101;
 			
 			// aapt resource value: 0x7f03003e
-			public const int preference_information_material = 2130903102;
+			public const int preference_category_material = 2130903102;
 			
 			// aapt resource value: 0x7f03003f
-			public const int preference_list_fragment = 2130903103;
+			public const int preference_dialog_edittext = 2130903103;
 			
 			// aapt resource value: 0x7f030040
-			public const int preference_material = 2130903104;
+			public const int preference_information = 2130903104;
 			
 			// aapt resource value: 0x7f030041
-			public const int preference_recyclerview = 2130903105;
+			public const int preference_information_material = 2130903105;
 			
 			// aapt resource value: 0x7f030042
-			public const int preference_widget_checkbox = 2130903106;
+			public const int preference_list_fragment = 2130903106;
 			
 			// aapt resource value: 0x7f030043
-			public const int preference_widget_switch = 2130903107;
+			public const int preference_material = 2130903107;
 			
 			// aapt resource value: 0x7f030044
-			public const int preference_widget_switch_compat = 2130903108;
+			public const int preference_recyclerview = 2130903108;
 			
 			// aapt resource value: 0x7f030045
-			public const int select_dialog_item_material = 2130903109;
+			public const int preference_widget_checkbox = 2130903109;
 			
 			// aapt resource value: 0x7f030046
-			public const int select_dialog_multichoice_material = 2130903110;
+			public const int preference_widget_switch = 2130903110;
 			
 			// aapt resource value: 0x7f030047
-			public const int select_dialog_singlechoice_material = 2130903111;
+			public const int preference_widget_switch_compat = 2130903111;
 			
 			// aapt resource value: 0x7f030048
-			public const int support_simple_spinner_dropdown_item = 2130903112;
+			public const int select_dialog_item_material = 2130903112;
 			
 			// aapt resource value: 0x7f030049
-			public const int toolbar = 2130903113;
+			public const int select_dialog_multichoice_material = 2130903113;
 			
 			// aapt resource value: 0x7f03004a
-			public const int trip_details = 2130903114;
+			public const int select_dialog_singlechoice_material = 2130903114;
 			
 			// aapt resource value: 0x7f03004b
-			public const int view_feedback_message = 2130903115;
+			public const int support_simple_spinner_dropdown_item = 2130903115;
+			
+			// aapt resource value: 0x7f03004c
+			public const int toolbar = 2130903116;
+			
+			// aapt resource value: 0x7f03004d
+			public const int trip_details = 2130903117;
+			
+			// aapt resource value: 0x7f03004e
+			public const int view_feedback_message = 2130903118;
 			
 			static Layout()
 			{
@@ -3229,11 +3335,11 @@ namespace MyTrips.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f080038
-			public const int ApplicationName = 2131230776;
+			// aapt resource value: 0x7f080039
+			public const int ApplicationName = 2131230777;
 			
-			// aapt resource value: 0x7f080037
-			public const int Hello = 2131230775;
+			// aapt resource value: 0x7f080038
+			public const int Hello = 2131230776;
 			
 			// aapt resource value: 0x7f080023
 			public const int abc_action_bar_home_description = 2131230755;
@@ -3391,215 +3497,218 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f08001d
 			public const int common_signin_button_text_long = 2131230749;
 			
-			// aapt resource value: 0x7f080039
-			public const int hockeyapp_crash_dialog_app_name_fallback = 2131230777;
-			
 			// aapt resource value: 0x7f08003a
-			public const int hockeyapp_crash_dialog_message = 2131230778;
+			public const int hockeyapp_crash_dialog_app_name_fallback = 2131230778;
 			
 			// aapt resource value: 0x7f08003b
-			public const int hockeyapp_crash_dialog_negative_button = 2131230779;
+			public const int hockeyapp_crash_dialog_message = 2131230779;
 			
 			// aapt resource value: 0x7f08003c
-			public const int hockeyapp_crash_dialog_neutral_button = 2131230780;
+			public const int hockeyapp_crash_dialog_negative_button = 2131230780;
 			
 			// aapt resource value: 0x7f08003d
-			public const int hockeyapp_crash_dialog_positive_button = 2131230781;
+			public const int hockeyapp_crash_dialog_neutral_button = 2131230781;
 			
 			// aapt resource value: 0x7f08003e
-			public const int hockeyapp_crash_dialog_title = 2131230782;
+			public const int hockeyapp_crash_dialog_positive_button = 2131230782;
 			
 			// aapt resource value: 0x7f08003f
-			public const int hockeyapp_dialog_error_message = 2131230783;
+			public const int hockeyapp_crash_dialog_title = 2131230783;
 			
 			// aapt resource value: 0x7f080040
-			public const int hockeyapp_dialog_error_title = 2131230784;
+			public const int hockeyapp_dialog_error_message = 2131230784;
 			
 			// aapt resource value: 0x7f080041
-			public const int hockeyapp_dialog_negative_button = 2131230785;
+			public const int hockeyapp_dialog_error_title = 2131230785;
 			
 			// aapt resource value: 0x7f080042
-			public const int hockeyapp_dialog_positive_button = 2131230786;
+			public const int hockeyapp_dialog_negative_button = 2131230786;
 			
 			// aapt resource value: 0x7f080043
-			public const int hockeyapp_download_failed_dialog_message = 2131230787;
+			public const int hockeyapp_dialog_positive_button = 2131230787;
 			
 			// aapt resource value: 0x7f080044
-			public const int hockeyapp_download_failed_dialog_negative_button = 2131230788;
+			public const int hockeyapp_download_failed_dialog_message = 2131230788;
 			
 			// aapt resource value: 0x7f080045
-			public const int hockeyapp_download_failed_dialog_positive_button = 2131230789;
+			public const int hockeyapp_download_failed_dialog_negative_button = 2131230789;
 			
 			// aapt resource value: 0x7f080046
-			public const int hockeyapp_download_failed_dialog_title = 2131230790;
+			public const int hockeyapp_download_failed_dialog_positive_button = 2131230790;
 			
 			// aapt resource value: 0x7f080047
-			public const int hockeyapp_error_no_network_message = 2131230791;
+			public const int hockeyapp_download_failed_dialog_title = 2131230791;
 			
 			// aapt resource value: 0x7f080048
-			public const int hockeyapp_expiry_info_text = 2131230792;
+			public const int hockeyapp_error_no_network_message = 2131230792;
 			
 			// aapt resource value: 0x7f080049
-			public const int hockeyapp_expiry_info_title = 2131230793;
+			public const int hockeyapp_expiry_info_text = 2131230793;
 			
 			// aapt resource value: 0x7f08004a
-			public const int hockeyapp_feedback_attach_file = 2131230794;
+			public const int hockeyapp_expiry_info_title = 2131230794;
 			
 			// aapt resource value: 0x7f08004b
-			public const int hockeyapp_feedback_attach_picture = 2131230795;
+			public const int hockeyapp_feedback_attach_file = 2131230795;
 			
 			// aapt resource value: 0x7f08004c
-			public const int hockeyapp_feedback_attachment_button_text = 2131230796;
+			public const int hockeyapp_feedback_attach_picture = 2131230796;
 			
 			// aapt resource value: 0x7f08004d
-			public const int hockeyapp_feedback_attachment_error = 2131230797;
+			public const int hockeyapp_feedback_attachment_button_text = 2131230797;
 			
 			// aapt resource value: 0x7f08004e
-			public const int hockeyapp_feedback_attachment_loading = 2131230798;
+			public const int hockeyapp_feedback_attachment_error = 2131230798;
 			
 			// aapt resource value: 0x7f08004f
-			public const int hockeyapp_feedback_email_hint = 2131230799;
+			public const int hockeyapp_feedback_attachment_loading = 2131230799;
 			
 			// aapt resource value: 0x7f080050
-			public const int hockeyapp_feedback_failed_text = 2131230800;
+			public const int hockeyapp_feedback_email_hint = 2131230800;
 			
 			// aapt resource value: 0x7f080051
-			public const int hockeyapp_feedback_failed_title = 2131230801;
+			public const int hockeyapp_feedback_failed_text = 2131230801;
 			
 			// aapt resource value: 0x7f080052
-			public const int hockeyapp_feedback_generic_error = 2131230802;
+			public const int hockeyapp_feedback_failed_title = 2131230802;
 			
 			// aapt resource value: 0x7f080053
-			public const int hockeyapp_feedback_last_updated_text = 2131230803;
+			public const int hockeyapp_feedback_generic_error = 2131230803;
 			
 			// aapt resource value: 0x7f080054
-			public const int hockeyapp_feedback_max_attachments_allowed = 2131230804;
+			public const int hockeyapp_feedback_last_updated_text = 2131230804;
 			
 			// aapt resource value: 0x7f080055
-			public const int hockeyapp_feedback_message_hint = 2131230805;
+			public const int hockeyapp_feedback_max_attachments_allowed = 2131230805;
 			
 			// aapt resource value: 0x7f080056
-			public const int hockeyapp_feedback_name_hint = 2131230806;
+			public const int hockeyapp_feedback_message_hint = 2131230806;
 			
 			// aapt resource value: 0x7f080057
-			public const int hockeyapp_feedback_refresh_button_text = 2131230807;
+			public const int hockeyapp_feedback_name_hint = 2131230807;
 			
 			// aapt resource value: 0x7f080058
-			public const int hockeyapp_feedback_response_button_text = 2131230808;
+			public const int hockeyapp_feedback_refresh_button_text = 2131230808;
 			
 			// aapt resource value: 0x7f080059
-			public const int hockeyapp_feedback_select_file = 2131230809;
+			public const int hockeyapp_feedback_response_button_text = 2131230809;
 			
 			// aapt resource value: 0x7f08005a
-			public const int hockeyapp_feedback_select_picture = 2131230810;
+			public const int hockeyapp_feedback_select_file = 2131230810;
 			
 			// aapt resource value: 0x7f08005b
-			public const int hockeyapp_feedback_send_button_text = 2131230811;
+			public const int hockeyapp_feedback_select_picture = 2131230811;
 			
 			// aapt resource value: 0x7f08005c
-			public const int hockeyapp_feedback_send_generic_error = 2131230812;
+			public const int hockeyapp_feedback_send_button_text = 2131230812;
 			
 			// aapt resource value: 0x7f08005d
-			public const int hockeyapp_feedback_send_network_error = 2131230813;
+			public const int hockeyapp_feedback_send_generic_error = 2131230813;
 			
 			// aapt resource value: 0x7f08005e
-			public const int hockeyapp_feedback_subject_hint = 2131230814;
+			public const int hockeyapp_feedback_send_network_error = 2131230814;
 			
 			// aapt resource value: 0x7f08005f
-			public const int hockeyapp_feedback_title = 2131230815;
+			public const int hockeyapp_feedback_subject_hint = 2131230815;
 			
 			// aapt resource value: 0x7f080060
-			public const int hockeyapp_feedback_validate_email_empty = 2131230816;
+			public const int hockeyapp_feedback_title = 2131230816;
 			
 			// aapt resource value: 0x7f080061
-			public const int hockeyapp_feedback_validate_email_error = 2131230817;
+			public const int hockeyapp_feedback_validate_email_empty = 2131230817;
 			
 			// aapt resource value: 0x7f080062
-			public const int hockeyapp_feedback_validate_name_error = 2131230818;
+			public const int hockeyapp_feedback_validate_email_error = 2131230818;
 			
 			// aapt resource value: 0x7f080063
-			public const int hockeyapp_feedback_validate_subject_error = 2131230819;
+			public const int hockeyapp_feedback_validate_name_error = 2131230819;
 			
 			// aapt resource value: 0x7f080064
-			public const int hockeyapp_feedback_validate_text_error = 2131230820;
+			public const int hockeyapp_feedback_validate_subject_error = 2131230820;
 			
 			// aapt resource value: 0x7f080065
-			public const int hockeyapp_login_email_hint = 2131230821;
+			public const int hockeyapp_feedback_validate_text_error = 2131230821;
 			
 			// aapt resource value: 0x7f080066
-			public const int hockeyapp_login_headline_text = 2131230822;
+			public const int hockeyapp_login_email_hint = 2131230822;
 			
 			// aapt resource value: 0x7f080067
-			public const int hockeyapp_login_login_button_text = 2131230823;
+			public const int hockeyapp_login_headline_text = 2131230823;
 			
 			// aapt resource value: 0x7f080068
-			public const int hockeyapp_login_missing_credentials_toast = 2131230824;
+			public const int hockeyapp_login_login_button_text = 2131230824;
 			
 			// aapt resource value: 0x7f080069
-			public const int hockeyapp_login_password_hint = 2131230825;
+			public const int hockeyapp_login_missing_credentials_toast = 2131230825;
 			
 			// aapt resource value: 0x7f08006a
-			public const int hockeyapp_paint_dialog_message = 2131230826;
+			public const int hockeyapp_login_password_hint = 2131230826;
 			
 			// aapt resource value: 0x7f08006b
-			public const int hockeyapp_paint_dialog_negative_button = 2131230827;
+			public const int hockeyapp_paint_dialog_message = 2131230827;
 			
 			// aapt resource value: 0x7f08006c
-			public const int hockeyapp_paint_dialog_neutral_button = 2131230828;
+			public const int hockeyapp_paint_dialog_negative_button = 2131230828;
 			
 			// aapt resource value: 0x7f08006d
-			public const int hockeyapp_paint_dialog_positive_button = 2131230829;
+			public const int hockeyapp_paint_dialog_neutral_button = 2131230829;
 			
 			// aapt resource value: 0x7f08006e
-			public const int hockeyapp_paint_indicator_toast = 2131230830;
+			public const int hockeyapp_paint_dialog_positive_button = 2131230830;
 			
 			// aapt resource value: 0x7f08006f
-			public const int hockeyapp_paint_menu_clear = 2131230831;
+			public const int hockeyapp_paint_indicator_toast = 2131230831;
 			
 			// aapt resource value: 0x7f080070
-			public const int hockeyapp_paint_menu_save = 2131230832;
+			public const int hockeyapp_paint_menu_clear = 2131230832;
 			
 			// aapt resource value: 0x7f080071
-			public const int hockeyapp_paint_menu_undo = 2131230833;
+			public const int hockeyapp_paint_menu_save = 2131230833;
 			
 			// aapt resource value: 0x7f080072
-			public const int hockeyapp_permission_dialog_negative_button = 2131230834;
+			public const int hockeyapp_paint_menu_undo = 2131230834;
 			
 			// aapt resource value: 0x7f080073
-			public const int hockeyapp_permission_dialog_positive_button = 2131230835;
+			public const int hockeyapp_permission_dialog_negative_button = 2131230835;
 			
 			// aapt resource value: 0x7f080074
-			public const int hockeyapp_permission_update_message = 2131230836;
+			public const int hockeyapp_permission_dialog_positive_button = 2131230836;
 			
 			// aapt resource value: 0x7f080075
-			public const int hockeyapp_permission_update_title = 2131230837;
+			public const int hockeyapp_permission_update_message = 2131230837;
 			
 			// aapt resource value: 0x7f080076
-			public const int hockeyapp_update_button = 2131230838;
+			public const int hockeyapp_permission_update_title = 2131230838;
 			
 			// aapt resource value: 0x7f080077
-			public const int hockeyapp_update_dialog_message = 2131230839;
+			public const int hockeyapp_update_button = 2131230839;
 			
 			// aapt resource value: 0x7f080078
-			public const int hockeyapp_update_dialog_negative_button = 2131230840;
+			public const int hockeyapp_update_dialog_message = 2131230840;
 			
 			// aapt resource value: 0x7f080079
-			public const int hockeyapp_update_dialog_positive_button = 2131230841;
+			public const int hockeyapp_update_dialog_negative_button = 2131230841;
 			
 			// aapt resource value: 0x7f08007a
-			public const int hockeyapp_update_dialog_title = 2131230842;
+			public const int hockeyapp_update_dialog_positive_button = 2131230842;
 			
 			// aapt resource value: 0x7f08007b
-			public const int hockeyapp_update_mandatory_toast = 2131230843;
+			public const int hockeyapp_update_dialog_title = 2131230843;
 			
 			// aapt resource value: 0x7f08007c
-			public const int login_facebook = 2131230844;
+			public const int hockeyapp_update_mandatory_toast = 2131230844;
 			
-			// aapt resource value: 0x7f08007e
-			public const int login_microsoft = 2131230846;
+			// aapt resource value: 0x7f080037
+			public const int library_name = 2131230775;
 			
 			// aapt resource value: 0x7f08007d
-			public const int login_twitter = 2131230845;
+			public const int login_facebook = 2131230845;
+			
+			// aapt resource value: 0x7f08007f
+			public const int login_microsoft = 2131230847;
+			
+			// aapt resource value: 0x7f08007e
+			public const int login_twitter = 2131230846;
 			
 			// aapt resource value: 0x7f080036
 			public const int status_bar_notification_info_overflow = 2131230774;
@@ -5838,6 +5947,57 @@ namespace MyTrips.Droid
 			
 			// aapt resource value: 2
 			public const int PreferenceImageView_maxWidth = 2;
+			
+			public static int[] ProgressWheel = new int[]
+			{
+					2130772322,
+					2130772323,
+					2130772324,
+					2130772325,
+					2130772326,
+					2130772327,
+					2130772328,
+					2130772329,
+					2130772330,
+					2130772331,
+					2130772332,
+					2130772333};
+			
+			// aapt resource value: 3
+			public const int ProgressWheel_ahBarColor = 3;
+			
+			// aapt resource value: 11
+			public const int ProgressWheel_ahBarLength = 11;
+			
+			// aapt resource value: 10
+			public const int ProgressWheel_ahBarWidth = 10;
+			
+			// aapt resource value: 8
+			public const int ProgressWheel_ahCircleColor = 8;
+			
+			// aapt resource value: 7
+			public const int ProgressWheel_ahDelayMillis = 7;
+			
+			// aapt resource value: 9
+			public const int ProgressWheel_ahRadius = 9;
+			
+			// aapt resource value: 4
+			public const int ProgressWheel_ahRimColor = 4;
+			
+			// aapt resource value: 5
+			public const int ProgressWheel_ahRimWidth = 5;
+			
+			// aapt resource value: 6
+			public const int ProgressWheel_ahSpinSpeed = 6;
+			
+			// aapt resource value: 0
+			public const int ProgressWheel_ahText = 0;
+			
+			// aapt resource value: 1
+			public const int ProgressWheel_ahTextColor = 1;
+			
+			// aapt resource value: 2
+			public const int ProgressWheel_ahTextSize = 2;
 			
 			public static int[] RecyclerView = new int[]
 			{
