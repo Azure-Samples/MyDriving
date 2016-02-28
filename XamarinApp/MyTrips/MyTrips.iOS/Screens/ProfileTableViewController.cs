@@ -14,7 +14,7 @@ namespace MyTrips.iOS
 		{
 			base.ViewDidLoad();
 
-			//UpdateHeader(64);
+			UpdateHeader(64);
 		}
 
 		void UpdateHeader(int percentage)
@@ -23,18 +23,18 @@ namespace MyTrips.iOS
 			lblBetterThan.Text = $"Better driver than {percentage} of Americans";
 
 			var defaultAttributes = new UIStringAttributes {
-				ForegroundColor = lblBetterThan.TextColor,
+				ForegroundColor = lblDrivingSkills.TextColor,
 			};
 
 			var hitAttributes = new UIStringAttributes {
 				ForegroundColor = Colors.PRIMARY,
 			};
 
-			var attributedString = new NSMutableAttributedString (lblBetterThan.Text);
-			attributedString.SetAttributes(defaultAttributes.Dictionary, new NSRange(0, lblBetterThan.Text.Length));
-			attributedString.SetAttributes(hitAttributes.Dictionary, new NSRange(15, lblBetterThan.Text.Length));
+			var attributedString = new NSMutableAttributedString(lblDrivingSkills.Text);
+			attributedString.SetAttributes(defaultAttributes.Dictionary, new NSRange(0, lblDrivingSkills.Text.Length));
+			attributedString.SetAttributes(hitAttributes.Dictionary, new NSRange(15, lblDrivingSkills.Text.Length));
 
-			lblBetterThan.AttributedText = attributedString;
+			lblDrivingSkills.AttributedText = attributedString;
 		}
     }
 }
