@@ -2386,46 +2386,55 @@ namespace MyTrips.Droid
 			public const int ic_errorstatus = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int ic_info = 2130837624;
+			public const int ic_facebook = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int ic_menu = 2130837625;
+			public const int ic_info = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int ic_start = 2130837626;
+			public const int ic_menu = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int ic_start_point = 2130837627;
+			public const int ic_start = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int ic_stop = 2130837628;
+			public const int ic_start_point = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int ic_successstatus = 2130837629;
+			public const int ic_stop = 2130837629;
 			
 			// aapt resource value: 0x7f02007e
-			public const int Icon = 2130837630;
+			public const int ic_successstatus = 2130837630;
 			
 			// aapt resource value: 0x7f02007f
-			public const int menu_current_trip = 2130837631;
+			public const int ic_twitter = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int menu_past_trips = 2130837632;
+			public const int ic_windows = 2130837632;
 			
 			// aapt resource value: 0x7f020081
-			public const int menu_profile = 2130837633;
+			public const int Icon = 2130837633;
 			
 			// aapt resource value: 0x7f020082
-			public const int menu_settings = 2130837634;
-			
-			// aapt resource value: 0x7f020085
-			public const int notification_template_icon_bg = 2130837637;
+			public const int menu_current_trip = 2130837634;
 			
 			// aapt resource value: 0x7f020083
-			public const int roundedbg = 2130837635;
+			public const int menu_past_trips = 2130837635;
 			
 			// aapt resource value: 0x7f020084
-			public const int roundedbgdark = 2130837636;
+			public const int menu_profile = 2130837636;
+			
+			// aapt resource value: 0x7f020085
+			public const int menu_settings = 2130837637;
+			
+			// aapt resource value: 0x7f020088
+			public const int notification_template_icon_bg = 2130837640;
+			
+			// aapt resource value: 0x7f020086
+			public const int roundedbg = 2130837638;
+			
+			// aapt resource value: 0x7f020087
+			public const int roundedbgdark = 2130837639;
 			
 			static Drawable()
 			{

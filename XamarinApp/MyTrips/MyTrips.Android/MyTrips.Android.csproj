@@ -282,6 +282,21 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_stop.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_start.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_stop.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_twitter.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_windows.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_windows.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_twitter.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_windows.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_twitter.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_windows.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_twitter.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_windows.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_twitter.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
