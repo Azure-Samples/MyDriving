@@ -80,13 +80,12 @@ namespace MyTrips.ViewModel
 
             try
             {
+                IsRecording = false;
+
                 IsBusy = true;
                 #if DEBUG
                 await Task.Delay(5000);
                 #endif
-
-
-                IsRecording = false;
 
                 //TODO: Insert into database
                 CurrentTrip = new Trip();

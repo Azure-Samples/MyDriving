@@ -29,6 +29,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
+    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -231,11 +232,6 @@
     <AndroidResource Include="Resources\values\dimen.xml" />
     <AndroidResource Include="Resources\layout\activity_past_trip_details.axml" />
     <AndroidResource Include="Resources\xml\preferences.xml" />
-    <AndroidResource Include="Resources\drawable\ic_info.png" />
-    <AndroidResource Include="Resources\drawable\ic_car_red.png" />
-    <AndroidResource Include="Resources\drawable\ic_car_blue.png" />
-    <AndroidResource Include="Resources\drawable\ic_end_point.png" />
-    <AndroidResource Include="Resources\drawable\ic_start_point.png" />
     <AndroidResource Include="Resources\drawable-hdpi\menu_past_trips.png" />
     <AndroidResource Include="Resources\drawable-mdpi\menu_past_trips.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\menu_past_trips.png" />
@@ -262,6 +258,11 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_camera.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_camera.png" />
     <AndroidResource Include="Resources\menu\menu_current_trip.xml" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_car_blue.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_car_red.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_end_point.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_info.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_start_point.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -331,5 +332,6 @@
     <Folder Include="Activities\" />
     <Folder Include="Resources\xml\" />
     <Folder Include="Controls\" />
+    <Folder Include="Resources\drawable-nodpi\" />
   </ItemGroup>
 </Project>

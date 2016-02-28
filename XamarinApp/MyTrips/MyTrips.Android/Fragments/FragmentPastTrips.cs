@@ -71,7 +71,6 @@ namespace MyTrips.Droid.Fragments
 
         void OnItemClick(object sender, TripClickEventArgs args)
         {
-            var view = sender as View;
             var options = ActivityOptionsCompat.MakeSceneTransitionAnimation(
                 Activity, args.View.FindViewById(Resource.Id.full_rating), "rating");
             
@@ -137,13 +136,16 @@ namespace MyTrips.Droid.Fragments
             vh.Title.Text = trip.TripId;
             vh.Distance.Text = trip.TotalDistance;
             vh.Date.Text = trip.TimeAgo;
-            vh.Photo.Visibility = (trip?.Photos?.Count).GetValueOrDefault() > 0 ? ViewStates.Visible : ViewStates.Gone;
+            vh.Photo.Visibility = (trip?.Photos?.Count).GetValueOrDefault() > 0 || !string.IsNullOrWhiteSpace(trip.MainPhotoUrl) ? ViewStates.Visible : ViewStates.Gone;
             vh.Rating.Text = trip.Rating.ToString();
             vh.RatingCircle.Rating = trip.Rating;
 
             if (vh.Photo.Visibility == ViewStates.Visible)
             {
-                Koush.UrlImageViewHelper.SetUrlDrawable (vh.Photo, trip.Photos[0].PhotoUrl);
+                if((trip?.Photos?.Count).GetValueOrDefault() > 0)
+                    Koush.UrlImageViewHelper.SetUrlDrawable (vh.Photo, trip.Photos[0].PhotoUrl);
+                else
+                    Koush.UrlImageViewHelper.SetUrlDrawable (vh.Photo, trip.MainPhotoUrl);
             }
 
         }

@@ -40,10 +40,7 @@ namespace MyTrips.DataStore.Mock.Stores
             trip1.TripId = trip1.UserId + "@Redmond";
             trip1.TotalDistance = "34 miles";
             trip1.Photos = new List<Photo>();
-            trip1.Photos.Add(new Photo
-            {
-                PhotoUrl = "http://cplinc.com/wp-content/uploads/2014/02/MS-1.jpg"
-            });
+            trip1.MainPhotoUrl = "http://cplinc.com/wp-content/uploads/2014/02/MS-1.jpg";
             var startTime = DateTime.UtcNow;
             trip1.TimeStamp = startTime;
             var timeIncrement = 1;
@@ -196,10 +193,7 @@ namespace MyTrips.DataStore.Mock.Stores
                 var json = ResourceLoader.GetEmbeddedResourceString(Assembly.Load(new AssemblyName("MyTrips.DataStore.Mock")), "sampletrip.json");
                 trip6 = JsonConvert.DeserializeObject<Trip>(json);
                 trip6.Photos = new List<Photo>();
-                trip6.Photos.Add(new Photo
-                {
-                    PhotoUrl = "http://www.livingwilderness.com/seattle/space-needle-fog.jpg"
-                });
+                trip6.MainPhotoUrl = "http://www.livingwilderness.com/seattle/space-needle-fog.jpg";
             }
             catch (Exception ex)
             {

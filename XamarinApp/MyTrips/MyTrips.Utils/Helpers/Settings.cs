@@ -114,6 +114,33 @@ namespace MyTrips.Utils
             }
         }
 
+        const string MetricDistanceKey = "metric_distance";
+        static readonly bool MetricDistanceDefault = false;
+
+        public bool MetricDistance
+        {
+            get { return AppSettings.GetValueOrDefault<bool>(MetricDistanceKey, MetricDistanceDefault); }
+            set
+            {
+                if (AppSettings.AddOrUpdateValue<bool>(MetricDistanceKey, value))
+                    OnPropertyChanged();
+            }
+        }
+
+
+        const string MetricUnitsKey = "metric_units";
+        static readonly bool MetricUnitsDefault = false;
+
+        public bool MetricUnits
+        {
+            get { return AppSettings.GetValueOrDefault<bool>(MetricUnitsKey, MetricUnitsDefault); }
+            set
+            {
+                if (AppSettings.AddOrUpdateValue<bool>(MetricUnitsKey, value))
+                    OnPropertyChanged();
+            }
+        }
+
         const string FirstRunKey = "first_run";
         static readonly bool FirstRunDefault = true;
 

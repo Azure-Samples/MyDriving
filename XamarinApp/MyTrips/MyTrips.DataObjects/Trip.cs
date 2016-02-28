@@ -31,6 +31,8 @@ namespace MyTrips.DataObjects
         public IList<Trail> Trail { get; set; }
 
         public IList<Photo> Photos { get; set; }
+
+        public string MainPhotoUrl { get; set; }
     }
 
     public class Trail : BaseDataObject

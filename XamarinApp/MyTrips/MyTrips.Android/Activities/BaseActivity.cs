@@ -4,6 +4,7 @@ using Android.Support.V7.Widget;
 using MyTrips.Droid.Helpers;
 using Plugin.Permissions;
 using Android.Content.PM;
+using Android.Transitions;
 
 namespace MyTrips.Droid
 {
@@ -20,8 +21,8 @@ namespace MyTrips.Droid
         AccelerometerManager accelerometerManager;
         protected override void OnCreate(Bundle bundle)
         {
-            base.OnCreate(bundle);
             InitActivityTransitions();
+            base.OnCreate(bundle);
             SetContentView(LayoutResource);
             Toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             if (Toolbar != null)
@@ -69,10 +70,17 @@ namespace MyTrips.Droid
         {
             if ((int)Build.VERSION.SdkInt >= 21) 
             {
-                var transition = new Android.Transitions.Slide();
+               var transition = new Android.Transitions.Slide();
                 transition.ExcludeTarget(Android.Resource.Id.StatusBarBackground, true);
                 Window.EnterTransition = transition;
                 Window.ReturnTransition = transition;
+                Window.RequestFeature(Android.Views.WindowFeatures.ContentTransitions);
+                Window.RequestFeature(Android.Views.WindowFeatures.ActivityTransitions);
+                Window.SharedElementEnterTransition = new ChangeBounds();
+                Window.SharedElementReturnTransition = new ChangeBounds();
+                Window.AllowEnterTransitionOverlap = true;
+                Window.AllowReturnTransitionOverlap = true;
+
             }
         }
 
