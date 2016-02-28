@@ -31,11 +31,12 @@ namespace MyTrips.Droid.Activities
         }
 
         GoogleMap map;
-        TripDetailsViewModel viewModel;
+        PastTripsDetailViewModel viewModel;
         SupportMapFragment mapFrag;
         TextView ratingText;
         RatingCircle ratingCircle;
         int rating;
+        string id;
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -48,8 +49,8 @@ namespace MyTrips.Droid.Activities
             var view = FindViewById(Resource.Id.full_rating);
             Android.Support.V4.View.ViewCompat.SetTransitionName(view,  "rating");
 
-            viewModel = new TripDetailsViewModel();
-            viewModel.TripId = Intent.GetStringExtra("Id");
+            viewModel = new PastTripsDetailViewModel();
+            viewModel.Title = id = Intent.GetStringExtra("Id");
             rating = Intent.GetIntExtra("Rating", 0);
             ratingText = FindViewById<TextView>(Resource.Id.text_rating);
             ratingCircle = FindViewById<RatingCircle>(Resource.Id.rating_circle);
@@ -68,10 +69,10 @@ namespace MyTrips.Droid.Activities
         {
             map = googleMap;
 
-            await viewModel.ExecuteLoadTripCommandAsync();
+            await viewModel.ExecuteLoadTripCommandAsync(id);
 
 
-            SupportActionBar.Title = viewModel.CurrentTrip.TripId;
+            SupportActionBar.Title = viewModel.Title;
             SetupMap();
 
         }
@@ -86,9 +87,9 @@ namespace MyTrips.Droid.Activities
                 mapFrag.View.PostDelayed (() => { SetupMap();}, 500);
                 return;
             }
-            var start = viewModel.CurrentTrip.Trail[0];
-            var end = viewModel.CurrentTrip.Trail[viewModel.CurrentTrip.Trail.Count - 1];
-            seekBar.Max = viewModel.CurrentTrip.Trail.Count - 1;
+            var start = viewModel.Trip.Trail[0];
+            var end = viewModel.Trip.Trail[viewModel.Trip.Trail.Count - 1];
+            seekBar.Max = viewModel.Trip.Trail.Count - 1;
             seekBar.ProgressChanged += SeekBar_ProgressChanged;
 
             var logicalDensity = Resources.DisplayMetrics.Density;
@@ -121,7 +122,7 @@ namespace MyTrips.Droid.Activities
 
 
 
-            var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
+            var points = viewModel.Trip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
             var rectOptions = new PolylineOptions();
             rectOptions.Add(points);
             rectOptions.InvokeColor(ContextCompat.GetColor(this, Resource.Color.accent));
@@ -149,7 +150,7 @@ namespace MyTrips.Droid.Activities
         {
             if (carMarker == null)
                 return;
-            var location = viewModel.CurrentTrip.Trail[e.Progress];
+            var location = viewModel.Trip.Trail[e.Progress];
 
             RunOnUiThread(() =>
             {

@@ -24,7 +24,7 @@ namespace MyTrips.iOS
 			ViewModel.ViewModelBase.Init();
 
 			ServiceLocator.Instance.Add<IAuthentication, Authentication>();
-
+            Xamarin.Insights.Initialize(Logger.InsightsKey);
 			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
 			{
 				Setup.EnableCustomCrashReporting(() =>

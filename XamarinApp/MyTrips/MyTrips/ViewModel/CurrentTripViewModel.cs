@@ -85,13 +85,15 @@ namespace MyTrips.ViewModel
             if (IsBusy || !IsRecording)
                 return false;
 
+            var track = Logger.Instance.TrackTime("SaveRecording");
+            track.Start();
             try
             {
                 IsRecording = false;
 
                 IsBusy = true;
                 #if DEBUG
-                await Task.Delay(5000);
+                await Task.Delay(3000);
 #endif
 
                 //TODO: use real city here
@@ -122,6 +124,7 @@ namespace MyTrips.ViewModel
             }
             finally
             {
+                track.Stop();
                 IsBusy = false;
             }
 
