@@ -265,14 +265,14 @@
     <AndroidResource Include="Resources\drawable-nodpi\ic_start_point.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_stop.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_start.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_stop.png" />
     <AndroidResource Include="Resources\drawable-mdpi\ic_start.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_stop.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_stop.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_start.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_stop.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_stop.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_start.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_stop.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_stop.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_start.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_stop.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
