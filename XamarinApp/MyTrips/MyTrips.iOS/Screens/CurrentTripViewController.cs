@@ -30,14 +30,6 @@ namespace MyTrips.iOS
 			base.ViewDidLoad();
 			UpdateRecordButton(false);
 
-			wayPointA.Layer.CornerRadius = wayPointA.Frame.Width / 2;
-			wayPointA.Layer.BorderWidth = 2;
-			wayPointA.Layer.BorderColor = UIColor.White.CGColor;
-
-			wayPointB.Layer.CornerRadius = wayPointB.Frame.Width / 2;
-			wayPointB.Layer.BorderWidth = 2;
-			wayPointB.Layer.BorderColor = UIColor.White.CGColor;
-
 			if (PastTripsDetailViewModel == null)
 			{
 				// Setup view model
@@ -101,6 +93,7 @@ namespace MyTrips.iOS
 
 				ConfigureSlider();
 			}
+			ConfigureWayPointButtons();
 		}
 
 		public override void ViewDidAppear(bool animated)
@@ -275,6 +268,28 @@ namespace MyTrips.iOS
 			tripSlider.Value = PastTripsDetailViewModel.Trip.Trail.Count / 2;
 
 			tripSlider.ValueChanged += TripSlider_ValueChanged;
+		}
+
+		void ConfigureWayPointButtons()
+		{
+			wayPointA.Layer.CornerRadius = wayPointA.Frame.Width / 2;
+			wayPointA.Layer.BorderWidth = 2;
+			wayPointA.Layer.BorderColor = UIColor.White.CGColor;
+			wayPointA.TouchUpInside += delegate 
+			{
+				tripSlider.Value = 0;
+				TripSlider_ValueChanged(this, null);
+
+			};
+
+			wayPointB.Layer.CornerRadius = wayPointB.Frame.Width / 2;
+			wayPointB.Layer.BorderWidth = 2;
+			wayPointB.Layer.BorderColor = UIColor.White.CGColor;
+			wayPointB.TouchUpInside += delegate 
+			{
+				tripSlider.Value = tripSlider.MaxValue;
+				TripSlider_ValueChanged(this, null);
+			};
 		}
 	}
 }
