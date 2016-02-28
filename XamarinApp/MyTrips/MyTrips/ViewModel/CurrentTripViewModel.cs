@@ -59,6 +59,15 @@ namespace MyTrips.ViewModel
             try
             {
                 IsRecording = true;
+                var trail = new Trail
+                {
+                    TimeStamp = DateTime.UtcNow,
+                    Latitude = CurrentTrip.Latitude,
+                    Longitude = CurrentTrip.Longitude,
+                };
+
+
+                CurrentTrip.Trail.Add (trail);
             }
             catch
             {

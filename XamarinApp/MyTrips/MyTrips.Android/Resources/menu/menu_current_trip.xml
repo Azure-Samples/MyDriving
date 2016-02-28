@@ -7,7 +7,5 @@
         android:icon="@drawable/ic_camera"
         android:title="Take Photo"
 		app:showAsAction="ifRoom"/>
-	<item android:id="@+id/menu_toggle"
-		  android:title="Start/Stop Trip"/>
         
 </menu>

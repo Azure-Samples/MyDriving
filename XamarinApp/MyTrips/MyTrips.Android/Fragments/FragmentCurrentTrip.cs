@@ -19,6 +19,7 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System.Threading.Tasks;
 using MyTrips.Droid.Controls;
+using Android.Support.Design.Widget;
 
 namespace MyTrips.Droid.Fragments
 {
@@ -32,6 +33,7 @@ namespace MyTrips.Droid.Fragments
         MapView mapView;
         TextView ratingText;
         RatingCircle ratingCircle;
+        FloatingActionButton fab;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
@@ -45,6 +47,25 @@ namespace MyTrips.Droid.Fragments
             GeolocationHelper.Current.LocationServiceConnected += OnLocationServiceConnected;
             ratingText = view.FindViewById<TextView>(Resource.Id.text_rating);
             ratingCircle = view.FindViewById<RatingCircle>(Resource.Id.rating_circle);
+            fab = view.FindViewById<FloatingActionButton>(Resource.Id.fab);
+            fab.Click += async (sender, e) =>
+            {
+                if (viewModel == null || viewModel.CurrentPosition == null || viewModel.IsBusy)
+                    return;
+                if (viewModel.IsRecording)
+                {
+
+                    AddEndMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
+                    UpdateCarIcon(false);
+                    await viewModel.StopRecordingTripAsync();
+                }
+                else
+                {
+                    AddStartMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
+                    await viewModel.StartRecordingTripAsync();
+                    UpdateCarIcon(true);
+                }
+            };
             ratingText.Text = "100";
             ratingCircle.Rating = 100;
             return view;
@@ -104,26 +125,6 @@ namespace MyTrips.Droid.Fragments
                 case Resource.Id.menu_take_photo:
                     if(!(viewModel?.IsBusy).GetValueOrDefault())
                         viewModel?.TakePhotoCommand.Execute(null);
-                    break;
-                case Resource.Id.menu_toggle:
-                    if (viewModel == null || viewModel.CurrentPosition == null || viewModel.IsBusy)
-                        break;
-                    if (viewModel.IsRecording)
-                    {
-
-                        AddEndMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
-                        UpdateCarIcon(false);
-                        viewModel.StopRecordingTripAsync().ContinueWith((arg) => { });
-                    }
-                    else
-                    {
-                        AddStartMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
-                        viewModel.StartRecordingTripAsync().ContinueWith((arg) =>
-                        {
-                            UpdateCarIcon(true);
-                        });
-                    }
-
                     break;
             }
             return base.OnOptionsItemSelected(item);
@@ -223,6 +224,8 @@ namespace MyTrips.Droid.Fragments
                 var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessCar, thicknessCar, false);
 
                 carMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
+
+                fab.SetImageResource(recording ? Resource.Drawable.ic_stop : Resource.Drawable.ic_start);
             });
         }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
@@ -135,5 +136,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     <!--Overlay goes here-->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_start"
+            android:layout_gravity="bottom|center_horizontal"
+            app:elevation="4dp"
+            app:pressedTranslationZ="8dp"
+            android:clickable="true" />
     </FrameLayout>
 </LinearLayout>
