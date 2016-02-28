@@ -53,14 +53,18 @@ namespace MyTrips.Droid
             if (!viewModel.IsLoggedIn)
                 return;
 
-            StartActivity(new Intent(this, typeof(MainActivity)));
+            var intent = new Intent(this, typeof(MainActivity));
+            intent.AddFlags(ActivityFlags.ClearTop);
+            StartActivity(intent);
             Finish();
         }
 
         void Login(LoginAccount account)
         {
             #if DEBUG
-            StartActivity(new Intent(this, typeof(MainActivity)));
+            var intent = new Intent(this, typeof(MainActivity));
+            intent.AddFlags(ActivityFlags.ClearTop);
+            StartActivity(intent);
             Finish();
             #endif
 

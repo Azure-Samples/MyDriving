@@ -39,6 +39,8 @@ namespace MyTrips.Droid.Services
 
             var newIntent = new Intent(this, typeof(MainActivity));
             newIntent.PutExtra("tracking", true);
+            newIntent.AddFlags(ActivityFlags.ClearTop);
+            newIntent.AddFlags(ActivityFlags.SingleTop);
 
             var pendingIntent = PendingIntent.GetActivity (this, 0, newIntent, 0);
             var notification = builder.SetContentIntent(pendingIntent)

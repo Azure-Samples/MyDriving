@@ -226,7 +226,7 @@ namespace MyTrips.Droid.Fragments
 
         void UpdateCar(LatLng latlng)
         {
-            if (latlng == null)
+            if (latlng == null || map == null)
                 return;
 
             if (carMarker == null)
@@ -246,6 +246,9 @@ namespace MyTrips.Droid.Fragments
 
         void UpdateCamera(LatLng latlng)
         {
+            if (map == null)
+                return;
+            
             if (setZoom)
             {
                 map.MoveCamera(CameraUpdateFactory.NewLatLngZoom(latlng, 14));

@@ -3,6 +3,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.Widget;
 using Android.Views;
+using Android.Widget;
 
 using MyTrips.Droid.Fragments;
 using Android.Support.V4.View;
@@ -86,7 +87,7 @@ namespace MyTrips.Droid
             //this way we don't load twice, but you might want to modify this a bit.
             if (itemId == oldPosition)
                 return;
-
+            shouldClose = false;
             oldPosition = itemId;
 
             Android.Support.V4.App.Fragment fragment = null;
@@ -124,15 +125,28 @@ namespace MyTrips.Droid
             return base.OnOptionsItemSelected(item);
         }
 
+        protected override void OnStart()
+        {
+            base.OnStart();
+            shouldClose = false;
+        }
+
+        bool shouldClose;
         public override void OnBackPressed()
         {
 
             if (drawerLayout.IsDrawerOpen((int)GravityFlags.Start))
             {
-                drawerLayout.OpenDrawer(GravityCompat.Start);
+                drawerLayout.CloseDrawer(GravityCompat.Start);
             }
             else
             {
+                if (!shouldClose)
+                {
+                    Toast.MakeText(this, "Press back again to exit.", ToastLength.Short).Show();
+                    shouldClose = true;
+                    return;
+                }
                 base.OnBackPressed();
             }
         }

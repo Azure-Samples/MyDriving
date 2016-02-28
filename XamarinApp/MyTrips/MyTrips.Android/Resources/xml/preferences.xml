@@ -6,6 +6,8 @@
             android:title="Account">
 
         <Preference
+				
+				android:key="lotout"
                 android:title="Logout" />
 
     </PreferenceCategory>
