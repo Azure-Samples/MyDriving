@@ -138,8 +138,8 @@ namespace MyTrips.Droid.Activities
                 boundsPoints.Include (point);
 
             var bounds = boundsPoints.Build ();
-            map.MoveCamera (CameraUpdateFactory.NewLatLngBounds (bounds, 128));
-
+            map.MoveCamera (CameraUpdateFactory.NewLatLngBounds (bounds, 64));
+           
 
             seekBar.Enabled = true;
 
@@ -154,6 +154,7 @@ namespace MyTrips.Droid.Activities
             RunOnUiThread(() =>
             {
                 carMarker.Position = new LatLng(location.Latitude, location.Longitude);
+                map.MoveCamera(CameraUpdateFactory.NewLatLng(carMarker.Position));
             });
         }
 

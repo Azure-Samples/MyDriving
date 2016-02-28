@@ -31,7 +31,6 @@ namespace MyTrips.Droid.Fragments
         MapView mapView;
         TextView ratingText;
         RatingCircle ratingCircle;
-        int rating;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
