@@ -16,7 +16,6 @@ namespace Microsoft.Azure.Devices.Client.Transport
     using Microsoft.Azure.Devices.Client.Exceptions;
     using Microsoft.Azure.Devices.Client.Extensions;
     using Newtonsoft.Json;
-
     sealed class HttpTransportHandler : TransportHandlerBase
     {
         static readonly TimeSpan DefaultOperationTimeout = TimeSpan.FromSeconds(60);

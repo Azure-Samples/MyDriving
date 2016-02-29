@@ -3,16 +3,26 @@
 
 namespace Microsoft.Azure.Devices.Client
 {
+    
     using System;
     using System.Threading.Tasks;
+#if !__ANDROID__ && !__IOS__
     using Windows.Foundation;
+
 
     static class WinRTHelpers
     {
         public static IAsyncOperation<T> AsTaskOrAsyncOp<T>(this Task<T> op) { return op.AsAsyncOperation<T>(); }
         public static IAsyncAction AsTaskOrAsyncOp(this Task op) { return op.AsAsyncAction(); }
     }
-
+#else
+    
+    static class WinRTHelpers
+    {
+        public static Task<T> AsTaskOrAsyncOp<T>(this Task<T> op) { return op; }
+        public static Task AsTaskOrAsyncOp(this Task op) { return op; }
+    }
+#endif
     //
     // Summary:
     //     Identifies the type of event that has caused the trace.
