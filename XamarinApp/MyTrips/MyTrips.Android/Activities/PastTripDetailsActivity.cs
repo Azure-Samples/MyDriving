@@ -33,7 +33,7 @@ namespace MyTrips.Droid.Activities
         GoogleMap map;
         PastTripsDetailViewModel viewModel;
         SupportMapFragment mapFrag;
-        TextView ratingText;
+        TextView ratingText, startTime, endTime;
         RatingCircle ratingCircle;
         int rating;
         string id;
@@ -59,6 +59,12 @@ namespace MyTrips.Droid.Activities
             ratingCircle.PlayAnimation = false;
             ratingText.Text = rating.ToString();
             ratingCircle.Rating = rating;
+
+            startTime = FindViewById<TextView>(Resource.Id.text_start_time);
+            endTime = FindViewById<TextView>(Resource.Id.text_end_time);
+            startTime.Text = endTime.Text = string.Empty;
+
+
             mapFrag = (SupportMapFragment) SupportFragmentManager.FindFragmentById(Resource.Id.map);
             mapFrag.GetMapAsync(this);
         }
@@ -71,7 +77,9 @@ namespace MyTrips.Droid.Activities
 
             await viewModel.ExecuteLoadTripCommandAsync(id);
 
-
+            startTime.Text = viewModel.Trip.TimeStamp.ToString("t");
+            if (viewModel.Trip.Trail.Count > 0)
+                endTime.Text = viewModel.Trip.Trail[viewModel.Trip.Trail.Count - 1].TimeStamp.ToString("t");
             SupportActionBar.Title = viewModel.Title;
             SetupMap();
 
