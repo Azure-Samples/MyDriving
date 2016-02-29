@@ -26,5 +26,6 @@ namespace MyTrips
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ProfilePictureUri { get; set; }
+        public byte[] ProfilePicture { get; set; }
     }
 }

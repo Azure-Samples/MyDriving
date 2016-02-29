@@ -1,9 +1,7 @@
 ﻿using Microsoft.WindowsAzure.MobileServices;
-using MyTrips.Helpers;
 using MyTrips.Utils;
 using MyTrips.ViewModel;
 using System;
-using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -27,14 +25,20 @@ namespace MyTrips.UWP.Views
             DataContext = viewModel = new LoginViewModel();
             //Make sure you turn on azure in the ViewModelBase 
 
+            //debug
+            if(viewModel.client == null)
+            {
+                viewModel.client = new MobileServiceClient("https://smartkar.azurewebsites.net");
+            }
+                
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
-                case nameof(viewModel.UserInfo):
-                    WelcomeText.Text = "Welcome " + viewModel.UserInfo.FirstName + "!";
+                case nameof(viewModel.IsLoggedIn):
+                    ShowUserWelcome();
                     break;
             }
         }
@@ -79,44 +83,20 @@ namespace MyTrips.UWP.Views
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
-        private async void FaceBookButtonLogin_Click(object sender, RoutedEventArgs e)
+        private void ShowUserWelcome()
         {
-            await Login(LoginAccount.Facebook);
-        }
-
-        private async void TwitterButtonLogin_Click(object sender, RoutedEventArgs e)
-        {
-            await Login(LoginAccount.Twitter);
-        }
-
-        private async void MicrosoftButtonLogin_Click(object sender, RoutedEventArgs e)
-        {
-            await Login(LoginAccount.Microsoft);
-        }
-
-        private async Task Login(LoginAccount provider)
-        {
-            // Login the user and then load data from the mobile app.
-            if (await AuthenticateAsync(provider))
+            if (viewModel.UserInfo?.FirstName != null && viewModel.UserInfo?.FirstName != string.Empty)
             {
-                viewModel.UserInfo = await UserProfileHelper.GetUserProfileAsync(App.MobileService);
-                this.ShowSuccessfulLogin();
+                LoginButtons.Visibility = Visibility.Collapsed;
+                SkipAuthBtn.Visibility = Visibility.Collapsed;
+                WelcomeText.Text = "Welcome " + viewModel.UserInfo.FirstName + "!";
+                WelcomeText.Visibility = Visibility.Visible;
+                SetImageSource();
+                ProfileImage.Visibility = Visibility.Visible;
+                ContinueButton.Visibility = Visibility.Visible;
             }
-            else
-            {
-                WelcomeText.Text = "Login failed";
-            }
-            WelcomeText.Visibility = Visibility.Visible;
-        }
-
-        private void ShowSuccessfulLogin()
-        {
-            LoginButtons.Visibility = Visibility.Collapsed;
-            WelcomeText.Visibility = Visibility.Visible;
-            ContinueButton.Visibility = Visibility.Visible;
-            SkipAuthBtn.Visibility = Visibility.Collapsed;
-            ProfileImage.Source = new BitmapImage(new Uri(viewModel.UserInfo.ProfilePictureUri));
-            ProfileImage.Visibility = Visibility.Visible;
+            else  //if no user info to show, go directly to next page
+                this.Frame.Navigate(typeof(PastTripsMenuView));
         }
 
         private void Continue_Click(object sender, RoutedEventArgs e)
@@ -124,40 +104,19 @@ namespace MyTrips.UWP.Views
             this.Frame.Navigate(typeof(PastTripsMenuView));
         }
 
-        // Define a member variable for storing the signed-in user. 
-        private MobileServiceUser user;
-
-        //Temp code to use for login until we're properly connected to mobile server 
-        private async Task<bool> AuthenticateAsync(LoginAccount provider)
+        private void SetImageSource()
         {
-
-            bool success = true;
-            try
+            if(Utils.Settings.Current.LoginAccount == LoginAccount.Facebook)
             {
-                switch (provider)
-                {
-                    case LoginAccount.Facebook:
-                        user = await App.MobileService
-                   .LoginAsync(MobileServiceAuthenticationProvider.Facebook);
-                        break;
-                    case LoginAccount.Twitter:
-                        user = await App.MobileService
-                   .LoginAsync(MobileServiceAuthenticationProvider.Twitter);
-                        break;
-                    case LoginAccount.Microsoft:
-                        user = await App.MobileService
-                   .LoginAsync(MobileServiceAuthenticationProvider.MicrosoftAccount);
-                        break;
-                    default:
-                        success = false;
-                        break;
-                }
+                //use picture url
+                ProfileImage.Source = new BitmapImage(new Uri(viewModel.UserInfo.ProfilePictureUri));
             }
-            catch (InvalidOperationException)
+            else if (Utils.Settings.Current.LoginAccount == LoginAccount.Microsoft)
             {
-                success = false;
+                //use bitmap
+                ProfileImage.Source = Helpers.BitmapImageConverter.ConvertImage(viewModel.UserInfo.ProfilePicture);
+                
             }
-            return success;
         }
 
     }
