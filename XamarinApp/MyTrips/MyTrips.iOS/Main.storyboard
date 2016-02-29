@@ -92,7 +92,7 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zg3-td-w8b">
                                             <rect key="frame" x="16" y="32" width="535" height="20"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bw0-hO-7qg">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bw0-hO-7qg">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="8sG-Bh-8D8"/>
@@ -102,7 +102,7 @@
                                                     <color key="textColor" red="0.67001041666666672" green="0.67001041666666672" blue="0.67001041666666672" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="14 miles" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="awd-Ib-QQx">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14 miles" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="awd-Ib-QQx">
                                                     <rect key="frame" x="50" y="0.0" width="485" height="20"/>
                                                     <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="13"/>
                                                     <color key="textColor" red="0.34609904885292053" green="0.52942115068435669" blue="0.73177802562713623" alpha="1" colorSpace="calibratedRGB"/>
@@ -130,6 +130,85 @@
                                     <outlet property="lblMiles" destination="awd-Ib-QQx" id="name-outlet-awd-Ib-QQx"/>
                                     <outlet property="lblTitle" destination="4sJ-6h-h5Q" id="name-outlet-4sJ-6h-h5Q"/>
                                     <segue destination="343" kind="push" identifier="pastTripSegue" id="1126"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TRIP_CELL_WITHIMAGE_IDENTIFIER" rowHeight="166" id="78d-at-mZU" customClass="TripTableViewCell">
+                                <rect key="frame" x="0.0" y="156" width="600" height="166"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="78d-at-mZU" id="MOV-ca-aXN">
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="165"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ijH-Nt-723">
+                                            <rect key="frame" x="16" y="113" width="535" height="20"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scott @ Redmond" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLx-HL-V01">
+                                                    <rect key="frame" x="0.0" y="0.0" width="489" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="uvT-XY-UxK"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="17"/>
+                                                    <color key="textColor" red="0.34609904889999998" green="0.52942115069999995" blue="0.73177802560000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="1 day ago" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oi0-dQ-FNw">
+                                                    <rect key="frame" x="489" y="0.0" width="46" height="20"/>
+                                                    <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="12"/>
+                                                    <color key="textColor" red="0.67001041670000006" green="0.67001041670000006" blue="0.67001041670000006" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="7mD-OY-JcS"/>
+                                            </constraints>
+                                        </stackView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sTF-bd-30q">
+                                            <rect key="frame" x="16" y="137" width="535" height="20"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8h-Ul-uxa">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="1g0-z7-0jg"/>
+                                                        <constraint firstAttribute="width" constant="50" id="Kh3-7g-1vy"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="13"/>
+                                                    <color key="textColor" red="0.67001041670000006" green="0.67001041670000006" blue="0.67001041670000006" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14 miles" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQz-K1-INw">
+                                                    <rect key="frame" x="50" y="0.0" width="485" height="20"/>
+                                                    <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="13"/>
+                                                    <color key="textColor" red="0.34609904889999998" green="0.52942115069999995" blue="0.73177802560000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="MvF-Fj-Ni8"/>
+                                            </constraints>
+                                        </stackView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T3A-dm-Ldu">
+                                            <rect key="frame" x="16" y="8" width="551" height="97"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstItem="sTF-bd-30q" firstAttribute="leading" secondItem="MOV-ca-aXN" secondAttribute="leadingMargin" constant="8" id="1nu-vz-S8I"/>
+                                        <constraint firstItem="T3A-dm-Ldu" firstAttribute="top" secondItem="MOV-ca-aXN" secondAttribute="topMargin" id="4yL-bv-kta"/>
+                                        <constraint firstItem="T3A-dm-Ldu" firstAttribute="leading" secondItem="MOV-ca-aXN" secondAttribute="leadingMargin" constant="8" id="GmY-43-bRS"/>
+                                        <constraint firstItem="sTF-bd-30q" firstAttribute="bottom" secondItem="MOV-ca-aXN" secondAttribute="bottomMargin" id="Ucs-H4-BLz"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="ijH-Nt-723" secondAttribute="trailing" constant="8" id="VQK-qW-L8d"/>
+                                        <constraint firstItem="ijH-Nt-723" firstAttribute="leading" secondItem="MOV-ca-aXN" secondAttribute="leadingMargin" constant="8" id="XTc-u7-mXG"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="T3A-dm-Ldu" secondAttribute="trailing" constant="-8" id="XqY-sP-nu2"/>
+                                        <constraint firstItem="sTF-bd-30q" firstAttribute="top" secondItem="ijH-Nt-723" secondAttribute="bottom" constant="4" id="mBU-z3-FOs"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="sTF-bd-30q" secondAttribute="trailing" constant="8" id="pN9-Vr-wO2"/>
+                                        <constraint firstItem="ijH-Nt-723" firstAttribute="top" secondItem="T3A-dm-Ldu" secondAttribute="bottom" constant="8" id="t0g-kM-ffc"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="lblDaysAgo" destination="Oi0-dQ-FNw" id="9aR-ZX-hAK"/>
+                                    <outlet property="lblMiles" destination="LQz-K1-INw" id="o6f-6t-IEj"/>
+                                    <outlet property="lblTitle" destination="DLx-HL-V01" id="fMG-Oz-N12"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
