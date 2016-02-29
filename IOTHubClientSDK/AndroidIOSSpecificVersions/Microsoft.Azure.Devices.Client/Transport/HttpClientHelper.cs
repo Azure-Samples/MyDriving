@@ -101,7 +101,7 @@ namespace Microsoft.Azure.Devices.Client.Transport
             IDictionary<HttpStatusCode, Func<HttpResponseMessage, Task<Exception>>> errorMappingOverrides,
             CancellationToken cancellationToken) where T: IETagHolder
         {
-#if WINDOWS_UWP
+#if WINDOWS_UWP && !__ANDROID__ && !__IOS__
             await Task.CompletedTask; // to suppress async warning
             throw new NotImplementedException();
 #else
