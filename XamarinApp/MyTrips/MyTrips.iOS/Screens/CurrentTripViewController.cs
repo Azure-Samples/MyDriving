@@ -9,6 +9,8 @@ using UIKit;
 
 using MyTrips.ViewModel;
 
+using BigTed;
+
 namespace MyTrips.iOS
 {
 	partial class CurrentTripViewController : UIViewController
@@ -37,7 +39,6 @@ namespace MyTrips.iOS
 				ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
 				await ViewModel.ExecuteStartTrackingTripCommandAsync();
 
-				// Configure MKMapView
 				mapDelegate = new TripMapViewDelegate(UIColor.Red, 0.4);
 				tripMapView.Delegate = mapDelegate;
 				tripMapView.ShowsUserLocation = false;
@@ -51,12 +52,11 @@ namespace MyTrips.iOS
 				recordButton.Layer.BorderWidth = 2;
 				recordButton.TouchUpInside += RecordButton_TouchUpInside;
 
+				tripSlider.Hidden = true;
+
 				// Hide slider waypoints
 				wayPointA.Hidden = true;
 				wayPointB.Hidden = true;
-
-				// Hide trip slider
-				tripSlider.Hidden = true;
 			}
 			else
 			{
@@ -175,10 +175,19 @@ namespace MyTrips.iOS
 				tripMapView.AddAnnotation(endEndpoint);
 			}
 
-            if (ViewModel.IsRecording)
-                await ViewModel.StopRecordingTripAsync();
-            else
-                await ViewModel.StartRecordingTripAsync();
+			if (ViewModel.IsRecording)
+			{
+				BTProgressHUD.Show("Saving Trip");
+
+				ResetMapView();
+				await ViewModel.StopRecordingTripAsync();
+
+				BTProgressHUD.Dismiss();
+			}
+			else
+			{
+				await ViewModel.StartRecordingTripAsync();
+			}
 		}
 
 		void TripSlider_ValueChanged(object sender, EventArgs e)
@@ -290,6 +299,17 @@ namespace MyTrips.iOS
 				tripSlider.Value = tripSlider.MaxValue;
 				TripSlider_ValueChanged(this, null);
 			};
+		}
+
+		void ResetMapView()
+		{
+			if (tripMapView.Overlays != null)
+			{
+				tripMapView.RemoveOverlays(tripMapView.Overlays);
+			}
+
+			tripMapView.RemoveAnnotations(tripMapView.Annotations);
+			route = null;
 		}
 	}
 }

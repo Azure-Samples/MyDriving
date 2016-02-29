@@ -162,6 +162,9 @@
     <Reference Include="SDWebImage">
       <HintPath>..\..\packages\Xamarin.SDWebImage.3.7.5\lib\Xamarin.iOS\SDWebImage.dll</HintPath>
     </Reference>
+    <Reference Include="BTProgressHUD">
+      <HintPath>..\..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyTrips.DataStore.Abstractions\MyTrips.DataStore.Abstractions.csproj">
@@ -342,6 +345,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="sdwebimage">
       <Version>3.7.5</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="btprogresshud">
+      <Version>1.20</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
