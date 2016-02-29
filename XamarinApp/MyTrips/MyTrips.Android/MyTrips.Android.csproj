@@ -369,4 +369,7 @@
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <AndroidEnvironment Include="environment.txt" />
+  </ItemGroup>
 </Project>
