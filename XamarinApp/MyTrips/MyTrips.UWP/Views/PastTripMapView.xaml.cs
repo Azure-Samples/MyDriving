@@ -40,7 +40,7 @@ namespace MyTrips.UWP.Views
             this.Locations = new List<BasicGeoposition>();
         }
 
-        TripDetailsViewModel ViewModel;
+        PastTripsDetailViewModel ViewModel;
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             var trip = e.Parameter as Trip;
@@ -91,7 +91,7 @@ namespace MyTrips.UWP.Views
             mapIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
           
             MyMap.MapElements.Add(mapIcon);
-
+            
         }
     }
 }
