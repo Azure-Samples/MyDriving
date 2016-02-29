@@ -22,6 +22,7 @@ using MyTrips.Droid.Controls;
 using MyTrips.Utils;
 using Android.Support.Design.Widget;
 using System.Collections.Specialized;
+using System.Collections.Generic;
 
 namespace MyTrips.Droid.Fragments
 {
@@ -40,7 +41,7 @@ namespace MyTrips.Droid.Fragments
         Polyline driveLine;
         Color? driveLineColor = null;
         bool setZoom = true;
-
+        List<LatLng> allPoints;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
@@ -137,6 +138,8 @@ namespace MyTrips.Droid.Fragments
             trailPointList.CollectionChanged += OnTrailUpdated;
             carMarker = null;
             map?.Clear();
+            allPoints?.Clear();
+            allPoints = null;
             SetupMap();
         }
 
@@ -249,8 +252,17 @@ namespace MyTrips.Droid.Fragments
                 UpdateCar(latlng);
                 driveLine?.Remove();
                 var polyOptions = new PolylineOptions();
-                var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
-                polyOptions.Add(points);
+
+                if (allPoints == null)
+                {
+                    allPoints = new List<LatLng>(viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)));
+                }
+                else if (trail != null)
+                {
+                    allPoints.Add(new LatLng(trail.Latitude, trail.Longitude));
+                }
+
+                polyOptions.Add(allPoints.ToArray());
 
                 if (!driveLineColor.HasValue)
                     driveLineColor = new Color(ContextCompat.GetColor(Activity, Resource.Color.accent));

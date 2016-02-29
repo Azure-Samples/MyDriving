@@ -44,6 +44,7 @@
     <Compile Include="ViewModel\PastTripsDetailViewModel.cs" />
     <Compile Include="Model\BingHelper.cs" />
     <Compile Include="Model\BingResult.cs" />
+    <Compile Include="Helpers\UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

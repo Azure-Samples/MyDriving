@@ -171,14 +171,14 @@
       <HintPath>..\..\packages\Xamarin.Insights.1.11.4\lib\MonoAndroid10\Xamarin.Insights.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Square.OkIO">
-      <HintPath>..\..\packages\Square.OkIO.1.5.0.0\lib\MonoAndroid\Square.OkIO.dll</HintPath>
-    </Reference>
-    <Reference Include="Square.OkHttp">
-      <HintPath>..\..\packages\Square.OkHttp.2.4.0.1\lib\MonoAndroid\Square.OkHttp.dll</HintPath>
-    </Reference>
     <Reference Include="Square.Picasso">
       <HintPath>..\..\packages\Square.Picasso.2.5.2.1\lib\MonoAndroid\Square.Picasso.dll</HintPath>
+    </Reference>
+    <Reference Include="Square.OkIO">
+      <HintPath>..\..\packages\Square.OkIO.1.6.0.0\lib\MonoAndroid\Square.OkIO.dll</HintPath>
+    </Reference>
+    <Reference Include="Square.OkHttp">
+      <HintPath>..\..\packages\Square.OkHttp.2.7.4.0\lib\MonoAndroid\Square.OkHttp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
