@@ -24,6 +24,7 @@ namespace smarttripsService.Models
 
         public DbSet<Trip> Trips { get; set; }
         public DbSet<TripPoint> TripPoints { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

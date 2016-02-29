@@ -11,7 +11,7 @@ namespace smarttripsService.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
         }
 
@@ -80,6 +80,7 @@ namespace smarttripsService.Migrations
                     Name = "Haishi@Seattle",
                     IsComplete = true,
                     StartDate = new DateTime(2016,2,1, 12,34,50),
+                    VIN = "1NAF3ANVAERT",
                     StartingLatitude = 47.606557f,
                     StartingLongitude = -122.336555f,
                     Rate = 5,
@@ -90,6 +91,7 @@ namespace smarttripsService.Migrations
                     Name = "Scott@San Francisco",
                     IsComplete = true,
                     StartDate = new DateTime(2015,1,18, 20,14,20),
+                    VIN = "1NAF3ANVAERT",
                     StartingLatitude = 37.807055f,
                     StartingLongitude = -122.475603f,
                     Rate = 3,

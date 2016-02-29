@@ -43,6 +43,17 @@ namespace smarttripsService.Controllers
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 
+        // PUT tables/Trip
+        [HttpPut]
+        public async Task<IHttpActionResult> EndTrip(string id)
+        {
+            var result = await LookupAsync(id);
+            var trip = result.Queryable.First();
+            trip.IsComplete = true;
+            var replacedTrip = await DomainManager.ReplaceAsync(id, trip);
+            return Ok(replacedTrip);
+        }
+
         // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public Task DeleteTrip(string id)
         {
