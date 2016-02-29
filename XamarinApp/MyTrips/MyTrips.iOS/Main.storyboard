@@ -209,6 +209,7 @@
                                     <outlet property="lblDaysAgo" destination="Oi0-dQ-FNw" id="9aR-ZX-hAK"/>
                                     <outlet property="lblMiles" destination="LQz-K1-INw" id="o6f-6t-IEj"/>
                                     <outlet property="lblTitle" destination="DLx-HL-V01" id="fMG-Oz-N12"/>
+                                    <outlet property="displayImageView" destination="T3A-dm-Ldu" id="name-outlet-T3A-dm-Ldu"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

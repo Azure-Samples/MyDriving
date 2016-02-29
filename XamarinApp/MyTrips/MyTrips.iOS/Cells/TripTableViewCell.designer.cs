@@ -16,6 +16,10 @@ namespace MyTrips.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIImageView displayImageView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel lblDaysAgo { get; set; }
 
         [Outlet]
@@ -28,6 +32,11 @@ namespace MyTrips.iOS
 
         void ReleaseDesignerOutlets ()
         {
+            if (displayImageView != null) {
+                displayImageView.Dispose ();
+                displayImageView = null;
+            }
+
             if (lblDaysAgo != null) {
                 lblDaysAgo.Dispose ();
                 lblDaysAgo = null;

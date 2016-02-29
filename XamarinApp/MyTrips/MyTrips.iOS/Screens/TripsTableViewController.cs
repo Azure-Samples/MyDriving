@@ -7,11 +7,14 @@ using MyTrips.ViewModel;
 using Humanizer;
 using CoreGraphics;
 
+using SDWebImage;
+
 namespace MyTrips.iOS
 {
     public partial class TripsTableViewController : UITableViewController
     {
 		const string TRIP_CELL_IDENTIFIER = "TRIP_CELL_IDENTIFIER";
+		const string TRIP_CELL_WITHIMAGE_IDENTIFIER = "TRIP_CELL_WITHIMAGE_IDENTIFIER";
 		const string PAST_TRIP_SEGUE_IDENTIFIER = "pastTripSegue";
 
 		public PastTripsViewModel ViewModel { get; set; }
@@ -64,14 +67,30 @@ namespace MyTrips.iOS
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			var cell = tableView.DequeueReusableCell(TRIP_CELL_IDENTIFIER) as TripTableViewCell;
+			var trip = ViewModel.Trips[indexPath.Row];
 
-			if (cell == null)
+			TripTableViewCell cell;
+			if (String.IsNullOrEmpty(trip.MainPhotoUrl))
 			{
-				cell = new TripTableViewCell(new NSString(TRIP_CELL_IDENTIFIER));
+				cell = tableView.DequeueReusableCell(TRIP_CELL_IDENTIFIER) as TripTableViewCell;
+
+				if (cell == null)
+				{
+					cell = new TripTableViewCell(new NSString(TRIP_CELL_IDENTIFIER));
+				}
+			}
+			else
+			{
+				cell = tableView.DequeueReusableCell(TRIP_CELL_WITHIMAGE_IDENTIFIER) as TripTableViewCell;
+
+				if (cell == null)
+				{
+					cell = new TripTableViewCell(new NSString(TRIP_CELL_WITHIMAGE_IDENTIFIER));
+				}
+
+				cell.DisplayImage.SetImage(new NSUrl(trip.MainPhotoUrl));
 			}
 
-			var trip = ViewModel.Trips[indexPath.Row];
             cell.LocationName = trip.TripId;
             cell.TimeAgo = trip.TimeAgo;
 			cell.Distance = trip.TotalDistance;
