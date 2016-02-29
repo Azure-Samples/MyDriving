@@ -153,9 +153,11 @@
     </Reference>
     <Reference Include="Xamarin.Insights">
       <HintPath>..\..\packages\Xamarin.Insights.1.11.4\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PLCrashReporterUnifiedBinding">
       <HintPath>..\..\packages\Xamarin.Insights.1.11.4\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -298,6 +300,7 @@
     <Compile Include="Cells\ProfileStatCell.designer.cs">
       <DependentUpon>ProfileStatCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\CirclePercentage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
