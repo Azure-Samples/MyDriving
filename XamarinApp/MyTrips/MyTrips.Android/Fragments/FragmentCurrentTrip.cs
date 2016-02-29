@@ -121,12 +121,6 @@ namespace MyTrips.Droid.Fragments
                 case nameof(viewModel.CurrentTrip):
                     ResetTrip();
                     break;
-                case nameof(viewModel.IsBusy):
-                    if (viewModel.IsBusy)
-                        AndroidHUD.AndHUD.Shared.Show(Activity, "Saving Trip...", -1, AndroidHUD.MaskType.Clear, TimeSpan.FromSeconds(30));
-                    else if(AndroidHUD.AndHUD.Shared.CurrentDialog != null && AndroidHUD.AndHUD.Shared.CurrentDialog.IsShowing)
-                        AndroidHUD.AndHUD.Shared.Dismiss(Activity);
-                    break;
             }
         }
 

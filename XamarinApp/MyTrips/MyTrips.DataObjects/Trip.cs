@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Humanizer;
+using Newtonsoft.Json;
 
 namespace MyTrips.DataObjects
 {
@@ -30,11 +31,14 @@ namespace MyTrips.DataObjects
 
         public int Rating { get; set; }
 
+        //Do not sync with backend, used localy only
+        [JsonIgnore]
         public string TimeAgo => TimeStamp.Humanize();
 
-        public IList<Trail> Trail { get; set; }
-
+        [JsonIgnore]
         public IList<Photo> Photos { get; set; }
+
+        public IList<Trail> Trail { get; set; }
 
         public string MainPhotoUrl { get; set; }
     }

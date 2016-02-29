@@ -28,7 +28,9 @@ namespace MyTrips.ViewModel
 
             var track = Logger.Instance.TrackTime("LoadTrips");
             track.Start();
-
+            var progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Loading trips...", show: false,  maskType: Acr.UserDialogs.MaskType.Clear);
+            progress.IsDeterministic = false;
+            progress.Show();
             try 
             {
                 IsBusy = true;
@@ -46,6 +48,8 @@ namespace MyTrips.ViewModel
             {
                 track.Stop();
                 IsBusy = false;
+                progress.Hide();
+                progress.Dispose();
             }
         }
 
@@ -60,12 +64,13 @@ namespace MyTrips.ViewModel
 
             var track = Logger.Instance.TrackTime("LoadMoreTrips");
             track.Start();
-
+            var progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Loading more trips...", show: false,  maskType: Acr.UserDialogs.MaskType.Clear);
+            progress.IsDeterministic = false;
             try
             {
                 IsBusy = true;
                 CanLoadMore = true;
-
+                progress.Show();
                 Trips.AddRange(await StoreManager.TripStore.GetItemsAsync(Trips.Count, 25, true));
             }
             catch (Exception ex) 
@@ -76,6 +81,8 @@ namespace MyTrips.ViewModel
             {
                 track.Stop();
                 IsBusy = false;
+                progress.Hide();
+                progress.Dispose();
             }
         }
 

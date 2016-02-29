@@ -35,6 +35,7 @@
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Helpers\DistanceUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Insights.1.11.4\build\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.targets" Condition="Exists('..\..\packages\Xamarin.Insights.1.11.4\build\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.targets')" />

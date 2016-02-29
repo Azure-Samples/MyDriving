@@ -9,7 +9,6 @@ using UIKit;
 
 using MyTrips.ViewModel;
 
-using BigTed;
 
 namespace MyTrips.iOS
 {
@@ -208,12 +207,9 @@ namespace MyTrips.iOS
 
 			if (ViewModel.IsRecording)
 			{
-				BTProgressHUD.Show("Saving Trip");
-
 				ResetMapView();
 				await ViewModel.StopRecordingTripAsync();
 
-				BTProgressHUD.Dismiss();
 			}
 			else
 			{

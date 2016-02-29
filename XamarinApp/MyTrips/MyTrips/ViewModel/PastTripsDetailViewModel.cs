@@ -35,8 +35,11 @@ namespace MyTrips.ViewModel
             if(IsBusy)
                 return;
 
+            var progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Loading trip details...", show: false,  maskType: Acr.UserDialogs.MaskType.Clear);
+            progress.IsDeterministic = false;
             try 
             {
+                progress.Show();
                 IsBusy = true;
 
                 Trip = await StoreManager.TripStore.GetItemAsync(id);
@@ -48,6 +51,8 @@ namespace MyTrips.ViewModel
             } 
             finally 
             {
+                progress.Hide();
+                progress.Dispose();
                 IsBusy = false;
             }
         }
