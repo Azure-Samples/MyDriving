@@ -75,7 +75,11 @@ What other devices would work with this solution? Discuss some alternatives
 
 ## Resources - other ways to connect your OBD device to the internet
 
-Reference a DIY project to connect to an OBD
+The current solution uses a cellular phone as the field gateway. The phone acts as protocol translator to convert the OBD-II data sent to the phone by the OBD device over Bluetooth or WiFi into AMQP [TODO - check this is protocol that is used] messages to forward to IoT Hub.
+
+It is possible to connect some OBD devices directly to the internet rather than relying on the phone for connectivity. For example, the [Freematics ONE][lnk-freematics-one] OBD device has an xBee socket for connecting wireless communications modules such as GSM or WiFi. This particular device can also connect to a GPS receiver and has various on-board sensors such as a gyroscope and accelerometer.
+
+This device is compatible with an Arduino UNO enabling you to program the device directly and customize the OBD and sensor data sent to IoT Hub.
 
 # How data gets from here to the backend
 
