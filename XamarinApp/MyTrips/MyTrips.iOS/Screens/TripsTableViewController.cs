@@ -31,6 +31,8 @@ namespace MyTrips.iOS
 			// Check to see if 3D Touch is available
 			if (TraitCollection.ForceTouchCapability == UIForceTouchCapability.Available)
 				RegisterForPreviewingWithDelegate(new PreviewingDelegate(this), View);
+
+			RefreshControl.AddTarget(this, new ObjCRuntime.Selector("RefreshSource"), UIControlEvent.ValueChanged);
 		}
 
 		public override void TraitCollectionDidChange(UITraitCollection previousTraitCollection)
@@ -77,6 +79,19 @@ namespace MyTrips.iOS
 			return cell;
 		}
 		#endregion
+
+		// For some reason, RefreshControl.ValueChanged doesn't function properly?
+		[Export ("RefreshSource")]
+		async void RefreshControl_ValueChanged()
+		{
+			await ViewModel.ExecuteLoadPastTripsCommandAsync();
+
+			InvokeOnMainThread(delegate
+			{
+				TableView.ReloadData();
+				RefreshControl.EndRefreshing();
+			});
+		}
     }
 
 	public class PreviewingDelegate : UIViewControllerPreviewingDelegate
