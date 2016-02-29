@@ -40,6 +40,7 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
     <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
+    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HockeyApp.Android">

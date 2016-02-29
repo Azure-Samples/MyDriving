@@ -11,6 +11,7 @@ namespace smarttripsService.DataObjects
         public string Name { get; set; }
         public string UserId { get; set; }
         public DateTime StartDate { get; set; }
+        public string VIN { get; set; }
         public bool IsComplete { get; set; }
         public float StartingLatitude { get; set; }
         public float StartingLongitude { get; set; }

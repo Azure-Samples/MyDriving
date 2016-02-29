@@ -97,6 +97,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Authentication.cs" />
+    <Compile Include="Helpers\BitmapImageConverter.cs" />
     <Compile Include="Views\PastTripMapView.xaml.cs">
       <DependentUpon>PastTripMapView.xaml</DependentUpon>
     </Compile>
