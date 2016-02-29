@@ -780,7 +780,11 @@
                             <constraint firstItem="339" firstAttribute="top" secondItem="fHB-fR-eBn" secondAttribute="bottom" id="wBt-Dt-geZ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Current Trip" id="347"/>
+                    <navigationItem key="navigationItem" title="Current Trip" id="347">
+                        <barButtonItem key="rightBarButtonItem" id="1150" image="tabbar_settings.png">
+                            <connections/>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="lblCost" destination="PuR-yp-5sP" id="name-outlet-PuR-yp-5sP"/>
                         <outlet property="lblDistance" destination="uaA-uf-xcK" id="name-outlet-uaA-uf-xcK"/>
@@ -792,6 +796,7 @@
                         <outlet property="tripSlider" destination="2or-G6-xUj" id="name-outlet-2or-G6-xUj"/>
                         <outlet property="wayPointA" destination="ZNp-gY-zWd" id="name-outlet-ZNp-gY-zWd"/>
                         <outlet property="wayPointB" destination="Jx0-Jn-t00" id="name-outlet-Jx0-Jn-t00"/>
+                        <outlet property="takePhotoButton" destination="1150" id="name-outlet-1150"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="349" userLabel="First Responder" sceneMemberID="firstResponder"/>

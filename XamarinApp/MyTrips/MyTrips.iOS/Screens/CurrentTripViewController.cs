@@ -57,11 +57,14 @@ namespace MyTrips.iOS
 				// Hide slider waypoints
 				wayPointA.Hidden = true;
 				wayPointB.Hidden = true;
+
+				NavigationItem.RightBarButtonItem = null;
 			}
 			else
 			{
 				// Update navigation bar title
 				NavigationItem.Title = PastTripsDetailViewModel.Title;
+				NavigationItem.RightBarButtonItem = null;
 
 				var count = PastTripsDetailViewModel.Trip.Trail.Count;
 
@@ -104,6 +107,12 @@ namespace MyTrips.iOS
 			{
 				recordButton.Pop(0.5, 0, 1);
 			}
+		}
+
+		void RightBarButtonItem_Clicked(object sender, EventArgs e)
+		{
+			if (!ViewModel.IsBusy && ViewModel.IsRecording)
+				ViewModel?.TakePhotoCommand.Execute(null);
 		}
 
 		void Geolocator_PositionChanged(object sender, Plugin.Geolocator.Abstractions.PositionEventArgs e)
@@ -159,6 +168,11 @@ namespace MyTrips.iOS
 
 			if (!ViewModel.IsRecording)
 			{
+				if (NavigationItem.RightBarButtonItem == null)
+					NavigationItem.RightBarButtonItem = takePhotoButton;
+
+				NavigationItem.RightBarButtonItem.Clicked += RightBarButtonItem_Clicked;
+
 				// Add starting waypoint
 				var startEndpoint = new WaypointAnnotation (coordinate, "A");
 				tripMapView.AddAnnotation(startEndpoint);
@@ -173,6 +187,9 @@ namespace MyTrips.iOS
 				// Add ending waypoint
 				var endEndpoint = new WaypointAnnotation(coordinate, "B");
 				tripMapView.AddAnnotation(endEndpoint);
+
+				NavigationItem.RightBarButtonItem.Clicked -= RightBarButtonItem_Clicked;
+				NavigationItem.RightBarButtonItem = null;
 			}
 
 			if (ViewModel.IsRecording)
