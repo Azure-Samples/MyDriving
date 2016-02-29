@@ -1,27 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using Microsoft.WindowsAzure.MobileServices;
+using MyTrips.Helpers;
+using MyTrips.Utils;
+using MyTrips.ViewModel;
+using System;
+using System.Threading.Tasks;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using System.Threading.Tasks;
-using Microsoft.WindowsAzure.MobileServices;
-using Windows.UI.Popups;
-using MyTrips.ViewModel;
 using Windows.UI.Xaml.Media.Imaging;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using Windows.UI;
-using Windows.UI.Core;
-using MyTrips.Utils;
+using Windows.UI.Xaml.Navigation;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -46,8 +33,8 @@ namespace MyTrips.UWP.Views
         {
             switch (e.PropertyName)
             {
-                case nameof(viewModel.IsLoggedIn):
-                    WelcomeText.Text = "Welcome. UserID = " + Utils.Settings.Current.UserId;
+                case nameof(viewModel.UserInfo):
+                    WelcomeText.Text = "Welcome " + viewModel.UserInfo.FirstName + "!";
                     break;
             }
         }
@@ -56,7 +43,6 @@ namespace MyTrips.UWP.Views
         {
             base.OnNavigatedTo(e);
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            WelcomeText.Text = "Welcome. UserID = " + Utils.Settings.Current.UserId;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -95,46 +81,46 @@ namespace MyTrips.UWP.Views
 
         private async void FaceBookButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            Login(LoginAccount.Facebook);
+            await Login(LoginAccount.Facebook);
         }
 
-        private async void  TwitterButtonLogin_Click(object sender, RoutedEventArgs e)
+        private async void TwitterButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            Login(LoginAccount.Twitter);    
+            await Login(LoginAccount.Twitter);
         }
 
         private async void MicrosoftButtonLogin_Click(object sender, RoutedEventArgs e)
         {
-            Login(LoginAccount.Microsoft);
+            await Login(LoginAccount.Microsoft);
         }
 
-        private async void Login(LoginAccount provider)
+        private async Task Login(LoginAccount provider)
         {
             // Login the user and then load data from the mobile app.
             if (await AuthenticateAsync(provider))
             {
-                LoginButtons.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                viewModel.UserInfo = await UserProfileHelper.GetUserProfileAsync(App.MobileService);
                 this.ShowSuccessfulLogin();
             }
             else
             {
                 WelcomeText.Text = "Login failed";
             }
-            WelcomeText.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            WelcomeText.Visibility = Visibility.Visible;
         }
 
-        private async void ShowSuccessfulLogin()
+        private void ShowSuccessfulLogin()
         {
-            var dialog = new ContentDialog();
-            dialog.Title = "Welcome!";
-            dialog.Content = "UserID = " + user.UserId;
-            dialog.PrimaryButtonText = "OK";
-            var result = await dialog.ShowAsync();
+            LoginButtons.Visibility = Visibility.Collapsed;
+            WelcomeText.Visibility = Visibility.Visible;
+            ContinueButton.Visibility = Visibility.Visible;
+            SkipAuthBtn.Visibility = Visibility.Collapsed;
+            ProfileImage.Source = new BitmapImage(new Uri(viewModel.UserInfo.ProfilePictureUri));
+            ProfileImage.Visibility = Visibility.Visible;
+        }
 
-            this.Frame.NavigationFailed += OnNavigationFailed;
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-
-            Window.Current.Content = new SplitViewShell(this.Frame);
+        private void Continue_Click(object sender, RoutedEventArgs e)
+        {
             this.Frame.Navigate(typeof(PastTripsMenuView));
         }
 
@@ -142,19 +128,19 @@ namespace MyTrips.UWP.Views
         private MobileServiceUser user;
 
         //Temp code to use for login until we're properly connected to mobile server 
-        private async System.Threading.Tasks.Task<bool> AuthenticateAsync(LoginAccount provider)
+        private async Task<bool> AuthenticateAsync(LoginAccount provider)
         {
 
             bool success = true;
             try
             {
-                switch(provider)
+                switch (provider)
                 {
                     case LoginAccount.Facebook:
                         user = await App.MobileService
                    .LoginAsync(MobileServiceAuthenticationProvider.Facebook);
                         break;
-                   case LoginAccount.Twitter:
+                    case LoginAccount.Twitter:
                         user = await App.MobileService
                    .LoginAsync(MobileServiceAuthenticationProvider.Twitter);
                         break;
@@ -162,7 +148,8 @@ namespace MyTrips.UWP.Views
                         user = await App.MobileService
                    .LoginAsync(MobileServiceAuthenticationProvider.MicrosoftAccount);
                         break;
-                    default: success = false;
+                    default:
+                        success = false;
                         break;
                 }
             }

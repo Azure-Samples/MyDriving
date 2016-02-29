@@ -33,6 +33,13 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref isLoggedIn, value); }
         }
 
+        UserProfile userInfo;
+        public UserProfile UserInfo
+        {
+            get { return userInfo; }
+            set { SetProperty(ref userInfo, value); }
+        }
+
         ICommand  loginTwitterCommand;
         public ICommand LoginTwitterCommand =>
             loginTwitterCommand ?? (loginTwitterCommand = new RelayCommand(async () => await ExecuteLoginTwitterCommandAsync())); 
