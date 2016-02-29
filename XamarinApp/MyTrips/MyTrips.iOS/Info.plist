@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>MyTrips.iOS</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.your-company.MyTrips.iOS</string>
+	<string>com.pierceboggan.mytrips</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -51,10 +51,16 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
+		<string>fetch</string>
 	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Track your current trip even when MyTrip isn&apos;t running.</string>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

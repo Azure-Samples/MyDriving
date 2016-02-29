@@ -30,12 +30,6 @@ namespace MyTrips.iOS
 		{
 			base.ViewDidAppear(animated);
 
-            if (Settings.Current.IsLoggedIn)
-            {
-                await DismissViewControllerAsync(true);
-                return;
-            }
-
             if (didAnimate)
                 return;
 
@@ -63,7 +57,8 @@ namespace MyTrips.iOS
         async Task LoginAsync(LoginAccount account)
         {
 #if DEBUG
-            await DismissViewControllerAsync(true);
+			var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
+			app.Window.RootViewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController");
 #endif
 
             switch (account)

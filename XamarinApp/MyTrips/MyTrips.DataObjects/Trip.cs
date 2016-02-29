@@ -15,6 +15,10 @@ namespace MyTrips.DataObjects
             this.Trail = new List<Trail>();
         }
 
+        /// <summary>
+        /// This is actually the name
+        /// </summary>
+        /// <value>The trip identifier.</value>
         public string TripId { get; set; }
 
         public string UserId { get; set; }
@@ -24,11 +28,15 @@ namespace MyTrips.DataObjects
 
         public DateTime TimeStamp { get; set; }
 
+        public int Rating { get; set; }
+
         public string TimeAgo => TimeStamp.Humanize();
 
         public IList<Trail> Trail { get; set; }
 
         public IList<Photo> Photos { get; set; }
+
+        public string MainPhotoUrl { get; set; }
     }
 
     public class Trail : BaseDataObject
@@ -39,7 +47,6 @@ namespace MyTrips.DataObjects
         }
 
         public int TrailId { get; set; }
-
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }

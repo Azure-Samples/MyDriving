@@ -127,6 +127,7 @@
     <Content Include="Assets\Login\FBLogo.png" />
     <Content Include="Assets\Login\MSLogo.jpg" />
     <Content Include="Assets\Login\TwitterLogo.png" />
+    <Content Include="Assets\mappin.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -135,6 +136,7 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <BundleResource Include="Assets\car_annotation.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -182,6 +184,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\OBDLibrary\ObdLibUWP\ObdLibUWP.csproj">
+      <Project>{812692d4-c638-4fd1-aea7-407824b134a6}</Project>
+      <Name>ObdLibUWP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyTrips.DataStore.Abstractions\MyTrips.DataStore.Abstractions.csproj">
       <Project>{649300ce-70ea-4606-983f-f4476fdd6c7e}</Project>
       <Name>MyTrips.DataStore.Abstractions</Name>

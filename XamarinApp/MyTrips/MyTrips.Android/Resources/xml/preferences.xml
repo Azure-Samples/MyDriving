@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen  
+		xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+            android:title="Account">
+
+        <Preference
+				
+				android:key="logout"
+                android:title="Logout" />
+
+    </PreferenceCategory>
+
+	<PreferenceCategory
+            android:title="Perferences">
+
+        <CheckBoxPreference
+                android:key="metric_distance"
+                android:title="Metric Distance"
+			    android:summary="Use Kilometers instead of Miles"/>
+		
+		<CheckBoxPreference
+                android:key="metric_units"
+                android:title="Metric Units"
+			    android:summary="Use Liters instead of Gallons"/>
+
+    </PreferenceCategory>
+
+	
+
+    <PreferenceCategory
+            android:title="IoT Hub Configuration">
+
+        <EditTextPreference
+                android:key="hub_setting_1"
+                android:title="Hub Setting 1"
+                android:dialogTitle="Hub Setting 1" />
+		
+       <EditTextPreference
+                android:key="hub_setting_2"
+                android:title="Hub Setting 2"
+                android:dialogTitle="Hub Setting 2" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="About MyTrips">
+
+        <Preference
+                android:title="Copyright 2016"
+                android:summary="Microsoft">
+
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://www.microsoft.com" />
+
+        </Preference>
+
+		  <Preference
+                android:title="Privacy Policy">
+
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://www.microsoft.com" />
+
+        </Preference>
+
+		    <Preference
+                android:title="Terms of Use">
+
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://www.microsoft.com" />
+
+        </Preference>
+		
+		 <Preference
+                android:title="Open Source Notice">
+
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://www.github.com" />
+
+        </Preference>
+			
+		 <Preference
+                android:title="Open Source on GitHub">
+
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://www.github.com" />
+
+        </Preference>
+			
+		 <Preference
+                android:title="Built in C# with Xamarin">
+
+            <intent android:action="android.intent.action.VIEW"
+                    android:data="http://www.xamarin.com" />
+
+        </Preference>
+
+    </PreferenceCategory>
+</PreferenceScreen>

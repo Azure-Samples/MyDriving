@@ -29,6 +29,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
+    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -41,8 +42,19 @@
     <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AndHUD">
+      <HintPath>..\..\Components\AndHUD-1.3.1\lib\android\AndHUD.dll</HintPath>
+    </Reference>
     <Reference Include="HockeyApp.Android">
       <HintPath>..\..\Components\hockeyappandroid-3.7.0.0\lib\android\HockeyApp.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Media, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Media.2.4.0-beta3\lib\MonoAndroid10\Plugin.Media.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Media.Abstractions, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Media.2.4.0-beta3\lib\MonoAndroid10\Plugin.Media.Abstractions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net.Http" />
@@ -78,12 +90,6 @@
     </Reference>
     <Reference Include="Plugin.Geolocator.Abstractions, Version=3.0.4.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\MonoAndroid10\Plugin.Geolocator.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.Media, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\Xam.Plugin.Media.2.3.0\lib\MonoAndroid10\Plugin.Media.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.Media.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\Xam.Plugin.Media.2.3.0\lib\MonoAndroid10\Plugin.Media.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.Permissions, Version=1.1.6.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\packages\Plugin.Permissions.1.1.7\lib\MonoAndroid10\Plugin.Permissions.dll</HintPath>
@@ -136,14 +142,43 @@
     <Reference Include="Humanizer, Version=2.0.1.0, Culture=neutral, PublicKeyToken=979442b78dfc278e">
       <HintPath>..\..\packages\Humanizer.Core.2.0.1\lib\dotnet\Humanizer.dll</HintPath>
     </Reference>
-    <Reference Include="UrlImageViewHelper">
-      <HintPath>..\..\Components\urlimageviewhelper-1.0.4.1\lib\android\UrlImageViewHelper.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Android.Support.v7.AppCompat">
       <HintPath>..\..\packages\Xamarin.Android.Support.v7.AppCompat.23.1.1.0\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Android.Support.Design">
       <HintPath>..\..\packages\Xamarin.Android.Support.Design.23.1.1.0\lib\MonoAndroid403\Xamarin.Android.Support.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Basement">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Basement.29.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Basement.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Base">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Base.29.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Maps">
+      <HintPath>..\..\packages\Xamarin.GooglePlayServices.Maps.29.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Maps.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.Preference">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v7.Preference.23.1.1.0\lib\MonoAndroid41\Xamarin.Android.Support.v7.Preference.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v14.Preference">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v14.Preference.23.1.1.0\lib\MonoAndroid41\Xamarin.Android.Support.v14.Preference.dll</HintPath>
+    </Reference>
+    <Reference Include="Refractored.Controls.CircleImageView">
+      <HintPath>..\..\packages\Refractored.Controls.CircleImageView.1.0.1\lib\MonoAndroid10\Refractored.Controls.CircleImageView.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Xamarin.Insights">
+      <HintPath>..\..\packages\Xamarin.Insights.1.11.4\lib\MonoAndroid10\Xamarin.Insights.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Square.Picasso">
+      <HintPath>..\..\packages\Square.Picasso.2.5.2.1\lib\MonoAndroid\Square.Picasso.dll</HintPath>
+    </Reference>
+    <Reference Include="Square.OkIO">
+      <HintPath>..\..\packages\Square.OkIO.1.6.0.0\lib\MonoAndroid\Square.OkIO.dll</HintPath>
+    </Reference>
+    <Reference Include="Square.OkHttp">
+      <HintPath>..\..\packages\Square.OkHttp.2.7.4.0\lib\MonoAndroid\Square.OkHttp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -169,21 +204,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseActivity.cs" />
     <Compile Include="Helpers\Settings.cs" />
-    <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Fragments\FragmentPastTrips.cs" />
     <Compile Include="Fragments\FragmentCurrentTrip.cs" />
     <Compile Include="Fragments\FragmentSettings.cs" />
-    <Compile Include="Fragments\FragmentRecommendedRoutes.cs" />
     <Compile Include="Helpers\Authentication.cs" />
-    <Compile Include="LoginActivity.cs" />
-    <Compile Include="SplashActivity.cs" />
     <Compile Include="Services\GeolocationService.cs" />
     <Compile Include="Services\GeolocationHelper.cs" />
+    <Compile Include="Activities\BaseActivity.cs" />
+    <Compile Include="Activities\LoginActivity.cs" />
+    <Compile Include="Activities\MainActivity.cs" />
+    <Compile Include="Activities\SplashActivity.cs" />
+    <Compile Include="Activities\PastTripDetailsActivity.cs" />
+    <Compile Include="Helpers\AccelerometerManager.cs" />
+    <Compile Include="Controls\RatingCircle.cs" />
+    <Compile Include="Fragments\FragmentProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -200,15 +238,71 @@
     <AndroidResource Include="Resources\layout\fragment_past_trips.axml" />
     <AndroidResource Include="Resources\layout\item_trip.axml" />
     <AndroidResource Include="Resources\layout\item_recommended_route.axml" />
-    <AndroidResource Include="Resources\layout\fragment_routes.axml" />
-    <AndroidResource Include="Resources\layout\fragment_settings.axml" />
+    <AndroidResource Include="Resources\layout\fragment_profile.axml" />
     <AndroidResource Include="Resources\layout\fragment_current_trip.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\trip_details.axml" />
     <AndroidResource Include="Resources\layout\activity_login.axml" />
     <AndroidResource Include="Resources\layout\activity_main.axml" />
     <AndroidResource Include="Resources\values\dimen.xml" />
+    <AndroidResource Include="Resources\layout\activity_past_trip_details.axml" />
+    <AndroidResource Include="Resources\xml\preferences.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\menu_past_trips.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\menu_past_trips.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\menu_past_trips.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\menu_past_trips.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\menu_past_trips.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\menu_settings.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\menu_settings.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\menu_settings.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\menu_settings.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\menu_settings.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\menu_profile.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\menu_profile.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\menu_profile.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\menu_profile.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\menu_profile.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\menu_current_trip.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\menu_current_trip.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\menu_current_trip.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\menu_current_trip.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\menu_current_trip.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_camera.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_camera.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_camera.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_camera.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_camera.png" />
+    <AndroidResource Include="Resources\menu\menu_current_trip.xml" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_car_blue.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_car_red.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_end_point.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_info.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_start_point.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_stop.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_start.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_start.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_stop.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_start.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_stop.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_start.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_stop.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_start.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_stop.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_twitter.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_windows.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_windows.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_twitter.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_windows.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_twitter.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_windows.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_twitter.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_facebook.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_windows.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_twitter.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -253,6 +347,7 @@
   </ItemGroup>
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Import Project="..\..\packages\Xamarin.Insights.1.11.4\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\..\packages\Xamarin.Insights.1.11.4\build\MonoAndroid10\Xamarin.Insights.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
@@ -261,13 +356,20 @@
   </Target>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappandroid">
+      <Visible>False</Visible>
       <Version>3.7.0.0</Version>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="AndHUD">
+      <Version>1.3.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
-    <XamarinComponentReference Include="urlimageviewhelper">
-      <Version>1.0.4.1</Version>
+    <XamarinComponentReference Include="square.picasso">
+      <Version>2.5.2.2</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <AndroidEnvironment Include="environment.txt" />
+  </ItemGroup>
 </Project>

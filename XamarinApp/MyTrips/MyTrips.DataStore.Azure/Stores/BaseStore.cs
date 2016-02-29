@@ -46,7 +46,7 @@ namespace MyTrips.DataStore.Azure.Stores
                 await storeManager.InitializeAsync().ConfigureAwait(false);
         }
 
-        public virtual async Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false)
+        public virtual async Task<IEnumerable<T>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
             await InitializeStoreAsync();
             if(forceRefresh)
@@ -87,7 +87,7 @@ namespace MyTrips.DataStore.Azure.Stores
             return true;
         }
 
-        public async Task<bool> PullLatestAsync()
+        public virtual async Task<bool> PullLatestAsync()
         {
             if (!CrossConnectivity.Current.IsConnected)
             {
@@ -107,7 +107,7 @@ namespace MyTrips.DataStore.Azure.Stores
         }
 
 
-        public async Task<bool> SyncAsync()
+        public virtual async Task<bool> SyncAsync()
         {
             if (!CrossConnectivity.Current.IsConnected)
             {

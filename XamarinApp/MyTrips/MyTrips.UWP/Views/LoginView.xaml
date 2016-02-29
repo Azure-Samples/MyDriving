@@ -7,32 +7,41 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Name="Login" Background="{StaticResource MainBackgroundColor}" >
+    <Grid Name="LoginGrid" Background="{StaticResource MainBackgroundColor}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+
+        <Image x:Name="ProfileImage" HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="70" Height="70"  Grid.Row ="0" Visibility="Collapsed"/>
+     
+        <TextBlock x:Name="WelcomeText" HorizontalAlignment="Center"  VerticalAlignment="Top" Visibility="Collapsed"  Grid.Row="1"  Margin="0,10,0,10"/>
+  
         <StackPanel x:Name="LoginButtons" VerticalAlignment="Center" Grid.Row="1" Visibility="Visible" Margin="50,0,50,0">
+        
             <Button x:Name="FaceBookButtonLogin"  Click="FaceBookButtonLogin_Click"   Style="{StaticResource LoginButtonStyle}" 
                     Background="{StaticResource FacebookLoginButtonColor}"  Height="40" MaxWidth="300">
+                <!-- To Do replace click event with  Command="{Binding LoginFacebookCommand}"  -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Source="{StaticResource FacebookLogo}" HorizontalAlignment="Left" Height="25" Width="25"/>
                     <TextBlock Text="Login with Facebook"  Margin="15,0,5,0"/>
                 </StackPanel>
             </Button>
 
-            <Button x:Name="TwitterButtonLogin" Command="{Binding LoginTwitterCommand}"  Style="{StaticResource LoginButtonStyle}"
+            <Button x:Name="TwitterButtonLogin" Style="{StaticResource LoginButtonStyle}"  Click="TwitterButtonLogin_Click"
                     Background="{StaticResource TwitterLoginButtonColor}"  >
+                <!-- To Do replace click event with  Command="{Binding LoginMicrosoftCommand}"  -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Image Source="{StaticResource TwitterLogo}" HorizontalAlignment="Left" Height="25" Width="25"/>
                 <TextBlock Text="Login with Twitter"  Margin="15,0,5,0"/>
                 </StackPanel>           
             </Button>
 
-            <Button x:Name="MSAButtonLogin" Command="{Binding LoginMicrosoftCommand}"    Style="{StaticResource LoginButtonStyle}"  
+            <Button x:Name="MSAButtonLogin"   Style="{StaticResource LoginButtonStyle}"  Click="MicrosoftButtonLogin_Click"
                     Background="{StaticResource MSALoginButtonColor}"  >
+                <!-- To Do replace click event with  Command="{Binding LoginMicrosoftCommand}"  -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Image Name="MSAImage"  Source="{StaticResource MicrosoftLogo}" HorizontalAlignment="Left" Height="25" Width="25"/>
                     <TextBlock Text="Login with Microsoft"  Margin="15,0,5,0"/>
@@ -41,10 +50,11 @@
             </Button>
         </StackPanel>
 
+        <Button x:Name="ContinueButton" HorizontalAlignment="Center" Margin="0,10,0,0"  Content="Continue"  Click="Continue_Click" Grid.Row="2" VerticalAlignment="Top" Visibility="Collapsed" />
         <!--This button is temporary - intended only to make it easier to debug\test app-->
         <Button x:Name="SkipAuthBtn" HorizontalAlignment="Center" Margin="0,10,0,0"  Content="Skip Auth"  Click="SkipAuthBtn_Click" Grid.Row="2" VerticalAlignment="Top"/>
 
-        <TextBlock x:Name="WelcomeText" HorizontalAlignment="Left" Margin="100,105,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Visibility="Collapsed"/>
+     
       
     </Grid>
 

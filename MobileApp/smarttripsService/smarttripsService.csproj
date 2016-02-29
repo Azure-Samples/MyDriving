@@ -192,9 +192,11 @@
     <Compile Include="Controllers\TripController.cs" />
     <Compile Include="Controllers\TripPointController.cs" />
     <Compile Include="Controllers\ProvisionController.cs" />
+    <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="DataObjects\User.cs" />
     <Compile Include="DataObjects\Trip.cs" />
     <Compile Include="DataObjects\TripPoint.cs" />
+    <Compile Include="DataObjects\UserProfile.cs" />
     <Compile Include="Migrations\201602240246359_Init.cs" />
     <Compile Include="Migrations\201602240246359_Init.Designer.cs">
       <DependentUpon>201602240246359_Init.cs</DependentUpon>
@@ -217,7 +219,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\smarttrips - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\SmartKar - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\smarttrips - Web Deploy.pubxml" />
   </ItemGroup>
   <ItemGroup>

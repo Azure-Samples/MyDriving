@@ -21,6 +21,7 @@
       <item name="actionBarStyle">@style/MyTheme.ActionBar</item>
       <item name="android:windowContentOverlay">@null</item>
     -->
+		  <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="MyTheme.ActionBar" parent="style/Widget.AppCompat.Light.ActionBar.Solid">
@@ -44,4 +45,12 @@
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 
+	  <style name="Widget.CardContent" parent="android:Widget">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+	
 </resources>

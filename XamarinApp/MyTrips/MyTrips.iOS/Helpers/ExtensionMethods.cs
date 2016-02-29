@@ -1,32 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using CoreAnimation;
 using CoreGraphics;
+using CoreLocation;
 using Foundation;
 using UIKit;
+
+using Plugin.Geolocator.Abstractions;
+using MyTrips.DataObjects;
 
 namespace MyTrips.iOS
 {
 	public static class ExtensionMethods
 	{
-		public static UIColor ToColor (this string hexValue)
-		{
-			if (hexValue.Contains ("#")) {
-				hexValue = hexValue.Replace("#", "");
-			}
-
-			if (hexValue.Length != 6) {
-				throw new ArgumentOutOfRangeException ("Hexadecimal values must be six characters long.");
-			}
-
-			int red = Int32.Parse (hexValue.Substring (0,2), System.Globalization.NumberStyles.AllowHexSpecifier);
-			int green = Int32.Parse (hexValue.Substring (2,2), System.Globalization.NumberStyles.AllowHexSpecifier);
-			int blue = Int32.Parse (hexValue.Substring (4,2), System.Globalization.NumberStyles.AllowHexSpecifier);
-
-			return UIColor.FromRGB (red, green, blue);
-		}
-
 		#region Animations 
 		public enum UIViewAnimationFlipDirection
 		{
@@ -80,9 +68,10 @@ namespace MyTrips.iOS
 			view.Layer.AddAnimation(animation, "shake");
 		}
 
-		public static void Pop(this UIView view, double duration, int repeatCount, float force)
+		public static void Pop(this UIView view, double duration, int repeatCount, float force, double delay = 0)
 		{
 			CAKeyFrameAnimation animation = CAKeyFrameAnimation.FromKeyPath("transform.scale");
+			animation.BeginTime = CAAnimation.CurrentMediaTime() + delay;
 			animation.TimingFunction = CAMediaTimingFunction.FromName(CAMediaTimingFunction.EaseInEaseOut);
 			animation.KeyTimes = new NSNumber[]
 			{
@@ -104,7 +93,8 @@ namespace MyTrips.iOS
 				            NSNumber.FromFloat(0.2f * force),
 				            NSNumber.FromFloat(0)
 			};
-
+			if (view.Hidden == true)
+				view.Hidden = false;
 			view.Layer.AddAnimation(animation, "pop");
 		}
 
@@ -340,6 +330,30 @@ namespace MyTrips.iOS
 			return UIColor.FromRGBA(r, g, b, a);
 		}
 
+		#endregion
+
+		#region Coordinates
+		public static CLLocationCoordinate2D ToCoordinate(this Position position)
+		{
+			return new CLLocationCoordinate2D(position.Latitude, position.Longitude);
+		}
+
+		public static CLLocationCoordinate2D ToCoordinate(this Trail trail)
+		{
+			return new CLLocationCoordinate2D(trail.Latitude, trail.Longitude);
+		}
+
+		public static CLLocationCoordinate2D[] ToCoordinateArray(this IList<Trail> trail)
+		{
+			var count = trail.Count;
+			var coordinates = new CLLocationCoordinate2D[count];
+			for (int i = 0; i < count; i++)
+			{
+				coordinates[i] = trail[i].ToCoordinate();
+			}
+
+			return coordinates;
+		}
 		#endregion
 	}
 }
