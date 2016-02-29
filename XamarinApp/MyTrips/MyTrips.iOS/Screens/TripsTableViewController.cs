@@ -30,6 +30,8 @@ namespace MyTrips.iOS
 			ViewModel = new PastTripsViewModel();
 			await ViewModel.ExecuteLoadPastTripsCommandAsync();
 
+			TableView.TableFooterView = new UIView(new CGRect(0, 0, 0,0));
+
 			// Check to see if 3D Touch is available
 			if (TraitCollection.ForceTouchCapability == UIForceTouchCapability.Available)
 				RegisterForPreviewingWithDelegate(new PreviewingDelegate(this), View);

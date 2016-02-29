@@ -54,6 +54,20 @@ namespace MyTrips.iOS
 
 				tripSlider.Hidden = true;
 
+				if (CLLocationManager.Status != CLAuthorizationStatus.Authorized)
+				{
+					var alertController = UIAlertController.Create("Location Permission Denied", "Tracking your location is required to record trips. Visit the Settings app to change the permission status.", UIAlertControllerStyle.Alert);
+					alertController.AddAction(UIAlertAction.Create("Change Permission", UIAlertActionStyle.Default, (obj) =>
+					{
+						var url = NSUrl.FromString(UIApplication.OpenSettingsUrlString);
+						UIApplication.SharedApplication.OpenUrl(url);
+					}));
+
+					alertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Cancel, null));
+
+					PresentViewController(alertController, true, null);
+				}
+
 				// Hide slider waypoints
 				wayPointA.Hidden = true;
 				wayPointB.Hidden = true;
