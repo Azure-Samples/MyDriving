@@ -13,7 +13,7 @@ namespace MyTrips.iOS
 
 			// Navigation Bar
 			UINavigationBar.Appearance.BarTintColor = Colors.PRIMARY_DARK;
-			UINavigationBar.Appearance.TintColor = Colors.PRIMARY;
+			UINavigationBar.Appearance.TintColor = UIColor.White;
 			UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes
 			{
 				Font = UIFont.FromName("AvenirNext-Medium", 17),
