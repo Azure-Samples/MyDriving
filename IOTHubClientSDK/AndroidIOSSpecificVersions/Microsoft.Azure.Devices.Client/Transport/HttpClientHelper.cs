@@ -16,7 +16,8 @@ namespace Microsoft.Azure.Devices.Client.Transport
     using System.Threading.Tasks;
     using Microsoft.Azure.Devices.Client.Exceptions;
     using Microsoft.Azure.Devices.Client.Extensions;
-#if !WINDOWS_UWP
+
+#if !WINDOWS_UWP 
     using System.Net.Http.Formatting;
 #endif
 
@@ -113,7 +114,9 @@ namespace Microsoft.Azure.Devices.Client.Transport
                     (requestMsg, token) =>
                     {
                         InsertEtag(requestMsg, entity, operationType);
-                        requestMsg.Content = new ObjectContent<T>(entity, new JsonMediaTypeFormatter());
+
+                        string entityData = Newtonsoft.Json.JsonConvert.SerializeObject(entity);
+                        requestMsg.Content = new System.Net.Http.StringContent(entityData, System.Text.Encoding.UTF8, "application/json");
                         return Task.FromResult(0);
                     },
                     async (httpClient, token) => result = await ReadResponseMessageAsync<T>(httpClient, token),
