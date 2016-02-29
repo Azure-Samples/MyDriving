@@ -19,21 +19,28 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System.Threading.Tasks;
 using MyTrips.Droid.Controls;
+using MyTrips.Utils;
 using Android.Support.Design.Widget;
+using System.Collections.Specialized;
 
 namespace MyTrips.Droid.Fragments
 {
-    public class FragmentCurrentTrip : Android.Support.V4.App.Fragment, IOnMapReadyCallback  
+    public class FragmentCurrentTrip : Android.Support.V4.App.Fragment, IOnMapReadyCallback
     {
         public static FragmentCurrentTrip NewInstance() => new FragmentCurrentTrip { Arguments = new Bundle() };
 
-
+        ObservableRangeCollection<Trail> trailPointList;
         CurrentTripViewModel viewModel;
         GoogleMap map;
         MapView mapView;
         TextView ratingText;
         RatingCircle ratingCircle;
         FloatingActionButton fab;
+        Marker carMarker;
+        Polyline driveLine;
+        Color? driveLineColor = null;
+        bool setZoom = true;
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
@@ -44,51 +51,64 @@ namespace MyTrips.Droid.Fragments
             mapView.OnCreate(savedInstanceState);
             mapView.GetMapAsync(this);
 
-            GeolocationHelper.Current.LocationServiceConnected += OnLocationServiceConnected;
             ratingText = view.FindViewById<TextView>(Resource.Id.text_rating);
             ratingCircle = view.FindViewById<RatingCircle>(Resource.Id.rating_circle);
             fab = view.FindViewById<FloatingActionButton>(Resource.Id.fab);
-            fab.Click += async (sender, e) =>
-            {
-                if (viewModel == null || viewModel.CurrentPosition == null || viewModel.IsBusy)
-                    return;
-                if (viewModel.IsRecording)
-                {
 
-                    AddEndMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
-                    UpdateCarIcon(false);
-                    await viewModel.StopRecordingTripAsync();
-                }
-                else
-                {
-                    AddStartMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
-                    await viewModel.StartRecordingTripAsync();
-                    UpdateCarIcon(true);
-                }
-            };
             ratingText.Text = "100";
             ratingCircle.Rating = 100;
             return view;
         }
 
-        void OnLocationServiceConnected(object sender, Services.ServiceConnectedEventArgs e)
-        {
-            viewModel = GeolocationHelper.Current.LocationService.ViewModel;
-            viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            ResetTrip();
-
-            if(carMarker == null)
-                SetupMap();
-        }
-
-
+        #region Options Menu & User Actions
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
             inflater.Inflate(Resource.Menu.menu_current_trip, menu);
             base.OnCreateOptionsMenu(menu, inflater);
         }
 
-        void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Resource.Id.menu_take_photo:
+                    if (!(viewModel?.IsBusy).GetValueOrDefault())
+                        viewModel?.TakePhotoCommand.Execute(null);
+                    break;
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
+        async void OnRecordButtonClick(object sender, EventArgs e)
+        {
+            if (viewModel == null || viewModel.CurrentPosition == null || viewModel.IsBusy)
+                return;
+
+            if (viewModel.IsRecording)
+            {
+
+                AddEndMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
+                UpdateCarIcon(false);
+                await viewModel.StopRecordingTripAsync();
+            }
+            else
+            {
+                AddStartMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
+                await viewModel.StartRecordingTripAsync();
+                UpdateCarIcon(true);
+            }
+        }
+        #endregion
+
+
+        void OnLocationServiceConnected(object sender, ServiceConnectedEventArgs e)
+        {
+            viewModel = GeolocationHelper.Current.LocationService.ViewModel;
+            viewModel.PropertyChanged += OnPropertyChanged;
+            ResetTrip();
+        }
+
+        void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
@@ -99,9 +119,6 @@ namespace MyTrips.Droid.Fragments
                     break;
                 case nameof(viewModel.CurrentTrip):
                     ResetTrip();
-                    map.Clear();
-                    carMarker = null;
-                    SetupMap();
                     break;
                 case nameof(viewModel.IsBusy):
                     if (viewModel.IsBusy)
@@ -112,23 +129,17 @@ namespace MyTrips.Droid.Fragments
             }
         }
 
+
+
         void ResetTrip()
         {
-            var list = viewModel.CurrentTrip.Trail as ObservableRangeCollection<Trail>;
-            list.CollectionChanged += TrailUpdated;
+            trailPointList = viewModel.CurrentTrip.Trail as ObservableRangeCollection<Trail>;
+            trailPointList.CollectionChanged += OnTrailUpdated;
+            carMarker = null;
+            map?.Clear();
+            SetupMap();
         }
 
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            switch (item.ItemId)
-            {
-                case Resource.Id.menu_take_photo:
-                    if(!(viewModel?.IsBusy).GetValueOrDefault())
-                        viewModel?.TakePhotoCommand.Execute(null);
-                    break;
-            }
-            return base.OnOptionsItemSelected(item);
-        }
 
         void AddStartMarker(LatLng start)
         {
@@ -166,52 +177,16 @@ namespace MyTrips.Droid.Fragments
             });
         }
 
-        void TrailUpdated (object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        void OnTrailUpdated(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Activity?.RunOnUiThread (() => {
+            Activity?.RunOnUiThread(() =>
+            {
                 var item = viewModel.CurrentTrip.Trail[viewModel.CurrentTrip.Trail.Count - 1];
-                if(carMarker != null)
+                if (carMarker != null)
                     UpdateMap(item);
                 else
                     SetupMap();
             });
-        }
-
-        public override async void OnStart()
-        {
-            base.OnStart();
-            await StartLocationService();
-        }
-
-        async Task StartLocationService()
-        {
-            try
-            {
-                var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
-                if (status != PermissionStatus.Granted)
-                {
-                    var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] {Permission.Location});
-                    status = results[Permission.Location];
-                }
-
-                if (status == PermissionStatus.Granted)
-                {
-
-                    if ((viewModel == null || !viewModel.IsRecording) && !GeolocationHelper.Current.IsRunning)
-                        await GeolocationHelper.StartLocationService();
-                    else
-                        OnLocationServiceConnected(null, null);
-                }
-                else if(status != PermissionStatus.Unknown)
-                {
-                    Toast.MakeText(Activity, "Location permission is not granted, can't track location", ToastLength.Long);
-                }
-            }
-            catch (Exception ex)
-            {
-                
-            }
-
         }
 
         void UpdateCarIcon(bool recording)
@@ -223,56 +198,37 @@ namespace MyTrips.Droid.Fragments
                 var b = ContextCompat.GetDrawable(Activity, recording ? Resource.Drawable.ic_car_red : Resource.Drawable.ic_car_blue) as BitmapDrawable;
                 var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessCar, thicknessCar, false);
 
-                carMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
+                carMarker?.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
 
                 fab.SetImageResource(recording ? Resource.Drawable.ic_stop : Resource.Drawable.ic_start);
             });
         }
 
-        public override void OnStop()
-        {
-            base.OnStop();
-            if ((viewModel?.IsRecording).GetValueOrDefault())
-                return;
-            
-            GeolocationHelper.Current.LocationService.StopLocationUpdates();
-            GeolocationHelper.StopLocationService();
-        }
-
         public void OnMapReady(GoogleMap googleMap)
         {
             map = googleMap;
-            if(viewModel != null)
+            if (viewModel != null)
                 SetupMap();
         }
 
-        Marker carMarker;
-        PolylineOptions driveLine;
         void SetupMap()
         {
             if (map == null)
                 return;
 
-            if(mapView.Width == 0)
+            if (mapView.Width == 0)
             {
-                mapView.PostDelayed (() => { SetupMap();}, 500);
+                mapView.PostDelayed(() => { SetupMap(); }, 500);
                 return;
             }
 
-            
+
             Trail start = null;
             if (viewModel.CurrentTrip.Trail.Count != 0)
                 start = viewModel.CurrentTrip.Trail[0];
 
-            UpdateCar(start == null ? null : new LatLng(start.Latitude, start.Longitude));
-            Activity?.RunOnUiThread(() =>
-            {   var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
-                driveLine = new PolylineOptions();
-                driveLine.Add(points);
-                driveLine.Visible(true);
-                driveLine.InvokeColor(ActivityCompat.GetColor(Activity, Resource.Color.accent));
-                map.AddPolyline(driveLine);
-            });
+            UpdateMap(start, false);
+
             if (start != null)
             {
                 UpdateCamera(carMarker.Position);
@@ -280,19 +236,29 @@ namespace MyTrips.Droid.Fragments
             }
         }
 
-
-        bool setZoom = true;
-        void UpdateMap(Trail trail)
+        void UpdateMap(Trail trail, bool updateCamera = true)
         {
-            if(map == null)
+            if (map == null)
                 return;
-            var latlng = new LatLng(trail.Latitude, trail.Longitude);
+            //Get trail position or current potion to move car
+            var latlng = trail == null ? 
+                (viewModel?.CurrentPosition == null ?  null : new LatLng(viewModel?.CurrentPosition.Latitude, viewModel?.CurrentPosition.Longitude))
+                : new LatLng(trail.Latitude, trail.Longitude);
             Activity?.RunOnUiThread(() =>
             {
                 UpdateCar(latlng);
-                driveLine.Add(latlng);
-                map.AddPolyline(driveLine);
-                UpdateCamera(latlng);
+                driveLine?.Remove();
+                var polyOptions = new PolylineOptions();
+                var points = viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
+                polyOptions.Add(points);
+
+                if (!driveLineColor.HasValue)
+                    driveLineColor = new Color(ContextCompat.GetColor(Activity, Resource.Color.accent));
+
+                polyOptions.InvokeColor(driveLineColor.Value);
+                driveLine = map.AddPolyline(polyOptions);
+                if (updateCamera)
+                    UpdateCamera(latlng);
             });
         }
 
@@ -304,20 +270,16 @@ namespace MyTrips.Droid.Fragments
             {
                 if (carMarker == null)
                 {
-
                     var car = new MarkerOptions();
                     car.SetPosition(latlng);
                     car.Anchor(.5f, .5f);
                     carMarker = map.AddMarker(car);
                     UpdateCarIcon(viewModel.IsRecording);
-
                     return;
                 }
                 carMarker.Position = latlng;
             });
         }
-            
-
 
         void UpdateCamera(LatLng latlng)
         {
@@ -335,37 +297,100 @@ namespace MyTrips.Droid.Fragments
                     map.MoveCamera(CameraUpdateFactory.NewLatLng(latlng));
                 }
             });
-         
+
         }
 
+        public override void OnStop()
+        {
+            base.OnStop();
+
+            GeolocationHelper.Current.LocationServiceConnected -= OnLocationServiceConnected;
+            if (viewModel != null)
+                viewModel.PropertyChanged -= OnPropertyChanged;
+            if (trailPointList != null)
+                trailPointList.CollectionChanged -= OnTrailUpdated;
+            if (fab != null)
+                fab.Click -= OnRecordButtonClick;
+            //If we are recording then don't stop the background service
+            if ((viewModel?.IsRecording).GetValueOrDefault())
+                return;
+
+            GeolocationHelper.Current.LocationService.StopLocationUpdates();
+            GeolocationHelper.StopLocationService();
+        }
+
+        public override async void OnStart()
+        {
+            base.OnStart();
+
+            GeolocationHelper.Current.LocationServiceConnected += OnLocationServiceConnected;
+
+            if (fab != null)
+                fab.Click += OnRecordButtonClick;
+            await StartLocationService();
+        }
+
+        async Task StartLocationService()
+        {
+            try
+            {
+                var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+                if (status != PermissionStatus.Granted)
+                {
+                    var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Location });
+                    status = results[Permission.Location];
+                }
+
+                if (status == PermissionStatus.Granted)
+                {
+
+                    if ((viewModel == null || !viewModel.IsRecording) && !GeolocationHelper.Current.IsRunning)
+                        await GeolocationHelper.StartLocationService();
+                    else
+                        OnLocationServiceConnected(null, null);
+                }
+                else if (status != PermissionStatus.Unknown)
+                {
+                    Toast.MakeText(Activity, "Location permission is not granted, can't track location", ToastLength.Long);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Report(ex);
+            }
+
+        }
+
+        #region MapView Lifecycle Events
         public override void OnResume()
         {
             base.OnResume();
-            mapView.OnResume();
+            mapView?.OnResume();
         }
 
         public override void OnPause()
         {
             base.OnPause();
-            mapView.OnPause();
+            mapView?.OnPause();
         }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
-            mapView.OnDestroy();
+            mapView?.OnDestroy();
         }
 
         public override void OnSaveInstanceState(Bundle outState)
         {
             base.OnSaveInstanceState(outState);
-            mapView.OnSaveInstanceState(outState);
+            mapView?.OnSaveInstanceState(outState);
         }
 
         public override void OnLowMemory()
         {
             base.OnLowMemory();
-            mapView.OnLowMemory();
+            mapView?.OnLowMemory();
         }
+        #endregion
     }
 }

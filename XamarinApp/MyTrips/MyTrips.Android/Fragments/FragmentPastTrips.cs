@@ -159,10 +159,10 @@ namespace MyTrips.Droid.Fragments
 
             if (vh.Photo.Visibility == ViewStates.Visible)
             {
-                if((trip?.Photos?.Count).GetValueOrDefault() > 0)
-                    Koush.UrlImageViewHelper.SetUrlDrawable (vh.Photo, trip.Photos[0].PhotoUrl);
+                if ((trip?.Photos?.Count).GetValueOrDefault() > 0)
+                    Square.Picasso.Picasso.With(activity).Load(trip.Photos[0].PhotoUrl).Into(vh.Photo);
                 else
-                    Koush.UrlImageViewHelper.SetUrlDrawable (vh.Photo, trip.MainPhotoUrl);
+                    Square.Picasso.Picasso.With(activity).Load(trip.MainPhotoUrl).Into(vh.Photo);
             }
 
         }
