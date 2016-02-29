@@ -26,6 +26,15 @@ namespace MyTrips.ViewModel
 
         }
 
+        UserProfile userInfo;
+        public UserProfile UserInfo
+        {
+            get { return userInfo; }
+            set { SetProperty(ref userInfo, value); }
+        }
+
+
+
         bool isLoggedIn;
         public bool IsLoggedIn
         {
