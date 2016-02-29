@@ -17,6 +17,18 @@ namespace MyTrips.iOS
 
 		}
 
+		public UIImageView DisplayImage
+		{
+			get
+			{
+				return displayImageView;
+			}
+			set
+			{
+				displayImageView = value;
+			}
+		}
+
 		public string LocationName
 		{
 			get

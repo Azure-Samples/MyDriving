@@ -59,7 +59,7 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchProfiling>true</MtouchProfiling>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Pierce Boggan (W85YVM93U5)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <ItemGroup>
@@ -158,6 +158,12 @@
     <Reference Include="PLCrashReporterUnifiedBinding">
       <HintPath>..\..\packages\Xamarin.Insights.1.11.4\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="SDWebImage">
+      <HintPath>..\..\packages\Xamarin.SDWebImage.3.7.5\lib\Xamarin.iOS\SDWebImage.dll</HintPath>
+    </Reference>
+    <Reference Include="BTProgressHUD">
+      <HintPath>..\..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -335,6 +341,14 @@
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">
       <Version>3.8.5.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="sdwebimage">
+      <Version>3.7.5</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="btprogresshud">
+      <Version>1.20</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

@@ -10,7 +10,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="153">
             <objects>
-                <tabBarController definesPresentationContext="YES" id="154" customClass="TabBarController" sceneMemberID="viewController">
+                <tabBarController definesPresentationContext="YES" id="154" customClass="TabBarController" sceneMemberID="viewController" storyboardIdentifier="tabBarController">
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="159">
                         <rect key="frame" x="0.0" y="551" width="600" height="49"/>
@@ -209,6 +209,7 @@
                                     <outlet property="lblDaysAgo" destination="Oi0-dQ-FNw" id="9aR-ZX-hAK"/>
                                     <outlet property="lblMiles" destination="LQz-K1-INw" id="o6f-6t-IEj"/>
                                     <outlet property="lblTitle" destination="DLx-HL-V01" id="fMG-Oz-N12"/>
+                                    <outlet property="displayImageView" destination="T3A-dm-Ldu" id="name-outlet-T3A-dm-Ldu"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -779,7 +780,11 @@
                             <constraint firstItem="339" firstAttribute="top" secondItem="fHB-fR-eBn" secondAttribute="bottom" id="wBt-Dt-geZ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Current Trip" id="347"/>
+                    <navigationItem key="navigationItem" title="Current Trip" id="347">
+                        <barButtonItem key="rightBarButtonItem" id="1150" image="tabbar_settings.png">
+                            <connections/>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="lblCost" destination="PuR-yp-5sP" id="name-outlet-PuR-yp-5sP"/>
                         <outlet property="lblDistance" destination="uaA-uf-xcK" id="name-outlet-uaA-uf-xcK"/>
@@ -791,6 +796,7 @@
                         <outlet property="tripSlider" destination="2or-G6-xUj" id="name-outlet-2or-G6-xUj"/>
                         <outlet property="wayPointA" destination="ZNp-gY-zWd" id="name-outlet-ZNp-gY-zWd"/>
                         <outlet property="wayPointB" destination="Jx0-Jn-t00" id="name-outlet-Jx0-Jn-t00"/>
+                        <outlet property="takePhotoButton" destination="1150" id="name-outlet-1150"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="349" userLabel="First Responder" sceneMemberID="firstResponder"/>
