@@ -25,10 +25,14 @@ namespace MyTrips.ViewModel
         {
             if(IsBusy)
                 return;
-            
+
+            var track = Logger.Instance.TrackTime("LoadTrips");
+            track.Start();
+
             try 
             {
                 IsBusy = true;
+
 
                 Trips.ReplaceRange(await StoreManager.TripStore.GetItemsAsync());
 
@@ -39,6 +43,7 @@ namespace MyTrips.ViewModel
             } 
             finally 
             {
+                track.Stop();
                 IsBusy = false;
             }
         }

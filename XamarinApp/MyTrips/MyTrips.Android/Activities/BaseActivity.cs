@@ -2,6 +2,9 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using MyTrips.Droid.Helpers;
+using Plugin.Permissions;
+using Android.Content.PM;
+using Android.Transitions;
 
 namespace MyTrips.Droid
 {
@@ -18,6 +21,7 @@ namespace MyTrips.Droid
         AccelerometerManager accelerometerManager;
         protected override void OnCreate(Bundle bundle)
         {
+            InitActivityTransitions();
             base.OnCreate(bundle);
             SetContentView(LayoutResource);
             Toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
@@ -32,14 +36,23 @@ namespace MyTrips.Droid
             accelerometerManager = new AccelerometerManager(this, this);
         }
 
+
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
         public void OnAccelerationChanged(float x, float y, float z)
         {
 
         }
-
+        bool canShowFeedback;
         public void OnShake(float force)
         {
-            HockeyApp.FeedbackManager.TakeScreenshot(this);
+            if (!canShowFeedback)
+                return;
+            canShowFeedback = false;
             HockeyApp.FeedbackManager.ShowFeedbackActivity(this);
         }
 
@@ -47,11 +60,29 @@ namespace MyTrips.Droid
         protected override void OnResume()
         {
             base.OnResume();
+            canShowFeedback = true;
             if (accelerometerManager.IsSupported)
                 accelerometerManager.StartListening();
             
         }
 
+        void InitActivityTransitions() 
+        {
+            if ((int)Build.VERSION.SdkInt >= 21) 
+            {
+               var transition = new Android.Transitions.Slide();
+                transition.ExcludeTarget(Android.Resource.Id.StatusBarBackground, true);
+                Window.EnterTransition = transition;
+                Window.ReturnTransition = transition;
+                Window.RequestFeature(Android.Views.WindowFeatures.ContentTransitions);
+                Window.RequestFeature(Android.Views.WindowFeatures.ActivityTransitions);
+                Window.SharedElementEnterTransition = new ChangeBounds();
+                Window.SharedElementReturnTransition = new ChangeBounds();
+                Window.AllowEnterTransitionOverlap = true;
+                Window.AllowReturnTransitionOverlap = true;
+
+            }
+        }
 
         protected override void OnStop()
         {

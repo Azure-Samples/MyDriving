@@ -6,6 +6,8 @@
             android:title="Account">
 
         <Preference
+				
+				android:key="logout"
                 android:title="Logout" />
 
     </PreferenceCategory>

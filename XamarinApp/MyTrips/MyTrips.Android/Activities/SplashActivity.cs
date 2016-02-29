@@ -14,10 +14,15 @@ namespace MyTrips.Droid
         {
             base.OnCreate(savedInstanceState);
 
+            Intent newIntent = null;
             if(Settings.Current.IsLoggedIn)
-                StartActivity(new Intent(this, typeof(MainActivity)));
+                newIntent = new Intent(this, typeof(MainActivity));
             else
-                StartActivity(new Intent(this, typeof(LoginActivity)));
+                newIntent = new Intent(this, typeof(LoginActivity));
+
+            newIntent.AddFlags(ActivityFlags.ClearTop);
+            newIntent.AddFlags(ActivityFlags.SingleTop);
+            StartActivity(newIntent);
             Finish();
         }
     }

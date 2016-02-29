@@ -35,6 +35,10 @@ namespace MyTrips.DataStore.Mock.Stores
         {
             return Task.FromResult(true);
         }
+        public virtual Task<bool> PullLatestAsync()
+        {
+            return Task.FromResult(true);
+        }
         public void DropTable()
         {
             throw new NotImplementedException();

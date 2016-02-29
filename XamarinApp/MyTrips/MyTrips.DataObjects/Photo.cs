@@ -2,7 +2,7 @@
 
 namespace MyTrips.DataObjects
 {
-    public class Photo
+    public class Photo : BaseDataObject
     {
         public string TripId { get; set; }
 

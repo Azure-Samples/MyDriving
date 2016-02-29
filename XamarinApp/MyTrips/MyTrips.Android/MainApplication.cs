@@ -24,7 +24,7 @@ namespace MyTrips.Droid
             RegisterActivityLifecycleCallbacks(this);
             ViewModel.ViewModelBase.Init();
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
-
+            Xamarin.Insights.Initialize(Logger.InsightsKey, this);
         }
 
         public override void OnTerminate()

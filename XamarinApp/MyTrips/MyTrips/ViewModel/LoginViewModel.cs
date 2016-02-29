@@ -33,13 +33,6 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref isLoggedIn, value); }
         }
 
-        UserProfile userInfo;
-        public UserProfile UserInfo
-        {
-            get { return userInfo; }
-            set { SetProperty(ref userInfo, value); }
-        }
-
         ICommand  loginTwitterCommand;
         public ICommand LoginTwitterCommand =>
             loginTwitterCommand ?? (loginTwitterCommand = new RelayCommand(async () => await ExecuteLoginTwitterCommandAsync())); 
@@ -49,8 +42,14 @@ namespace MyTrips.ViewModel
             if(client == null)
                 return;
 
+            var track = Logger.Instance.TrackTime("LoginTwitter");
+            track.Start();
+
             Settings.LoginAccount = LoginAccount.Twitter;
             var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Twitter);
+
+            track.Stop();
+
             if(user == null)
             {
                 Settings.LoginAccount = LoginAccount.None;
@@ -70,8 +69,15 @@ namespace MyTrips.ViewModel
             if(client == null)
                 return;
 
+            var track = Logger.Instance.TrackTime("LoginMicrosoft");
+            track.Start();
+
+
             Settings.LoginAccount = LoginAccount.Microsoft;
             var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
+
+            track.Stop();
+
             if(user == null)
             {
                 Settings.LoginAccount = LoginAccount.None;
@@ -89,9 +95,14 @@ namespace MyTrips.ViewModel
         {
             if(client == null)
                 return;
+            var track = Logger.Instance.TrackTime("LoginFacebook");
+            track.Start();
 
             Settings.LoginAccount = LoginAccount.Facebook;
             var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
+
+            track.Stop();
+
             if(user == null)
             {
                 Settings.LoginAccount = LoginAccount.None;

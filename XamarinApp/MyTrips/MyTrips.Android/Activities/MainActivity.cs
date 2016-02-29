@@ -3,6 +3,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.Widget;
 using Android.Views;
+using Android.Widget;
 
 using MyTrips.Droid.Fragments;
 using Android.Support.V4.View;
@@ -49,6 +50,11 @@ namespace MyTrips.Droid
                 drawerLayout.CloseDrawers();
             };
 
+            if (Intent.GetBooleanExtra("tracking", false))
+            {
+                ListItemClicked(Resource.Id.menu_current_trip);
+                return;
+            }
 
             //if first time you will want to go ahead and click first item.
             if (bundle == null)
@@ -81,7 +87,7 @@ namespace MyTrips.Droid
             //this way we don't load twice, but you might want to modify this a bit.
             if (itemId == oldPosition)
                 return;
-
+            shouldClose = false;
             oldPosition = itemId;
 
             Android.Support.V4.App.Fragment fragment = null;
@@ -94,7 +100,7 @@ namespace MyTrips.Droid
                     fragment = FragmentCurrentTrip.NewInstance();
                     break;
                 case Resource.Id.menu_profile:
-                    fragment = FragmentRecommendedRoutes.NewInstance();
+                    fragment = FragmentProfile.NewInstance();
                     break;
                 case Resource.Id.menu_settings:
                     fragment = FragmentSettings.NewInstance();
@@ -119,15 +125,28 @@ namespace MyTrips.Droid
             return base.OnOptionsItemSelected(item);
         }
 
+        protected override void OnStart()
+        {
+            base.OnStart();
+            shouldClose = false;
+        }
+
+        bool shouldClose;
         public override void OnBackPressed()
         {
 
             if (drawerLayout.IsDrawerOpen((int)GravityFlags.Start))
             {
-                drawerLayout.OpenDrawer(GravityCompat.Start);
+                drawerLayout.CloseDrawer(GravityCompat.Start);
             }
             else
             {
+                if (!shouldClose)
+                {
+                    Toast.MakeText(this, "Press back again to exit.", ToastLength.Short).Show();
+                    shouldClose = true;
+                    return;
+                }
                 base.OnBackPressed();
             }
         }

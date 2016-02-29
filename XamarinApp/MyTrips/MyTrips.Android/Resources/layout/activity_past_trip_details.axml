@@ -118,11 +118,58 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Cost" />
         </LinearLayout>
+        <FrameLayout
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:id="@+id/full_rating"
+            android:transitionName="rating">
+            <mytrips.droid.controls.RatingCircle
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/rating_circle" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?attr/colorPrimary"
+                android:id="@+id/text_rating" />
+        </FrameLayout>
     </LinearLayout>
-    <fragment
-        android:id="@+id/map"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        class="com.google.android.gms.maps.SupportMapFragment" />
+        android:layout_weight="1">
+        <fragment
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.google.android.gms.maps.SupportMapFragment" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:background="#80000000"
+            android:padding="24dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_start_point"
+                android:layout_gravity="center_vertical" />
+            <SeekBar
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/trip_progress"
+                android:layout_gravity="center_vertical" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_end_point"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>
