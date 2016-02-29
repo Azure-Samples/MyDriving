@@ -63,6 +63,14 @@
     <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Plugin.Media, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Media.2.4.0-beta3\lib\Xamarin.iOS10\Plugin.Media.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Plugin.Media.Abstractions, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.Media.2.4.0-beta3\lib\Xamarin.iOS10\Plugin.Media.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -89,14 +97,6 @@
     </Reference>
     <Reference Include="Plugin.Connectivity.Abstractions, Version=2.0.2.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\packages\Xam.Plugin.Connectivity.2.1.1\lib\Xamarin.iOS10\Plugin.Connectivity.Abstractions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Plugin.Media, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\Xam.Plugin.Media.2.3.0\lib\Xamarin.iOS10\Plugin.Media.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Plugin.Media.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\Xam.Plugin.Media.2.3.0\lib\Xamarin.iOS10\Plugin.Media.Abstractions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Plugin.Settings, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
@@ -150,6 +150,12 @@
     </Reference>
     <Reference Include="MvvmHelpers">
       <HintPath>..\..\packages\Refractored.MvvmHelpers.1.0.1\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10+UAP10\MvvmHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Insights">
+      <HintPath>..\..\packages\Xamarin.Insights.1.11.4\lib\Xamarin.iOS10\Xamarin.Insights.dll</HintPath>
+    </Reference>
+    <Reference Include="PLCrashReporterUnifiedBinding">
+      <HintPath>..\..\packages\Xamarin.Insights.1.11.4\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -271,7 +277,6 @@
     <Compile Include="Cells\TripTableViewCell.designer.cs">
       <DependentUpon>TripTableViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\WayPointCircle.cs" />
     <Compile Include="Helpers\Images.cs" />
     <Compile Include="Helpers\Authentication.cs" />
     <Compile Include="Views\Annotations\BaseCustomAnnotation.cs" />
@@ -284,9 +289,19 @@
       <DependentUpon>TripMapView.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Colors.cs" />
+    <Compile Include="CustomControls\TripSlider.cs" />
+    <Compile Include="Screens\ProfileTableViewController.cs" />
+    <Compile Include="Screens\ProfileTableViewController.designer.cs">
+      <DependentUpon>ProfileTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cells\ProfileStatCell.cs" />
+    <Compile Include="Cells\ProfileStatCell.designer.cs">
+      <DependentUpon>ProfileStatCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="..\..\packages\Xamarin.Insights.1.11.4\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\..\packages\Xamarin.Insights.1.11.4\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
@@ -298,7 +313,20 @@
     <BundleResource Include="Resources\login_facebook.png" />
     <BundleResource Include="Resources\login_microsoft.png" />
     <BundleResource Include="Resources\login_twitter.png" />
-    <BundleResource Include="Resources\car_annotation.png" />
+    <BundleResource Include="Resources\tabbar_currenttrip.png" />
+    <BundleResource Include="Resources\tabbar_currenttrip%402x.png" />
+    <BundleResource Include="Resources\tabbar_currenttrip%403x.png" />
+    <BundleResource Include="Resources\tabbar_settings.png" />
+    <BundleResource Include="Resources\tabbar_settings%402x.png" />
+    <BundleResource Include="Resources\tabbar_settings%403x.png" />
+    <BundleResource Include="Resources\tabbar_trips.png" />
+    <BundleResource Include="Resources\tabbar_trips%402x.png" />
+    <BundleResource Include="Resources\tabbar_trips%403x.png" />
+    <BundleResource Include="Resources\Map\waypoint_a%402x.png" />
+    <BundleResource Include="Resources\Map\waypoint_b%402x.png" />
+    <BundleResource Include="Resources\Map\car_annotation_blue%402x.png" />
+    <BundleResource Include="Resources\Map\car_annotation_red%402x.png" />
+    <BundleResource Include="Resources\Map\waypoint_tip%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">
@@ -306,8 +334,5 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Annotations\" />
-    <Folder Include="Views\Maps\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

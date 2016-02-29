@@ -16,11 +16,41 @@ namespace MyTrips.ViewModel
 	{
 		public Trip Trip { get; set; }
 
+        public PastTripsDetailViewModel()
+        {
+        }
+
 		public PastTripsDetailViewModel(Trip trip)
 		{
 			Title = trip.TripId;
 			Trip = trip;
 		}
+
+        ICommand  loadTripCommand;
+        public ICommand LoadTripCommand =>
+        loadTripCommand ?? (loadTripCommand = new RelayCommand<string>(async (id) => await ExecuteLoadTripCommandAsync(id))); 
+
+        public async Task ExecuteLoadTripCommandAsync(string id)
+        {
+            if(IsBusy)
+                return;
+
+            try 
+            {
+                IsBusy = true;
+
+                Trip = await StoreManager.TripStore.GetItemAsync(id);
+                Title = Trip.TripId;
+            }
+            catch (Exception ex) 
+            {
+                Logger.Instance.Report(ex);
+            } 
+            finally 
+            {
+                IsBusy = false;
+            }
+        }
 	}
 }
 

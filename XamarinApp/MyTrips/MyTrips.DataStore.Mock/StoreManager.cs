@@ -7,8 +7,6 @@ namespace MyTrips.DataStore.Mock
 {
     public class StoreManager : IStoreManager
     {
-        
-
         #region IStoreManager implementation
 
         public async Task InitializeAsync()
@@ -30,6 +28,10 @@ namespace MyTrips.DataStore.Mock
 
         ITripStore tripStore;
         public ITripStore TripStore => tripStore ?? (tripStore = ServiceLocator.Instance.Resolve<ITripStore>());
+
+        IPhotoStore photoStore;
+        public IPhotoStore PhotoStore => photoStore ?? (photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
+
 
         #endregion
     }

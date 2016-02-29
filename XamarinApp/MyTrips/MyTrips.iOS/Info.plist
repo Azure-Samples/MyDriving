@@ -51,6 +51,7 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
+		<string>fetch</string>
 	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Track your current trip even when MyTrip isn&apos;t running.</string>

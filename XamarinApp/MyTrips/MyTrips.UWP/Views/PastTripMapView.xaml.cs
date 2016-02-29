@@ -29,16 +29,16 @@ namespace MyTrips.UWP.Views
         public PastTripMapView()
         {
             this.InitializeComponent();
-            this.ViewModel = new TripDetailsViewModel();
         }
 
-        TripDetailsViewModel ViewModel;
+        PastTripsDetailViewModel ViewModel;
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             var trip = e.Parameter as Trip;
             base.OnNavigatedTo(e);
-            this.ViewModel.TripId = trip.TripId;
-            await this.ViewModel.ExecuteLoadTripCommandAsync();
+
+            ViewModel = new PastTripsDetailViewModel(trip);
+            await ViewModel.ExecuteLoadTripCommandAsync(trip.Id);
             
         }
     }
