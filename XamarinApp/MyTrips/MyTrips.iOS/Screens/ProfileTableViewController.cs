@@ -20,7 +20,7 @@ namespace MyTrips.iOS
 		void UpdateHeader(int percentage)
 		{
 			lblPercentage.Text = $"{percentage}%";
-			lblBetterThan.Text = $"Better driver than {percentage} of Americans";
+			lblBetterThan.Text = $"Better driver than {percentage}% of Americans.";
 
 			var defaultAttributes = new UIStringAttributes {
 				ForegroundColor = lblDrivingSkills.TextColor,
