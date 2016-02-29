@@ -14,7 +14,7 @@ namespace MyTrips.iOS
 		{
 		}
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 			SetupTabChangeAnimation();

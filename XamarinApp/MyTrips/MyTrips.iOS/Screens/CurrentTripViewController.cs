@@ -209,7 +209,7 @@ namespace MyTrips.iOS
 			{
 				ResetMapView();
 				await ViewModel.StopRecordingTripAsync();
-
+				NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshPastTripsTable", null);
 			}
 			else
 			{
