@@ -2,22 +2,22 @@
 
 ## What does Stream Analytics do?
 
-[Azure Stream Analytics](https://azure.microsoft.com/documentation/articles/stream-analytics-introduction/) performs hot-path processing of data streaming from anywhere - devices, sensors, and the web. You use a SQL-like language to express the real-time data transformation. You can filter, join, aggregate, and transform data. Results are continuously passed on to the sinks you specify. Like other Azure services, it's hugely scaleable, secure and reliable.
+[Azure Stream Analytics](https://azure.microsoft.com/documentation/articles/stream-analytics-introduction/) performs fast processing of data streaming from anywhere - devices, sensors, and the web. You use a SQL-like language to express real-time data transformations over the incoming data. You can filter, join, aggregate, and transform data. Results are continuously streamed to the sinks you specify. Like other Azure services, it's hugely scaleable, secure and reliable.
 
-In our demo, we use Stream Analytics to process data received from ODB devices and cell phones connected through IoT Hub. The task of Stream Analytics is to reshape the data to an actionable form. 
+In our demo application, we use Stream Analytics to process data received from ODB devices and cell phones connected through IoT Hub. The task of Stream Analytics is to reshape the data to actionable forms in which it can be sent on to the mobile app, machine learning, and service monitoring.
 
 ![](./media/sa-10.png)
 
-Streaming architectures contrast sharply with a more traditional approach in which incoming data is loaded immediately into a database, which is then queried by user apps. Updating the database is cumbersome, and it can be minutes before a the critical queries can be performed on the uploaded data.
+Streaming architectures contrast sharply with a more traditional approach in which incoming data is loaded immediately into a database, which is then queried by user apps. Updating the database is cumbersome, and it can be minutes before the critical queries can be performed on the uploaded data.
 
-In a streaming solution, the 'hot path' includes pipeline processing of the critical queries. The results are passed straight on to the output apps. At the same time, they can be stored in a database for later examination in a more traditional way.
+In a streaming solution, the 'hot path' includes pipeline processing of the critical queries. The results are passed straight on to the output apps. At the same time, they can be stored in a database for later inspection in a more traditional way.
 
 In our demo, Stream Analytics is the key pipeline for the major data paths:
 
-* A hot path which takes raw data from the OBD devices and mobile phones, filters and aggregates it according to a suitable set of queries in Stream Analytics, and then passes it straight on to the mobile app. 
-* The results are also put into storage for processing by Machine Learning.
+* The hot path that takes raw data from the devices, filters and aggregates it, and then passes it straight on to the mobile app. 
+* The Machine Learning path, which forks the processed data into a Machine Learning resource to look for patterns. 
 * A cold path that moves data into archive storage, where it can be inspected at leisure with the help of Power BI.
-* Another hot path direct to Power BI, through which we can monitor our service in real time.
+* A real-time analytics path direct to Power BI, through which we can monitor our service continuously.
 
 
 ## Connecting up Stream Analytics
@@ -26,25 +26,25 @@ Stream Analytics is very simple: it has some inputs, some processing code writte
 
 ![](./media/sa-20.png)
 
-The inputs and outputs are other Azure services. To plug them into Stream Analytics, you just add a new input or output definition, and then copy across the relevant keys and IDs.
+The inputs and outputs are other Azure services. To plug them into Stream Analytics, you just add a new input or output definition, and then copy across the relevant keys and IDs. There is a variety of adapters for coupling to different types of inputs and outputs.
 
 Inputs can be sourced from:
 
-* **IoT Hubs**, which gather data from external devices. In our demo app, that's how we get data from the devices.
-* **Event Hubs** can also be used as Stream Analytics outputs, so they work well as buffers between multiple Stream Analytics jobs.
-* **Blob Storage.** Typically used to join relatively static or 'cold path' data into Stream Analytics queries.
+* **IoT Hubs**, which gather data from external devices, with secure validated two-way connections. In our demo app, that's how we get data from the devices.
+* **Event Hubs** can also accept data from devices at high volume, though without identifying individual devices. But they also have a wider application as high-volume buffers between co-located Azure services.
+* **Blob Storage.** As an input, blob storage is typically used to join relatively static or 'cold path' data into Stream Analytics queries.
 
-Outputs sink to:
+Outputs can sink to:
 
-* **Blob storage,** where it can be picked up for presentation by mobile app backend. This is the main hot path of our app. It's also picked up from here by Machine Learning. 
+* **[Blob storage](https://azure.microsoft.com/documentation/services/storage/)**. Stream Analytics can be configured to push its output into a series of timestamped chunks. In our demo application, this type of output is the main hot path. From the blob store, data is picked up both by the mobile app and by Machine Learning. 
 
-* We also use blob storage as a 'cold path' archive from which we can use Power BI to search and inspect historical data. 
+    We also use a separate  blob storage as a 'cold path' archive from which we can use Power BI to search and inspect historical data.
 
-    It's also possible to send data to [Document DB](https://azure.microsoft.com/documentation/services/documentdb/) and [SQL database](https://azure.microsoft.com/documentation/services/sql-database/).
-
-
-* [Power BI](https://azure.microsoft.com/documentation/articles/stream-analytics-power-bi-dashboard/) which we use to get continuous real-time monitoring of our service.
-* **Event Hub,** which acts as a buffer to the processing unit where we can code data flow extensions. [Service Bus](https://azure.microsoft.com/documentation/services/service-bus/) Queues and Topics can also be used as buffers to other processes.
+* **[Document DB](https://azure.microsoft.com/documentation/services/documentdb/)**. Output records can be saved in JSON form.
+* **[SQL database](https://azure.microsoft.com/documentation/services/sql-database/)**. Stream Analytics results can build and update tables.
+* **[Power BI](https://azure.microsoft.com/documentation/articles/stream-analytics-power-bi-dashboard/)**. In our application, we use this to get continuous real-time monitoring of our service.
+* **[Event Hub](https://azure.microsoft.com/documentation/articles/event-hubs-what-is-event-hubs/)** which acts as a high-volume buffer to co-located Azure services. In our case, it acts as a buffer to the processing unit where we can code data flow extensions. 
+* **[Service Bus](https://azure.microsoft.com/documentation/services/service-bus/)** Queues and Topics can also be used as buffers to other processes. These handle somewhat less volume than event hubs, but have more facilities for coupling to and from processes outside Azure or at other locations.
 
 The third piece of a Stream Analytics job is the Query: the code that transforms the inputs into the outputs.
 
@@ -142,10 +142,12 @@ The query therefore generates an output when no data has been received from a pr
 
 ## Where should Stream Analytics be used?
 
-### Why Stream Analytics is used in this solution
 
+Stream Analytics is applicable wherever a continuous stream of data has to be processed. Typical applications include:
 
-### Where Stream Analytics is applicable
+* Monitoring machinery or environment - as in the present example
+* Continuous processing with a cloud backend
+* Application telemetry - finding faults, summarizing usage
 
 
 
