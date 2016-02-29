@@ -18,8 +18,10 @@ namespace smarttripsService.Controllers
     public class UserInfoController : ApiController
     {
         const string FacebookGraphUrl = "https://graph.facebook.com/v2.5/me?fields=first_name%2Clast_name%2Cpicture%7Burl%7D&access_token=";
+        const string MicrosoftUrl = "https://apis.live.net/v5.0/me?access_token=";
 
-        // GET api/ManageUser
+
+        // GET api/UserInfo
         public async Task<UserProfile> Get()
         {
             UserProfile userProfile = new UserProfile();
@@ -30,16 +32,18 @@ namespace smarttripsService.Controllers
             {
                 // Get the credentials for the logged-in user.
                 var fbCredentials = await user.GetAppServiceIdentityAsync<FacebookCredentials>(Request);
-                //var twitterCredentials = await user.GetAppServiceIdentityAsync<TwitterCredentials>(request);
+                var mscredentials = await user.GetAppServiceIdentityAsync<MicrosoftAccountCredentials>(Request);
+
 
                 if (fbCredentials?.UserClaims?.Count() > 0)
                 {
                     await FillDataFromFacebook(userProfile, fbCredentials.AccessToken);
                 }
-                // else if (twitterCredentials?.Claims?.Count > 0)
+                else if (mscredentials?.UserClaims?.Count() > 0)
                 {
-                    //    
+                    await FillDataFromMS(userProfile, mscredentials.AccessToken);
                 }
+
             }
             return userProfile;
         }
@@ -66,6 +70,36 @@ namespace smarttripsService.Controllers
                 userProfile.ProfilePictureUri = url;
             }
         }
+
+
+        private static async Task FillDataFromMS(UserProfile userProfile, string token)
+        {
+            // Create a query string with the Facebook access token.
+            var msRequestUrl = MicrosoftUrl + token;
+            string pictureUrl;
+            using (var client = new System.Net.Http.HttpClient())
+            {
+                var resp = await client.GetAsync(msRequestUrl);
+                resp.EnsureSuccessStatusCode();
+                string info = await resp.Content.ReadAsStringAsync();
+                JObject fbObject = JObject.Parse(info);
+                userProfile.FirstName = fbObject.GetValue("first_name")?.ToString();
+                userProfile.LastName = fbObject.GetValue("last_name")?.ToString();
+                string id = fbObject.GetValue("id")?.ToString();
+              
+                pictureUrl = string.Format("https://apis.live.net/v5.0/{0}/picture", id);
+            }
+
+            //request for the profile picture
+            using (var client = new System.Net.Http.HttpClient())
+            {
+                var resp = await client.GetAsync(pictureUrl);
+                resp.EnsureSuccessStatusCode();
+                var picture = await resp.Content.ReadAsByteArrayAsync();
+                userProfile.ProfilePicture = picture;
+            }
+        }
+
     }
 
 
