@@ -7,24 +7,34 @@ namespace Microsoft.Azure.Devices.Client.Common
 {
     using System;
     using System.Threading.Tasks;
-    using Windows.Foundation;
     using System.Linq;
-    using Windows.ApplicationModel.Resources.Core;
 
+#if !__ANDROID__ && !__IOS__
+    using Windows.Foundation;
+    using Windows.ApplicationModel.Resources.Core;
+#endif
     class ResourceManagerImpl
     {
+#if !__ANDROID__ && !__IOS__
         private readonly ResourceMap stringResourceMap;
         private readonly ResourceContext resourceContext;
+#endif
         public ResourceManagerImpl()
         {
+#if !__ANDROID__ && !__IOS__
             stringResourceMap = Windows.ApplicationModel.Resources.Core.ResourceManager.Current.MainResourceMap.GetSubtree("Microsoft.Azure.Devices.Client/Resources");
             resourceContext = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView();
+#endif
         }
 
         public string GetString(string name, System.Globalization.CultureInfo culture)
         {
+#if !__ANDROID__ && !__IOS__
             var value = stringResourceMap.GetValue(name, resourceContext).ValueAsString;
             return ValidateNotEmpty(value);
+#else
+            return string.Empty;
+#endif
         }
         private static string ValidateNotEmpty(string value)
         {
@@ -391,4 +401,4 @@ namespace Microsoft.Azure.Devices.Client.Common
         }
     }
 
-    }
+}

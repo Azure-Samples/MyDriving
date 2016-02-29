@@ -18,7 +18,7 @@ namespace Microsoft.Azure.Devices.Client
 
     // C# using aliases cannot name an unbound generic type declaration without supplying type arguments
     // Therefore, define a separate alias for each type argument
-#if WINDOWS_UWP
+#if WINDOWS_UWP && !__ANDROID__ && !__IOS__
     using AsyncTask = Windows.Foundation.IAsyncAction;
     using AsyncTaskOfMessage = Windows.Foundation.IAsyncOperation<Message>;
 #else
@@ -157,7 +157,7 @@ namespace Microsoft.Azure.Devices.Client
 #endif
         }
 
-#if WINDOWS_UWP
+#if WINDOWS_UWP && !__ANDROID__ && !__IOS__
         [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
 #endif
         /// <summary>
@@ -404,7 +404,7 @@ namespace Microsoft.Azure.Devices.Client
 #endif
         }
 
-#if WINDOWS_UWP
+#if WINDOWS_UWP && !__ANDROID__ && !__IOS__
         [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
 #endif
         /// <summary>
@@ -457,7 +457,7 @@ namespace Microsoft.Azure.Devices.Client
 #endif
         }
 
-#if WINDOWS_UWP
+#if WINDOWS_UWP && !__ANDROID__ && !__IOS__
         [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
 #endif
         /// <summary>
@@ -510,7 +510,7 @@ namespace Microsoft.Azure.Devices.Client
 #endif
         }
 
-#if WINDOWS_UWP
+#if WINDOWS_UWP && !__ANDROID__ && !__IOS__
         [Windows.Foundation.Metadata.DefaultOverloadAttribute()]
 #endif
         /// <summary>

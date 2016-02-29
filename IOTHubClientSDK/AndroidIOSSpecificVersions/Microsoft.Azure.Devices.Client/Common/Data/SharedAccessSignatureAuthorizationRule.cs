@@ -3,8 +3,8 @@
 
 namespace Microsoft.Azure.Devices.Client
 {
-    using System;
     using Newtonsoft.Json;
+    using System;
 
     sealed class SharedAccessSignatureAuthorizationRule : IEquatable<SharedAccessSignatureAuthorizationRule>
     {

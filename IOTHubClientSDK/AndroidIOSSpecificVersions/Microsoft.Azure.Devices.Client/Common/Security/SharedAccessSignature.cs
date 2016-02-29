@@ -8,7 +8,7 @@ namespace Microsoft.Azure.Devices.Client
     using System.Collections.Generic;
     using System.Globalization;
 
-#if WINDOWS_UWP
+#if WINDOWS_UWP && !__ANDROID__ && !__IOS__
     using Windows.Security.Cryptography;
     using Windows.Security.Cryptography.Core;
     using System.Runtime.InteropServices.WindowsRuntime;
@@ -199,7 +199,7 @@ namespace Microsoft.Azure.Devices.Client
             fields.Add(this.encodedAudience);
             fields.Add(this.expiry);
             string value = string.Join("\n", fields);
-#if WINDOWS_UWP
+#if WINDOWS_UWP && !__ANDROID__ && !__IOS__
             var algo = MacAlgorithmProvider.OpenAlgorithm(MacAlgorithmNames.HmacSha256);
             var keyMaterial = key.AsBuffer();
             var hash = algo.CreateHash(keyMaterial);
