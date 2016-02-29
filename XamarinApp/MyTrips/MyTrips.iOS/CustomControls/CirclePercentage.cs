@@ -30,20 +30,21 @@ namespace MyTrips.iOS.CustomControls
 			var context = UIGraphics.GetCurrentContext();
 
 			// Variable Declarations
-			var expression = 360.0f - percentage;
+			var expression = 377.0f - percentage;
 
 			// coverView Drawing
-			var coverViewPath = UIBezierPath.FromOval(new CGRect(frame.GetMinX() + 5.0f, frame.GetMinY() + 4.0f, 230.0f, 230.0f));
+			var coverViewPath = UIBezierPath.FromOval(new CGRect(frame.GetMinX() + 5.0f, frame.GetMinY() + 4.0f, frame.Width - 10.0f, frame.Height - 10.0f));
 			UIColor.FromRGB(92,92,92).SetFill();
 			coverViewPath.Fill();
 
 
 			// completedView Drawing
 			context.SaveState();
-			context.TranslateCTM(frame.GetMinX() + 120.0f, frame.GetMinY() + 119.0f);
+			context.SaveState();
+			context.TranslateCTM(frame.GetMaxX() - 65.0f, frame.GetMinY() + 64.0f);
 			context.RotateCTM(-90.0f * NMath.PI / 180.0f);
 
-			var completedViewRect = new CGRect(-115.0f, -115.0f, 230.0f, 230.0f);
+			var completedViewRect = new CGRect(-60.0f, -60.0f, 120.0f, 120.0f);
 			var completedViewPath = new UIBezierPath();
 			completedViewPath.AddArc(new CGPoint(completedViewRect.GetMidX(), completedViewRect.GetMidY()), completedViewRect.Width / 2.0f, (nfloat)(-360.0f * NMath.PI/180), (nfloat)(-(expression - 17.0f) * NMath.PI/180.0f), true);
 			completedViewPath.AddLineTo(new CGPoint(completedViewRect.GetMidX(), completedViewRect.GetMidY()));
@@ -56,7 +57,7 @@ namespace MyTrips.iOS.CustomControls
 
 
 			// backgroundView Drawing
-			var backgroundViewPath = UIBezierPath.FromOval(new CGRect(frame.GetMinX() + 10.0f, frame.GetMinY() + 9.0f, 220.0f, 220.0f));
+			var backgroundViewPath = UIBezierPath.FromOval(new CGRect(frame.GetMinX() + 12.0f, frame.GetMinY() + 11.0f, frame.Width - 24.0f, frame.Height - 24.0f));
 			UIColor.FromRGB(92,92,92).SetFill();
 			backgroundViewPath.Fill();
 		}
