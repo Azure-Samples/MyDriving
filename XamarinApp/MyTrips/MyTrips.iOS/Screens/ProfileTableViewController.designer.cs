@@ -16,6 +16,10 @@ namespace MyTrips.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIImageView imgAvatar { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel lblBetterThan { get; set; }
 
         [Outlet]
@@ -32,6 +36,11 @@ namespace MyTrips.iOS
 
         void ReleaseDesignerOutlets ()
         {
+            if (imgAvatar != null) {
+                imgAvatar.Dispose ();
+                imgAvatar = null;
+            }
+
             if (lblBetterThan != null) {
                 lblBetterThan.Dispose ();
                 lblBetterThan = null;

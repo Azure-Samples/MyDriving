@@ -330,6 +330,7 @@
     <BundleResource Include="Resources\Map\car_annotation_blue%402x.png" />
     <BundleResource Include="Resources\Map\car_annotation_red%402x.png" />
     <BundleResource Include="Resources\Map\waypoint_tip%402x.png" />
+    <BundleResource Include="Resources\scott.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">

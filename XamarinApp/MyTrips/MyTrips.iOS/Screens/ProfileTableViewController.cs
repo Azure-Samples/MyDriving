@@ -30,11 +30,13 @@ namespace MyTrips.iOS
 				ForegroundColor = Colors.PRIMARY,
 			};
 
+			/*
 			var attributedString = new NSMutableAttributedString(lblDrivingSkills.Text);
 			attributedString.SetAttributes(defaultAttributes.Dictionary, new NSRange(0, lblDrivingSkills.Text.Length));
 			attributedString.SetAttributes(hitAttributes.Dictionary, new NSRange(15, lblDrivingSkills.Text.Length));
 
 			lblDrivingSkills.AttributedText = attributedString;
+			*/
 		}
     }
 }

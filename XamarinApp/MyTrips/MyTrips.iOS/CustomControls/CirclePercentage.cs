@@ -55,7 +55,6 @@ namespace MyTrips.iOS.CustomControls
 
 			context.RestoreState();
 
-
 			// backgroundView Drawing
 			var backgroundViewPath = UIBezierPath.FromOval(new CGRect(frame.GetMinX() + 12.0f, frame.GetMinY() + 11.0f, frame.Width - 24.0f, frame.Height - 24.0f));
 			UIColor.FromRGB(92,92,92).SetFill();
