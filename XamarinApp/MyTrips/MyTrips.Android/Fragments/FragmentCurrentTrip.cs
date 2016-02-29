@@ -242,7 +242,7 @@ namespace MyTrips.Droid.Fragments
                 return;
             //Get trail position or current potion to move car
             var latlng = trail == null ? 
-                (viewModel?.CurrentPosition == null ?  null : new LatLng(viewModel?.CurrentPosition.Latitude, viewModel?.CurrentPosition.Longitude))
+                (viewModel?.CurrentPosition == null ?  null : new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude))
                 : new LatLng(trail.Latitude, trail.Longitude);
             Activity?.RunOnUiThread(() =>
             {
