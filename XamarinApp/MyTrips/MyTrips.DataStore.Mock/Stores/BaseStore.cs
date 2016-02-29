@@ -11,7 +11,7 @@ namespace MyTrips.DataStore.Mock.Stores
         {
             throw new NotImplementedException();
         }
-        public virtual Task<System.Collections.Generic.IEnumerable<T>> GetItemsAsync(bool forceRefresh = false)
+        public virtual Task<System.Collections.Generic.IEnumerable<T>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
             throw new NotImplementedException();
         }

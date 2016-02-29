@@ -15,9 +15,9 @@ namespace MyTrips.DataStore.Azure.Stores
             photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>();
         }
 
-        public override async Task<IEnumerable<Trip>> GetItemsAsync(bool forceRefresh = false)
+        public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
-            var items = await base.GetItemsAsync(forceRefresh);
+            var items = await base.GetItemsAsync(skip, take, forceRefresh);
             foreach (var item in items)
             {
                 item.Photos = new List<Photo>();
