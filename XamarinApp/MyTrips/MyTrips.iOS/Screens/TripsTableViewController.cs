@@ -1,11 +1,10 @@
-using Foundation;
 using System;
+
+using CoreGraphics;
+using Foundation;
 using UIKit;
 
 using MyTrips.ViewModel;
-
-using Humanizer;
-using CoreGraphics;
 
 using SDWebImage;
 

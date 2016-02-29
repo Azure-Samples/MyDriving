@@ -10,7 +10,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="153">
             <objects>
-                <tabBarController definesPresentationContext="YES" id="154" customClass="TabBarController" sceneMemberID="viewController">
+                <tabBarController definesPresentationContext="YES" id="154" customClass="TabBarController" sceneMemberID="viewController" storyboardIdentifier="tabBarController">
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="159">
                         <rect key="frame" x="0.0" y="551" width="600" height="49"/>
