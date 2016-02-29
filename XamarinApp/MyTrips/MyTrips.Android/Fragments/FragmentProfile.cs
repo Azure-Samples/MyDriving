@@ -24,7 +24,7 @@ namespace MyTrips.Droid.Fragments
 
             ratingCircle.Rating = 86;
 
-            Koush.UrlImageViewHelper.SetUrlDrawable (circleImage, "http://refractored.com/images/Scott.png");
+            Square.Picasso.Picasso.With(Activity).Load("http://refractored.com/images/Scott.png").Into(circleImage);
 
             return view;
         }

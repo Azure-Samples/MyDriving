@@ -97,7 +97,11 @@ namespace MyTrips.ViewModel
 #endif
 
                 //TODO: use real city here
+#if DEBUG
+                CurrentTrip.MainPhotoUrl = "http://loricurie.files.wordpress.com/2010/11/seattle-skyline.jpg";
+#else
                 CurrentTrip.MainPhotoUrl = await BingHelper.QueryBingImages("Seattle", CurrentPosition.Latitude, CurrentPosition.Longitude);
+#endif
                 CurrentTrip.Rating = 90;
                 CurrentTrip.TimeStamp = DateTime.UtcNow;
                 CurrentTrip.TotalDistance = "10 miles";

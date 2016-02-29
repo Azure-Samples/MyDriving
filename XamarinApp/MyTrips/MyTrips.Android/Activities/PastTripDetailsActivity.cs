@@ -140,7 +140,8 @@ namespace MyTrips.Droid.Activities
 
             var bounds = boundsPoints.Build ();
             map.MoveCamera (CameraUpdateFactory.NewLatLngBounds (bounds, 64));
-           
+
+            map.MoveCamera(CameraUpdateFactory.NewLatLng(carMarker.Position));
 
             seekBar.Enabled = true;
 
