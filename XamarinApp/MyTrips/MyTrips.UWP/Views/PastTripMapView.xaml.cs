@@ -36,7 +36,7 @@ namespace MyTrips.UWP.Views
         public PastTripMapView()
         {
             this.InitializeComponent();
-            this.ViewModel = new TripDetailsViewModel();
+            this.ViewModel = new PastTripsDetailViewModel();
             this.Locations = new List<BasicGeoposition>();
         }
 
@@ -46,8 +46,7 @@ namespace MyTrips.UWP.Views
             var trip = e.Parameter as Trip;
             base.OnNavigatedTo(e);
             this.MyMap.Loaded += MyMap_Loaded;
-            this.ViewModel.TripId = trip.TripId;
-            this.ViewModel.CurrentTrip = trip;
+            this.ViewModel.Trip = trip;
             mapIconStreamReference = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/mappin.png"));
             DrawPath();
         }
@@ -61,7 +60,7 @@ namespace MyTrips.UWP.Views
         {
             MapPolyline mapPolyLine = new MapPolyline();
 
-            foreach (var trail in this.ViewModel.CurrentTrip.Trail)
+            foreach (var trail in this.ViewModel.Trip.Trail)
             {
                 var basicGeoPosion = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
                 Locations.Add(basicGeoPosion);
