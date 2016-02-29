@@ -2,7 +2,7 @@
 
 ## What is an IoT device?
 
-[Graphic: highlighting where we are in the architecture]
+![Architecture: IoT Device](media/device-architecture.png "IoT device role in architecture")
 
 An IoT device is a physical device that typically collects and shares data with a cloud-based service. In some scenarios, IoT devices can also receive and act upon commands sent from a cloud-based service. An IoT device typically consists of:
 
@@ -12,23 +12,21 @@ An IoT device is a physical device that typically collects and shares data with 
 
 Example scenarios where IoT devices may be used include:
 
-[Graphic: turn this list into a graphic?]
-
 - Trip tracking and car health
 - Sports and fitness tracking
 - Health monitoring
 - Person or pet or livestock tracking
+- Smart appliances
+- Home automation including security monitors
 - Physical object tracking
 - Beacons or proximity sensors
 - Smart vending machines
-- Smart appliances
-- Home automation including security monitors
 - Environmental monitoring such as pollution sensors
+- Asset tracking
 - Industrial equipment monitoring for predictive maintenance
 - Manufacturing process monitoring devices
-- Asset tracking
 
-As you can see from the previous list, there are a wide variety of IoT scenarios where you need IoT devices to collect and share data and in some cases act on commands sent from a service. Despite this variety, IoT devices typically share some of the following characteristics:
+As you can see from the previous list, there are a wide variety of IoT scenarios where you need IoT devices to collect and share data and in some cases act on commands sent from a service. Despite the variety of scenarios, IoT devices typically share some of the following characteristics:
 
 | Device characteristic | Example |
 | ----------------------| ------- |
@@ -56,7 +54,8 @@ A field gateway differs from a simple traffic routing device (such as a network 
 
 We often characterize field gateways as being *transparent* or *opaque*. A transparent gateway forwards messages to the back end service leaving the original device id intact, which means that the service is aware of all the connected IoT devices. An opaque gateway forwards data to the back end service using its own id, which means that the service is only aware of the field gateway as a connected device.
 
-[Graphic: Highlight opaque v. transparent]
+![Transparent field gateway](media/field-gateway-transparent.png "Transparent field gateway")
+![Opaque field gateway](media/field-gateway-opaque.png "Opaque field gateway")
 
 > Note: While you typically deploy a field gateway that is local to your devices, in some scenarios, you might deploy a protocol translation gateway in the cloud.
 
