@@ -54,6 +54,9 @@ namespace MyTrips.UWP.Views
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
             this.MyMap.ZoomLevel = 17;
+            this.positionSlider.Maximum = this.ViewModel.Trip.Trail.Count - 1;
+            this.positionSlider.Minimum = 0;
+            this.positionSlider.IsThumbToolTipEnabled = false;
         }
 
         private void DrawPath()
@@ -66,7 +69,7 @@ namespace MyTrips.UWP.Views
                 Locations.Add(basicGeoPosion);
             }
             mapPolyLine.Path = new Geopath(Locations);
-
+            
             mapPolyLine.ZIndex = 1;
             mapPolyLine.Visible = true;
             mapPolyLine.StrokeColor = Colors.Red;
@@ -79,20 +82,63 @@ namespace MyTrips.UWP.Views
             
             MyMap.MapElements.Add(mapPolyLine);
 
-            MapIcon mapIcon = new MapIcon();
-            mapIcon.Location = MyMap.Center;
-            mapIcon.NormalizedAnchorPoint = new Point(0.5, 1.0);
-            mapIcon.Image = mapIconStreamReference;
-            mapIcon.ZIndex = 0;
-            mapIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
-          
-            MyMap.MapElements.Add(mapIcon);
-            
+            // Draw Start Icon
+            MapIcon mapStartIcon = new MapIcon();
+            mapStartIcon.Location = new Geopoint(Locations.First());
+            mapStartIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
+            mapStartIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_start_point.png"));
+            mapStartIcon.ZIndex = 1;
+            mapStartIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+
+            MyMap.MapElements.Add(mapStartIcon);
+            mapStartIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
+
+            //Draw End Icon
+            MapIcon mapEndIcon = new MapIcon();
+            mapEndIcon.Location = new Geopoint(Locations.Last());
+            mapEndIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
+            mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png")); 
+            mapEndIcon.ZIndex = 1;
+            mapEndIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+            MyMap.MapElements.Add(mapEndIcon);
+
+            // Draw the Car 
+            DrawCarOnMap(Locations.First());
+       
         }
 
-        private void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        private void DrawCarOnMap(BasicGeoposition basicGeoposition)
         {
+            MapIcon mapCarIcon = new MapIcon();
+            mapCarIcon.Location = new Geopoint(basicGeoposition);
+            mapCarIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
 
+            mapCarIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_car_red.png"));
+            mapCarIcon.ZIndex = 2;
+            mapCarIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+
+            MyMap.MapElements.Add(mapCarIcon);
+            MyMap.Center = mapCarIcon.Location;
+
+        }
+
+        private async void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            var location = this.ViewModel.Trip.Trail[(int)e.NewValue];
+            var basicGeoposition = new BasicGeoposition { Latitude = location.Latitude, Longitude = location.Longitude };
+            // Currently removing the Car from Map which is the last item added. 
+            MyMap.MapElements.RemoveAt(MyMap.MapElements.Count - 1);
+            DrawCarOnMap(basicGeoposition) ;
+            await MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
+            //if (carMarker == null)
+            //    return;
+            //var location = viewModel.Trip.Trail[e.Progress];
+
+            //RunOnUiThread(() =>
+            //{
+            //    carMarker.Position = new LatLng(location.Latitude, location.Longitude);
+            //    map.MoveCamera(CameraUpdateFactory.NewLatLng(carMarker.Position));
+            //});
         }
     }
 }
