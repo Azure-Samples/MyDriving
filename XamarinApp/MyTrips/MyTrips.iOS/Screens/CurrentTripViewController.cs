@@ -9,7 +9,9 @@ using UIKit;
 
 using MyTrips.ViewModel;
 
-using BigTed;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
+
 
 namespace MyTrips.iOS
 {
@@ -34,12 +36,7 @@ namespace MyTrips.iOS
 
 			if (PastTripsDetailViewModel == null)
 			{
-				// Setup view model
-				ViewModel = new CurrentTripViewModel();
-				ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
-				await ViewModel.ExecuteStartTrackingTripCommandAsync();
-
-				mapDelegate = new TripMapViewDelegate(UIColor.Red, 0.4);
+				mapDelegate = new TripMapViewDelegate(UIColor.Red, 0.6);
 				tripMapView.Delegate = mapDelegate;
 				tripMapView.ShowsUserLocation = false;
 				tripMapView.Camera.Altitude = 5000;
@@ -59,6 +56,30 @@ namespace MyTrips.iOS
 				wayPointB.Hidden = true;
 
 				NavigationItem.RightBarButtonItem = null;
+
+				// Setup view model
+				ViewModel = new CurrentTripViewModel();
+				ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
+				await ViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
+				{
+					var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+					if (status == PermissionStatus.Denied)
+					{
+						InvokeOnMainThread(() =>
+						{
+							var alertController = UIAlertController.Create("Location Permission Denied", "Tracking your location is required to record trips. Visit the Settings app to change the permission status.", UIAlertControllerStyle.Alert);
+							alertController.AddAction(UIAlertAction.Create("Change Permission", UIAlertActionStyle.Default, (obj) =>
+							{
+								var url = NSUrl.FromString(UIApplication.OpenSettingsUrlString);
+								UIApplication.SharedApplication.OpenUrl(url);
+							}));
+
+							alertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Cancel, null));
+
+							PresentViewController(alertController, true, null);
+						});
+					}
+				});
 			}
 			else
 			{
@@ -135,13 +156,10 @@ namespace MyTrips.iOS
 		{
 			route.Add(coordinate);
 
-			// Draw updated route
-			var newMKPolylineCooordinates = new CLLocationCoordinate2D[] {
-					route[route.Count-1],
-					route[route.Count-2]
-				};
-
-			tripMapView.DrawRoute(newMKPolylineCooordinates);
+			if (tripMapView.Overlays != null)
+				tripMapView.RemoveOverlays(tripMapView.Overlays);
+			
+			tripMapView.DrawRoute(route.ToArray());
 		}
 
 		void StartTrackingRoute(CLLocationCoordinate2D coordinate)
@@ -194,12 +212,9 @@ namespace MyTrips.iOS
 
 			if (ViewModel.IsRecording)
 			{
-				BTProgressHUD.Show("Saving Trip");
-
 				ResetMapView();
 				await ViewModel.StopRecordingTripAsync();
-
-				BTProgressHUD.Dismiss();
+				NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshPastTripsTable", null);
 			}
 			else
 			{

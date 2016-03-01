@@ -16,12 +16,15 @@ using Plugin.Geolocator.Abstractions;
 using MvvmHelpers;
 using Plugin.Media.Abstractions;
 using Plugin.Media;
+using Plugin.DeviceInfo;
 
 namespace MyTrips.ViewModel
 {
     public class CurrentTripViewModel : ViewModelBase
     {
         public Trip CurrentTrip { get; private set; }
+        List<Photo> photos;
+
 
         bool isRecording;
 		public bool IsRecording
@@ -37,12 +40,19 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref position, value); }
         }
 
+        string elapsedTime = "0:00";
+        public string ElapsedTime
+        {
+            get { return elapsedTime; }
+            set { SetProperty(ref elapsedTime, value); }
+        }
+
 		public CurrentTripViewModel()
 		{
 			CurrentTrip = new Trip();
 
             CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
-            CurrentTrip.Photos = new ObservableRangeCollection<Photo>();
+            photos = new List<Photo>();
 		}
 
 		public IGeolocator Geolocator => CrossGeolocator.Current;
@@ -51,14 +61,19 @@ namespace MyTrips.ViewModel
 
 
  
-        public async Task<bool> StartRecordingTripAsync()
+        public Task<bool> StartRecordingTripAsync()
         {
             if (IsBusy || IsRecording)
-                return false;
+                return Task.FromResult(false);
 
             try
             {
                 IsRecording = true;
+
+                CurrentTrip.TimeStamp = DateTime.UtcNow;
+
+                if (CurrentPosition == null)
+                    return Task.FromResult(true);
                 var trail = new Trail
                 {
                     TimeStamp = DateTime.UtcNow,
@@ -69,14 +84,15 @@ namespace MyTrips.ViewModel
 
                 CurrentTrip.Trail.Add (trail);
             }
-            catch
+            catch(Exception ex)
             {
+                Logger.Instance.Report(ex);
             }
             finally
             {
             }
 
-            return true;
+            return Task.FromResult(true);
         }
 
    
@@ -85,13 +101,27 @@ namespace MyTrips.ViewModel
             if (IsBusy || !IsRecording)
                 return false;
 
+          
+
             var track = Logger.Instance.TrackTime("SaveRecording");
-            track.Start();
+            Acr.UserDialogs.IProgressDialog progress = null;
+
+
+            if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
+                CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
+            {
+                progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
+                progress.IsDeterministic = false;
+            }
             try
             {
                 IsRecording = false;
 
+                var result = await Acr.UserDialogs.UserDialogs.Instance.PromptAsync("Name of Trip");
+                CurrentTrip.TripId = result?.Text ?? string.Empty;
+                track.Start();
                 IsBusy = true;
+                progress?.Show();
                 #if DEBUG
                 await Task.Delay(3000);
 #endif
@@ -104,12 +134,14 @@ namespace MyTrips.ViewModel
 #endif
                 CurrentTrip.Rating = 90;
                 CurrentTrip.TimeStamp = DateTime.UtcNow;
-                CurrentTrip.TotalDistance = "10 miles";
-                CurrentTrip.TripId = "James@" + DateTime.Today.Day.ToString();
+                if(string.IsNullOrWhiteSpace(CurrentTrip.TripId))
+                    CurrentTrip.TripId = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
+
+
 
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
 
-                foreach (var photo in CurrentTrip.Photos)
+                foreach (var photo in photos)
                 {
                     photo.TripId = CurrentTrip.Id;
                     await StoreManager.PhotoStore.InsertAsync(photo);
@@ -117,7 +149,7 @@ namespace MyTrips.ViewModel
 
                 CurrentTrip = new Trip();
                 CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
-                CurrentTrip.Photos = new ObservableRangeCollection<Photo>();
+                photos = new List<Photo>();
                 OnPropertyChanged(nameof(CurrentTrip));
 
                 return true;
@@ -130,6 +162,8 @@ namespace MyTrips.ViewModel
             {
                 track.Stop();
                 IsBusy = false;
+                progress?.Hide();
+                progress?.Dispose();
             }
 
             return false;
@@ -158,7 +192,13 @@ namespace MyTrips.ViewModel
 				}
 				else
 				{
-					// TODO: Show an alert letting them know about permissions via Messaging Center?
+
+                    if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
+                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
+                    {
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
+                                                                   "Geolcoation Disabled", "OK");
+                    }
 				}
 			}
 			catch (Exception ex) 
@@ -177,21 +217,14 @@ namespace MyTrips.ViewModel
 
 		public async Task ExecuteStopTrackingTripCommandAsync ()
 		{
-			if(IsBusy)
+            if(IsBusy || !IsRecording)
 				return;
 
 			try 
 			{
-
-				if (Geolocator.IsGeolocationAvailable && Geolocator.IsGeolocationEnabled)
-				{
-					Geolocator.PositionChanged -= Geolocator_PositionChanged;
-					await Geolocator.StopListeningAsync();
-				}
-				else
-				{
-					// TODO: Show an alert letting them know about permissions via Messaging Center?
-				}
+                //Unsubscribe because we were recording and it is alright
+                Geolocator.PositionChanged -= Geolocator_PositionChanged;
+				await Geolocator.StopListeningAsync();
 			}
 			catch (Exception ex) 
 			{
@@ -218,6 +251,19 @@ namespace MyTrips.ViewModel
 
 
 				CurrentTrip.Trail.Add (trail);
+
+                if (CurrentTrip.Trail.Count > 1)
+                {
+                    var previous = CurrentTrip.Trail[CurrentTrip.Trail.Count - 2];//2 back now
+                    CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude, userLocation.Longitude, previous.Latitude, previous.Longitude);
+                    OnPropertyChanged(nameof(CurrentTrip.Distance));
+                }
+                var timeDif = trail.TimeStamp - CurrentTrip.TimeStamp;
+                //track minutes first and then calculat the hours
+                if(timeDif.TotalHours > 0)
+                    ElapsedTime = $"{timeDif.Minutes}m";
+                else
+                    ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";
 			}
 
             CurrentPosition = e.Position;
@@ -234,8 +280,18 @@ namespace MyTrips.ViewModel
                 
                 await Media.Initialize();
 
-                if(!Media.IsCameraAvailable || !Media.IsTakePhotoSupported)
+                if (!Media.IsCameraAvailable || !Media.IsTakePhotoSupported)
+                {
+
+
+                    if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
+                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
+                    {
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
+                                                                   "Camera Disabled", "OK");
+                    }
                     return;
+                }
 
                 var locationTask = Geolocator.GetPositionAsync(2500);
                 var photo = await Media.TakePhotoAsync(new StoreCameraMediaOptions
@@ -252,6 +308,7 @@ namespace MyTrips.ViewModel
                     return;
                 }
 
+                Acr.UserDialogs.UserDialogs.Instance.Toast(new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Photo taken!") { Duration = TimeSpan.FromSeconds(3) });
 
                 var local = await locationTask;
                 var photoDB = new Photo
@@ -262,7 +319,6 @@ namespace MyTrips.ViewModel
                         TimeStamp = DateTime.UtcNow
                     };
 
-                //TODO: 
                 CurrentTrip.Photos.Add(photoDB);
 
                 photo.Dispose();

@@ -26,6 +26,1539 @@ namespace MyTrips.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::PCLStorage.Resource.String.ApplicationName = global::MyTrips.Droid.Resource.String.ApplicationName;
+			global::PCLStorage.Resource.String.Hello = global::MyTrips.Droid.Resource.String.Hello;
+			global::Splat.Resource.String.library_name = global::MyTrips.Droid.Resource.String.library_name;
+			global::Acr.UserDialogs.Resource.Animation.abc_fade_in = global::MyTrips.Droid.Resource.Animation.abc_fade_in;
+			global::Acr.UserDialogs.Resource.Animation.abc_fade_out = global::MyTrips.Droid.Resource.Animation.abc_fade_out;
+			global::Acr.UserDialogs.Resource.Animation.abc_grow_fade_in_from_bottom = global::MyTrips.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
+			global::Acr.UserDialogs.Resource.Animation.abc_popup_enter = global::MyTrips.Droid.Resource.Animation.abc_popup_enter;
+			global::Acr.UserDialogs.Resource.Animation.abc_popup_exit = global::MyTrips.Droid.Resource.Animation.abc_popup_exit;
+			global::Acr.UserDialogs.Resource.Animation.abc_shrink_fade_out_from_bottom = global::MyTrips.Droid.Resource.Animation.abc_shrink_fade_out_from_bottom;
+			global::Acr.UserDialogs.Resource.Animation.abc_slide_in_bottom = global::MyTrips.Droid.Resource.Animation.abc_slide_in_bottom;
+			global::Acr.UserDialogs.Resource.Animation.abc_slide_in_top = global::MyTrips.Droid.Resource.Animation.abc_slide_in_top;
+			global::Acr.UserDialogs.Resource.Animation.abc_slide_out_bottom = global::MyTrips.Droid.Resource.Animation.abc_slide_out_bottom;
+			global::Acr.UserDialogs.Resource.Animation.abc_slide_out_top = global::MyTrips.Droid.Resource.Animation.abc_slide_out_top;
+			global::Acr.UserDialogs.Resource.Animation.design_fab_in = global::MyTrips.Droid.Resource.Animation.design_fab_in;
+			global::Acr.UserDialogs.Resource.Animation.design_fab_out = global::MyTrips.Droid.Resource.Animation.design_fab_out;
+			global::Acr.UserDialogs.Resource.Animation.design_snackbar_in = global::MyTrips.Droid.Resource.Animation.design_snackbar_in;
+			global::Acr.UserDialogs.Resource.Animation.design_snackbar_out = global::MyTrips.Droid.Resource.Animation.design_snackbar_out;
+			global::Acr.UserDialogs.Resource.Attribute.actionBarDivider = global::MyTrips.Droid.Resource.Attribute.actionBarDivider;
+			global::Acr.UserDialogs.Resource.Attribute.actionBarItemBackground = global::MyTrips.Droid.Resource.Attribute.actionBarItemBackground;
+			global::Acr.UserDialogs.Resource.Attribute.actionBarPopupTheme = global::MyTrips.Droid.Resource.Attribute.actionBarPopupTheme;
+			global::Acr.UserDialogs.Resource.Attribute.actionBarSize = global::MyTrips.Droid.Resource.Attribute.actionBarSize;
+			global::Acr.UserDialogs.Resource.Attribute.actionBarSplitStyle = global::MyTrips.Droid.Resource.Attribute.actionBarSplitStyle;
+			global::Acr.UserDialogs.Resource.Attribute.actionBarStyle = global::MyTrips.Droid.Resource.Attribute.actionBarStyle;
+			global::Acr.UserDialogs.Resource.Attribute.actionBarTabBarStyle = global::MyTrips.Droid.Resource.Attribute.actionBarTabBarStyle;
+			global::Acr.UserDialogs.Resource.Attribute.actionBarTabStyle = global::MyTrips.Droid.Resource.Attribute.actionBarTabStyle;
+			global::Acr.UserDialogs.Resource.Attribute.actionBarTabTextStyle = global::MyTrips.Droid.Resource.Attribute.actionBarTabTextStyle;
+			global::Acr.UserDialogs.Resource.Attribute.actionBarTheme = global::MyTrips.Droid.Resource.Attribute.actionBarTheme;
+			global::Acr.UserDialogs.Resource.Attribute.actionBarWidgetTheme = global::MyTrips.Droid.Resource.Attribute.actionBarWidgetTheme;
+			global::Acr.UserDialogs.Resource.Attribute.actionButtonStyle = global::MyTrips.Droid.Resource.Attribute.actionButtonStyle;
+			global::Acr.UserDialogs.Resource.Attribute.actionDropDownStyle = global::MyTrips.Droid.Resource.Attribute.actionDropDownStyle;
+			global::Acr.UserDialogs.Resource.Attribute.actionLayout = global::MyTrips.Droid.Resource.Attribute.actionLayout;
+			global::Acr.UserDialogs.Resource.Attribute.actionMenuTextAppearance = global::MyTrips.Droid.Resource.Attribute.actionMenuTextAppearance;
+			global::Acr.UserDialogs.Resource.Attribute.actionMenuTextColor = global::MyTrips.Droid.Resource.Attribute.actionMenuTextColor;
+			global::Acr.UserDialogs.Resource.Attribute.actionModeBackground = global::MyTrips.Droid.Resource.Attribute.actionModeBackground;
+			global::Acr.UserDialogs.Resource.Attribute.actionModeCloseButtonStyle = global::MyTrips.Droid.Resource.Attribute.actionModeCloseButtonStyle;
+			global::Acr.UserDialogs.Resource.Attribute.actionModeCloseDrawable = global::MyTrips.Droid.Resource.Attribute.actionModeCloseDrawable;
+			global::Acr.UserDialogs.Resource.Attribute.actionModeCopyDrawable = global::MyTrips.Droid.Resource.Attribute.actionModeCopyDrawable;
+			global::Acr.UserDialogs.Resource.Attribute.actionModeCutDrawable = global::MyTrips.Droid.Resource.Attribute.actionModeCutDrawable;
+			global::Acr.UserDialogs.Resource.Attribute.actionModeFindDrawable = global::MyTrips.Droid.Resource.Attribute.actionModeFindDrawable;
+			global::Acr.UserDialogs.Resource.Attribute.actionModePasteDrawable = global::MyTrips.Droid.Resource.Attribute.actionModePasteDrawable;
+			global::Acr.UserDialogs.Resource.Attribute.actionModePopupWindowStyle = global::MyTrips.Droid.Resource.Attribute.actionModePopupWindowStyle;
+			global::Acr.UserDialogs.Resource.Attribute.actionModeSelectAllDrawable = global::MyTrips.Droid.Resource.Attribute.actionModeSelectAllDrawable;
+			global::Acr.UserDialogs.Resource.Attribute.actionModeShareDrawable = global::MyTrips.Droid.Resource.Attribute.actionModeShareDrawable;
+			global::Acr.UserDialogs.Resource.Attribute.actionModeSplitBackground = global::MyTrips.Droid.Resource.Attribute.actionModeSplitBackground;
+			global::Acr.UserDialogs.Resource.Attribute.actionModeStyle = global::MyTrips.Droid.Resource.Attribute.actionModeStyle;
+			global::Acr.UserDialogs.Resource.Attribute.actionModeWebSearchDrawable = global::MyTrips.Droid.Resource.Attribute.actionModeWebSearchDrawable;
+			global::Acr.UserDialogs.Resource.Attribute.actionOverflowButtonStyle = global::MyTrips.Droid.Resource.Attribute.actionOverflowButtonStyle;
+			global::Acr.UserDialogs.Resource.Attribute.actionOverflowMenuStyle = global::MyTrips.Droid.Resource.Attribute.actionOverflowMenuStyle;
+			global::Acr.UserDialogs.Resource.Attribute.actionProviderClass = global::MyTrips.Droid.Resource.Attribute.actionProviderClass;
+			global::Acr.UserDialogs.Resource.Attribute.actionViewClass = global::MyTrips.Droid.Resource.Attribute.actionViewClass;
+			global::Acr.UserDialogs.Resource.Attribute.activityChooserViewStyle = global::MyTrips.Droid.Resource.Attribute.activityChooserViewStyle;
+			global::Acr.UserDialogs.Resource.Attribute.ahBarColor = global::MyTrips.Droid.Resource.Attribute.ahBarColor;
+			global::Acr.UserDialogs.Resource.Attribute.ahBarLength = global::MyTrips.Droid.Resource.Attribute.ahBarLength;
+			global::Acr.UserDialogs.Resource.Attribute.ahBarWidth = global::MyTrips.Droid.Resource.Attribute.ahBarWidth;
+			global::Acr.UserDialogs.Resource.Attribute.ahCircleColor = global::MyTrips.Droid.Resource.Attribute.ahCircleColor;
+			global::Acr.UserDialogs.Resource.Attribute.ahDelayMillis = global::MyTrips.Droid.Resource.Attribute.ahDelayMillis;
+			global::Acr.UserDialogs.Resource.Attribute.ahRadius = global::MyTrips.Droid.Resource.Attribute.ahRadius;
+			global::Acr.UserDialogs.Resource.Attribute.ahRimColor = global::MyTrips.Droid.Resource.Attribute.ahRimColor;
+			global::Acr.UserDialogs.Resource.Attribute.ahRimWidth = global::MyTrips.Droid.Resource.Attribute.ahRimWidth;
+			global::Acr.UserDialogs.Resource.Attribute.ahSpinSpeed = global::MyTrips.Droid.Resource.Attribute.ahSpinSpeed;
+			global::Acr.UserDialogs.Resource.Attribute.ahText = global::MyTrips.Droid.Resource.Attribute.ahText;
+			global::Acr.UserDialogs.Resource.Attribute.ahTextColor = global::MyTrips.Droid.Resource.Attribute.ahTextColor;
+			global::Acr.UserDialogs.Resource.Attribute.ahTextSize = global::MyTrips.Droid.Resource.Attribute.ahTextSize;
+			global::Acr.UserDialogs.Resource.Attribute.alertDialogButtonGroupStyle = global::MyTrips.Droid.Resource.Attribute.alertDialogButtonGroupStyle;
+			global::Acr.UserDialogs.Resource.Attribute.alertDialogCenterButtons = global::MyTrips.Droid.Resource.Attribute.alertDialogCenterButtons;
+			global::Acr.UserDialogs.Resource.Attribute.alertDialogStyle = global::MyTrips.Droid.Resource.Attribute.alertDialogStyle;
+			global::Acr.UserDialogs.Resource.Attribute.alertDialogTheme = global::MyTrips.Droid.Resource.Attribute.alertDialogTheme;
+			global::Acr.UserDialogs.Resource.Attribute.allowStacking = global::MyTrips.Droid.Resource.Attribute.allowStacking;
+			global::Acr.UserDialogs.Resource.Attribute.arrowHeadLength = global::MyTrips.Droid.Resource.Attribute.arrowHeadLength;
+			global::Acr.UserDialogs.Resource.Attribute.arrowShaftLength = global::MyTrips.Droid.Resource.Attribute.arrowShaftLength;
+			global::Acr.UserDialogs.Resource.Attribute.autoCompleteTextViewStyle = global::MyTrips.Droid.Resource.Attribute.autoCompleteTextViewStyle;
+			global::Acr.UserDialogs.Resource.Attribute.background = global::MyTrips.Droid.Resource.Attribute.background;
+			global::Acr.UserDialogs.Resource.Attribute.backgroundSplit = global::MyTrips.Droid.Resource.Attribute.backgroundSplit;
+			global::Acr.UserDialogs.Resource.Attribute.backgroundStacked = global::MyTrips.Droid.Resource.Attribute.backgroundStacked;
+			global::Acr.UserDialogs.Resource.Attribute.backgroundTint = global::MyTrips.Droid.Resource.Attribute.backgroundTint;
+			global::Acr.UserDialogs.Resource.Attribute.backgroundTintMode = global::MyTrips.Droid.Resource.Attribute.backgroundTintMode;
+			global::Acr.UserDialogs.Resource.Attribute.barLength = global::MyTrips.Droid.Resource.Attribute.barLength;
+			global::Acr.UserDialogs.Resource.Attribute.behavior_overlapTop = global::MyTrips.Droid.Resource.Attribute.behavior_overlapTop;
+			global::Acr.UserDialogs.Resource.Attribute.borderWidth = global::MyTrips.Droid.Resource.Attribute.borderWidth;
+			global::Acr.UserDialogs.Resource.Attribute.borderlessButtonStyle = global::MyTrips.Droid.Resource.Attribute.borderlessButtonStyle;
+			global::Acr.UserDialogs.Resource.Attribute.buttonBarButtonStyle = global::MyTrips.Droid.Resource.Attribute.buttonBarButtonStyle;
+			global::Acr.UserDialogs.Resource.Attribute.buttonBarNegativeButtonStyle = global::MyTrips.Droid.Resource.Attribute.buttonBarNegativeButtonStyle;
+			global::Acr.UserDialogs.Resource.Attribute.buttonBarNeutralButtonStyle = global::MyTrips.Droid.Resource.Attribute.buttonBarNeutralButtonStyle;
+			global::Acr.UserDialogs.Resource.Attribute.buttonBarPositiveButtonStyle = global::MyTrips.Droid.Resource.Attribute.buttonBarPositiveButtonStyle;
+			global::Acr.UserDialogs.Resource.Attribute.buttonBarStyle = global::MyTrips.Droid.Resource.Attribute.buttonBarStyle;
+			global::Acr.UserDialogs.Resource.Attribute.buttonPanelSideLayout = global::MyTrips.Droid.Resource.Attribute.buttonPanelSideLayout;
+			global::Acr.UserDialogs.Resource.Attribute.buttonStyle = global::MyTrips.Droid.Resource.Attribute.buttonStyle;
+			global::Acr.UserDialogs.Resource.Attribute.buttonStyleSmall = global::MyTrips.Droid.Resource.Attribute.buttonStyleSmall;
+			global::Acr.UserDialogs.Resource.Attribute.buttonTint = global::MyTrips.Droid.Resource.Attribute.buttonTint;
+			global::Acr.UserDialogs.Resource.Attribute.buttonTintMode = global::MyTrips.Droid.Resource.Attribute.buttonTintMode;
+			global::Acr.UserDialogs.Resource.Attribute.checkboxStyle = global::MyTrips.Droid.Resource.Attribute.checkboxStyle;
+			global::Acr.UserDialogs.Resource.Attribute.checkedTextViewStyle = global::MyTrips.Droid.Resource.Attribute.checkedTextViewStyle;
+			global::Acr.UserDialogs.Resource.Attribute.closeIcon = global::MyTrips.Droid.Resource.Attribute.closeIcon;
+			global::Acr.UserDialogs.Resource.Attribute.closeItemLayout = global::MyTrips.Droid.Resource.Attribute.closeItemLayout;
+			global::Acr.UserDialogs.Resource.Attribute.collapseContentDescription = global::MyTrips.Droid.Resource.Attribute.collapseContentDescription;
+			global::Acr.UserDialogs.Resource.Attribute.collapseIcon = global::MyTrips.Droid.Resource.Attribute.collapseIcon;
+			global::Acr.UserDialogs.Resource.Attribute.collapsedTitleGravity = global::MyTrips.Droid.Resource.Attribute.collapsedTitleGravity;
+			global::Acr.UserDialogs.Resource.Attribute.collapsedTitleTextAppearance = global::MyTrips.Droid.Resource.Attribute.collapsedTitleTextAppearance;
+			global::Acr.UserDialogs.Resource.Attribute.color = global::MyTrips.Droid.Resource.Attribute.color;
+			global::Acr.UserDialogs.Resource.Attribute.colorAccent = global::MyTrips.Droid.Resource.Attribute.colorAccent;
+			global::Acr.UserDialogs.Resource.Attribute.colorButtonNormal = global::MyTrips.Droid.Resource.Attribute.colorButtonNormal;
+			global::Acr.UserDialogs.Resource.Attribute.colorControlActivated = global::MyTrips.Droid.Resource.Attribute.colorControlActivated;
+			global::Acr.UserDialogs.Resource.Attribute.colorControlHighlight = global::MyTrips.Droid.Resource.Attribute.colorControlHighlight;
+			global::Acr.UserDialogs.Resource.Attribute.colorControlNormal = global::MyTrips.Droid.Resource.Attribute.colorControlNormal;
+			global::Acr.UserDialogs.Resource.Attribute.colorPrimary = global::MyTrips.Droid.Resource.Attribute.colorPrimary;
+			global::Acr.UserDialogs.Resource.Attribute.colorPrimaryDark = global::MyTrips.Droid.Resource.Attribute.colorPrimaryDark;
+			global::Acr.UserDialogs.Resource.Attribute.colorSwitchThumbNormal = global::MyTrips.Droid.Resource.Attribute.colorSwitchThumbNormal;
+			global::Acr.UserDialogs.Resource.Attribute.commitIcon = global::MyTrips.Droid.Resource.Attribute.commitIcon;
+			global::Acr.UserDialogs.Resource.Attribute.contentInsetEnd = global::MyTrips.Droid.Resource.Attribute.contentInsetEnd;
+			global::Acr.UserDialogs.Resource.Attribute.contentInsetLeft = global::MyTrips.Droid.Resource.Attribute.contentInsetLeft;
+			global::Acr.UserDialogs.Resource.Attribute.contentInsetRight = global::MyTrips.Droid.Resource.Attribute.contentInsetRight;
+			global::Acr.UserDialogs.Resource.Attribute.contentInsetStart = global::MyTrips.Droid.Resource.Attribute.contentInsetStart;
+			global::Acr.UserDialogs.Resource.Attribute.contentScrim = global::MyTrips.Droid.Resource.Attribute.contentScrim;
+			global::Acr.UserDialogs.Resource.Attribute.controlBackground = global::MyTrips.Droid.Resource.Attribute.controlBackground;
+			global::Acr.UserDialogs.Resource.Attribute.counterEnabled = global::MyTrips.Droid.Resource.Attribute.counterEnabled;
+			global::Acr.UserDialogs.Resource.Attribute.counterMaxLength = global::MyTrips.Droid.Resource.Attribute.counterMaxLength;
+			global::Acr.UserDialogs.Resource.Attribute.counterOverflowTextAppearance = global::MyTrips.Droid.Resource.Attribute.counterOverflowTextAppearance;
+			global::Acr.UserDialogs.Resource.Attribute.counterTextAppearance = global::MyTrips.Droid.Resource.Attribute.counterTextAppearance;
+			global::Acr.UserDialogs.Resource.Attribute.customNavigationLayout = global::MyTrips.Droid.Resource.Attribute.customNavigationLayout;
+			global::Acr.UserDialogs.Resource.Attribute.defaultQueryHint = global::MyTrips.Droid.Resource.Attribute.defaultQueryHint;
+			global::Acr.UserDialogs.Resource.Attribute.dialogPreferredPadding = global::MyTrips.Droid.Resource.Attribute.dialogPreferredPadding;
+			global::Acr.UserDialogs.Resource.Attribute.dialogTheme = global::MyTrips.Droid.Resource.Attribute.dialogTheme;
+			global::Acr.UserDialogs.Resource.Attribute.displayOptions = global::MyTrips.Droid.Resource.Attribute.displayOptions;
+			global::Acr.UserDialogs.Resource.Attribute.divider = global::MyTrips.Droid.Resource.Attribute.divider;
+			global::Acr.UserDialogs.Resource.Attribute.dividerHorizontal = global::MyTrips.Droid.Resource.Attribute.dividerHorizontal;
+			global::Acr.UserDialogs.Resource.Attribute.dividerPadding = global::MyTrips.Droid.Resource.Attribute.dividerPadding;
+			global::Acr.UserDialogs.Resource.Attribute.dividerVertical = global::MyTrips.Droid.Resource.Attribute.dividerVertical;
+			global::Acr.UserDialogs.Resource.Attribute.drawableSize = global::MyTrips.Droid.Resource.Attribute.drawableSize;
+			global::Acr.UserDialogs.Resource.Attribute.drawerArrowStyle = global::MyTrips.Droid.Resource.Attribute.drawerArrowStyle;
+			global::Acr.UserDialogs.Resource.Attribute.dropDownListViewStyle = global::MyTrips.Droid.Resource.Attribute.dropDownListViewStyle;
+			global::Acr.UserDialogs.Resource.Attribute.dropdownListPreferredItemHeight = global::MyTrips.Droid.Resource.Attribute.dropdownListPreferredItemHeight;
+			global::Acr.UserDialogs.Resource.Attribute.editTextBackground = global::MyTrips.Droid.Resource.Attribute.editTextBackground;
+			global::Acr.UserDialogs.Resource.Attribute.editTextColor = global::MyTrips.Droid.Resource.Attribute.editTextColor;
+			global::Acr.UserDialogs.Resource.Attribute.editTextStyle = global::MyTrips.Droid.Resource.Attribute.editTextStyle;
+			global::Acr.UserDialogs.Resource.Attribute.elevation = global::MyTrips.Droid.Resource.Attribute.elevation;
+			global::Acr.UserDialogs.Resource.Attribute.errorEnabled = global::MyTrips.Droid.Resource.Attribute.errorEnabled;
+			global::Acr.UserDialogs.Resource.Attribute.errorTextAppearance = global::MyTrips.Droid.Resource.Attribute.errorTextAppearance;
+			global::Acr.UserDialogs.Resource.Attribute.expandActivityOverflowButtonDrawable = global::MyTrips.Droid.Resource.Attribute.expandActivityOverflowButtonDrawable;
+			global::Acr.UserDialogs.Resource.Attribute.expanded = global::MyTrips.Droid.Resource.Attribute.expanded;
+			global::Acr.UserDialogs.Resource.Attribute.expandedTitleGravity = global::MyTrips.Droid.Resource.Attribute.expandedTitleGravity;
+			global::Acr.UserDialogs.Resource.Attribute.expandedTitleMargin = global::MyTrips.Droid.Resource.Attribute.expandedTitleMargin;
+			global::Acr.UserDialogs.Resource.Attribute.expandedTitleMarginBottom = global::MyTrips.Droid.Resource.Attribute.expandedTitleMarginBottom;
+			global::Acr.UserDialogs.Resource.Attribute.expandedTitleMarginEnd = global::MyTrips.Droid.Resource.Attribute.expandedTitleMarginEnd;
+			global::Acr.UserDialogs.Resource.Attribute.expandedTitleMarginStart = global::MyTrips.Droid.Resource.Attribute.expandedTitleMarginStart;
+			global::Acr.UserDialogs.Resource.Attribute.expandedTitleMarginTop = global::MyTrips.Droid.Resource.Attribute.expandedTitleMarginTop;
+			global::Acr.UserDialogs.Resource.Attribute.expandedTitleTextAppearance = global::MyTrips.Droid.Resource.Attribute.expandedTitleTextAppearance;
+			global::Acr.UserDialogs.Resource.Attribute.fabSize = global::MyTrips.Droid.Resource.Attribute.fabSize;
+			global::Acr.UserDialogs.Resource.Attribute.foregroundInsidePadding = global::MyTrips.Droid.Resource.Attribute.foregroundInsidePadding;
+			global::Acr.UserDialogs.Resource.Attribute.gapBetweenBars = global::MyTrips.Droid.Resource.Attribute.gapBetweenBars;
+			global::Acr.UserDialogs.Resource.Attribute.goIcon = global::MyTrips.Droid.Resource.Attribute.goIcon;
+			global::Acr.UserDialogs.Resource.Attribute.headerLayout = global::MyTrips.Droid.Resource.Attribute.headerLayout;
+			global::Acr.UserDialogs.Resource.Attribute.height = global::MyTrips.Droid.Resource.Attribute.height;
+			global::Acr.UserDialogs.Resource.Attribute.hideOnContentScroll = global::MyTrips.Droid.Resource.Attribute.hideOnContentScroll;
+			global::Acr.UserDialogs.Resource.Attribute.hintAnimationEnabled = global::MyTrips.Droid.Resource.Attribute.hintAnimationEnabled;
+			global::Acr.UserDialogs.Resource.Attribute.hintTextAppearance = global::MyTrips.Droid.Resource.Attribute.hintTextAppearance;
+			global::Acr.UserDialogs.Resource.Attribute.homeAsUpIndicator = global::MyTrips.Droid.Resource.Attribute.homeAsUpIndicator;
+			global::Acr.UserDialogs.Resource.Attribute.homeLayout = global::MyTrips.Droid.Resource.Attribute.homeLayout;
+			global::Acr.UserDialogs.Resource.Attribute.icon = global::MyTrips.Droid.Resource.Attribute.icon;
+			global::Acr.UserDialogs.Resource.Attribute.iconifiedByDefault = global::MyTrips.Droid.Resource.Attribute.iconifiedByDefault;
+			global::Acr.UserDialogs.Resource.Attribute.imageButtonStyle = global::MyTrips.Droid.Resource.Attribute.imageButtonStyle;
+			global::Acr.UserDialogs.Resource.Attribute.indeterminateProgressStyle = global::MyTrips.Droid.Resource.Attribute.indeterminateProgressStyle;
+			global::Acr.UserDialogs.Resource.Attribute.initialActivityCount = global::MyTrips.Droid.Resource.Attribute.initialActivityCount;
+			global::Acr.UserDialogs.Resource.Attribute.insetForeground = global::MyTrips.Droid.Resource.Attribute.insetForeground;
+			global::Acr.UserDialogs.Resource.Attribute.isLightTheme = global::MyTrips.Droid.Resource.Attribute.isLightTheme;
+			global::Acr.UserDialogs.Resource.Attribute.itemBackground = global::MyTrips.Droid.Resource.Attribute.itemBackground;
+			global::Acr.UserDialogs.Resource.Attribute.itemIconTint = global::MyTrips.Droid.Resource.Attribute.itemIconTint;
+			global::Acr.UserDialogs.Resource.Attribute.itemPadding = global::MyTrips.Droid.Resource.Attribute.itemPadding;
+			global::Acr.UserDialogs.Resource.Attribute.itemTextAppearance = global::MyTrips.Droid.Resource.Attribute.itemTextAppearance;
+			global::Acr.UserDialogs.Resource.Attribute.itemTextColor = global::MyTrips.Droid.Resource.Attribute.itemTextColor;
+			global::Acr.UserDialogs.Resource.Attribute.keylines = global::MyTrips.Droid.Resource.Attribute.keylines;
+			global::Acr.UserDialogs.Resource.Attribute.layout = global::MyTrips.Droid.Resource.Attribute.layout;
+			global::Acr.UserDialogs.Resource.Attribute.layoutManager = global::MyTrips.Droid.Resource.Attribute.layoutManager;
+			global::Acr.UserDialogs.Resource.Attribute.layout_anchor = global::MyTrips.Droid.Resource.Attribute.layout_anchor;
+			global::Acr.UserDialogs.Resource.Attribute.layout_anchorGravity = global::MyTrips.Droid.Resource.Attribute.layout_anchorGravity;
+			global::Acr.UserDialogs.Resource.Attribute.layout_behavior = global::MyTrips.Droid.Resource.Attribute.layout_behavior;
+			global::Acr.UserDialogs.Resource.Attribute.layout_collapseMode = global::MyTrips.Droid.Resource.Attribute.layout_collapseMode;
+			global::Acr.UserDialogs.Resource.Attribute.layout_collapseParallaxMultiplier = global::MyTrips.Droid.Resource.Attribute.layout_collapseParallaxMultiplier;
+			global::Acr.UserDialogs.Resource.Attribute.layout_keyline = global::MyTrips.Droid.Resource.Attribute.layout_keyline;
+			global::Acr.UserDialogs.Resource.Attribute.layout_scrollFlags = global::MyTrips.Droid.Resource.Attribute.layout_scrollFlags;
+			global::Acr.UserDialogs.Resource.Attribute.layout_scrollInterpolator = global::MyTrips.Droid.Resource.Attribute.layout_scrollInterpolator;
+			global::Acr.UserDialogs.Resource.Attribute.listChoiceBackgroundIndicator = global::MyTrips.Droid.Resource.Attribute.listChoiceBackgroundIndicator;
+			global::Acr.UserDialogs.Resource.Attribute.listDividerAlertDialog = global::MyTrips.Droid.Resource.Attribute.listDividerAlertDialog;
+			global::Acr.UserDialogs.Resource.Attribute.listItemLayout = global::MyTrips.Droid.Resource.Attribute.listItemLayout;
+			global::Acr.UserDialogs.Resource.Attribute.listLayout = global::MyTrips.Droid.Resource.Attribute.listLayout;
+			global::Acr.UserDialogs.Resource.Attribute.listPopupWindowStyle = global::MyTrips.Droid.Resource.Attribute.listPopupWindowStyle;
+			global::Acr.UserDialogs.Resource.Attribute.listPreferredItemHeight = global::MyTrips.Droid.Resource.Attribute.listPreferredItemHeight;
+			global::Acr.UserDialogs.Resource.Attribute.listPreferredItemHeightLarge = global::MyTrips.Droid.Resource.Attribute.listPreferredItemHeightLarge;
+			global::Acr.UserDialogs.Resource.Attribute.listPreferredItemHeightSmall = global::MyTrips.Droid.Resource.Attribute.listPreferredItemHeightSmall;
+			global::Acr.UserDialogs.Resource.Attribute.listPreferredItemPaddingLeft = global::MyTrips.Droid.Resource.Attribute.listPreferredItemPaddingLeft;
+			global::Acr.UserDialogs.Resource.Attribute.listPreferredItemPaddingRight = global::MyTrips.Droid.Resource.Attribute.listPreferredItemPaddingRight;
+			global::Acr.UserDialogs.Resource.Attribute.logo = global::MyTrips.Droid.Resource.Attribute.logo;
+			global::Acr.UserDialogs.Resource.Attribute.logoDescription = global::MyTrips.Droid.Resource.Attribute.logoDescription;
+			global::Acr.UserDialogs.Resource.Attribute.maxActionInlineWidth = global::MyTrips.Droid.Resource.Attribute.maxActionInlineWidth;
+			global::Acr.UserDialogs.Resource.Attribute.maxButtonHeight = global::MyTrips.Droid.Resource.Attribute.maxButtonHeight;
+			global::Acr.UserDialogs.Resource.Attribute.measureWithLargestChild = global::MyTrips.Droid.Resource.Attribute.measureWithLargestChild;
+			global::Acr.UserDialogs.Resource.Attribute.menu = global::MyTrips.Droid.Resource.Attribute.menu;
+			global::Acr.UserDialogs.Resource.Attribute.multiChoiceItemLayout = global::MyTrips.Droid.Resource.Attribute.multiChoiceItemLayout;
+			global::Acr.UserDialogs.Resource.Attribute.navigationContentDescription = global::MyTrips.Droid.Resource.Attribute.navigationContentDescription;
+			global::Acr.UserDialogs.Resource.Attribute.navigationIcon = global::MyTrips.Droid.Resource.Attribute.navigationIcon;
+			global::Acr.UserDialogs.Resource.Attribute.navigationMode = global::MyTrips.Droid.Resource.Attribute.navigationMode;
+			global::Acr.UserDialogs.Resource.Attribute.overlapAnchor = global::MyTrips.Droid.Resource.Attribute.overlapAnchor;
+			global::Acr.UserDialogs.Resource.Attribute.paddingEnd = global::MyTrips.Droid.Resource.Attribute.paddingEnd;
+			global::Acr.UserDialogs.Resource.Attribute.paddingStart = global::MyTrips.Droid.Resource.Attribute.paddingStart;
+			global::Acr.UserDialogs.Resource.Attribute.panelBackground = global::MyTrips.Droid.Resource.Attribute.panelBackground;
+			global::Acr.UserDialogs.Resource.Attribute.panelMenuListTheme = global::MyTrips.Droid.Resource.Attribute.panelMenuListTheme;
+			global::Acr.UserDialogs.Resource.Attribute.panelMenuListWidth = global::MyTrips.Droid.Resource.Attribute.panelMenuListWidth;
+			global::Acr.UserDialogs.Resource.Attribute.popupMenuStyle = global::MyTrips.Droid.Resource.Attribute.popupMenuStyle;
+			global::Acr.UserDialogs.Resource.Attribute.popupTheme = global::MyTrips.Droid.Resource.Attribute.popupTheme;
+			global::Acr.UserDialogs.Resource.Attribute.popupWindowStyle = global::MyTrips.Droid.Resource.Attribute.popupWindowStyle;
+			global::Acr.UserDialogs.Resource.Attribute.preserveIconSpacing = global::MyTrips.Droid.Resource.Attribute.preserveIconSpacing;
+			global::Acr.UserDialogs.Resource.Attribute.pressedTranslationZ = global::MyTrips.Droid.Resource.Attribute.pressedTranslationZ;
+			global::Acr.UserDialogs.Resource.Attribute.progressBarPadding = global::MyTrips.Droid.Resource.Attribute.progressBarPadding;
+			global::Acr.UserDialogs.Resource.Attribute.progressBarStyle = global::MyTrips.Droid.Resource.Attribute.progressBarStyle;
+			global::Acr.UserDialogs.Resource.Attribute.queryBackground = global::MyTrips.Droid.Resource.Attribute.queryBackground;
+			global::Acr.UserDialogs.Resource.Attribute.queryHint = global::MyTrips.Droid.Resource.Attribute.queryHint;
+			global::Acr.UserDialogs.Resource.Attribute.radioButtonStyle = global::MyTrips.Droid.Resource.Attribute.radioButtonStyle;
+			global::Acr.UserDialogs.Resource.Attribute.ratingBarStyle = global::MyTrips.Droid.Resource.Attribute.ratingBarStyle;
+			global::Acr.UserDialogs.Resource.Attribute.reverseLayout = global::MyTrips.Droid.Resource.Attribute.reverseLayout;
+			global::Acr.UserDialogs.Resource.Attribute.rippleColor = global::MyTrips.Droid.Resource.Attribute.rippleColor;
+			global::Acr.UserDialogs.Resource.Attribute.searchHintIcon = global::MyTrips.Droid.Resource.Attribute.searchHintIcon;
+			global::Acr.UserDialogs.Resource.Attribute.searchIcon = global::MyTrips.Droid.Resource.Attribute.searchIcon;
+			global::Acr.UserDialogs.Resource.Attribute.searchViewStyle = global::MyTrips.Droid.Resource.Attribute.searchViewStyle;
+			global::Acr.UserDialogs.Resource.Attribute.seekBarStyle = global::MyTrips.Droid.Resource.Attribute.seekBarStyle;
+			global::Acr.UserDialogs.Resource.Attribute.selectableItemBackground = global::MyTrips.Droid.Resource.Attribute.selectableItemBackground;
+			global::Acr.UserDialogs.Resource.Attribute.selectableItemBackgroundBorderless = global::MyTrips.Droid.Resource.Attribute.selectableItemBackgroundBorderless;
+			global::Acr.UserDialogs.Resource.Attribute.showAsAction = global::MyTrips.Droid.Resource.Attribute.showAsAction;
+			global::Acr.UserDialogs.Resource.Attribute.showDividers = global::MyTrips.Droid.Resource.Attribute.showDividers;
+			global::Acr.UserDialogs.Resource.Attribute.showText = global::MyTrips.Droid.Resource.Attribute.showText;
+			global::Acr.UserDialogs.Resource.Attribute.singleChoiceItemLayout = global::MyTrips.Droid.Resource.Attribute.singleChoiceItemLayout;
+			global::Acr.UserDialogs.Resource.Attribute.spanCount = global::MyTrips.Droid.Resource.Attribute.spanCount;
+			global::Acr.UserDialogs.Resource.Attribute.spinBars = global::MyTrips.Droid.Resource.Attribute.spinBars;
+			global::Acr.UserDialogs.Resource.Attribute.spinnerDropDownItemStyle = global::MyTrips.Droid.Resource.Attribute.spinnerDropDownItemStyle;
+			global::Acr.UserDialogs.Resource.Attribute.spinnerStyle = global::MyTrips.Droid.Resource.Attribute.spinnerStyle;
+			global::Acr.UserDialogs.Resource.Attribute.splitTrack = global::MyTrips.Droid.Resource.Attribute.splitTrack;
+			global::Acr.UserDialogs.Resource.Attribute.stackFromEnd = global::MyTrips.Droid.Resource.Attribute.stackFromEnd;
+			global::Acr.UserDialogs.Resource.Attribute.state_above_anchor = global::MyTrips.Droid.Resource.Attribute.state_above_anchor;
+			global::Acr.UserDialogs.Resource.Attribute.statusBarBackground = global::MyTrips.Droid.Resource.Attribute.statusBarBackground;
+			global::Acr.UserDialogs.Resource.Attribute.statusBarScrim = global::MyTrips.Droid.Resource.Attribute.statusBarScrim;
+			global::Acr.UserDialogs.Resource.Attribute.submitBackground = global::MyTrips.Droid.Resource.Attribute.submitBackground;
+			global::Acr.UserDialogs.Resource.Attribute.subtitle = global::MyTrips.Droid.Resource.Attribute.subtitle;
+			global::Acr.UserDialogs.Resource.Attribute.subtitleTextAppearance = global::MyTrips.Droid.Resource.Attribute.subtitleTextAppearance;
+			global::Acr.UserDialogs.Resource.Attribute.subtitleTextColor = global::MyTrips.Droid.Resource.Attribute.subtitleTextColor;
+			global::Acr.UserDialogs.Resource.Attribute.subtitleTextStyle = global::MyTrips.Droid.Resource.Attribute.subtitleTextStyle;
+			global::Acr.UserDialogs.Resource.Attribute.suggestionRowLayout = global::MyTrips.Droid.Resource.Attribute.suggestionRowLayout;
+			global::Acr.UserDialogs.Resource.Attribute.switchMinWidth = global::MyTrips.Droid.Resource.Attribute.switchMinWidth;
+			global::Acr.UserDialogs.Resource.Attribute.switchPadding = global::MyTrips.Droid.Resource.Attribute.switchPadding;
+			global::Acr.UserDialogs.Resource.Attribute.switchStyle = global::MyTrips.Droid.Resource.Attribute.switchStyle;
+			global::Acr.UserDialogs.Resource.Attribute.switchTextAppearance = global::MyTrips.Droid.Resource.Attribute.switchTextAppearance;
+			global::Acr.UserDialogs.Resource.Attribute.tabBackground = global::MyTrips.Droid.Resource.Attribute.tabBackground;
+			global::Acr.UserDialogs.Resource.Attribute.tabContentStart = global::MyTrips.Droid.Resource.Attribute.tabContentStart;
+			global::Acr.UserDialogs.Resource.Attribute.tabGravity = global::MyTrips.Droid.Resource.Attribute.tabGravity;
+			global::Acr.UserDialogs.Resource.Attribute.tabIndicatorColor = global::MyTrips.Droid.Resource.Attribute.tabIndicatorColor;
+			global::Acr.UserDialogs.Resource.Attribute.tabIndicatorHeight = global::MyTrips.Droid.Resource.Attribute.tabIndicatorHeight;
+			global::Acr.UserDialogs.Resource.Attribute.tabMaxWidth = global::MyTrips.Droid.Resource.Attribute.tabMaxWidth;
+			global::Acr.UserDialogs.Resource.Attribute.tabMinWidth = global::MyTrips.Droid.Resource.Attribute.tabMinWidth;
+			global::Acr.UserDialogs.Resource.Attribute.tabMode = global::MyTrips.Droid.Resource.Attribute.tabMode;
+			global::Acr.UserDialogs.Resource.Attribute.tabPadding = global::MyTrips.Droid.Resource.Attribute.tabPadding;
+			global::Acr.UserDialogs.Resource.Attribute.tabPaddingBottom = global::MyTrips.Droid.Resource.Attribute.tabPaddingBottom;
+			global::Acr.UserDialogs.Resource.Attribute.tabPaddingEnd = global::MyTrips.Droid.Resource.Attribute.tabPaddingEnd;
+			global::Acr.UserDialogs.Resource.Attribute.tabPaddingStart = global::MyTrips.Droid.Resource.Attribute.tabPaddingStart;
+			global::Acr.UserDialogs.Resource.Attribute.tabPaddingTop = global::MyTrips.Droid.Resource.Attribute.tabPaddingTop;
+			global::Acr.UserDialogs.Resource.Attribute.tabSelectedTextColor = global::MyTrips.Droid.Resource.Attribute.tabSelectedTextColor;
+			global::Acr.UserDialogs.Resource.Attribute.tabTextAppearance = global::MyTrips.Droid.Resource.Attribute.tabTextAppearance;
+			global::Acr.UserDialogs.Resource.Attribute.tabTextColor = global::MyTrips.Droid.Resource.Attribute.tabTextColor;
+			global::Acr.UserDialogs.Resource.Attribute.textAllCaps = global::MyTrips.Droid.Resource.Attribute.textAllCaps;
+			global::Acr.UserDialogs.Resource.Attribute.textAppearanceLargePopupMenu = global::MyTrips.Droid.Resource.Attribute.textAppearanceLargePopupMenu;
+			global::Acr.UserDialogs.Resource.Attribute.textAppearanceListItem = global::MyTrips.Droid.Resource.Attribute.textAppearanceListItem;
+			global::Acr.UserDialogs.Resource.Attribute.textAppearanceListItemSmall = global::MyTrips.Droid.Resource.Attribute.textAppearanceListItemSmall;
+			global::Acr.UserDialogs.Resource.Attribute.textAppearanceSearchResultSubtitle = global::MyTrips.Droid.Resource.Attribute.textAppearanceSearchResultSubtitle;
+			global::Acr.UserDialogs.Resource.Attribute.textAppearanceSearchResultTitle = global::MyTrips.Droid.Resource.Attribute.textAppearanceSearchResultTitle;
+			global::Acr.UserDialogs.Resource.Attribute.textAppearanceSmallPopupMenu = global::MyTrips.Droid.Resource.Attribute.textAppearanceSmallPopupMenu;
+			global::Acr.UserDialogs.Resource.Attribute.textColorAlertDialogListItem = global::MyTrips.Droid.Resource.Attribute.textColorAlertDialogListItem;
+			global::Acr.UserDialogs.Resource.Attribute.textColorSearchUrl = global::MyTrips.Droid.Resource.Attribute.textColorSearchUrl;
+			global::Acr.UserDialogs.Resource.Attribute.theme = global::MyTrips.Droid.Resource.Attribute.theme;
+			global::Acr.UserDialogs.Resource.Attribute.thickness = global::MyTrips.Droid.Resource.Attribute.thickness;
+			global::Acr.UserDialogs.Resource.Attribute.thumbTextPadding = global::MyTrips.Droid.Resource.Attribute.thumbTextPadding;
+			global::Acr.UserDialogs.Resource.Attribute.title = global::MyTrips.Droid.Resource.Attribute.title;
+			global::Acr.UserDialogs.Resource.Attribute.titleEnabled = global::MyTrips.Droid.Resource.Attribute.titleEnabled;
+			global::Acr.UserDialogs.Resource.Attribute.titleMarginBottom = global::MyTrips.Droid.Resource.Attribute.titleMarginBottom;
+			global::Acr.UserDialogs.Resource.Attribute.titleMarginEnd = global::MyTrips.Droid.Resource.Attribute.titleMarginEnd;
+			global::Acr.UserDialogs.Resource.Attribute.titleMarginStart = global::MyTrips.Droid.Resource.Attribute.titleMarginStart;
+			global::Acr.UserDialogs.Resource.Attribute.titleMarginTop = global::MyTrips.Droid.Resource.Attribute.titleMarginTop;
+			global::Acr.UserDialogs.Resource.Attribute.titleMargins = global::MyTrips.Droid.Resource.Attribute.titleMargins;
+			global::Acr.UserDialogs.Resource.Attribute.titleTextAppearance = global::MyTrips.Droid.Resource.Attribute.titleTextAppearance;
+			global::Acr.UserDialogs.Resource.Attribute.titleTextColor = global::MyTrips.Droid.Resource.Attribute.titleTextColor;
+			global::Acr.UserDialogs.Resource.Attribute.titleTextStyle = global::MyTrips.Droid.Resource.Attribute.titleTextStyle;
+			global::Acr.UserDialogs.Resource.Attribute.toolbarId = global::MyTrips.Droid.Resource.Attribute.toolbarId;
+			global::Acr.UserDialogs.Resource.Attribute.toolbarNavigationButtonStyle = global::MyTrips.Droid.Resource.Attribute.toolbarNavigationButtonStyle;
+			global::Acr.UserDialogs.Resource.Attribute.toolbarStyle = global::MyTrips.Droid.Resource.Attribute.toolbarStyle;
+			global::Acr.UserDialogs.Resource.Attribute.track = global::MyTrips.Droid.Resource.Attribute.track;
+			global::Acr.UserDialogs.Resource.Attribute.voiceIcon = global::MyTrips.Droid.Resource.Attribute.voiceIcon;
+			global::Acr.UserDialogs.Resource.Attribute.windowActionBar = global::MyTrips.Droid.Resource.Attribute.windowActionBar;
+			global::Acr.UserDialogs.Resource.Attribute.windowActionBarOverlay = global::MyTrips.Droid.Resource.Attribute.windowActionBarOverlay;
+			global::Acr.UserDialogs.Resource.Attribute.windowActionModeOverlay = global::MyTrips.Droid.Resource.Attribute.windowActionModeOverlay;
+			global::Acr.UserDialogs.Resource.Attribute.windowFixedHeightMajor = global::MyTrips.Droid.Resource.Attribute.windowFixedHeightMajor;
+			global::Acr.UserDialogs.Resource.Attribute.windowFixedHeightMinor = global::MyTrips.Droid.Resource.Attribute.windowFixedHeightMinor;
+			global::Acr.UserDialogs.Resource.Attribute.windowFixedWidthMajor = global::MyTrips.Droid.Resource.Attribute.windowFixedWidthMajor;
+			global::Acr.UserDialogs.Resource.Attribute.windowFixedWidthMinor = global::MyTrips.Droid.Resource.Attribute.windowFixedWidthMinor;
+			global::Acr.UserDialogs.Resource.Attribute.windowMinWidthMajor = global::MyTrips.Droid.Resource.Attribute.windowMinWidthMajor;
+			global::Acr.UserDialogs.Resource.Attribute.windowMinWidthMinor = global::MyTrips.Droid.Resource.Attribute.windowMinWidthMinor;
+			global::Acr.UserDialogs.Resource.Attribute.windowNoTitle = global::MyTrips.Droid.Resource.Attribute.windowNoTitle;
+			global::Acr.UserDialogs.Resource.Boolean.abc_action_bar_embed_tabs = global::MyTrips.Droid.Resource.Boolean.abc_action_bar_embed_tabs;
+			global::Acr.UserDialogs.Resource.Boolean.abc_action_bar_embed_tabs_pre_jb = global::MyTrips.Droid.Resource.Boolean.abc_action_bar_embed_tabs_pre_jb;
+			global::Acr.UserDialogs.Resource.Boolean.abc_action_bar_expanded_action_views_exclusive = global::MyTrips.Droid.Resource.Boolean.abc_action_bar_expanded_action_views_exclusive;
+			global::Acr.UserDialogs.Resource.Boolean.abc_allow_stacked_button_bar = global::MyTrips.Droid.Resource.Boolean.abc_allow_stacked_button_bar;
+			global::Acr.UserDialogs.Resource.Boolean.abc_config_actionMenuItemAllCaps = global::MyTrips.Droid.Resource.Boolean.abc_config_actionMenuItemAllCaps;
+			global::Acr.UserDialogs.Resource.Boolean.abc_config_allowActionMenuItemTextWithIcon = global::MyTrips.Droid.Resource.Boolean.abc_config_allowActionMenuItemTextWithIcon;
+			global::Acr.UserDialogs.Resource.Boolean.abc_config_closeDialogWhenTouchOutside = global::MyTrips.Droid.Resource.Boolean.abc_config_closeDialogWhenTouchOutside;
+			global::Acr.UserDialogs.Resource.Boolean.abc_config_showMenuShortcutsWhenKeyboardPresent = global::MyTrips.Droid.Resource.Boolean.abc_config_showMenuShortcutsWhenKeyboardPresent;
+			global::Acr.UserDialogs.Resource.Color.abc_background_cache_hint_selector_material_dark = global::MyTrips.Droid.Resource.Color.abc_background_cache_hint_selector_material_dark;
+			global::Acr.UserDialogs.Resource.Color.abc_background_cache_hint_selector_material_light = global::MyTrips.Droid.Resource.Color.abc_background_cache_hint_selector_material_light;
+			global::Acr.UserDialogs.Resource.Color.abc_color_highlight_material = global::MyTrips.Droid.Resource.Color.abc_color_highlight_material;
+			global::Acr.UserDialogs.Resource.Color.abc_input_method_navigation_guard = global::MyTrips.Droid.Resource.Color.abc_input_method_navigation_guard;
+			global::Acr.UserDialogs.Resource.Color.abc_primary_text_disable_only_material_dark = global::MyTrips.Droid.Resource.Color.abc_primary_text_disable_only_material_dark;
+			global::Acr.UserDialogs.Resource.Color.abc_primary_text_disable_only_material_light = global::MyTrips.Droid.Resource.Color.abc_primary_text_disable_only_material_light;
+			global::Acr.UserDialogs.Resource.Color.abc_primary_text_material_dark = global::MyTrips.Droid.Resource.Color.abc_primary_text_material_dark;
+			global::Acr.UserDialogs.Resource.Color.abc_primary_text_material_light = global::MyTrips.Droid.Resource.Color.abc_primary_text_material_light;
+			global::Acr.UserDialogs.Resource.Color.abc_search_url_text = global::MyTrips.Droid.Resource.Color.abc_search_url_text;
+			global::Acr.UserDialogs.Resource.Color.abc_search_url_text_normal = global::MyTrips.Droid.Resource.Color.abc_search_url_text_normal;
+			global::Acr.UserDialogs.Resource.Color.abc_search_url_text_pressed = global::MyTrips.Droid.Resource.Color.abc_search_url_text_pressed;
+			global::Acr.UserDialogs.Resource.Color.abc_search_url_text_selected = global::MyTrips.Droid.Resource.Color.abc_search_url_text_selected;
+			global::Acr.UserDialogs.Resource.Color.abc_secondary_text_material_dark = global::MyTrips.Droid.Resource.Color.abc_secondary_text_material_dark;
+			global::Acr.UserDialogs.Resource.Color.abc_secondary_text_material_light = global::MyTrips.Droid.Resource.Color.abc_secondary_text_material_light;
+			global::Acr.UserDialogs.Resource.Color.accent_material_dark = global::MyTrips.Droid.Resource.Color.accent_material_dark;
+			global::Acr.UserDialogs.Resource.Color.accent_material_light = global::MyTrips.Droid.Resource.Color.accent_material_light;
+			global::Acr.UserDialogs.Resource.Color.background_floating_material_dark = global::MyTrips.Droid.Resource.Color.background_floating_material_dark;
+			global::Acr.UserDialogs.Resource.Color.background_floating_material_light = global::MyTrips.Droid.Resource.Color.background_floating_material_light;
+			global::Acr.UserDialogs.Resource.Color.background_material_dark = global::MyTrips.Droid.Resource.Color.background_material_dark;
+			global::Acr.UserDialogs.Resource.Color.background_material_light = global::MyTrips.Droid.Resource.Color.background_material_light;
+			global::Acr.UserDialogs.Resource.Color.bright_foreground_disabled_material_dark = global::MyTrips.Droid.Resource.Color.bright_foreground_disabled_material_dark;
+			global::Acr.UserDialogs.Resource.Color.bright_foreground_disabled_material_light = global::MyTrips.Droid.Resource.Color.bright_foreground_disabled_material_light;
+			global::Acr.UserDialogs.Resource.Color.bright_foreground_inverse_material_dark = global::MyTrips.Droid.Resource.Color.bright_foreground_inverse_material_dark;
+			global::Acr.UserDialogs.Resource.Color.bright_foreground_inverse_material_light = global::MyTrips.Droid.Resource.Color.bright_foreground_inverse_material_light;
+			global::Acr.UserDialogs.Resource.Color.bright_foreground_material_dark = global::MyTrips.Droid.Resource.Color.bright_foreground_material_dark;
+			global::Acr.UserDialogs.Resource.Color.bright_foreground_material_light = global::MyTrips.Droid.Resource.Color.bright_foreground_material_light;
+			global::Acr.UserDialogs.Resource.Color.button_material_dark = global::MyTrips.Droid.Resource.Color.button_material_dark;
+			global::Acr.UserDialogs.Resource.Color.button_material_light = global::MyTrips.Droid.Resource.Color.button_material_light;
+			global::Acr.UserDialogs.Resource.Color.design_fab_shadow_end_color = global::MyTrips.Droid.Resource.Color.design_fab_shadow_end_color;
+			global::Acr.UserDialogs.Resource.Color.design_fab_shadow_mid_color = global::MyTrips.Droid.Resource.Color.design_fab_shadow_mid_color;
+			global::Acr.UserDialogs.Resource.Color.design_fab_shadow_start_color = global::MyTrips.Droid.Resource.Color.design_fab_shadow_start_color;
+			global::Acr.UserDialogs.Resource.Color.design_fab_stroke_end_inner_color = global::MyTrips.Droid.Resource.Color.design_fab_stroke_end_inner_color;
+			global::Acr.UserDialogs.Resource.Color.design_fab_stroke_end_outer_color = global::MyTrips.Droid.Resource.Color.design_fab_stroke_end_outer_color;
+			global::Acr.UserDialogs.Resource.Color.design_fab_stroke_top_inner_color = global::MyTrips.Droid.Resource.Color.design_fab_stroke_top_inner_color;
+			global::Acr.UserDialogs.Resource.Color.design_fab_stroke_top_outer_color = global::MyTrips.Droid.Resource.Color.design_fab_stroke_top_outer_color;
+			global::Acr.UserDialogs.Resource.Color.design_snackbar_background_color = global::MyTrips.Droid.Resource.Color.design_snackbar_background_color;
+			global::Acr.UserDialogs.Resource.Color.design_textinput_error_color = global::MyTrips.Droid.Resource.Color.design_textinput_error_color;
+			global::Acr.UserDialogs.Resource.Color.dim_foreground_disabled_material_dark = global::MyTrips.Droid.Resource.Color.dim_foreground_disabled_material_dark;
+			global::Acr.UserDialogs.Resource.Color.dim_foreground_disabled_material_light = global::MyTrips.Droid.Resource.Color.dim_foreground_disabled_material_light;
+			global::Acr.UserDialogs.Resource.Color.dim_foreground_material_dark = global::MyTrips.Droid.Resource.Color.dim_foreground_material_dark;
+			global::Acr.UserDialogs.Resource.Color.dim_foreground_material_light = global::MyTrips.Droid.Resource.Color.dim_foreground_material_light;
+			global::Acr.UserDialogs.Resource.Color.foreground_material_dark = global::MyTrips.Droid.Resource.Color.foreground_material_dark;
+			global::Acr.UserDialogs.Resource.Color.foreground_material_light = global::MyTrips.Droid.Resource.Color.foreground_material_light;
+			global::Acr.UserDialogs.Resource.Color.highlighted_text_material_dark = global::MyTrips.Droid.Resource.Color.highlighted_text_material_dark;
+			global::Acr.UserDialogs.Resource.Color.highlighted_text_material_light = global::MyTrips.Droid.Resource.Color.highlighted_text_material_light;
+			global::Acr.UserDialogs.Resource.Color.hint_foreground_material_dark = global::MyTrips.Droid.Resource.Color.hint_foreground_material_dark;
+			global::Acr.UserDialogs.Resource.Color.hint_foreground_material_light = global::MyTrips.Droid.Resource.Color.hint_foreground_material_light;
+			global::Acr.UserDialogs.Resource.Color.material_blue_grey_800 = global::MyTrips.Droid.Resource.Color.material_blue_grey_800;
+			global::Acr.UserDialogs.Resource.Color.material_blue_grey_900 = global::MyTrips.Droid.Resource.Color.material_blue_grey_900;
+			global::Acr.UserDialogs.Resource.Color.material_blue_grey_950 = global::MyTrips.Droid.Resource.Color.material_blue_grey_950;
+			global::Acr.UserDialogs.Resource.Color.material_deep_teal_200 = global::MyTrips.Droid.Resource.Color.material_deep_teal_200;
+			global::Acr.UserDialogs.Resource.Color.material_deep_teal_500 = global::MyTrips.Droid.Resource.Color.material_deep_teal_500;
+			global::Acr.UserDialogs.Resource.Color.material_grey_100 = global::MyTrips.Droid.Resource.Color.material_grey_100;
+			global::Acr.UserDialogs.Resource.Color.material_grey_300 = global::MyTrips.Droid.Resource.Color.material_grey_300;
+			global::Acr.UserDialogs.Resource.Color.material_grey_50 = global::MyTrips.Droid.Resource.Color.material_grey_50;
+			global::Acr.UserDialogs.Resource.Color.material_grey_600 = global::MyTrips.Droid.Resource.Color.material_grey_600;
+			global::Acr.UserDialogs.Resource.Color.material_grey_800 = global::MyTrips.Droid.Resource.Color.material_grey_800;
+			global::Acr.UserDialogs.Resource.Color.material_grey_850 = global::MyTrips.Droid.Resource.Color.material_grey_850;
+			global::Acr.UserDialogs.Resource.Color.material_grey_900 = global::MyTrips.Droid.Resource.Color.material_grey_900;
+			global::Acr.UserDialogs.Resource.Color.primary_dark_material_dark = global::MyTrips.Droid.Resource.Color.primary_dark_material_dark;
+			global::Acr.UserDialogs.Resource.Color.primary_dark_material_light = global::MyTrips.Droid.Resource.Color.primary_dark_material_light;
+			global::Acr.UserDialogs.Resource.Color.primary_material_dark = global::MyTrips.Droid.Resource.Color.primary_material_dark;
+			global::Acr.UserDialogs.Resource.Color.primary_material_light = global::MyTrips.Droid.Resource.Color.primary_material_light;
+			global::Acr.UserDialogs.Resource.Color.primary_text_default_material_dark = global::MyTrips.Droid.Resource.Color.primary_text_default_material_dark;
+			global::Acr.UserDialogs.Resource.Color.primary_text_default_material_light = global::MyTrips.Droid.Resource.Color.primary_text_default_material_light;
+			global::Acr.UserDialogs.Resource.Color.primary_text_disabled_material_dark = global::MyTrips.Droid.Resource.Color.primary_text_disabled_material_dark;
+			global::Acr.UserDialogs.Resource.Color.primary_text_disabled_material_light = global::MyTrips.Droid.Resource.Color.primary_text_disabled_material_light;
+			global::Acr.UserDialogs.Resource.Color.ripple_material_dark = global::MyTrips.Droid.Resource.Color.ripple_material_dark;
+			global::Acr.UserDialogs.Resource.Color.ripple_material_light = global::MyTrips.Droid.Resource.Color.ripple_material_light;
+			global::Acr.UserDialogs.Resource.Color.secondary_text_default_material_dark = global::MyTrips.Droid.Resource.Color.secondary_text_default_material_dark;
+			global::Acr.UserDialogs.Resource.Color.secondary_text_default_material_light = global::MyTrips.Droid.Resource.Color.secondary_text_default_material_light;
+			global::Acr.UserDialogs.Resource.Color.secondary_text_disabled_material_dark = global::MyTrips.Droid.Resource.Color.secondary_text_disabled_material_dark;
+			global::Acr.UserDialogs.Resource.Color.secondary_text_disabled_material_light = global::MyTrips.Droid.Resource.Color.secondary_text_disabled_material_light;
+			global::Acr.UserDialogs.Resource.Color.switch_thumb_disabled_material_dark = global::MyTrips.Droid.Resource.Color.switch_thumb_disabled_material_dark;
+			global::Acr.UserDialogs.Resource.Color.switch_thumb_disabled_material_light = global::MyTrips.Droid.Resource.Color.switch_thumb_disabled_material_light;
+			global::Acr.UserDialogs.Resource.Color.switch_thumb_material_dark = global::MyTrips.Droid.Resource.Color.switch_thumb_material_dark;
+			global::Acr.UserDialogs.Resource.Color.switch_thumb_material_light = global::MyTrips.Droid.Resource.Color.switch_thumb_material_light;
+			global::Acr.UserDialogs.Resource.Color.switch_thumb_normal_material_dark = global::MyTrips.Droid.Resource.Color.switch_thumb_normal_material_dark;
+			global::Acr.UserDialogs.Resource.Color.switch_thumb_normal_material_light = global::MyTrips.Droid.Resource.Color.switch_thumb_normal_material_light;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_bar_content_inset_material = global::MyTrips.Droid.Resource.Dimension.abc_action_bar_content_inset_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_bar_default_height_material = global::MyTrips.Droid.Resource.Dimension.abc_action_bar_default_height_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_bar_default_padding_end_material = global::MyTrips.Droid.Resource.Dimension.abc_action_bar_default_padding_end_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_bar_default_padding_start_material = global::MyTrips.Droid.Resource.Dimension.abc_action_bar_default_padding_start_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_bar_icon_vertical_padding_material = global::MyTrips.Droid.Resource.Dimension.abc_action_bar_icon_vertical_padding_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_bar_overflow_padding_end_material = global::MyTrips.Droid.Resource.Dimension.abc_action_bar_overflow_padding_end_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_bar_overflow_padding_start_material = global::MyTrips.Droid.Resource.Dimension.abc_action_bar_overflow_padding_start_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_bar_progress_bar_size = global::MyTrips.Droid.Resource.Dimension.abc_action_bar_progress_bar_size;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_bar_stacked_max_height = global::MyTrips.Droid.Resource.Dimension.abc_action_bar_stacked_max_height;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_bar_stacked_tab_max_width = global::MyTrips.Droid.Resource.Dimension.abc_action_bar_stacked_tab_max_width;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material = global::MyTrips.Droid.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_bar_subtitle_top_margin_material = global::MyTrips.Droid.Resource.Dimension.abc_action_bar_subtitle_top_margin_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_button_min_height_material = global::MyTrips.Droid.Resource.Dimension.abc_action_button_min_height_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_button_min_width_material = global::MyTrips.Droid.Resource.Dimension.abc_action_button_min_width_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_action_button_min_width_overflow_material = global::MyTrips.Droid.Resource.Dimension.abc_action_button_min_width_overflow_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_alert_dialog_button_bar_height = global::MyTrips.Droid.Resource.Dimension.abc_alert_dialog_button_bar_height;
+			global::Acr.UserDialogs.Resource.Dimension.abc_button_inset_horizontal_material = global::MyTrips.Droid.Resource.Dimension.abc_button_inset_horizontal_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_button_inset_vertical_material = global::MyTrips.Droid.Resource.Dimension.abc_button_inset_vertical_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_button_padding_horizontal_material = global::MyTrips.Droid.Resource.Dimension.abc_button_padding_horizontal_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_button_padding_vertical_material = global::MyTrips.Droid.Resource.Dimension.abc_button_padding_vertical_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_config_prefDialogWidth = global::MyTrips.Droid.Resource.Dimension.abc_config_prefDialogWidth;
+			global::Acr.UserDialogs.Resource.Dimension.abc_control_corner_material = global::MyTrips.Droid.Resource.Dimension.abc_control_corner_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_control_inset_material = global::MyTrips.Droid.Resource.Dimension.abc_control_inset_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_control_padding_material = global::MyTrips.Droid.Resource.Dimension.abc_control_padding_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_dialog_fixed_height_major = global::MyTrips.Droid.Resource.Dimension.abc_dialog_fixed_height_major;
+			global::Acr.UserDialogs.Resource.Dimension.abc_dialog_fixed_height_minor = global::MyTrips.Droid.Resource.Dimension.abc_dialog_fixed_height_minor;
+			global::Acr.UserDialogs.Resource.Dimension.abc_dialog_fixed_width_major = global::MyTrips.Droid.Resource.Dimension.abc_dialog_fixed_width_major;
+			global::Acr.UserDialogs.Resource.Dimension.abc_dialog_fixed_width_minor = global::MyTrips.Droid.Resource.Dimension.abc_dialog_fixed_width_minor;
+			global::Acr.UserDialogs.Resource.Dimension.abc_dialog_list_padding_vertical_material = global::MyTrips.Droid.Resource.Dimension.abc_dialog_list_padding_vertical_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_dialog_min_width_major = global::MyTrips.Droid.Resource.Dimension.abc_dialog_min_width_major;
+			global::Acr.UserDialogs.Resource.Dimension.abc_dialog_min_width_minor = global::MyTrips.Droid.Resource.Dimension.abc_dialog_min_width_minor;
+			global::Acr.UserDialogs.Resource.Dimension.abc_dialog_padding_material = global::MyTrips.Droid.Resource.Dimension.abc_dialog_padding_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_dialog_padding_top_material = global::MyTrips.Droid.Resource.Dimension.abc_dialog_padding_top_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_disabled_alpha_material_dark = global::MyTrips.Droid.Resource.Dimension.abc_disabled_alpha_material_dark;
+			global::Acr.UserDialogs.Resource.Dimension.abc_disabled_alpha_material_light = global::MyTrips.Droid.Resource.Dimension.abc_disabled_alpha_material_light;
+			global::Acr.UserDialogs.Resource.Dimension.abc_dropdownitem_icon_width = global::MyTrips.Droid.Resource.Dimension.abc_dropdownitem_icon_width;
+			global::Acr.UserDialogs.Resource.Dimension.abc_dropdownitem_text_padding_left = global::MyTrips.Droid.Resource.Dimension.abc_dropdownitem_text_padding_left;
+			global::Acr.UserDialogs.Resource.Dimension.abc_dropdownitem_text_padding_right = global::MyTrips.Droid.Resource.Dimension.abc_dropdownitem_text_padding_right;
+			global::Acr.UserDialogs.Resource.Dimension.abc_edit_text_inset_bottom_material = global::MyTrips.Droid.Resource.Dimension.abc_edit_text_inset_bottom_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_edit_text_inset_horizontal_material = global::MyTrips.Droid.Resource.Dimension.abc_edit_text_inset_horizontal_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_edit_text_inset_top_material = global::MyTrips.Droid.Resource.Dimension.abc_edit_text_inset_top_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_floating_window_z = global::MyTrips.Droid.Resource.Dimension.abc_floating_window_z;
+			global::Acr.UserDialogs.Resource.Dimension.abc_list_item_padding_horizontal_material = global::MyTrips.Droid.Resource.Dimension.abc_list_item_padding_horizontal_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_panel_menu_list_width = global::MyTrips.Droid.Resource.Dimension.abc_panel_menu_list_width;
+			global::Acr.UserDialogs.Resource.Dimension.abc_search_view_preferred_width = global::MyTrips.Droid.Resource.Dimension.abc_search_view_preferred_width;
+			global::Acr.UserDialogs.Resource.Dimension.abc_search_view_text_min_width = global::MyTrips.Droid.Resource.Dimension.abc_search_view_text_min_width;
+			global::Acr.UserDialogs.Resource.Dimension.abc_seekbar_track_background_height_material = global::MyTrips.Droid.Resource.Dimension.abc_seekbar_track_background_height_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_seekbar_track_progress_height_material = global::MyTrips.Droid.Resource.Dimension.abc_seekbar_track_progress_height_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_select_dialog_padding_start_material = global::MyTrips.Droid.Resource.Dimension.abc_select_dialog_padding_start_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_switch_padding = global::MyTrips.Droid.Resource.Dimension.abc_switch_padding;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_body_1_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_body_1_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_body_2_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_body_2_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_button_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_button_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_caption_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_caption_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_display_1_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_display_1_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_display_2_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_display_2_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_display_3_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_display_3_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_display_4_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_display_4_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_headline_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_headline_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_large_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_large_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_medium_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_medium_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_menu_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_menu_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_small_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_small_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_subhead_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_subhead_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_subtitle_material_toolbar = global::MyTrips.Droid.Resource.Dimension.abc_text_size_subtitle_material_toolbar;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_title_material = global::MyTrips.Droid.Resource.Dimension.abc_text_size_title_material;
+			global::Acr.UserDialogs.Resource.Dimension.abc_text_size_title_material_toolbar = global::MyTrips.Droid.Resource.Dimension.abc_text_size_title_material_toolbar;
+			global::Acr.UserDialogs.Resource.Dimension.design_appbar_elevation = global::MyTrips.Droid.Resource.Dimension.design_appbar_elevation;
+			global::Acr.UserDialogs.Resource.Dimension.design_fab_border_width = global::MyTrips.Droid.Resource.Dimension.design_fab_border_width;
+			global::Acr.UserDialogs.Resource.Dimension.design_fab_content_size = global::MyTrips.Droid.Resource.Dimension.design_fab_content_size;
+			global::Acr.UserDialogs.Resource.Dimension.design_fab_elevation = global::MyTrips.Droid.Resource.Dimension.design_fab_elevation;
+			global::Acr.UserDialogs.Resource.Dimension.design_fab_size_mini = global::MyTrips.Droid.Resource.Dimension.design_fab_size_mini;
+			global::Acr.UserDialogs.Resource.Dimension.design_fab_size_normal = global::MyTrips.Droid.Resource.Dimension.design_fab_size_normal;
+			global::Acr.UserDialogs.Resource.Dimension.design_fab_translation_z_pressed = global::MyTrips.Droid.Resource.Dimension.design_fab_translation_z_pressed;
+			global::Acr.UserDialogs.Resource.Dimension.design_navigation_elevation = global::MyTrips.Droid.Resource.Dimension.design_navigation_elevation;
+			global::Acr.UserDialogs.Resource.Dimension.design_navigation_icon_padding = global::MyTrips.Droid.Resource.Dimension.design_navigation_icon_padding;
+			global::Acr.UserDialogs.Resource.Dimension.design_navigation_icon_size = global::MyTrips.Droid.Resource.Dimension.design_navigation_icon_size;
+			global::Acr.UserDialogs.Resource.Dimension.design_navigation_max_width = global::MyTrips.Droid.Resource.Dimension.design_navigation_max_width;
+			global::Acr.UserDialogs.Resource.Dimension.design_navigation_padding_bottom = global::MyTrips.Droid.Resource.Dimension.design_navigation_padding_bottom;
+			global::Acr.UserDialogs.Resource.Dimension.design_navigation_padding_top_default = global::MyTrips.Droid.Resource.Dimension.design_navigation_padding_top_default;
+			global::Acr.UserDialogs.Resource.Dimension.design_navigation_separator_vertical_padding = global::MyTrips.Droid.Resource.Dimension.design_navigation_separator_vertical_padding;
+			global::Acr.UserDialogs.Resource.Dimension.design_snackbar_action_inline_max_width = global::MyTrips.Droid.Resource.Dimension.design_snackbar_action_inline_max_width;
+			global::Acr.UserDialogs.Resource.Dimension.design_snackbar_background_corner_radius = global::MyTrips.Droid.Resource.Dimension.design_snackbar_background_corner_radius;
+			global::Acr.UserDialogs.Resource.Dimension.design_snackbar_elevation = global::MyTrips.Droid.Resource.Dimension.design_snackbar_elevation;
+			global::Acr.UserDialogs.Resource.Dimension.design_snackbar_extra_spacing_horizontal = global::MyTrips.Droid.Resource.Dimension.design_snackbar_extra_spacing_horizontal;
+			global::Acr.UserDialogs.Resource.Dimension.design_snackbar_max_width = global::MyTrips.Droid.Resource.Dimension.design_snackbar_max_width;
+			global::Acr.UserDialogs.Resource.Dimension.design_snackbar_min_width = global::MyTrips.Droid.Resource.Dimension.design_snackbar_min_width;
+			global::Acr.UserDialogs.Resource.Dimension.design_snackbar_padding_horizontal = global::MyTrips.Droid.Resource.Dimension.design_snackbar_padding_horizontal;
+			global::Acr.UserDialogs.Resource.Dimension.design_snackbar_padding_vertical = global::MyTrips.Droid.Resource.Dimension.design_snackbar_padding_vertical;
+			global::Acr.UserDialogs.Resource.Dimension.design_snackbar_padding_vertical_2lines = global::MyTrips.Droid.Resource.Dimension.design_snackbar_padding_vertical_2lines;
+			global::Acr.UserDialogs.Resource.Dimension.design_snackbar_text_size = global::MyTrips.Droid.Resource.Dimension.design_snackbar_text_size;
+			global::Acr.UserDialogs.Resource.Dimension.design_tab_max_width = global::MyTrips.Droid.Resource.Dimension.design_tab_max_width;
+			global::Acr.UserDialogs.Resource.Dimension.design_tab_scrollable_min_width = global::MyTrips.Droid.Resource.Dimension.design_tab_scrollable_min_width;
+			global::Acr.UserDialogs.Resource.Dimension.design_tab_text_size = global::MyTrips.Droid.Resource.Dimension.design_tab_text_size;
+			global::Acr.UserDialogs.Resource.Dimension.design_tab_text_size_2line = global::MyTrips.Droid.Resource.Dimension.design_tab_text_size_2line;
+			global::Acr.UserDialogs.Resource.Dimension.disabled_alpha_material_dark = global::MyTrips.Droid.Resource.Dimension.disabled_alpha_material_dark;
+			global::Acr.UserDialogs.Resource.Dimension.disabled_alpha_material_light = global::MyTrips.Droid.Resource.Dimension.disabled_alpha_material_light;
+			global::Acr.UserDialogs.Resource.Dimension.highlight_alpha_material_colored = global::MyTrips.Droid.Resource.Dimension.highlight_alpha_material_colored;
+			global::Acr.UserDialogs.Resource.Dimension.highlight_alpha_material_dark = global::MyTrips.Droid.Resource.Dimension.highlight_alpha_material_dark;
+			global::Acr.UserDialogs.Resource.Dimension.highlight_alpha_material_light = global::MyTrips.Droid.Resource.Dimension.highlight_alpha_material_light;
+			global::Acr.UserDialogs.Resource.Dimension.item_touch_helper_max_drag_scroll_per_frame = global::MyTrips.Droid.Resource.Dimension.item_touch_helper_max_drag_scroll_per_frame;
+			global::Acr.UserDialogs.Resource.Dimension.notification_large_icon_height = global::MyTrips.Droid.Resource.Dimension.notification_large_icon_height;
+			global::Acr.UserDialogs.Resource.Dimension.notification_large_icon_width = global::MyTrips.Droid.Resource.Dimension.notification_large_icon_width;
+			global::Acr.UserDialogs.Resource.Dimension.notification_subtext_size = global::MyTrips.Droid.Resource.Dimension.notification_subtext_size;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ab_share_pack_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ab_share_pack_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_action_bar_item_background_material = global::MyTrips.Droid.Resource.Drawable.abc_action_bar_item_background_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_borderless_material = global::MyTrips.Droid.Resource.Drawable.abc_btn_borderless_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_check_material = global::MyTrips.Droid.Resource.Drawable.abc_btn_check_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_check_to_on_mtrl_000 = global::MyTrips.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_000;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_check_to_on_mtrl_015 = global::MyTrips.Droid.Resource.Drawable.abc_btn_check_to_on_mtrl_015;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_colored_material = global::MyTrips.Droid.Resource.Drawable.abc_btn_colored_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_default_mtrl_shape = global::MyTrips.Droid.Resource.Drawable.abc_btn_default_mtrl_shape;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_radio_material = global::MyTrips.Droid.Resource.Drawable.abc_btn_radio_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_radio_to_on_mtrl_000 = global::MyTrips.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_000;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_radio_to_on_mtrl_015 = global::MyTrips.Droid.Resource.Drawable.abc_btn_radio_to_on_mtrl_015;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_rating_star_off_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_btn_rating_star_off_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_rating_star_on_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_btn_rating_star_on_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001 = global::MyTrips.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001;
+			global::Acr.UserDialogs.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012 = global::MyTrips.Droid.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012;
+			global::Acr.UserDialogs.Resource.Drawable.abc_cab_background_internal_bg = global::MyTrips.Droid.Resource.Drawable.abc_cab_background_internal_bg;
+			global::Acr.UserDialogs.Resource.Drawable.abc_cab_background_top_material = global::MyTrips.Droid.Resource.Drawable.abc_cab_background_top_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_cab_background_top_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_cab_background_top_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_control_background_material = global::MyTrips.Droid.Resource.Drawable.abc_control_background_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_dialog_material_background_dark = global::MyTrips.Droid.Resource.Drawable.abc_dialog_material_background_dark;
+			global::Acr.UserDialogs.Resource.Drawable.abc_dialog_material_background_light = global::MyTrips.Droid.Resource.Drawable.abc_dialog_material_background_light;
+			global::Acr.UserDialogs.Resource.Drawable.abc_edit_text_material = global::MyTrips.Droid.Resource.Drawable.abc_edit_text_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ic_ab_back_mtrl_am_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ic_ab_back_mtrl_am_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ic_clear_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ic_clear_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ic_go_search_api_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ic_go_search_api_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ic_menu_moreoverflow_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ic_menu_moreoverflow_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ic_menu_share_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ic_menu_share_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ic_search_api_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ic_search_api_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ic_voice_search_api_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_ic_voice_search_api_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_item_background_holo_dark = global::MyTrips.Droid.Resource.Drawable.abc_item_background_holo_dark;
+			global::Acr.UserDialogs.Resource.Drawable.abc_item_background_holo_light = global::MyTrips.Droid.Resource.Drawable.abc_item_background_holo_light;
+			global::Acr.UserDialogs.Resource.Drawable.abc_list_divider_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_list_divider_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_list_focused_holo = global::MyTrips.Droid.Resource.Drawable.abc_list_focused_holo;
+			global::Acr.UserDialogs.Resource.Drawable.abc_list_longpressed_holo = global::MyTrips.Droid.Resource.Drawable.abc_list_longpressed_holo;
+			global::Acr.UserDialogs.Resource.Drawable.abc_list_pressed_holo_dark = global::MyTrips.Droid.Resource.Drawable.abc_list_pressed_holo_dark;
+			global::Acr.UserDialogs.Resource.Drawable.abc_list_pressed_holo_light = global::MyTrips.Droid.Resource.Drawable.abc_list_pressed_holo_light;
+			global::Acr.UserDialogs.Resource.Drawable.abc_list_selector_background_transition_holo_dark = global::MyTrips.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_dark;
+			global::Acr.UserDialogs.Resource.Drawable.abc_list_selector_background_transition_holo_light = global::MyTrips.Droid.Resource.Drawable.abc_list_selector_background_transition_holo_light;
+			global::Acr.UserDialogs.Resource.Drawable.abc_list_selector_disabled_holo_dark = global::MyTrips.Droid.Resource.Drawable.abc_list_selector_disabled_holo_dark;
+			global::Acr.UserDialogs.Resource.Drawable.abc_list_selector_disabled_holo_light = global::MyTrips.Droid.Resource.Drawable.abc_list_selector_disabled_holo_light;
+			global::Acr.UserDialogs.Resource.Drawable.abc_list_selector_holo_dark = global::MyTrips.Droid.Resource.Drawable.abc_list_selector_holo_dark;
+			global::Acr.UserDialogs.Resource.Drawable.abc_list_selector_holo_light = global::MyTrips.Droid.Resource.Drawable.abc_list_selector_holo_light;
+			global::Acr.UserDialogs.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult = global::MyTrips.Droid.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult;
+			global::Acr.UserDialogs.Resource.Drawable.abc_popup_background_mtrl_mult = global::MyTrips.Droid.Resource.Drawable.abc_popup_background_mtrl_mult;
+			global::Acr.UserDialogs.Resource.Drawable.abc_ratingbar_full_material = global::MyTrips.Droid.Resource.Drawable.abc_ratingbar_full_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000 = global::MyTrips.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000;
+			global::Acr.UserDialogs.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005 = global::MyTrips.Droid.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005;
+			global::Acr.UserDialogs.Resource.Drawable.abc_scrubber_primary_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_scrubber_primary_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_scrubber_track_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_scrubber_track_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_seekbar_thumb_material = global::MyTrips.Droid.Resource.Drawable.abc_seekbar_thumb_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_seekbar_track_material = global::MyTrips.Droid.Resource.Drawable.abc_seekbar_track_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_spinner_mtrl_am_alpha = global::MyTrips.Droid.Resource.Drawable.abc_spinner_mtrl_am_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_spinner_textfield_background_material = global::MyTrips.Droid.Resource.Drawable.abc_spinner_textfield_background_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_switch_thumb_material = global::MyTrips.Droid.Resource.Drawable.abc_switch_thumb_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_switch_track_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_switch_track_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_tab_indicator_material = global::MyTrips.Droid.Resource.Drawable.abc_tab_indicator_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_tab_indicator_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_tab_indicator_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_text_cursor_material = global::MyTrips.Droid.Resource.Drawable.abc_text_cursor_material;
+			global::Acr.UserDialogs.Resource.Drawable.abc_textfield_activated_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_textfield_activated_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_textfield_default_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_textfield_default_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_textfield_search_default_mtrl_alpha = global::MyTrips.Droid.Resource.Drawable.abc_textfield_search_default_mtrl_alpha;
+			global::Acr.UserDialogs.Resource.Drawable.abc_textfield_search_material = global::MyTrips.Droid.Resource.Drawable.abc_textfield_search_material;
+			global::Acr.UserDialogs.Resource.Drawable.design_fab_background = global::MyTrips.Droid.Resource.Drawable.design_fab_background;
+			global::Acr.UserDialogs.Resource.Drawable.design_snackbar_background = global::MyTrips.Droid.Resource.Drawable.design_snackbar_background;
+			global::Acr.UserDialogs.Resource.Drawable.ic_errorstatus = global::MyTrips.Droid.Resource.Drawable.ic_errorstatus;
+			global::Acr.UserDialogs.Resource.Drawable.ic_successstatus = global::MyTrips.Droid.Resource.Drawable.ic_successstatus;
+			global::Acr.UserDialogs.Resource.Drawable.notification_template_icon_bg = global::MyTrips.Droid.Resource.Drawable.notification_template_icon_bg;
+			global::Acr.UserDialogs.Resource.Drawable.roundedbg = global::MyTrips.Droid.Resource.Drawable.roundedbg;
+			global::Acr.UserDialogs.Resource.Drawable.roundedbgdark = global::MyTrips.Droid.Resource.Drawable.roundedbgdark;
+			global::Acr.UserDialogs.Resource.Id.action0 = global::MyTrips.Droid.Resource.Id.action0;
+			global::Acr.UserDialogs.Resource.Id.action_bar = global::MyTrips.Droid.Resource.Id.action_bar;
+			global::Acr.UserDialogs.Resource.Id.action_bar_activity_content = global::MyTrips.Droid.Resource.Id.action_bar_activity_content;
+			global::Acr.UserDialogs.Resource.Id.action_bar_container = global::MyTrips.Droid.Resource.Id.action_bar_container;
+			global::Acr.UserDialogs.Resource.Id.action_bar_root = global::MyTrips.Droid.Resource.Id.action_bar_root;
+			global::Acr.UserDialogs.Resource.Id.action_bar_spinner = global::MyTrips.Droid.Resource.Id.action_bar_spinner;
+			global::Acr.UserDialogs.Resource.Id.action_bar_subtitle = global::MyTrips.Droid.Resource.Id.action_bar_subtitle;
+			global::Acr.UserDialogs.Resource.Id.action_bar_title = global::MyTrips.Droid.Resource.Id.action_bar_title;
+			global::Acr.UserDialogs.Resource.Id.action_context_bar = global::MyTrips.Droid.Resource.Id.action_context_bar;
+			global::Acr.UserDialogs.Resource.Id.action_divider = global::MyTrips.Droid.Resource.Id.action_divider;
+			global::Acr.UserDialogs.Resource.Id.action_menu_divider = global::MyTrips.Droid.Resource.Id.action_menu_divider;
+			global::Acr.UserDialogs.Resource.Id.action_menu_presenter = global::MyTrips.Droid.Resource.Id.action_menu_presenter;
+			global::Acr.UserDialogs.Resource.Id.action_mode_bar = global::MyTrips.Droid.Resource.Id.action_mode_bar;
+			global::Acr.UserDialogs.Resource.Id.action_mode_bar_stub = global::MyTrips.Droid.Resource.Id.action_mode_bar_stub;
+			global::Acr.UserDialogs.Resource.Id.action_mode_close_button = global::MyTrips.Droid.Resource.Id.action_mode_close_button;
+			global::Acr.UserDialogs.Resource.Id.activity_chooser_view_content = global::MyTrips.Droid.Resource.Id.activity_chooser_view_content;
+			global::Acr.UserDialogs.Resource.Id.alertTitle = global::MyTrips.Droid.Resource.Id.alertTitle;
+			global::Acr.UserDialogs.Resource.Id.always = global::MyTrips.Droid.Resource.Id.always;
+			global::Acr.UserDialogs.Resource.Id.beginning = global::MyTrips.Droid.Resource.Id.beginning;
+			global::Acr.UserDialogs.Resource.Id.bottom = global::MyTrips.Droid.Resource.Id.bottom;
+			global::Acr.UserDialogs.Resource.Id.buttonPanel = global::MyTrips.Droid.Resource.Id.buttonPanel;
+			global::Acr.UserDialogs.Resource.Id.cancel_action = global::MyTrips.Droid.Resource.Id.cancel_action;
+			global::Acr.UserDialogs.Resource.Id.center = global::MyTrips.Droid.Resource.Id.center;
+			global::Acr.UserDialogs.Resource.Id.center_horizontal = global::MyTrips.Droid.Resource.Id.center_horizontal;
+			global::Acr.UserDialogs.Resource.Id.center_vertical = global::MyTrips.Droid.Resource.Id.center_vertical;
+			global::Acr.UserDialogs.Resource.Id.checkbox = global::MyTrips.Droid.Resource.Id.checkbox;
+			global::Acr.UserDialogs.Resource.Id.chronometer = global::MyTrips.Droid.Resource.Id.chronometer;
+			global::Acr.UserDialogs.Resource.Id.clip_horizontal = global::MyTrips.Droid.Resource.Id.clip_horizontal;
+			global::Acr.UserDialogs.Resource.Id.clip_vertical = global::MyTrips.Droid.Resource.Id.clip_vertical;
+			global::Acr.UserDialogs.Resource.Id.collapseActionView = global::MyTrips.Droid.Resource.Id.collapseActionView;
+			global::Acr.UserDialogs.Resource.Id.contentPanel = global::MyTrips.Droid.Resource.Id.contentPanel;
+			global::Acr.UserDialogs.Resource.Id.custom = global::MyTrips.Droid.Resource.Id.custom;
+			global::Acr.UserDialogs.Resource.Id.customPanel = global::MyTrips.Droid.Resource.Id.customPanel;
+			global::Acr.UserDialogs.Resource.Id.decor_content_parent = global::MyTrips.Droid.Resource.Id.decor_content_parent;
+			global::Acr.UserDialogs.Resource.Id.default_activity_button = global::MyTrips.Droid.Resource.Id.default_activity_button;
+			global::Acr.UserDialogs.Resource.Id.design_menu_item_action_area = global::MyTrips.Droid.Resource.Id.design_menu_item_action_area;
+			global::Acr.UserDialogs.Resource.Id.design_menu_item_action_area_stub = global::MyTrips.Droid.Resource.Id.design_menu_item_action_area_stub;
+			global::Acr.UserDialogs.Resource.Id.design_menu_item_text = global::MyTrips.Droid.Resource.Id.design_menu_item_text;
+			global::Acr.UserDialogs.Resource.Id.design_navigation_view = global::MyTrips.Droid.Resource.Id.design_navigation_view;
+			global::Acr.UserDialogs.Resource.Id.disableHome = global::MyTrips.Droid.Resource.Id.disableHome;
+			global::Acr.UserDialogs.Resource.Id.edit_query = global::MyTrips.Droid.Resource.Id.edit_query;
+			global::Acr.UserDialogs.Resource.Id.end = global::MyTrips.Droid.Resource.Id.end;
+			global::Acr.UserDialogs.Resource.Id.end_padder = global::MyTrips.Droid.Resource.Id.end_padder;
+			global::Acr.UserDialogs.Resource.Id.enterAlways = global::MyTrips.Droid.Resource.Id.enterAlways;
+			global::Acr.UserDialogs.Resource.Id.enterAlwaysCollapsed = global::MyTrips.Droid.Resource.Id.enterAlwaysCollapsed;
+			global::Acr.UserDialogs.Resource.Id.exitUntilCollapsed = global::MyTrips.Droid.Resource.Id.exitUntilCollapsed;
+			global::Acr.UserDialogs.Resource.Id.expand_activities_button = global::MyTrips.Droid.Resource.Id.expand_activities_button;
+			global::Acr.UserDialogs.Resource.Id.expanded_menu = global::MyTrips.Droid.Resource.Id.expanded_menu;
+			global::Acr.UserDialogs.Resource.Id.fill = global::MyTrips.Droid.Resource.Id.fill;
+			global::Acr.UserDialogs.Resource.Id.fill_horizontal = global::MyTrips.Droid.Resource.Id.fill_horizontal;
+			global::Acr.UserDialogs.Resource.Id.fill_vertical = global::MyTrips.Droid.Resource.Id.fill_vertical;
+			global::Acr.UserDialogs.Resource.Id.@fixed = global::MyTrips.Droid.Resource.Id.@fixed;
+			global::Acr.UserDialogs.Resource.Id.home = global::MyTrips.Droid.Resource.Id.home;
+			global::Acr.UserDialogs.Resource.Id.homeAsUp = global::MyTrips.Droid.Resource.Id.homeAsUp;
+			global::Acr.UserDialogs.Resource.Id.icon = global::MyTrips.Droid.Resource.Id.icon;
+			global::Acr.UserDialogs.Resource.Id.ifRoom = global::MyTrips.Droid.Resource.Id.ifRoom;
+			global::Acr.UserDialogs.Resource.Id.image = global::MyTrips.Droid.Resource.Id.image;
+			global::Acr.UserDialogs.Resource.Id.info = global::MyTrips.Droid.Resource.Id.info;
+			global::Acr.UserDialogs.Resource.Id.item_touch_helper_previous_elevation = global::MyTrips.Droid.Resource.Id.item_touch_helper_previous_elevation;
+			global::Acr.UserDialogs.Resource.Id.left = global::MyTrips.Droid.Resource.Id.left;
+			global::Acr.UserDialogs.Resource.Id.line1 = global::MyTrips.Droid.Resource.Id.line1;
+			global::Acr.UserDialogs.Resource.Id.line3 = global::MyTrips.Droid.Resource.Id.line3;
+			global::Acr.UserDialogs.Resource.Id.listMode = global::MyTrips.Droid.Resource.Id.listMode;
+			global::Acr.UserDialogs.Resource.Id.list_item = global::MyTrips.Droid.Resource.Id.list_item;
+			global::Acr.UserDialogs.Resource.Id.loadingImage = global::MyTrips.Droid.Resource.Id.loadingImage;
+			global::Acr.UserDialogs.Resource.Id.loadingProgressBar = global::MyTrips.Droid.Resource.Id.loadingProgressBar;
+			global::Acr.UserDialogs.Resource.Id.loadingProgressWheel = global::MyTrips.Droid.Resource.Id.loadingProgressWheel;
+			global::Acr.UserDialogs.Resource.Id.media_actions = global::MyTrips.Droid.Resource.Id.media_actions;
+			global::Acr.UserDialogs.Resource.Id.middle = global::MyTrips.Droid.Resource.Id.middle;
+			global::Acr.UserDialogs.Resource.Id.mini = global::MyTrips.Droid.Resource.Id.mini;
+			global::Acr.UserDialogs.Resource.Id.multiply = global::MyTrips.Droid.Resource.Id.multiply;
+			global::Acr.UserDialogs.Resource.Id.navigation_header_container = global::MyTrips.Droid.Resource.Id.navigation_header_container;
+			global::Acr.UserDialogs.Resource.Id.never = global::MyTrips.Droid.Resource.Id.never;
+			global::Acr.UserDialogs.Resource.Id.none = global::MyTrips.Droid.Resource.Id.none;
+			global::Acr.UserDialogs.Resource.Id.normal = global::MyTrips.Droid.Resource.Id.normal;
+			global::Acr.UserDialogs.Resource.Id.parallax = global::MyTrips.Droid.Resource.Id.parallax;
+			global::Acr.UserDialogs.Resource.Id.parentPanel = global::MyTrips.Droid.Resource.Id.parentPanel;
+			global::Acr.UserDialogs.Resource.Id.pin = global::MyTrips.Droid.Resource.Id.pin;
+			global::Acr.UserDialogs.Resource.Id.progress_circular = global::MyTrips.Droid.Resource.Id.progress_circular;
+			global::Acr.UserDialogs.Resource.Id.progress_horizontal = global::MyTrips.Droid.Resource.Id.progress_horizontal;
+			global::Acr.UserDialogs.Resource.Id.radio = global::MyTrips.Droid.Resource.Id.radio;
+			global::Acr.UserDialogs.Resource.Id.right = global::MyTrips.Droid.Resource.Id.right;
+			global::Acr.UserDialogs.Resource.Id.screen = global::MyTrips.Droid.Resource.Id.screen;
+			global::Acr.UserDialogs.Resource.Id.scroll = global::MyTrips.Droid.Resource.Id.scroll;
+			global::Acr.UserDialogs.Resource.Id.scrollIndicatorDown = global::MyTrips.Droid.Resource.Id.scrollIndicatorDown;
+			global::Acr.UserDialogs.Resource.Id.scrollIndicatorUp = global::MyTrips.Droid.Resource.Id.scrollIndicatorUp;
+			global::Acr.UserDialogs.Resource.Id.scrollView = global::MyTrips.Droid.Resource.Id.scrollView;
+			global::Acr.UserDialogs.Resource.Id.scrollable = global::MyTrips.Droid.Resource.Id.scrollable;
+			global::Acr.UserDialogs.Resource.Id.search_badge = global::MyTrips.Droid.Resource.Id.search_badge;
+			global::Acr.UserDialogs.Resource.Id.search_bar = global::MyTrips.Droid.Resource.Id.search_bar;
+			global::Acr.UserDialogs.Resource.Id.search_button = global::MyTrips.Droid.Resource.Id.search_button;
+			global::Acr.UserDialogs.Resource.Id.search_close_btn = global::MyTrips.Droid.Resource.Id.search_close_btn;
+			global::Acr.UserDialogs.Resource.Id.search_edit_frame = global::MyTrips.Droid.Resource.Id.search_edit_frame;
+			global::Acr.UserDialogs.Resource.Id.search_go_btn = global::MyTrips.Droid.Resource.Id.search_go_btn;
+			global::Acr.UserDialogs.Resource.Id.search_mag_icon = global::MyTrips.Droid.Resource.Id.search_mag_icon;
+			global::Acr.UserDialogs.Resource.Id.search_plate = global::MyTrips.Droid.Resource.Id.search_plate;
+			global::Acr.UserDialogs.Resource.Id.search_src_text = global::MyTrips.Droid.Resource.Id.search_src_text;
+			global::Acr.UserDialogs.Resource.Id.search_voice_btn = global::MyTrips.Droid.Resource.Id.search_voice_btn;
+			global::Acr.UserDialogs.Resource.Id.select_dialog_listview = global::MyTrips.Droid.Resource.Id.select_dialog_listview;
+			global::Acr.UserDialogs.Resource.Id.shortcut = global::MyTrips.Droid.Resource.Id.shortcut;
+			global::Acr.UserDialogs.Resource.Id.showCustom = global::MyTrips.Droid.Resource.Id.showCustom;
+			global::Acr.UserDialogs.Resource.Id.showHome = global::MyTrips.Droid.Resource.Id.showHome;
+			global::Acr.UserDialogs.Resource.Id.showTitle = global::MyTrips.Droid.Resource.Id.showTitle;
+			global::Acr.UserDialogs.Resource.Id.snackbar_action = global::MyTrips.Droid.Resource.Id.snackbar_action;
+			global::Acr.UserDialogs.Resource.Id.snackbar_text = global::MyTrips.Droid.Resource.Id.snackbar_text;
+			global::Acr.UserDialogs.Resource.Id.snap = global::MyTrips.Droid.Resource.Id.snap;
+			global::Acr.UserDialogs.Resource.Id.spacer = global::MyTrips.Droid.Resource.Id.spacer;
+			global::Acr.UserDialogs.Resource.Id.split_action_bar = global::MyTrips.Droid.Resource.Id.split_action_bar;
+			global::Acr.UserDialogs.Resource.Id.src_atop = global::MyTrips.Droid.Resource.Id.src_atop;
+			global::Acr.UserDialogs.Resource.Id.src_in = global::MyTrips.Droid.Resource.Id.src_in;
+			global::Acr.UserDialogs.Resource.Id.src_over = global::MyTrips.Droid.Resource.Id.src_over;
+			global::Acr.UserDialogs.Resource.Id.start = global::MyTrips.Droid.Resource.Id.start;
+			global::Acr.UserDialogs.Resource.Id.status_bar_latest_event_content = global::MyTrips.Droid.Resource.Id.status_bar_latest_event_content;
+			global::Acr.UserDialogs.Resource.Id.submit_area = global::MyTrips.Droid.Resource.Id.submit_area;
+			global::Acr.UserDialogs.Resource.Id.tabMode = global::MyTrips.Droid.Resource.Id.tabMode;
+			global::Acr.UserDialogs.Resource.Id.text = global::MyTrips.Droid.Resource.Id.text;
+			global::Acr.UserDialogs.Resource.Id.text2 = global::MyTrips.Droid.Resource.Id.text2;
+			global::Acr.UserDialogs.Resource.Id.textSpacerNoButtons = global::MyTrips.Droid.Resource.Id.textSpacerNoButtons;
+			global::Acr.UserDialogs.Resource.Id.textViewStatus = global::MyTrips.Droid.Resource.Id.textViewStatus;
+			global::Acr.UserDialogs.Resource.Id.time = global::MyTrips.Droid.Resource.Id.time;
+			global::Acr.UserDialogs.Resource.Id.title = global::MyTrips.Droid.Resource.Id.title;
+			global::Acr.UserDialogs.Resource.Id.title_template = global::MyTrips.Droid.Resource.Id.title_template;
+			global::Acr.UserDialogs.Resource.Id.top = global::MyTrips.Droid.Resource.Id.top;
+			global::Acr.UserDialogs.Resource.Id.topPanel = global::MyTrips.Droid.Resource.Id.topPanel;
+			global::Acr.UserDialogs.Resource.Id.up = global::MyTrips.Droid.Resource.Id.up;
+			global::Acr.UserDialogs.Resource.Id.useLogo = global::MyTrips.Droid.Resource.Id.useLogo;
+			global::Acr.UserDialogs.Resource.Id.view_offset_helper = global::MyTrips.Droid.Resource.Id.view_offset_helper;
+			global::Acr.UserDialogs.Resource.Id.withText = global::MyTrips.Droid.Resource.Id.withText;
+			global::Acr.UserDialogs.Resource.Id.wrap_content = global::MyTrips.Droid.Resource.Id.wrap_content;
+			global::Acr.UserDialogs.Resource.Integer.abc_config_activityDefaultDur = global::MyTrips.Droid.Resource.Integer.abc_config_activityDefaultDur;
+			global::Acr.UserDialogs.Resource.Integer.abc_config_activityShortDur = global::MyTrips.Droid.Resource.Integer.abc_config_activityShortDur;
+			global::Acr.UserDialogs.Resource.Integer.abc_max_action_buttons = global::MyTrips.Droid.Resource.Integer.abc_max_action_buttons;
+			global::Acr.UserDialogs.Resource.Integer.cancel_button_image_alpha = global::MyTrips.Droid.Resource.Integer.cancel_button_image_alpha;
+			global::Acr.UserDialogs.Resource.Integer.design_snackbar_text_max_lines = global::MyTrips.Droid.Resource.Integer.design_snackbar_text_max_lines;
+			global::Acr.UserDialogs.Resource.Integer.status_bar_notification_info_maxnum = global::MyTrips.Droid.Resource.Integer.status_bar_notification_info_maxnum;
+			global::Acr.UserDialogs.Resource.Layout.abc_action_bar_title_item = global::MyTrips.Droid.Resource.Layout.abc_action_bar_title_item;
+			global::Acr.UserDialogs.Resource.Layout.abc_action_bar_up_container = global::MyTrips.Droid.Resource.Layout.abc_action_bar_up_container;
+			global::Acr.UserDialogs.Resource.Layout.abc_action_bar_view_list_nav_layout = global::MyTrips.Droid.Resource.Layout.abc_action_bar_view_list_nav_layout;
+			global::Acr.UserDialogs.Resource.Layout.abc_action_menu_item_layout = global::MyTrips.Droid.Resource.Layout.abc_action_menu_item_layout;
+			global::Acr.UserDialogs.Resource.Layout.abc_action_menu_layout = global::MyTrips.Droid.Resource.Layout.abc_action_menu_layout;
+			global::Acr.UserDialogs.Resource.Layout.abc_action_mode_bar = global::MyTrips.Droid.Resource.Layout.abc_action_mode_bar;
+			global::Acr.UserDialogs.Resource.Layout.abc_action_mode_close_item_material = global::MyTrips.Droid.Resource.Layout.abc_action_mode_close_item_material;
+			global::Acr.UserDialogs.Resource.Layout.abc_activity_chooser_view = global::MyTrips.Droid.Resource.Layout.abc_activity_chooser_view;
+			global::Acr.UserDialogs.Resource.Layout.abc_activity_chooser_view_list_item = global::MyTrips.Droid.Resource.Layout.abc_activity_chooser_view_list_item;
+			global::Acr.UserDialogs.Resource.Layout.abc_alert_dialog_button_bar_material = global::MyTrips.Droid.Resource.Layout.abc_alert_dialog_button_bar_material;
+			global::Acr.UserDialogs.Resource.Layout.abc_alert_dialog_material = global::MyTrips.Droid.Resource.Layout.abc_alert_dialog_material;
+			global::Acr.UserDialogs.Resource.Layout.abc_dialog_title_material = global::MyTrips.Droid.Resource.Layout.abc_dialog_title_material;
+			global::Acr.UserDialogs.Resource.Layout.abc_expanded_menu_layout = global::MyTrips.Droid.Resource.Layout.abc_expanded_menu_layout;
+			global::Acr.UserDialogs.Resource.Layout.abc_list_menu_item_checkbox = global::MyTrips.Droid.Resource.Layout.abc_list_menu_item_checkbox;
+			global::Acr.UserDialogs.Resource.Layout.abc_list_menu_item_icon = global::MyTrips.Droid.Resource.Layout.abc_list_menu_item_icon;
+			global::Acr.UserDialogs.Resource.Layout.abc_list_menu_item_layout = global::MyTrips.Droid.Resource.Layout.abc_list_menu_item_layout;
+			global::Acr.UserDialogs.Resource.Layout.abc_list_menu_item_radio = global::MyTrips.Droid.Resource.Layout.abc_list_menu_item_radio;
+			global::Acr.UserDialogs.Resource.Layout.abc_popup_menu_item_layout = global::MyTrips.Droid.Resource.Layout.abc_popup_menu_item_layout;
+			global::Acr.UserDialogs.Resource.Layout.abc_screen_content_include = global::MyTrips.Droid.Resource.Layout.abc_screen_content_include;
+			global::Acr.UserDialogs.Resource.Layout.abc_screen_simple = global::MyTrips.Droid.Resource.Layout.abc_screen_simple;
+			global::Acr.UserDialogs.Resource.Layout.abc_screen_simple_overlay_action_mode = global::MyTrips.Droid.Resource.Layout.abc_screen_simple_overlay_action_mode;
+			global::Acr.UserDialogs.Resource.Layout.abc_screen_toolbar = global::MyTrips.Droid.Resource.Layout.abc_screen_toolbar;
+			global::Acr.UserDialogs.Resource.Layout.abc_search_dropdown_item_icons_2line = global::MyTrips.Droid.Resource.Layout.abc_search_dropdown_item_icons_2line;
+			global::Acr.UserDialogs.Resource.Layout.abc_search_view = global::MyTrips.Droid.Resource.Layout.abc_search_view;
+			global::Acr.UserDialogs.Resource.Layout.abc_select_dialog_material = global::MyTrips.Droid.Resource.Layout.abc_select_dialog_material;
+			global::Acr.UserDialogs.Resource.Layout.design_layout_snackbar = global::MyTrips.Droid.Resource.Layout.design_layout_snackbar;
+			global::Acr.UserDialogs.Resource.Layout.design_layout_snackbar_include = global::MyTrips.Droid.Resource.Layout.design_layout_snackbar_include;
+			global::Acr.UserDialogs.Resource.Layout.design_layout_tab_icon = global::MyTrips.Droid.Resource.Layout.design_layout_tab_icon;
+			global::Acr.UserDialogs.Resource.Layout.design_layout_tab_text = global::MyTrips.Droid.Resource.Layout.design_layout_tab_text;
+			global::Acr.UserDialogs.Resource.Layout.design_menu_item_action_area = global::MyTrips.Droid.Resource.Layout.design_menu_item_action_area;
+			global::Acr.UserDialogs.Resource.Layout.design_navigation_item = global::MyTrips.Droid.Resource.Layout.design_navigation_item;
+			global::Acr.UserDialogs.Resource.Layout.design_navigation_item_header = global::MyTrips.Droid.Resource.Layout.design_navigation_item_header;
+			global::Acr.UserDialogs.Resource.Layout.design_navigation_item_separator = global::MyTrips.Droid.Resource.Layout.design_navigation_item_separator;
+			global::Acr.UserDialogs.Resource.Layout.design_navigation_item_subheader = global::MyTrips.Droid.Resource.Layout.design_navigation_item_subheader;
+			global::Acr.UserDialogs.Resource.Layout.design_navigation_menu = global::MyTrips.Droid.Resource.Layout.design_navigation_menu;
+			global::Acr.UserDialogs.Resource.Layout.design_navigation_menu_item = global::MyTrips.Droid.Resource.Layout.design_navigation_menu_item;
+			global::Acr.UserDialogs.Resource.Layout.loading = global::MyTrips.Droid.Resource.Layout.loading;
+			global::Acr.UserDialogs.Resource.Layout.loadingimage = global::MyTrips.Droid.Resource.Layout.loadingimage;
+			global::Acr.UserDialogs.Resource.Layout.loadingprogress = global::MyTrips.Droid.Resource.Layout.loadingprogress;
+			global::Acr.UserDialogs.Resource.Layout.notification_media_action = global::MyTrips.Droid.Resource.Layout.notification_media_action;
+			global::Acr.UserDialogs.Resource.Layout.notification_media_cancel_action = global::MyTrips.Droid.Resource.Layout.notification_media_cancel_action;
+			global::Acr.UserDialogs.Resource.Layout.notification_template_big_media = global::MyTrips.Droid.Resource.Layout.notification_template_big_media;
+			global::Acr.UserDialogs.Resource.Layout.notification_template_big_media_narrow = global::MyTrips.Droid.Resource.Layout.notification_template_big_media_narrow;
+			global::Acr.UserDialogs.Resource.Layout.notification_template_lines = global::MyTrips.Droid.Resource.Layout.notification_template_lines;
+			global::Acr.UserDialogs.Resource.Layout.notification_template_media = global::MyTrips.Droid.Resource.Layout.notification_template_media;
+			global::Acr.UserDialogs.Resource.Layout.notification_template_part_chronometer = global::MyTrips.Droid.Resource.Layout.notification_template_part_chronometer;
+			global::Acr.UserDialogs.Resource.Layout.notification_template_part_time = global::MyTrips.Droid.Resource.Layout.notification_template_part_time;
+			global::Acr.UserDialogs.Resource.Layout.select_dialog_item_material = global::MyTrips.Droid.Resource.Layout.select_dialog_item_material;
+			global::Acr.UserDialogs.Resource.Layout.select_dialog_multichoice_material = global::MyTrips.Droid.Resource.Layout.select_dialog_multichoice_material;
+			global::Acr.UserDialogs.Resource.Layout.select_dialog_singlechoice_material = global::MyTrips.Droid.Resource.Layout.select_dialog_singlechoice_material;
+			global::Acr.UserDialogs.Resource.Layout.support_simple_spinner_dropdown_item = global::MyTrips.Droid.Resource.Layout.support_simple_spinner_dropdown_item;
+			global::Acr.UserDialogs.Resource.String.abc_action_bar_home_description = global::MyTrips.Droid.Resource.String.abc_action_bar_home_description;
+			global::Acr.UserDialogs.Resource.String.abc_action_bar_home_description_format = global::MyTrips.Droid.Resource.String.abc_action_bar_home_description_format;
+			global::Acr.UserDialogs.Resource.String.abc_action_bar_home_subtitle_description_format = global::MyTrips.Droid.Resource.String.abc_action_bar_home_subtitle_description_format;
+			global::Acr.UserDialogs.Resource.String.abc_action_bar_up_description = global::MyTrips.Droid.Resource.String.abc_action_bar_up_description;
+			global::Acr.UserDialogs.Resource.String.abc_action_menu_overflow_description = global::MyTrips.Droid.Resource.String.abc_action_menu_overflow_description;
+			global::Acr.UserDialogs.Resource.String.abc_action_mode_done = global::MyTrips.Droid.Resource.String.abc_action_mode_done;
+			global::Acr.UserDialogs.Resource.String.abc_activity_chooser_view_see_all = global::MyTrips.Droid.Resource.String.abc_activity_chooser_view_see_all;
+			global::Acr.UserDialogs.Resource.String.abc_activitychooserview_choose_application = global::MyTrips.Droid.Resource.String.abc_activitychooserview_choose_application;
+			global::Acr.UserDialogs.Resource.String.abc_capital_off = global::MyTrips.Droid.Resource.String.abc_capital_off;
+			global::Acr.UserDialogs.Resource.String.abc_capital_on = global::MyTrips.Droid.Resource.String.abc_capital_on;
+			global::Acr.UserDialogs.Resource.String.abc_search_hint = global::MyTrips.Droid.Resource.String.abc_search_hint;
+			global::Acr.UserDialogs.Resource.String.abc_searchview_description_clear = global::MyTrips.Droid.Resource.String.abc_searchview_description_clear;
+			global::Acr.UserDialogs.Resource.String.abc_searchview_description_query = global::MyTrips.Droid.Resource.String.abc_searchview_description_query;
+			global::Acr.UserDialogs.Resource.String.abc_searchview_description_search = global::MyTrips.Droid.Resource.String.abc_searchview_description_search;
+			global::Acr.UserDialogs.Resource.String.abc_searchview_description_submit = global::MyTrips.Droid.Resource.String.abc_searchview_description_submit;
+			global::Acr.UserDialogs.Resource.String.abc_searchview_description_voice = global::MyTrips.Droid.Resource.String.abc_searchview_description_voice;
+			global::Acr.UserDialogs.Resource.String.abc_shareactionprovider_share_with = global::MyTrips.Droid.Resource.String.abc_shareactionprovider_share_with;
+			global::Acr.UserDialogs.Resource.String.abc_shareactionprovider_share_with_application = global::MyTrips.Droid.Resource.String.abc_shareactionprovider_share_with_application;
+			global::Acr.UserDialogs.Resource.String.abc_toolbar_collapse_description = global::MyTrips.Droid.Resource.String.abc_toolbar_collapse_description;
+			global::Acr.UserDialogs.Resource.String.appbar_scrolling_view_behavior = global::MyTrips.Droid.Resource.String.appbar_scrolling_view_behavior;
+			global::Acr.UserDialogs.Resource.String.character_counter_pattern = global::MyTrips.Droid.Resource.String.character_counter_pattern;
+			global::Acr.UserDialogs.Resource.String.library_name = global::MyTrips.Droid.Resource.String.library_name;
+			global::Acr.UserDialogs.Resource.String.status_bar_notification_info_overflow = global::MyTrips.Droid.Resource.String.status_bar_notification_info_overflow;
+			global::Acr.UserDialogs.Resource.Style.AlertDialog_AppCompat = global::MyTrips.Droid.Resource.Style.AlertDialog_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.AlertDialog_AppCompat_Light = global::MyTrips.Droid.Resource.Style.AlertDialog_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Animation_AppCompat_Dialog = global::MyTrips.Droid.Resource.Style.Animation_AppCompat_Dialog;
+			global::Acr.UserDialogs.Resource.Style.Animation_AppCompat_DropDownUp = global::MyTrips.Droid.Resource.Style.Animation_AppCompat_DropDownUp;
+			global::Acr.UserDialogs.Resource.Style.Base_AlertDialog_AppCompat = global::MyTrips.Droid.Resource.Style.Base_AlertDialog_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Base_AlertDialog_AppCompat_Light = global::MyTrips.Droid.Resource.Style.Base_AlertDialog_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Base_Animation_AppCompat_Dialog = global::MyTrips.Droid.Resource.Style.Base_Animation_AppCompat_Dialog;
+			global::Acr.UserDialogs.Resource.Style.Base_Animation_AppCompat_DropDownUp = global::MyTrips.Droid.Resource.Style.Base_Animation_AppCompat_DropDownUp;
+			global::Acr.UserDialogs.Resource.Style.Base_DialogWindowTitle_AppCompat = global::MyTrips.Droid.Resource.Style.Base_DialogWindowTitle_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Base_DialogWindowTitleBackground_AppCompat = global::MyTrips.Droid.Resource.Style.Base_DialogWindowTitleBackground_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Body1 = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body1;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Body2 = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Body2;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Button = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Button;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Caption = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Caption;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Display1 = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display1;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Display2 = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display2;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Display3 = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display3;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Display4 = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Display4;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Headline = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Headline;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Inverse = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Large = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Medium = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Menu = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Menu;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_SearchResult = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Small = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Subhead = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Title = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
+			global::Acr.UserDialogs.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title = global::MyTrips.Droid.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_CompactMenu = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_CompactMenu;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_Dialog = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_Dialog;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_Dialog_Alert = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_Alert;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_Light = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_Light_Dialog = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth;
+			global::Acr.UserDialogs.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge = global::MyTrips.Droid.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge;
+			global::Acr.UserDialogs.Resource.Style.Base_ThemeOverlay_AppCompat = global::MyTrips.Droid.Resource.Style.Base_ThemeOverlay_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar = global::MyTrips.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar;
+			global::Acr.UserDialogs.Resource.Style.Base_ThemeOverlay_AppCompat_Dark = global::MyTrips.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark;
+			global::Acr.UserDialogs.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar = global::MyTrips.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar;
+			global::Acr.UserDialogs.Resource.Style.Base_ThemeOverlay_AppCompat_Light = global::MyTrips.Droid.Resource.Style.Base_ThemeOverlay_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Base_V11_Theme_AppCompat_Dialog = global::MyTrips.Droid.Resource.Style.Base_V11_Theme_AppCompat_Dialog;
+			global::Acr.UserDialogs.Resource.Style.Base_V11_Theme_AppCompat_Light_Dialog = global::MyTrips.Droid.Resource.Style.Base_V11_Theme_AppCompat_Light_Dialog;
+			global::Acr.UserDialogs.Resource.Style.Base_V12_Widget_AppCompat_AutoCompleteTextView = global::MyTrips.Droid.Resource.Style.Base_V12_Widget_AppCompat_AutoCompleteTextView;
+			global::Acr.UserDialogs.Resource.Style.Base_V12_Widget_AppCompat_EditText = global::MyTrips.Droid.Resource.Style.Base_V12_Widget_AppCompat_EditText;
+			global::Acr.UserDialogs.Resource.Style.Base_V21_Theme_AppCompat = global::MyTrips.Droid.Resource.Style.Base_V21_Theme_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Base_V21_Theme_AppCompat_Dialog = global::MyTrips.Droid.Resource.Style.Base_V21_Theme_AppCompat_Dialog;
+			global::Acr.UserDialogs.Resource.Style.Base_V21_Theme_AppCompat_Light = global::MyTrips.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog = global::MyTrips.Droid.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog;
+			global::Acr.UserDialogs.Resource.Style.Base_V22_Theme_AppCompat = global::MyTrips.Droid.Resource.Style.Base_V22_Theme_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Base_V22_Theme_AppCompat_Light = global::MyTrips.Droid.Resource.Style.Base_V22_Theme_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Base_V23_Theme_AppCompat = global::MyTrips.Droid.Resource.Style.Base_V23_Theme_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Base_V23_Theme_AppCompat_Light = global::MyTrips.Droid.Resource.Style.Base_V23_Theme_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Base_V7_Theme_AppCompat = global::MyTrips.Droid.Resource.Style.Base_V7_Theme_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Base_V7_Theme_AppCompat_Dialog = global::MyTrips.Droid.Resource.Style.Base_V7_Theme_AppCompat_Dialog;
+			global::Acr.UserDialogs.Resource.Style.Base_V7_Theme_AppCompat_Light = global::MyTrips.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog = global::MyTrips.Droid.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog;
+			global::Acr.UserDialogs.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView = global::MyTrips.Droid.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView;
+			global::Acr.UserDialogs.Resource.Style.Base_V7_Widget_AppCompat_EditText = global::MyTrips.Droid.Resource.Style.Base_V7_Widget_AppCompat_EditText;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ActionBar = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ActionButton = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ActionMode = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ActionMode;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ActivityChooserView = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ActivityChooserView;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Button = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Button;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Button_Borderless = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Button_Colored = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Button_Colored;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Button_Small = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Button_Small;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ButtonBar = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_EditText = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_EditText;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ImageButton = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ImageButton;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Light_ActionBar = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ListPopupWindow = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ListPopupWindow;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ListView = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ListView;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ListView_DropDown = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ListView_DropDown;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ListView_Menu = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ListView_Menu;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_PopupMenu = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_PopupWindow = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_PopupWindow;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ProgressBar = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_RatingBar = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_RatingBar;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_SearchView = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_SearchView;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_SeekBar = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_SeekBar;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Spinner = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Spinner;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Toolbar = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation = global::MyTrips.Droid.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation;
+			global::Acr.UserDialogs.Resource.Style.Base_Widget_Design_TabLayout = global::MyTrips.Droid.Resource.Style.Base_Widget_Design_TabLayout;
+			global::Acr.UserDialogs.Resource.Style.Platform_AppCompat = global::MyTrips.Droid.Resource.Style.Platform_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Platform_AppCompat_Light = global::MyTrips.Droid.Resource.Style.Platform_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Platform_ThemeOverlay_AppCompat = global::MyTrips.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark = global::MyTrips.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark;
+			global::Acr.UserDialogs.Resource.Style.Platform_ThemeOverlay_AppCompat_Light = global::MyTrips.Droid.Resource.Style.Platform_ThemeOverlay_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Platform_V11_AppCompat = global::MyTrips.Droid.Resource.Style.Platform_V11_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Platform_V11_AppCompat_Light = global::MyTrips.Droid.Resource.Style.Platform_V11_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Platform_V14_AppCompat = global::MyTrips.Droid.Resource.Style.Platform_V14_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Platform_V14_AppCompat_Light = global::MyTrips.Droid.Resource.Style.Platform_V14_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Platform_Widget_AppCompat_Spinner = global::MyTrips.Droid.Resource.Style.Platform_Widget_AppCompat_Spinner;
+			global::Acr.UserDialogs.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat = global::MyTrips.Droid.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem = global::MyTrips.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem;
+			global::Acr.UserDialogs.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon = global::MyTrips.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon;
+			global::Acr.UserDialogs.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem = global::MyTrips.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem;
+			global::Acr.UserDialogs.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup = global::MyTrips.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup;
+			global::Acr.UserDialogs.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text = global::MyTrips.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text;
+			global::Acr.UserDialogs.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown = global::MyTrips.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown;
+			global::Acr.UserDialogs.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1 = global::MyTrips.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1;
+			global::Acr.UserDialogs.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2 = global::MyTrips.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2;
+			global::Acr.UserDialogs.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query = global::MyTrips.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query;
+			global::Acr.UserDialogs.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text = global::MyTrips.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text;
+			global::Acr.UserDialogs.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon = global::MyTrips.Droid.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon;
+			global::Acr.UserDialogs.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton = global::MyTrips.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton;
+			global::Acr.UserDialogs.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = global::MyTrips.Droid.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Body1 = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Body1;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Body2 = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Body2;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Button = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Button;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Caption = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Caption;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Display1 = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Display1;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Display2 = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Display2;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Display3 = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Display3;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Display4 = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Display4;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Headline = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Headline;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Inverse = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Inverse;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Large = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Large;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Large_Inverse = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Large_Inverse;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Medium = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Medium;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Medium_Inverse = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Medium_Inverse;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Menu = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Menu;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_SearchResult_Title = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_SearchResult_Title;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Small = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Small;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Small_Inverse = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Small_Inverse;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Subhead = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Subhead;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Title = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Title;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Title_Inverse = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Title_Inverse;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_Button = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_Switch = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_Switch;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::MyTrips.Droid.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_Design_CollapsingToolbar_Expanded = global::MyTrips.Droid.Resource.Style.TextAppearance_Design_CollapsingToolbar_Expanded;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_Design_Counter = global::MyTrips.Droid.Resource.Style.TextAppearance_Design_Counter;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_Design_Counter_Overflow = global::MyTrips.Droid.Resource.Style.TextAppearance_Design_Counter_Overflow;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_Design_Error = global::MyTrips.Droid.Resource.Style.TextAppearance_Design_Error;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_Design_Hint = global::MyTrips.Droid.Resource.Style.TextAppearance_Design_Hint;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_Design_Snackbar_Message = global::MyTrips.Droid.Resource.Style.TextAppearance_Design_Snackbar_Message;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_Design_Tab = global::MyTrips.Droid.Resource.Style.TextAppearance_Design_Tab;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_StatusBar_EventContent = global::MyTrips.Droid.Resource.Style.TextAppearance_StatusBar_EventContent;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_StatusBar_EventContent_Info = global::MyTrips.Droid.Resource.Style.TextAppearance_StatusBar_EventContent_Info;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_StatusBar_EventContent_Line2 = global::MyTrips.Droid.Resource.Style.TextAppearance_StatusBar_EventContent_Line2;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_StatusBar_EventContent_Time = global::MyTrips.Droid.Resource.Style.TextAppearance_StatusBar_EventContent_Time;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_StatusBar_EventContent_Title = global::MyTrips.Droid.Resource.Style.TextAppearance_StatusBar_EventContent_Title;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::MyTrips.Droid.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::MyTrips.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
+			global::Acr.UserDialogs.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title = global::MyTrips.Droid.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat = global::MyTrips.Droid.Resource.Style.Theme_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_CompactMenu = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_CompactMenu;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_Dialog = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_Dialog;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_Dialog_Alert = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_Dialog_Alert;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_Dialog_MinWidth = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_Dialog_MinWidth;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_DialogWhenLarge = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_DialogWhenLarge;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_Light = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_Light_DarkActionBar = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_Light_DarkActionBar;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_Light_Dialog = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_Light_Dialog;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_Light_Dialog_Alert = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_Alert;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_Light_NoActionBar = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_Light_NoActionBar;
+			global::Acr.UserDialogs.Resource.Style.Theme_AppCompat_NoActionBar = global::MyTrips.Droid.Resource.Style.Theme_AppCompat_NoActionBar;
+			global::Acr.UserDialogs.Resource.Style.ThemeOverlay_AppCompat = global::MyTrips.Droid.Resource.Style.ThemeOverlay_AppCompat;
+			global::Acr.UserDialogs.Resource.Style.ThemeOverlay_AppCompat_ActionBar = global::MyTrips.Droid.Resource.Style.ThemeOverlay_AppCompat_ActionBar;
+			global::Acr.UserDialogs.Resource.Style.ThemeOverlay_AppCompat_Dark = global::MyTrips.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark;
+			global::Acr.UserDialogs.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar = global::MyTrips.Droid.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar;
+			global::Acr.UserDialogs.Resource.Style.ThemeOverlay_AppCompat_Light = global::MyTrips.Droid.Resource.Style.ThemeOverlay_AppCompat_Light;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ActionBar = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ActionBar;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ActionBar_Solid = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ActionBar_Solid;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ActionBar_TabBar = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabBar;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ActionBar_TabText = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabText;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ActionBar_TabView = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ActionBar_TabView;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ActionButton = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ActionButton;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ActionButton_CloseMode = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ActionButton_CloseMode;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ActionButton_Overflow = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ActionButton_Overflow;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ActionMode = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ActionMode;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ActivityChooserView = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ActivityChooserView;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_AutoCompleteTextView = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_AutoCompleteTextView;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Button = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Button;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Button_Borderless = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Button_Borderless;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Button_Borderless_Colored = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Button_Borderless_Colored;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Button_Colored = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Button_Colored;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Button_Small = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Button_Small;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ButtonBar = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ButtonBar;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_CompoundButton_Switch = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_CompoundButton_Switch;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_DrawerArrowToggle = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_DrawerArrowToggle;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_DropDownItem_Spinner = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_DropDownItem_Spinner;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_EditText = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_EditText;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ImageButton = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ImageButton;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionBar = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionButton = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ActivityChooserView = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ActivityChooserView;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ListPopupWindow = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ListPopupWindow;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_ListView_DropDown = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_ListView_DropDown;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_PopupMenu = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_SearchView = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_SearchView;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ListPopupWindow = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ListPopupWindow;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ListView = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ListView;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ListView_DropDown = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ListView_DropDown;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ListView_Menu = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ListView_Menu;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_PopupMenu = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_PopupMenu;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_PopupMenu_Overflow = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_PopupMenu_Overflow;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_PopupWindow = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_PopupWindow;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ProgressBar = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ProgressBar;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_RatingBar = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_RatingBar;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_SearchView = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_SearchView;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_SearchView_ActionBar = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_SearchView_ActionBar;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_SeekBar = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_SeekBar;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Spinner = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Spinner;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Spinner_DropDown = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Spinner_Underlined = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Spinner_Underlined;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_TextView_SpinnerItem = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_TextView_SpinnerItem;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Toolbar = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Toolbar;
+			global::Acr.UserDialogs.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation = global::MyTrips.Droid.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation;
+			global::Acr.UserDialogs.Resource.Style.Widget_Design_AppBarLayout = global::MyTrips.Droid.Resource.Style.Widget_Design_AppBarLayout;
+			global::Acr.UserDialogs.Resource.Style.Widget_Design_CollapsingToolbar = global::MyTrips.Droid.Resource.Style.Widget_Design_CollapsingToolbar;
+			global::Acr.UserDialogs.Resource.Style.Widget_Design_CoordinatorLayout = global::MyTrips.Droid.Resource.Style.Widget_Design_CoordinatorLayout;
+			global::Acr.UserDialogs.Resource.Style.Widget_Design_FloatingActionButton = global::MyTrips.Droid.Resource.Style.Widget_Design_FloatingActionButton;
+			global::Acr.UserDialogs.Resource.Style.Widget_Design_NavigationView = global::MyTrips.Droid.Resource.Style.Widget_Design_NavigationView;
+			global::Acr.UserDialogs.Resource.Style.Widget_Design_ScrimInsetsFrameLayout = global::MyTrips.Droid.Resource.Style.Widget_Design_ScrimInsetsFrameLayout;
+			global::Acr.UserDialogs.Resource.Style.Widget_Design_Snackbar = global::MyTrips.Droid.Resource.Style.Widget_Design_Snackbar;
+			global::Acr.UserDialogs.Resource.Style.Widget_Design_TabLayout = global::MyTrips.Droid.Resource.Style.Widget_Design_TabLayout;
+			global::Acr.UserDialogs.Resource.Style.Widget_Design_TextInputLayout = global::MyTrips.Droid.Resource.Style.Widget_Design_TextInputLayout;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar = global::MyTrips.Droid.Resource.Styleable.ActionBar;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_background = global::MyTrips.Droid.Resource.Styleable.ActionBar_background;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_backgroundSplit = global::MyTrips.Droid.Resource.Styleable.ActionBar_backgroundSplit;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_backgroundStacked = global::MyTrips.Droid.Resource.Styleable.ActionBar_backgroundStacked;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_contentInsetEnd = global::MyTrips.Droid.Resource.Styleable.ActionBar_contentInsetEnd;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_contentInsetLeft = global::MyTrips.Droid.Resource.Styleable.ActionBar_contentInsetLeft;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_contentInsetRight = global::MyTrips.Droid.Resource.Styleable.ActionBar_contentInsetRight;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_contentInsetStart = global::MyTrips.Droid.Resource.Styleable.ActionBar_contentInsetStart;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_customNavigationLayout = global::MyTrips.Droid.Resource.Styleable.ActionBar_customNavigationLayout;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_displayOptions = global::MyTrips.Droid.Resource.Styleable.ActionBar_displayOptions;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_divider = global::MyTrips.Droid.Resource.Styleable.ActionBar_divider;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_elevation = global::MyTrips.Droid.Resource.Styleable.ActionBar_elevation;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_height = global::MyTrips.Droid.Resource.Styleable.ActionBar_height;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_hideOnContentScroll = global::MyTrips.Droid.Resource.Styleable.ActionBar_hideOnContentScroll;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_homeAsUpIndicator = global::MyTrips.Droid.Resource.Styleable.ActionBar_homeAsUpIndicator;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_homeLayout = global::MyTrips.Droid.Resource.Styleable.ActionBar_homeLayout;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_icon = global::MyTrips.Droid.Resource.Styleable.ActionBar_icon;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_indeterminateProgressStyle = global::MyTrips.Droid.Resource.Styleable.ActionBar_indeterminateProgressStyle;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_itemPadding = global::MyTrips.Droid.Resource.Styleable.ActionBar_itemPadding;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_logo = global::MyTrips.Droid.Resource.Styleable.ActionBar_logo;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_navigationMode = global::MyTrips.Droid.Resource.Styleable.ActionBar_navigationMode;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_popupTheme = global::MyTrips.Droid.Resource.Styleable.ActionBar_popupTheme;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_progressBarPadding = global::MyTrips.Droid.Resource.Styleable.ActionBar_progressBarPadding;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_progressBarStyle = global::MyTrips.Droid.Resource.Styleable.ActionBar_progressBarStyle;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_subtitle = global::MyTrips.Droid.Resource.Styleable.ActionBar_subtitle;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_subtitleTextStyle = global::MyTrips.Droid.Resource.Styleable.ActionBar_subtitleTextStyle;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_title = global::MyTrips.Droid.Resource.Styleable.ActionBar_title;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBar_titleTextStyle = global::MyTrips.Droid.Resource.Styleable.ActionBar_titleTextStyle;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBarLayout = global::MyTrips.Droid.Resource.Styleable.ActionBarLayout;
+			global::Acr.UserDialogs.Resource.Styleable.ActionBarLayout_android_layout_gravity = global::MyTrips.Droid.Resource.Styleable.ActionBarLayout_android_layout_gravity;
+			global::Acr.UserDialogs.Resource.Styleable.ActionMenuItemView = global::MyTrips.Droid.Resource.Styleable.ActionMenuItemView;
+			global::Acr.UserDialogs.Resource.Styleable.ActionMenuItemView_android_minWidth = global::MyTrips.Droid.Resource.Styleable.ActionMenuItemView_android_minWidth;
+			global::Acr.UserDialogs.Resource.Styleable.ActionMenuView = global::MyTrips.Droid.Resource.Styleable.ActionMenuView;
+			global::Acr.UserDialogs.Resource.Styleable.ActionMode = global::MyTrips.Droid.Resource.Styleable.ActionMode;
+			global::Acr.UserDialogs.Resource.Styleable.ActionMode_background = global::MyTrips.Droid.Resource.Styleable.ActionMode_background;
+			global::Acr.UserDialogs.Resource.Styleable.ActionMode_backgroundSplit = global::MyTrips.Droid.Resource.Styleable.ActionMode_backgroundSplit;
+			global::Acr.UserDialogs.Resource.Styleable.ActionMode_closeItemLayout = global::MyTrips.Droid.Resource.Styleable.ActionMode_closeItemLayout;
+			global::Acr.UserDialogs.Resource.Styleable.ActionMode_height = global::MyTrips.Droid.Resource.Styleable.ActionMode_height;
+			global::Acr.UserDialogs.Resource.Styleable.ActionMode_subtitleTextStyle = global::MyTrips.Droid.Resource.Styleable.ActionMode_subtitleTextStyle;
+			global::Acr.UserDialogs.Resource.Styleable.ActionMode_titleTextStyle = global::MyTrips.Droid.Resource.Styleable.ActionMode_titleTextStyle;
+			global::Acr.UserDialogs.Resource.Styleable.ActivityChooserView = global::MyTrips.Droid.Resource.Styleable.ActivityChooserView;
+			global::Acr.UserDialogs.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable = global::MyTrips.Droid.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable;
+			global::Acr.UserDialogs.Resource.Styleable.ActivityChooserView_initialActivityCount = global::MyTrips.Droid.Resource.Styleable.ActivityChooserView_initialActivityCount;
+			global::Acr.UserDialogs.Resource.Styleable.AlertDialog = global::MyTrips.Droid.Resource.Styleable.AlertDialog;
+			global::Acr.UserDialogs.Resource.Styleable.AlertDialog_android_layout = global::MyTrips.Droid.Resource.Styleable.AlertDialog_android_layout;
+			global::Acr.UserDialogs.Resource.Styleable.AlertDialog_buttonPanelSideLayout = global::MyTrips.Droid.Resource.Styleable.AlertDialog_buttonPanelSideLayout;
+			global::Acr.UserDialogs.Resource.Styleable.AlertDialog_listItemLayout = global::MyTrips.Droid.Resource.Styleable.AlertDialog_listItemLayout;
+			global::Acr.UserDialogs.Resource.Styleable.AlertDialog_listLayout = global::MyTrips.Droid.Resource.Styleable.AlertDialog_listLayout;
+			global::Acr.UserDialogs.Resource.Styleable.AlertDialog_multiChoiceItemLayout = global::MyTrips.Droid.Resource.Styleable.AlertDialog_multiChoiceItemLayout;
+			global::Acr.UserDialogs.Resource.Styleable.AlertDialog_singleChoiceItemLayout = global::MyTrips.Droid.Resource.Styleable.AlertDialog_singleChoiceItemLayout;
+			global::Acr.UserDialogs.Resource.Styleable.AppBarLayout = global::MyTrips.Droid.Resource.Styleable.AppBarLayout;
+			global::Acr.UserDialogs.Resource.Styleable.AppBarLayout_android_background = global::MyTrips.Droid.Resource.Styleable.AppBarLayout_android_background;
+			global::Acr.UserDialogs.Resource.Styleable.AppBarLayout_elevation = global::MyTrips.Droid.Resource.Styleable.AppBarLayout_elevation;
+			global::Acr.UserDialogs.Resource.Styleable.AppBarLayout_expanded = global::MyTrips.Droid.Resource.Styleable.AppBarLayout_expanded;
+			global::Acr.UserDialogs.Resource.Styleable.AppBarLayout_LayoutParams = global::MyTrips.Droid.Resource.Styleable.AppBarLayout_LayoutParams;
+			global::Acr.UserDialogs.Resource.Styleable.AppBarLayout_LayoutParams_layout_scrollFlags = global::MyTrips.Droid.Resource.Styleable.AppBarLayout_LayoutParams_layout_scrollFlags;
+			global::Acr.UserDialogs.Resource.Styleable.AppBarLayout_LayoutParams_layout_scrollInterpolator = global::MyTrips.Droid.Resource.Styleable.AppBarLayout_LayoutParams_layout_scrollInterpolator;
+			global::Acr.UserDialogs.Resource.Styleable.AppCompatTextView = global::MyTrips.Droid.Resource.Styleable.AppCompatTextView;
+			global::Acr.UserDialogs.Resource.Styleable.AppCompatTextView_android_textAppearance = global::MyTrips.Droid.Resource.Styleable.AppCompatTextView_android_textAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.AppCompatTextView_textAllCaps = global::MyTrips.Droid.Resource.Styleable.AppCompatTextView_textAllCaps;
+			global::Acr.UserDialogs.Resource.Styleable.ButtonBarLayout = global::MyTrips.Droid.Resource.Styleable.ButtonBarLayout;
+			global::Acr.UserDialogs.Resource.Styleable.ButtonBarLayout_allowStacking = global::MyTrips.Droid.Resource.Styleable.ButtonBarLayout_allowStacking;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingAppBarLayout_LayoutParams = global::MyTrips.Droid.Resource.Styleable.CollapsingAppBarLayout_LayoutParams;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingAppBarLayout_LayoutParams_layout_collapseMode = global::MyTrips.Droid.Resource.Styleable.CollapsingAppBarLayout_LayoutParams_layout_collapseMode;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingAppBarLayout_LayoutParams_layout_collapseParallaxMultiplier = global::MyTrips.Droid.Resource.Styleable.CollapsingAppBarLayout_LayoutParams_layout_collapseParallaxMultiplier;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleGravity = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleGravity;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleTextAppearance = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_collapsedTitleTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_contentScrim = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_contentScrim;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_expandedTitleGravity = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleGravity;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMargin = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMargin;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginBottom = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginBottom;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginEnd = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginEnd;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginStart = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginStart;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginTop = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleMarginTop;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_expandedTitleTextAppearance = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_expandedTitleTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_statusBarScrim = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_statusBarScrim;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_title = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_title;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_titleEnabled = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_titleEnabled;
+			global::Acr.UserDialogs.Resource.Styleable.CollapsingToolbarLayout_toolbarId = global::MyTrips.Droid.Resource.Styleable.CollapsingToolbarLayout_toolbarId;
+			global::Acr.UserDialogs.Resource.Styleable.CompoundButton = global::MyTrips.Droid.Resource.Styleable.CompoundButton;
+			global::Acr.UserDialogs.Resource.Styleable.CompoundButton_android_button = global::MyTrips.Droid.Resource.Styleable.CompoundButton_android_button;
+			global::Acr.UserDialogs.Resource.Styleable.CompoundButton_buttonTint = global::MyTrips.Droid.Resource.Styleable.CompoundButton_buttonTint;
+			global::Acr.UserDialogs.Resource.Styleable.CompoundButton_buttonTintMode = global::MyTrips.Droid.Resource.Styleable.CompoundButton_buttonTintMode;
+			global::Acr.UserDialogs.Resource.Styleable.CoordinatorLayout = global::MyTrips.Droid.Resource.Styleable.CoordinatorLayout;
+			global::Acr.UserDialogs.Resource.Styleable.CoordinatorLayout_keylines = global::MyTrips.Droid.Resource.Styleable.CoordinatorLayout_keylines;
+			global::Acr.UserDialogs.Resource.Styleable.CoordinatorLayout_statusBarBackground = global::MyTrips.Droid.Resource.Styleable.CoordinatorLayout_statusBarBackground;
+			global::Acr.UserDialogs.Resource.Styleable.CoordinatorLayout_LayoutParams = global::MyTrips.Droid.Resource.Styleable.CoordinatorLayout_LayoutParams;
+			global::Acr.UserDialogs.Resource.Styleable.CoordinatorLayout_LayoutParams_android_layout_gravity = global::MyTrips.Droid.Resource.Styleable.CoordinatorLayout_LayoutParams_android_layout_gravity;
+			global::Acr.UserDialogs.Resource.Styleable.CoordinatorLayout_LayoutParams_layout_anchor = global::MyTrips.Droid.Resource.Styleable.CoordinatorLayout_LayoutParams_layout_anchor;
+			global::Acr.UserDialogs.Resource.Styleable.CoordinatorLayout_LayoutParams_layout_anchorGravity = global::MyTrips.Droid.Resource.Styleable.CoordinatorLayout_LayoutParams_layout_anchorGravity;
+			global::Acr.UserDialogs.Resource.Styleable.CoordinatorLayout_LayoutParams_layout_behavior = global::MyTrips.Droid.Resource.Styleable.CoordinatorLayout_LayoutParams_layout_behavior;
+			global::Acr.UserDialogs.Resource.Styleable.CoordinatorLayout_LayoutParams_layout_keyline = global::MyTrips.Droid.Resource.Styleable.CoordinatorLayout_LayoutParams_layout_keyline;
+			global::Acr.UserDialogs.Resource.Styleable.DrawerArrowToggle = global::MyTrips.Droid.Resource.Styleable.DrawerArrowToggle;
+			global::Acr.UserDialogs.Resource.Styleable.DrawerArrowToggle_arrowHeadLength = global::MyTrips.Droid.Resource.Styleable.DrawerArrowToggle_arrowHeadLength;
+			global::Acr.UserDialogs.Resource.Styleable.DrawerArrowToggle_arrowShaftLength = global::MyTrips.Droid.Resource.Styleable.DrawerArrowToggle_arrowShaftLength;
+			global::Acr.UserDialogs.Resource.Styleable.DrawerArrowToggle_barLength = global::MyTrips.Droid.Resource.Styleable.DrawerArrowToggle_barLength;
+			global::Acr.UserDialogs.Resource.Styleable.DrawerArrowToggle_color = global::MyTrips.Droid.Resource.Styleable.DrawerArrowToggle_color;
+			global::Acr.UserDialogs.Resource.Styleable.DrawerArrowToggle_drawableSize = global::MyTrips.Droid.Resource.Styleable.DrawerArrowToggle_drawableSize;
+			global::Acr.UserDialogs.Resource.Styleable.DrawerArrowToggle_gapBetweenBars = global::MyTrips.Droid.Resource.Styleable.DrawerArrowToggle_gapBetweenBars;
+			global::Acr.UserDialogs.Resource.Styleable.DrawerArrowToggle_spinBars = global::MyTrips.Droid.Resource.Styleable.DrawerArrowToggle_spinBars;
+			global::Acr.UserDialogs.Resource.Styleable.DrawerArrowToggle_thickness = global::MyTrips.Droid.Resource.Styleable.DrawerArrowToggle_thickness;
+			global::Acr.UserDialogs.Resource.Styleable.FloatingActionButton = global::MyTrips.Droid.Resource.Styleable.FloatingActionButton;
+			global::Acr.UserDialogs.Resource.Styleable.FloatingActionButton_backgroundTint = global::MyTrips.Droid.Resource.Styleable.FloatingActionButton_backgroundTint;
+			global::Acr.UserDialogs.Resource.Styleable.FloatingActionButton_backgroundTintMode = global::MyTrips.Droid.Resource.Styleable.FloatingActionButton_backgroundTintMode;
+			global::Acr.UserDialogs.Resource.Styleable.FloatingActionButton_borderWidth = global::MyTrips.Droid.Resource.Styleable.FloatingActionButton_borderWidth;
+			global::Acr.UserDialogs.Resource.Styleable.FloatingActionButton_elevation = global::MyTrips.Droid.Resource.Styleable.FloatingActionButton_elevation;
+			global::Acr.UserDialogs.Resource.Styleable.FloatingActionButton_fabSize = global::MyTrips.Droid.Resource.Styleable.FloatingActionButton_fabSize;
+			global::Acr.UserDialogs.Resource.Styleable.FloatingActionButton_pressedTranslationZ = global::MyTrips.Droid.Resource.Styleable.FloatingActionButton_pressedTranslationZ;
+			global::Acr.UserDialogs.Resource.Styleable.FloatingActionButton_rippleColor = global::MyTrips.Droid.Resource.Styleable.FloatingActionButton_rippleColor;
+			global::Acr.UserDialogs.Resource.Styleable.ForegroundLinearLayout = global::MyTrips.Droid.Resource.Styleable.ForegroundLinearLayout;
+			global::Acr.UserDialogs.Resource.Styleable.ForegroundLinearLayout_android_foreground = global::MyTrips.Droid.Resource.Styleable.ForegroundLinearLayout_android_foreground;
+			global::Acr.UserDialogs.Resource.Styleable.ForegroundLinearLayout_android_foregroundGravity = global::MyTrips.Droid.Resource.Styleable.ForegroundLinearLayout_android_foregroundGravity;
+			global::Acr.UserDialogs.Resource.Styleable.ForegroundLinearLayout_foregroundInsidePadding = global::MyTrips.Droid.Resource.Styleable.ForegroundLinearLayout_foregroundInsidePadding;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_android_baselineAligned = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAligned;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_android_gravity = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_android_gravity;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_android_orientation = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_android_orientation;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_android_weightSum = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_android_weightSum;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_divider = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_divider;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_dividerPadding = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_dividerPadding;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_showDividers = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_showDividers;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_Layout = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_Layout;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight;
+			global::Acr.UserDialogs.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width = global::MyTrips.Droid.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width;
+			global::Acr.UserDialogs.Resource.Styleable.ListPopupWindow = global::MyTrips.Droid.Resource.Styleable.ListPopupWindow;
+			global::Acr.UserDialogs.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset = global::MyTrips.Droid.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset;
+			global::Acr.UserDialogs.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset = global::MyTrips.Droid.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset;
+			global::Acr.UserDialogs.Resource.Styleable.MenuGroup = global::MyTrips.Droid.Resource.Styleable.MenuGroup;
+			global::Acr.UserDialogs.Resource.Styleable.MenuGroup_android_checkableBehavior = global::MyTrips.Droid.Resource.Styleable.MenuGroup_android_checkableBehavior;
+			global::Acr.UserDialogs.Resource.Styleable.MenuGroup_android_enabled = global::MyTrips.Droid.Resource.Styleable.MenuGroup_android_enabled;
+			global::Acr.UserDialogs.Resource.Styleable.MenuGroup_android_id = global::MyTrips.Droid.Resource.Styleable.MenuGroup_android_id;
+			global::Acr.UserDialogs.Resource.Styleable.MenuGroup_android_menuCategory = global::MyTrips.Droid.Resource.Styleable.MenuGroup_android_menuCategory;
+			global::Acr.UserDialogs.Resource.Styleable.MenuGroup_android_orderInCategory = global::MyTrips.Droid.Resource.Styleable.MenuGroup_android_orderInCategory;
+			global::Acr.UserDialogs.Resource.Styleable.MenuGroup_android_visible = global::MyTrips.Droid.Resource.Styleable.MenuGroup_android_visible;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem = global::MyTrips.Droid.Resource.Styleable.MenuItem;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_actionLayout = global::MyTrips.Droid.Resource.Styleable.MenuItem_actionLayout;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_actionProviderClass = global::MyTrips.Droid.Resource.Styleable.MenuItem_actionProviderClass;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_actionViewClass = global::MyTrips.Droid.Resource.Styleable.MenuItem_actionViewClass;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_alphabeticShortcut = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_alphabeticShortcut;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_checkable = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_checkable;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_checked = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_checked;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_enabled = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_enabled;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_icon = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_icon;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_id = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_id;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_menuCategory = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_menuCategory;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_numericShortcut = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_numericShortcut;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_onClick = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_onClick;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_orderInCategory = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_orderInCategory;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_title = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_title;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_titleCondensed = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_titleCondensed;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_android_visible = global::MyTrips.Droid.Resource.Styleable.MenuItem_android_visible;
+			global::Acr.UserDialogs.Resource.Styleable.MenuItem_showAsAction = global::MyTrips.Droid.Resource.Styleable.MenuItem_showAsAction;
+			global::Acr.UserDialogs.Resource.Styleable.MenuView = global::MyTrips.Droid.Resource.Styleable.MenuView;
+			global::Acr.UserDialogs.Resource.Styleable.MenuView_android_headerBackground = global::MyTrips.Droid.Resource.Styleable.MenuView_android_headerBackground;
+			global::Acr.UserDialogs.Resource.Styleable.MenuView_android_horizontalDivider = global::MyTrips.Droid.Resource.Styleable.MenuView_android_horizontalDivider;
+			global::Acr.UserDialogs.Resource.Styleable.MenuView_android_itemBackground = global::MyTrips.Droid.Resource.Styleable.MenuView_android_itemBackground;
+			global::Acr.UserDialogs.Resource.Styleable.MenuView_android_itemIconDisabledAlpha = global::MyTrips.Droid.Resource.Styleable.MenuView_android_itemIconDisabledAlpha;
+			global::Acr.UserDialogs.Resource.Styleable.MenuView_android_itemTextAppearance = global::MyTrips.Droid.Resource.Styleable.MenuView_android_itemTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.MenuView_android_verticalDivider = global::MyTrips.Droid.Resource.Styleable.MenuView_android_verticalDivider;
+			global::Acr.UserDialogs.Resource.Styleable.MenuView_android_windowAnimationStyle = global::MyTrips.Droid.Resource.Styleable.MenuView_android_windowAnimationStyle;
+			global::Acr.UserDialogs.Resource.Styleable.MenuView_preserveIconSpacing = global::MyTrips.Droid.Resource.Styleable.MenuView_preserveIconSpacing;
+			global::Acr.UserDialogs.Resource.Styleable.NavigationView = global::MyTrips.Droid.Resource.Styleable.NavigationView;
+			global::Acr.UserDialogs.Resource.Styleable.NavigationView_android_background = global::MyTrips.Droid.Resource.Styleable.NavigationView_android_background;
+			global::Acr.UserDialogs.Resource.Styleable.NavigationView_android_fitsSystemWindows = global::MyTrips.Droid.Resource.Styleable.NavigationView_android_fitsSystemWindows;
+			global::Acr.UserDialogs.Resource.Styleable.NavigationView_android_maxWidth = global::MyTrips.Droid.Resource.Styleable.NavigationView_android_maxWidth;
+			global::Acr.UserDialogs.Resource.Styleable.NavigationView_elevation = global::MyTrips.Droid.Resource.Styleable.NavigationView_elevation;
+			global::Acr.UserDialogs.Resource.Styleable.NavigationView_headerLayout = global::MyTrips.Droid.Resource.Styleable.NavigationView_headerLayout;
+			global::Acr.UserDialogs.Resource.Styleable.NavigationView_itemBackground = global::MyTrips.Droid.Resource.Styleable.NavigationView_itemBackground;
+			global::Acr.UserDialogs.Resource.Styleable.NavigationView_itemIconTint = global::MyTrips.Droid.Resource.Styleable.NavigationView_itemIconTint;
+			global::Acr.UserDialogs.Resource.Styleable.NavigationView_itemTextAppearance = global::MyTrips.Droid.Resource.Styleable.NavigationView_itemTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.NavigationView_itemTextColor = global::MyTrips.Droid.Resource.Styleable.NavigationView_itemTextColor;
+			global::Acr.UserDialogs.Resource.Styleable.NavigationView_menu = global::MyTrips.Droid.Resource.Styleable.NavigationView_menu;
+			global::Acr.UserDialogs.Resource.Styleable.PopupWindow = global::MyTrips.Droid.Resource.Styleable.PopupWindow;
+			global::Acr.UserDialogs.Resource.Styleable.PopupWindow_android_popupBackground = global::MyTrips.Droid.Resource.Styleable.PopupWindow_android_popupBackground;
+			global::Acr.UserDialogs.Resource.Styleable.PopupWindow_overlapAnchor = global::MyTrips.Droid.Resource.Styleable.PopupWindow_overlapAnchor;
+			global::Acr.UserDialogs.Resource.Styleable.PopupWindowBackgroundState = global::MyTrips.Droid.Resource.Styleable.PopupWindowBackgroundState;
+			global::Acr.UserDialogs.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor = global::MyTrips.Droid.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel = global::MyTrips.Droid.Resource.Styleable.ProgressWheel;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel_ahBarColor = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahBarColor;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel_ahBarLength = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahBarLength;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel_ahBarWidth = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahBarWidth;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel_ahCircleColor = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahCircleColor;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel_ahDelayMillis = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahDelayMillis;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel_ahRadius = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahRadius;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel_ahRimColor = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahRimColor;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel_ahRimWidth = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahRimWidth;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel_ahSpinSpeed = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahSpinSpeed;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel_ahText = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahText;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel_ahTextColor = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahTextColor;
+			global::Acr.UserDialogs.Resource.Styleable.ProgressWheel_ahTextSize = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahTextSize;
+			global::Acr.UserDialogs.Resource.Styleable.RecyclerView = global::MyTrips.Droid.Resource.Styleable.RecyclerView;
+			global::Acr.UserDialogs.Resource.Styleable.RecyclerView_android_orientation = global::MyTrips.Droid.Resource.Styleable.RecyclerView_android_orientation;
+			global::Acr.UserDialogs.Resource.Styleable.RecyclerView_layoutManager = global::MyTrips.Droid.Resource.Styleable.RecyclerView_layoutManager;
+			global::Acr.UserDialogs.Resource.Styleable.RecyclerView_reverseLayout = global::MyTrips.Droid.Resource.Styleable.RecyclerView_reverseLayout;
+			global::Acr.UserDialogs.Resource.Styleable.RecyclerView_spanCount = global::MyTrips.Droid.Resource.Styleable.RecyclerView_spanCount;
+			global::Acr.UserDialogs.Resource.Styleable.RecyclerView_stackFromEnd = global::MyTrips.Droid.Resource.Styleable.RecyclerView_stackFromEnd;
+			global::Acr.UserDialogs.Resource.Styleable.ScrimInsetsFrameLayout = global::MyTrips.Droid.Resource.Styleable.ScrimInsetsFrameLayout;
+			global::Acr.UserDialogs.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground = global::MyTrips.Droid.Resource.Styleable.ScrimInsetsFrameLayout_insetForeground;
+			global::Acr.UserDialogs.Resource.Styleable.ScrollingViewBehavior_Params = global::MyTrips.Droid.Resource.Styleable.ScrollingViewBehavior_Params;
+			global::Acr.UserDialogs.Resource.Styleable.ScrollingViewBehavior_Params_behavior_overlapTop = global::MyTrips.Droid.Resource.Styleable.ScrollingViewBehavior_Params_behavior_overlapTop;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView = global::MyTrips.Droid.Resource.Styleable.SearchView;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_android_focusable = global::MyTrips.Droid.Resource.Styleable.SearchView_android_focusable;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_android_imeOptions = global::MyTrips.Droid.Resource.Styleable.SearchView_android_imeOptions;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_android_inputType = global::MyTrips.Droid.Resource.Styleable.SearchView_android_inputType;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_android_maxWidth = global::MyTrips.Droid.Resource.Styleable.SearchView_android_maxWidth;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_closeIcon = global::MyTrips.Droid.Resource.Styleable.SearchView_closeIcon;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_commitIcon = global::MyTrips.Droid.Resource.Styleable.SearchView_commitIcon;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_defaultQueryHint = global::MyTrips.Droid.Resource.Styleable.SearchView_defaultQueryHint;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_goIcon = global::MyTrips.Droid.Resource.Styleable.SearchView_goIcon;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_iconifiedByDefault = global::MyTrips.Droid.Resource.Styleable.SearchView_iconifiedByDefault;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_layout = global::MyTrips.Droid.Resource.Styleable.SearchView_layout;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_queryBackground = global::MyTrips.Droid.Resource.Styleable.SearchView_queryBackground;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_queryHint = global::MyTrips.Droid.Resource.Styleable.SearchView_queryHint;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_searchHintIcon = global::MyTrips.Droid.Resource.Styleable.SearchView_searchHintIcon;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_searchIcon = global::MyTrips.Droid.Resource.Styleable.SearchView_searchIcon;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_submitBackground = global::MyTrips.Droid.Resource.Styleable.SearchView_submitBackground;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_suggestionRowLayout = global::MyTrips.Droid.Resource.Styleable.SearchView_suggestionRowLayout;
+			global::Acr.UserDialogs.Resource.Styleable.SearchView_voiceIcon = global::MyTrips.Droid.Resource.Styleable.SearchView_voiceIcon;
+			global::Acr.UserDialogs.Resource.Styleable.SnackbarLayout = global::MyTrips.Droid.Resource.Styleable.SnackbarLayout;
+			global::Acr.UserDialogs.Resource.Styleable.SnackbarLayout_android_maxWidth = global::MyTrips.Droid.Resource.Styleable.SnackbarLayout_android_maxWidth;
+			global::Acr.UserDialogs.Resource.Styleable.SnackbarLayout_elevation = global::MyTrips.Droid.Resource.Styleable.SnackbarLayout_elevation;
+			global::Acr.UserDialogs.Resource.Styleable.SnackbarLayout_maxActionInlineWidth = global::MyTrips.Droid.Resource.Styleable.SnackbarLayout_maxActionInlineWidth;
+			global::Acr.UserDialogs.Resource.Styleable.Spinner = global::MyTrips.Droid.Resource.Styleable.Spinner;
+			global::Acr.UserDialogs.Resource.Styleable.Spinner_android_dropDownWidth = global::MyTrips.Droid.Resource.Styleable.Spinner_android_dropDownWidth;
+			global::Acr.UserDialogs.Resource.Styleable.Spinner_android_popupBackground = global::MyTrips.Droid.Resource.Styleable.Spinner_android_popupBackground;
+			global::Acr.UserDialogs.Resource.Styleable.Spinner_android_prompt = global::MyTrips.Droid.Resource.Styleable.Spinner_android_prompt;
+			global::Acr.UserDialogs.Resource.Styleable.Spinner_popupTheme = global::MyTrips.Droid.Resource.Styleable.Spinner_popupTheme;
+			global::Acr.UserDialogs.Resource.Styleable.SwitchCompat = global::MyTrips.Droid.Resource.Styleable.SwitchCompat;
+			global::Acr.UserDialogs.Resource.Styleable.SwitchCompat_android_textOff = global::MyTrips.Droid.Resource.Styleable.SwitchCompat_android_textOff;
+			global::Acr.UserDialogs.Resource.Styleable.SwitchCompat_android_textOn = global::MyTrips.Droid.Resource.Styleable.SwitchCompat_android_textOn;
+			global::Acr.UserDialogs.Resource.Styleable.SwitchCompat_android_thumb = global::MyTrips.Droid.Resource.Styleable.SwitchCompat_android_thumb;
+			global::Acr.UserDialogs.Resource.Styleable.SwitchCompat_showText = global::MyTrips.Droid.Resource.Styleable.SwitchCompat_showText;
+			global::Acr.UserDialogs.Resource.Styleable.SwitchCompat_splitTrack = global::MyTrips.Droid.Resource.Styleable.SwitchCompat_splitTrack;
+			global::Acr.UserDialogs.Resource.Styleable.SwitchCompat_switchMinWidth = global::MyTrips.Droid.Resource.Styleable.SwitchCompat_switchMinWidth;
+			global::Acr.UserDialogs.Resource.Styleable.SwitchCompat_switchPadding = global::MyTrips.Droid.Resource.Styleable.SwitchCompat_switchPadding;
+			global::Acr.UserDialogs.Resource.Styleable.SwitchCompat_switchTextAppearance = global::MyTrips.Droid.Resource.Styleable.SwitchCompat_switchTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.SwitchCompat_thumbTextPadding = global::MyTrips.Droid.Resource.Styleable.SwitchCompat_thumbTextPadding;
+			global::Acr.UserDialogs.Resource.Styleable.SwitchCompat_track = global::MyTrips.Droid.Resource.Styleable.SwitchCompat_track;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout = global::MyTrips.Droid.Resource.Styleable.TabLayout;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabBackground = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabBackground;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabContentStart = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabContentStart;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabGravity = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabGravity;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabIndicatorColor = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabIndicatorColor;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabIndicatorHeight = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabIndicatorHeight;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabMaxWidth = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabMaxWidth;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabMinWidth = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabMinWidth;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabMode = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabMode;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabPadding = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabPadding;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabPaddingBottom = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabPaddingBottom;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabPaddingEnd = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabPaddingEnd;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabPaddingStart = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabPaddingStart;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabPaddingTop = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabPaddingTop;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabSelectedTextColor = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabSelectedTextColor;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabTextAppearance = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.TabLayout_tabTextColor = global::MyTrips.Droid.Resource.Styleable.TabLayout_tabTextColor;
+			global::Acr.UserDialogs.Resource.Styleable.TextAppearance = global::MyTrips.Droid.Resource.Styleable.TextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.TextAppearance_android_shadowColor = global::MyTrips.Droid.Resource.Styleable.TextAppearance_android_shadowColor;
+			global::Acr.UserDialogs.Resource.Styleable.TextAppearance_android_shadowDx = global::MyTrips.Droid.Resource.Styleable.TextAppearance_android_shadowDx;
+			global::Acr.UserDialogs.Resource.Styleable.TextAppearance_android_shadowDy = global::MyTrips.Droid.Resource.Styleable.TextAppearance_android_shadowDy;
+			global::Acr.UserDialogs.Resource.Styleable.TextAppearance_android_shadowRadius = global::MyTrips.Droid.Resource.Styleable.TextAppearance_android_shadowRadius;
+			global::Acr.UserDialogs.Resource.Styleable.TextAppearance_android_textColor = global::MyTrips.Droid.Resource.Styleable.TextAppearance_android_textColor;
+			global::Acr.UserDialogs.Resource.Styleable.TextAppearance_android_textSize = global::MyTrips.Droid.Resource.Styleable.TextAppearance_android_textSize;
+			global::Acr.UserDialogs.Resource.Styleable.TextAppearance_android_textStyle = global::MyTrips.Droid.Resource.Styleable.TextAppearance_android_textStyle;
+			global::Acr.UserDialogs.Resource.Styleable.TextAppearance_android_typeface = global::MyTrips.Droid.Resource.Styleable.TextAppearance_android_typeface;
+			global::Acr.UserDialogs.Resource.Styleable.TextAppearance_textAllCaps = global::MyTrips.Droid.Resource.Styleable.TextAppearance_textAllCaps;
+			global::Acr.UserDialogs.Resource.Styleable.TextInputLayout = global::MyTrips.Droid.Resource.Styleable.TextInputLayout;
+			global::Acr.UserDialogs.Resource.Styleable.TextInputLayout_android_hint = global::MyTrips.Droid.Resource.Styleable.TextInputLayout_android_hint;
+			global::Acr.UserDialogs.Resource.Styleable.TextInputLayout_android_textColorHint = global::MyTrips.Droid.Resource.Styleable.TextInputLayout_android_textColorHint;
+			global::Acr.UserDialogs.Resource.Styleable.TextInputLayout_counterEnabled = global::MyTrips.Droid.Resource.Styleable.TextInputLayout_counterEnabled;
+			global::Acr.UserDialogs.Resource.Styleable.TextInputLayout_counterMaxLength = global::MyTrips.Droid.Resource.Styleable.TextInputLayout_counterMaxLength;
+			global::Acr.UserDialogs.Resource.Styleable.TextInputLayout_counterOverflowTextAppearance = global::MyTrips.Droid.Resource.Styleable.TextInputLayout_counterOverflowTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.TextInputLayout_counterTextAppearance = global::MyTrips.Droid.Resource.Styleable.TextInputLayout_counterTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.TextInputLayout_errorEnabled = global::MyTrips.Droid.Resource.Styleable.TextInputLayout_errorEnabled;
+			global::Acr.UserDialogs.Resource.Styleable.TextInputLayout_errorTextAppearance = global::MyTrips.Droid.Resource.Styleable.TextInputLayout_errorTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.TextInputLayout_hintAnimationEnabled = global::MyTrips.Droid.Resource.Styleable.TextInputLayout_hintAnimationEnabled;
+			global::Acr.UserDialogs.Resource.Styleable.TextInputLayout_hintTextAppearance = global::MyTrips.Droid.Resource.Styleable.TextInputLayout_hintTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.Theme = global::MyTrips.Droid.Resource.Styleable.Theme;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionBarDivider = global::MyTrips.Droid.Resource.Styleable.Theme_actionBarDivider;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionBarItemBackground = global::MyTrips.Droid.Resource.Styleable.Theme_actionBarItemBackground;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionBarPopupTheme = global::MyTrips.Droid.Resource.Styleable.Theme_actionBarPopupTheme;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionBarSize = global::MyTrips.Droid.Resource.Styleable.Theme_actionBarSize;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionBarSplitStyle = global::MyTrips.Droid.Resource.Styleable.Theme_actionBarSplitStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionBarStyle = global::MyTrips.Droid.Resource.Styleable.Theme_actionBarStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionBarTabBarStyle = global::MyTrips.Droid.Resource.Styleable.Theme_actionBarTabBarStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionBarTabStyle = global::MyTrips.Droid.Resource.Styleable.Theme_actionBarTabStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionBarTabTextStyle = global::MyTrips.Droid.Resource.Styleable.Theme_actionBarTabTextStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionBarTheme = global::MyTrips.Droid.Resource.Styleable.Theme_actionBarTheme;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionBarWidgetTheme = global::MyTrips.Droid.Resource.Styleable.Theme_actionBarWidgetTheme;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionButtonStyle = global::MyTrips.Droid.Resource.Styleable.Theme_actionButtonStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionDropDownStyle = global::MyTrips.Droid.Resource.Styleable.Theme_actionDropDownStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionMenuTextAppearance = global::MyTrips.Droid.Resource.Styleable.Theme_actionMenuTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionMenuTextColor = global::MyTrips.Droid.Resource.Styleable.Theme_actionMenuTextColor;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModeBackground = global::MyTrips.Droid.Resource.Styleable.Theme_actionModeBackground;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModeCloseButtonStyle = global::MyTrips.Droid.Resource.Styleable.Theme_actionModeCloseButtonStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModeCloseDrawable = global::MyTrips.Droid.Resource.Styleable.Theme_actionModeCloseDrawable;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModeCopyDrawable = global::MyTrips.Droid.Resource.Styleable.Theme_actionModeCopyDrawable;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModeCutDrawable = global::MyTrips.Droid.Resource.Styleable.Theme_actionModeCutDrawable;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModeFindDrawable = global::MyTrips.Droid.Resource.Styleable.Theme_actionModeFindDrawable;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModePasteDrawable = global::MyTrips.Droid.Resource.Styleable.Theme_actionModePasteDrawable;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModePopupWindowStyle = global::MyTrips.Droid.Resource.Styleable.Theme_actionModePopupWindowStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModeSelectAllDrawable = global::MyTrips.Droid.Resource.Styleable.Theme_actionModeSelectAllDrawable;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModeShareDrawable = global::MyTrips.Droid.Resource.Styleable.Theme_actionModeShareDrawable;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModeSplitBackground = global::MyTrips.Droid.Resource.Styleable.Theme_actionModeSplitBackground;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModeStyle = global::MyTrips.Droid.Resource.Styleable.Theme_actionModeStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionModeWebSearchDrawable = global::MyTrips.Droid.Resource.Styleable.Theme_actionModeWebSearchDrawable;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionOverflowButtonStyle = global::MyTrips.Droid.Resource.Styleable.Theme_actionOverflowButtonStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_actionOverflowMenuStyle = global::MyTrips.Droid.Resource.Styleable.Theme_actionOverflowMenuStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_activityChooserViewStyle = global::MyTrips.Droid.Resource.Styleable.Theme_activityChooserViewStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_alertDialogButtonGroupStyle = global::MyTrips.Droid.Resource.Styleable.Theme_alertDialogButtonGroupStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_alertDialogCenterButtons = global::MyTrips.Droid.Resource.Styleable.Theme_alertDialogCenterButtons;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_alertDialogStyle = global::MyTrips.Droid.Resource.Styleable.Theme_alertDialogStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_alertDialogTheme = global::MyTrips.Droid.Resource.Styleable.Theme_alertDialogTheme;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_android_windowAnimationStyle = global::MyTrips.Droid.Resource.Styleable.Theme_android_windowAnimationStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_android_windowIsFloating = global::MyTrips.Droid.Resource.Styleable.Theme_android_windowIsFloating;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_autoCompleteTextViewStyle = global::MyTrips.Droid.Resource.Styleable.Theme_autoCompleteTextViewStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_borderlessButtonStyle = global::MyTrips.Droid.Resource.Styleable.Theme_borderlessButtonStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_buttonBarButtonStyle = global::MyTrips.Droid.Resource.Styleable.Theme_buttonBarButtonStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_buttonBarNegativeButtonStyle = global::MyTrips.Droid.Resource.Styleable.Theme_buttonBarNegativeButtonStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_buttonBarNeutralButtonStyle = global::MyTrips.Droid.Resource.Styleable.Theme_buttonBarNeutralButtonStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_buttonBarPositiveButtonStyle = global::MyTrips.Droid.Resource.Styleable.Theme_buttonBarPositiveButtonStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_buttonBarStyle = global::MyTrips.Droid.Resource.Styleable.Theme_buttonBarStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_buttonStyle = global::MyTrips.Droid.Resource.Styleable.Theme_buttonStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_buttonStyleSmall = global::MyTrips.Droid.Resource.Styleable.Theme_buttonStyleSmall;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_checkboxStyle = global::MyTrips.Droid.Resource.Styleable.Theme_checkboxStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_checkedTextViewStyle = global::MyTrips.Droid.Resource.Styleable.Theme_checkedTextViewStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_colorAccent = global::MyTrips.Droid.Resource.Styleable.Theme_colorAccent;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_colorButtonNormal = global::MyTrips.Droid.Resource.Styleable.Theme_colorButtonNormal;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_colorControlActivated = global::MyTrips.Droid.Resource.Styleable.Theme_colorControlActivated;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_colorControlHighlight = global::MyTrips.Droid.Resource.Styleable.Theme_colorControlHighlight;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_colorControlNormal = global::MyTrips.Droid.Resource.Styleable.Theme_colorControlNormal;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_colorPrimary = global::MyTrips.Droid.Resource.Styleable.Theme_colorPrimary;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_colorPrimaryDark = global::MyTrips.Droid.Resource.Styleable.Theme_colorPrimaryDark;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_colorSwitchThumbNormal = global::MyTrips.Droid.Resource.Styleable.Theme_colorSwitchThumbNormal;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_controlBackground = global::MyTrips.Droid.Resource.Styleable.Theme_controlBackground;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_dialogPreferredPadding = global::MyTrips.Droid.Resource.Styleable.Theme_dialogPreferredPadding;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_dialogTheme = global::MyTrips.Droid.Resource.Styleable.Theme_dialogTheme;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_dividerHorizontal = global::MyTrips.Droid.Resource.Styleable.Theme_dividerHorizontal;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_dividerVertical = global::MyTrips.Droid.Resource.Styleable.Theme_dividerVertical;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_dropDownListViewStyle = global::MyTrips.Droid.Resource.Styleable.Theme_dropDownListViewStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_dropdownListPreferredItemHeight = global::MyTrips.Droid.Resource.Styleable.Theme_dropdownListPreferredItemHeight;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_editTextBackground = global::MyTrips.Droid.Resource.Styleable.Theme_editTextBackground;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_editTextColor = global::MyTrips.Droid.Resource.Styleable.Theme_editTextColor;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_editTextStyle = global::MyTrips.Droid.Resource.Styleable.Theme_editTextStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_homeAsUpIndicator = global::MyTrips.Droid.Resource.Styleable.Theme_homeAsUpIndicator;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_imageButtonStyle = global::MyTrips.Droid.Resource.Styleable.Theme_imageButtonStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_listChoiceBackgroundIndicator = global::MyTrips.Droid.Resource.Styleable.Theme_listChoiceBackgroundIndicator;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_listDividerAlertDialog = global::MyTrips.Droid.Resource.Styleable.Theme_listDividerAlertDialog;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_listPopupWindowStyle = global::MyTrips.Droid.Resource.Styleable.Theme_listPopupWindowStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_listPreferredItemHeight = global::MyTrips.Droid.Resource.Styleable.Theme_listPreferredItemHeight;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_listPreferredItemHeightLarge = global::MyTrips.Droid.Resource.Styleable.Theme_listPreferredItemHeightLarge;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_listPreferredItemHeightSmall = global::MyTrips.Droid.Resource.Styleable.Theme_listPreferredItemHeightSmall;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_listPreferredItemPaddingLeft = global::MyTrips.Droid.Resource.Styleable.Theme_listPreferredItemPaddingLeft;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_listPreferredItemPaddingRight = global::MyTrips.Droid.Resource.Styleable.Theme_listPreferredItemPaddingRight;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_panelBackground = global::MyTrips.Droid.Resource.Styleable.Theme_panelBackground;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_panelMenuListTheme = global::MyTrips.Droid.Resource.Styleable.Theme_panelMenuListTheme;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_panelMenuListWidth = global::MyTrips.Droid.Resource.Styleable.Theme_panelMenuListWidth;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_popupMenuStyle = global::MyTrips.Droid.Resource.Styleable.Theme_popupMenuStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_popupWindowStyle = global::MyTrips.Droid.Resource.Styleable.Theme_popupWindowStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_radioButtonStyle = global::MyTrips.Droid.Resource.Styleable.Theme_radioButtonStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_ratingBarStyle = global::MyTrips.Droid.Resource.Styleable.Theme_ratingBarStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_searchViewStyle = global::MyTrips.Droid.Resource.Styleable.Theme_searchViewStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_seekBarStyle = global::MyTrips.Droid.Resource.Styleable.Theme_seekBarStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_selectableItemBackground = global::MyTrips.Droid.Resource.Styleable.Theme_selectableItemBackground;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_selectableItemBackgroundBorderless = global::MyTrips.Droid.Resource.Styleable.Theme_selectableItemBackgroundBorderless;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_spinnerDropDownItemStyle = global::MyTrips.Droid.Resource.Styleable.Theme_spinnerDropDownItemStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_spinnerStyle = global::MyTrips.Droid.Resource.Styleable.Theme_spinnerStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_switchStyle = global::MyTrips.Droid.Resource.Styleable.Theme_switchStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_textAppearanceLargePopupMenu = global::MyTrips.Droid.Resource.Styleable.Theme_textAppearanceLargePopupMenu;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_textAppearanceListItem = global::MyTrips.Droid.Resource.Styleable.Theme_textAppearanceListItem;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_textAppearanceListItemSmall = global::MyTrips.Droid.Resource.Styleable.Theme_textAppearanceListItemSmall;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_textAppearanceSearchResultSubtitle = global::MyTrips.Droid.Resource.Styleable.Theme_textAppearanceSearchResultSubtitle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_textAppearanceSearchResultTitle = global::MyTrips.Droid.Resource.Styleable.Theme_textAppearanceSearchResultTitle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_textAppearanceSmallPopupMenu = global::MyTrips.Droid.Resource.Styleable.Theme_textAppearanceSmallPopupMenu;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_textColorAlertDialogListItem = global::MyTrips.Droid.Resource.Styleable.Theme_textColorAlertDialogListItem;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_textColorSearchUrl = global::MyTrips.Droid.Resource.Styleable.Theme_textColorSearchUrl;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_toolbarNavigationButtonStyle = global::MyTrips.Droid.Resource.Styleable.Theme_toolbarNavigationButtonStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_toolbarStyle = global::MyTrips.Droid.Resource.Styleable.Theme_toolbarStyle;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_windowActionBar = global::MyTrips.Droid.Resource.Styleable.Theme_windowActionBar;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_windowActionBarOverlay = global::MyTrips.Droid.Resource.Styleable.Theme_windowActionBarOverlay;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_windowActionModeOverlay = global::MyTrips.Droid.Resource.Styleable.Theme_windowActionModeOverlay;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_windowFixedHeightMajor = global::MyTrips.Droid.Resource.Styleable.Theme_windowFixedHeightMajor;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_windowFixedHeightMinor = global::MyTrips.Droid.Resource.Styleable.Theme_windowFixedHeightMinor;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_windowFixedWidthMajor = global::MyTrips.Droid.Resource.Styleable.Theme_windowFixedWidthMajor;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_windowFixedWidthMinor = global::MyTrips.Droid.Resource.Styleable.Theme_windowFixedWidthMinor;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_windowMinWidthMajor = global::MyTrips.Droid.Resource.Styleable.Theme_windowMinWidthMajor;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_windowMinWidthMinor = global::MyTrips.Droid.Resource.Styleable.Theme_windowMinWidthMinor;
+			global::Acr.UserDialogs.Resource.Styleable.Theme_windowNoTitle = global::MyTrips.Droid.Resource.Styleable.Theme_windowNoTitle;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar = global::MyTrips.Droid.Resource.Styleable.Toolbar;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_android_gravity = global::MyTrips.Droid.Resource.Styleable.Toolbar_android_gravity;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_android_minHeight = global::MyTrips.Droid.Resource.Styleable.Toolbar_android_minHeight;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_collapseContentDescription = global::MyTrips.Droid.Resource.Styleable.Toolbar_collapseContentDescription;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_collapseIcon = global::MyTrips.Droid.Resource.Styleable.Toolbar_collapseIcon;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_contentInsetEnd = global::MyTrips.Droid.Resource.Styleable.Toolbar_contentInsetEnd;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_contentInsetLeft = global::MyTrips.Droid.Resource.Styleable.Toolbar_contentInsetLeft;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_contentInsetRight = global::MyTrips.Droid.Resource.Styleable.Toolbar_contentInsetRight;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_contentInsetStart = global::MyTrips.Droid.Resource.Styleable.Toolbar_contentInsetStart;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_logo = global::MyTrips.Droid.Resource.Styleable.Toolbar_logo;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_logoDescription = global::MyTrips.Droid.Resource.Styleable.Toolbar_logoDescription;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_maxButtonHeight = global::MyTrips.Droid.Resource.Styleable.Toolbar_maxButtonHeight;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_navigationContentDescription = global::MyTrips.Droid.Resource.Styleable.Toolbar_navigationContentDescription;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_navigationIcon = global::MyTrips.Droid.Resource.Styleable.Toolbar_navigationIcon;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_popupTheme = global::MyTrips.Droid.Resource.Styleable.Toolbar_popupTheme;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_subtitle = global::MyTrips.Droid.Resource.Styleable.Toolbar_subtitle;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_subtitleTextAppearance = global::MyTrips.Droid.Resource.Styleable.Toolbar_subtitleTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_subtitleTextColor = global::MyTrips.Droid.Resource.Styleable.Toolbar_subtitleTextColor;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_title = global::MyTrips.Droid.Resource.Styleable.Toolbar_title;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_titleMarginBottom = global::MyTrips.Droid.Resource.Styleable.Toolbar_titleMarginBottom;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_titleMarginEnd = global::MyTrips.Droid.Resource.Styleable.Toolbar_titleMarginEnd;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_titleMarginStart = global::MyTrips.Droid.Resource.Styleable.Toolbar_titleMarginStart;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_titleMarginTop = global::MyTrips.Droid.Resource.Styleable.Toolbar_titleMarginTop;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_titleMargins = global::MyTrips.Droid.Resource.Styleable.Toolbar_titleMargins;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_titleTextAppearance = global::MyTrips.Droid.Resource.Styleable.Toolbar_titleTextAppearance;
+			global::Acr.UserDialogs.Resource.Styleable.Toolbar_titleTextColor = global::MyTrips.Droid.Resource.Styleable.Toolbar_titleTextColor;
+			global::Acr.UserDialogs.Resource.Styleable.View = global::MyTrips.Droid.Resource.Styleable.View;
+			global::Acr.UserDialogs.Resource.Styleable.View_android_focusable = global::MyTrips.Droid.Resource.Styleable.View_android_focusable;
+			global::Acr.UserDialogs.Resource.Styleable.View_android_theme = global::MyTrips.Droid.Resource.Styleable.View_android_theme;
+			global::Acr.UserDialogs.Resource.Styleable.View_paddingEnd = global::MyTrips.Droid.Resource.Styleable.View_paddingEnd;
+			global::Acr.UserDialogs.Resource.Styleable.View_paddingStart = global::MyTrips.Droid.Resource.Styleable.View_paddingStart;
+			global::Acr.UserDialogs.Resource.Styleable.View_theme = global::MyTrips.Droid.Resource.Styleable.View_theme;
+			global::Acr.UserDialogs.Resource.Styleable.ViewBackgroundHelper = global::MyTrips.Droid.Resource.Styleable.ViewBackgroundHelper;
+			global::Acr.UserDialogs.Resource.Styleable.ViewBackgroundHelper_android_background = global::MyTrips.Droid.Resource.Styleable.ViewBackgroundHelper_android_background;
+			global::Acr.UserDialogs.Resource.Styleable.ViewBackgroundHelper_backgroundTint = global::MyTrips.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTint;
+			global::Acr.UserDialogs.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode = global::MyTrips.Droid.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode;
+			global::Acr.UserDialogs.Resource.Styleable.ViewStubCompat = global::MyTrips.Droid.Resource.Styleable.ViewStubCompat;
+			global::Acr.UserDialogs.Resource.Styleable.ViewStubCompat_android_id = global::MyTrips.Droid.Resource.Styleable.ViewStubCompat_android_id;
+			global::Acr.UserDialogs.Resource.Styleable.ViewStubCompat_android_inflatedId = global::MyTrips.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId;
+			global::Acr.UserDialogs.Resource.Styleable.ViewStubCompat_android_layout = global::MyTrips.Droid.Resource.Styleable.ViewStubCompat_android_layout;
 			global::AndroidHUD.Resource.Attribute.ahBarColor = global::MyTrips.Droid.Resource.Attribute.ahBarColor;
 			global::AndroidHUD.Resource.Attribute.ahBarLength = global::MyTrips.Droid.Resource.Attribute.ahBarLength;
 			global::AndroidHUD.Resource.Attribute.ahBarWidth = global::MyTrips.Droid.Resource.Attribute.ahBarWidth;
@@ -63,8 +1596,6 @@ namespace MyTrips.Droid
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahText;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahTextColor;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahTextSize;
-			global::PCLStorage.Resource.String.ApplicationName = global::MyTrips.Droid.Resource.String.ApplicationName;
-			global::PCLStorage.Resource.String.Hello = global::MyTrips.Droid.Resource.String.Hello;
 		}
 		
 		public partial class Animation
@@ -227,41 +1758,41 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f01010a
 			public const int activityChooserViewStyle = 2130772234;
 			
-			// aapt resource value: 0x7f010169
-			public const int ahBarColor = 2130772329;
-			
-			// aapt resource value: 0x7f010171
-			public const int ahBarLength = 2130772337;
-			
-			// aapt resource value: 0x7f010170
-			public const int ahBarWidth = 2130772336;
-			
-			// aapt resource value: 0x7f01016e
-			public const int ahCircleColor = 2130772334;
+			// aapt resource value: 0x7f010165
+			public const int ahBarColor = 2130772325;
 			
 			// aapt resource value: 0x7f01016d
-			public const int ahDelayMillis = 2130772333;
-			
-			// aapt resource value: 0x7f01016f
-			public const int ahRadius = 2130772335;
-			
-			// aapt resource value: 0x7f01016a
-			public const int ahRimColor = 2130772330;
-			
-			// aapt resource value: 0x7f01016b
-			public const int ahRimWidth = 2130772331;
+			public const int ahBarLength = 2130772333;
 			
 			// aapt resource value: 0x7f01016c
-			public const int ahSpinSpeed = 2130772332;
+			public const int ahBarWidth = 2130772332;
+			
+			// aapt resource value: 0x7f01016a
+			public const int ahCircleColor = 2130772330;
+			
+			// aapt resource value: 0x7f010169
+			public const int ahDelayMillis = 2130772329;
+			
+			// aapt resource value: 0x7f01016b
+			public const int ahRadius = 2130772331;
 			
 			// aapt resource value: 0x7f010166
-			public const int ahText = 2130772326;
+			public const int ahRimColor = 2130772326;
 			
 			// aapt resource value: 0x7f010167
-			public const int ahTextColor = 2130772327;
+			public const int ahRimWidth = 2130772327;
 			
 			// aapt resource value: 0x7f010168
-			public const int ahTextSize = 2130772328;
+			public const int ahSpinSpeed = 2130772328;
+			
+			// aapt resource value: 0x7f010162
+			public const int ahText = 2130772322;
+			
+			// aapt resource value: 0x7f010163
+			public const int ahTextColor = 2130772323;
+			
+			// aapt resource value: 0x7f010164
+			public const int ahTextSize = 2130772324;
 			
 			// aapt resource value: 0x7f01012d
 			public const int alertDialogButtonGroupStyle = 2130772269;
@@ -395,17 +1926,17 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f010046
 			public const int circleCrop = 2130772038;
 			
-			// aapt resource value: 0x7f010163
-			public const int civ_border_color = 2130772323;
+			// aapt resource value: 0x7f01016f
+			public const int civ_border_color = 2130772335;
 			
-			// aapt resource value: 0x7f010164
-			public const int civ_border_overlay = 2130772324;
+			// aapt resource value: 0x7f010170
+			public const int civ_border_overlay = 2130772336;
 			
-			// aapt resource value: 0x7f010162
-			public const int civ_border_width = 2130772322;
+			// aapt resource value: 0x7f01016e
+			public const int civ_border_width = 2130772334;
 			
-			// aapt resource value: 0x7f010165
-			public const int civ_fill_color = 2130772325;
+			// aapt resource value: 0x7f010171
+			public const int civ_fill_color = 2130772337;
 			
 			// aapt resource value: 0x7f0100c3
 			public const int closeIcon = 2130772163;
@@ -3386,11 +4917,11 @@ namespace MyTrips.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f080038
-			public const int ApplicationName = 2131230776;
+			// aapt resource value: 0x7f080039
+			public const int ApplicationName = 2131230777;
 			
-			// aapt resource value: 0x7f080037
-			public const int Hello = 2131230775;
+			// aapt resource value: 0x7f080038
+			public const int Hello = 2131230776;
 			
 			// aapt resource value: 0x7f080023
 			public const int abc_action_bar_home_description = 2131230755;
@@ -3548,209 +5079,209 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f08001d
 			public const int common_signin_button_text_long = 2131230749;
 			
-			// aapt resource value: 0x7f080039
-			public const int hockeyapp_crash_dialog_app_name_fallback = 2131230777;
-			
 			// aapt resource value: 0x7f08003a
-			public const int hockeyapp_crash_dialog_message = 2131230778;
+			public const int hockeyapp_crash_dialog_app_name_fallback = 2131230778;
 			
 			// aapt resource value: 0x7f08003b
-			public const int hockeyapp_crash_dialog_negative_button = 2131230779;
+			public const int hockeyapp_crash_dialog_message = 2131230779;
 			
 			// aapt resource value: 0x7f08003c
-			public const int hockeyapp_crash_dialog_neutral_button = 2131230780;
+			public const int hockeyapp_crash_dialog_negative_button = 2131230780;
 			
 			// aapt resource value: 0x7f08003d
-			public const int hockeyapp_crash_dialog_positive_button = 2131230781;
+			public const int hockeyapp_crash_dialog_neutral_button = 2131230781;
 			
 			// aapt resource value: 0x7f08003e
-			public const int hockeyapp_crash_dialog_title = 2131230782;
+			public const int hockeyapp_crash_dialog_positive_button = 2131230782;
 			
 			// aapt resource value: 0x7f08003f
-			public const int hockeyapp_dialog_error_message = 2131230783;
+			public const int hockeyapp_crash_dialog_title = 2131230783;
 			
 			// aapt resource value: 0x7f080040
-			public const int hockeyapp_dialog_error_title = 2131230784;
+			public const int hockeyapp_dialog_error_message = 2131230784;
 			
 			// aapt resource value: 0x7f080041
-			public const int hockeyapp_dialog_negative_button = 2131230785;
+			public const int hockeyapp_dialog_error_title = 2131230785;
 			
 			// aapt resource value: 0x7f080042
-			public const int hockeyapp_dialog_positive_button = 2131230786;
+			public const int hockeyapp_dialog_negative_button = 2131230786;
 			
 			// aapt resource value: 0x7f080043
-			public const int hockeyapp_download_failed_dialog_message = 2131230787;
+			public const int hockeyapp_dialog_positive_button = 2131230787;
 			
 			// aapt resource value: 0x7f080044
-			public const int hockeyapp_download_failed_dialog_negative_button = 2131230788;
+			public const int hockeyapp_download_failed_dialog_message = 2131230788;
 			
 			// aapt resource value: 0x7f080045
-			public const int hockeyapp_download_failed_dialog_positive_button = 2131230789;
+			public const int hockeyapp_download_failed_dialog_negative_button = 2131230789;
 			
 			// aapt resource value: 0x7f080046
-			public const int hockeyapp_download_failed_dialog_title = 2131230790;
+			public const int hockeyapp_download_failed_dialog_positive_button = 2131230790;
 			
 			// aapt resource value: 0x7f080047
-			public const int hockeyapp_error_no_network_message = 2131230791;
+			public const int hockeyapp_download_failed_dialog_title = 2131230791;
 			
 			// aapt resource value: 0x7f080048
-			public const int hockeyapp_expiry_info_text = 2131230792;
+			public const int hockeyapp_error_no_network_message = 2131230792;
 			
 			// aapt resource value: 0x7f080049
-			public const int hockeyapp_expiry_info_title = 2131230793;
+			public const int hockeyapp_expiry_info_text = 2131230793;
 			
 			// aapt resource value: 0x7f08004a
-			public const int hockeyapp_feedback_attach_file = 2131230794;
+			public const int hockeyapp_expiry_info_title = 2131230794;
 			
 			// aapt resource value: 0x7f08004b
-			public const int hockeyapp_feedback_attach_picture = 2131230795;
+			public const int hockeyapp_feedback_attach_file = 2131230795;
 			
 			// aapt resource value: 0x7f08004c
-			public const int hockeyapp_feedback_attachment_button_text = 2131230796;
+			public const int hockeyapp_feedback_attach_picture = 2131230796;
 			
 			// aapt resource value: 0x7f08004d
-			public const int hockeyapp_feedback_attachment_error = 2131230797;
+			public const int hockeyapp_feedback_attachment_button_text = 2131230797;
 			
 			// aapt resource value: 0x7f08004e
-			public const int hockeyapp_feedback_attachment_loading = 2131230798;
+			public const int hockeyapp_feedback_attachment_error = 2131230798;
 			
 			// aapt resource value: 0x7f08004f
-			public const int hockeyapp_feedback_email_hint = 2131230799;
+			public const int hockeyapp_feedback_attachment_loading = 2131230799;
 			
 			// aapt resource value: 0x7f080050
-			public const int hockeyapp_feedback_failed_text = 2131230800;
+			public const int hockeyapp_feedback_email_hint = 2131230800;
 			
 			// aapt resource value: 0x7f080051
-			public const int hockeyapp_feedback_failed_title = 2131230801;
+			public const int hockeyapp_feedback_failed_text = 2131230801;
 			
 			// aapt resource value: 0x7f080052
-			public const int hockeyapp_feedback_generic_error = 2131230802;
+			public const int hockeyapp_feedback_failed_title = 2131230802;
 			
 			// aapt resource value: 0x7f080053
-			public const int hockeyapp_feedback_last_updated_text = 2131230803;
+			public const int hockeyapp_feedback_generic_error = 2131230803;
 			
 			// aapt resource value: 0x7f080054
-			public const int hockeyapp_feedback_max_attachments_allowed = 2131230804;
+			public const int hockeyapp_feedback_last_updated_text = 2131230804;
 			
 			// aapt resource value: 0x7f080055
-			public const int hockeyapp_feedback_message_hint = 2131230805;
+			public const int hockeyapp_feedback_max_attachments_allowed = 2131230805;
 			
 			// aapt resource value: 0x7f080056
-			public const int hockeyapp_feedback_name_hint = 2131230806;
+			public const int hockeyapp_feedback_message_hint = 2131230806;
 			
 			// aapt resource value: 0x7f080057
-			public const int hockeyapp_feedback_refresh_button_text = 2131230807;
+			public const int hockeyapp_feedback_name_hint = 2131230807;
 			
 			// aapt resource value: 0x7f080058
-			public const int hockeyapp_feedback_response_button_text = 2131230808;
+			public const int hockeyapp_feedback_refresh_button_text = 2131230808;
 			
 			// aapt resource value: 0x7f080059
-			public const int hockeyapp_feedback_select_file = 2131230809;
+			public const int hockeyapp_feedback_response_button_text = 2131230809;
 			
 			// aapt resource value: 0x7f08005a
-			public const int hockeyapp_feedback_select_picture = 2131230810;
+			public const int hockeyapp_feedback_select_file = 2131230810;
 			
 			// aapt resource value: 0x7f08005b
-			public const int hockeyapp_feedback_send_button_text = 2131230811;
+			public const int hockeyapp_feedback_select_picture = 2131230811;
 			
 			// aapt resource value: 0x7f08005c
-			public const int hockeyapp_feedback_send_generic_error = 2131230812;
+			public const int hockeyapp_feedback_send_button_text = 2131230812;
 			
 			// aapt resource value: 0x7f08005d
-			public const int hockeyapp_feedback_send_network_error = 2131230813;
+			public const int hockeyapp_feedback_send_generic_error = 2131230813;
 			
 			// aapt resource value: 0x7f08005e
-			public const int hockeyapp_feedback_subject_hint = 2131230814;
+			public const int hockeyapp_feedback_send_network_error = 2131230814;
 			
 			// aapt resource value: 0x7f08005f
-			public const int hockeyapp_feedback_title = 2131230815;
+			public const int hockeyapp_feedback_subject_hint = 2131230815;
 			
 			// aapt resource value: 0x7f080060
-			public const int hockeyapp_feedback_validate_email_empty = 2131230816;
+			public const int hockeyapp_feedback_title = 2131230816;
 			
 			// aapt resource value: 0x7f080061
-			public const int hockeyapp_feedback_validate_email_error = 2131230817;
+			public const int hockeyapp_feedback_validate_email_empty = 2131230817;
 			
 			// aapt resource value: 0x7f080062
-			public const int hockeyapp_feedback_validate_name_error = 2131230818;
+			public const int hockeyapp_feedback_validate_email_error = 2131230818;
 			
 			// aapt resource value: 0x7f080063
-			public const int hockeyapp_feedback_validate_subject_error = 2131230819;
+			public const int hockeyapp_feedback_validate_name_error = 2131230819;
 			
 			// aapt resource value: 0x7f080064
-			public const int hockeyapp_feedback_validate_text_error = 2131230820;
+			public const int hockeyapp_feedback_validate_subject_error = 2131230820;
 			
 			// aapt resource value: 0x7f080065
-			public const int hockeyapp_login_email_hint = 2131230821;
+			public const int hockeyapp_feedback_validate_text_error = 2131230821;
 			
 			// aapt resource value: 0x7f080066
-			public const int hockeyapp_login_headline_text = 2131230822;
+			public const int hockeyapp_login_email_hint = 2131230822;
 			
 			// aapt resource value: 0x7f080067
-			public const int hockeyapp_login_login_button_text = 2131230823;
+			public const int hockeyapp_login_headline_text = 2131230823;
 			
 			// aapt resource value: 0x7f080068
-			public const int hockeyapp_login_missing_credentials_toast = 2131230824;
+			public const int hockeyapp_login_login_button_text = 2131230824;
 			
 			// aapt resource value: 0x7f080069
-			public const int hockeyapp_login_password_hint = 2131230825;
+			public const int hockeyapp_login_missing_credentials_toast = 2131230825;
 			
 			// aapt resource value: 0x7f08006a
-			public const int hockeyapp_paint_dialog_message = 2131230826;
+			public const int hockeyapp_login_password_hint = 2131230826;
 			
 			// aapt resource value: 0x7f08006b
-			public const int hockeyapp_paint_dialog_negative_button = 2131230827;
+			public const int hockeyapp_paint_dialog_message = 2131230827;
 			
 			// aapt resource value: 0x7f08006c
-			public const int hockeyapp_paint_dialog_neutral_button = 2131230828;
+			public const int hockeyapp_paint_dialog_negative_button = 2131230828;
 			
 			// aapt resource value: 0x7f08006d
-			public const int hockeyapp_paint_dialog_positive_button = 2131230829;
+			public const int hockeyapp_paint_dialog_neutral_button = 2131230829;
 			
 			// aapt resource value: 0x7f08006e
-			public const int hockeyapp_paint_indicator_toast = 2131230830;
+			public const int hockeyapp_paint_dialog_positive_button = 2131230830;
 			
 			// aapt resource value: 0x7f08006f
-			public const int hockeyapp_paint_menu_clear = 2131230831;
+			public const int hockeyapp_paint_indicator_toast = 2131230831;
 			
 			// aapt resource value: 0x7f080070
-			public const int hockeyapp_paint_menu_save = 2131230832;
+			public const int hockeyapp_paint_menu_clear = 2131230832;
 			
 			// aapt resource value: 0x7f080071
-			public const int hockeyapp_paint_menu_undo = 2131230833;
+			public const int hockeyapp_paint_menu_save = 2131230833;
 			
 			// aapt resource value: 0x7f080072
-			public const int hockeyapp_permission_dialog_negative_button = 2131230834;
+			public const int hockeyapp_paint_menu_undo = 2131230834;
 			
 			// aapt resource value: 0x7f080073
-			public const int hockeyapp_permission_dialog_positive_button = 2131230835;
+			public const int hockeyapp_permission_dialog_negative_button = 2131230835;
 			
 			// aapt resource value: 0x7f080074
-			public const int hockeyapp_permission_update_message = 2131230836;
+			public const int hockeyapp_permission_dialog_positive_button = 2131230836;
 			
 			// aapt resource value: 0x7f080075
-			public const int hockeyapp_permission_update_title = 2131230837;
+			public const int hockeyapp_permission_update_message = 2131230837;
 			
 			// aapt resource value: 0x7f080076
-			public const int hockeyapp_update_button = 2131230838;
+			public const int hockeyapp_permission_update_title = 2131230838;
 			
 			// aapt resource value: 0x7f080077
-			public const int hockeyapp_update_dialog_message = 2131230839;
+			public const int hockeyapp_update_button = 2131230839;
 			
 			// aapt resource value: 0x7f080078
-			public const int hockeyapp_update_dialog_negative_button = 2131230840;
+			public const int hockeyapp_update_dialog_message = 2131230840;
 			
 			// aapt resource value: 0x7f080079
-			public const int hockeyapp_update_dialog_positive_button = 2131230841;
+			public const int hockeyapp_update_dialog_negative_button = 2131230841;
 			
 			// aapt resource value: 0x7f08007a
-			public const int hockeyapp_update_dialog_title = 2131230842;
+			public const int hockeyapp_update_dialog_positive_button = 2131230842;
 			
 			// aapt resource value: 0x7f08007b
-			public const int hockeyapp_update_mandatory_toast = 2131230843;
+			public const int hockeyapp_update_dialog_title = 2131230843;
 			
 			// aapt resource value: 0x7f08007c
-			public const int library_name = 2131230844;
+			public const int hockeyapp_update_mandatory_toast = 2131230844;
+			
+			// aapt resource value: 0x7f080037
+			public const int library_name = 2131230775;
 			
 			// aapt resource value: 0x7f08007d
 			public const int login_facebook = 2131230845;
@@ -4227,6 +5758,9 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f060160
 			public const int CardView_Light = 2131100000;
 			
+			// aapt resource value: 0x7f06016b
+			public const int FacebookButton = 2131100011;
+			
 			// aapt resource value: 0x7f060161
 			public const int HockeyApp_ButtonStyle = 2131100001;
 			
@@ -4235,6 +5769,9 @@ namespace MyTrips.Droid
 			
 			// aapt resource value: 0x7f060163
 			public const int HockeyApp_SingleLineInputStyle = 2131100003;
+			
+			// aapt resource value: 0x7f06016c
+			public const int MicrosoftButton = 2131100012;
 			
 			// aapt resource value: 0x7f060164
 			public const int MyTheme = 2131100004;
@@ -4634,6 +6171,9 @@ namespace MyTrips.Droid
 			
 			// aapt resource value: 0x7f060119
 			public const int ThemeOverlay_AppCompat_Light = 2131099929;
+			
+			// aapt resource value: 0x7f06016a
+			public const int TwitterButton = 2131100010;
 			
 			// aapt resource value: 0x7f06011a
 			public const int Widget_AppCompat_ActionBar = 2131099930;
@@ -5210,10 +6750,10 @@ namespace MyTrips.Droid
 			
 			public static int[] CircleImageView = new int[]
 			{
-					2130772322,
-					2130772323,
-					2130772324,
-					2130772325};
+					2130772334,
+					2130772335,
+					2130772336,
+					2130772337};
 			
 			// aapt resource value: 1
 			public const int CircleImageView_civ_border_color = 1;
@@ -6023,6 +7563,10 @@ namespace MyTrips.Droid
 			
 			public static int[] ProgressWheel = new int[]
 			{
+					2130772322,
+					2130772323,
+					2130772324,
+					2130772325,
 					2130772326,
 					2130772327,
 					2130772328,
@@ -6030,11 +7574,7 @@ namespace MyTrips.Droid
 					2130772330,
 					2130772331,
 					2130772332,
-					2130772333,
-					2130772334,
-					2130772335,
-					2130772336,
-					2130772337};
+					2130772333};
 			
 			// aapt resource value: 3
 			public const int ProgressWheel_ahBarColor = 3;

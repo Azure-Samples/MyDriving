@@ -30,11 +30,16 @@ namespace MyTrips.iOS
 			ViewModel = new PastTripsViewModel();
 			await ViewModel.ExecuteLoadPastTripsCommandAsync();
 
+			TableView.TableFooterView = new UIView(new CGRect(0, 0, 0,0));
+            TableView.ReloadData();
+
 			// Check to see if 3D Touch is available
 			if (TraitCollection.ForceTouchCapability == UIForceTouchCapability.Available)
 				RegisterForPreviewingWithDelegate(new PreviewingDelegate(this), View);
 
 			RefreshControl.AddTarget(this, new ObjCRuntime.Selector("RefreshSource"), UIControlEvent.ValueChanged);
+
+			NSNotificationCenter.DefaultCenter.AddObserver(new NSString ("RefreshPastTripsTable"), HandleReloadTableNotification); 
 		}
 
 		public override void TraitCollectionDidChange(UITraitCollection previousTraitCollection)
@@ -110,7 +115,17 @@ namespace MyTrips.iOS
 				RefreshControl.EndRefreshing();
 			});
 		}
-    }
+
+		async void HandleReloadTableNotification(NSNotification obj)
+		{
+			await ViewModel.ExecuteLoadPastTripsCommandAsync();
+
+			InvokeOnMainThread(delegate
+			{
+				TableView.ReloadData();
+			});
+		}
+	}
 
 	public class PreviewingDelegate : UIViewControllerPreviewingDelegate
 	{
