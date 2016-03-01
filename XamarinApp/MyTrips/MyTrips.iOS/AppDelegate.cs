@@ -84,7 +84,7 @@ namespace MyTrips.iOS
 			}
 			catch (Exception ex)
 			{
-				//TODO probably send this to hockeyApp. 
+				Logger.Instance.Report(ex);			
 			}
 
 			// If you don't call this, your application will be terminated by the OS.
