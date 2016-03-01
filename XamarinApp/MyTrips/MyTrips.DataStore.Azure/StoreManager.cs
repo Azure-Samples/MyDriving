@@ -8,35 +8,26 @@ using MyTrips.Utils;
 using MyTrips.DataObjects;
 using System.Collections.Generic;
 using System.Linq;
+using MyTrips.AzureClient;
 
 namespace MyTrips.DataStore.Azure
 {
     public class StoreManager : IStoreManager
     {
-        public static MobileServiceClient MobileService { get; set; }
-
-
-
         #region IStoreManager implementation
 
         public async Task InitializeAsync()
         {
             if (IsInitialized)
                 return;
-            var handler = new AuthHandler();
-
-            //Create our client
-            MobileService = new MobileServiceClient("https://smarttrips.azurewebsites.net");
-
-            handler.Client = MobileService;
+            
+            //Get our current client, only ever need one
+            var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
 
             if (!string.IsNullOrWhiteSpace (Settings.Current.AuthToken) && !string.IsNullOrWhiteSpace (Settings.Current.UserId)) {
-                MobileService.CurrentUser = new MobileServiceUser (Settings.Current.UserId);
-                MobileService.CurrentUser.MobileServiceAuthenticationToken = Settings.Current.AuthToken;
+                client.CurrentUser = new MobileServiceUser (Settings.Current.UserId);
+                client.CurrentUser.MobileServiceAuthenticationToken = Settings.Current.AuthToken;
             }
-
-            if (handler != null)
-                handler.Client = MobileService;
             
             var path = $"syncstore{Settings.Current.DatabaseId}.db";
             //setup our local sqlite store and intialize our table
@@ -44,9 +35,10 @@ namespace MyTrips.DataStore.Azure
 
             store.DefineTable<Telemetry>();
             store.DefineTable<Trail>();
+            store.DefineTable<Photo>();
             store.DefineTable<Trip>();
 
-            await MobileService.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler()).ConfigureAwait(false);
+            await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler()).ConfigureAwait(false);
 
 
             IsInitialized = true;

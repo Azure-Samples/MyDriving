@@ -17,12 +17,21 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+    <ImageView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:src="@drawable/navigation_logo"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        android:paddingRight="24dp"
+        android:paddingTop="24dp">
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -56,9 +65,16 @@
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
             android:theme="@style/MicrosoftButton" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="Skip Auth"
+            android:id="@+id/button_skip"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp" />
     </LinearLayout>
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="2" />
 </LinearLayout>

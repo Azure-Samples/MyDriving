@@ -6,7 +6,7 @@ namespace MyTrips.Helpers
     public class UserProfileHelper
     {
         //returns info for the authenticated user
-        public static async Task<UserProfile> GetUserProfileAsync(MobileServiceClient client)
+        public static async Task<UserProfile> GetUserProfileAsync(IMobileServiceClient client)
         {
             UserProfile userprof =
             await client.InvokeApiAsync<UserProfile>(

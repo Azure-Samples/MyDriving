@@ -6,7 +6,7 @@ namespace MyTrips.Interfaces
 {
     public interface IAuthentication
     {
-        Task<MobileServiceUser> LoginAsync(MobileServiceClient client, MobileServiceAuthenticationProvider provider);
+        Task<MobileServiceUser> LoginAsync(IMobileServiceClient client, MobileServiceAuthenticationProvider provider);
         void ClearCookies();
     }
 }
