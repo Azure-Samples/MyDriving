@@ -13,8 +13,14 @@ namespace MyTrips.ViewModel
     public class SettingsViewModel : ViewModelBase
     {
         //Use Settings.HubSetting1
+        string PrivacyPolicyUrl;
+        string TermsOfUseUrl;
+        string OpenSourceNoticeUrl;
+        string SourceOnGitHubUrl;
 
-        //Use Settings.HubSetting2
+        ICommand  logoutCommand;
+        public ICommand LogoutCommand =>
+            logoutCommand ?? (logoutCommand = new RelayCommand(async () => await ExecuteLogoutCommandAsync())); 
 
        
         public async Task<bool> ExecuteLogoutCommandAsync()

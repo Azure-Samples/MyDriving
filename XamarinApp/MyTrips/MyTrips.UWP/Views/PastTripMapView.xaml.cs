@@ -47,7 +47,7 @@ namespace MyTrips.UWP.Views
             base.OnNavigatedTo(e);
             this.MyMap.Loaded += MyMap_Loaded;
             this.ViewModel.Trip = trip;
-            mapIconStreamReference = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/mappin.png"));
+            mapIconStreamReference = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_start_point.png"));
             DrawPath();
         }
 
@@ -76,12 +76,9 @@ namespace MyTrips.UWP.Views
             if ( Locations.Count > 0)
                 MyMap.Center = new Geopoint(Locations.First());
             
-            // Currently setting this to a hardcoded value. 
             
             MyMap.MapElements.Add(mapPolyLine);
 
-            //PushPin pushPin = new PushPin();
-            // MapIcon mapIcon
             MapIcon mapIcon = new MapIcon();
             mapIcon.Location = MyMap.Center;
             mapIcon.NormalizedAnchorPoint = new Point(0.5, 1.0);
@@ -91,6 +88,11 @@ namespace MyTrips.UWP.Views
           
             MyMap.MapElements.Add(mapIcon);
             
+        }
+
+        private void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+
         }
     }
 }
