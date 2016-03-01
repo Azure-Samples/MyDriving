@@ -11,12 +11,14 @@ namespace MyTrips.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        public IMobileServiceClient client = null;
+        private IMobileServiceClient client;
         IAuthentication authentication;
         public LoginViewModel()
         {
             client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
             authentication = ServiceLocator.Instance.Resolve<IAuthentication>();
+
+
         }
 
         UserProfile userInfo;
@@ -33,6 +35,13 @@ namespace MyTrips.ViewModel
         {
             get { return isLoggedIn; }
             set { SetProperty(ref isLoggedIn, value); }
+        }
+
+        public void InitFakeUser()
+        {
+            Settings.UserFirstName = "Scott";
+            Settings.UserLastName = "Gu";
+            Settings.UserProfileUrl = "http://refractored.com/images/Scott.png";
         }
 
         ICommand  loginTwitterCommand;

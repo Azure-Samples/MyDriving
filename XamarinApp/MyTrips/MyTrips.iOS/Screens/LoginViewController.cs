@@ -61,7 +61,8 @@ namespace MyTrips.iOS
 			var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
 			viewController.SelectedIndex = 1;
 			app.Window.RootViewController = viewController;
-			#endif
+            viewModel.InitFakeUser();
+            #endif
 
             switch (account)
             {

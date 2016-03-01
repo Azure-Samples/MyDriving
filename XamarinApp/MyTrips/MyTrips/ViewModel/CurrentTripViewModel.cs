@@ -70,12 +70,17 @@ namespace MyTrips.ViewModel
             {
                 if (CurrentPosition == null)
                 {
-                    Acr.UserDialogs.UserDialogs.Instance.Toast(new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Waiting for current location.") 
-                    { 
-                        Duration = TimeSpan.FromSeconds(3), 
-                        TextColor = System.Drawing.Color.White, 
-                        BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139) 
-                    });
+
+                    if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
+                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
+                    {
+                        Acr.UserDialogs.UserDialogs.Instance.Toast(new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Waiting for current location.")
+                        {
+                            Duration = TimeSpan.FromSeconds(3),
+                            TextColor = System.Drawing.Color.White,
+                            BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139)
+                        });
+                    }
                     return Task.FromResult(true);
                 }
                 IsRecording = true;

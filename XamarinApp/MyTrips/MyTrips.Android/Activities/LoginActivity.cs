@@ -45,6 +45,7 @@ namespace MyTrips.Droid
 
             FindViewById<Button>(Resource.Id.button_skip).Click += (sender, e) => 
             {
+                viewModel.InitFakeUser();
                 var intent = new Intent(this, typeof(MainActivity));
                 intent.AddFlags(ActivityFlags.ClearTop);
                 StartActivity(intent);
