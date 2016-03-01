@@ -1,13 +1,18 @@
 # Principles in the reference architecture design
 
-The overarching goal in the design of this reference architecture is to bring together IoT devices and mobile apps through the orchestration of a rich cloud backend running on Azure. 
+The overarching goal in the design of this reference architecture is to bring together IoT devices and mobile apps through the orchestration of a rich cloud backend running on Azure. We've also designed it to be applicable to a variety of real-world scenarios and not merely a specific demonstration. It's out intention that you can replace and customize different components within the architecture as you own scenarios demand. 
 
-In our own demonstrations we're really just showing an instance of this architecture centered around ODB data from automobiles. But data from any other kinds of devices can make the same journey through this architecture and be customized by changing the configuration of the analytics and machine learning components, and customizing the API endpoints to serve up the appropriate data sets. This reference architecture, in other words, provide a common pattern that is applicable to many different IoT+cloud+mobile scenarios.
+Our own demonstration really just shows an *instance* of this architecture, with a scenario centered on OBD data from automobiles that makes a journey through the whole backend system. That same journey can be taken by any other kind of data using the same backend components. You'll need only customize the analytics and machine learning components for that specific data, and customize the API endpoints that serve up the results to client apps. 
 
-What's most important in the whole story, in fact, has little do to with the IoT or mobile devices. It's rather how the backend takes large amounts of raw data from IoT devices and transforms it through analytics and machine learning to produce meaningful insights that human beings can see on their mobile phones.  
+This reference architecture, in other words, is not specific to automotive data as used in the demonstration. It rather provides a common pattern that is applicable to many different IoT + cloud + mobile scenario. 
 
-Such is true of many great apps: the greatest app experiences are really not about what's happening in the app itself on the mobile device, it's that the app is turning that device into an engaging viewport onto the sophisticated processing and orchestrations that's happening in the cloud. Yes, consumers think of "the app" as the experience, but for developers, the heart and soul of the experience is built in the backend, even to the point where the mobile app can be rebuilt or swapped out at any time without sacrificing any part of that experience.
 
+**Replaceable data and client experiences**
+
+The essence of this pattern has little do to with the IoT or mobile devices. It's rather how the backend takes large amounts of raw data from IoT devices and transforms it through analytics and machine learning to produce meaningful insights that human beings can see and consume through clients apps running on mobile phones, tablets, and PCs.
+
+Indeed, although the apps oftentimes get all the credit for delivering a great experience, they're merely providing an engaging viewport for the sophisticated processing and orchestrations that are happening in the cloud. The mobile app that's used in our demonstration, in fact, isn't really part of the reference architecture because it's entirely oriented around the specific type of data. When you apply this reference architecture to different scenarios with different data, you'll be replacing the client experience entirely. 
+  
 **Inexpensive and purposeful IoT devices**
 
 In an architecture like this, the IoT devices involved should be simple and low-cost, allowing for data collection from many individual points. We designed the system to use use a mobile phone as a field gateway to collect data from a non-networked device (the Bluetooth-capable ODB dongle in our demonstration) and transmit it to the cloud backend.
