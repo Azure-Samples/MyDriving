@@ -57,8 +57,16 @@ namespace MyTrips.ViewModel
             track.Start();
 
             Settings.LoginAccount = LoginAccount.Twitter;
-            var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Twitter);
-
+            try
+            {
+                var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Twitter);
+                if(user != null)
+                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Report(ex);
+            }
             track.Stop();
 
             if(user == null)
@@ -85,9 +93,16 @@ namespace MyTrips.ViewModel
 
 
             Settings.LoginAccount = LoginAccount.Microsoft;
-            var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
-            UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
-
+            try
+            {
+                var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
+                if (user != null)
+                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Report(ex);
+            }
             track.Stop();
 
             if(user == null)
@@ -111,10 +126,17 @@ namespace MyTrips.ViewModel
             var track = Logger.Instance.TrackTime("LoginFacebook");
             track.Start();
 
-            Settings.LoginAccount = LoginAccount.Facebook;
-            var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
-            UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
-
+            try
+            {
+                Settings.LoginAccount = LoginAccount.Facebook;
+                var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
+                if(user != null)
+                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Report(ex);
+            }
             track.Stop();
 
             if(user == null)
@@ -123,7 +145,7 @@ namespace MyTrips.ViewModel
                 return;
             }
 
-            
+
             IsLoggedIn = true;
         }
     }

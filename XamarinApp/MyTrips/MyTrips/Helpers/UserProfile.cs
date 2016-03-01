@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
+using MyTrips.Utils;
 
 namespace MyTrips.Helpers
 {
@@ -8,11 +9,15 @@ namespace MyTrips.Helpers
         //returns info for the authenticated user
         public static async Task<UserProfile> GetUserProfileAsync(IMobileServiceClient client)
         {
-            UserProfile userprof =
+            var userprof =
             await client.InvokeApiAsync<UserProfile>(
                 "UserInfo",
                 System.Net.Http.HttpMethod.Get,
                 null);
+
+            Settings.Current.UserFirstName = userprof?.FirstName ?? string.Empty;
+            Settings.Current.UserLastName = userprof?.LastName ?? string.Empty;
+            Settings.Current.UserProfileUrl = userprof?.FirstName ?? string.Empty;
 
             return userprof;
         }
