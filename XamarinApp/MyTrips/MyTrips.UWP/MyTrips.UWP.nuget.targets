@@ -6,5 +6,6 @@
   <ImportGroup>
     <Import Project="$(NuGetPackageRoot)\Microsoft.Bcl.Build\1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('$(NuGetPackageRoot)\Microsoft.Bcl.Build\1.0.21\build\Microsoft.Bcl.Build.targets')" />
     <Import Project="$(NuGetPackageRoot)\SQLitePCL\3.8.7.2\build\netcore451\SQLitePCL.targets" Condition="Exists('$(NuGetPackageRoot)\SQLitePCL\3.8.7.2\build\netcore451\SQLitePCL.targets')" />
+    <Import Project="$(NuGetPackageRoot)\Xamarin.Insights\1.11.4\build\windows8\Xamarin.Insights.targets" Condition="Exists('$(NuGetPackageRoot)\Xamarin.Insights\1.11.4\build\windows8\Xamarin.Insights.targets')" />
   </ImportGroup>
 </Project>

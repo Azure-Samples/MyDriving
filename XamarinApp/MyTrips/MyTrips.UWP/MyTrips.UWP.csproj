@@ -124,7 +124,13 @@
     <None Include="MyTrips.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\ic_start.png" />
+    <Content Include="Assets\ic_stop.png" />
     <Content Include="Assets\Login\FBLogo.png" />
+    <Content Include="Assets\ic_start_point.png" />
+    <Content Include="Assets\ic_end_point.png" />
+    <Content Include="Assets\ic_car_blue.png" />
+    <Content Include="Assets\ic_car_red.png" />
     <Content Include="Assets\Login\MSLogo.jpg" />
     <Content Include="Assets\Login\TwitterLogo.png" />
     <Content Include="Assets\mappin.png" />
@@ -136,7 +142,7 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <BundleResource Include="Assets\car_annotation.png" />
+    <Content Include="Assets\car_annotation.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
