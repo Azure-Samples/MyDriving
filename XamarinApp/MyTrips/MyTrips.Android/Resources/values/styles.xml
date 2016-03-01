@@ -52,5 +52,16 @@
         <item name="android:paddingBottom">16dp</item>
         <item name="android:orientation">vertical</item>
     </style>
+
+	 <style name="TwitterButton" parent="@android:style/Widget.Button">
+        <item name="colorButtonNormal">@color/button_twitter</item>
+    </style>
+
+	 <style name="FacebookButton" parent="@android:style/Widget.Button">
+        <item name="colorButtonNormal">@color/button_facebook</item>
+    </style>
+	 <style name="MicrosoftButton" parent="@android:style/Widget.Button">
+        <item name="colorButtonNormal">@color/button_microsoft</item>
+    </style>
 	
 </resources>

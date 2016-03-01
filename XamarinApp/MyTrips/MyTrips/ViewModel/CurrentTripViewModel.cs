@@ -16,6 +16,7 @@ using Plugin.Geolocator.Abstractions;
 using MvvmHelpers;
 using Plugin.Media.Abstractions;
 using Plugin.Media;
+using Plugin.DeviceInfo;
 
 namespace MyTrips.ViewModel
 {
@@ -91,8 +92,15 @@ namespace MyTrips.ViewModel
           
 
             var track = Logger.Instance.TrackTime("SaveRecording");
-            var progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Saving trip...", show: false,  maskType: Acr.UserDialogs.MaskType.Clear);
-            progress.IsDeterministic = false;
+            Acr.UserDialogs.IProgressDialog progress = null;
+
+
+            if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
+                CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
+            {
+                progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
+                progress.IsDeterministic = false;
+            }
             try
             {
                 IsRecording = false;
@@ -101,7 +109,7 @@ namespace MyTrips.ViewModel
                 CurrentTrip.TripId = result?.Text ?? string.Empty;
                 track.Start();
                 IsBusy = true;
-                progress.Show();
+                progress?.Show();
                 #if DEBUG
                 await Task.Delay(3000);
 #endif
@@ -143,8 +151,8 @@ namespace MyTrips.ViewModel
             {
                 track.Stop();
                 IsBusy = false;
-                progress.Hide();
-                progress.Dispose();
+                progress?.Hide();
+                progress?.Dispose();
             }
 
             return false;
@@ -173,8 +181,13 @@ namespace MyTrips.ViewModel
 				}
 				else
 				{
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
-                                                               "Geolcoation Disabled", "OK");
+
+                    if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
+                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
+                    {
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
+                                                                   "Geolcoation Disabled", "OK");
+                    }
 				}
 			}
 			catch (Exception ex) 
@@ -245,8 +258,14 @@ namespace MyTrips.ViewModel
 
                 if (!Media.IsCameraAvailable || !Media.IsTakePhotoSupported)
                 {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
-                                                               "Camera Disabled", "OK");
+
+
+                    if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
+                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
+                    {
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
+                                                                   "Camera Disabled", "OK");
+                    }
                     return;
                 }
 

@@ -5758,6 +5758,9 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f060160
 			public const int CardView_Light = 2131100000;
 			
+			// aapt resource value: 0x7f06016b
+			public const int FacebookButton = 2131100011;
+			
 			// aapt resource value: 0x7f060161
 			public const int HockeyApp_ButtonStyle = 2131100001;
 			
@@ -5766,6 +5769,9 @@ namespace MyTrips.Droid
 			
 			// aapt resource value: 0x7f060163
 			public const int HockeyApp_SingleLineInputStyle = 2131100003;
+			
+			// aapt resource value: 0x7f06016c
+			public const int MicrosoftButton = 2131100012;
 			
 			// aapt resource value: 0x7f060164
 			public const int MyTheme = 2131100004;
@@ -6165,6 +6171,9 @@ namespace MyTrips.Droid
 			
 			// aapt resource value: 0x7f060119
 			public const int ThemeOverlay_AppCompat_Light = 2131099929;
+			
+			// aapt resource value: 0x7f06016a
+			public const int TwitterButton = 2131100010;
 			
 			// aapt resource value: 0x7f06011a
 			public const int Widget_AppCompat_ActionBar = 2131099930;
