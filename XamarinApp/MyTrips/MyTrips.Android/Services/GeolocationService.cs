@@ -44,7 +44,7 @@ namespace MyTrips.Droid.Services
 
             var pendingIntent = PendingIntent.GetActivity (this, 0, newIntent, 0);
             var notification = builder.SetContentIntent(pendingIntent)
-                .SetSmallIcon(Resource.Drawable.Icon)
+                  .SetSmallIcon(Resource.Drawable.ic_notification)
                 .SetAutoCancel(false)
                 .SetTicker("MyTrips in foreground")
                 .SetContentTitle("MyTrips")

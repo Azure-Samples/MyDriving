@@ -21,8 +21,6 @@ namespace MyTrips.iOS
 
 		public override MKOverlayRenderer OverlayRenderer(MKMapView mapView, IMKOverlay overlay)
 		{
-			// SHould be blue for past trips, red for current trips.
-			// Make alpha higher for past trips - like .8
 			return new MKPolylineRenderer(overlay as MKPolyline)
 			{
 				Alpha = (nfloat)alpha,
@@ -31,12 +29,6 @@ namespace MyTrips.iOS
 				StrokeColor = color
 			};
 		}
-
-		// TODO: Add animation after map finishes rendering.
-		//public override async void DidFinishRenderingMap(MKMapView mapView, bool fullyRendered)
-		//{
-			
-		//}
 
 		public override MKAnnotationView GetViewForAnnotation(MKMapView mapView, IMKAnnotation annotation)
 		{
@@ -52,7 +44,7 @@ namespace MyTrips.iOS
 				if (annotationView == null)
 					annotationView = new MKAnnotationView (annotation, CAR_ANNOTATION);
 
-				if (((CarAnnotation)annotation).Color == "Blue")
+				if (((CarAnnotation)annotation).Color == UIColor.Blue)
 				{
 					annotationView.Image = UIImage.FromBundle(Images.CarAnnotationBlue);
 				}

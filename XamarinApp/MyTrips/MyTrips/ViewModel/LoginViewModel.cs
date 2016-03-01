@@ -5,22 +5,17 @@ using MyTrips.Helpers;
 using MyTrips.Interfaces;
 using Microsoft.WindowsAzure.MobileServices;
 using MyTrips.DataStore.Abstractions;
+using MyTrips.AzureClient;
 
 namespace MyTrips.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        public MobileServiceClient client = null;
+        private IMobileServiceClient client;
         IAuthentication authentication;
         public LoginViewModel()
         {
-            var manager = ServiceLocator.Instance.Resolve<IStoreManager>() as MyTrips.DataStore.Azure.StoreManager;
-
-            if (manager != null)
-            {
-                client = MyTrips.DataStore.Azure.StoreManager.MobileService;
-            }
-            
+            client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
             authentication = ServiceLocator.Instance.Resolve<IAuthentication>();
 
 
@@ -40,6 +35,13 @@ namespace MyTrips.ViewModel
         {
             get { return isLoggedIn; }
             set { SetProperty(ref isLoggedIn, value); }
+        }
+
+        public void InitFakeUser()
+        {
+            Settings.UserFirstName = "Scott";
+            Settings.UserLastName = "Gu";
+            Settings.UserProfileUrl = "http://refractored.com/images/Scott.png";
         }
 
         ICommand  loginTwitterCommand;

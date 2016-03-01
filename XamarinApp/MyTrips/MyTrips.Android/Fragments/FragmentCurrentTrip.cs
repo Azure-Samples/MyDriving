@@ -68,7 +68,8 @@ namespace MyTrips.Droid.Fragments
         #region Options Menu & User Actions
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
-            inflater.Inflate(Resource.Menu.menu_current_trip, menu);
+            if((viewModel?.IsRecording).GetValueOrDefault())
+                inflater.Inflate(Resource.Menu.menu_current_trip, menu);
             base.OnCreateOptionsMenu(menu, inflater);
         }
 
@@ -98,8 +99,11 @@ namespace MyTrips.Droid.Fragments
             }
             else
             {
+                if (!await viewModel.StartRecordingTripAsync())
+                    return;
                 AddStartMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
-                await viewModel.StartRecordingTripAsync();
+
+                Activity.SupportInvalidateOptionsMenu();
                 UpdateCarIcon(true);
                 UpdateStats();
             }
@@ -155,6 +159,7 @@ namespace MyTrips.Droid.Fragments
             allPoints = null;
             SetupMap();
             UpdateStats();
+            Activity.SupportInvalidateOptionsMenu();
         }
 
 

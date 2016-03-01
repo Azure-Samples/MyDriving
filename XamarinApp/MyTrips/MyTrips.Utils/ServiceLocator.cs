@@ -40,7 +40,7 @@ namespace MyTrips.Utils
         /// </summary>
         /// <typeparam name="T">Type to resolve</typeparam>
         /// <returns>Implementation</returns>
-        public T Resolve<T>()
+        public T Resolve<T>() where T : class
         {
             Lazy<object> service;
             if (registeredServices.TryGetValue(typeof(T), out service))
@@ -48,7 +48,7 @@ namespace MyTrips.Utils
                 return (T)service.Value;
             }
 
-            throw new Exception("No service found for " + typeof(T).Name);
+            return null;
         }
     }
 }

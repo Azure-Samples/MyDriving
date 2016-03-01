@@ -1,15 +1,16 @@
-﻿using System;
-using CoreLocation;
+﻿using CoreLocation;
+using UIKit;
+
 namespace MyTrips.iOS
 {
 	public class CarAnnotation : BaseCustomAnnotation
 	{
-		public CarAnnotation(CLLocationCoordinate2D annotationLocation, string color) : base(annotationLocation)
+		public CarAnnotation(CLLocationCoordinate2D annotationLocation, UIColor color) : base(annotationLocation)
 		{
 			Color = color;
 		}
 
-		public string Color { get; set; }
+		public UIColor Color { get; set; }
 	}
 }
 
