@@ -31,7 +31,10 @@ namespace ObdLibUWP
         {
             _simulatormode = simulatormode;
             if (simulatormode)
+            {
+                PollObd();
                 return;
+            }
 
             //initialize _data
             this._data = new Dictionary<string, string>();
