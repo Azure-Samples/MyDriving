@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Hours" />
+                android:text="Time" />
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"

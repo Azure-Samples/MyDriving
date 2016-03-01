@@ -1,7 +1,7 @@
 ﻿using System;
 using static System.Math;
 
-namespace MyTrips.Utils.Helpers
+namespace MyTrips.Utils
 {
     public static class DistanceUtils
     {

@@ -40,6 +40,13 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref position, value); }
         }
 
+        string elapsedTime = "0:00";
+        public string ElapsedTime
+        {
+            get { return elapsedTime; }
+            set { SetProperty(ref elapsedTime, value); }
+        }
+
 		public CurrentTripViewModel()
 		{
 			CurrentTrip = new Trip();
@@ -62,6 +69,11 @@ namespace MyTrips.ViewModel
             try
             {
                 IsRecording = true;
+
+                CurrentTrip.TimeStamp = DateTime.UtcNow;
+
+                if (CurrentPosition == null)
+                    return Task.FromResult(true);
                 var trail = new Trail
                 {
                     TimeStamp = DateTime.UtcNow,
@@ -122,7 +134,6 @@ namespace MyTrips.ViewModel
 #endif
                 CurrentTrip.Rating = 90;
                 CurrentTrip.TimeStamp = DateTime.UtcNow;
-                CurrentTrip.TotalDistance = "10 miles";
                 if(string.IsNullOrWhiteSpace(CurrentTrip.TripId))
                     CurrentTrip.TripId = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
 
@@ -171,7 +182,7 @@ namespace MyTrips.ViewModel
 			try 
 			{
 
-				if (Geolocator.IsGeolocationAvailable)
+				if (Geolocator.IsGeolocationAvailable && Geolocator.IsGeolocationEnabled)
 				{
 					Geolocator.AllowsBackgroundUpdates = true;
 					Geolocator.DesiredAccuracy = 25;
@@ -181,13 +192,13 @@ namespace MyTrips.ViewModel
 				}
 				else
 				{
+
                     if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
                     CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
                     {
                         Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
                                                                    "Geolcoation Disabled", "OK");
                     }
-
 				}
 			}
 			catch (Exception ex) 
@@ -240,6 +251,19 @@ namespace MyTrips.ViewModel
 
 
 				CurrentTrip.Trail.Add (trail);
+
+                if (CurrentTrip.Trail.Count > 1)
+                {
+                    var previous = CurrentTrip.Trail[CurrentTrip.Trail.Count - 2];//2 back now
+                    CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude, userLocation.Longitude, previous.Latitude, previous.Longitude);
+                    OnPropertyChanged(nameof(CurrentTrip.Distance));
+                }
+                var timeDif = trail.TimeStamp - CurrentTrip.TimeStamp;
+                //track minutes first and then calculat the hours
+                if(timeDif.TotalHours > 0)
+                    ElapsedTime = $"{timeDif.Minutes}m";
+                else
+                    ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";
 			}
 
             CurrentPosition = e.Position;

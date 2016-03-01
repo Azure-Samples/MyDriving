@@ -24,8 +24,16 @@ namespace MyTrips.DataObjects
 
         public string UserId { get; set; }
 
-        //TODO: need to have logic in app that actually calculates this; or maybe be calculated on backend
-        public string TotalDistance { get; set; }
+        double distance;
+        /// <summary>
+        /// Gets or sets the total distance in miles.
+        /// </summary>
+        /// <value>The total distance.</value>
+        public double Distance
+        {
+            get { return distance; }
+            set { SetProperty(ref distance, value); }
+        }
 
         public DateTime TimeStamp { get; set; }
 
@@ -34,6 +42,12 @@ namespace MyTrips.DataObjects
         //Do not sync with backend, used localy only
         [JsonIgnore]
         public string TimeAgo => TimeStamp.Humanize();
+
+        [JsonIgnore]
+        public string TotalDistance => Distance.ToString("F")+ " miles";
+
+        [JsonIgnore]
+        public string TotalDistanceNoUnits => Distance.ToString("f");
 
         [JsonIgnore]
         public IList<Photo> Photos { get; set; }
