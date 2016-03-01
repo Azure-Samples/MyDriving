@@ -333,7 +333,7 @@ namespace MyTrips.iOS
 				tripMapView.RemoveAnnotation(currentLocationAnnotation);
 			}
 
-			var color = CurrentTripViewModel.IsRecording || CurrentTripViewModel == null ? UIColor.Red : UIColor.Blue;
+			var color = CurrentTripViewModel != null && CurrentTripViewModel.IsRecording ? UIColor.Red : UIColor.Blue;
 			currentLocationAnnotation = new CarAnnotation(coordinate, color);
 
 			tripMapView.AddAnnotation(currentLocationAnnotation);
