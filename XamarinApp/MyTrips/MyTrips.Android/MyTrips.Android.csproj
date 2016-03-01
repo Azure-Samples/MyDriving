@@ -215,6 +215,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\OBDLibrary\ObdLibPCL\ObdLibPCL.csproj">
+      <Project>{64336a6e-8e00-401a-bf37-a92df64885ad}</Project>
+      <Name>ObdLibPCL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyTrips.DataStore.Abstractions\MyTrips.DataStore.Abstractions.csproj">
       <Project>{649300CE-70EA-4606-983F-F4476FDD6C7E}</Project>
       <Name>MyTrips.DataStore.Abstractions</Name>

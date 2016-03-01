@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.microsoft.mytrips" android:versionCode="1" android:versionName="1.0.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.microsoft.mytrips" android:versionCode="1" android:versionName="1.0.0" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="23" />
-	<application android:theme="@style/MyTheme" android:label="MyTrips" android:icon="@drawable/icon">
+	<uses-permission android:name="android.permission.BLUETOOTH" />
+	<application android:theme="@style/MyTheme" android:label="MyTrips">
 		<activity android:name="net.hockeyapp.android.UpdateActivity" />
-        <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyAotcS_tOM39YCwho_FTDUbz4SGVduMftE" />
+		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyAotcS_tOM39YCwho_FTDUbz4SGVduMftE" />
 	</application>
 </manifest>
