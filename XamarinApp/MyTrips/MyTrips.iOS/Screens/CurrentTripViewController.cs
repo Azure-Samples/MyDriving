@@ -38,7 +38,7 @@ namespace MyTrips.iOS
 				ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
 				await ViewModel.ExecuteStartTrackingTripCommandAsync();
 
-				mapDelegate = new TripMapViewDelegate(UIColor.Red, 0.4);
+				mapDelegate = new TripMapViewDelegate(UIColor.Red, 0.6);
 				tripMapView.Delegate = mapDelegate;
 				tripMapView.ShowsUserLocation = false;
 				tripMapView.Camera.Altitude = 5000;
@@ -148,13 +148,10 @@ namespace MyTrips.iOS
 		{
 			route.Add(coordinate);
 
-			// Draw updated route
-			var newMKPolylineCooordinates = new CLLocationCoordinate2D[] {
-					route[route.Count-1],
-					route[route.Count-2]
-				};
-
-			tripMapView.DrawRoute(newMKPolylineCooordinates);
+			if (tripMapView.Overlays != null)
+				tripMapView.RemoveOverlays(tripMapView.Overlays);
+			
+			tripMapView.DrawRoute(route.ToArray());
 		}
 
 		void StartTrackingRoute(CLLocationCoordinate2D coordinate)
