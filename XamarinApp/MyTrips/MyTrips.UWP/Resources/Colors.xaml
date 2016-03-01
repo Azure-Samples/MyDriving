@@ -7,5 +7,5 @@
     <SolidColorBrush x:Key="FacebookLoginButtonColor" Color="#FF685BE6"/>
     <SolidColorBrush x:Key="TwitterLoginButtonColor" Color="#FF64AAE8"/>
     <SolidColorBrush x:Key="MSALoginButtonColor" Color="#FF829DB0"/>
-    
+    <SolidColorBrush x:Key="SettingsBackgroundColor" Color="#23313B"/>
 </ResourceDictionary>
