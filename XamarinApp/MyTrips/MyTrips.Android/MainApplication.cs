@@ -7,6 +7,7 @@ using Plugin.CurrentActivity;
 using MyTrips.Utils;
 using MyTrips.Interfaces;
 using MyTrips.Droid.Helpers;
+using Acr.UserDialogs;
 
 namespace MyTrips.Droid
 {
@@ -25,6 +26,7 @@ namespace MyTrips.Droid
             ViewModel.ViewModelBase.Init();
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
             Xamarin.Insights.Initialize(Logger.InsightsKey, this);
+            UserDialogs.Init(() => CrossCurrentActivity.Current.Activity);
         }
 
         public override void OnTerminate()

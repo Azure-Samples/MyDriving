@@ -34,7 +34,7 @@ namespace MyTrips.Droid.Fragments
         CurrentTripViewModel viewModel;
         GoogleMap map;
         MapView mapView;
-        TextView ratingText;
+        TextView ratingText, mpg, distance, time, cost, gallons;
         RatingCircle ratingCircle;
         FloatingActionButton fab;
         Marker carMarker;
@@ -55,7 +55,11 @@ namespace MyTrips.Droid.Fragments
             ratingText = view.FindViewById<TextView>(Resource.Id.text_rating);
             ratingCircle = view.FindViewById<RatingCircle>(Resource.Id.rating_circle);
             fab = view.FindViewById<FloatingActionButton>(Resource.Id.fab);
-
+            cost = view.FindViewById<TextView>(Resource.Id.text_cost);
+            gallons = view.FindViewById<TextView>(Resource.Id.text_gallons);
+            time = view.FindViewById<TextView>(Resource.Id.text_hours);
+            distance = view.FindViewById<TextView>(Resource.Id.text_miles);
+            mpg = view.FindViewById<TextView>(Resource.Id.text_mpg);
             ratingText.Text = "100";
             ratingCircle.Rating = 100;
             return view;
@@ -97,6 +101,7 @@ namespace MyTrips.Droid.Fragments
                 AddStartMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
                 await viewModel.StartRecordingTripAsync();
                 UpdateCarIcon(true);
+                UpdateStats();
             }
         }
         #endregion
@@ -121,16 +126,24 @@ namespace MyTrips.Droid.Fragments
                 case nameof(viewModel.CurrentTrip):
                     ResetTrip();
                     break;
-                case nameof(viewModel.IsBusy):
-                    if (viewModel.IsBusy)
-                        AndroidHUD.AndHUD.Shared.Show(Activity, "Saving Trip...", -1, AndroidHUD.MaskType.Clear, TimeSpan.FromSeconds(30));
-                    else if(AndroidHUD.AndHUD.Shared.CurrentDialog != null && AndroidHUD.AndHUD.Shared.CurrentDialog.IsShowing)
-                        AndroidHUD.AndHUD.Shared.Dismiss(Activity);
+                case "Distance":
+                    UpdateStats();
                     break;
             }
         }
 
+        void UpdateStats()
+        {
+            Activity?.RunOnUiThread(() =>
+            {
+                mpg.Text = "0";
+                time.Text = viewModel.ElapsedTime;
+                gallons.Text = "0";
+                cost.Text = "$0.00";
 
+                distance.Text = viewModel.CurrentTrip.TotalDistanceNoUnits;
+            });
+        }
 
         void ResetTrip()
         {
@@ -141,6 +154,7 @@ namespace MyTrips.Droid.Fragments
             allPoints?.Clear();
             allPoints = null;
             SetupMap();
+            UpdateStats();
         }
 
 

@@ -21,8 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="48dp"
-        android:paddingRight="48dp">
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -32,7 +32,8 @@
             android:textColor="@android:color/white"
             android:drawableStart="@drawable/ic_facebook"
             android:paddingLeft="24dp"
-            android:paddingRight="24dp" />
+            android:paddingRight="24dp"
+            android:theme="@style/FacebookButton" />
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -42,7 +43,8 @@
             android:textColor="@android:color/white"
             android:drawableStart="@drawable/ic_twitter"
             android:paddingLeft="24dp"
-            android:paddingRight="24dp" />
+            android:paddingRight="24dp"
+            android:theme="@style/TwitterButton" />
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -52,7 +54,8 @@
             android:textColor="@android:color/white"
             android:drawableStart="@drawable/ic_windows"
             android:paddingLeft="24dp"
-            android:paddingRight="24dp" />
+            android:paddingRight="24dp"
+            android:theme="@style/MicrosoftButton" />
     </LinearLayout>
     <Space
         android:layout_width="match_parent"

@@ -482,7 +482,7 @@
         <!--View Controller-->
         <scene sceneID="g4Z-hJ-2oh">
             <objects>
-                <viewController id="6Zf-tF-y9k" sceneMemberID="viewController">
+                <viewController id="6Zf-tF-y9k" sceneMemberID="viewController" title="Settings">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="eKp-tR-uMr"/>
                         <viewControllerLayoutGuide type="bottom" id="J2z-of-4RZ"/>
