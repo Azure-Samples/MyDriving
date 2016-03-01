@@ -6,18 +6,19 @@ using Microsoft.WindowsAzure.MobileServices;
 using System.Threading;
 using MyTrips.Utils;
 using System.Text;
+using MyTrips.AzureClient;
 
-namespace MyTrips.DataStore.Azure
+namespace MyTrips.AzureClient
 {
     class AuthHandler : DelegatingHandler
     {
-        public IMobileServiceClient Client { get; set; }
-
+        
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (this.Client == null)
+            var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client as MobileServiceClient;
+            if (client == null)
             {
-                throw new InvalidOperationException("Make sure to set the 'Client' property in this handler before using it.");
+                throw new InvalidOperationException("Make sure to set the ServiceLocator has an instance of IAzureClient");
             }
 
             // Cloning the request, in case we need to send it again
@@ -41,7 +42,7 @@ namespace MyTrips.DataStore.Azure
                             accountType = MobileServiceAuthenticationProvider.Twitter;
                             break;
                     }
-                    var user = await this.Client.LoginAsync(MobileServiceAuthenticationProvider.MicrosoftAccount, null);
+                    var user = await client.LoginAsync(accountType, null);
                     // we're now logged in again.
 
                     // Clone the request

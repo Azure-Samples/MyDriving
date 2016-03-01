@@ -193,7 +193,7 @@ namespace MyTrips.Droid.Fragments
             if (vh.Photo.Visibility == ViewStates.Visible)
             {
                 if ((trip?.Photos?.Count).GetValueOrDefault() > 0)
-                    Square.Picasso.Picasso.With(activity).Load(trip.Photos[0].PhotoUrl).Into(vh.Photo);
+                    Square.Picasso.Picasso.With(activity).Load($"file://{trip.Photos[0].PhotoUrl}").Into(vh.Photo);
                 else
                     Square.Picasso.Picasso.With(activity).Load(trip.MainPhotoUrl).Into(vh.Photo);
             }

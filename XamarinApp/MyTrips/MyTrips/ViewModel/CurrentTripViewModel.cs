@@ -49,7 +49,7 @@ namespace MyTrips.ViewModel
 
 		public CurrentTripViewModel()
 		{
-			CurrentTrip = new Trip();
+            CurrentTrip = new Trip();
 
             CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
             photos = new List<Photo>();
@@ -59,7 +59,6 @@ namespace MyTrips.ViewModel
 
         public IMedia Media => CrossMedia.Current;
 
-
  
         public Task<bool> StartRecordingTripAsync()
         {
@@ -68,12 +67,26 @@ namespace MyTrips.ViewModel
 
             try
             {
+                if (CurrentPosition == null)
+                {
+
+                    if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
+                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
+                    {
+                        Acr.UserDialogs.UserDialogs.Instance.Toast(new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Waiting for current location.")
+                        {
+                            Duration = TimeSpan.FromSeconds(3),
+                            TextColor = System.Drawing.Color.White,
+                            BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139)
+                        });
+                    }
+                    return Task.FromResult(true);
+                }
                 IsRecording = true;
 
                 CurrentTrip.TimeStamp = DateTime.UtcNow;
 
-                if (CurrentPosition == null)
-                    return Task.FromResult(true);
+
                 var trail = new Trail
                 {
                     TimeStamp = DateTime.UtcNow,
@@ -308,7 +321,12 @@ namespace MyTrips.ViewModel
                     return;
                 }
 
-                Acr.UserDialogs.UserDialogs.Instance.Toast(new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Photo taken!") { Duration = TimeSpan.FromSeconds(3) });
+                Acr.UserDialogs.UserDialogs.Instance.Toast(new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Photo taken!") 
+                { 
+                    Duration = TimeSpan.FromSeconds(3), 
+                    TextColor = System.Drawing.Color.White, 
+                    BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139) 
+                });
 
                 var local = await locationTask;
                 var photoDB = new Photo
@@ -319,7 +337,7 @@ namespace MyTrips.ViewModel
                         TimeStamp = DateTime.UtcNow
                     };
 
-                CurrentTrip.Photos.Add(photoDB);
+                photos.Add(photoDB);
 
                 photo.Dispose();
                 

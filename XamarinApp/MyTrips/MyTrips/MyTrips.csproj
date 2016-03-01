@@ -34,7 +34,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Interfaces\IHubIOT.cs" />
+    <Compile Include="Interfaces\IOBDDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\OBDDataProcessor.cs" />
     <Compile Include="ViewModel\CurrentTripViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PastTripsViewModel.cs" />
@@ -45,6 +48,7 @@
     <Compile Include="Model\BingHelper.cs" />
     <Compile Include="Model\BingResult.cs" />
     <Compile Include="Helpers\UserProfile.cs" />
+    <Compile Include="Interfaces\IGeocoder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -136,10 +140,10 @@
       <HintPath>..\..\packages\Splat.1.6.2\lib\Portable-net45+win+wpa81+wp80\Splat.dll</HintPath>
     </Reference>
     <Reference Include="Acr.UserDialogs">
-      <HintPath>..\..\packages\Acr.UserDialogs.4.3.2\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.dll</HintPath>
+      <HintPath>..\..\packages\Acr.UserDialogs.4.3.3\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.dll</HintPath>
     </Reference>
     <Reference Include="Acr.UserDialogs.Interface">
-      <HintPath>..\..\packages\Acr.UserDialogs.4.3.2\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.Interface.dll</HintPath>
+      <HintPath>..\..\packages\Acr.UserDialogs.4.3.3\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.Interface.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -159,10 +163,12 @@
       <Project>{CEF8CB82-B2BF-42D0-998C-8C50A4CA7AE6}</Project>
       <Name>MyTrips.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyTrips.AzureClient\MyTrips.AzureClient.csproj">
+      <Project>{29B6B823-6639-4942-9723-0075BBEF7C69}</Project>
+      <Name>MyTrips.AzureClient</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="..\..\packages\Xamarin.Insights.1.11.4\build\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.targets" Condition="Exists('..\..\packages\Xamarin.Insights.1.11.4\build\portable-win+net45+wp80+windows8+wpa+MonoAndroid10+MonoTouch10\Xamarin.Insights.targets')" />
