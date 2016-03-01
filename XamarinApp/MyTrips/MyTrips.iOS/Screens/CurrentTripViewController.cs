@@ -9,6 +9,9 @@ using UIKit;
 
 using MyTrips.ViewModel;
 
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
+
 
 namespace MyTrips.iOS
 {
@@ -33,11 +36,6 @@ namespace MyTrips.iOS
 
 			if (PastTripsDetailViewModel == null)
 			{
-				// Setup view model
-				ViewModel = new CurrentTripViewModel();
-				ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
-				await ViewModel.ExecuteStartTrackingTripCommandAsync();
-
 				mapDelegate = new TripMapViewDelegate(UIColor.Red, 0.6);
 				tripMapView.Delegate = mapDelegate;
 				tripMapView.ShowsUserLocation = false;
@@ -53,25 +51,35 @@ namespace MyTrips.iOS
 
 				tripSlider.Hidden = true;
 
-				if (CLLocationManager.Status != CLAuthorizationStatus.Authorized)
-				{
-					var alertController = UIAlertController.Create("Location Permission Denied", "Tracking your location is required to record trips. Visit the Settings app to change the permission status.", UIAlertControllerStyle.Alert);
-					alertController.AddAction(UIAlertAction.Create("Change Permission", UIAlertActionStyle.Default, (obj) =>
-					{
-						var url = NSUrl.FromString(UIApplication.OpenSettingsUrlString);
-						UIApplication.SharedApplication.OpenUrl(url);
-					}));
-
-					alertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Cancel, null));
-
-					PresentViewController(alertController, true, null);
-				}
-
 				// Hide slider waypoints
 				wayPointA.Hidden = true;
 				wayPointB.Hidden = true;
 
 				NavigationItem.RightBarButtonItem = null;
+
+				// Setup view model
+				ViewModel = new CurrentTripViewModel();
+				ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
+				await ViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
+				{
+					var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
+					if (status == PermissionStatus.Denied)
+					{
+						InvokeOnMainThread(() =>
+						{
+							var alertController = UIAlertController.Create("Location Permission Denied", "Tracking your location is required to record trips. Visit the Settings app to change the permission status.", UIAlertControllerStyle.Alert);
+							alertController.AddAction(UIAlertAction.Create("Change Permission", UIAlertActionStyle.Default, (obj) =>
+							{
+								var url = NSUrl.FromString(UIApplication.OpenSettingsUrlString);
+								UIApplication.SharedApplication.OpenUrl(url);
+							}));
+
+							alertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Cancel, null));
+
+							PresentViewController(alertController, true, null);
+						});
+					}
+				});
 			}
 			else
 			{

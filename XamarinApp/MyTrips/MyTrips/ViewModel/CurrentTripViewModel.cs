@@ -171,7 +171,7 @@ namespace MyTrips.ViewModel
 			try 
 			{
 
-				if (Geolocator.IsGeolocationAvailable && Geolocator.IsGeolocationEnabled)
+				if (Geolocator.IsGeolocationAvailable)
 				{
 					Geolocator.AllowsBackgroundUpdates = true;
 					Geolocator.DesiredAccuracy = 25;
@@ -181,13 +181,13 @@ namespace MyTrips.ViewModel
 				}
 				else
 				{
-
                     if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
                     CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
                     {
                         Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
                                                                    "Geolcoation Disabled", "OK");
                     }
+
 				}
 			}
 			catch (Exception ex) 
