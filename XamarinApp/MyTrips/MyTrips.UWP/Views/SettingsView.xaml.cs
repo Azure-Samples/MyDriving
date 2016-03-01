@@ -33,22 +33,22 @@ namespace MyTrips.UWP.Views
 
         public void PrivacyPolicyButton_Click(object sender, RoutedEventArgs e)
         {
-            //to do
+            settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.PrivacyPolicyUrl);
         }
 
         private void TermsOfUseButton_Click(object sender, RoutedEventArgs e)
         {
-            //to do
+            settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.TermsOfUseUrl);
         }
 
         public void OpenSourceNoticeButton_Click(object sender, RoutedEventArgs e)
         {
-            //to do
+            settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.OpenSourceNoticeUrl);
         }
 
         public void OpenSourceGitHubButton_Click(object sender, RoutedEventArgs e)
         {
-            //to do
+            settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.SourceOnGitHubUrl);
         }
     }
 }
