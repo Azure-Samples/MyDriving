@@ -55,13 +55,9 @@
             android:key="url_privacy"
               android:title="Privacy Policy"/>
 
-		    <Preference
-                android:title="Terms of Use">
-
-            <intent android:action="android.intent.action.VIEW"
-                    android:data="http://www.microsoft.com" />
-
-        </Preference>
+	    <Preference
+			android:key="url_terms"
+            android:title="Terms of Use"/>
 		
 		 <Preference
                 android:title="Open Source Notice"
