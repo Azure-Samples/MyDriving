@@ -50,7 +50,40 @@ namespace MyTrips.Droid.Fragments
             layoutManager.Orientation = LinearLayoutManager.Vertical;
             recyclerView.SetLayoutManager(layoutManager);
             recyclerView.SetAdapter(adapter);
+            recyclerView.ClearOnScrollListeners();
+            recyclerView.AddOnScrollListener(new TripsOnScrollListenerListener(viewModel, layoutManager));
+
         }
+
+        class TripsOnScrollListenerListener : RecyclerView.OnScrollListener
+        {
+            PastTripsViewModel viewModel;
+            LinearLayoutManager layoutManager;
+            public TripsOnScrollListenerListener(PastTripsViewModel viewModel, LinearLayoutManager layoutManager)
+            {
+                this.layoutManager = layoutManager;
+                this.viewModel = viewModel;
+            }
+
+            public override void OnScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
+                base.OnScrolled(recyclerView, dx, dy);
+                if (viewModel.IsBusy || viewModel.Trips.Count == 0 || !viewModel.CanLoadMore)
+                    return;
+
+                var lastVisiblePosition = layoutManager.FindLastCompletelyVisibleItemPosition();
+                if (lastVisiblePosition == RecyclerView.NoPosition)
+                    return;
+
+                //if we are at the bottom and can load more.
+                if (lastVisiblePosition == viewModel.Trips.Count - 1)
+                    viewModel.LoadMorePastTripCommand.Execute(null);
+                
+            }
+        }
+
+
+
 
 
         public override void OnStart()

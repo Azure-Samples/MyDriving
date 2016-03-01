@@ -22,6 +22,19 @@
      -->  
     </Style>
 
-  
+    <Style x:Key="SettingsSeparatorLine" TargetType="Border">
+        <Setter  Property="BorderBrush" Value="Gray" />
+        <Setter Property="BorderThickness" Value="0,0.5,0,0" />
+        <Setter Property="Margin" Value="10,5,10,5"/>
+    </Style>
+
+    <Style x:Key="SettingsLabelStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="15,5,0,5" />
+        <Setter Property="Foreground" Value="#7BA4C5" />
+    </Style>
+
+    <Style x:Key="SettingsSubLabelStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="15,5,0,5" />
+    </Style>
 
 </ResourceDictionary>

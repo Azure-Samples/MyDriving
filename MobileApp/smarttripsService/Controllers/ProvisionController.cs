@@ -1,11 +1,13 @@
 ﻿using System.Web.Http;
-using System.Web.Http.Tracing;
 using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Config;
 using Microsoft.Azure.Devices;
-using System.Configuration;
 using Microsoft.Azure.Devices.Common.Exceptions;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using smarttripsService.Models;
+using System.Linq;
+using System;
 
 namespace smarttripsService.Controllers
 {
@@ -18,24 +20,54 @@ namespace smarttripsService.Controllers
         private static object syncRoot = new object();
 
         // GET api/values
-        public string Get()
+        [HttpGet]
+        public async Task<IEnumerable<Device>> Get()
         {
-            MobileAppSettingsDictionary settings = this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
-            
-            ITraceWriter traceWriter = this.Configuration.Services.GetTraceWriter();
-
-            string host = settings.HostName ?? "localhost";
-            string greeting = "Hello from " + host;
-            
-            traceWriter.Info(greeting);
-            return greeting;
+            ensureRegistryManagerInitialized();
+            return await getDevices();
         }
 
         // POST api/values
-        public async Task<string> Post(string userId, string deviceName)
+        [HttpPost]
+        public async Task<IHttpActionResult> Post(string userId, string deviceName)
         {
             Device device;
+            ensureRegistryManagerInitialized();
+            MobileAppSettingsDictionary settings = this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
 
+            var existingDevices = await getDevices();
+            int maxDevices = int.Parse(settings["MaxDevices"]);
+            smarttripsContext context = new smarttripsContext();
+            var curUser = context.Users.Where(user => user.UserId == userId).FirstOrDefault();
+            if(curUser == null)
+            {
+                curUser = context.Users.Add(new DataObjects.User() { Id= Guid.NewGuid().ToString(), UserId = userId });
+            }
+            if(curUser.Devices == null)
+            {
+                curUser.Devices = new List<string>();
+            }
+            if(curUser.Devices.Count >= maxDevices)
+            {
+                return BadRequest("You already have more than the maximum number of devices");
+            }
+            
+
+            try
+            {
+                device = await registryManager.AddDeviceAsync(new Device(deviceName));
+                curUser.Devices.Add(deviceName);
+                await context.SaveChangesAsync();
+            }
+            catch (DeviceAlreadyExistsException)
+            {
+                device = await registryManager.GetDeviceAsync(deviceName);
+            }
+            return Created("api/provision", device.Authentication.SymmetricKey.PrimaryKey);
+        }
+
+        private void ensureRegistryManagerInitialized()
+        {
             if (registryManager == null)
             {
                 lock (syncRoot)
@@ -48,17 +80,14 @@ namespace smarttripsService.Controllers
                     }
                 }
             }
+        }
 
-            
-            try
-            {
-                device = await registryManager.AddDeviceAsync(new Device(deviceName));
-            }
-            catch (DeviceAlreadyExistsException)
-            {
-                device = await registryManager.GetDeviceAsync(deviceName);
-            }
-            return device.Authentication.SymmetricKey.PrimaryKey;
+        private async Task<IEnumerable<Device>> getDevices()
+        {
+            MobileAppSettingsDictionary settings = this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
+            int maxDevices = int.Parse(settings["MaxDevices"]);
+
+            return await registryManager.GetDevicesAsync(maxDevices);
         }
     }
 }

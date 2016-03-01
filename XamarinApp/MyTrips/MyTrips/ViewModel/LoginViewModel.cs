@@ -10,7 +10,7 @@ namespace MyTrips.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        MobileServiceClient client = null;
+        public MobileServiceClient client = null;
         IAuthentication authentication;
         public LoginViewModel()
         {
@@ -84,6 +84,7 @@ namespace MyTrips.ViewModel
 
             Settings.LoginAccount = LoginAccount.Microsoft;
             var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
+            UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
 
             track.Stop();
 
@@ -94,6 +95,7 @@ namespace MyTrips.ViewModel
             }
 
             IsLoggedIn = true;
+            
         }
 
         ICommand  loginFacebookCommand;
@@ -109,6 +111,7 @@ namespace MyTrips.ViewModel
 
             Settings.LoginAccount = LoginAccount.Facebook;
             var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
+            UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
 
             track.Stop();
 
@@ -118,6 +121,7 @@ namespace MyTrips.ViewModel
                 return;
             }
 
+            
             IsLoggedIn = true;
         }
     }

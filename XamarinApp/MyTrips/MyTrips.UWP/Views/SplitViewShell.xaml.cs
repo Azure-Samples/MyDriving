@@ -26,6 +26,7 @@ namespace MyTrips.UWP.Views
         {
             this.InitializeComponent();
             this.MyTripsSplitView.Content = frame;
+            frame.Navigated += Frame_Navigated;
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
@@ -48,7 +49,14 @@ namespace MyTrips.UWP.Views
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             MyTripsSplitView.IsPaneOpen = false;
-            ((Frame)this.MyTripsSplitView.Content).Navigate(typeof(Settings));
+            ((Frame)this.MyTripsSplitView.Content).Navigate(typeof(SettingsView));
+        }
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            MyTripsSplitView.IsPaneOpen = false;
+            
+            var frame = this.MyTripsSplitView.Content as Frame;
+            PageTitle.Text = ((Page)frame.Content).Name;
         }
     }
 }

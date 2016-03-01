@@ -151,20 +151,50 @@
             android:layout_gravity="bottom"
             android:orientation="horizontal"
             android:background="#80000000"
-            android:padding="24dp">
+            android:padding="16dp">
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_start_point"
                 android:layout_gravity="center_vertical" />
-            <SeekBar
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/trip_progress"
-                android:layout_gravity="center_vertical" />
+                android:paddingTop="16dp"
+                android:layout_gravity="center_vertical">
+                <SeekBar
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/trip_progress"
+                    android:backgroundTint="@android:color/white" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="-6dp">
+                    <TextView
+                        android:id="@+id/text_start_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:text="2:30pm"
+                        android:textSize="12sp"
+                        android:layout_gravity="start" />
+                    <TextView
+                        android:id="@+id/text_end_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:text="2:35pm"
+                        android:textSize="12sp"
+                        android:layout_gravity="end" />
+                </FrameLayout>
+            </LinearLayout>
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"

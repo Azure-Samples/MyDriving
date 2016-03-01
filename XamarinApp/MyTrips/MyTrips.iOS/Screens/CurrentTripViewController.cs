@@ -9,6 +9,8 @@ using UIKit;
 
 using MyTrips.ViewModel;
 
+using BigTed;
+
 namespace MyTrips.iOS
 {
 	partial class CurrentTripViewController : UIViewController
@@ -37,7 +39,6 @@ namespace MyTrips.iOS
 				ViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
 				await ViewModel.ExecuteStartTrackingTripCommandAsync();
 
-				// Configure MKMapView
 				mapDelegate = new TripMapViewDelegate(UIColor.Red, 0.4);
 				tripMapView.Delegate = mapDelegate;
 				tripMapView.ShowsUserLocation = false;
@@ -51,17 +52,19 @@ namespace MyTrips.iOS
 				recordButton.Layer.BorderWidth = 2;
 				recordButton.TouchUpInside += RecordButton_TouchUpInside;
 
+				tripSlider.Hidden = true;
+
 				// Hide slider waypoints
 				wayPointA.Hidden = true;
 				wayPointB.Hidden = true;
 
-				// Hide trip slider
-				tripSlider.Hidden = true;
+				NavigationItem.RightBarButtonItem = null;
 			}
 			else
 			{
 				// Update navigation bar title
 				NavigationItem.Title = PastTripsDetailViewModel.Title;
+				NavigationItem.RightBarButtonItem = null;
 
 				var count = PastTripsDetailViewModel.Trip.Trail.Count;
 
@@ -104,6 +107,12 @@ namespace MyTrips.iOS
 			{
 				recordButton.Pop(0.5, 0, 1);
 			}
+		}
+
+		void RightBarButtonItem_Clicked(object sender, EventArgs e)
+		{
+			if (!ViewModel.IsBusy && ViewModel.IsRecording)
+				ViewModel?.TakePhotoCommand.Execute(null);
 		}
 
 		void Geolocator_PositionChanged(object sender, Plugin.Geolocator.Abstractions.PositionEventArgs e)
@@ -159,6 +168,11 @@ namespace MyTrips.iOS
 
 			if (!ViewModel.IsRecording)
 			{
+				if (NavigationItem.RightBarButtonItem == null)
+					NavigationItem.RightBarButtonItem = takePhotoButton;
+
+				NavigationItem.RightBarButtonItem.Clicked += RightBarButtonItem_Clicked;
+
 				// Add starting waypoint
 				var startEndpoint = new WaypointAnnotation (coordinate, "A");
 				tripMapView.AddAnnotation(startEndpoint);
@@ -173,12 +187,24 @@ namespace MyTrips.iOS
 				// Add ending waypoint
 				var endEndpoint = new WaypointAnnotation(coordinate, "B");
 				tripMapView.AddAnnotation(endEndpoint);
+
+				NavigationItem.RightBarButtonItem.Clicked -= RightBarButtonItem_Clicked;
+				NavigationItem.RightBarButtonItem = null;
 			}
 
-            if (ViewModel.IsRecording)
-                await ViewModel.StopRecordingTripAsync();
-            else
-                await ViewModel.StartRecordingTripAsync();
+			if (ViewModel.IsRecording)
+			{
+				BTProgressHUD.Show("Saving Trip");
+
+				ResetMapView();
+				await ViewModel.StopRecordingTripAsync();
+
+				BTProgressHUD.Dismiss();
+			}
+			else
+			{
+				await ViewModel.StartRecordingTripAsync();
+			}
 		}
 
 		void TripSlider_ValueChanged(object sender, EventArgs e)
@@ -290,6 +316,17 @@ namespace MyTrips.iOS
 				tripSlider.Value = tripSlider.MaxValue;
 				TripSlider_ValueChanged(this, null);
 			};
+		}
+
+		void ResetMapView()
+		{
+			if (tripMapView.Overlays != null)
+			{
+				tripMapView.RemoveOverlays(tripMapView.Overlays);
+			}
+
+			tripMapView.RemoveAnnotations(tripMapView.Annotations);
+			route = null;
 		}
 	}
 }

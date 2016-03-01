@@ -223,7 +223,7 @@ namespace MyTrips.DataStore.Mock.Stores
             return Task.FromResult(true);
         }
 
-        public override async Task<IEnumerable<Trip>> GetItemsAsync(bool forceRefresh = false)
+        public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
             if (!initialized)
                 await InitializeStoreAsync();

@@ -7,13 +7,27 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <SplitView x:Name="MyTripsSplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" CompactPaneLength="30" OpenPaneLength="125">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid Background="#162129">
+            <Button x:Name="HamburgerButton" Width="35" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Background="Transparent" Click="HamburgerButton_Click" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Grid.Column="1" Background="#162129">
+            <TextBlock x:Name="PageTitle" Margin="10,0,0,0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"/>
+        </Grid>
+        <SplitView x:Name="MyTripsSplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" CompactPaneLength="35" OpenPaneLength="125"   Grid.Row="1" Grid.ColumnSpan="2">
         <SplitView.Pane>
-            <StackPanel Background="#162129">
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Background="Transparent" Click="HamburgerButton_Click" VerticalAlignment="Top"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Background="#162129">
+                    <StackPanel Orientation="Horizontal">
                     <Button x:Name="TripsButton" FontFamily="Segoe MDL2 Assets" Content="&#xE774;" Background="Transparent" Click="TripsButton_Click" />
                     <TextBlock Text="Trips" VerticalAlignment="Center" />
                 </StackPanel>
@@ -32,4 +46,5 @@
             </StackPanel>
         </SplitView.Pane>
     </SplitView>
+    </Grid>
 </Page>

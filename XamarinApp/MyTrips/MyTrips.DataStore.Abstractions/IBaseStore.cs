@@ -9,7 +9,7 @@ namespace MyTrips.DataStore.Abstractions
     public interface IBaseStore<T>
     {
         Task InitializeStoreAsync();
-        Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false);
+        Task<IEnumerable<T>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false);
         Task<T> GetItemAsync(string id);
         Task<bool> InsertAsync(T item);
         Task<bool> UpdateAsync(T item);

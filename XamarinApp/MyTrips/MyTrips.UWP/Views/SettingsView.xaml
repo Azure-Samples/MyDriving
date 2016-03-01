@@ -1,0 +1,56 @@
+﻿<Page
+    x:Class="MyTrips.UWP.Views.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyTrips.UWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Name="SETTINGS">
+
+    <Grid Background="{StaticResource SettingsBackgroundColor}">
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <StackPanel>
+                <TextBlock Name="AccountLabel" Text="ACCOUNT" Style="{StaticResource SettingsLabelStyle}"/>
+                <Button Name="LogoutButton" Content="Logout" HorizontalAlignment="Center" Margin="0,5,20,5"></Button>
+                <Border  Style="{StaticResource SettingsSeparatorLine}" />
+
+                <TextBlock Name="Preferences" Text="PREFERENCES" Style="{StaticResource SettingsLabelStyle}" />
+                <TextBlock Name="MetricDistanceSubLabel" Text="Metric Units"  Style="{StaticResource SettingsSubLabelStyle}"/>
+
+
+                <CheckBox Name="Kilometers" Margin="10,5,0,0" IsChecked="{Binding MetricDistance, Mode=TwoWay}">
+                    <CheckBox.Content>
+                        <TextBlock Text="Use kilometers instead of miles" />
+                    </CheckBox.Content>
+                </CheckBox>
+
+                <CheckBox Name="liters" Margin="10,5,0,0" IsChecked="{Binding MetricUnits, Mode=TwoWay}">
+                    <CheckBox.Content>
+                        <TextBlock Text="Use liters instead of gallons" />
+                    </CheckBox.Content>
+                </CheckBox>
+
+                <Border  Style="{StaticResource SettingsSeparatorLine}" />
+
+                <TextBlock Name="IotHub" Text="IOT HUB CONFIGURATION" Style="{StaticResource SettingsLabelStyle}"/>
+                <TextBlock  Text="Hub Setting 1"  Style="{StaticResource SettingsSubLabelStyle}"/>
+                <TextBox Name="HubSetting1" Text="{Binding HubSetting1, Mode=TwoWay}" Margin="10,0,10,0"/>
+                <TextBlock  Text="Hub Setting 2"   Style="{StaticResource SettingsSubLabelStyle}"/>
+                <TextBox Name="HubSetting2" Text="{Binding HubSetting2, Mode=TwoWay}" Margin="10,0,10,0"/>
+
+                <Border Style="{StaticResource SettingsSeparatorLine}" />
+
+                <TextBlock Text="ABOUT MY TRIPS" Style="{StaticResource SettingsLabelStyle}"/>
+                <Button Name="PrivacyPolicyButton" Content="Privacy policy"  Margin="10,5,0,5" Click="PrivacyPolicyButton_Click" ></Button>
+                <Button Name="TermsOfUseButton" Content="Terms of use"  Margin="10,5,0,5" Click="TermsOfUseButton_Click"></Button>
+                <Button Name="OpenSourceNoticeButton" Content="Open Source Notice"  Margin="10,5,0,5" Click="OpenSourceNoticeButton_Click"></Button>
+                <Button Name="OpenSourceGitHubButton" Content="Open Source on GitHub"  Margin="10,5,0,5" Click="OpenSourceGitHubButton_Click"></Button>
+                <TextBlock Text="Built in C# with Xamarin"  Style="{StaticResource SettingsSubLabelStyle}"/>
+                <TextBlock Text="Copyright 2016 Microsoft"  Style="{StaticResource SettingsSubLabelStyle}"/>
+                
+            </StackPanel>
+        </ScrollViewer>
+      
+    </Grid>
+</Page>
