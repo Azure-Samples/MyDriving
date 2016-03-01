@@ -25,6 +25,8 @@ namespace MyTrips.Droid.Fragments
 
             ratingCircle.Rating = 86;
 
+            Activity.Title = Settings.Current.UserFirstName;
+
             Square.Picasso.Picasso.With(Activity).Load(Settings.Current.UserProfileUrl).Into(circleImage);
 
             return view;

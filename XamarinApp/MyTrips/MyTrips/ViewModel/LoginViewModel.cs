@@ -6,6 +6,7 @@ using MyTrips.Interfaces;
 using Microsoft.WindowsAzure.MobileServices;
 using MyTrips.DataStore.Abstractions;
 using MyTrips.AzureClient;
+using System;
 
 namespace MyTrips.ViewModel
 {
@@ -57,9 +58,10 @@ namespace MyTrips.ViewModel
             track.Start();
 
             Settings.LoginAccount = LoginAccount.Twitter;
+            MobileServiceUser user = null;
             try
             {
-                var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Twitter);
+                user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Twitter);
                 if(user != null)
                     UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
             }
@@ -93,9 +95,10 @@ namespace MyTrips.ViewModel
 
 
             Settings.LoginAccount = LoginAccount.Microsoft;
+            MobileServiceUser user = null;
             try
             {
-                var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
+                user = user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
                 if (user != null)
                     UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
             }
@@ -125,11 +128,11 @@ namespace MyTrips.ViewModel
                 return;
             var track = Logger.Instance.TrackTime("LoginFacebook");
             track.Start();
-
+            Settings.LoginAccount = LoginAccount.Facebook;
+            MobileServiceUser user = null;
             try
             {
-                Settings.LoginAccount = LoginAccount.Facebook;
-                var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
+                user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
                 if(user != null)
                     UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
             }
