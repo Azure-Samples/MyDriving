@@ -96,6 +96,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CurrentTripView.xaml.cs">
+      <DependentUpon>CurrentTripView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\Authentication.cs" />
     <Compile Include="Helpers\BitmapImageConverter.cs" />
     <Compile Include="Views\PastTripMapView.xaml.cs">
@@ -150,6 +153,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\CurrentTripView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PastTripMapView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

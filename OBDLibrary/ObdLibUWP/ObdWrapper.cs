@@ -14,7 +14,8 @@ namespace ObdLibUWP
     public class ObdWrapper
     {
         const uint BufSize = 64;
-        const int Interval = 1000;
+        const int Interval = 500;
+        const string DefValue = "";
         private StreamSocket _socket = null;
         private RfcommDeviceService _service = null;
         DataReader dataReaderObject = null;
@@ -23,18 +24,20 @@ namespace ObdLibUWP
         bool _connected = true;
         Dictionary<string, string> _data = null;
         bool _running = true;
+        private Object _lock = new Object();
+
 
         public async void Init()
         {
             //initialize _data
             this._data = new Dictionary<string, string>();
-            this._data.Add("spd", "");  //Speed
-            this._data.Add("bp", "");   //BarometricPressure
-            this._data.Add("rpm", "");  //RPM
-            this._data.Add("ot", "");   //OutsideTemperature
-            this._data.Add("it", "");   //InsideTemperature
-            this._data.Add("efr", "");  //EngineFuelRate
-            this._data.Add("vin", "");  //VIN
+            this._data.Add("spd", DefValue);  //Speed
+            this._data.Add("bp", DefValue);   //BarometricPressure
+            this._data.Add("rpm", DefValue);  //RPM
+            this._data.Add("ot", DefValue);   //OutsideTemperature
+            this._data.Add("it", DefValue);   //InsideTemperature
+            this._data.Add("efr", DefValue);  //EngineFuelRate
+            this._data.Add("vin", DefValue);  //VIN
 
             DeviceInformationCollection DeviceInfoCollection = await DeviceInformation.FindAllAsync(RfcommDeviceService.GetDeviceSelector(RfcommServiceId.SerialPort));
             var numDevices = DeviceInfoCollection.Count();
@@ -91,7 +94,7 @@ namespace ObdLibUWP
                     //while (true)
                     //{
                     //    await Task.Delay(2000);
-                    //    Read();
+                    //    var dse = Read();
                     //}
                 }
             }
@@ -109,42 +112,63 @@ namespace ObdLibUWP
             {
                 string s;
                 s = await GetVIN();
-                _data["vin"] = s;
+                lock(_lock)
+                {
+                    _data["vin"] = s;
+                }
                 while (true)
                 {
                     s = await GetSpeed();
                     if (s != "ERROR")
-                        _data["spd"] = s;
+                        lock (_lock)
+                        {
+                            _data["spd"] = s;
+                        }
                     if (!this._running)
                         break;
                     await Task.Delay(Interval);
                     s = await GetBarometricPressure();
                     if (s != "ERROR")
-                        _data["bp"] = s;
+                        lock (_lock)
+                        {
+                            _data["bp"] = s;
+                        }
                     if (!this._running)
                         break;
                     await Task.Delay(Interval);
                     s = await GetRPM();
                     if (s != "ERROR")
-                        _data["rpm"] = s;
+                        lock (_lock)
+                        {
+                            _data["rpm"] = s;
+                        }
                     if (!this._running)
                         break;
                     await Task.Delay(Interval);
                     s = await GetOutsideTemperature();
                     if (s != "ERROR")
-                        _data["ot"] = s;
+                        lock (_lock)
+                        {
+                            _data["ot"] = s;
+                        }
                     if (!this._running)
                         break;
                     await Task.Delay(Interval);
                     s = await GetInsideTemperature();
                     if (s != "ERROR")
-                        _data["it"] = s;
+                        lock (_lock)
+                        {
+                            _data["it"] = s;
+                        }
                     if (!this._running)
                         break;
                     await Task.Delay(Interval);
                     s = await GetEngineFuelRate();
                     if (s != "ERROR")
-                        _data["efr"] = s;
+                        lock (_lock)
+                        {
+                            _data["efr"] = s;
+                        }
                     if (!this._running)
                         break;
                     await Task.Delay(Interval);
@@ -349,28 +373,21 @@ namespace ObdLibUWP
                 //if there is no connection
                 return null;
             }
-            return _data;
-            //Dictionary<string, string> ret = new Dictionary<string, string>();
-            //string s;
-            //s = await GetSpeed();
-            //if (s != "ERROR")
-            //    ret.Add("0D", s);
-            //s = await GetBarometricPressure();
-            //if(s != "ERROR")
-            //    ret.Add("33", s);
-            //s = await GetRPM();
-            //if (s != "ERROR")
-            //    ret.Add("0C", s);
-            //s = await GetOutsideTemperature();
-            //if (s != "ERROR")
-            //    ret.Add("46", s);
-            //s = await GetInsideTemperature();
-            //if (s != "ERROR")
-            //    ret.Add("0F", s);
-            //s = await GetEngineFuelRate();
-            //if (s != "ERROR")
-            //    ret.Add("5E", s);
-            //return ret;
+            var ret = new Dictionary<string, string>();
+            lock (_lock)
+            {   
+                foreach (var key in _data.Keys)
+                {
+                    ret.Add(key, _data[key]);
+                }
+                _data["spd"] = DefValue;  //Speed
+                _data["bp"] = DefValue;   //BarometricPressure
+                _data["rpm"] = DefValue;  //RPM
+                _data["ot"] = DefValue;   //OutsideTemperature
+                _data["it"] = DefValue;   //InsideTemperature
+                _data["efr"] = DefValue;  //EngineFuelRate
+            }
+            return ret;
         }
 
         private async Task<string> SendAndReceive(string msg)
