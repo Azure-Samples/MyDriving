@@ -40,7 +40,8 @@ namespace MyTrips.iOS
 					});
 			}
 
-			if (!Settings.Current.IsLoggedIn)
+			// if (!Settings.Current.IsLoggedIn)
+			if (false)
 			{
 				var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("loginViewController"); // Storyboard.InstantiateViewController("loginViewController");
 				Window.RootViewController = viewController;

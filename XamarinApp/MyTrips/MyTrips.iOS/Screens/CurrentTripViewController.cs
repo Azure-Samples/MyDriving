@@ -199,7 +199,8 @@ namespace MyTrips.iOS
 
 			// Add start or end waypoint
 			var endpoint = !CurrentTripViewModel.IsRecording ? "A" : "B";
-			tripMapView.AddAnnotation(endpoint);
+			var annotation = new WaypointAnnotation(coordinate, endpoint);
+			tripMapView.AddAnnotation(annotation);
 
 			if (CurrentTripViewModel.IsRecording)
 			{
