@@ -58,8 +58,10 @@ namespace MyTrips.iOS
         {
 #if DEBUG
 			var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
-			app.Window.RootViewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController");
-#endif
+			var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
+			viewController.SelectedIndex = 1;
+			app.Window.RootViewController = viewController;
+			#endif
 
             switch (account)
             {
