@@ -49,7 +49,7 @@ namespace MyTrips.ViewModel
 
 		public CurrentTripViewModel()
 		{
-			CurrentTrip = new Trip();
+            CurrentTrip = new Trip();
 
             CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
             photos = new List<Photo>();
@@ -58,7 +58,6 @@ namespace MyTrips.ViewModel
 		public IGeolocator Geolocator => CrossGeolocator.Current;
 
         public IMedia Media => CrossMedia.Current;
-
 
  
         public Task<bool> StartRecordingTripAsync()

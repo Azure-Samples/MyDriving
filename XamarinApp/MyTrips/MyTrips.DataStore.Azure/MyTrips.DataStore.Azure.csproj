@@ -41,6 +41,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeviceProvisionHandler.cs" />
+    <Compile Include="MobileServiceHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stores\BaseStore.cs" />
     <Compile Include="Stores\TripStore.cs" />
@@ -102,7 +104,5 @@
       <Name>MyTrips.DataStore.Abstractions</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Stores\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
