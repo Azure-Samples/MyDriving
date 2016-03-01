@@ -27,7 +27,7 @@ namespace ObdLibUWP
         private Object _lock = new Object();
         private bool _simulatormode;
 
-        public async void Init(bool simulatormode = false)
+        public async Task Init(bool simulatormode = false)
         {
             _simulatormode = simulatormode;
             if (simulatormode)
@@ -520,7 +520,7 @@ namespace ObdLibUWP
             return "";
         }
 
-        public async void Disconnect()
+        public async Task Disconnect()
         {
             _running = false;
             await this._socket.CancelIOAsync();
