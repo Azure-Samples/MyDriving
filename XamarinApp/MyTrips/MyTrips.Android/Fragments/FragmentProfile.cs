@@ -3,6 +3,7 @@ using Android.Support.V4.App;
 using Android.Views;
 using MyTrips.Droid.Controls;
 using Refractored.Controls;
+using MyTrips.Utils;
 
 
 namespace MyTrips.Droid.Fragments
@@ -24,7 +25,9 @@ namespace MyTrips.Droid.Fragments
 
             ratingCircle.Rating = 86;
 
-            Square.Picasso.Picasso.With(Activity).Load("http://refractored.com/images/Scott.png").Into(circleImage);
+            Activity.Title = Settings.Current.UserFirstName;
+
+            Square.Picasso.Picasso.With(Activity).Load(Settings.Current.UserProfileUrl).Into(circleImage);
 
             return view;
         }

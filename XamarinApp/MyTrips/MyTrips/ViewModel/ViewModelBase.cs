@@ -6,9 +6,11 @@ using MyTrips.DataStore.Abstractions;
 using MyTrips.DataStore.Mock;
 using MyTrips.DataStore.Mock.Stores;
 
+
 //Use Azure
 //using MyTrips.DataStore.Azure;
 //using MyTrips.DataStore.Azure.Stores;
+using MyTrips.AzureClient;
 
 namespace MyTrips.ViewModel
 {
@@ -17,6 +19,7 @@ namespace MyTrips.ViewModel
         
         public static void Init()
         {
+            ServiceLocator.Instance.Add<IAzureClient, AzureClient.AzureClient>();
             ServiceLocator.Instance.Add<ITripStore, TripStore>();
             ServiceLocator.Instance.Add<IPhotoStore, PhotoStore>();
             ServiceLocator.Instance.Add<IStoreManager, StoreManager>();

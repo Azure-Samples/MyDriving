@@ -158,38 +158,6 @@ namespace MyTrips.Utils
             }
         }
 
-        const string UserIdKey = "userid";
-        static readonly string UserIdDefault = string.Empty;
-
-     
-
-        public string UserId
-        {
-            get
-            {
-                return AppSettings.GetValueOrDefault<string>(UserIdKey, UserIdDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue<string>(UserIdKey, value);
-            }
-        }
-
-        const string AuthTokenKey = "authtoken";
-        static readonly string AuthTokenDefault = string.Empty;
-
-        public string AuthToken
-        {
-            get
-            {
-                return AppSettings.GetValueOrDefault<string>(AuthTokenKey, AuthTokenDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue<string>(AuthTokenKey, value);
-            }
-        }
-
         public bool IsLoggedIn => (!string.IsNullOrWhiteSpace(AuthToken) && !string.IsNullOrWhiteSpace(UserId));
 
         const string LoginAttemptsKey = "login_attempts";
@@ -242,6 +210,83 @@ namespace MyTrips.Utils
                 OnPropertyChanged();
             }
         }
+
+        #region User Profile
+        const string UserIdKey = "userid";
+        static readonly string UserIdDefault = string.Empty;
+        public string UserId
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(UserIdKey, UserIdDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(UserIdKey, value);
+            }
+        }
+
+        const string AuthTokenKey = "authtoken";
+        static readonly string AuthTokenDefault = string.Empty;
+
+        public string AuthToken
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(AuthTokenKey, AuthTokenDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(AuthTokenKey, value);
+            }
+        }
+
+        const string FirstNameKey = "user_firstname";
+        static readonly string FirstNameDefault = string.Empty;
+
+        public string UserFirstName
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(FirstNameKey, FirstNameDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(FirstNameKey, value);
+            }
+        }
+
+        const string LastNameKey = "user_lastname";
+        static readonly string LastNameDefault = string.Empty;
+
+        public string UserLastName
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(LastNameKey, LastNameDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(LastNameKey, value);
+            }
+        }
+
+        const string ProfileUrlKey = "user_profile_url";
+        static readonly string ProfileUrlDefault = string.Empty;
+
+        public string UserProfileUrl
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<string>(ProfileUrlKey, ProfileUrlDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<string>(ProfileUrlKey, value);
+            }
+        }
+
+        #endregion
 
 
         #region INotifyPropertyChanged implementation
