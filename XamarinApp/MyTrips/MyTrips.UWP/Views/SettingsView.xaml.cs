@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MyTrips.ViewModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,9 +23,32 @@ namespace MyTrips.UWP.Views
     /// </summary>
     public sealed partial class SettingsView : Page
     {
+        SettingsViewModel settingsViewModel;
         public SettingsView()
         {
             this.InitializeComponent();
+            DataContext = Utils.Settings.Current;
+            settingsViewModel = new SettingsViewModel();
+        }
+
+        public void PrivacyPolicyButton_Click(object sender, RoutedEventArgs e)
+        {
+            //to do
+        }
+
+        private void TermsOfUseButton_Click(object sender, RoutedEventArgs e)
+        {
+            //to do
+        }
+
+        public void OpenSourceNoticeButton_Click(object sender, RoutedEventArgs e)
+        {
+            //to do
+        }
+
+        public void OpenSourceGitHubButton_Click(object sender, RoutedEventArgs e)
+        {
+            //to do
         }
     }
 }
