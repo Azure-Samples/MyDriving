@@ -29,13 +29,6 @@ namespace ObdLibUWP
 
         public async void Init(bool simulatormode = false)
         {
-            _simulatormode = simulatormode;
-            if (simulatormode)
-            {
-                PollObd();
-                return;
-            }
-
             //initialize _data
             this._data = new Dictionary<string, string>();
             this._data.Add("spd", DefValue);  //Speed
@@ -46,6 +39,21 @@ namespace ObdLibUWP
             this._data.Add("efr", DefValue);  //EngineFuelRate
             this._data.Add("vin", DefValue);  //VIN
 
+            _simulatormode = simulatormode;
+            if (simulatormode)
+            {
+                PollObd();
+
+                ////these code is for testing.
+                //while (true)
+                //{
+                //    await Task.Delay(2000);
+                //    var dse = Read();
+                //}
+
+                return;
+            }
+            
             DeviceInformationCollection DeviceInfoCollection = await DeviceInformation.FindAllAsync(RfcommDeviceService.GetDeviceSelector(RfcommServiceId.SerialPort));
             var numDevices = DeviceInfoCollection.Count();
             DeviceInformation device = null;
@@ -408,7 +416,7 @@ namespace ObdLibUWP
 
         public Dictionary<string, string> Read()
         {
-            if(this._socket == null)
+            if(!this._simulatormode && this._socket == null)
             {
                 //if there is no connection
                 return null;
