@@ -25,10 +25,14 @@ namespace ObdLibUWP
         Dictionary<string, string> _data = null;
         bool _running = true;
         private Object _lock = new Object();
+        private bool _simulatormode;
 
-
-        public async void Init()
+        public async void Init(bool simulatormode = false)
         {
+            _simulatormode = simulatormode;
+            if (simulatormode)
+                return;
+
             //initialize _data
             this._data = new Dictionary<string, string>();
             this._data.Add("spd", DefValue);  //Speed
@@ -111,7 +115,10 @@ namespace ObdLibUWP
             try
             {
                 string s;
-                s = await GetVIN();
+                if (this._simulatormode)
+                    s = "SIMULATOR12345678";
+                else
+                    s = await GetVIN();
                 lock(_lock)
                 {
                     _data["vin"] = s;
@@ -298,6 +305,11 @@ namespace ObdLibUWP
 
         public async Task<string> GetSpeed()
         {
+            if (_simulatormode)
+            {
+                var r = new Random();
+                return r.Next().ToString();
+            }
             string result;
             result = await SendAndReceive("010D\r");
             //if(result == "STOPPED")
@@ -323,6 +335,11 @@ namespace ObdLibUWP
 
         public async Task<string> GetOutsideTemperature()
         {
+            if (_simulatormode)
+            {
+                var r = new Random();
+                return r.Next().ToString();
+            }
             string result;
             result = await SendAndReceive("0146\r");
             //if (result == "STOPPED")
@@ -332,6 +349,11 @@ namespace ObdLibUWP
 
         public async Task<string> GetInsideTemperature()
         {
+            if (_simulatormode)
+            {
+                var r = new Random();
+                return r.Next().ToString();
+            }
             string result;
             result = await SendAndReceive("010F\r");
             //if (result == "STOPPED")
@@ -341,6 +363,11 @@ namespace ObdLibUWP
 
         public async Task<string> GetBarometricPressure()
         {
+            if (_simulatormode)
+            {
+                var r = new Random();
+                return r.Next().ToString();
+            }
             string result;
             result = await SendAndReceive("0133\r");
             //if (result == "STOPPED")
@@ -350,6 +377,11 @@ namespace ObdLibUWP
 
         public async Task<string> GetRPM()
         {
+            if (_simulatormode)
+            {
+                var r = new Random();
+                return r.Next().ToString();
+            }
             string result;
             result = await SendAndReceive("010C\r");
             //if (result == "STOPPED")
@@ -359,6 +391,11 @@ namespace ObdLibUWP
 
         public async Task<string> GetEngineFuelRate()
         {
+            if (_simulatormode)
+            {
+                var r = new Random();
+                return r.Next().ToString();
+            }
             string result;
             result = await SendAndReceive("015E\r");
             //if (result == "STOPPED")
@@ -483,7 +520,7 @@ namespace ObdLibUWP
             return "";
         }
 
-        private async void Disconnect()
+        public async void Disconnect()
         {
             _running = false;
             await this._socket.CancelIOAsync();
