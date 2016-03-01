@@ -49,20 +49,11 @@
 
         <Preference
                 android:title="Copyright 2016"
-                android:summary="Microsoft">
+                android:summary="Microsoft"/>
 
-            <intent android:action="android.intent.action.VIEW"
-                    android:data="http://www.microsoft.com" />
-
-        </Preference>
-
-		  <Preference
-                android:title="Privacy Policy">
-
-            <intent android:action="android.intent.action.VIEW"
-                    android:data="http://www.microsoft.com" />
-
-        </Preference>
+        <Preference
+            android:key="url_privacy"
+              android:title="Privacy Policy"/>
 
 		    <Preference
                 android:title="Terms of Use">
@@ -73,28 +64,17 @@
         </Preference>
 		
 		 <Preference
-                android:title="Open Source Notice">
+                android:title="Open Source Notice"
+                android:key="url_open"/>
 
-            <intent android:action="android.intent.action.VIEW"
-                    android:data="http://www.github.com" />
-
-        </Preference>
+        <Preference
+               android:title="Open Source on GitHub"
+                android:key="url_privacy"/>
+                
 			
 		 <Preference
-                android:title="Open Source on GitHub">
-
-            <intent android:action="android.intent.action.VIEW"
-                    android:data="http://www.github.com" />
-
-        </Preference>
-			
-		 <Preference
-                android:title="Built in C# with Xamarin">
-
-            <intent android:action="android.intent.action.VIEW"
-                    android:data="http://www.xamarin.com" />
-
-        </Preference>
+           android:title="Built in C# with Xamarin"
+           android:key="url_xamarin"/>
 
     </PreferenceCategory>
 </PreferenceScreen>

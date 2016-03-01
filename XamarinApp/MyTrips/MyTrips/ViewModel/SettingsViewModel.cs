@@ -7,16 +7,37 @@ using System.Windows.Input;
 using MyTrips.Helpers;
 using MyTrips.Utils;
 using Plugin.DeviceInfo;
+using Plugin.Share;
 
 namespace MyTrips.ViewModel
 {
     public class SettingsViewModel : ViewModelBase
     {
         //Use Settings.HubSetting1
-        string PrivacyPolicyUrl;
-        string TermsOfUseUrl;
-        string OpenSourceNoticeUrl;
-        string SourceOnGitHubUrl;
+        public string PrivacyPolicyUrl => "http://microsoft.com";
+        public string TermsOfUseUrl => "http://microsoft.com";
+        public string OpenSourceNoticeUrl =>"http://microsoft.com";
+        public string SourceOnGitHubUrl => "http://microsoft.com";
+        public string XamarinUrl => "http://xamarin.com";
+
+
+        ICommand openBrowserCommand;
+        public ICommand OpenBrowserCommand =>
+            openBrowserCommand ?? (openBrowserCommand = new RelayCommand<string>(async (url) => await ExecuteOpenBrowserCommandAsync(url)));
+
+        public async Task ExecuteOpenBrowserCommandAsync(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                return;
+
+            await CrossShare.Current.OpenBrowser(url, new Plugin.Share.Abstractions.BrowserOptions
+            {
+                ChromeShowTitle = true,
+                ChromeToolbarColor = new Plugin.Share.Abstractions.ShareColor { A = 255, R = 96, G = 125, B = 139 },
+                UseSafariWebViewController = true,
+                UseSafairReaderMode = false
+            });
+        }
 
         ICommand  logoutCommand;
         public ICommand LogoutCommand =>

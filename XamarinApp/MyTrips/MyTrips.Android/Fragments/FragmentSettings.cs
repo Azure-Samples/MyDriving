@@ -33,6 +33,7 @@ namespace MyTrips.Droid.Fragments
                 Activity.StartActivity(intent);
                 Activity.Finish();
             };
+            FindPreference("url_privacy").PreferenceClick += async(sender, args) => viewModel.
         }
     }
 }
