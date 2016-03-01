@@ -9,6 +9,7 @@ using System.Linq;
 using MyTrips.DataObjects;
 using Plugin.Connectivity;
 using System.Diagnostics;
+using MyTrips.AzureClient;
 
 namespace MyTrips.DataStore.Azure.Stores
 {
@@ -19,11 +20,10 @@ namespace MyTrips.DataStore.Azure.Stores
         public virtual string Identifier => "Items";
 
         IMobileServiceSyncTable<T> table;
-        protected IMobileServiceSyncTable<T> Table
-        {
-            get { return table ?? (table = StoreManager.MobileService.GetSyncTable<T>()); }
+        protected IMobileServiceSyncTable<T> Table => 
+            table ?? (table = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client?.GetSyncTable<T>()); 
 
-        }
+        
 
         public void DropTable()
         {
@@ -116,7 +116,14 @@ namespace MyTrips.DataStore.Azure.Stores
             }
             try
             {
-                await StoreManager.MobileService.SyncContext.PushAsync().ConfigureAwait(false);
+                var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
+                if (client == null)
+                {
+                    Debug.WriteLine("Unable to sync items, client is null");
+
+                    return false;
+                }
+                await client.SyncContext.PushAsync().ConfigureAwait(false);
                 if(!(await PullLatestAsync().ConfigureAwait(false)))
                     return false;
             }

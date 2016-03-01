@@ -137,10 +137,10 @@
       <HintPath>..\..\packages\Splat.1.6.2\lib\Portable-net45+win+wpa81+wp80\Splat.dll</HintPath>
     </Reference>
     <Reference Include="Acr.UserDialogs">
-      <HintPath>..\..\packages\Acr.UserDialogs.4.3.2\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.dll</HintPath>
+      <HintPath>..\..\packages\Acr.UserDialogs.4.3.3\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.dll</HintPath>
     </Reference>
     <Reference Include="Acr.UserDialogs.Interface">
-      <HintPath>..\..\packages\Acr.UserDialogs.4.3.2\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.Interface.dll</HintPath>
+      <HintPath>..\..\packages\Acr.UserDialogs.4.3.3\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.Interface.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +159,10 @@
     <ProjectReference Include="..\MyTrips.Utils\MyTrips.Utils.csproj">
       <Project>{CEF8CB82-B2BF-42D0-998C-8C50A4CA7AE6}</Project>
       <Name>MyTrips.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyTrips.AzureClient\MyTrips.AzureClient.csproj">
+      <Project>{29B6B823-6639-4942-9723-0075BBEF7C69}</Project>
+      <Name>MyTrips.AzureClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

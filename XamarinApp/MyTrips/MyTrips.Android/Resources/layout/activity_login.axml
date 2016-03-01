@@ -56,6 +56,13 @@
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
             android:theme="@style/MicrosoftButton" />
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="Skip Auth"
+            android:id="@+id/button_skip"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp" />
     </LinearLayout>
     <Space
         android:layout_width="match_parent"

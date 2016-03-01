@@ -5,25 +5,18 @@ using MyTrips.Helpers;
 using MyTrips.Interfaces;
 using Microsoft.WindowsAzure.MobileServices;
 using MyTrips.DataStore.Abstractions;
+using MyTrips.AzureClient;
 
 namespace MyTrips.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        public MobileServiceClient client = null;
+        public IMobileServiceClient client = null;
         IAuthentication authentication;
         public LoginViewModel()
         {
-            var manager = ServiceLocator.Instance.Resolve<IStoreManager>() as MyTrips.DataStore.Azure.StoreManager;
-
-            if (manager != null)
-            {
-                client = MyTrips.DataStore.Azure.StoreManager.MobileService;
-            }
-            
+            client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
             authentication = ServiceLocator.Instance.Resolve<IAuthentication>();
-
-
         }
 
         UserProfile userInfo;
