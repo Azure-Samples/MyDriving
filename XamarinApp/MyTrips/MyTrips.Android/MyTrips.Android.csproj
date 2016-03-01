@@ -31,7 +31,7 @@
     <ConsolePause>false</ConsolePause>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
     <AndroidKeyStore>True</AndroidKeyStore>
-    <AndroidSigningKeyStore>/Users/jamesmontemagno/Documents/GitHub/Build2016ScottGuDemo/XamarinApp/Build2016.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyStore>Build2016.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>Build*1234</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>Build2016</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>Build*1234</AndroidSigningKeyPass>

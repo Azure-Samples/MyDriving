@@ -9,6 +9,12 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+	 <style name="MyThemeDark" parent="MyThemeDark.Base">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+
     <style name="SplashTheme" parent="SplashTheme.Base">
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>

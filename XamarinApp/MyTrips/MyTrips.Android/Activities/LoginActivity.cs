@@ -12,7 +12,7 @@ using Android.Graphics;
 
 namespace MyTrips.Droid
 {
-    [Activity(Label = "Login", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]            
+    [Activity(Label = "Login", Theme="@style/MyThemeDark", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]            
     public class LoginActivity : BaseActivity
     {
         protected override int LayoutResource
@@ -52,8 +52,6 @@ namespace MyTrips.Droid
                 Finish();
             };
 
-            SupportActionBar.SetDisplayHomeAsUpEnabled(false);
-            SupportActionBar.SetDisplayShowHomeEnabled(false);
         }
 
         protected override void OnResume()

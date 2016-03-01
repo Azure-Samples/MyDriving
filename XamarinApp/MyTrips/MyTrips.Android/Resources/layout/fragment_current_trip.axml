@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/keyline_margin">
+        android:padding="@dimen/keyline_margin"
+        android:background="@color/primary_transparent"
+        android:layout_gravity="top"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
@@ -123,28 +130,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="?attr/colorPrimary"
                 android:id="@+id/text_rating" />
         </FrameLayout>
     </LinearLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    <!--Overlay goes here-->
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_start"
-            android:layout_gravity="bottom|center_horizontal"
-            app:elevation="4dp"
-            app:pressedTranslationZ="8dp"
-            android:clickable="true" />
-    </FrameLayout>
-</LinearLayout>
+<!--Overlay goes here-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_start"
+        android:layout_gravity="bottom|center_horizontal"
+        app:elevation="4dp"
+        app:pressedTranslationZ="8dp"
+        android:clickable="true" />
+</FrameLayout>

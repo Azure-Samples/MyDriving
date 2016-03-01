@@ -150,7 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:orientation="horizontal"
-            android:background="#80000000"
+            android:background="@color/primary_transparent"
             android:padding="16dp">
             <ImageView
                 android:layout_width="24dp"
