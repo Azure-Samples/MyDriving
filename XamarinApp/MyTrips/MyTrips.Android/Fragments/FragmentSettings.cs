@@ -33,7 +33,12 @@ namespace MyTrips.Droid.Fragments
                 Activity.StartActivity(intent);
                 Activity.Finish();
             };
-            FindPreference("url_privacy").PreferenceClick += async(sender, args) => viewModel.
+
+            FindPreference("url_privacy").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.PrivacyPolicyUrl);
+            FindPreference("url_xamarin").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.XamarinUrl);
+            FindPreference("url_terms").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.TermsOfUseUrl);
+            FindPreference("url_open_notice").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.OpenSourceNoticeUrl);
+            FindPreference("url_github").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.SourceOnGitHubUrl);
         }
     }
 }

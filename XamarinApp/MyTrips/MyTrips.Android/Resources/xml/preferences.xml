@@ -65,11 +65,11 @@
 		
 		 <Preference
                 android:title="Open Source Notice"
-                android:key="url_open"/>
+                android:key="url_open_notice"/>
 
         <Preference
                android:title="Open Source on GitHub"
-                android:key="url_privacy"/>
+                android:key="url_github"/>
                 
 			
 		 <Preference
