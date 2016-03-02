@@ -35,9 +35,7 @@ namespace MyTrips.ViewModel
             if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
                 CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
             {
-                progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Loading trips...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-                progress.IsDeterministic = false;
-                progress.Show();
+                progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading trips...", maskType: Acr.UserDialogs.MaskType.Clear);
             }
             try 
             {
@@ -81,15 +79,13 @@ namespace MyTrips.ViewModel
             if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
                 CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
             {
-                progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Loading more trips...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-                progress.IsDeterministic = false;
+                progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading more trips...", maskType: Acr.UserDialogs.MaskType.Clear);
             }
             try
             {
                 IsBusy = true;
                 CanLoadMore = true;
 
-                progress?.Show();
 #if DEBUG
                 await Task.Delay(1000);
 #endif

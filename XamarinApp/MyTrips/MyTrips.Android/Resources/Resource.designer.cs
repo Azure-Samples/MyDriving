@@ -1596,7 +1596,6 @@ namespace MyTrips.Droid
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahText;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahTextColor;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::MyTrips.Droid.Resource.Styleable.ProgressWheel_ahTextSize;
-			global::ObdLibAndroid.Resource.String.library_name = global::MyTrips.Droid.Resource.String.library_name;
 		}
 		
 		public partial class Animation

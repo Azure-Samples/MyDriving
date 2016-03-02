@@ -43,12 +43,10 @@ namespace MyTrips.ViewModel
                 CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
             {
 
-                progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Loading trip details...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-                progress.IsDeterministic = false;
+                progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading trip details...", maskType: Acr.UserDialogs.MaskType.Clear);
             }
             try 
             {
-                progress?.Show();
                 IsBusy = true;
 
                 Trip = await StoreManager.TripStore.GetItemAsync(id);

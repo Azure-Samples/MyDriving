@@ -53,7 +53,6 @@ namespace MyTrips.ViewModel
                 CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
             {
                 progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Logging out...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-                progress.IsDeterministic = false;
             }
             try
             {

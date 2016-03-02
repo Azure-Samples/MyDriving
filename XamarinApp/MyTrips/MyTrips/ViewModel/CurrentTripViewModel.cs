@@ -142,8 +142,7 @@ namespace MyTrips.ViewModel
             if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
                 CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
             {
-                progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-                progress.IsDeterministic = false;
+                progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
             }
             try
             {
