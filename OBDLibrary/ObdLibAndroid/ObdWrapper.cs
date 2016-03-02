@@ -115,6 +115,8 @@ namespace ObdLibAndroid
 
                 return true;
             }
+            else
+                return false;
         }
 
         public Dictionary<string, string> Read()
