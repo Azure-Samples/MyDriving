@@ -23,6 +23,7 @@ namespace MyTrips.Utils.Interfaces
 
     public interface ILogger
     {
+        void WriteLine(string line);
         void Identify(string uid, IDictionary<string, string> table = null);
         void Identify(string uid, string key, string value);
         void Track(string trackIdentifier, IDictionary<string, string> table = null);
