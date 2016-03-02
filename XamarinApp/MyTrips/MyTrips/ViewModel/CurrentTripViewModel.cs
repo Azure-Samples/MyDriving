@@ -154,7 +154,7 @@ namespace MyTrips.ViewModel
                 track.Start();
                 IsBusy = true;
                 progress?.Show();
-                #if DEBUG
+#if DEBUG
                 await Task.Delay(3000);
 #endif
 
