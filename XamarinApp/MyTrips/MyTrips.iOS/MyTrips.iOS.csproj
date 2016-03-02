@@ -299,9 +299,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\IOTHub.cs" />
-    <Compile Include="Helpers\OBDDevice.cs" />
-    <Compile Include="Helpers\OBDDeviceSim.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -354,6 +351,7 @@
     </Compile>
     <Compile Include="CustomControls\CirclePercentage.cs" />
   </ItemGroup>
+  <Import Project="..\MyTrips.Obd\MyTrips.Obd.projitems" Label="Shared" Condition="Exists('..\MyTrips.Obd\MyTrips.Obd.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="..\..\packages\Xamarin.Insights.1.11.4\build\Xamarin.iOS10\Xamarin.Insights.targets" Condition="Exists('..\..\packages\Xamarin.Insights.1.11.4\build\Xamarin.iOS10\Xamarin.Insights.targets')" />
