@@ -43,7 +43,10 @@ namespace MyTrips.Services
             {
                 this.diagnosticDataDictionary = this.obdDevice.ReadData();
 
-                if (this.diagnosticDataDictionary != null && this.DataIsRefreshed())
+                //If the dictionary contains all empty strings, then it hasn't been refreshed with new data yet
+                bool isDataRefreshed = this.diagnosticDataDictionary.Values.Where(d => d != String.Empty).ToArray().Count() >= 1;
+
+                if (this.diagnosticDataDictionary != null && isDataRefreshed)
                 {
                     //TODO: Need to package timestamp and GPS data with this
                     string diagnosticDataBlob = JsonConvert.SerializeObject(this.diagnosticDataDictionary);
@@ -65,23 +68,6 @@ namespace MyTrips.Services
         {
             this.obdDevice.Disconnect();
             this.isReadingData = false;
-        }
-
-         private bool DataIsRefreshed()
-        {
-            bool dataIsRefreshed = false;
-
-            //If the dictionary contains all empty strings, then it hasn't been refreshed with new data yet
-            foreach (var key in this.diagnosticDataDictionary.Keys)
-            {
-                if (this.diagnosticDataDictionary[key] != String.Empty)
-                {
-                    dataIsRefreshed = true;
-                    break;
-                }
-            }
-
-            return dataIsRefreshed;
         }
     }
 }
