@@ -1,4 +1,6 @@
-﻿using Microsoft.Azure.Devices.Client;
+﻿#if WINDOWS_UWP
+using Microsoft.Azure.Devices.Client;
+#endif
 using MyTrips.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -6,10 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyTrips.iOS.Helpers
+namespace MyTrips.Shared
 {
     public class IOTHub : IHubIOT
     {
+        #if WINDOWS_UWP
         private DeviceClient deviceClient;
 
         public void Initialize(string connectionStr)
@@ -31,5 +34,16 @@ namespace MyTrips.iOS.Helpers
                 throw;
             }
         }
+        #else
+        public void Initialize(string connectionStr)
+        {
+           
+        }
+
+        public Task SendEvent(string blob)
+        {
+            return Task.FromResult(true);
+        }
+        #endif
     }
 }

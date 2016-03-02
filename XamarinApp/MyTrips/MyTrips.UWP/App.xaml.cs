@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.WindowsAzure.MobileServices;
 using MyTrips.UWP.Views;
-
+using MyTrips.Shared;
 using MyTrips.Interfaces;
 
 namespace MyTrips.UWP
