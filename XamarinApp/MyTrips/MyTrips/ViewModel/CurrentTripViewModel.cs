@@ -17,6 +17,7 @@ using MvvmHelpers;
 using Plugin.Media.Abstractions;
 using Plugin.Media;
 using Plugin.DeviceInfo;
+using MyTrips.Services;
 
 namespace MyTrips.ViewModel
 {
@@ -24,7 +25,7 @@ namespace MyTrips.ViewModel
     {
         public Trip CurrentTrip { get; private set; }
         List<Photo> photos;
-
+        OBDDataProcessor obdDataProcessor;
 
         bool isRecording;
 		public bool IsRecording
@@ -49,28 +50,33 @@ namespace MyTrips.ViewModel
 
 		public CurrentTripViewModel()
 		{
-			CurrentTrip = new Trip();
+            CurrentTrip = new Trip();
 
             CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
             photos = new List<Photo>();
+
+            this.obdDataProcessor = new OBDDataProcessor();
+            this.obdDataProcessor.OnOBDDeviceDisconnected += ObdDataProcessor_OnOBDDeviceDisconnected;
 		}
 
-		public IGeolocator Geolocator => CrossGeolocator.Current;
+        private async void ObdDataProcessor_OnOBDDeviceDisconnected(object sender, EventArgs e)
+        {
+            await this.StopRecordingTripAsync();
+        }
+
+        public IGeolocator Geolocator => CrossGeolocator.Current;
 
         public IMedia Media => CrossMedia.Current;
 
-
- 
-        public Task<bool> StartRecordingTripAsync()
+        public async Task<bool> StartRecordingTripAsync()
         {
             if (IsBusy || IsRecording)
-                return Task.FromResult(false);
+                return false;
 
             try
             {
                 if (CurrentPosition == null)
                 {
-
                     if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
                         CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
                     {
@@ -81,12 +87,12 @@ namespace MyTrips.ViewModel
                             BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139)
                         });
                     }
-                    return Task.FromResult(true);
+                    return true;
                 }
+
                 IsRecording = true;
 
                 CurrentTrip.TimeStamp = DateTime.UtcNow;
-
 
                 var trail = new Trail
                 {
@@ -95,8 +101,15 @@ namespace MyTrips.ViewModel
                     Longitude = CurrentPosition.Longitude,
                 };
 
-
                 CurrentTrip.Trail.Add (trail);
+
+                //Only call for WinPhone for now since the OBD wrapper isn't available yet for android\ios
+                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
+                {
+                    //Read data from the OBD device and push it to the IOT Hub
+                    await this.obdDataProcessor.Initialize();
+                    await this.obdDataProcessor.ProcessOBDData();
+                }
             }
             catch(Exception ex)
             {
@@ -106,7 +119,7 @@ namespace MyTrips.ViewModel
             {
             }
 
-            return Task.FromResult(true);
+            return true;
         }
 
    
@@ -115,7 +128,12 @@ namespace MyTrips.ViewModel
             if (IsBusy || !IsRecording)
                 return false;
 
-          
+            //Only call for WinPhone for now since the OBD wrapper isn't available yet for android\ios
+            if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
+            {
+                //Stop reading data from the OBD device
+                this.obdDataProcessor.StopReadingOBDData();
+            }
 
             var track = Logger.Instance.TrackTime("SaveRecording");
             Acr.UserDialogs.IProgressDialog progress = null;
@@ -150,8 +168,6 @@ namespace MyTrips.ViewModel
                 CurrentTrip.TimeStamp = DateTime.UtcNow;
                 if(string.IsNullOrWhiteSpace(CurrentTrip.TripId))
                     CurrentTrip.TripId = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
-
-
 
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
 

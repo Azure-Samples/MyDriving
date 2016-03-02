@@ -1,5 +1,4 @@
 ﻿using Microsoft.WindowsAzure.MobileServices;
-using MyTrips.AzureClient;
 using MyTrips.Utils;
 using Newtonsoft.Json.Linq;
 using System;
@@ -10,13 +9,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MyTrips.DataStore.Azure
+namespace MyTrips.AzureClient
 {
-    /// <summary>
-    /// The functionality in this class is for provisioning a device for use with the IOT Hub; this code is only applicable
-    /// within the context of when the app is connected to an azure backend.  In other words, this functionality isn't ever called
-    /// if you are running the app offline.
-    /// </summary>
     public class DeviceProvisionHandler
     {
         private static DeviceProvisionHandler handler;
@@ -25,7 +19,7 @@ namespace MyTrips.DataStore.Azure
         {
             get; private set;
         }
-
+        
         public string UserId
         {
             get; private set;
@@ -76,7 +70,12 @@ namespace MyTrips.DataStore.Azure
             myParms.Add("userId", this.UserId);
             myParms.Add("deviceName", this.DeviceId);
 
-            var response = await ServiceLocator.Instance.Resolve<IAzureClient>().Client.InvokeApiAsync("provision", null, HttpMethod.Post, myParms);
+            var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client as MobileServiceClient;
+            if (client == null)
+            {
+                throw new InvalidOperationException("Make sure to set the ServiceLocator has an instance of IAzureClient");
+            }
+            var response = await client.InvokeApiAsync("provision", null, HttpMethod.Post, myParms);
             this.AccessKey = response.Value<string>();
             return this.DeviceConnectionString;
         }
