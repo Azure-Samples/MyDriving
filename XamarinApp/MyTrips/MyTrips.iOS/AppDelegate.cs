@@ -7,6 +7,7 @@ using UIKit;
 using MyTrips.Utils;
 using MyTrips.Interfaces;
 using MyTrips.iOS.Helpers;
+using MyTrips.Shared;
 
 using HockeyApp;
 using MyTrips.DataStore.Abstractions;
@@ -23,7 +24,9 @@ namespace MyTrips.iOS
 			ThemeManager.ApplyTheme();
 			ViewModel.ViewModelBase.Init();
 
-			ServiceLocator.Instance.Add<IAuthentication, Authentication>();
+            ServiceLocator.Instance.Add<IAuthentication, Authentication>();
+            ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
+            ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
             Xamarin.Insights.Initialize(Logger.InsightsKey);
 			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
 			{

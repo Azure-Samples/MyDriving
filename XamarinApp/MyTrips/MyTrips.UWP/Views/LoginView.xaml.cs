@@ -94,12 +94,14 @@ namespace MyTrips.UWP.Views
             {
                 Window.Current.Content = new SplitViewShell(this.Frame);
                 this.Frame.Navigate(typeof(PastTripsMenuView));
-            }
+        }
         }
 
         private void Continue_Click(object sender, RoutedEventArgs e)
-        {         
-            Window.Current.Content = new SplitViewShell(this.Frame);
+        {
+            if (viewModel.UserInfo == null)
+                viewModel.InitFakeUser();
+
             this.Frame.Navigate(typeof(PastTripsMenuView));
         }
 
