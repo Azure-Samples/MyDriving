@@ -77,9 +77,8 @@ namespace MyTrips.Droid.Activities
 
             await viewModel.ExecuteLoadTripCommandAsync(id);
 
-            startTime.Text = viewModel.Trip.TimeStamp.ToString("t");
-            if (viewModel.Trip.Trail.Count > 0)
-                endTime.Text = viewModel.Trip.Trail[viewModel.Trip.Trail.Count - 1].TimeStamp.ToString("t");
+            startTime.Text = viewModel.Trip.StartTimeDisplay;
+            endTime.Text = viewModel.Trip.EndTimeDisplay;
             SupportActionBar.Title = viewModel.Title;
             SetupMap();
 
