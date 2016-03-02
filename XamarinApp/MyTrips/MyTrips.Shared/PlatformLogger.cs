@@ -13,7 +13,7 @@ namespace MyTrips.Shared
     /// </summary>
     public class PlatformLogger : Logger
     {
-        public override Identify(string uid, IDictionary<string, string> table = null)
+        public override void Identify(string uid, IDictionary<string, string> table = null)
         {
             Console.WriteLine("Logger: Identify: " + uid);
             base.Identify(uid, table);
@@ -44,7 +44,7 @@ namespace MyTrips.Shared
         {
             Console.WriteLine("Logger: TrackTime: " + identifier);
 
-            return base.Identify, table);
+            return base.TrackTime(identifier, table);
         }
         public override ITrackHandle TrackTime(string identifier, string key, string value)
         {
@@ -55,7 +55,7 @@ namespace MyTrips.Shared
         public override void Report(Exception exception = null, Severity warningLevel = Severity.Warning)
         {
             Console.WriteLine("Logger: Report: " + exception);
-            base.Report(exception, warninglevel);
+            base.Report(exception, warningLevel);
         }
         public override void Report(Exception exception, IDictionary extraData, Severity warningLevel = Severity.Warning)
         {
