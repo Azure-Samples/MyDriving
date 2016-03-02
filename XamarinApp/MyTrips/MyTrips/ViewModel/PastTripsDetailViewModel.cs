@@ -60,7 +60,6 @@ namespace MyTrips.ViewModel
             } 
             finally 
             {
-                progress?.Hide();
                 progress?.Dispose();
                 IsBusy = false;
             }

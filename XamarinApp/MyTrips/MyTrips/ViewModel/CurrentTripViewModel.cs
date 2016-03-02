@@ -192,7 +192,6 @@ namespace MyTrips.ViewModel
             {
                 track.Stop();
                 IsBusy = false;
-                progress?.Hide();
                 progress?.Dispose();
             }
 
