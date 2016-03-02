@@ -12,7 +12,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <StackPanel>
                 <TextBlock Name="AccountLabel" Text="ACCOUNT" Style="{StaticResource SettingsLabelStyle}"/>
-                <Button Name="LogoutButton" Content="Logout" HorizontalAlignment="Center" Margin="0,5,20,5"></Button>
+                <Button Name="LogoutButton" Content="Logout" HorizontalAlignment="Center" Margin="0,5,20,5" Click="Logout_Click"></Button>
                 <Border  Style="{StaticResource SettingsSeparatorLine}" />
 
                 <TextBlock Name="Preferences" Text="PREFERENCES" Style="{StaticResource SettingsLabelStyle}" />
@@ -46,7 +46,7 @@
                 <Button Name="TermsOfUseButton" Content="Terms of use"  Margin="10,5,0,5" Click="TermsOfUseButton_Click"></Button>
                 <Button Name="OpenSourceNoticeButton" Content="Open Source Notice"  Margin="10,5,0,5" Click="OpenSourceNoticeButton_Click"></Button>
                 <Button Name="OpenSourceGitHubButton" Content="Open Source on GitHub"  Margin="10,5,0,5" Click="OpenSourceGitHubButton_Click"></Button>
-                <TextBlock Text="Built in C# with Xamarin"  Style="{StaticResource SettingsSubLabelStyle}"/>
+                <Button Name="XamarinButton" Content="Built in C# with Xamarin"  Margin="10,5,0,5" Click="XamarinButton_Click"></Button>
                 <TextBlock Text="Copyright 2016 Microsoft"  Style="{StaticResource SettingsSubLabelStyle}"/>
                 
             </StackPanel>

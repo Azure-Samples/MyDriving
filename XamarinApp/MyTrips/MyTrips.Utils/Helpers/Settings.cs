@@ -286,6 +286,16 @@ namespace MyTrips.Utils
             }
         }
 
+        public void CleanupUserProfile()
+        {
+            UserId = String.Empty;
+            AuthToken = String.Empty;
+            UserProfileUrl = String.Empty;
+            UserFirstName = String.Empty;
+            UserLastName = String.Empty;
+            LoginAccount = LoginAccount.None;
+
+        }
         #endregion
 
 
