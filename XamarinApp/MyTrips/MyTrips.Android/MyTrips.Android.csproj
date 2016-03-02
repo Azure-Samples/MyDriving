@@ -409,15 +409,9 @@
       <Visible>False</Visible>
       <Version>3.7.0.0</Version>
     </XamarinComponentReference>
-    <XamarinComponentReference Include="square.picasso">
-      <Version>2.5.2.2</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidEnvironment Include="environment.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\drawable-nodpi\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
