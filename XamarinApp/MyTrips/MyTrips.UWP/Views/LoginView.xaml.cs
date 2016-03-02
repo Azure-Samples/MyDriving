@@ -23,8 +23,8 @@ namespace MyTrips.UWP.Views
         {
             this.InitializeComponent();
             DataContext = viewModel = new LoginViewModel();
-            //Make sure you turn on azure in the ViewModelBase
-                
+            //Make sure you turn on azure in the ViewModelBase 
+            
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -52,6 +52,7 @@ namespace MyTrips.UWP.Views
         //This button is temporary - intended to make it easier to debug app
         private void SkipAuthBtn_Click(object sender, RoutedEventArgs e)
         {
+            viewModel.InitFakeUser();
             this.Frame.NavigationFailed += OnNavigationFailed;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
@@ -90,7 +91,10 @@ namespace MyTrips.UWP.Views
                 ContinueButton.Visibility = Visibility.Visible;
             }
             else  //if no user info to show, go directly to next page
+            {
+                Window.Current.Content = new SplitViewShell(this.Frame);
                 this.Frame.Navigate(typeof(PastTripsMenuView));
+        }
         }
 
         private void Continue_Click(object sender, RoutedEventArgs e)

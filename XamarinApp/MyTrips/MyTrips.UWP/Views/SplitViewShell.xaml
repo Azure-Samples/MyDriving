@@ -24,7 +24,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"/>
         </Grid>
-        <SplitView x:Name="MyTripsSplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" CompactPaneLength="35" OpenPaneLength="125"   Grid.Row="1" Grid.ColumnSpan="2">
+        <SplitView x:Name="MyTripsSplitView" DisplayMode="Overlay"  IsPaneOpen="False" CompactPaneLength="35" OpenPaneLength="125"   Grid.Row="1" Grid.ColumnSpan="2">
         <SplitView.Pane>
                 <StackPanel Background="#162129">
                     <StackPanel Orientation="Horizontal">
