@@ -63,6 +63,10 @@
     <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClientDeviceiOS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ClientDeviceiOS.dll</HintPath>
+    </Reference>
     <Reference Include="HockeyApp.iOS">
       <HintPath>..\..\Components\hockeyappios-3.8.5.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
     </Reference>
@@ -295,6 +299,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\IOTHub.cs" />
+    <Compile Include="Helpers\OBDDevice.cs" />
+    <Compile Include="Helpers\OBDDeviceSim.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
@@ -382,5 +389,4 @@
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
-  <ItemGroup />
 </Project>

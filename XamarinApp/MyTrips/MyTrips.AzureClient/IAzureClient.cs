@@ -7,7 +7,6 @@ namespace MyTrips.AzureClient
     public interface IAzureClient
     {
         IMobileServiceClient Client { get; }
-
     }
 }
 

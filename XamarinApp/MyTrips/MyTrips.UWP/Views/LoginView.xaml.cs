@@ -23,8 +23,8 @@ namespace MyTrips.UWP.Views
         {
             this.InitializeComponent();
             DataContext = viewModel = new LoginViewModel();
-            //Make sure you turn on azure in the ViewModelBase 
-            
+            //Make sure you turn on azure in the ViewModelBase
+                
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -95,7 +95,9 @@ namespace MyTrips.UWP.Views
 
         private void Continue_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.InitFakeUser();
+            if (viewModel.UserInfo == null)
+                viewModel.InitFakeUser();
+
             this.Frame.Navigate(typeof(PastTripsMenuView));
         }
 

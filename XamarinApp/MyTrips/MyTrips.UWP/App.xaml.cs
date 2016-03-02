@@ -65,7 +65,11 @@ namespace MyTrips.UWP
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
 
+                //Register platform specific implementations of shared interfaces
                 ServiceLocator.Instance.Add<IAuthentication, Authentication>();
+                ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
+                //ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
+                ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
 
                 Xamarin.Insights.Initialize(Logger.InsightsKey);
 

@@ -1,4 +1,5 @@
 ﻿using MyTrips.Interfaces;
+using MyTrips.UWP.Helpers;
 using ObdLibUWP;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MyTrips.UWP
 {
-    public class OBDDevice : IOBDDevice
+    public class OBDDeviceSim : IOBDDevice
     {
         ObdWrapper obdWrapper = new ObdWrapper();
 
@@ -19,10 +20,10 @@ namespace MyTrips.UWP
 
         public async Task Initialize()
         {
-            await this.obdWrapper.Init();
+            await this.obdWrapper.Init(true);
         }
 
-        public Dictionary<String, String> ReadData()
+        public Dictionary<string, string> ReadData()
         {
             return this.obdWrapper.Read();
         }
