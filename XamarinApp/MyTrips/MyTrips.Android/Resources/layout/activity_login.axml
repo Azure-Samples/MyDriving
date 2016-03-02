@@ -21,28 +21,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/keyline_margin">
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/login_facebook"
             android:id="@+id/button_facebook"
             android:backgroundTint="@color/button_facebook"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:drawableStart="@drawable/ic_facebook"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:theme="@style/FacebookButton" />
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/login_twitter"
             android:id="@+id/button_twitter"
             android:backgroundTint="@color/button_twitter"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:drawableStart="@drawable/ic_twitter"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:theme="@style/TwitterButton" />
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/login_microsoft"
             android:id="@+id/button_microsoft"
             android:backgroundTint="@color/button_microsoft"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:drawableStart="@drawable/ic_windows"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:theme="@style/MicrosoftButton" />
     </LinearLayout>
     <Space
         android:layout_width="match_parent"

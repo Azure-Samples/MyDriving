@@ -42,8 +42,6 @@ namespace MyTrips.DataStore.Azure
             //setup our local sqlite store and intialize our table
             var store = new MobileServiceSQLiteStore(path);
 
-            store.DefineTable<Feedback>();
-            store.DefineTable<Route>();
             store.DefineTable<Telemetry>();
             store.DefineTable<Trail>();
             store.DefineTable<Trip>();
@@ -62,8 +60,6 @@ namespace MyTrips.DataStore.Azure
 
             var taskList = new List<Task<bool>>();
             taskList.Add(TripStore.SyncAsync());
-            taskList.Add(FeedbackStore.SyncAsync());
-            taskList.Add(RouteStore.SyncAsync());
 
 
             var successes = await Task.WhenAll(taskList).ConfigureAwait(false);
@@ -74,8 +70,6 @@ namespace MyTrips.DataStore.Azure
         {
             Settings.Current.UpdateDatabaseId();
             TripStore.DropTable();
-            FeedbackStore.DropTable();
-            RouteStore.DropTable();
             IsInitialized = false;
             return Task.FromResult(true);
         }
@@ -89,12 +83,8 @@ namespace MyTrips.DataStore.Azure
         ITripStore tripStore;
         public ITripStore TripStore => tripStore ?? (tripStore = ServiceLocator.Instance.Resolve<ITripStore>());
 
-        IFeedbackStore feedbackStore;
-        public IFeedbackStore FeedbackStore => feedbackStore ?? (feedbackStore = ServiceLocator.Instance.Resolve<IFeedbackStore>());
-
-        IRouteStore routeStore;
-        public IRouteStore RouteStore => routeStore ?? (routeStore = ServiceLocator.Instance.Resolve<IRouteStore>());
-
+        IPhotoStore photoStore;
+        public IPhotoStore PhotoStore => photoStore ?? (photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
 
         #endregion
     }

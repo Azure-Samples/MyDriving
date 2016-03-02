@@ -7,16 +7,15 @@ using Plugin.CurrentActivity;
 using MyTrips.Utils;
 using MyTrips.Interfaces;
 using MyTrips.Droid.Helpers;
-using System.Threading.Tasks;
+using Acr.UserDialogs;
 
 namespace MyTrips.Droid
 {
-	//You can specify additional application information in this attribute
     [Application]
     public class MainApplication : Application, Application.IActivityLifecycleCallbacks
     {
         public MainApplication(IntPtr handle, JniHandleOwnership transer)
-          :base(handle, transer)
+          : base(handle, transer)
         {
         }
 
@@ -26,7 +25,8 @@ namespace MyTrips.Droid
             RegisterActivityLifecycleCallbacks(this);
             ViewModel.ViewModelBase.Init();
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
-  
+            Xamarin.Insights.Initialize(Logger.InsightsKey, this);
+            UserDialogs.Init(() => CrossCurrentActivity.Current.Activity);
         }
 
         public override void OnTerminate()
@@ -35,27 +35,16 @@ namespace MyTrips.Droid
             UnregisterActivityLifecycleCallbacks(this);
         }
 
-        public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
-        {
-            CrossCurrentActivity.Current.Activity = activity;
-        }
+        public void OnActivityCreated(Activity activity, Bundle savedInstanceState) => CrossCurrentActivity.Current.Activity = activity;
 
-        public void OnActivityDestroyed(Activity activity)
-        {
-        }
+        public void OnActivityDestroyed(Activity activity) { }
 
-        public void OnActivityPaused(Activity activity)
-        {
-        }
+        public void OnActivityPaused(Activity activity) { }
 
-        public void OnActivityResumed(Activity activity)
-        {
-            CrossCurrentActivity.Current.Activity = activity;
-        }
+        public void OnActivityResumed(Activity activity) => CrossCurrentActivity.Current.Activity = activity;
 
-        public void OnActivitySaveInstanceState(Activity activity, Bundle outState)
-        {
-        }
+
+        public void OnActivitySaveInstanceState(Activity activity, Bundle outState) {}
 
         public void OnActivityStarted(Activity activity)
         {
@@ -63,11 +52,7 @@ namespace MyTrips.Droid
             HockeyApp.Tracking.StartUsage(activity);
         }
 
-        public void OnActivityStopped(Activity activity)
-        {
-            HockeyApp.Tracking.StopUsage(activity);
-        }
-
+        public void OnActivityStopped(Activity activity) => HockeyApp.Tracking.StopUsage(activity);
 
     }
 }

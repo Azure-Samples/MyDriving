@@ -37,6 +37,8 @@ namespace MyTrips.UWP
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             ViewModel.ViewModelBase.Init();
+            // Added the AppId's provided by Thomas Dohmke. 
+            Microsoft.HockeyApp.HockeyClient.Current.Configure(Logger.HockeyAppUWP);
         }
 
         /// <summary>
@@ -64,6 +66,8 @@ namespace MyTrips.UWP
                 rootFrame = new Frame();
 
                 ServiceLocator.Instance.Add<IAuthentication, Authentication>();
+
+                Xamarin.Insights.Initialize(Logger.InsightsKey);
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 

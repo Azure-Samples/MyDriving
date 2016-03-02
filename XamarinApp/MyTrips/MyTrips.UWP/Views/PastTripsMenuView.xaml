@@ -5,11 +5,11 @@
     xmlns:local="using:MyTrips.DataObjects"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:Name="TRIPS">
 
-    <Grid Background="#162129">
+    <Grid Background="{StaticResource MainBackgroundColor}">
         <StackPanel>
-            <TextBlock Text="TRIPS" FontSize="10.667" Margin="5,5,0,0"/>
             <ListView x:Name="listView" ItemsSource="{x:Bind ViewModel.Trips}" Margin="0,10,10,0" SelectionChanged="listView_SelectionChanged">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">

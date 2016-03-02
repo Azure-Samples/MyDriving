@@ -37,11 +37,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="IBaseStore.cs" />
-    <Compile Include="IFeedbackStore.cs" />
-    <Compile Include="IRouteStore.cs" />
     <Compile Include="ITripStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IStoreManager.cs" />
+    <Compile Include="IPhotoStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.WindowsAzure.Mobile, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">

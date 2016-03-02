@@ -7,15 +7,11 @@ namespace MyTrips.DataStore.Mock
 {
     public class StoreManager : IStoreManager
     {
-        
-
         #region IStoreManager implementation
 
         public async Task InitializeAsync()
         {
             await TripStore.InitializeStoreAsync();
-            await FeedbackStore.InitializeStoreAsync();
-            await RouteStore.InitializeStoreAsync();
         }
 
         public Task<bool> SyncAllAsync(bool syncUserSpecific)
@@ -33,11 +29,9 @@ namespace MyTrips.DataStore.Mock
         ITripStore tripStore;
         public ITripStore TripStore => tripStore ?? (tripStore = ServiceLocator.Instance.Resolve<ITripStore>());
 
-        IFeedbackStore feedbackStore;
-        public IFeedbackStore FeedbackStore => feedbackStore ?? (feedbackStore = ServiceLocator.Instance.Resolve<IFeedbackStore>());
+        IPhotoStore photoStore;
+        public IPhotoStore PhotoStore => photoStore ?? (photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
 
-        IRouteStore routeStore;
-        public IRouteStore RouteStore => routeStore ?? (routeStore = ServiceLocator.Instance.Resolve<IRouteStore>());
 
         #endregion
     }

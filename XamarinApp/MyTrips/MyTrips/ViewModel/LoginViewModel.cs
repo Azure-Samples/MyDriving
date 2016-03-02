@@ -10,9 +10,7 @@ namespace MyTrips.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-
-
-        MobileServiceClient client = null;
+        public MobileServiceClient client = null;
         IAuthentication authentication;
         public LoginViewModel()
         {
@@ -27,6 +25,15 @@ namespace MyTrips.ViewModel
 
 
         }
+
+        UserProfile userInfo;
+        public UserProfile UserInfo
+        {
+            get { return userInfo; }
+            set { SetProperty(ref userInfo, value); }
+        }
+
+
 
         bool isLoggedIn;
         public bool IsLoggedIn
@@ -44,8 +51,14 @@ namespace MyTrips.ViewModel
             if(client == null)
                 return;
 
+            var track = Logger.Instance.TrackTime("LoginTwitter");
+            track.Start();
+
             Settings.LoginAccount = LoginAccount.Twitter;
             var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Twitter);
+
+            track.Stop();
+
             if(user == null)
             {
                 Settings.LoginAccount = LoginAccount.None;
@@ -65,8 +78,16 @@ namespace MyTrips.ViewModel
             if(client == null)
                 return;
 
+            var track = Logger.Instance.TrackTime("LoginMicrosoft");
+            track.Start();
+
+
             Settings.LoginAccount = LoginAccount.Microsoft;
             var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
+            UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+
+            track.Stop();
+
             if(user == null)
             {
                 Settings.LoginAccount = LoginAccount.None;
@@ -74,6 +95,7 @@ namespace MyTrips.ViewModel
             }
 
             IsLoggedIn = true;
+            
         }
 
         ICommand  loginFacebookCommand;
@@ -84,15 +106,22 @@ namespace MyTrips.ViewModel
         {
             if(client == null)
                 return;
+            var track = Logger.Instance.TrackTime("LoginFacebook");
+            track.Start();
 
             Settings.LoginAccount = LoginAccount.Facebook;
             var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
+            UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+
+            track.Stop();
+
             if(user == null)
             {
                 Settings.LoginAccount = LoginAccount.None;
                 return;
             }
 
+            
             IsLoggedIn = true;
         }
     }

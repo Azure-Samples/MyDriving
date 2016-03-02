@@ -14,16 +14,8 @@ namespace MyTrips.iOS
     [Register ("TripsTableViewController")]
     partial class TripsTableViewController
     {
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIBarButtonItem btnAdd { get; set; }
-
         void ReleaseDesignerOutlets ()
         {
-            if (btnAdd != null) {
-                btnAdd.Dispose ();
-                btnAdd = null;
-            }
         }
     }
 }

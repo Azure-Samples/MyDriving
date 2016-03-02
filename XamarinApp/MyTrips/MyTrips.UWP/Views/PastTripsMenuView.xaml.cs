@@ -1,4 +1,5 @@
-﻿using MyTrips.ViewModel;
+﻿using MyTrips.DataObjects;
+using MyTrips.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,9 +39,12 @@ namespace MyTrips.UWP.Views
 
         public PastTripsViewModel ViewModel { get; set; }
 
-        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            
+            var trip = (Trip)e.AddedItems[0];
+            this.Frame.Navigate(typeof(PastTripMapView),trip); // PastTripMapView does not exist
         }
+
     }
 }

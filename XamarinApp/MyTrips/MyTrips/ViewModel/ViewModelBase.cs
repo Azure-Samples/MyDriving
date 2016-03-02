@@ -17,9 +17,8 @@ namespace MyTrips.ViewModel
         
         public static void Init()
         {
-            ServiceLocator.Instance.Add<IFeedbackStore, FeedbackStore>();
-            ServiceLocator.Instance.Add<IRouteStore, RouteStore>();
             ServiceLocator.Instance.Add<ITripStore, TripStore>();
+            ServiceLocator.Instance.Add<IPhotoStore, PhotoStore>();
             ServiceLocator.Instance.Add<IStoreManager, StoreManager>();
 
             //TODO: Put this somewhere....
