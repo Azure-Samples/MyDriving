@@ -43,8 +43,9 @@ namespace MyTrips.UWP
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            //Ideally, we should stop tracking only if we aren't recording
+            //this should stop running only if not recording and should continue in the background
             viewModel.StopTrackingTripCommand.Execute(null);
+
         }
 
         private async void StartRecordBtn_Click(object sender, RoutedEventArgs e)
