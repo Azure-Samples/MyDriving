@@ -2,6 +2,8 @@
 #if WINDOWS_UWP
 using MyTrips.UWP.Helpers;
 using ObdLibUWP;
+#elif __ANDROID__
+using ObdLibAndroid;
 #endif
 using System;
 using System.Collections.Generic;
@@ -30,10 +32,23 @@ namespace MyTrips.Shared
         {
             return this.obdWrapper.Read();
         }
+        #elif __ANDROID__
+        ObdWrapper obdWrapper = new ObdWrapper();
+        public async Task Disconnect()
+        {
+            this.obdWrapper.Disconnect();
+        }
+
+        public async Task Initialize()
+        {
+            await this.obdWrapper.Init(true);
+        }
+
+        public Dictionary<String, String> ReadData()
+        {
+            return this.obdWrapper.Read();
+        }
         #else
-
-     
-
         public Task Disconnect()
         {
             return Task.FromResult(true);
