@@ -403,7 +403,6 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_menu.png" />
   </ItemGroup>
-  <Import Project="..\MyTrips.Shared\MyTrips.Obd.projitems" Label="Shared" Condition="Exists('..\MyTrips.Shared\MyTrips.Obd.projitems')" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Insights.1.11.4\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\..\packages\Xamarin.Insights.1.11.4\build\MonoAndroid10\Xamarin.Insights.targets')" />
@@ -422,4 +421,5 @@
   <ItemGroup>
     <AndroidEnvironment Include="environment.txt" />
   </ItemGroup>
+  <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />
 </Project>
