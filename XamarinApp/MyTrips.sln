@@ -44,7 +44,11 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MyTrips\MyTrips.DataObjects\MyTrips.DataObjects.projitems*{bd4403c0-6cd5-4030-b1a3-7ad98b9b80ca}*SharedItemsImports = 13
+		MyTrips\MyTrips.Obd\MyTrips.Obd.projitems*{219edca6-56bb-4ebd-ae46-c691f0aed767}*SharedItemsImports = 4
 		MyTrips\MyTrips.DataObjects\MyTrips.DataObjects.projitems*{649300ce-70ea-4606-983f-f4476fdd6c7e}*SharedItemsImports = 4
+		MyTrips\MyTrips.Obd\MyTrips.Obd.projitems*{efa3478d-88c0-41a8-ad5e-5878e42fe3e2}*SharedItemsImports = 13
+		MyTrips\MyTrips.Obd\MyTrips.Obd.projitems*{b09661c2-82a6-4d16-b4fd-7b23d0ffe1fe}*SharedItemsImports = 4
+		MyTrips\MyTrips.Obd\MyTrips.Obd.projitems*{de56e591-0655-43d7-a1b9-b3280f78b667}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AppStore|Any CPU = AppStore|Any CPU
@@ -613,8 +617,8 @@ Global
 		{955B6F86-BB30-4BD6-A1AD-B192F89C1363} = {7D1FFE34-9A92-4875-84BC-DE9764B18E42}
 		{CEF8CB82-B2BF-42D0-998C-8C50A4CA7AE6} = {3CE83CE0-11E9-4CE8-83CE-0EE6C6700B7F}
 		{DECDBFA1-1EFB-4BE6-B042-A47E0B013FF6} = {3CE83CE0-11E9-4CE8-83CE-0EE6C6700B7F}
-		{29B6B823-6639-4942-9723-0075BBEF7C69} = {98F8827C-12D8-4C8D-9D62-15889A483880}
 		{812692D4-C638-4FD1-AEA7-407824B134A6} = {ECC3372D-4E49-4242-A122-B4659EF8EA09}
+		{29B6B823-6639-4942-9723-0075BBEF7C69} = {98F8827C-12D8-4C8D-9D62-15889A483880}
 		{EFA3478D-88C0-41A8-AD5E-5878E42FE3E2} = {3CE83CE0-11E9-4CE8-83CE-0EE6C6700B7F}
 	EndGlobalSection
 EndGlobal
