@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyTrips.UWP.Helpers
+namespace MyTrips.Droid.Helpers
 {
     public class IOTHub : IHubIOT
     {

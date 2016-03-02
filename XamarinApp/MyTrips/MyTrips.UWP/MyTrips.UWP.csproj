@@ -96,7 +96,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\OBDDeviceMock.cs" />
+    <Compile Include="Helpers\OBDDeviceSim.cs" />
     <Compile Include="Helpers\IOTHub.cs" />
     <Compile Include="Helpers\OBDDevice.cs" />
     <Compile Include="Views\CurrentTripView.xaml.cs">
