@@ -8,7 +8,7 @@ using Java.Util;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace ObdLibPCL
+namespace ObdLibAndroid
 {
     public class ObdWrapper
     {
@@ -25,7 +25,7 @@ namespace ObdLibPCL
         bool _running = true;
         private Object _lock = new Object();
         private bool _simulatormode;
-        public async void Init(bool simulatormode = false)
+        public async Task Init(bool simulatormode = false)
         {
             //initialize _data
             this._data = new Dictionary<string, string>();
@@ -422,7 +422,7 @@ namespace ObdLibPCL
             System.Diagnostics.Debug.WriteLine(s);
             return s;
         }
-        private void Disconnect()
+        public void Disconnect()
         {
             _running = false;
             _bluetoothSocket.Dispose();

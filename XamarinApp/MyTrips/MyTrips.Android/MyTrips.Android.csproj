@@ -248,6 +248,10 @@
       <Project>{29B6B823-6639-4942-9723-0075BBEF7C69}</Project>
       <Name>MyTrips.AzureClient</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\OBDLibrary\ObdLibAndroid\ObdLibAndroid.csproj">
+      <Project>{9A377DF7-3E28-4B4B-8BD2-61416F7AEA1F}</Project>
+      <Name>ObdLibAndroid</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Settings.cs" />
@@ -399,7 +403,7 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_menu.png" />
   </ItemGroup>
-  <Import Project="..\MyTrips.Obd\MyTrips.Obd.projitems" Label="Shared" Condition="Exists('..\MyTrips.Obd\MyTrips.Obd.projitems')" />
+  <Import Project="..\MyTrips.Shared\MyTrips.Obd.projitems" Label="Shared" Condition="Exists('..\MyTrips.Shared\MyTrips.Obd.projitems')" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Insights.1.11.4\build\MonoAndroid10\Xamarin.Insights.targets" Condition="Exists('..\..\packages\Xamarin.Insights.1.11.4\build\MonoAndroid10\Xamarin.Insights.targets')" />
