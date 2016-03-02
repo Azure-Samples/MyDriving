@@ -24,13 +24,7 @@ namespace MyTrips.UWP.Views
             this.InitializeComponent();
             DataContext = viewModel = new LoginViewModel();
             //Make sure you turn on azure in the ViewModelBase 
-
-            //debug
-            if(viewModel.client == null)
-            {
-                viewModel.client = new MobileServiceClient("https://smartkar.azurewebsites.net");
-            }
-                
+            
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -101,6 +95,7 @@ namespace MyTrips.UWP.Views
 
         private void Continue_Click(object sender, RoutedEventArgs e)
         {
+            viewModel.InitFakeUser();
             this.Frame.Navigate(typeof(PastTripsMenuView));
         }
 

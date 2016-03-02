@@ -1,4 +1,5 @@
 ﻿using Microsoft.WindowsAzure.MobileServices;
+using MyTrips.AzureClient;
 using MyTrips.Utils;
 using Newtonsoft.Json.Linq;
 using System;
@@ -24,7 +25,7 @@ namespace MyTrips.DataStore.Azure
         {
             get; private set;
         }
-        
+
         public string UserId
         {
             get; private set;
@@ -75,7 +76,7 @@ namespace MyTrips.DataStore.Azure
             myParms.Add("userId", this.UserId);
             myParms.Add("deviceName", this.DeviceId);
 
-            var response = await MobileServiceHandler.GetHandler().Client.InvokeApiAsync("provision", null, HttpMethod.Post, myParms);
+            var response = await ServiceLocator.Instance.Resolve<IAzureClient>().Client.InvokeApiAsync("provision", null, HttpMethod.Post, myParms);
             this.AccessKey = response.Value<string>();
             return this.DeviceConnectionString;
         }

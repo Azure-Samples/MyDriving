@@ -34,6 +34,20 @@ namespace MyTrips.UWP
             this.stopRecordBtn.Click += StopRecordBtn_Click;
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            viewModel.StartTrackingTripCommand.Execute(null);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            //this should stop running only if not recording and should continue in the background
+            viewModel.StopTrackingTripCommand.Execute(null);
+
+        }
+
         private async void StartRecordBtn_Click(object sender, RoutedEventArgs e)
         {
             await this.viewModel.StartRecordingTripAsync();
