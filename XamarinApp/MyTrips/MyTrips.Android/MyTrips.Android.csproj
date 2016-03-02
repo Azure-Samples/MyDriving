@@ -48,6 +48,10 @@
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClientDeviceAndroid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ClientDeviceAndroid.dll</HintPath>
+    </Reference>
     <Reference Include="HockeyApp.Android">
       <HintPath>..\..\Components\hockeyappandroid-3.7.0.0\lib\android\HockeyApp.Android.dll</HintPath>
     </Reference>
@@ -246,6 +250,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\IOTHub.cs" />
+    <Compile Include="Helpers\OBDDevice.cs" />
+    <Compile Include="Helpers\OBDDeviceSim.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -413,5 +420,4 @@
   <ItemGroup>
     <AndroidEnvironment Include="environment.txt" />
   </ItemGroup>
-  <ItemGroup />
 </Project>

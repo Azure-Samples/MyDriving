@@ -1,13 +1,12 @@
 ﻿using Microsoft.Azure.Devices.Client;
 using MyTrips.Interfaces;
-using ObdLibUWP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyTrips.UWP.Helpers
+namespace MyTrips.iOS.Helpers
 {
     public class IOTHub : IHubIOT
     {

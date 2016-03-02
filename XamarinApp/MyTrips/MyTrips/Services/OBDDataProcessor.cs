@@ -1,4 +1,4 @@
-﻿using MyTrips.DataStore.Azure;
+﻿using MyTrips.AzureClient;
 using MyTrips.Interfaces;
 using MyTrips.Utils;
 using Newtonsoft.Json;
@@ -10,15 +10,18 @@ using System.Threading.Tasks;
 
 namespace MyTrips.Services
 {
-    public class ODBDataProcessor
+    public class OBDDataProcessor
     {
         const int Interval = 3000;
         IHubIOT iotHub;
         IOBDDevice obdDevice;
         Dictionary<string, string> diagnosticDataDictionary;
+        bool isReadingData;
+
+        public event EventHandler OnOBDDeviceDisconnected;
 
         //Init must be called each time to connect and reconnect to the OBD device
-        public async Task Init()
+        public async Task Initialize()
         {
             //Get platform specific implemenation of IOTHub and IOBDDevice
             this.iotHub = ServiceLocator.Instance.Resolve<IHubIOT>();
@@ -28,20 +31,22 @@ namespace MyTrips.Services
             var connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
 
             //Initialize both the IOTHub and the OBD device to begin reading and processing data
-            await this.iotHub.Initialize(connectionStr);
+            this.iotHub.Initialize(connectionStr);
             await this.obdDevice.Initialize();
 
-            this.obdDevice.IsReadingData = true;
+            this.isReadingData = true;
         }
 
-        public async Task ProcessDiagnosticData()
+        public async Task ProcessOBDData()
         {
-            while (this.obdDevice.IsReadingData)
+            while (this.isReadingData)
             {
-                await Task.Delay(Interval);
                 this.diagnosticDataDictionary = this.obdDevice.ReadData();
 
-                if (this.diagnosticDataDictionary != null && this.DataIsRefreshed())
+                //If the dictionary contains all empty strings, then it hasn't been refreshed with new data yet
+                bool isDataRefreshed = this.diagnosticDataDictionary.Values.Where(d => d != String.Empty).ToArray().Count() >= 1;
+
+                if (this.diagnosticDataDictionary != null && isDataRefreshed)
                 {
                     //TODO: Need to package timestamp and GPS data with this
                     string diagnosticDataBlob = JsonConvert.SerializeObject(this.diagnosticDataDictionary);
@@ -50,27 +55,19 @@ namespace MyTrips.Services
                 else
                 {
                     //Null is returned when OBD device cannot be connected to
-                    this.obdDevice.IsReadingData = false;
+                    this.isReadingData = false;
+                    this.OnOBDDeviceDisconnected(this.obdDevice, new EventArgs());
                     break;
                 }
+
+                await Task.Delay(Interval);
             }
         }
 
-        private bool DataIsRefreshed()
+        public void StopReadingOBDData()
         {
-            bool dataIsRefreshed = false;
-
-            //If the dictionary contains all empty strings, then it hasn't been refreshed with new data yet
-            foreach (var key in this.diagnosticDataDictionary.Keys)
-            {
-                if (this.diagnosticDataDictionary[key] != String.Empty)
-                {
-                    dataIsRefreshed = true;
-                    break;
-                }
-            }
-
-            return dataIsRefreshed;
+            this.obdDevice.Disconnect();
+            this.isReadingData = false;
         }
     }
 }

@@ -10,8 +10,6 @@ namespace MyTrips.Interfaces
     {
         Task Initialize();
 
-        bool IsReadingData { get; set; }
-
         Dictionary<String, String> ReadData();
 
         Task Disconnect();
