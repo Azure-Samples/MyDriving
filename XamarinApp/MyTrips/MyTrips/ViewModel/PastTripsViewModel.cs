@@ -29,14 +29,8 @@ namespace MyTrips.ViewModel
 
             var track = Logger.Instance.TrackTime("LoadTrips");
             track.Start();
-            Acr.UserDialogs.IProgressDialog progress = null;
+            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading trips...", maskType: Acr.UserDialogs.MaskType.Clear);
             
-
-            if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
-            {
-                progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading trips...", maskType: Acr.UserDialogs.MaskType.Clear);
-            }
             try 
             {
                 IsBusy = true;
@@ -73,14 +67,8 @@ namespace MyTrips.ViewModel
 
             var track = Logger.Instance.TrackTime("LoadMoreTrips");
             track.Start();
-            Acr.UserDialogs.IProgressDialog progress = null;
-
-
-            if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
-            {
-                progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading more trips...", maskType: Acr.UserDialogs.MaskType.Clear);
-            }
+            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading more trips...", maskType: Acr.UserDialogs.MaskType.Clear);
+            
             try
             {
                 IsBusy = true;

@@ -46,25 +46,16 @@ namespace MyTrips.ViewModel
        
         public async Task<bool> ExecuteLogoutCommandAsync()
         {
-            Acr.UserDialogs.IProgressDialog progress = null;
-
-
-            if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
-            {
-                progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Logging out...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-            }
+            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Logging out...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
+            
             try
             {
                 
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
-                {
-                    var result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync("Are you sure you want to logout?", "Logout?", "Yes, Logout", "Cancel");
+                 var result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync("Are you sure you want to logout?", "Logout?", "Yes, Logout", "Cancel");
 
-                    if (!result)
-                        return false;
-                }
+                if (!result)
+                    return false;
+                
 
 
                 progress?.Show();
