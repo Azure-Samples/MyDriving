@@ -25,7 +25,7 @@ namespace ObdLibAndroid
         bool _running = true;
         private Object _lock = new Object();
         private bool _simulatormode;
-        public async Task Init(bool simulatormode = false)
+        public async Task<bool> Init(bool simulatormode = false)
         {
             //initialize _data
             this._data = new Dictionary<string, string>();
@@ -49,14 +49,14 @@ namespace ObdLibAndroid
                 //    var dse = Read();
                 //}
 
-                return;
+                return true;
             }
 
             _bluetoothAdapter = BluetoothAdapter.DefaultAdapter;
             if (_bluetoothAdapter == null)
             {
                 System.Diagnostics.Debug.WriteLine("Bluetooth is not available");
-                return;
+                return false;
             }
             //if (!_bluetoothAdapter.IsEnabled)
             //{
@@ -72,7 +72,7 @@ namespace ObdLibAndroid
             }
             if (_bluetoothDevice == null)
             {
-                return;
+                return false;
             }
             _bluetoothSocket = _bluetoothDevice.CreateRfcommSocketToServiceRecord(SPP_UUID);
             try
@@ -91,7 +91,7 @@ namespace ObdLibAndroid
                 {
                 }
 
-                return;
+                return false;
             }
             if (this._connected)
             {
@@ -112,6 +112,8 @@ namespace ObdLibAndroid
                 //    var dse = Read();
                 //    await Task.Delay(2000);
                 //}
+
+                return true;
             }
         }
 

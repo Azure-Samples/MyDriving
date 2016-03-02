@@ -27,7 +27,7 @@ namespace ObdLibUWP
         private Object _lock = new Object();
         private bool _simulatormode;
 
-        public async Task Init(bool simulatormode = false)
+        public async Task<bool> Init(bool simulatormode = false)
         {
             //initialize _data
             this._data = new Dictionary<string, string>();
@@ -51,7 +51,7 @@ namespace ObdLibUWP
                 //    var dse = Read();
                 //}
 
-                return;
+                return true;
             }
             
             DeviceInformationCollection DeviceInfoCollection = await DeviceInformation.FindAllAsync(RfcommDeviceService.GetDeviceSelector(RfcommServiceId.SerialPort));
@@ -65,7 +65,7 @@ namespace ObdLibUWP
                 }
             }
             if (device == null)
-                return;
+                return false;
             try
             {
                 _service = await RfcommDeviceService.FromIdAsync(device.Id);
@@ -91,7 +91,7 @@ namespace ObdLibUWP
                 {
                     string msg = String.Format("Connected to {0}!", _socket.Information.RemoteAddress.DisplayName);
                     System.Diagnostics.Debug.WriteLine(msg);
-                    
+
                     dataWriterObject = new DataWriter(_socket.OutputStream);
                     dataReaderObject = new DataReader(_socket.InputStream);
 
@@ -102,7 +102,7 @@ namespace ObdLibUWP
                     s = await SendAndReceive("ATL1\r");
                     //s = await SendAndReceive("0100\r");
                     s = await SendAndReceive("ATSP00\r");
-                    
+
                     PollObd();
 
                     ////these code is for testing.
@@ -111,13 +111,18 @@ namespace ObdLibUWP
                     //    await Task.Delay(2000);
                     //    var dse = Read();
                     //}
+
+                    return true;
                 }
+                else
+                    return false;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Overall Connect: " + ex.Message);
                 _socket.Dispose();
                 _socket = null;
+                return false;
             }
         }
 
