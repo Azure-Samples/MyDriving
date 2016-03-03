@@ -77,6 +77,7 @@ namespace MyTrips.ViewModel
             {
                 if (CurrentPosition == null)
                 {
+
                     if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
                         CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
                     {
@@ -87,6 +88,7 @@ namespace MyTrips.ViewModel
                             BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139)
                         });
                     }
+                    
                     return true;
                 }
 
@@ -136,15 +138,10 @@ namespace MyTrips.ViewModel
             }
 
             var track = Logger.Instance.TrackTime("SaveRecording");
-            Acr.UserDialogs.IProgressDialog progress = null;
-
-
-            if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
-            {
-                progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-                progress.IsDeterministic = false;
-            }
+           
+            
+            var  progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
+            
             try
             {
                 IsRecording = false;
@@ -154,7 +151,7 @@ namespace MyTrips.ViewModel
                 track.Start();
                 IsBusy = true;
                 progress?.Show();
-                #if DEBUG
+#if DEBUG
                 await Task.Delay(3000);
 #endif
 
@@ -192,7 +189,6 @@ namespace MyTrips.ViewModel
             {
                 track.Stop();
                 IsBusy = false;
-                progress?.Hide();
                 progress?.Dispose();
             }
 
@@ -223,12 +219,10 @@ namespace MyTrips.ViewModel
 				else
 				{
 
-                    if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
-                    {
+                    
                         Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
                                                                    "Geolcoation Disabled", "OK");
-                    }
+                    
 				}
 			}
 			catch (Exception ex) 
@@ -314,12 +308,10 @@ namespace MyTrips.ViewModel
                 {
 
 
-                    if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
-                    {
+                    
                         Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
                                                                    "Camera Disabled", "OK");
-                    }
+                    
                     return;
                 }
 
@@ -338,12 +330,17 @@ namespace MyTrips.ViewModel
                     return;
                 }
 
-                Acr.UserDialogs.UserDialogs.Instance.Toast(new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Photo taken!") 
-                { 
-                    Duration = TimeSpan.FromSeconds(3), 
-                    TextColor = System.Drawing.Color.White, 
-                    BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139) 
-                });
+
+                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
+                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
+                {
+                    Acr.UserDialogs.UserDialogs.Instance.Toast(new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Photo taken!")
+                    {
+                        Duration = TimeSpan.FromSeconds(3),
+                        TextColor = System.Drawing.Color.White,
+                        BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139)
+                    });
+                }
 
                 var local = await locationTask;
                 var photoDB = new Photo

@@ -68,6 +68,7 @@ namespace MyTrips.UWP
                 //Register platform specific implementations of shared interfaces
                 ServiceLocator.Instance.Add<IAuthentication, Authentication>();
                 ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
+                ServiceLocator.Instance.Add<MyTrips.Utils.Interfaces.ILogger, MyTrips.Shared.PlatformLogger>();
                 //ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
                 ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
 
