@@ -19,7 +19,7 @@ namespace MyTrips.UWP.Converters
 
             if (sourceKind == (int)UserPictureSourceKind.Url)
             {
-                new BitmapImage(new Uri(Settings.Current.UserProfileUrl));
+                return new BitmapImage(new Uri(Settings.Current.UserProfileUrl));
             }
             else if (sourceKind == (int)UserPictureSourceKind.Byte)
             {

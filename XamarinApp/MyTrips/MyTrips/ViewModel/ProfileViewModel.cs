@@ -13,7 +13,6 @@ namespace MyTrips.ViewModel
         {
             InitializeDrivingSkills();
 
-            //the model needs user picture from Settings. If picture is not present, get the data from server
 
         }
 
