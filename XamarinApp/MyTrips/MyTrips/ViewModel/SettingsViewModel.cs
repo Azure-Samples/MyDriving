@@ -82,11 +82,6 @@ namespace MyTrips.ViewModel
 		{
 			get
 			{
-				var logOut = new List<Setting>
-				{
-					new Setting { Name = "Log out", IsButton = true }
-				};
-
 				var units = new List<Setting>
 				{
 					new Setting { Name = "Distance", PossibleValues = new List<string> { "US/Imperial (miles)", "Metric (km)"}, Value = "US/Imperial (miles)" },
@@ -116,7 +111,6 @@ namespace MyTrips.ViewModel
 
 				return new Dictionary<string, List<Setting>>
 				{
-					{ "Logout", logOut},
 					{ "Units", units },
 					{ "IoT Hub", IoTHub },
 					{ "Permissions", permissions},
