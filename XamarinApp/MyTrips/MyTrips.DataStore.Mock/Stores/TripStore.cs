@@ -20,7 +20,7 @@ namespace MyTrips.DataStore.Mock.Stores
         static void AddTripDetails(Trip trip, int id, double lat, double lng, DateTime timestamp)
         {
             Trail pt = new Trail();
-            pt.TrailId = id;
+            pt.SequenceId = id;
             pt.Latitude = lat;
             pt.Longitude = lng;
             pt.TimeStamp = timestamp;
