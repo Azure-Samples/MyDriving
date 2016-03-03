@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     x:Name="SETTINGS">
 
-    <Grid Background="{StaticResource SettingsBackgroundColor}">
+    <Grid Background="{StaticResource MainBackgroundColor2}">
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <StackPanel>
                 <TextBlock Name="AccountLabel" Text="ACCOUNT" Style="{StaticResource SettingsLabelStyle}"/>
