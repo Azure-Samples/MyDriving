@@ -2,6 +2,7 @@ using Foundation;
 using System;
 using System.Collections.Generic;
 using UIKit;
+using System.Globalization;
 
 using MyTrips.Model;
 using MyTrips.ViewModel;
@@ -50,6 +51,19 @@ namespace MyTrips.iOS
 				keys[i] = grouping.Key;
 				i++;
 			}
+		}
+
+		public override void WillDisplayHeaderView(UITableView tableView, UIView headerView, nint section)
+		{
+			var header = headerView as UITableViewHeaderFooterView;
+			header.TextLabel.TextColor = Colors.BLUE;
+			header.TextLabel.Font = UIFont.FromName("AvenirNext-Bold", 14);
+			header.TextLabel.Text = TitleForHeader(tableView, section);
+		}
+
+		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+		{
+			base.RowSelected(tableView, indexPath);
 		}
 
 		public override nint NumberOfSections(UITableView tableView)

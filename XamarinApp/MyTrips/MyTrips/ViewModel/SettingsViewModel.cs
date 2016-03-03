@@ -116,7 +116,7 @@ namespace MyTrips.ViewModel
 
 				return new Dictionary<string, List<Setting>>
 				{
-					{ "Log out", logOut},
+					{ "Logout", logOut},
 					{ "Units", units },
 					{ "IoT Hub", IoTHub },
 					{ "Permissions", permissions},
