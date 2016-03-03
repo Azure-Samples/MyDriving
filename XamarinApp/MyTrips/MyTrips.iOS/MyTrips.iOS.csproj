@@ -378,6 +378,9 @@
     <BundleResource Include="Resources\Map\waypoint_tip%402x.png" />
     <BundleResource Include="Resources\scott.png" />
     <BundleResource Include="Resources\navigation_logo.png" />
+    <BundleResource Include="Resources\camera.png" />
+    <BundleResource Include="Resources\camera%402x.png" />
+    <BundleResource Include="Resources\camera%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">
