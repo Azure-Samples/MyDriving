@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using Foundation;
 using UIKit;
 using MyTrips.Model;
+using MyTrips.ViewModel;
 
 namespace MyTrips.iOS
 {
 	public partial class SettingsDetailViewController : UIViewController
 	{
+		public string SettingKey { get; set; }
+		public SettingsViewModel ViewModel;
 		public Setting Setting { get; set; }
 
 		public SettingsDetailViewController (IntPtr handle) : base (handle)
@@ -21,17 +24,21 @@ namespace MyTrips.iOS
 			base.ViewDidLoad();
 
 			NavigationItem.Title = Setting.Name;
-			settingsDetailTableView.Source = new SettingsDetailTableViewSource(Setting);
+			settingsDetailTableView.Source = new SettingsDetailTableViewSource(SettingKey, Setting, ViewModel);
 		}
 	}
 
 	public class SettingsDetailTableViewSource : UITableViewSource
 	{
 		Setting setting;
+		string key;
+		SettingsViewModel ViewModel;
 
-		public SettingsDetailTableViewSource(Setting setting)
+		public SettingsDetailTableViewSource(string key, Setting setting, SettingsViewModel ViewModel)
 		{
 			this.setting = setting;
+			this.ViewModel = ViewModel;
+			this.key = key;
 		}
 
 		public override string TitleForHeader(UITableView tableView, nint section)
@@ -67,6 +74,8 @@ namespace MyTrips.iOS
 
 				i++;
 			}
+
+			NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshSettingsTable", null);
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)

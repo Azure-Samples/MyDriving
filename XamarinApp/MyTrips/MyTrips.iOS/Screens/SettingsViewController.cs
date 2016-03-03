@@ -45,6 +45,7 @@ namespace MyTrips.iOS
 			btnLogout.Layer.CornerRadius = 4;
 			btnLogout.Layer.MasksToBounds = true;
 
+			NSNotificationCenter.DefaultCenter.AddObserver(new NSString ("RefreshSettingsTable"), HandleReloadTableNotification); 
 		}
 
 
@@ -62,11 +63,20 @@ namespace MyTrips.iOS
 				settingsTableView.DeselectRow(settingsTableView.IndexPathForSelectedRow, true);
 
 				controller.Setting = setting;
+				controller.ViewModel = ViewModel;
+				controller.SettingKey = keys[cell.Section];
 			}
+		}
+
+		void HandleReloadTableNotification(NSNotification obj)
+		{
+			InvokeOnMainThread(delegate
+			{
+				settingsTableView.ReloadData();
+			});
 		}
 	}
 
-	// TODO: Add detail view
 	// TODO: Alter shared logic
 	public class SettingsDataSource : UITableViewSource
 	{
