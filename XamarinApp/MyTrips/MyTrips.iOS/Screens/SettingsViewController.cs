@@ -49,6 +49,8 @@ namespace MyTrips.iOS
 				// TODO: Set this to a real key
 				var setting = ViewModel.SettingsData["Units"][0];
 
+				settingsTableView.DeselectRow(settingsTableView.IndexPathForSelectedRow, true);
+
 				controller.Setting = setting;
 			}
 		}
