@@ -278,7 +278,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Helpers\ThemeManager.cs" />
@@ -329,6 +328,10 @@
       <DependentUpon>ProfileStatCell.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\CirclePercentage.cs" />
+    <Compile Include="Cells\SettingTableViewCell.cs" />
+    <Compile Include="Cells\SettingTableViewCell.designer.cs">
+      <DependentUpon>SettingTableViewCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
