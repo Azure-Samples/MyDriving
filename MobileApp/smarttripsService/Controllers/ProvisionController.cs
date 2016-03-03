@@ -6,6 +6,7 @@ using Microsoft.Azure.Devices.Common.Exceptions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using smarttripsService.Models;
+using MyTrips.DataObjects;
 using System.Linq;
 using System;
 
@@ -41,7 +42,7 @@ namespace smarttripsService.Controllers
             var curUser = context.Users.Where(user => user.UserId == userId).FirstOrDefault();
             if(curUser == null)
             {
-                curUser = context.Users.Add(new DataObjects.User() { Id= Guid.NewGuid().ToString(), UserId = userId });
+                curUser = context.Users.Add(new User() { Id= Guid.NewGuid().ToString(), UserId = userId });
             }
             if(curUser.Devices == null)
             {

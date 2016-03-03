@@ -4,7 +4,7 @@ using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
-using smarttripsService.DataObjects;
+using MyTrips.DataObjects;
 using smarttripsService.Models;
 
 namespace smarttripsService.Controllers

@@ -272,6 +272,7 @@
     <Compile Include="Controls\RatingCircle.cs" />
     <Compile Include="Fragments\FragmentProfile.cs" />
     <Compile Include="Activities\TripSummaryActivity.cs" />
+    <Compile Include="Helpers\AndroidExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

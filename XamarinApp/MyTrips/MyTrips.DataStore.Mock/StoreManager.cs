@@ -32,6 +32,9 @@ namespace MyTrips.DataStore.Mock
         IPhotoStore photoStore;
         public IPhotoStore PhotoStore => photoStore ?? (photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
 
+        IUserStore userStore;
+        public IUserStore UserStore => userStore ?? (userStore = ServiceLocator.Instance.Resolve<IUserStore>());
+
 
         #endregion
     }

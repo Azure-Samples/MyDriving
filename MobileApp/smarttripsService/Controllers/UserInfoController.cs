@@ -11,6 +11,8 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web.Http;
+using MyTrips.DataObjects;
+using smarttripsService.Models;
 
 namespace smarttripsService.Controllers
 {
@@ -30,20 +32,40 @@ namespace smarttripsService.Controllers
             bool? isAuthenticated = user?.Identity?.IsAuthenticated;
             if (isAuthenticated == true)
             {
+                var userId = string.Empty;
                 // Get the credentials for the logged-in user.
                 var fbCredentials = await user.GetAppServiceIdentityAsync<FacebookCredentials>(Request);
-                var mscredentials = await user.GetAppServiceIdentityAsync<MicrosoftAccountCredentials>(Request);
-
+                var msCredentials = await user.GetAppServiceIdentityAsync<MicrosoftAccountCredentials>(Request);
+                var twitterCredentials = await user.GetAppServiceIdentityAsync<TwitterCredentials>(Request);
 
                 if (fbCredentials?.UserClaims?.Count() > 0)
                 {
+                    userId = fbCredentials.UserId;
+
                     await FillDataFromFacebook(userProfile, fbCredentials.AccessToken);
                 }
-                else if (mscredentials?.UserClaims?.Count() > 0)
+                else if (msCredentials?.UserClaims?.Count() > 0)
                 {
+                    userId = mscredentials.UserId;
                     await FillDataFromMS(userProfile, mscredentials.AccessToken);
                 }
 
+
+                var context = new smarttripsContext();
+                var curUser = context.Users.Where(u => u.UserId == userId).FirstOrDefault();
+
+                if (curUser == null && userProfile != null)
+                {
+                    context.Users.Add(new User
+                    {
+                        UserId = userId,
+                        ProfilePictureUri = userProfile.ProfilePictureUri,
+                        FirstName = userProfile.FirstName,
+                        LastName = userProfile.LastName
+                    });
+
+                    context.SaveChanges();
+                }
             }
             return userProfile;
         }

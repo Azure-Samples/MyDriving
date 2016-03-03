@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smarttripsService", "smarttripsService\smarttripsService.csproj", "{209FA716-A7AD-4095-BD70-C8710FC66FA7}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MyTrips.DataObjects", "..\XamarinApp\MyTrips\MyTrips.DataObjects\MyTrips.DataObjects.shproj", "{BD4403C0-6CD5-4030-B1A3-7AD98B9B80CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

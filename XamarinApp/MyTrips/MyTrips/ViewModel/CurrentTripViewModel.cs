@@ -52,7 +52,7 @@ namespace MyTrips.ViewModel
 		{
             CurrentTrip = new Trip();
 
-            CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
+            CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
             photos = new List<Photo>();
 
             this.obdDataProcessor = new OBDDataProcessor();
@@ -96,14 +96,14 @@ namespace MyTrips.ViewModel
 
                 CurrentTrip.TimeStamp = DateTime.UtcNow;
 
-                var trail = new Trail
+                var point = new TripPoint
                 {
                     TimeStamp = DateTime.UtcNow,
                     Latitude = CurrentPosition.Latitude,
                     Longitude = CurrentPosition.Longitude,
                 };
 
-                CurrentTrip.Trail.Add (trail);
+                CurrentTrip.Points.Add (point);
 
                 //Only call for WinPhone for now since the OBD wrapper isn't available yet for android\ios
                 if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
@@ -147,7 +147,7 @@ namespace MyTrips.ViewModel
                 IsRecording = false;
 
                 var result = await Acr.UserDialogs.UserDialogs.Instance.PromptAsync("Name of Trip");
-                CurrentTrip.TripId = result?.Text ?? string.Empty;
+                CurrentTrip.Name = result?.Text ?? string.Empty;
                 track.Start();
                 IsBusy = true;
                 progress?.Show();
@@ -163,8 +163,8 @@ namespace MyTrips.ViewModel
 #endif
                 CurrentTrip.Rating = 90;
                 CurrentTrip.TimeStamp = DateTime.UtcNow;
-                if(string.IsNullOrWhiteSpace(CurrentTrip.TripId))
-                    CurrentTrip.TripId = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
+                if(string.IsNullOrWhiteSpace(CurrentTrip.Name))
+                    CurrentTrip.Name = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
 
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
 
@@ -175,7 +175,7 @@ namespace MyTrips.ViewModel
                 }
 
                 CurrentTrip = new Trip();
-                CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
+                CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
                 photos = new List<Photo>();
                 OnPropertyChanged(nameof(CurrentTrip));
 
@@ -266,7 +266,7 @@ namespace MyTrips.ViewModel
 			{
 				var userLocation = e.Position;
 
-				var trail = new Trail
+                var point = new TripPoint
 				{
 					TimeStamp = DateTime.UtcNow,
 					Latitude = userLocation.Latitude,
@@ -274,15 +274,15 @@ namespace MyTrips.ViewModel
 				};
 
 
-				CurrentTrip.Trail.Add (trail);
+                CurrentTrip.Points.Add (point);
 
-                if (CurrentTrip.Trail.Count > 1)
+                if (CurrentTrip.Points.Count > 1)
                 {
-                    var previous = CurrentTrip.Trail[CurrentTrip.Trail.Count - 2];//2 back now
+                    var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];//2 back now
                     CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude, userLocation.Longitude, previous.Latitude, previous.Longitude);
                     OnPropertyChanged(nameof(CurrentTrip.Distance));
                 }
-                var timeDif = trail.TimeStamp - CurrentTrip.TimeStamp;
+                var timeDif = point.TimeStamp - CurrentTrip.TimeStamp;
                 //track minutes first and then calculat the hours
                 if(timeDif.TotalHours > 0)
                     ElapsedTime = $"{timeDif.Minutes}m";

@@ -19,18 +19,14 @@ namespace MyTrips.DataStore.Mock.Stores
         IPhotoStore photoStore;
         static void AddTripDetails(Trip trip, int id, double lat, double lng, DateTime timestamp)
         {
-            Trail pt = new Trail();
-            pt.TrailId = id;
+            var pt = new TripPoint();
+            pt.TripId = id.ToString();
             pt.Latitude = lat;
             pt.Longitude = lng;
             pt.TimeStamp = timestamp;
-            trip.Trail.Add(pt);
+            trip.Points.Add(pt);
 
-            Random r = new Random();
-            Telemetry t1 = new Telemetry();
-            t1.Key = "Speed";
-            t1.Value = r.Next(30, 50).ToString();
-            pt.Telemetry.Add(t1);
+
         }
 
         public static List<Trip> GetTrips()
@@ -38,7 +34,7 @@ namespace MyTrips.DataStore.Mock.Stores
             random = new Random();
             Trip trip1 = new Trip();
             trip1.UserId = "Scott";
-            trip1.TripId = trip1.UserId + " - Redmond";
+            trip1.Name = trip1.UserId + " - Redmond";
             trip1.Distance = 34;
             trip1.Photos = new List<Photo>();
             trip1.MainPhotoUrl = "http://cplinc.com/wp-content/uploads/2014/02/MS-1.jpg";
@@ -73,7 +69,7 @@ namespace MyTrips.DataStore.Mock.Stores
 
             var trip2 = new Trip();
             trip2.UserId = "Cindy";
-            trip2.TripId = trip2.UserId + " - Seattle";
+            trip2.Name = trip2.UserId + " - Seattle";
             trip2.Distance = 22;
 
             startTime = DateTime.UtcNow.AddDays(-2.0);
@@ -94,7 +90,7 @@ namespace MyTrips.DataStore.Mock.Stores
 
             Trip trip3 = new Trip();
             trip3.UserId = "Hashi";
-            trip3.TripId = trip3.UserId + " - Portland";
+            trip3.Name = trip3.UserId + " - Portland";
             trip3.Distance = 173;
 
             startTime = DateTime.UtcNow.AddDays(-10.0);
@@ -122,7 +118,7 @@ namespace MyTrips.DataStore.Mock.Stores
 
             Trip trip4 = new Trip();
             trip4.UserId = "Scott";
-            trip4.TripId = trip3.UserId + " - Bellevue";
+            trip4.Name = trip3.UserId + " - Bellevue";
             trip4.Distance = 22;
 
             startTime = DateTime.UtcNow.AddMonths(-3);
@@ -140,7 +136,7 @@ namespace MyTrips.DataStore.Mock.Stores
 
             Trip trip5 = new Trip();
             trip5.UserId = "Amanda";
-            trip5.TripId = trip5.UserId + " - SF";
+            trip5.Name = trip5.UserId + " - SF";
             trip5.Distance = 3;
 
             startTime = DateTime.Now.AddYears(-4);

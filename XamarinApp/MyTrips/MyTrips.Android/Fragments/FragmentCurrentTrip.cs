@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using MyTrips.Droid.Activities;
 using MyTrips.Droid.Controls;
 using MyTrips.Utils;
+using MyTrips.Droid.Helpers;
 using Android.Support.Design.Widget;
 using System.Collections.Specialized;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace MyTrips.Droid.Fragments
     {
         public static FragmentCurrentTrip NewInstance() => new FragmentCurrentTrip { Arguments = new Bundle() };
 
-        ObservableRangeCollection<Trail> trailPointList;
+        ObservableRangeCollection<TripPoint> trailPointList;
         CurrentTripViewModel viewModel;
         GoogleMap map;
         MapView mapView;
@@ -95,7 +96,7 @@ namespace MyTrips.Droid.Fragments
             if (viewModel.IsRecording)
             {
 
-                AddEndMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
+                AddEndMarker(viewModel.CurrentPosition.ToLatLng());
                 UpdateCarIcon(false);
                 await viewModel.StopRecordingTripAsync();
             }
@@ -103,7 +104,7 @@ namespace MyTrips.Droid.Fragments
             {
                 if (!await viewModel.StartRecordingTripAsync())
                     return;
-                AddStartMarker(new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude));
+                AddStartMarker(viewModel.CurrentPosition.ToLatLng());
 
                 Activity.SupportInvalidateOptionsMenu();
                 UpdateCarIcon(true);
@@ -125,7 +126,7 @@ namespace MyTrips.Droid.Fragments
             switch (e.PropertyName)
             {
                 case nameof(viewModel.CurrentPosition):
-                    var latlng = new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude);
+                    var latlng = viewModel.CurrentPosition.ToLatLng();
                     UpdateCar(latlng);
                     UpdateCamera(latlng);
                     break;
@@ -154,7 +155,7 @@ namespace MyTrips.Droid.Fragments
 
         void ResetTrip()
         {
-            trailPointList = viewModel.CurrentTrip.Trail as ObservableRangeCollection<Trail>;
+            trailPointList = viewModel.CurrentTrip.Points as ObservableRangeCollection<TripPoint>;
             trailPointList.CollectionChanged += OnTrailUpdated;
             carMarker = null;
             map?.Clear();
@@ -177,7 +178,7 @@ namespace MyTrips.Droid.Fragments
                 var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
 
                 var startMarker = new MarkerOptions();
-                startMarker.SetPosition(new LatLng(start.Latitude, start.Longitude));
+                startMarker.SetPosition(start);
                 startMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
                 startMarker.Anchor(.5f, .5f);
                 map.AddMarker(startMarker);
@@ -194,7 +195,7 @@ namespace MyTrips.Droid.Fragments
                 var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
 
                 var endMarker = new MarkerOptions();
-                endMarker.SetPosition(new LatLng(end.Latitude, end.Longitude));
+                endMarker.SetPosition(end);
                 endMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
                 endMarker.Anchor(.5f, .5f);
 
@@ -206,7 +207,7 @@ namespace MyTrips.Droid.Fragments
         {
             Activity?.RunOnUiThread(() =>
             {
-                var item = viewModel.CurrentTrip.Trail[viewModel.CurrentTrip.Trail.Count - 1];
+                var item = viewModel.CurrentTrip.Points[viewModel.CurrentTrip.Points.Count - 1];
                 if (carMarker != null)
                     UpdateMap(item);
                 else
@@ -248,27 +249,27 @@ namespace MyTrips.Droid.Fragments
             }
 
 
-            Trail start = null;
-            if (viewModel.CurrentTrip.Trail.Count != 0)
-                start = viewModel.CurrentTrip.Trail[0];
+            TripPoint start = null;
+            if (viewModel.CurrentTrip.Points.Count != 0)
+                start = viewModel.CurrentTrip.Points[0];
 
             UpdateMap(start, false);
 
             if (start != null)
             {
                 UpdateCamera(carMarker.Position);
-                AddStartMarker(new LatLng(start.Latitude, start.Longitude));
+                AddStartMarker(start.ToLatLng());
             }
         }
 
-        void UpdateMap(Trail trail, bool updateCamera = true)
+        void UpdateMap(TripPoint point, bool updateCamera = true)
         {
             if (map == null)
                 return;
             //Get trail position or current potion to move car
-            var latlng = trail == null ? 
-                (viewModel?.CurrentPosition == null ?  null : new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude))
-                : new LatLng(trail.Latitude, trail.Longitude);
+            var latlng = point == null ? 
+                (viewModel?.CurrentPosition == null ?  null : viewModel.CurrentPosition.ToLatLng())
+                : point.ToLatLng();
             Activity?.RunOnUiThread(() =>
             {
                 UpdateCar(latlng);
@@ -277,11 +278,11 @@ namespace MyTrips.Droid.Fragments
 
                 if (allPoints == null)
                 {
-                    allPoints = new List<LatLng>(viewModel.CurrentTrip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)));
+                    allPoints = viewModel.CurrentTrip.Points.ToLatLngs();
                 }
-                else if (trail != null)
+                else if (point != null)
                 {
-                    allPoints.Add(new LatLng(trail.Latitude, trail.Longitude));
+                    allPoints.Add(point.ToLatLng());
                 }
 
                 polyOptions.Add(allPoints.ToArray());

@@ -2,14 +2,6 @@
 using MyTrips.Utils;
 using MyTrips.DataStore.Abstractions;
 
-//Use Mock
-using MyTrips.DataStore.Mock;
-using MyTrips.DataStore.Mock.Stores;
-
-
-//Use Azure
-//using MyTrips.DataStore.Azure;
-//using MyTrips.DataStore.Azure.Stores;
 using MyTrips.AzureClient;
 
 namespace MyTrips.ViewModel
@@ -17,15 +9,30 @@ namespace MyTrips.ViewModel
     public class ViewModelBase : BaseViewModel
     {
         
-        public static void Init()
+        public static void Init(bool useMock = true)
         {
             ServiceLocator.Instance.Add<IAzureClient, AzureClient.AzureClient>();
-            ServiceLocator.Instance.Add<ITripStore, TripStore>();
-            ServiceLocator.Instance.Add<IPhotoStore, PhotoStore>();
-            ServiceLocator.Instance.Add<IStoreManager, StoreManager>();
+            if (useMock)
+            {
+                
+                ServiceLocator.Instance.Add<ITripStore, DataStore.Mock.Stores.TripStore>();
+                ServiceLocator.Instance.Add<IPhotoStore, DataStore.Mock.Stores.PhotoStore>();
+                ServiceLocator.Instance.Add<IUserStore, DataStore.Mock.Stores.UserStore>();
+                ServiceLocator.Instance.Add<IStoreManager, DataStore.Mock.StoreManager>();
+
+            }
+            else
+            {
+                ServiceLocator.Instance.Add<ITripStore, DataStore.Azure.Stores.TripStore>();
+                ServiceLocator.Instance.Add<IPhotoStore, DataStore.Azure.Stores.PhotoStore>();
+                ServiceLocator.Instance.Add<IUserStore, DataStore.Azure.Stores.UserStore>();
+                ServiceLocator.Instance.Add<IStoreManager, DataStore.Azure.StoreManager>();
+
+            }
 
             //TODO: Put this somewhere....
             ServiceLocator.Instance.Resolve<IStoreManager>().InitializeAsync();
+
         }
 
         public Settings Settings
