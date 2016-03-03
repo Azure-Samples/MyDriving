@@ -26,6 +26,7 @@ namespace MyTrips.Droid
             RegisterActivityLifecycleCallbacks(this);
             ViewModel.ViewModelBase.Init();
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
+            ServiceLocator.Instance.Add<MyTrips.Utils.Interfaces.ILogger, MyTrips.Shared.PlatformLogger>();
             ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
             ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
             Xamarin.Insights.Initialize(Logger.InsightsKey, this);
