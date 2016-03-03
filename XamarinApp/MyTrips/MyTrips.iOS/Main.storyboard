@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="154">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -59,7 +58,7 @@
                         <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="sectionIndexBackgroundColor" red="0.058823529411764705" green="0.078431372549019607" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRIP_CELL_WITHIMAGE_IDENTIFIER" rowHeight="221" id="78d-at-mZU" customClass="TripTableViewCell">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRIP_CELL_WITHIMAGE_IDENTIFIER" rowHeight="221" id="78d-at-mZU" customClass="TripTableViewCellWithImage">
                                 <rect key="frame" x="0.0" y="28" width="414" height="221"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="78d-at-mZU" id="MOV-ca-aXN">
@@ -69,7 +68,7 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sTF-bd-30q" misplaced="YES">
                                             <rect key="frame" x="16" y="191" width="156" height="20"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8h-Ul-uxa" misplaced="YES">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8h-Ul-uxa">
                                                     <rect key="frame" x="0.0" y="0.0" width="102.5" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="1g0-z7-0jg"/>
@@ -152,7 +151,7 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1205">
                                             <rect key="frame" x="16" y="34" width="156" height="20"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1206" misplaced="YES">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1206">
                                                     <rect key="frame" x="0.0" y="0.0" width="102.5" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="1207"/>
@@ -618,6 +617,7 @@
             <objects>
                 <navigationController definesPresentationContext="YES" id="341" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Current Trip" image="tabbar_currentTrip.png" selectedImage="tabbar_currentTrip.png" id="381"/>
+                    <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="344">
                         <rect key="frame" x="0.0" y="20" width="600" height="44"/>
@@ -628,7 +628,6 @@
                     <connections>
                         <segue destination="wbX-eI-tZm" kind="relationship" relationship="rootViewController" id="RsI-Me-VZW"/>
                     </connections>
-                    <toolbarItems/>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="345" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -731,7 +730,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hsp-NY-4KV" customClass="TripMapView" misplaced="YES">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hsp-NY-4KV" customClass="TripMapView">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                             </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IwO-im-EC0">
@@ -861,7 +860,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZDU-Mr-e8H" misplaced="YES">
+                            <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZDU-Mr-e8H">
                                 <rect key="frame" x="0.0" y="475" width="600" height="76"/>
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Yuw-JM-bdT">
@@ -946,7 +945,7 @@
                                     <constraint firstAttribute="trailing" secondItem="3jO-Rf-KjH" secondAttribute="trailing" constant="8" id="xFh-mb-yiX"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p6d-Wb-uN3" misplaced="YES">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p6d-Wb-uN3">
                                 <rect key="frame" x="275" y="489" width="50" height="50"/>
                                 <color key="backgroundColor" red="0.98039215800000001" green="0.41568627949999998" blue="0.42352941630000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -975,7 +974,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Current Trip" id="ORz-fm-ycT">
-                        <barButtonItem key="rightBarButtonItem" id="1235" image="camera.png"/>
+                        <barButtonItem key="rightBarButtonItem" image="camera.png" id="1235"/>
                     </navigationItem>
                     <connections>
                         <outlet property="lblCost" destination="lWE-xz-5pg" id="dmj-bg-T5H"/>
@@ -984,11 +983,11 @@
                         <outlet property="lblGallons" destination="hBO-cX-I9w" id="6zD-EY-6dU"/>
                         <outlet property="lblMpg" destination="FEl-U8-MKB" id="I0k-sc-zs0"/>
                         <outlet property="recordButton" destination="p6d-Wb-uN3" id="CSh-qW-RJz"/>
+                        <outlet property="takePhotoButton" destination="1235" id="name-outlet-1235"/>
                         <outlet property="tripMapView" destination="hsp-NY-4KV" id="Vtp-mi-Asv"/>
                         <outlet property="tripSlider" destination="Yuw-JM-bdT" id="vXb-Rv-N0v"/>
                         <outlet property="wayPointA" destination="7mA-Mi-nwI" id="m5y-2I-1KZ"/>
                         <outlet property="wayPointB" destination="3jO-Rf-KjH" id="khi-1p-1zj"/>
-                        <outlet property="takePhotoButton" destination="1235" id="name-outlet-1235"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g60-su-Omq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -997,6 +996,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="camera.png" width="28" height="20"/>
         <image name="login_facebook.png" width="589" height="89"/>
         <image name="login_microsoft.png" width="589" height="89"/>
         <image name="login_twitter.png" width="589" height="89"/>
@@ -1010,6 +1010,5 @@
         <image name="Map/car_annotation_blue.png" width="32.5" height="32.5"/>
         <image name="Map/car_annotation_red.png" width="32.5" height="32.5"/>
         <image name="Map/waypoint_tip.png" width="20.5" height="20.5"/>
-        <image name="camera.png" width="28" height="20"/>
     </resources>
 </document>

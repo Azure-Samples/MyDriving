@@ -104,6 +104,22 @@ namespace MyTrips.iOS
 				return cell;
 			}
 		}
+
+		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+		{
+			var mainPhotoUrl = ViewModel.Trips[indexPath.Row].MainPhotoUrl;
+			if (string.IsNullOrEmpty(mainPhotoUrl))
+			{
+				return 60;
+			}
+			else
+			{
+				return 221;
+			}
+			return 0;
+		}
+
+
 		#endregion
 
 		// For some reason, RefreshControl.ValueChanged doesn't function properly?
