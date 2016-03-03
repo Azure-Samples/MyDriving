@@ -550,7 +550,7 @@
                                         <connections>
                                             <outlet property="nameLabel" destination="nIJ-Zx-dtZ" id="name-outlet-nIJ-Zx-dtZ"/>
                                             <outlet property="valueLabel" destination="S8U-hP-bpM" id="name-outlet-S8U-hP-bpM"/>
-                                            <segue destination="1qi-3p-n35" kind="show" identifier="settingsDetailSegue" action="showDetailViewController:sender:" id="WCs-BN-r2t"/>
+                                            <segue destination="1qi-3p-n35" kind="push" identifier="settingsDetailSegue" id="WCs-BN-r2t"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="44" id="1165">
@@ -707,6 +707,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="QWn-bc-2QE"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="settingsDetailTableView" destination="98A-ze-WHa" id="name-outlet-98A-ze-WHa"/>
