@@ -13,6 +13,8 @@ namespace MyTrips.iOS
 	{
 		SettingsViewModel ViewModel { get; set; }
 
+		string[] keys;
+
 		public SettingsViewController (IntPtr handle) : base (handle)
 		{
 			
@@ -25,8 +27,15 @@ namespace MyTrips.iOS
 			// Wire up view model
 			ViewModel = new SettingsViewModel();
 
+			keys = new string[ViewModel.SettingsData.Count];
+			int i = 0;
+			foreach (var grouping in ViewModel.SettingsData) {
+				keys[i] = grouping.Key;
+				i++;
+			}
+
 			// Wire up table source
-			settingsTableView.Source = new SettingsDataSource(ViewModel);
+			settingsTableView.Source = new SettingsDataSource(ViewModel, keys);
 
 			btnLogout.TouchUpInside += async delegate {
 				await ViewModel.ExecuteLogoutCommandAsync();
@@ -44,10 +53,11 @@ namespace MyTrips.iOS
 			if (segue.Identifier == "settingsDetailSegue")
 			{
 				var controller = segue.DestinationViewController as SettingsDetailViewController;
-				var indexPath = settingsTableView.IndexPathForCell(sender as UITableViewCell);
+				var cell = settingsTableView.IndexPathForCell(sender as UITableViewCell);
+				var row = cell.Row;
+				var section = cell.Section;
 
-				// TODO: Set this to a real key
-				var setting = ViewModel.SettingsData["Units"][0];
+				var setting = ViewModel.SettingsData[keys[section]][row];
 
 				settingsTableView.DeselectRow(settingsTableView.IndexPathForSelectedRow, true);
 
@@ -65,17 +75,12 @@ namespace MyTrips.iOS
 
 		string[] keys;
 
-		public SettingsDataSource(SettingsViewModel viewModel)
+		public SettingsDataSource(SettingsViewModel viewModel, string[] keys)
 		{
 			this.viewModel = viewModel;
 			data = viewModel.SettingsData;
 
-			keys = new string[data.Count];
-			int i = 0;
-			foreach (var grouping in data) {
-				keys[i] = grouping.Key;
-				i++;
-			}
+			this.keys = keys;
 		}
 
 		public override void WillDisplayHeaderView(UITableView tableView, UIView headerView, nint section)
