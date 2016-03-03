@@ -77,11 +77,11 @@ namespace MyTrips.UWP
                 //ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
                 ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
 
-                //ServiceLocator.Instance.Add<IStoreManager, MyTrips.DataStore.Mock.StoreManager>();
-                ServiceLocator.Instance.Add<IStoreManager, MyTrips.DataStore.Azure.StoreManager>();
+                ServiceLocator.Instance.Add<IStoreManager, MyTrips.DataStore.Mock.StoreManager>();
+                //ServiceLocator.Instance.Add<IStoreManager, MyTrips.DataStore.Azure.StoreManager>();
 
-                //ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Mock.Stores.IOTHubStore>();
-                ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Azure.Stores.IOTHubStore>();
+                ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Mock.Stores.IOTHubStore>();
+                //ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Azure.Stores.IOTHubStore>();
 
                 Xamarin.Insights.Initialize(Logger.InsightsKey);
 

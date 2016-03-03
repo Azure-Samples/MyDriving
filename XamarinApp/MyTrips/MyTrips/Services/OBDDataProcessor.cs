@@ -23,8 +23,8 @@ namespace MyTrips.Services
         bool canReadData;
         StringBuilder obdDataBuffer;
         Stopwatch obdReconnectTimer;
-        MyTrips.DataStore.Azure.StoreManager storeManager;
-        //MyTrips.DataStore.Mock.StoreManager storeManager;
+        //MyTrips.DataStore.Azure.StoreManager storeManager;
+        MyTrips.DataStore.Mock.StoreManager storeManager;
 
         public event EventHandler OnOBDDeviceDisconnected;
 
@@ -36,8 +36,8 @@ namespace MyTrips.Services
             this.obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
 
             //TODO: Need to add compiler dir for debug
-            //this.storeManager = ServiceLocator.Instance.Resolve<IStoreManager>() as MyTrips.DataStore.Mock.StoreManager;
-            this.storeManager = ServiceLocator.Instance.Resolve<IStoreManager>() as MyTrips.DataStore.Azure.StoreManager;
+            this.storeManager = ServiceLocator.Instance.Resolve<IStoreManager>() as MyTrips.DataStore.Mock.StoreManager;
+            //this.storeManager = ServiceLocator.Instance.Resolve<IStoreManager>() as MyTrips.DataStore.Azure.StoreManager;
 
             //Call into mobile service to provision the device
             var connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
@@ -149,7 +149,7 @@ namespace MyTrips.Services
 
         public async Task StopReadingOBDData()
         {
-            //await this.obdDevice.Disconnect();
+            await this.obdDevice.Disconnect();
             this.canReadData = false;
         }
 
