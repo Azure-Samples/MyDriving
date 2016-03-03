@@ -35,29 +35,9 @@ namespace MyTrips.UWP.Views
         {
             this.InitializeComponent();
             profileViewModel = new ProfileViewModel();
-            profileViewModel.DrivingSkills = new System.Random().Next(0, 100);
-            SetImageSource();
+
+            //profileViewModel.DrivingSkills = new System.Random().Next(0, 100);
+            profileViewModel.DrivingSkills = 86;
         }
-
-
-        private void SetImageSource()
-        {
-            bool useByteArrForPicture = false;   //microsoft account gives a byte array not url for picture
-            if (Settings.Current.UserProfileUrl == string.Empty && Settings.Current.LoginAccount == LoginAccount.Microsoft)
-            {
-                useByteArrForPicture = true;
-            }
-
-            if (useByteArrForPicture)
-            {
-                ProfileImage.ImageSource = Helpers.BitmapImageConverter.ConvertImage(Settings.Current.UserProfileByteArr);
-            }
-            else 
-            {
-                //use picture url
-                ProfileImage.ImageSource = new BitmapImage(new Uri(Settings.Current.UserProfileUrl));
-            }
-        }
-
     }
 }

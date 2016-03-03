@@ -17,7 +17,7 @@
 
             <!--Converters-->
             <converters:StringFormatConverter x:Key="StringFormatConverter"/>
-            
+            <converters:ImageSourceConverter x:Key="ImageSourceConverter"/>
         </ResourceDictionary>
     </Application.Resources>
     

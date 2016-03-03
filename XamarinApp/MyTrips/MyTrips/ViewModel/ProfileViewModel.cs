@@ -1,5 +1,9 @@
-﻿using MvvmHelpers;
+﻿using Microsoft.WindowsAzure.MobileServices;
+using MvvmHelpers;
+using MyTrips.AzureClient;
 using MyTrips.Utils;
+using System.Threading.Tasks;
+
 
 namespace MyTrips.ViewModel
 {
@@ -8,6 +12,9 @@ namespace MyTrips.ViewModel
         public ProfileViewModel()
         {
             InitializeDrivingSkills();
+
+            //the model needs user picture from Settings. If picture is not present, get the data from server
+
         }
 
         const int drivingSkillsBuckets = 4;
@@ -45,19 +52,11 @@ namespace MyTrips.ViewModel
         }
 
 
-        int avgSpeedLocal;
-        public int AvgSpeedLocal
+        int avgSpeed;
+        public int AvgSpeed
         {
-            get { return avgSpeedLocal; }
-            set { SetProperty(ref avgSpeedLocal, value); }
-        }
-
-
-        int avgSpeedHighway;
-        public int AvgSpeedHighway
-        {
-            get { return avgSpeedHighway; }
-            set { SetProperty(ref avgSpeedHighway, value); }
+            get { return avgSpeed; }
+            set { SetProperty(ref avgSpeed, value); }
         }
 
         int hardBreaks;
@@ -71,9 +70,28 @@ namespace MyTrips.ViewModel
         {
 
         }
-        public ObservableRangeCollection<Tip> Tips { get; set; }
+        ObservableRangeCollection<Tip> tips = new ObservableRangeCollection<Tip>();
+        public ObservableRangeCollection<Tip> Tips
+        {
+            get { return tips; }
+            set { SetProperty(ref tips, value); }
+        }
 
-   
+
+        UserPictureSourceKind pictureSourceKind = Settings.Current.UserPictureSourceKind;
+        public UserPictureSourceKind UserPictureSourceKind
+        {
+            get { return pictureSourceKind; }
+            set { SetProperty(ref pictureSourceKind, value); }
+        }
+
+        async Task UpdatePictureAsync()
+        {
+            IMobileServiceClient client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
+            await Helpers.UserProfileHelper.GetUserProfileAsync(client);
+            UserPictureSourceKind = Settings.Current.UserPictureSourceKind;
+        }
+
 
         private DrivingSkillsBucket[] Skills
         {
@@ -86,15 +104,15 @@ namespace MyTrips.ViewModel
             Skills = new DrivingSkillsBucket[drivingSkillsBuckets]
             {
                 new DrivingSkillsBucket()    {  betterThan=0,  description="Very bad",  color=SkillsColor.Red },
-                new DrivingSkillsBucket()   {   betterThan=25,    description="Pretty bad..",   color=SkillsColor.Orange },
-                new DrivingSkillsBucket()   {   betterThan=50,    description="OK",   color=SkillsColor.Yellow },
+                new DrivingSkillsBucket()   {   betterThan=25,    description="Poor",   color=SkillsColor.Orange },
+                new DrivingSkillsBucket()   {   betterThan=50,    description="Good",   color=SkillsColor.Yellow },
                 new DrivingSkillsBucket()   {   betterThan=75,    description="Great!",   color=SkillsColor.Green }
             };
         }
 
         void UpdatePlacementBucket(int drivingSkills)
         {
-            for(int i= drivingSkillsBuckets-1; i>=0; i--)
+            for (int i = drivingSkillsBuckets - 1; i >= 0; i--)
             {
                 if (drivingSkills > Skills[i].betterThan)
                 {

@@ -96,6 +96,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ImageSourceConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Views\CurrentTripView.xaml.cs">
       <DependentUpon>CurrentTripView.xaml</DependentUpon>
