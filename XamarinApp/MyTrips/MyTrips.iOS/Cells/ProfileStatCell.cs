@@ -17,18 +17,6 @@ namespace MyTrips.iOS
 
 		}
 
-		public UIColor SideColor
-		{
-			get
-			{
-				return sideBox.BackgroundColor;
-			}
-			set
-			{
-				sideBox.BackgroundColor = value;
-			}
-		}
-
 		public string StatName
 		{
 			get
@@ -50,18 +38,6 @@ namespace MyTrips.iOS
 			set
 			{
 				lblText.Text = value;
-			}
-		}
-
-		public UIImage Icon
-		{
-			get
-			{
-				return imgIcon.Image;
-			}
-			set
-			{
-				imgIcon.Image = value;
 			}
 		}
     }

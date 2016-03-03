@@ -11,27 +11,27 @@ using UIKit;
 
 namespace MyTrips.iOS
 {
-    [Register ("SettingsViewController")]
-    partial class SettingsViewController
+    [Register ("SettingTableViewCell")]
+    partial class SettingTableViewCell
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton btnLogout { get; set; }
+        UIKit.UILabel nameLabel { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITableView settingsTableView { get; set; }
+        UIKit.UILabel valueLabel { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
-            if (btnLogout != null) {
-                btnLogout.Dispose ();
-                btnLogout = null;
+            if (nameLabel != null) {
+                nameLabel.Dispose ();
+                nameLabel = null;
             }
 
-            if (settingsTableView != null) {
-                settingsTableView.Dispose ();
-                settingsTableView = null;
+            if (valueLabel != null) {
+                valueLabel.Dispose ();
+                valueLabel = null;
             }
         }
     }

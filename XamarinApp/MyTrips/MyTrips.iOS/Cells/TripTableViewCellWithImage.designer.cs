@@ -11,9 +11,13 @@ using UIKit;
 
 namespace MyTrips.iOS
 {
-    [Register ("TripTableViewCell")]
-    partial class TripTableViewCell
+    [Register ("TripTableViewCellWithImage")]
+    partial class TripTableViewCellWithImage
     {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIImageView displayImageView { get; set; }
+
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel lblDaysAgo { get; set; }
@@ -28,6 +32,11 @@ namespace MyTrips.iOS
 
         void ReleaseDesignerOutlets ()
         {
+            if (displayImageView != null) {
+                displayImageView.Dispose ();
+                displayImageView = null;
+            }
+
             if (lblDaysAgo != null) {
                 lblDaysAgo.Dispose ();
                 lblDaysAgo = null;

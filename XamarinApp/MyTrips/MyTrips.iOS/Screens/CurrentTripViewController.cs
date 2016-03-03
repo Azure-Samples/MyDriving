@@ -69,8 +69,8 @@ namespace MyTrips.iOS
 			recordButton.Hidden = true;
 			recordButton.Layer.CornerRadius = recordButton.Frame.Width / 2;
 			recordButton.Layer.MasksToBounds = true;
-			recordButton.Layer.BorderColor = UIColor.White.CGColor;
-			recordButton.Layer.BorderWidth = 2;
+			recordButton.Layer.BorderColor = "5C5C5C".ToUIColor().CGColor;
+			recordButton.Layer.BorderWidth = 1;
 			recordButton.TouchUpInside += RecordButton_TouchUpInside;
 
 			// Hide slider
@@ -182,7 +182,7 @@ namespace MyTrips.iOS
 			if (!CurrentTripViewModel.IsRecording)
 			{
 				if (NavigationItem.RightBarButtonItem == null)
-					NavigationItem.RightBarButtonItem = takePhotoButton;
+					NavigationItem.SetRightBarButtonItem(takePhotoButton, true);
 
 				NavigationItem.RightBarButtonItem.Clicked += TakePhotoButton_Clicked;
 
@@ -194,7 +194,7 @@ namespace MyTrips.iOS
 				UpdateRecordButton(false);
 
 				NavigationItem.RightBarButtonItem.Clicked -= TakePhotoButton_Clicked;
-				NavigationItem.RightBarButtonItem = null;
+				NavigationItem.SetRightBarButtonItem(null, true);
 			}
 
 			// Add start or end waypoint
@@ -277,11 +277,19 @@ namespace MyTrips.iOS
 			currentLocationAnnotation = new CarAnnotation(carCoordinate, UIColor.Blue);
 			tripMapView.AddAnnotation(currentLocationAnnotation);
 
+			ConfigureSlider();
+			ConfigureWayPointButtons();
+
 			// Hide record button
 			recordButton.Hidden = true;
 
-			ConfigureSlider();
-			ConfigureWayPointButtons();
+			// Show slider 
+			sliderView.Hidden = false;
+
+			startTimeLabel.Hidden = false;
+			endTimeLabel.Hidden = false;
+			startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
+			endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
 		}
 
 		void ConfigureSlider()
