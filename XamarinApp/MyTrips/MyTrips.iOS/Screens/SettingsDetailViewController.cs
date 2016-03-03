@@ -20,6 +20,7 @@ namespace MyTrips.iOS
 		{
 			base.ViewDidLoad();
 
+			NavigationItem.Title = Setting.Name;
 			settingsDetailTableView.Source = new SettingsDetailTableViewSource(Setting);
 		}
 	}
