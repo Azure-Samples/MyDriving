@@ -18,11 +18,13 @@ using Android.Graphics.Drawables;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System.Threading.Tasks;
+using MyTrips.Droid.Activities;
 using MyTrips.Droid.Controls;
 using MyTrips.Utils;
 using Android.Support.Design.Widget;
 using System.Collections.Specialized;
 using System.Collections.Generic;
+
 
 namespace MyTrips.Droid.Fragments
 {
@@ -129,6 +131,7 @@ namespace MyTrips.Droid.Fragments
                     break;
                 case nameof(viewModel.CurrentTrip):
                     ResetTrip();
+                    StartActivity(new Android.Content.Intent(Activity, typeof(TripSummaryActivity)));
                     break;
                 case "Distance":
                     UpdateStats();

@@ -30,6 +30,11 @@
         <!-- Support library compatibility -->
         <item name="elevation">0dp</item>
     </style>
+
+	<style name="MyTheme.PopupTheme">
+        <item name="android:windowIsTranslucent">true</item>
+		<item name="android:windowCloseOnTouchOutside">true</item>
+	</style>
 	
     <style name="MyTheme" parent="MyTheme.Base">
     </style>
@@ -76,6 +81,14 @@
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 
+	<style name="Widget.CardContentSummary" parent="android:Widget">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
 	  <style name="Widget.CardContent" parent="android:Widget">
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
@@ -94,5 +107,8 @@
 	 <style name="MicrosoftButton" parent="@android:style/Widget.Button">
         <item name="colorButtonNormal">@color/button_microsoft</item>
     </style>
+	<style name="ClearButton" parent="@android:style/Widget.Button">
+    <item name="colorButtonNormal">@color/primary</item>
+</style>
 	
 </resources>
