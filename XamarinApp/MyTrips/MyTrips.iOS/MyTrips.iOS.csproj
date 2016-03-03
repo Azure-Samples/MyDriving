@@ -332,6 +332,18 @@
     <Compile Include="Cells\SettingTableViewCell.designer.cs">
       <DependentUpon>SettingTableViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cells\SettingDetailTableViewCell.cs" />
+    <Compile Include="Cells\SettingDetailTableViewCell.designer.cs">
+      <DependentUpon>SettingDetailTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cells\SettingDetailTextTableViewCell.cs" />
+    <Compile Include="Cells\SettingDetailTextTableViewCell.designer.cs">
+      <DependentUpon>SettingDetailTextTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SettingsDetailViewController.cs" />
+    <Compile Include="Screens\SettingsDetailViewController.designer.cs">
+      <DependentUpon>SettingsDetailViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

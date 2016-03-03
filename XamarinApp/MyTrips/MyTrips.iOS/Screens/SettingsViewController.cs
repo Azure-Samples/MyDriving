@@ -28,9 +28,23 @@ namespace MyTrips.iOS
 			// Wire up table source
 			settingsTableView.Source = new SettingsDataSource(ViewModel);
 		}
+
+
+		public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
+		{
+			if (segue.Identifier == "settingsDetailSegue")
+			{
+				var controller = segue.DestinationViewController as SettingsDetailViewController;
+				var indexPath = settingsTableView.IndexPathForCell(sender as UITableViewCell);
+
+				// TODO: Set this to a real key
+				var setting = ViewModel.SettingsData["Units"][0];
+
+				controller.Setting = setting;
+			}
+		}
 	}
 
-	// TODO: Add custom header view
 	// TODO: Add detail view
 	// TODO: Alter shared logic
 	public class SettingsDataSource : UITableViewSource
@@ -59,11 +73,6 @@ namespace MyTrips.iOS
 			header.TextLabel.TextColor = Colors.BLUE;
 			header.TextLabel.Font = UIFont.FromName("AvenirNext-Bold", 14);
 			header.TextLabel.Text = TitleForHeader(tableView, section);
-		}
-
-		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-		{
-			base.RowSelected(tableView, indexPath);
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
