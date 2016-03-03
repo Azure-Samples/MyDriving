@@ -69,7 +69,7 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sTF-bd-30q" misplaced="YES">
                                             <rect key="frame" x="16" y="191" width="250" height="20"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8h-Ul-uxa" misplaced="YES">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8h-Ul-uxa">
                                                     <rect key="frame" x="0.0" y="0.0" width="196.5" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="1g0-z7-0jg"/>
@@ -140,7 +140,7 @@
                                     <outlet property="lblDaysAgo" destination="Oi0-dQ-FNw" id="9aR-ZX-hAK"/>
                                     <outlet property="lblMiles" destination="LQz-K1-INw" id="o6f-6t-IEj"/>
                                     <outlet property="lblTitle" destination="DLx-HL-V01" id="fMG-Oz-N12"/>
-                                    <segue id="1410" destination="wbX-eI-tZm" kind="show" identifier="pastTripSegue"/>
+                                    <segue destination="wbX-eI-tZm" kind="show" identifier="pastTripSegue" id="1410"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRIP_CELL_IDENTIFIER" rowHeight="60" id="1195" customClass="TripTableViewCell">
@@ -153,7 +153,7 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1205">
                                             <rect key="frame" x="16" y="34" width="250" height="20"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1206" misplaced="YES">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Distance:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1206">
                                                     <rect key="frame" x="0.0" y="0.0" width="196.5" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="1207"/>
@@ -213,7 +213,7 @@
                                     <outlet property="lblDaysAgo" destination="1199" id="1198"/>
                                     <outlet property="lblMiles" destination="1201" id="1200"/>
                                     <outlet property="lblTitle" destination="1203" id="1202"/>
-                                    <segue id="1354" destination="wbX-eI-tZm" kind="show"/>
+                                    <segue destination="wbX-eI-tZm" kind="show" id="1354"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -230,7 +230,6 @@
                         <attributedString key="attributedTitle"/>
                         <rect key="frame" x="0.0" y="0.0" width="0.0" height="0.0"/>
                     </refreshControl>
-                    <connections/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Aju-MC-3Cp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -735,7 +734,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hsp-NY-4KV" customClass="TripMapView">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hsp-NY-4KV" customClass="TripMapView">
                                 <rect key="frame" x="0.0" y="64" width="600" height="488"/>
                             </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IwO-im-EC0">
@@ -865,7 +864,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZDU-Mr-e8H">
+                            <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZDU-Mr-e8H">
                                 <rect key="frame" x="0.0" y="475" width="600" height="76"/>
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Yuw-JM-bdT">
@@ -950,7 +949,7 @@
                                     <constraint firstAttribute="trailing" secondItem="3jO-Rf-KjH" secondAttribute="trailing" constant="8" id="xFh-mb-yiX"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p6d-Wb-uN3">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p6d-Wb-uN3">
                                 <rect key="frame" x="276" y="489" width="50" height="50"/>
                                 <color key="backgroundColor" red="0.98039215800000001" green="0.41568627949999998" blue="0.42352941630000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -993,6 +992,9 @@
                         <outlet property="tripSlider" destination="Yuw-JM-bdT" id="vXb-Rv-N0v"/>
                         <outlet property="wayPointA" destination="7mA-Mi-nwI" id="m5y-2I-1KZ"/>
                         <outlet property="wayPointB" destination="3jO-Rf-KjH" id="khi-1p-1zj"/>
+                        <outlet property="sliderView" destination="ZDU-Mr-e8H" id="name-outlet-ZDU-Mr-e8H"/>
+                        <outlet property="endTimeLabel" destination="yIa-7g-1wt" id="name-outlet-yIa-7g-1wt"/>
+                        <outlet property="startTimeLabel" destination="CVa-Qv-Jre" id="name-outlet-CVa-Qv-Jre"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g60-su-Omq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1016,5 +1018,7 @@
         <image name="Map/car_annotation_red.png" width="32.5" height="32.5"/>
         <image name="Map/waypoint_tip.png" width="20.5" height="20.5"/>
     </resources>
-    <inferredMetricsTieBreakers/>
+    <inferredMetricsTieBreakers>
+        <segue reference="RsI-Me-VZW"/>
+    </inferredMetricsTieBreakers>
 </document>

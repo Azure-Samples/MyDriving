@@ -116,7 +116,6 @@ namespace MyTrips.iOS
 			{
 				return 221;
 			}
-			return 0;
 		}
 
 

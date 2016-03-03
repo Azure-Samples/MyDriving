@@ -277,11 +277,19 @@ namespace MyTrips.iOS
 			currentLocationAnnotation = new CarAnnotation(carCoordinate, UIColor.Blue);
 			tripMapView.AddAnnotation(currentLocationAnnotation);
 
+			ConfigureSlider();
+			ConfigureWayPointButtons();
+
 			// Hide record button
 			recordButton.Hidden = true;
 
-			ConfigureSlider();
-			ConfigureWayPointButtons();
+			// Show slider 
+			sliderView.Hidden = false;
+
+			startTimeLabel.Hidden = false;
+			endTimeLabel.Hidden = false;
+			startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
+			endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
 		}
 
 		void ConfigureSlider()
