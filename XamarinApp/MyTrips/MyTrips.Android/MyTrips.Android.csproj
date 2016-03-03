@@ -271,6 +271,7 @@
     <Compile Include="Helpers\AccelerometerManager.cs" />
     <Compile Include="Controls\RatingCircle.cs" />
     <Compile Include="Fragments\FragmentProfile.cs" />
+    <Compile Include="Activities\TripSummaryActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -365,6 +366,7 @@
     <AndroidResource Include="Resources\drawable\navigation_header.png" />
     <AndroidResource Include="Resources\drawable\navigation_logo.png" />
     <AndroidResource Include="Resources\drawable\logo.png" />
+    <AndroidResource Include="Resources\layout\activity_trip_summary.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

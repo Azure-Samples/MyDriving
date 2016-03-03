@@ -9,7 +9,7 @@ using MyTrips.Utils;
 namespace MyTrips.Shared
 {
     /// <summary>
-    /// Platform specific logging, mostly for console write lines or HockeyApp
+    /// Platform specific logging, mostly for debug write lines or HockeyApp
     /// </summary>
     public class PlatformLogger : Logger
     {

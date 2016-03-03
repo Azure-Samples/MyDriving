@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MyTrips.Helpers;
+using MyTrips.Model;
 using MyTrips.Utils;
 using Plugin.DeviceInfo;
 using Plugin.Share;
@@ -19,7 +20,6 @@ namespace MyTrips.ViewModel
         public string OpenSourceNoticeUrl =>"http://microsoft.com";
         public string SourceOnGitHubUrl => "http://microsoft.com";
         public string XamarinUrl => "http://xamarin.com";
-
 
         ICommand openBrowserCommand;
         public ICommand OpenBrowserCommand =>
@@ -77,5 +77,46 @@ namespace MyTrips.ViewModel
 
             return true;
         }
+
+		public Dictionary<string, List<Setting>> SettingsData
+		{
+			get
+			{
+				var units = new List<Setting>
+				{
+					new Setting { Name = "Distance", PossibleValues = new List<string> { "US/Imperial (miles)", "Metric (km)"}, Value = "US/Imperial (miles)" },
+					new Setting { Name = "Capacity", PossibleValues = new List<string> { "US/Imperial (gallons)", "Metric (liters)"}, Value = "US/Imperial (gallons)" },
+					new Setting { Name = "Currency", PossibleValues = new List<string> { "US (Dollar)", "UK (Pound)", "Europe (Euro)"}, Value = "US (Dollar)" },
+				};
+
+				var IoTHub = new List<Setting>
+				{
+					new Setting { Name = "Hub Setting 1", IsTextField = true },
+					new Setting { Name = "Hub Setting 2", IsTextField = true },
+				};
+
+				var permissions = new List<Setting>
+				{
+					new Setting { Name = "Change MyTrips Permissions", IsButton = true }
+				};
+
+				var about = new List<Setting>
+				{
+					new Setting { Name = "Copyright Microsoft 2016", IsButton = true },
+					new Setting { Name = "Terms of Use", IsButton = true },
+					new Setting { Name = "Privacy Policy", IsButton = true },
+					new Setting { Name = "Open Source", IsButton = true },
+					new Setting { Name = "Built in C# with Xamarin", IsButton = true },
+				};
+
+				return new Dictionary<string, List<Setting>>
+				{
+					{ "Units", units },
+					{ "IoT Hub", IoTHub },
+					{ "Permissions", permissions},
+					{ "About", about }
+				};
+			}
+		}
     }
 }
