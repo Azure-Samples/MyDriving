@@ -70,7 +70,8 @@ namespace MyTrips.DataObjects
             this.Telemetry = new List<Telemetry>();
         }
 
-        public int TrailId { get; set; }
+        public int SequenceId { get; set; }
+
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
