@@ -25,6 +25,7 @@
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <MtouchProfiling>true</MtouchProfiling>
+    <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -59,7 +60,7 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchProfiling>true</MtouchProfiling>
-    <CodesignKey>iPhone Developer: Pierce Boggan (W85YVM93U5)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
   <ItemGroup>
@@ -187,6 +188,9 @@
       <HintPath>..\..\packages\Xamarin.Insights.1.11.4\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="BTProgressHUD">
+      <HintPath>..\..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyTrips.DataStore.Abstractions\MyTrips.DataStore.Abstractions.csproj">
@@ -278,7 +282,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Helpers\ThemeManager.cs" />
@@ -329,6 +332,26 @@
       <DependentUpon>ProfileStatCell.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\CirclePercentage.cs" />
+    <Compile Include="Cells\SettingTableViewCell.cs" />
+    <Compile Include="Cells\SettingTableViewCell.designer.cs">
+      <DependentUpon>SettingTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cells\SettingDetailTableViewCell.cs" />
+    <Compile Include="Cells\SettingDetailTableViewCell.designer.cs">
+      <DependentUpon>SettingDetailTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cells\SettingDetailTextTableViewCell.cs" />
+    <Compile Include="Cells\SettingDetailTextTableViewCell.designer.cs">
+      <DependentUpon>SettingDetailTextTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\SettingsDetailViewController.cs" />
+    <Compile Include="Screens\SettingsDetailViewController.designer.cs">
+      <DependentUpon>SettingsDetailViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cells\TripTableViewCellWithImage.cs" />
+    <Compile Include="Cells\TripTableViewCellWithImage.designer.cs">
+      <DependentUpon>TripTableViewCellWithImage.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -360,10 +383,17 @@
     <BundleResource Include="Resources\Map\waypoint_tip%402x.png" />
     <BundleResource Include="Resources\scott.png" />
     <BundleResource Include="Resources\navigation_logo.png" />
+    <BundleResource Include="Resources\camera.png" />
+    <BundleResource Include="Resources\camera%402x.png" />
+    <BundleResource Include="Resources\camera%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">
       <Version>3.8.5.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="btprogresshud">
+      <Version>1.20</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

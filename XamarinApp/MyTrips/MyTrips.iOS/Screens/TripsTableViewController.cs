@@ -73,34 +73,52 @@ namespace MyTrips.iOS
 		{
 			var trip = ViewModel.Trips[indexPath.Row];
 
-			TripTableViewCell cell;
 			if (String.IsNullOrEmpty(trip.MainPhotoUrl))
 			{
-				cell = tableView.DequeueReusableCell(TRIP_CELL_IDENTIFIER) as TripTableViewCell;
+				var cell = tableView.DequeueReusableCell(TRIP_CELL_IDENTIFIER) as TripTableViewCell;
 
 				if (cell == null)
 				{
 					cell = new TripTableViewCell(new NSString(TRIP_CELL_IDENTIFIER));
 				}
+
+				cell.LocationName = trip.TripId;
+				cell.TimeAgo = trip.TimeAgo;
+				cell.Distance = trip.TotalDistance;
+
+				return cell;
 			}
 			else
 			{
-				cell = tableView.DequeueReusableCell(TRIP_CELL_WITHIMAGE_IDENTIFIER) as TripTableViewCell;
+				var cell = tableView.DequeueReusableCell(TRIP_CELL_WITHIMAGE_IDENTIFIER) as TripTableViewCellWithImage;
 
 				if (cell == null)
 				{
-					cell = new TripTableViewCell(new NSString(TRIP_CELL_WITHIMAGE_IDENTIFIER));
+					cell = new TripTableViewCellWithImage(new NSString(TRIP_CELL_WITHIMAGE_IDENTIFIER));
 				}
 
 				cell.DisplayImage.SetImage(new NSUrl(trip.MainPhotoUrl));
+				cell.LocationName = trip.TripId;
+				cell.TimeAgo = trip.TimeAgo;
+				cell.Distance = trip.TotalDistance;
+				return cell;
 			}
-
-            cell.LocationName = trip.TripId;
-            cell.TimeAgo = trip.TimeAgo;
-			cell.Distance = trip.TotalDistance;
-
-			return cell;
 		}
+
+		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
+		{
+			var mainPhotoUrl = ViewModel.Trips[indexPath.Row].MainPhotoUrl;
+			if (string.IsNullOrEmpty(mainPhotoUrl))
+			{
+				return 60;
+			}
+			else
+			{
+				return 221;
+			}
+		}
+
+
 		#endregion
 
 		// For some reason, RefreshControl.ValueChanged doesn't function properly?

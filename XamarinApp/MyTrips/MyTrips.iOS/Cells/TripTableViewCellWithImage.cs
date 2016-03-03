@@ -4,17 +4,29 @@ using UIKit;
 
 namespace MyTrips.iOS
 {
-    public partial class TripTableViewCell : UITableViewCell
+    public partial class TripTableViewCellWithImage : UITableViewCell
     {
-        public TripTableViewCell (IntPtr handle) : base (handle)
-        {
-			
-        }
+		public TripTableViewCellWithImage (IntPtr handle) : base (handle)
+		{
 
-		public TripTableViewCell(NSString cellId)
+		}
+
+		public TripTableViewCellWithImage(NSString cellId)
 			: base(UITableViewCellStyle.Default, cellId)
 		{
 
+		}
+
+		public UIImageView DisplayImage
+		{
+			get
+			{
+				return displayImageView;
+			}
+			set
+			{
+				displayImageView = value;
+			}
 		}
 
 		public string LocationName
@@ -53,5 +65,5 @@ namespace MyTrips.iOS
 			}
 		}
 
-    }
+	}
 }

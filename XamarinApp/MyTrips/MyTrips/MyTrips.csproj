@@ -49,6 +49,7 @@
     <Compile Include="Model\BingResult.cs" />
     <Compile Include="Helpers\UserProfile.cs" />
     <Compile Include="Interfaces\IGeocoder.cs" />
+    <Compile Include="Model\Setting.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
