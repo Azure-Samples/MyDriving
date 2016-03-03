@@ -41,8 +41,8 @@ namespace MyTrips.iOS
 		public override void WillDisplayHeaderView(UITableView tableView, UIView headerView, nint section)
 		{
 			var header = headerView as UITableViewHeaderFooterView;
-			header.TextLabel.TextColor = Colors.BLUE;
-			header.TextLabel.Font = UIFont.FromName("AvenirNext-Bold", 14);
+			header.TextLabel.TextColor = "5C5C5C".ToUIColor();
+			header.TextLabel.Font = UIFont.FromName("AvenirNext-Medium", 16);
 			header.TextLabel.Text = TitleForHeader(tableView, section);
 		}
 

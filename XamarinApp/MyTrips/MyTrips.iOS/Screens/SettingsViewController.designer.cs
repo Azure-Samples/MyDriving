@@ -16,10 +16,19 @@ namespace MyTrips.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnLogout { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITableView settingsTableView { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
+            if (btnLogout != null) {
+                btnLogout.Dispose ();
+                btnLogout = null;
+            }
+
             if (settingsTableView != null) {
                 settingsTableView.Dispose ();
                 settingsTableView = null;
