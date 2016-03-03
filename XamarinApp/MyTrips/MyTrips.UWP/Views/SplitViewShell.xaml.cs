@@ -46,6 +46,12 @@ namespace MyTrips.UWP.Views
             ((Frame)this.MyTripsSplitView.Content).Navigate(typeof(PastTripsMenuView));
         }
 
+        private void ProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            MyTripsSplitView.IsPaneOpen = false;
+            ((Frame)this.MyTripsSplitView.Content).Navigate(typeof(ProfileView));
+        }
+
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             MyTripsSplitView.IsPaneOpen = false;

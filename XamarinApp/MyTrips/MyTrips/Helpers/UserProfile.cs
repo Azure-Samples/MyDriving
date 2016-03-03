@@ -17,8 +17,10 @@ namespace MyTrips.Helpers
 
             Settings.Current.UserFirstName = userprof?.FirstName ?? string.Empty;
             Settings.Current.UserLastName = userprof?.LastName ?? string.Empty;
-            Settings.Current.UserProfileUrl = userprof?.FirstName ?? string.Empty;
+            Settings.Current.UserProfileUrl = userprof?.ProfilePictureUri ?? string.Empty;
 
+            if (userprof?.ProfilePicture != null)
+                Settings.Current.UserProfileByteArr = userprof?.ProfilePicture;
             return userprof;
         }
     }

@@ -286,6 +286,23 @@ namespace MyTrips.Utils
             }
         }
 
+
+        const string ProfileByteKey = "user_profile_byte";
+        static readonly byte[] ProfileByteDefault = new byte[1];
+
+        public byte[] UserProfileByteArr
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<byte[]>(ProfileByteKey, ProfileByteDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<byte[]>(ProfileByteKey, value);
+            }
+        }
+
+
         public void CleanupUserProfile()
         {
             UserId = String.Empty;

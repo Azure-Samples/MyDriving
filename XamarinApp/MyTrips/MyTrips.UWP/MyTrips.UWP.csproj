@@ -96,6 +96,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Views\CurrentTripView.xaml.cs">
       <DependentUpon>CurrentTripView.xaml</DependentUpon>
     </Compile>
@@ -103,6 +104,9 @@
     <Compile Include="Helpers\BitmapImageConverter.cs" />
     <Compile Include="Views\PastTripMapView.xaml.cs">
       <DependentUpon>PastTripMapView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProfileView.xaml.cs">
+      <DependentUpon>ProfileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RecommendedRoutes.xaml.cs">
       <DependentUpon>RecommendedRoutes.xaml</DependentUpon>
@@ -160,6 +164,10 @@
     <Page Include="Views\PastTripMapView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ProfileView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RecommendedRoutes.xaml">
       <SubType>Designer</SubType>
