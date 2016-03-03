@@ -182,7 +182,7 @@ namespace MyTrips.iOS
 			if (!CurrentTripViewModel.IsRecording)
 			{
 				if (NavigationItem.RightBarButtonItem == null)
-					NavigationItem.RightBarButtonItem = takePhotoButton;
+					NavigationItem.SetRightBarButtonItem(takePhotoButton, true);
 
 				NavigationItem.RightBarButtonItem.Clicked += TakePhotoButton_Clicked;
 
@@ -194,7 +194,7 @@ namespace MyTrips.iOS
 				UpdateRecordButton(false);
 
 				NavigationItem.RightBarButtonItem.Clicked -= TakePhotoButton_Clicked;
-				NavigationItem.RightBarButtonItem = null;
+				NavigationItem.SetRightBarButtonItem(null, true);
 			}
 
 			// Add start or end waypoint
