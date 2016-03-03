@@ -32,6 +32,10 @@ namespace MyTrips.iOS
 				await ViewModel.ExecuteLogoutCommandAsync();
 				Acr.UserDialogs.UserDialogs.Instance.ShowSuccess("Successfully logged out");
 			};
+
+			btnLogout.Layer.CornerRadius = 4;
+			btnLogout.Layer.MasksToBounds = true;
+
 		}
 
 
