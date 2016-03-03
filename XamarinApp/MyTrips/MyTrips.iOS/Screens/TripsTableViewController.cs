@@ -95,8 +95,8 @@ namespace MyTrips.iOS
 				cell.DisplayImage.SetImage(new NSUrl(trip.MainPhotoUrl));
 			}
 
-            cell.LocationName = trip.TripId;
-            cell.TimeAgo = trip.TimeAgo;
+			cell.LocationName = trip.TripId;
+			cell.TimeAgo = trip.TimeAgo;
 			cell.Distance = trip.TotalDistance;
 
 			return cell;

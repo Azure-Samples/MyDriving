@@ -11,18 +11,18 @@ using UIKit;
 
 namespace MyTrips.iOS
 {
-    [Register ("SettingsViewController")]
-    partial class SettingsViewController
+    [Register ("SettingsDetailViewController")]
+    partial class SettingsDetailViewController
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITableView settingsTableView { get; set; }
+        UIKit.UITableView settingsDetailTableView { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
-            if (settingsTableView != null) {
-                settingsTableView.Dispose ();
-                settingsTableView = null;
+            if (settingsDetailTableView != null) {
+                settingsDetailTableView.Dispose ();
+                settingsDetailTableView = null;
             }
         }
     }
