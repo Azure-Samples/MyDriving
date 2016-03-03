@@ -59,7 +59,7 @@
                         <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="sectionIndexBackgroundColor" red="0.058823529411764705" green="0.078431372549019607" blue="0.098039215686274508" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRIP_CELL_WITHIMAGE_IDENTIFIER" rowHeight="221" id="78d-at-mZU" customClass="TripTableViewCellWithImage">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRIP_CELL_WITHIMAGE_IDENTIFIER" rowHeight="221" id="78d-at-mZU" customClass="TripTableViewCell">
                                 <rect key="frame" x="0.0" y="28" width="414" height="221"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="78d-at-mZU" id="MOV-ca-aXN">
@@ -618,7 +618,7 @@
             <objects>
                 <navigationController definesPresentationContext="YES" id="341" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Current Trip" image="tabbar_currentTrip.png" selectedImage="tabbar_currentTrip.png" id="381"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="344">
                         <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -628,6 +628,7 @@
                     <connections>
                         <segue destination="wbX-eI-tZm" kind="relationship" relationship="rootViewController" id="RsI-Me-VZW"/>
                     </connections>
+                    <toolbarItems/>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="345" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -730,7 +731,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hsp-NY-4KV" customClass="TripMapView">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hsp-NY-4KV" customClass="TripMapView" misplaced="YES">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                             </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IwO-im-EC0">
@@ -860,7 +861,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZDU-Mr-e8H">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZDU-Mr-e8H" misplaced="YES">
                                 <rect key="frame" x="0.0" y="475" width="600" height="76"/>
                                 <subviews>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Yuw-JM-bdT">
@@ -945,7 +946,7 @@
                                     <constraint firstAttribute="trailing" secondItem="3jO-Rf-KjH" secondAttribute="trailing" constant="8" id="xFh-mb-yiX"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p6d-Wb-uN3">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p6d-Wb-uN3" misplaced="YES">
                                 <rect key="frame" x="275" y="489" width="50" height="50"/>
                                 <color key="backgroundColor" red="0.98039215800000001" green="0.41568627949999998" blue="0.42352941630000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -973,7 +974,9 @@
                             <constraint firstAttribute="trailing" secondItem="IwO-im-EC0" secondAttribute="trailing" id="yUB-Ki-ze8"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Current Trip" id="ORz-fm-ycT"/>
+                    <navigationItem key="navigationItem" title="Current Trip" id="ORz-fm-ycT">
+                        <barButtonItem key="rightBarButtonItem" id="1235" image="camera.png"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="lblCost" destination="lWE-xz-5pg" id="dmj-bg-T5H"/>
                         <outlet property="lblDistance" destination="Pxk-2y-rAO" id="bwn-db-4IC"/>
@@ -985,6 +988,7 @@
                         <outlet property="tripSlider" destination="Yuw-JM-bdT" id="vXb-Rv-N0v"/>
                         <outlet property="wayPointA" destination="7mA-Mi-nwI" id="m5y-2I-1KZ"/>
                         <outlet property="wayPointB" destination="3jO-Rf-KjH" id="khi-1p-1zj"/>
+                        <outlet property="takePhotoButton" destination="1235" id="name-outlet-1235"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g60-su-Omq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1006,5 +1010,6 @@
         <image name="Map/car_annotation_blue.png" width="32.5" height="32.5"/>
         <image name="Map/car_annotation_red.png" width="32.5" height="32.5"/>
         <image name="Map/waypoint_tip.png" width="20.5" height="20.5"/>
+        <image name="camera.png" width="28" height="20"/>
     </resources>
 </document>
