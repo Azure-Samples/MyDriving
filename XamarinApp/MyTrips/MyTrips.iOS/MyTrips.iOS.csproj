@@ -347,6 +347,10 @@
     <Compile Include="Screens\SettingsDetailViewController.designer.cs">
       <DependentUpon>SettingsDetailViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cells\TripTableViewCellWithImage.cs" />
+    <Compile Include="Cells\TripTableViewCellWithImage.designer.cs">
+      <DependentUpon>TripTableViewCellWithImage.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
