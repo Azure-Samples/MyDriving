@@ -141,6 +141,19 @@ namespace MyTrips.Utils
             }
         }
 
+		const string CurrencyKey = "currency";
+		static readonly string CurrencyDefault = "US (Dollar)";
+
+		public string Currency
+		{
+			get { return AppSettings.GetValueOrDefault<string>(CurrencyKey, CurrencyDefault); }
+			set
+			{
+				if (AppSettings.AddOrUpdateValue<string>(CurrencyKey, value))
+					OnPropertyChanged();
+			}
+		}
+
         const string FirstRunKey = "first_run";
         static readonly bool FirstRunDefault = true;
 
