@@ -49,7 +49,7 @@ namespace smarttripsService
         }
     }
 
-    public class smarttripsInitializer : CreateDatabaseIfNotExists<smarttripsContext>
+    public class smarttripsInitializer : DropCreateDatabaseAlways<smarttripsContext>
     {
         protected override void Seed(smarttripsContext context)
         {

@@ -11,7 +11,7 @@ namespace smarttripsService.Helpers
     {
 
         public static string FindSid(this IPrincipal claimsPrincipal) =>
-            (claimsPrincipal as ClaimsPrincipal)?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+            ((claimsPrincipal as ClaimsPrincipal)?.FindFirst(ClaimTypes.NameIdentifier)?.Value) ?? string.Empty;
 
     }
 }

@@ -20,30 +20,33 @@ namespace smarttripsService.Controllers
             DomainManager = new EntityDomainManager<Trip>(context, Request);
         }
 
-        // GET tables/TodoItem
-        [Authorize]
+        // GET tables/trip
+       //[Authorize]
         public IQueryable<Trip> GetAllTrips()
         {
-            return Query().Where(s => s.UserId == IdentitiyHelper.FindSid(this.User));
+            var id = IdentitiyHelper.FindSid(this.User);
+            if (string.IsNullOrWhiteSpace(id))
+                return Query();
+            return Query().Where(s => s.UserId == id);
         }
 
         // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [QueryableExpand("Points,Tips")]
-        [Authorize]
+       //[Authorize]
         public SingleResult<Trip> GetTrip(string id)
         {
             return Lookup(id);
         }
 
         // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        [Authorize]
+       //[Authorize]
         public Task<Trip> PatchTrip(string id, Delta<Trip> patch)
         {
             return UpdateAsync(id, patch);
         }
 
         // POST tables/TodoItem
-        [Authorize]
+       //[Authorize]
         public async Task<IHttpActionResult> PostTrip(Trip trip)
         {
             var id = IdentitiyHelper.FindSid(this.User);
@@ -53,7 +56,7 @@ namespace smarttripsService.Controllers
         }
 
         // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        [Authorize]
+       //[Authorize]
         public Task DeleteTrip(string id)
         {
             return DeleteAsync(id);
