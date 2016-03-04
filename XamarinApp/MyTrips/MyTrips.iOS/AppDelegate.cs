@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using CoreSpotlight;
 using Foundation;
 using UIKit;
 
 using MyTrips.Utils;
 using MyTrips.Interfaces;
 using MyTrips.iOS.Helpers;
+using MyTrips.ViewModel;
 
 using HockeyApp;
 using MyTrips.DataStore.Abstractions;
@@ -102,7 +104,36 @@ namespace MyTrips.iOS
 		}
 
 		#endregion
+		#region CoreSpotlight Search
+		public override bool ContinueUserActivity(UIApplication application, NSUserActivity userActivity, UIApplicationRestorationHandler completionHandler)
+		{
+			if (userActivity.ActivityType == CSSearchableItem.ActionType)
+			{
+				var uuid = userActivity.UserInfo.ObjectForKey(CSSearchableItem.ActivityIdentifier);
+
+				if (uuid == null)
+					return true;
+
+				// Navigate to trip
+				var appDelegate = (AppDelegate)application.Delegate;
+				var tabBarController = (TabBarController)appDelegate.Window.RootViewController;
+				var navigationController = (UINavigationController)tabBarController.ViewControllers[0];
+				var tripsViewController = (TripsTableViewController) navigationController.TopViewController;
+				tripsViewController.NavigationController.PopToRootViewController(false);
+
+
+				var trip = tripsViewController.ViewModel.Trips[Int32.Parse(uuid.ToString())];
+
+				var currentTripVc = UIStoryboard.FromName("Main", null).InstantiateViewController("CURRENT_TRIP_STORYBIARD_IDENTIFIER") as CurrentTripViewController;
+				currentTripVc.PastTripsDetailViewModel = new PastTripsDetailViewModel(trip);
+				tripsViewController.NavigationController.PushViewController(currentTripVc, false);
+			}
+
+			return true;
+		}
+		#endregion
 	}
+
 
     [Register("TripApplication")]
     public class TripApplication : UIApplication

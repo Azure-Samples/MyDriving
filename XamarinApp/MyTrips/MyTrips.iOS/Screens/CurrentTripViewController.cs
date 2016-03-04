@@ -23,9 +23,9 @@ namespace MyTrips.iOS
 		TripMapViewDelegate mapDelegate;
 
 		CurrentTripViewModel CurrentTripViewModel { get; set; }
-
 		public PastTripsDetailViewModel PastTripsDetailViewModel { get; set; }
 
+		public CurrentTripViewController() { }
 		public CurrentTripViewController (IntPtr handle) : base (handle)
 		{
 		}
