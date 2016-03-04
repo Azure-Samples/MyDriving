@@ -40,6 +40,7 @@ namespace MyTrips.ViewModel
 
         public void InitFakeUser()
         {
+            ViewModelBase.Init(true);
             Settings.UserFirstName = "Scott";
             Settings.UserLastName = "Gu";
             Settings.UserProfileUrl = "http://refractored.com/images/Scott.png";

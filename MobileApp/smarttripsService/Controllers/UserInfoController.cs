@@ -54,7 +54,9 @@ namespace smarttripsService.Controllers
                 else
                 {
                     userId = twitterCredentials.UserId;
-                    await FillDataFromTwitter(userProfile, twitterCredentials);
+                    var settings = Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
+
+                    await FillDataFromTwitter(userProfile, twitterCredentials, settings["TwitterKey"], settings["TwitterSecret"]);
                 }
 
 
@@ -100,17 +102,18 @@ namespace smarttripsService.Controllers
             }
         }
 
-        static async Task FillDataFromTwitter(DataObjects.UserProfile userProfile, TwitterCredentials credentials)
+        static async Task FillDataFromTwitter(DataObjects.UserProfile userProfile, TwitterCredentials credentials, string key, string secret)
         {
             var twitterId = ulong.Parse(credentials.UserId.Substring(credentials.UserId.IndexOf(':') + 1));
+            
             var auth = new MvcAuthorizer
             {
                 CredentialStore = new LinqToTwitter.SessionStateCredentialStore
                 {
                     OAuthToken = credentials.AccessToken,
                     OAuthTokenSecret = credentials.AccessTokenSecret,
-                    ConsumerKey = "key",
-                    ConsumerSecret = "secret",
+                    ConsumerKey = key,
+                    ConsumerSecret = secret,
                     UserID = twitterId
                 }
             };
