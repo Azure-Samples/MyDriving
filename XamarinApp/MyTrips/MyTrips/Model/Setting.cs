@@ -18,6 +18,8 @@ namespace MyTrips.Model
 		public bool IsButton { get; set; }
 		public bool IsTextField { get; set; }
 
+		public string ButtonUrl { get; set; }
+
 		public event PropertyChangedEventHandler PropertyChanged;
 		private void NotifyPropertyChanged(string info)
 		{

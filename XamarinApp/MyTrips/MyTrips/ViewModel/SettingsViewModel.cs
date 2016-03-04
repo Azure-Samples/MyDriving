@@ -116,16 +116,16 @@ namespace MyTrips.ViewModel
 
 					permissions = new List<Setting>
 					{
-						new Setting { Name = "Change MyTrips Permissions", IsButton = true }
+						new Setting { Name = "Change MyTrips Permissions", IsButton = true, ButtonUrl = "Permissions" }
 					};
 
 					about = new List<Setting>
 					{
-						new Setting { Name = "Copyright Microsoft 2016", IsButton = true },
-						new Setting { Name = "Terms of Use", IsButton = true },
-						new Setting { Name = "Privacy Policy", IsButton = true },
-						new Setting { Name = "Open Source", IsButton = true },
-						new Setting { Name = "Built in C# with Xamarin", IsButton = true },
+						new Setting { Name = "Copyright Microsoft 2016", IsButton = true, ButtonUrl = PrivacyPolicyUrl },
+						new Setting { Name = "Terms of Use", IsButton = true, ButtonUrl = TermsOfUseUrl },
+						new Setting { Name = "Privacy Policy", IsButton = true, ButtonUrl = PrivacyPolicyUrl },
+						new Setting { Name = "Open Source", IsButton = true, ButtonUrl = OpenSourceNoticeUrl },
+						new Setting { Name = "Built in C# with Xamarin", IsButton = true, ButtonUrl = XamarinUrl },
 					};
 
 					settingsData = new Dictionary<string, List<Setting>>
