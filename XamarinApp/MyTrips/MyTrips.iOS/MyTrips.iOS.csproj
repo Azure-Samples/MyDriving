@@ -361,7 +361,10 @@
     <Compile Include="Cells\SettingDetailTextFieldTableViewCell.designer.cs">
       <DependentUpon>SettingDetailTextFieldTableViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\SpotlightSearch.cs" />
+    <Compile Include="Screens\TripSummaryTableViewController.cs" />
+    <Compile Include="Screens\TripSummaryTableViewController.designer.cs">
+      <DependentUpon>TripSummaryTableViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -399,6 +402,7 @@
     <BundleResource Include="Resources\769-male.png" />
     <BundleResource Include="Resources\769-male%402x.png" />
     <BundleResource Include="Resources\769-male%403x.png" />
+    <BundleResource Include="Resources\.DS_Store" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">

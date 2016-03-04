@@ -23,9 +23,9 @@ namespace MyTrips.iOS
 		TripMapViewDelegate mapDelegate;
 
 		CurrentTripViewModel CurrentTripViewModel { get; set; }
+
 		public PastTripsDetailViewModel PastTripsDetailViewModel { get; set; }
 
-		public CurrentTripViewController() { }
 		public CurrentTripViewController (IntPtr handle) : base (handle)
 		{
 		}
@@ -215,6 +215,10 @@ namespace MyTrips.iOS
 
 				NavigationItem.RightBarButtonItem.Clicked -= TakePhotoButton_Clicked;
 				NavigationItem.SetRightBarButtonItem(null, true);
+
+				var vc = Storyboard.InstantiateViewController("tripSummaryTableViewController") as TripSummaryTableViewController;
+				PresentModalViewController(vc, true);
+
 			}
 
 			// Add start or end waypoint
