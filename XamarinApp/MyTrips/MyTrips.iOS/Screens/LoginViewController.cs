@@ -77,5 +77,14 @@ namespace MyTrips.iOS
                     break;
             }
         }
+
+		partial void BtnSkipAuth_TouchUpInside(UIButton sender)
+		{
+			var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
+			var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
+			viewController.SelectedIndex = 1;
+			app.Window.RootViewController = viewController;
+			viewModel.InitFakeUser();
+		}
 	}
 }

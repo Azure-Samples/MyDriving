@@ -308,7 +308,7 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="BtnMicrosoft_TouchUpInside:" destination="xFX-AO-ONA" eventType="touchUpInside" id="8Ln-lZ-0Yt"/>
+                                    <action selector="BtnSkipAuth_TouchUpInside:" destination="xFX-AO-ONA" id="1466" eventType="touchUpInside"/>
                                 </connections>
                             </button>
                         </subviews>

@@ -46,6 +46,10 @@ namespace MyTrips.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void BtnMicrosoft_TouchUpInside (UIKit.UIButton sender);
 
+        [Action ("BtnSkipAuth_TouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void BtnSkipAuth_TouchUpInside (UIKit.UIButton sender);
+
         void ReleaseDesignerOutlets ()
         {
             if (btnFacebook != null) {
