@@ -22,6 +22,7 @@ namespace smarttripsService.Controllers
 
         // GET api/values
         [HttpGet]
+        [Authorize]
         public async Task<IEnumerable<Device>> Get()
         {
             ensureRegistryManagerInitialized();
@@ -30,6 +31,7 @@ namespace smarttripsService.Controllers
 
         // POST api/values
         [HttpPost]
+        [Authorize]
         public async Task<IHttpActionResult> Post(string userId, string deviceName)
         {
             Device device;

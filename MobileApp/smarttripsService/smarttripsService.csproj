@@ -226,6 +226,7 @@
     <Compile Include="Controllers\ProvisionController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="DataObjects\UserProfile.cs" />
+    <Compile Include="Helpers\IdentitiyHelper.cs" />
     <Compile Include="Helpers\QueryableExpandAttribute.cs" />
     <Compile Include="Migrations\201602240246359_Init.cs" />
     <Compile Include="Migrations\201602240246359_Init.Designer.cs">

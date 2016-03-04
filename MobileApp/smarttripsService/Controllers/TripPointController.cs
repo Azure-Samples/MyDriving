@@ -24,24 +24,28 @@ namespace smarttripsService.Controllers
         }
 
         // GET tables/TodoItem
+        [Authorize]
         public IQueryable<TripPoint> GetAllTripPoints()
         {
             return Query();
         }
 
         // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [Authorize]
         public SingleResult<TripPoint> GetTripPoint(string id)
         {
             return Lookup(id);
         }
 
         // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [Authorize]
         public Task<TripPoint> PatchTripPoint(string id, Delta<TripPoint> patch)
         {
             return UpdateAsync(id, patch);
         }
 
-        public async Task<IHttpActionResult> PostTripPoints(IEnumerable<TripPoint> tripPoints)
+
+        /*public async Task<IHttpActionResult> PostTripPoints(IEnumerable<TripPoint> tripPoints)
         {
             foreach(var point in tripPoints)
             {
@@ -63,9 +67,10 @@ namespace smarttripsService.Controllers
                 }
             }
             return Created("tables/trippoints", tripPoints);
-        }
+        }*/
 
         // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [Authorize]
         public Task DeleteTripPoint(string id)
         {
             return DeleteAsync(id);

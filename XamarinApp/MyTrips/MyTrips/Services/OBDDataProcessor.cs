@@ -94,10 +94,10 @@ namespace MyTrips.Services
             //Package the trip data gathered from the phone
             IOTHubData iotHubData = new IOTHubData();
             iotHubData.Id = currentTrip.Id;
-            iotHubData.TripName = currentTrip.TripId;
+            iotHubData.TripName = currentTrip.Name;
             iotHubData.UserId = currentTrip.UserId;
             iotHubData.TimeStamp = currentTrip.TimeStamp;
-            iotHubData.TripPoints = JsonConvert.SerializeObject(currentTrip.Trail);
+            iotHubData.TripPoints = JsonConvert.SerializeObject(currentTrip.Points);
 
             //And package it with the OBD data
             iotHubData.OBDData = this.obdDataBuffer.ToString();
