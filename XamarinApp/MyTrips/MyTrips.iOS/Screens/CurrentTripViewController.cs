@@ -46,6 +46,16 @@ namespace MyTrips.iOS
 			}
 		}
 
+		public override async void ViewWillAppear(bool animated)
+		{
+			base.ViewWillAppear(animated);
+
+			if (CurrentTripViewModel != null && !CurrentTripViewModel.IsRecording)
+			{
+				await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync();
+			}
+		}
+
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
@@ -53,6 +63,16 @@ namespace MyTrips.iOS
 			if (recordButton.Hidden == true && PastTripsDetailViewModel == null)
 			{
 				recordButton.Pop(0.5, 0, 1);
+			}
+		}
+
+		public override async void ViewWillDisappear(bool animated)
+		{
+			base.ViewWillDisappear(animated);
+
+			if (CurrentTripViewModel != null && !CurrentTripViewModel.IsRecording)
+			{
+				await CurrentTripViewModel.ExecuteStopTrackingTripCommandAsync();
 			}
 		}
 
