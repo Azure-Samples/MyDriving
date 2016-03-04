@@ -13,9 +13,16 @@ namespace MyTrips.iOS
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+
+			imgAvatar.Layer.CornerRadius = imgAvatar.Frame.Width / 2;
+			imgAvatar.Layer.BorderWidth = 2;
+			imgAvatar.Layer.BorderColor = "15A9FE".ToUIColor().CGColor;
+			imgAvatar.Layer.MasksToBounds = true;
+
+		
 		}
 
-
+		/*
 		#region UITableViewSource
 
 		public override nint RowsInSection(UITableView tableView, nint section)
@@ -38,5 +45,6 @@ namespace MyTrips.iOS
 			return cell;
 		}
 		#endregion
+		*/
     }
 }

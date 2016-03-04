@@ -44,5 +44,11 @@ namespace MyTrips.DataStore.Mock.Stores
             this.iotHubData.Remove(dataItem);
             return Task.FromResult(true);
         }
+
+        public override Task<bool> DropTable()
+        {
+            this.iotHubData.Clear();
+            return Task.FromResult(true);
+        }
     }
 }

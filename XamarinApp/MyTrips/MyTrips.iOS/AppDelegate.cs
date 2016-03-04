@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using CoreSpotlight;
 using Foundation;
 using UIKit;
 
 using MyTrips.Utils;
 using MyTrips.Interfaces;
 using MyTrips.iOS.Helpers;
+using MyTrips.ViewModel;
 
 using HockeyApp;
 using MyTrips.DataStore.Abstractions;
@@ -28,7 +30,10 @@ namespace MyTrips.iOS
 //            ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
             //            ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
             Xamarin.Insights.Initialize(Logger.InsightsKey);
-			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
+			
+            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+            SQLitePCL.CurrentPlatform.Init();
+            if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
 			{
 				Setup.EnableCustomCrashReporting(() =>
 					{
@@ -43,8 +48,7 @@ namespace MyTrips.iOS
 					});
 			}
 
-			// if (!Settings.Current.IsLoggedIn)
-			if (false)
+			if (!Settings.Current.IsLoggedIn)
 			{
 				var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("loginViewController"); // Storyboard.InstantiateViewController("loginViewController");
 				Window.RootViewController = viewController;
@@ -59,9 +63,6 @@ namespace MyTrips.iOS
 		}
 
 		#region Background Refresh
-
-		// Minimum number of seconds between a background refresh
-		// 15 minutes = 15 * 60 = 900 seconds
 		private const double MINIMUM_BACKGROUND_FETCH_INTERVAL = 900;
 
 		private void SetMinimumBackgroundFetchInterval()
@@ -69,14 +70,11 @@ namespace MyTrips.iOS
 			UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(MINIMUM_BACKGROUND_FETCH_INTERVAL);
 		}
 
-		// Called whenever your app performs a background fetch
 		public override async void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
 		{
-			// Do Background Fetch
 			var downloadSuccessful = false;
 			try
 			{
-				// Download data
 				var manager = ServiceLocator.Instance.Resolve<IStoreManager>() as DataStore.Azure.StoreManager;
 				if (manager != null)
 				{
@@ -90,8 +88,6 @@ namespace MyTrips.iOS
 				Logger.Instance.Report(ex);			
 			}
 
-			// If you don't call this, your application will be terminated by the OS.
-			// Allows OS to collect stats like data cost and power consumption
 			if (downloadSuccessful)
 			{
 				completionHandler(UIBackgroundFetchResult.NewData);
@@ -102,7 +98,35 @@ namespace MyTrips.iOS
 		}
 
 		#endregion
+		#region CoreSpotlight Search
+		public override bool ContinueUserActivity(UIApplication application, NSUserActivity userActivity, UIApplicationRestorationHandler completionHandler)
+		{
+			if (userActivity.ActivityType == CSSearchableItem.ActionType)
+			{
+				var uuid = userActivity.UserInfo.ObjectForKey(CSSearchableItem.ActivityIdentifier);
+
+				if (uuid == null)
+					return true;
+
+				var appDelegate = (AppDelegate)application.Delegate;
+				var tabBarController = (UITabBarController) appDelegate.Window.RootViewController;
+				tabBarController.SelectedIndex = 0;
+				var navigationController = (UINavigationController)tabBarController.ViewControllers[0];
+				var tripsViewController = (TripsTableViewController) navigationController.TopViewController;
+				tripsViewController.NavigationController.PopToRootViewController(false);
+
+				var trip = tripsViewController.ViewModel.Trips[Int32.Parse(uuid.ToString())];
+
+				var currentTripVc = UIStoryboard.FromName("Main", null).InstantiateViewController("CURRENT_TRIP_STORYBIARD_IDENTIFIER") as CurrentTripViewController;
+				currentTripVc.PastTripsDetailViewModel = new PastTripsDetailViewModel(trip);
+				tripsViewController.NavigationController.PushViewController(currentTripVc, false);
+			}
+
+			return true;
+		}
+		#endregion
 	}
+
 
     [Register("TripApplication")]
     public class TripApplication : UIApplication

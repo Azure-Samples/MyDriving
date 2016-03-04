@@ -25,9 +25,10 @@ namespace MyTrips.DataStore.Azure.Stores
 
         
 
-        public void DropTable()
+        public virtual Task<bool> DropTable()
         {
             table = null;
+            return Task.FromResult(true);
         }
 
         public BaseStore()
@@ -123,9 +124,9 @@ namespace MyTrips.DataStore.Azure.Stores
 
                     return false;
                 }
+                await PullLatestAsync().ConfigureAwait(false);
                 await client.SyncContext.PushAsync().ConfigureAwait(false);
-                if(!(await PullLatestAsync().ConfigureAwait(false)))
-                    return false;
+
             }
             catch(Exception ex)
             {

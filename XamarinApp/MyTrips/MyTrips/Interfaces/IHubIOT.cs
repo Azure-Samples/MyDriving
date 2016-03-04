@@ -10,6 +10,6 @@ namespace MyTrips.Interfaces
     {
         void Initialize(string connectionStr);
 
-        Task SendEvent(string blob);
+        Task SendEvents(IEnumerable<String> blobs);
     }
 }

@@ -5,11 +5,14 @@ using System.Collections.Generic;
 using Foundation;
 using UIKit;
 using MyTrips.Model;
+using MyTrips.ViewModel;
 
 namespace MyTrips.iOS
 {
 	public partial class SettingsDetailViewController : UIViewController
 	{
+		public string SettingKey { get; set; }
+		public SettingsViewModel ViewModel;
 		public Setting Setting { get; set; }
 
 		public SettingsDetailViewController (IntPtr handle) : base (handle)
@@ -21,17 +24,33 @@ namespace MyTrips.iOS
 			base.ViewDidLoad();
 
 			NavigationItem.Title = Setting.Name;
-			settingsDetailTableView.Source = new SettingsDetailTableViewSource(Setting);
+			settingsDetailTableView.Source = new SettingsDetailTableViewSource(SettingKey, Setting, ViewModel);
+
+			NSNotificationCenter.DefaultCenter.AddObserver(new NSString ("SettingTextFieldChanged"), HandleSettingChangedNotification); 
+		}
+
+		void HandleSettingChangedNotification(NSNotification obj)
+		{
+			var dict = (NSDictionary) obj.Object;
+			var row = dict.ObjectForKey(new NSString("Row")) as NSString;
+			var section = dict.ObjectForKey(new NSString("Section")) as NSString;
+			var value = dict.ObjectForKey(new NSString("Value")) as NSString;
+
+			ViewModel.SettingsData[section.ToString ()][Int32.Parse(row.ToString ())].Value = value.ToString();
 		}
 	}
 
 	public class SettingsDetailTableViewSource : UITableViewSource
 	{
 		Setting setting;
+		string key;
+		SettingsViewModel ViewModel;
 
-		public SettingsDetailTableViewSource(Setting setting)
+		public SettingsDetailTableViewSource(string key, Setting setting, SettingsViewModel ViewModel)
 		{
 			this.setting = setting;
+			this.ViewModel = ViewModel;
+			this.key = key;
 		}
 
 		public override string TitleForHeader(UITableView tableView, nint section)
@@ -49,29 +68,37 @@ namespace MyTrips.iOS
 
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
 		{
-			setting.Value = setting.PossibleValues[indexPath.Row];
-
-			var cells = tableView.VisibleCells;
-			int i = 0;
-			foreach (var cell in cells)
+			if (!setting.IsButton)
 			{
-				var value = setting.PossibleValues[i];
-				if (setting.Value != value)
+				setting.Value = setting.PossibleValues[indexPath.Row];
+
+				var cells = tableView.VisibleCells;
+				int i = 0;
+				foreach (var cell in cells)
 				{
-					cell.Accessory = UITableViewCellAccessory.None;
-				}
-				else
-				{
-					cell.Accessory = UITableViewCellAccessory.Checkmark;
+					var value = setting.PossibleValues[i];
+					if (setting.Value != value)
+					{
+						cell.Accessory = UITableViewCellAccessory.None;
+					}
+					else
+					{
+						cell.Accessory = UITableViewCellAccessory.Checkmark;
+					}
+
+					i++;
 				}
 
-				i++;
+				NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshSettingsTable", null);
 			}
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			return setting.PossibleValues.Count;
+			if (!setting.IsTextField)
+				return setting.PossibleValues.Count;
+			else
+				return 1;
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
@@ -81,15 +108,29 @@ namespace MyTrips.iOS
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			var cell = tableView.DequeueReusableCell("SETTING__DETAIL_VALUE_CELL") as SettingDetailTableViewCell;
+			if (!setting.IsTextField)
+			{
+				var cell = tableView.DequeueReusableCell("SETTING__DETAIL_VALUE_CELL") as SettingDetailTableViewCell;
 
-			cell.Name = setting.PossibleValues[indexPath.Row];
-			cell.Accessory = UITableViewCellAccessory.None;
+				cell.Name = setting.PossibleValues[indexPath.Row];
+				cell.Accessory = UITableViewCellAccessory.None;
 
-			if (cell.Name == setting.Value)
-				cell.Accessory = UITableViewCellAccessory.Checkmark;
+				if (cell.Name == setting.Value)
+					cell.Accessory = UITableViewCellAccessory.Checkmark;
 
-			return cell;
+				return cell;
+			}
+			else 
+			{
+				var cell = tableView.DequeueReusableCell("SETTING_DETAIL_TEXTFIELD_CELL") as SettingDetailTextFieldTableViewCell;
+
+				cell.Row = indexPath.Row.ToString ();;
+				cell.Section = key;
+
+				cell.Value = setting.Value != null ? setting.Value : string.Empty;
+
+				return cell;
+			}
 		}
 	}	
 }
