@@ -22,7 +22,7 @@ namespace MyTrips.DataStore.Mock.Stores
 
             var pt = new TripPoint();
             pt.TripId = id.ToString();
-            pt.SequenceId = id;
+            pt.Sequence = id;
             pt.Latitude = lat;
             pt.Longitude = lng;
             pt.TimeStamp = timestamp;
