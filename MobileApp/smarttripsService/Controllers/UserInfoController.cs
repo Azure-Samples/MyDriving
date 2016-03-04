@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using MyTrips.DataObjects;
 using smarttripsService.Models;
+using LinqToTwitter;
+using System.Configuration;
 
 namespace smarttripsService.Controllers
 {
@@ -52,6 +54,7 @@ namespace smarttripsService.Controllers
                 else
                 {
                     userId = twitterCredentials.UserId;
+                    await FillDataFromTwitter(userProfile, twitterCredentials);
                 }
 
 
@@ -97,9 +100,40 @@ namespace smarttripsService.Controllers
             }
         }
 
-        static async Task FillDataFromTwitter(DataObjects.UserProfile userProfile)
+        static async Task FillDataFromTwitter(DataObjects.UserProfile userProfile, TwitterCredentials credentials)
         {
-            //var twitterId = .substring(userId.indexOf(':') + 1);
+            var twitterId = ulong.Parse(credentials.UserId.Substring(credentials.UserId.IndexOf(':') + 1));
+            var auth = new MvcAuthorizer
+            {
+                CredentialStore = new LinqToTwitter.SessionStateCredentialStore
+                {
+                    OAuthToken = credentials.AccessToken,
+                    OAuthTokenSecret = credentials.AccessTokenSecret,
+                    ConsumerKey = "key",
+                    ConsumerSecret = "secret",
+                    UserID = twitterId
+                }
+            };
+
+            await auth.AuthorizeAsync();
+
+            var ctx = new TwitterContext(auth);
+
+            var userResponse =
+              await
+              (from user in ctx.User
+               where user.Type == UserType.Lookup &&
+                     user.UserID == twitterId
+               select user)
+              .ToListAsync();
+
+            if (userResponse.Count == 0)
+                return;
+
+            var twitterUser = userResponse[0];
+            userProfile.FirstName = twitterUser.Name;
+            userProfile.LastName = string.Empty;
+            userProfile.ProfilePictureUri = twitterUser.ProfileImageUrlHttps;
 
         }
 
