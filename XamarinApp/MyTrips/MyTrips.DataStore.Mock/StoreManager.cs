@@ -35,6 +35,8 @@ namespace MyTrips.DataStore.Mock
         IUserStore userStore;
         public IUserStore UserStore => userStore ?? (userStore = ServiceLocator.Instance.Resolve<IUserStore>());
 
+        IHubIOTStore iotHubStore;
+        public IHubIOTStore IOTHubStore => iotHubStore ?? (iotHubStore = ServiceLocator.Instance.Resolve<IHubIOTStore>());
 
         #endregion
     }

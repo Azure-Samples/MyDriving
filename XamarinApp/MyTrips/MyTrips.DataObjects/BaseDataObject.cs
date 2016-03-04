@@ -28,9 +28,7 @@ namespace MyTrips.DataObjects
         {
             Id = Guid.NewGuid().ToString();
         }
-
-        public bool IsHidden { get; set; }
-
+        
         [Newtonsoft.Json.JsonProperty("Id")]
         public string Id { get; set; }
 

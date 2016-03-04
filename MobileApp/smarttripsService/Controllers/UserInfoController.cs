@@ -21,7 +21,7 @@ namespace smarttripsService.Controllers
     {
         const string FacebookGraphUrl = "https://graph.facebook.com/v2.5/me?fields=first_name%2Clast_name%2Cpicture%7Burl%7D&access_token=";
         const string MicrosoftUrl = "https://apis.live.net/v5.0/me?access_token=";
-
+        const string TwitterUrl = "https://api.twitter.com/1.1/users/show.json?user_id=";
 
         // GET api/UserInfo
         public async Task<DataObjects.UserProfile> Get()
@@ -48,6 +48,10 @@ namespace smarttripsService.Controllers
                 {
                     userId = msCredentials.UserId;
                     await FillDataFromMS(userProfile, msCredentials.AccessToken);
+                }
+                else
+                {
+                    userId = twitterCredentials.UserId;
                 }
 
 
@@ -91,6 +95,12 @@ namespace smarttripsService.Controllers
                 var url = JObject.Parse(data)?.GetValue("url")?.ToString() ?? string.Empty;
                 userProfile.ProfilePictureUri = url;
             }
+        }
+
+        static async Task FillDataFromTwitter(DataObjects.UserProfile userProfile)
+        {
+            //var twitterId = .substring(userId.indexOf(':') + 1);
+
         }
 
 

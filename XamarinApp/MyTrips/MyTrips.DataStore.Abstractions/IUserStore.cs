@@ -3,7 +3,7 @@ using MyTrips.DataObjects;
 
 namespace MyTrips.DataStore.Abstractions
 {
-    public interface IUserStore : IBaseStore<User>
+    public interface IUserStore : IBaseStore<UserProfile>
     {
     }
 }

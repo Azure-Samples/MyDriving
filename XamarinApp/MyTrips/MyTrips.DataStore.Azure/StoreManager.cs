@@ -33,27 +33,25 @@ namespace MyTrips.DataStore.Azure
             //setup our local sqlite store and intialize our table
             var store = new MobileServiceSQLiteStore(path);
 
-            store.DefineTable<User>();
+            store.DefineTable<UserProfile>();
             store.DefineTable<Tip>();
             store.DefineTable<TripPoint>();
             store.DefineTable<Photo>();
             store.DefineTable<Trip>();
+            store.DefineTable<IOTHubData>();
 
             await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler()).ConfigureAwait(false);
-
 
             IsInitialized = true;
         }
 
         public async Task<bool> SyncAllAsync(bool syncUserSpecific)
         {
-
             if(!IsInitialized)
                 await InitializeAsync();
 
             var taskList = new List<Task<bool>>();
             taskList.Add(TripStore.SyncAsync());
-
 
             var successes = await Task.WhenAll(taskList).ConfigureAwait(false);
             return successes.Any(x => !x);//if any were a failure.
@@ -81,6 +79,9 @@ namespace MyTrips.DataStore.Azure
 
         IUserStore userStore;
         public IUserStore UserStore => userStore ?? (userStore = ServiceLocator.Instance.Resolve<IUserStore>());
+
+        IHubIOTStore iotHubStore;
+        public IHubIOTStore IOTHubStore => iotHubStore ?? (iotHubStore = ServiceLocator.Instance.Resolve<IHubIOTStore>());
 
         #endregion
     }

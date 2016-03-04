@@ -80,5 +80,4 @@ namespace MyTrips.DataObjects
 
         #endif
     }
-
 }

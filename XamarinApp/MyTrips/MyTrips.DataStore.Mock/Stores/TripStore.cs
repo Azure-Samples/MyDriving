@@ -19,8 +19,10 @@ namespace MyTrips.DataStore.Mock.Stores
         IPhotoStore photoStore;
         static void AddTripDetails(Trip trip, int id, double lat, double lng, DateTime timestamp)
         {
+
             var pt = new TripPoint();
             pt.TripId = id.ToString();
+            pt.SequenceId = id;
             pt.Latitude = lat;
             pt.Longitude = lng;
             pt.TimeStamp = timestamp;

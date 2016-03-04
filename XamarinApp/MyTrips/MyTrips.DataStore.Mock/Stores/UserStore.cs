@@ -7,12 +7,12 @@ using System.Collections.Generic;
 
 namespace MyTrips.DataStore.Mock.Stores
 {
-    public class UserStore : BaseStore<User>, IUserStore
+    public class UserStore : BaseStore<UserProfile>, IUserStore
     {
-        public override Task<IEnumerable<User>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
+        public override Task<IEnumerable<UserProfile>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
-            var items = new List<User>();
-            items.Add(new User
+            var items = new List<UserProfile>();
+            items.Add(new UserProfile
             {
                 FirstName = "Scott",
                 LastName = "Gu",
@@ -25,7 +25,7 @@ namespace MyTrips.DataStore.Mock.Stores
                 UserId = "1"
             });
 
-            return Task.FromResult(items as IEnumerable<User>);
+            return Task.FromResult(items as IEnumerable<UserProfile>);
         }
     }
 }

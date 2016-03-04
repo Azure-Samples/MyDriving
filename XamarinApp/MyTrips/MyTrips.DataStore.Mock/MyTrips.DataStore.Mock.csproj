@@ -37,6 +37,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoreManager.cs" />
     <Compile Include="Stores\BaseStore.cs" />
+    <Compile Include="Stores\IOTHubStore.cs" />
     <Compile Include="Stores\TripStore.cs" />
     <Compile Include="Stores\PhotoStore.cs" />
     <Compile Include="Stores\UserStore.cs" />
@@ -79,9 +80,7 @@
       <Name>MyTrips.DataStore.Abstractions</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Stores\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="sampletrip.json">
       <LogicalName>sampletrip.json</LogicalName>

@@ -143,6 +143,7 @@ namespace MyTrips.ViewModel
                     TimeStamp = DateTime.UtcNow,
                     Latitude = CurrentPosition.Latitude,
                     Longitude = CurrentPosition.Longitude,
+                    Sequence = CurrentTrip.Points.Count
                 };
 
                 CurrentTrip.Points.Add (point);
@@ -150,9 +151,9 @@ namespace MyTrips.ViewModel
                 //Only call for WinPhone for now since the OBD wrapper isn't available yet for android\ios
                 if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
                 {
-                    //Read data from the OBD device and push it to the IOT Hub
+                    //Read data from the OBD device
                     await this.obdDataProcessor.Initialize();
-                    await this.obdDataProcessor.ProcessOBDData();
+                    await this.obdDataProcessor.StartReadingOBDData();
                 }
             }
             catch(Exception ex)
@@ -171,13 +172,6 @@ namespace MyTrips.ViewModel
         {
             if (IsBusy || !IsRecording)
                 return false;
-
-            //Only call for WinPhone for now since the OBD wrapper isn't available yet for android\ios
-            if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
-            {
-                //Stop reading data from the OBD device
-                this.obdDataProcessor.StopReadingOBDData();
-            }
 
             var track = Logger.Instance.TrackTime("SaveRecording");
            
@@ -209,6 +203,16 @@ namespace MyTrips.ViewModel
                     CurrentTrip.Name = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
 
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
+
+                //Only call for WinPhone for now since the OBD wrapper isn't available yet for android\ios
+                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
+                {
+                    //Stop reading data from the OBD device
+                    await this.obdDataProcessor.StopReadingOBDData();
+
+                    //Push data to the IOT Hub - this includes data read from OBD device packaged with the CurrentTrip data
+                    await this.obdDataProcessor.PushTripData(CurrentTrip);
+                }
 
                 foreach (var photo in photos)
                 {
@@ -313,6 +317,7 @@ namespace MyTrips.ViewModel
 					TimeStamp = DateTime.UtcNow,
 					Latitude = userLocation.Latitude,
 					Longitude = userLocation.Longitude,
+                    Sequence = CurrentTrip.Points.Count
 				};
 
 
