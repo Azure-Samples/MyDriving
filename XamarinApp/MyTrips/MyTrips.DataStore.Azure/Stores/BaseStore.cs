@@ -25,9 +25,10 @@ namespace MyTrips.DataStore.Azure.Stores
 
         
 
-        public void DropTable()
+        public virtual Task<bool> DropTable()
         {
             table = null;
+            return Task.FromResult(true);
         }
 
         public BaseStore()

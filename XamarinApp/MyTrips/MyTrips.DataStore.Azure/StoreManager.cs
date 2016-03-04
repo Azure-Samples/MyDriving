@@ -16,6 +16,8 @@ namespace MyTrips.DataStore.Azure
     {
         #region IStoreManager implementation
 
+        MobileServiceSQLiteStore store;
+
         public async Task InitializeAsync()
         {
             if (IsInitialized)
@@ -31,7 +33,7 @@ namespace MyTrips.DataStore.Azure
             
             var path = $"syncstore{Settings.Current.DatabaseId}.db";
             //setup our local sqlite store and intialize our table
-            var store = new MobileServiceSQLiteStore(path);
+            store = new MobileServiceSQLiteStore(path);
 
             store.DefineTable<Telemetry>();
             store.DefineTable<Trail>();
