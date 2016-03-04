@@ -37,22 +37,20 @@ namespace MyTrips.DataStore.Azure
             store.DefineTable<Trail>();
             store.DefineTable<Photo>();
             store.DefineTable<Trip>();
+            store.DefineTable<IOTHubData>();
 
             await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler()).ConfigureAwait(false);
-
 
             IsInitialized = true;
         }
 
         public async Task<bool> SyncAllAsync(bool syncUserSpecific)
         {
-
             if(!IsInitialized)
                 await InitializeAsync();
 
             var taskList = new List<Task<bool>>();
             taskList.Add(TripStore.SyncAsync());
-
 
             var successes = await Task.WhenAll(taskList).ConfigureAwait(false);
             return successes.Any(x => !x);//if any were a failure.
@@ -77,6 +75,9 @@ namespace MyTrips.DataStore.Azure
 
         IPhotoStore photoStore;
         public IPhotoStore PhotoStore => photoStore ?? (photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
+
+        IHubIOTStore iotHubStore;
+        public IHubIOTStore IOTHubStore => iotHubStore ?? (iotHubStore = ServiceLocator.Instance.Resolve<IHubIOTStore>());
 
         #endregion
     }
