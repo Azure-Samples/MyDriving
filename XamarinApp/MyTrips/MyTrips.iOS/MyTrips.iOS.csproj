@@ -402,7 +402,6 @@
     <BundleResource Include="Resources\769-male.png" />
     <BundleResource Include="Resources\769-male%402x.png" />
     <BundleResource Include="Resources\769-male%403x.png" />
-    <BundleResource Include="Resources\.DS_Store" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">
