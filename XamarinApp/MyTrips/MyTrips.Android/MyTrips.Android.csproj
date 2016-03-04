@@ -27,7 +27,6 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
     <AndroidKeyStore>True</AndroidKeyStore>
@@ -48,6 +47,10 @@
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClientDeviceAndroid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ClientDeviceAndroid.dll</HintPath>
+    </Reference>
     <Reference Include="HockeyApp.Android">
       <HintPath>..\..\Components\hockeyappandroid-3.7.0.0\lib\android\HockeyApp.Android.dll</HintPath>
     </Reference>
@@ -244,6 +247,10 @@
       <Project>{29B6B823-6639-4942-9723-0075BBEF7C69}</Project>
       <Name>MyTrips.AzureClient</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\OBDLibrary\ObdLibAndroid\ObdLibAndroid.csproj">
+      <Project>{9A377DF7-3E28-4B4B-8BD2-61416F7AEA1F}</Project>
+      <Name>ObdLibAndroid</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Settings.cs" />
@@ -264,6 +271,7 @@
     <Compile Include="Helpers\AccelerometerManager.cs" />
     <Compile Include="Controls\RatingCircle.cs" />
     <Compile Include="Fragments\FragmentProfile.cs" />
+    <Compile Include="Activities\TripSummaryActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -358,6 +366,7 @@
     <AndroidResource Include="Resources\drawable\navigation_header.png" />
     <AndroidResource Include="Resources\drawable\navigation_logo.png" />
     <AndroidResource Include="Resources\drawable\logo.png" />
+    <AndroidResource Include="Resources\layout\activity_trip_summary.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -413,5 +422,5 @@
   <ItemGroup>
     <AndroidEnvironment Include="environment.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />
 </Project>

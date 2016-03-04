@@ -32,6 +32,8 @@ namespace MyTrips.DataStore.Mock
         IPhotoStore photoStore;
         public IPhotoStore PhotoStore => photoStore ?? (photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
 
+        IHubIOTStore iotHubStore;
+        public IHubIOTStore IOTHubStore => iotHubStore ?? (iotHubStore = ServiceLocator.Instance.Resolve<IHubIOTStore>());
 
         #endregion
     }

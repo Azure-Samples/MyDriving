@@ -50,5 +50,18 @@ namespace MyTrips.UWP.Views
         {
             settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.SourceOnGitHubUrl);
         }
+
+        public void XamarinButton_Click(object sender, RoutedEventArgs e)
+        {
+            settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.XamarinUrl);
+        }
+
+        public async void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            await settingsViewModel.StoreManager.DropEverythingAsync();
+            settingsViewModel.Settings.CleanupUserProfile();
+
+            this.Frame.Navigate(typeof(LoginView));
+        }
     }
 }

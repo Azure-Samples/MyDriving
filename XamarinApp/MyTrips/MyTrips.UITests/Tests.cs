@@ -30,6 +30,14 @@ namespace MyTrips.UITests
         {
             app.Screenshot("First screen.");
         }
+
+        [Test]
+        public void GoToPastTrips()
+        {
+            app.Screenshot("First screen.");
+            app.Tap("Skip Auth");
+            app.Screenshot("Past Trips");
+        }
     }
 }
 

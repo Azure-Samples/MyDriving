@@ -8,8 +8,8 @@ namespace MyTrips.Interfaces
 {
     public interface IHubIOT
     {
-        Task Initialize(string connectionStr);
+        void Initialize(string connectionStr);
 
-        Task<bool> SendEvent(string blob);
+        Task SendEvent(string blob);
     }
 }

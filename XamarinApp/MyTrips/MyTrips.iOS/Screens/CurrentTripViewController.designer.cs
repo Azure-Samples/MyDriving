@@ -16,6 +16,10 @@ namespace MyTrips.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel endTimeLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel lblCost { get; set; }
 
         [Outlet]
@@ -40,6 +44,14 @@ namespace MyTrips.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView sliderView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel startTimeLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIBarButtonItem takePhotoButton { get; set; }
 
         [Outlet]
@@ -60,6 +72,11 @@ namespace MyTrips.iOS
 
         void ReleaseDesignerOutlets ()
         {
+            if (endTimeLabel != null) {
+                endTimeLabel.Dispose ();
+                endTimeLabel = null;
+            }
+
             if (lblCost != null) {
                 lblCost.Dispose ();
                 lblCost = null;
@@ -88,6 +105,16 @@ namespace MyTrips.iOS
             if (recordButton != null) {
                 recordButton.Dispose ();
                 recordButton = null;
+            }
+
+            if (sliderView != null) {
+                sliderView.Dispose ();
+                sliderView = null;
+            }
+
+            if (startTimeLabel != null) {
+                startTimeLabel.Dispose ();
+                startTimeLabel = null;
             }
 
             if (takePhotoButton != null) {

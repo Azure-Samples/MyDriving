@@ -50,6 +50,12 @@ namespace MyTrips.DataObjects
         public string TotalDistanceNoUnits => Distance.ToString("f");
 
         [JsonIgnore]
+        public string StartTimeDisplay => TimeStamp.ToLocalTime().ToString("t");
+
+        [JsonIgnore]
+        public string EndTimeDisplay => (Trail?.Count).GetValueOrDefault() > 0 ? Trail[Trail.Count - 1].TimeStamp.ToLocalTime().ToString("t") : string.Empty;
+
+        [JsonIgnore]
         public IList<Photo> Photos { get; set; }
 
         public IList<Trail> Trail { get; set; }
@@ -64,7 +70,8 @@ namespace MyTrips.DataObjects
             this.Telemetry = new List<Telemetry>();
         }
 
-        public int TrailId { get; set; }
+        public int SequenceId { get; set; }
+
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }

@@ -8,6 +8,7 @@ using MyTrips.Utils;
 using MyTrips.Interfaces;
 using MyTrips.Droid.Helpers;
 using Acr.UserDialogs;
+using MyTrips.Shared;
 
 namespace MyTrips.Droid
 {
@@ -25,6 +26,9 @@ namespace MyTrips.Droid
             RegisterActivityLifecycleCallbacks(this);
             ViewModel.ViewModelBase.Init();
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
+            ServiceLocator.Instance.Add<MyTrips.Utils.Interfaces.ILogger, MyTrips.Shared.PlatformLogger>();
+            ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
+            ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
             Xamarin.Insights.Initialize(Logger.InsightsKey, this);
             UserDialogs.Init(() => CrossCurrentActivity.Current.Activity);
         }

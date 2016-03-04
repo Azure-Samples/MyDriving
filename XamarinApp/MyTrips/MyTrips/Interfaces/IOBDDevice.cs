@@ -8,9 +8,7 @@ namespace MyTrips.Interfaces
 {
     public interface IOBDDevice
     {
-        Task Initialize();
-
-        bool IsReadingData { get; set; }
+        Task<bool> Initialize();
 
         Dictionary<String, String> ReadData();
 

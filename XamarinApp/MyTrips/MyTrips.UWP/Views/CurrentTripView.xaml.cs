@@ -144,7 +144,7 @@ namespace MyTrips.UWP.Views
                     //
                     startRecordBtn.IsEnabled = true;
 
-                    viewModel.StartTrackingTripCommand.Execute(null);
+            viewModel.StartTrackingTripCommand.Execute(null);
 
                     break;
 
@@ -160,13 +160,13 @@ namespace MyTrips.UWP.Views
                     break;
             }
         }
-    
+
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            //this should stop running only if not recording and should continue in the background
-            viewModel.StopTrackingTripCommand.Execute(null);    
+            //Ideally, we should stop tracking only if we aren't recording
+            viewModel.StopTrackingTripCommand.Execute(null);
         }
 
         private async void StartRecordBtn_Click(object sender, RoutedEventArgs e)
@@ -182,14 +182,14 @@ namespace MyTrips.UWP.Views
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
                 UpdateCarIcon(basicGeoposition);
                 await viewModel.StopRecordingTripAsync();
-            }
+        }
             else
             {
                 if (!await viewModel.StartRecordingTripAsync())
                     return;
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StopRecord.png", UriKind.Absolute));
                 AddStartMarker(basicGeoposition);
-                
+
                 UpdateCarIcon(basicGeoposition);
                 UpdateStats();
             }
@@ -334,12 +334,12 @@ namespace MyTrips.UWP.Views
         {
             var item = viewModel.CurrentTrip.Trail[viewModel.CurrentTrip.Trail.Count - 1];
             UpdateMap(item);
-         }
+        }
 
         private async void AddEndMarker(BasicGeoposition basicGeoposition)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
+        {
 
                 MapIcon mapEndIcon = new MapIcon();
                 mapEndIcon.Location = new Geopoint(basicGeoposition);

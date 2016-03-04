@@ -67,17 +67,17 @@ namespace MyTrips.UWP.Views
                 Locations.Add(basicGeoPosion);
             }
             mapPolyLine.Path = new Geopath(Locations);
-            
+
             mapPolyLine.ZIndex = 1;
             mapPolyLine.Visible = true;
             mapPolyLine.StrokeColor = Colors.Red;
             mapPolyLine.StrokeThickness = 3;
-         
+
             // Starting off with the first point as center
-            if ( Locations.Count > 0)
+            if (Locations.Count > 0)
                 MyMap.Center = new Geopoint(Locations.First());
-            
-            
+
+
             MyMap.MapElements.Add(mapPolyLine);
 
             // Draw Start Icon
@@ -94,14 +94,14 @@ namespace MyTrips.UWP.Views
             MapIcon mapEndIcon = new MapIcon();
             mapEndIcon.Location = new Geopoint(Locations.Last());
             mapEndIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-            mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png")); 
+            mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png"));
             mapEndIcon.ZIndex = 1;
             mapEndIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
             MyMap.MapElements.Add(mapEndIcon);
 
             // Draw the Car 
             DrawCarOnMap(Locations.First());
-       
+
         }
 
         private void DrawCarOnMap(BasicGeoposition basicGeoposition)
@@ -125,7 +125,7 @@ namespace MyTrips.UWP.Views
             var basicGeoposition = new BasicGeoposition { Latitude = location.Latitude, Longitude = location.Longitude };
             // Currently removing the Car from Map which is the last item added. 
             MyMap.MapElements.RemoveAt(MyMap.MapElements.Count - 1);
-            DrawCarOnMap(basicGeoposition) ;
+            DrawCarOnMap(basicGeoposition);
             await MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
         }
     }

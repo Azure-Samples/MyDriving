@@ -17,6 +17,7 @@ using MvvmHelpers;
 using Plugin.Media.Abstractions;
 using Plugin.Media;
 using Plugin.DeviceInfo;
+using MyTrips.Services;
 
 namespace MyTrips.ViewModel
 {
@@ -24,7 +25,7 @@ namespace MyTrips.ViewModel
     {
         public Trip CurrentTrip { get; private set; }
         List<Photo> photos;
-
+        OBDDataProcessor obdDataProcessor;
 
         bool isRecording;
 		public bool IsRecording
@@ -53,18 +54,24 @@ namespace MyTrips.ViewModel
 
             CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
             photos = new List<Photo>();
+
+            this.obdDataProcessor = new OBDDataProcessor();
+            this.obdDataProcessor.OnOBDDeviceDisconnected += ObdDataProcessor_OnOBDDeviceDisconnected;
 		}
+
+        private async void ObdDataProcessor_OnOBDDeviceDisconnected(object sender, EventArgs e)
+        {
+            await this.StopRecordingTripAsync();
+        }
 
 		public IGeolocator Geolocator => CrossGeolocator.Current;
 
         public IMedia Media => CrossMedia.Current;
 
-
- 
-        public Task<bool> StartRecordingTripAsync()
+        public async Task<bool> StartRecordingTripAsync()
         {
             if (IsBusy || IsRecording)
-                return Task.FromResult(false);
+                return false;
 
             try
             {
@@ -82,12 +89,13 @@ namespace MyTrips.ViewModel
                             BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139)
                         });
                     }
-                    return Task.FromResult(true);
+                    
+                    return true;
                 }
+
                 IsRecording = true;
 
                 CurrentTrip.TimeStamp = DateTime.UtcNow;
-
 
                 var trail = new Trail
                 {
@@ -96,8 +104,15 @@ namespace MyTrips.ViewModel
                     Longitude = CurrentPosition.Longitude,
                 };
 
-
                 CurrentTrip.Trail.Add (trail);
+
+                //Only call for WinPhone for now since the OBD wrapper isn't available yet for android\ios
+                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
+                {
+                    //Read data from the OBD device
+                    await this.obdDataProcessor.Initialize();
+                    await this.obdDataProcessor.StartReadingOBDData();
+            }
             }
             catch(Exception ex)
             {
@@ -107,7 +122,7 @@ namespace MyTrips.ViewModel
             {
             }
 
-            return Task.FromResult(true);
+            return true;
         }
 
    
@@ -116,15 +131,13 @@ namespace MyTrips.ViewModel
             if (IsBusy || !IsRecording)
                 return false;
 
+            var track = Logger.Instance.TrackTime("SaveRecording");
           
 
-            var track = Logger.Instance.TrackTime("SaveRecording");
-            Acr.UserDialogs.IProgressDialog progress = null;
-
+            var  progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
 
             if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS ||
-                CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
+                CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
             {
                 progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
                 progress.IsDeterministic = false;
@@ -153,9 +166,17 @@ namespace MyTrips.ViewModel
                 if(string.IsNullOrWhiteSpace(CurrentTrip.TripId))
                     CurrentTrip.TripId = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
 
-
-
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
+
+                //Only call for WinPhone for now since the OBD wrapper isn't available yet for android\ios
+                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
+                {
+                    //Stop reading data from the OBD device
+                    await this.obdDataProcessor.StopReadingOBDData();
+
+                    //Push data to the IOT Hub - this includes data read from OBD device packaged with the CurrentTrip data
+                    await this.obdDataProcessor.PushTripData(CurrentTrip);
+                }
 
                 foreach (var photo in photos)
                 {
@@ -178,7 +199,6 @@ namespace MyTrips.ViewModel
             {
                 track.Stop();
                 IsBusy = false;
-                progress?.Hide();
                 progress?.Dispose();
             }
 
@@ -210,12 +230,11 @@ namespace MyTrips.ViewModel
 				{
 
                     if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone                    )
+                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
                     {
                         Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
                                                                    "Geolcoation Disabled", "OK");
-                    }
+                    
 				}
 			}
 			catch (Exception ex) 
@@ -302,12 +321,11 @@ namespace MyTrips.ViewModel
 
 
                     if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
+                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
                     {
                         Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
                                                                    "Camera Disabled", "OK");
-                    }
+                    
                     return;
                 }
 
@@ -326,12 +344,17 @@ namespace MyTrips.ViewModel
                     return;
                 }
 
+
+                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
+                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
+                {
                 Acr.UserDialogs.UserDialogs.Instance.Toast(new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Photo taken!") 
                 { 
                     Duration = TimeSpan.FromSeconds(3), 
                     TextColor = System.Drawing.Color.White, 
                     BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139) 
                 });
+                }
 
                 var local = await locationTask;
                 var photoDB = new Photo

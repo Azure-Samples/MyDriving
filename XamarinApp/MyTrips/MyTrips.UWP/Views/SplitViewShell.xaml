@@ -24,27 +24,35 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"/>
         </Grid>
-        <SplitView x:Name="MyTripsSplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" CompactPaneLength="35" OpenPaneLength="125"   Grid.Row="1" Grid.ColumnSpan="2">
-        <SplitView.Pane>
+        <SplitView x:Name="MyTripsSplitView" DisplayMode="Overlay"  IsPaneOpen="False" CompactPaneLength="35" OpenPaneLength="125"   Grid.Row="1" Grid.ColumnSpan="2">
+            <SplitView.Pane>
                 <StackPanel Background="#162129">
                     <StackPanel Orientation="Horizontal">
-                    <Button x:Name="TripsButton" FontFamily="Segoe MDL2 Assets" Content="&#xE774;" Background="Transparent" Click="TripsButton_Click" />
-                    <TextBlock Text="Trips" VerticalAlignment="Center" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
+                        <Button x:Name="TripsButton" FontFamily="Segoe MDL2 Assets" Content="&#xE774;" Background="Transparent" Click="TripsButton_Click" />
+                        <TextBlock Text="Trips" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
                         <Button x:Name="NewTripButton" FontFamily="Segoe MDL2 Assets" Content="&#xE707;" Background="Transparent" Click="NewTripButton_Click"/>
-                    <TextBlock Text="New Trip" VerticalAlignment="Center" />
+                        <TextBlock Text="New Trip" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="RecommendedRoutesButton" FontFamily="Segoe MDL2 Assets" Content="&#xE734;" Background="Transparent" Click="RecommendedRoutesButton_Click"/>
+                        <TextBlock Text="Routes" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="ProfileButton" FontFamily="Segoe MDL2 Assets" Content="&#xE77B;" Background="Transparent" Click="ProfileButton_Click"/>
+                        <TextBlock Text="Profile" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="SettingsButton" FontFamily="Segoe MDL2 Assets" Content="&#xE713;" Background="Transparent" Click="SettingsButton_Click"/>
+                        <TextBlock Text="Settings" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="TripSummaryButton" FontFamily="Segoe MDL2 Assets" Content="&#xE734;" Background="Transparent" Click="TripSummaryButton_Click"/>
+                        <TextBlock Text="Debug/TripSummary" VerticalAlignment="Center" />
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="RecommendedRoutesButton" FontFamily="Segoe MDL2 Assets" Content="&#xE734;" Background="Transparent" Click="RecommendedRoutesButton_Click"/>
-                    <TextBlock Text="Routes" VerticalAlignment="Center" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="SettingsButton" FontFamily="Segoe MDL2 Assets" Content="&#xE713;" Background="Transparent" Click="SettingsButton_Click"/>
-                    <TextBlock Text="Settings" VerticalAlignment="Center" />
-                </StackPanel>
-            </StackPanel>
-        </SplitView.Pane>
-    </SplitView>
+            </SplitView.Pane>
+        </SplitView>
     </Grid>
 </Page>
