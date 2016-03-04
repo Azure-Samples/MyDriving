@@ -314,6 +314,10 @@ namespace MyTrips.iOS
 			endTimeLabel.Hidden = false;
 			startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
 			endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
+
+			// Configure UI
+			lblDistance.Text = PastTripsDetailViewModel.Trip.TotalDistanceNoUnits;
+			// lblDuration.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay
 		}
 
 		void ConfigureSlider()
