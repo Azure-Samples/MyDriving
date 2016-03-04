@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using CoreSpotlight;
@@ -18,15 +19,15 @@ namespace MyTrips.iOS
 			return Task.Run(() =>
 			{
 				CSSearchableIndex.DefaultSearchableIndex.DeleteAll(deleteError =>
-			   {
-				   if (deleteError != null)
-				   {
+				{
+					if (deleteError != null)
+					{
 						Logger.Instance.Report(new System.Exception("CoreSpotlight Index Deletion Failed"), new Dictionary<string, string>
 						{
 							{ "Message", deleteError.ToString () }
 						});
-				   }
-			   });
+					}
+				});
 
 				var i = 0;
 				var dataItems = new List<CSSearchableItem>();
@@ -43,15 +44,15 @@ namespace MyTrips.iOS
 				}
 
 				CSSearchableIndex.DefaultSearchableIndex.Index (dataItems.ToArray (), insertionError =>
-			   {
-				   if (insertionError != null)
-				   {
-					   Logger.Instance.Report(new System.Exception("CoreSpotlight Indexing Failed"), new Dictionary<string, string>
-					   {
+				{
+					if (insertionError != null)
+					{
+						Logger.Instance.Report(new System.Exception("CoreSpotlight Indexing Failed"), new Dictionary<string, string>
+						{
 							{ "Message", insertionError.ToString () }
-					   });
-				   }
-			   });
+						});
+					}
+				});
 			});
 		}
 	}
