@@ -307,6 +307,9 @@
                                 <state key="normal" title="Test Cloud (Skip Auth)">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="BtnSkipAuth_TouchUpInside:" destination="xFX-AO-ONA" id="1481" eventType="touchUpInside"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>

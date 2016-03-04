@@ -27,9 +27,15 @@ namespace MyTrips.iOS
 			btnSkipAuth.Alpha = 0;
 		}
 
-		public override async void ViewDidAppear(bool animated)
+		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
+
+            if (Settings.Current.IsLoggedIn)
+            {
+                GoToMain();
+                return;
+            }
 
             if (didAnimate)
                 return;
@@ -41,31 +47,17 @@ namespace MyTrips.iOS
 			btnSkipAuth.FadeIn(0.3, 0.9f);
 		}
 
-		async partial void BtnFacebook_TouchUpInside(UIButton sender)
-		{
-            await LoginAsync(LoginAccount.Facebook);
-        }
+		partial void BtnFacebook_TouchUpInside(UIButton sender) => LoginAsync(LoginAccount.Facebook);
 
-		async partial void BtnTwitter_TouchUpInside(UIButton sender)
-		{
-            await LoginAsync(LoginAccount.Twitter);
-        }
 
-		async partial void BtnMicrosoft_TouchUpInside(UIButton sender)
-		{
-            await LoginAsync(LoginAccount.Microsoft);
-		}
+        partial void BtnTwitter_TouchUpInside(UIButton sender) => LoginAsync(LoginAccount.Twitter);
 
-        async Task LoginAsync(LoginAccount account)
+
+        partial void BtnMicrosoft_TouchUpInside(UIButton sender) => LoginAsync(LoginAccount.Microsoft);
+
+
+        Task LoginAsync(LoginAccount account)
         {
-#if DEBUG
-			var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
-			var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
-			viewController.SelectedIndex = 1;
-			app.Window.RootViewController = viewController;
-            viewModel.InitFakeUser();
-            #endif
-
             switch (account)
             {
                 case LoginAccount.Facebook:
@@ -80,13 +72,16 @@ namespace MyTrips.iOS
             }
         }
 
-		partial void BtnSkipAuth_TouchUpInside(UIButton sender)
-		{
-			var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
-			var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
-			viewController.SelectedIndex = 1;
-			app.Window.RootViewController = viewController;
-			viewModel.InitFakeUser();
-		}
+        partial void BtnSkipAuth_TouchUpInside(UIButton sender) => GoToMain(true);
+
+        void GoToMain(bool fakeUser = false)
+        {
+            var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
+            var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
+            viewController.SelectedIndex = 1;
+            app.Window.RootViewController = viewController;
+            if(fakeUser)
+                viewModel.InitFakeUser();
+        }
 	}
 }
