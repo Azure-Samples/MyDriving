@@ -24,6 +24,7 @@ namespace MyTrips.iOS
 			btnFacebook.Alpha = 0;
 			btnTwitter.Alpha = 0;
 			btnMicrosoft.Alpha = 0;
+			btnSkipAuth.Alpha = 0;
 		}
 
 		public override async void ViewDidAppear(bool animated)
@@ -37,6 +38,7 @@ namespace MyTrips.iOS
 			btnFacebook.FadeIn(0.3, 0.3f);
 			btnTwitter.FadeIn(0.3, 0.5f);
 			btnMicrosoft.FadeIn(0.3, 0.7f);
+			btnSkipAuth.FadeIn(0.3, 0.9f);
 		}
 
 		async partial void BtnFacebook_TouchUpInside(UIButton sender)
