@@ -197,6 +197,9 @@
     <Reference Include="Plugin.Share.Abstractions">
       <HintPath>..\..\packages\Plugin.Share.4.0.0\lib\Xamarin.iOS10\Plugin.Share.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Acr.Support.iOS">
+      <HintPath>..\..\packages\Acr.Support.1.1.1\lib\Xamarin.iOS10\Acr.Support.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyTrips.DataStore.Abstractions\MyTrips.DataStore.Abstractions.csproj">
