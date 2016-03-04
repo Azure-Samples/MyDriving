@@ -48,7 +48,49 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref elapsedTime, value); }
         }
 
-		public CurrentTripViewModel()
+        string speed = "N/A";
+        public string Speed
+        {
+            get { return speed; }
+            set { SetProperty(ref speed, value); }
+        }
+
+        string speedUnits = "MPH";
+        public string SpeedUnits
+        {
+            get { return speedUnits; }
+            set { SetProperty(ref speedUnits, value); }
+        }
+
+        string emissions = "N/A";
+        public string Emissions
+        {
+            get { return emissions; }
+            set { SetProperty(ref emissions, value); }
+        }
+
+        string emissionUnits = "ERU";
+        public string EmissionUnits
+        {
+            get { return emissionUnits; }
+            set { SetProperty(ref emissionUnits, value); }
+        }
+
+        string distance = "0";
+        public string Distance
+        {
+            get { return distance; }
+            set { SetProperty(ref distance, value); }
+        }
+
+        string distanceUnits = "miles";
+        public string DistanceUnits
+        {
+            get { return distanceUnits; }
+            set { SetProperty(ref distanceUnits, value); }
+        }
+
+        public CurrentTripViewModel()
 		{
             CurrentTrip = new Trip();
 
@@ -280,7 +322,7 @@ namespace MyTrips.ViewModel
                 {
                     var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];//2 back now
                     CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude, userLocation.Longitude, previous.Latitude, previous.Longitude);
-                    OnPropertyChanged(nameof(CurrentTrip.Distance));
+                    Distance = CurrentTrip.TotalDistanceNoUnits;
                 }
                 var timeDif = point.TimeStamp - CurrentTrip.TimeStamp;
                 //track minutes first and then calculat the hours
@@ -288,6 +330,8 @@ namespace MyTrips.ViewModel
                     ElapsedTime = $"{timeDif.Minutes}m";
                 else
                     ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";
+
+
 			}
 
             CurrentPosition = e.Position;

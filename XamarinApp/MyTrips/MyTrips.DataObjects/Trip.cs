@@ -39,6 +39,8 @@ namespace MyTrips.DataObjects
 
         public double Emissions { get; set; }
 
+        public double FuelUsed { get; set; }
+
         public string MainPhotoUrl { get; set; }
 
         #if BACKEND

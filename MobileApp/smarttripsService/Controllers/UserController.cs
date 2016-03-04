@@ -10,38 +10,38 @@ using smarttripsService.Helpers;
 
 namespace smarttripsService.Controllers
 {
-    public class UserController : TableController<User>
+    public class UserController : TableController<UserProfile>
     {
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
             smarttripsContext context = new smarttripsContext();
-            DomainManager = new EntityDomainManager<User>(context, Request);
+            DomainManager = new EntityDomainManager<UserProfile>(context, Request);
         }
 
         // GET tables/User
-        public IQueryable<User> GetAllUsers()
+        public IQueryable<UserProfile> GetAllUsers()
         {
             return Query();
         }
 
         // GET tables/User/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [QueryableExpand("Devices")]
-        public SingleResult<User> GetUser(string id)
+        public SingleResult<UserProfile> GetUser(string id)
         {
             return Lookup(id);
         }
 
         // PATCH tables/User/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task<User> PatchUser(string id, Delta<User> patch)
+        public Task<UserProfile> PatchUser(string id, Delta<UserProfile> patch)
         {
             return UpdateAsync(id, patch);
         }
 
         // POST tables/User
-        public async Task<IHttpActionResult> PostUser(User user)
+        public async Task<IHttpActionResult> PostUser(UserProfile user)
         {
-            User current = await InsertAsync(user);
+            UserProfile current = await InsertAsync(user);
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 

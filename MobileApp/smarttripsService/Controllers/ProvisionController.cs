@@ -42,7 +42,7 @@ namespace smarttripsService.Controllers
             var curUser = context.Users.Where(user => user.UserId == userId).FirstOrDefault();
             if(curUser == null)
             {
-                curUser = context.Users.Add(new User() { Id= Guid.NewGuid().ToString(), UserId = userId });
+                return BadRequest("User has not authenticated with mobile app yet.");
             }
             if(curUser.Devices == null)
             {
