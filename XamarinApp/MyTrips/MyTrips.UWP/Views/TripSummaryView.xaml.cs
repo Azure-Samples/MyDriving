@@ -1,7 +1,6 @@
 ﻿using MyTrips.ViewModel;
 using Windows.UI.Xaml.Controls;
 
-
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace MyTrips.UWP.Views
@@ -9,17 +8,14 @@ namespace MyTrips.UWP.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ProfileView : Page
+    public sealed partial class TripSummaryView : Page
     {
-        ProfileViewModel profileViewModel;
-        public ProfileView()
-        {      
-            profileViewModel = new ProfileViewModel();
-            DataContext = profileViewModel;
+        TripSummaryViewModel tripSummaryViewModel;
+        public TripSummaryView()
+        {
             this.InitializeComponent();
-
-            //profileViewModel.DrivingSkills = new System.Random().Next(0, 100);
-            profileViewModel.DrivingSkills = 86;
+            tripSummaryViewModel = new TripSummaryViewModel();
+            DataContext = tripSummaryViewModel;
 
             TotalDistanceTab.Title1 = "Total";
             TotalDistanceTab.Title2 = "DISTANCE";
@@ -34,10 +30,6 @@ namespace MyTrips.UWP.Views
             HardBreaksTab.Title2 = "BREAKS";
 
             TipsTab.Title1 = "TIPS";
-
-          
-            
-
 
         }
     }

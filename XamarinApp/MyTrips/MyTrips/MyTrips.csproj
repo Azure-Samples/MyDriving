@@ -43,6 +43,7 @@
     <Compile Include="ViewModel\PastTripsViewModel.cs" />
     <Compile Include="ViewModel\ProfileViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
+    <Compile Include="ViewModel\TripSummaryViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="Interfaces\IAuthentication.cs" />
     <Compile Include="ViewModel\PastTripsDetailViewModel.cs" />

@@ -1,0 +1,39 @@
+﻿<Page
+    x:Class="MyTrips.UWP.Views.TripSummaryView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:MyTrips.UWP.Controls"
+    xmlns:local="using:MyTrips.UWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Name="SUMMARY">
+
+    <Grid Background="{StaticResource MainBackgroundColor2}">
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <StackPanel Margin="24,24,24,24">
+
+                <StackPanel>
+                    <TextBlock Text="You completed your trip!" HorizontalAlignment="Center" Margin="0,15,0,5" FontFamily="SegoeUI-Light" FontSize="21" Foreground="#8ab0cc" />
+                    <TextBlock Text="Trip Summary" HorizontalAlignment="Center" Margin="0,5,0,15" FontFamily="SegoeUI-Semibold" FontSize="16" Foreground="White" FontWeight="Bold" />
+                </StackPanel>
+
+                <Border Margin="0,10,0,0" />
+                <controls:ProfileViewTabControl x:Name="TotalDistanceTab" DataContext="{Binding TotalTime, Converter={StaticResource DistanceConverter} }" />
+
+                <Border Margin="0,10,0,0" />
+                <controls:ProfileViewTabControl x:Name="TotalTimeTab" DataContext="{Binding TotalTime, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  hours'}" />
+
+                <Border Margin="0,10,0,0" />
+                <controls:ProfileViewTabControl x:Name="AvgSpeedTab" DataContext="{Binding AvgSpeed, Converter={StaticResource SpeedConverter} }" />
+
+                <Border Margin="0,10,0,0" />
+                <controls:ProfileViewTabControl x:Name="HardBreaksTab" DataContext="{Binding HardBreaks,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
+
+                <Border Margin="0,10,0,0" />
+                <controls:ProfileViewTabControl x:Name="TipsTab" DataContext="{Binding Tips.Count,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  tips'}" />
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</Page>
