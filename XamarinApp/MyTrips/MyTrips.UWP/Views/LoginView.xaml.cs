@@ -96,6 +96,7 @@ namespace MyTrips.UWP.Views
         private void Continue_Click(object sender, RoutedEventArgs e)
         {
             viewModel.InitFakeUser();
+            Window.Current.Content = new SplitViewShell(this.Frame);
             this.Frame.Navigate(typeof(PastTripsMenuView));
         }
 
