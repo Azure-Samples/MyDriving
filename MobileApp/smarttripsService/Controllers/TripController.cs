@@ -6,6 +6,7 @@ using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using MyTrips.DataObjects;
 using smarttripsService.Models;
+using smarttripsService.Helpers;
 
 namespace smarttripsService.Controllers
 {
@@ -25,6 +26,7 @@ namespace smarttripsService.Controllers
         }
 
         // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [QueryableExpand("Points,Tips")]
         public SingleResult<Trip> GetTrip(string id)
         {
             return Lookup(id);

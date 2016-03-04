@@ -6,6 +6,7 @@ using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using MyTrips.DataObjects;
 using smarttripsService.Models;
+using smarttripsService.Helpers;
 
 namespace smarttripsService.Controllers
 {
@@ -25,13 +26,14 @@ namespace smarttripsService.Controllers
         }
 
         // GET tables/User/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [QueryableExpand("Devices")]
         public SingleResult<User> GetUser(string id)
         {
             return Lookup(id);
         }
 
         // PATCH tables/User/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task<Trip> PatchUser(string id, Delta<User> patch)
+        public Task<User> PatchUser(string id, Delta<User> patch)
         {
             return UpdateAsync(id, patch);
         }

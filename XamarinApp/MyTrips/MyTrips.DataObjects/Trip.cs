@@ -25,10 +25,6 @@ namespace MyTrips.DataObjects
 
         public string UserId { get; set; }
 
-
-
-
-
         public IList<TripPoint> Points { get; set; }
 
         public IList<Tip> Tips { get; set; }

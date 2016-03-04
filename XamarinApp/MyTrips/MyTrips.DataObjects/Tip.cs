@@ -9,7 +9,7 @@ namespace MyTrips.DataObjects
 
         public double Longitude { get; set; }
 
-        public double Information { get; set;}
+        public string Information { get; set;}
     }
 }
 

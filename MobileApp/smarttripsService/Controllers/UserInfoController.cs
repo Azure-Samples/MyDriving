@@ -46,8 +46,8 @@ namespace smarttripsService.Controllers
                 }
                 else if (msCredentials?.UserClaims?.Count() > 0)
                 {
-                    userId = mscredentials.UserId;
-                    await FillDataFromMS(userProfile, mscredentials.AccessToken);
+                    userId = msCredentials.UserId;
+                    await FillDataFromMS(userProfile, msCredentials.AccessToken);
                 }
 
 

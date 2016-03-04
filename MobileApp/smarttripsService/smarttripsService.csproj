@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-
   <Import Project="..\..\XamarinApp\MyTrips\MyTrips.DataObjects\MyTrips.DataObjects.projitems" Label="Shared" Condition="Exists('..\..\XamarinApp\MyTrips\MyTrips.DataObjects\MyTrips.DataObjects.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -39,7 +38,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType></DebugType>
+    <DebugType>
+    </DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE;BACKEND</DefineConstants>
@@ -226,6 +226,7 @@
     <Compile Include="Controllers\ProvisionController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="DataObjects\UserProfile.cs" />
+    <Compile Include="Helpers\QueryableExpandAttribute.cs" />
     <Compile Include="Migrations\201602240246359_Init.cs" />
     <Compile Include="Migrations\201602240246359_Init.Designer.cs">
       <DependentUpon>201602240246359_Init.cs</DependentUpon>
