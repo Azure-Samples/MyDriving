@@ -283,8 +283,10 @@ namespace MyTrips.ViewModel
                     OnPropertyChanged(nameof(CurrentTrip.Distance));
                 }
                 var timeDif = trail.TimeStamp - CurrentTrip.TimeStamp;
-                //track minutes first and then calculat the hours
-                if(timeDif.TotalHours > 0)
+				//track minutes first and then calculat the hours
+				if (timeDif.TotalMinutes < 1)
+					ElapsedTime = $"{timeDif.Seconds}s";
+				else if (timeDif.TotalHours > 0)
                     ElapsedTime = $"{timeDif.Minutes}m";
                 else
                     ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";

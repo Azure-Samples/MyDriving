@@ -241,6 +241,10 @@ namespace MyTrips.iOS
 
 			if (CurrentTripViewModel.IsRecording)
 			{
+				// Update trip information
+				lblDuration.Text = CurrentTripViewModel.ElapsedTime;
+				lblDistance.Text = CurrentTripViewModel.CurrentTrip.TotalDistanceNoUnits;
+
 				// If we already haven't starting tracking route yet, start that.
 				if (route == null)
 					StartTrackingRoute(coordinate);
