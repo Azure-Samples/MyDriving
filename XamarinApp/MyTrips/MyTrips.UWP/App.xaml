@@ -18,6 +18,8 @@
             <!--Converters-->
             <converters:StringFormatConverter x:Key="StringFormatConverter"/>
             <converters:ImageSourceConverter x:Key="ImageSourceConverter"/>
+            <converters:DistanceConverter x:Key="DistanceConverter"/>
+            <converters:SpeedConverter x:Key="SpeedConverter"/>
         </ResourceDictionary>
     </Application.Resources>
     

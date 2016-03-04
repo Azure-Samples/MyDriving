@@ -96,7 +96,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ProfileViewTabControl.xaml.cs">
+      <DependentUpon>ProfileViewTabControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\CountConverter.cs" />
+    <Compile Include="Converters\DistanceConverter.cs" />
     <Compile Include="Converters\ImageSourceConverter.cs" />
+    <Compile Include="Converters\SpeedConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Views\CurrentTripView.xaml.cs">
       <DependentUpon>CurrentTripView.xaml</DependentUpon>
@@ -158,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\ProfileViewTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CurrentTripView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,24 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using MyTrips.ViewModel;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using MyTrips.ViewModel;
-using MyTrips.Utils;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -32,12 +13,32 @@ namespace MyTrips.UWP.Views
     {
         ProfileViewModel profileViewModel;
         public ProfileView()
-        {
-            this.InitializeComponent();
+        {      
             profileViewModel = new ProfileViewModel();
+            DataContext = profileViewModel;
+            this.InitializeComponent();
 
             //profileViewModel.DrivingSkills = new System.Random().Next(0, 100);
             profileViewModel.DrivingSkills = 86;
+
+            TotalDistanceTab.Title1 = "Total";
+            TotalDistanceTab.Title2 = "DISTANCE";
+
+            TotalTimeTab.Title1 = "Total";
+            TotalTimeTab.Title2 = "TIME";
+
+            AvgSpeedTab.Title1 = "Avg";
+            AvgSpeedTab.Title2 = "SPEED";
+
+            HardBreaksTab.Title1 = "Hard";
+            HardBreaksTab.Title2 = "BREAKS";
+
+            TipsTab.Title1 = "TIPS";
+
+          
+            
+
+
         }
     }
 }
