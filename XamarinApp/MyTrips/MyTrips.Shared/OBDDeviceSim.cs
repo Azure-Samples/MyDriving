@@ -23,9 +23,9 @@ namespace MyTrips.Shared
             await this.obdWrapper.Disconnect();
         }
 
-        public async Task Initialize()
+        public async Task<bool> Initialize()
         {
-            await this.obdWrapper.Init(true);
+            return await this.obdWrapper.Init(true);
         }
 
         public Dictionary<string, string> ReadData()
@@ -39,9 +39,9 @@ namespace MyTrips.Shared
             this.obdWrapper.Disconnect();
         }
 
-        public async Task Initialize()
+        public async Task<bool> Initialize()
         {
-            await this.obdWrapper.Init(true);
+            return await this.obdWrapper.Init(true);
         }
 
         public Dictionary<String, String> ReadData()
@@ -54,7 +54,7 @@ namespace MyTrips.Shared
             return Task.FromResult(true);
         }
 
-        public Task Initialize()
+        public Task<bool> Initialize()
         {
             return Task.FromResult(true);
         }

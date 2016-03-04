@@ -39,10 +39,11 @@ namespace MyTrips.DataStore.Mock.Stores
         {
             return Task.FromResult(true);
         }
-        public void DropTable()
+        public virtual Task<bool> DropTable()
         {
             throw new NotImplementedException();
         }
+
         public string Identifier => "store";
         #endregion
        

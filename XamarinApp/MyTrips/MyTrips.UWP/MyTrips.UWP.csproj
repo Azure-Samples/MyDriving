@@ -96,6 +96,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ProfileViewTabControl.xaml.cs">
+      <DependentUpon>ProfileViewTabControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\DistanceConverter.cs" />
+    <Compile Include="Converters\ImageSourceConverter.cs" />
+    <Compile Include="Converters\SpeedConverter.cs" />
+    <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Views\CurrentTripView.xaml.cs">
       <DependentUpon>CurrentTripView.xaml</DependentUpon>
     </Compile>
@@ -103,6 +110,9 @@
     <Compile Include="Helpers\BitmapImageConverter.cs" />
     <Compile Include="Views\PastTripMapView.xaml.cs">
       <DependentUpon>PastTripMapView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProfileView.xaml.cs">
+      <DependentUpon>ProfileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RecommendedRoutes.xaml.cs">
       <DependentUpon>RecommendedRoutes.xaml</DependentUpon>
@@ -120,6 +130,9 @@
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TripSummaryView.xaml.cs">
+      <DependentUpon>TripSummaryView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -128,6 +141,10 @@
     <None Include="MyTrips.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\A.png" />
+    <Content Include="Assets\B.png" />
+    <Content Include="Assets\Car Icon_Blue.png" />
+    <Content Include="Assets\Car Icon_Red.png" />
     <Content Include="Assets\ic_start.png" />
     <Content Include="Assets\ic_stop.png" />
     <Content Include="Assets\Login\FBLogo.png" />
@@ -138,6 +155,8 @@
     <Content Include="Assets\Login\MSLogo.jpg" />
     <Content Include="Assets\Login\TwitterLogo.png" />
     <Content Include="Assets\mappin.png" />
+    <Content Include="Assets\StartRecord.png" />
+    <Content Include="Assets\StopRecord.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -153,6 +172,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\ProfileViewTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CurrentTripView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -160,6 +183,10 @@
     <Page Include="Views\PastTripMapView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ProfileView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RecommendedRoutes.xaml">
       <SubType>Designer</SubType>
@@ -196,6 +223,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\TripSummaryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\OBDLibrary\ObdLibUWP\ObdLibUWP.csproj">
@@ -227,7 +258,6 @@
       <Name>MyTrips</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

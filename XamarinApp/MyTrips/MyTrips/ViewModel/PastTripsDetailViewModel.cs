@@ -36,19 +36,10 @@ namespace MyTrips.ViewModel
             if(IsBusy)
                 return;
 
-            Acr.UserDialogs.IProgressDialog progress = null;
-
-
-            if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
-            {
-
-                progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Loading trip details...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-                progress.IsDeterministic = false;
-            }
+            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading trip details...", maskType: Acr.UserDialogs.MaskType.Clear);
+            
             try 
             {
-                progress?.Show();
                 IsBusy = true;
 
                 Trip = await StoreManager.TripStore.GetItemAsync(id);
@@ -60,7 +51,6 @@ namespace MyTrips.ViewModel
             } 
             finally 
             {
-                progress?.Hide();
                 progress?.Dispose();
                 IsBusy = false;
             }
