@@ -340,10 +340,6 @@
     <Compile Include="Cells\SettingDetailTableViewCell.designer.cs">
       <DependentUpon>SettingDetailTableViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cells\SettingDetailTextTableViewCell.cs" />
-    <Compile Include="Cells\SettingDetailTextTableViewCell.designer.cs">
-      <DependentUpon>SettingDetailTextTableViewCell.cs</DependentUpon>
-    </Compile>
     <Compile Include="Screens\SettingsDetailViewController.cs" />
     <Compile Include="Screens\SettingsDetailViewController.designer.cs">
       <DependentUpon>SettingsDetailViewController.cs</DependentUpon>
@@ -351,6 +347,10 @@
     <Compile Include="Cells\TripTableViewCellWithImage.cs" />
     <Compile Include="Cells\TripTableViewCellWithImage.designer.cs">
       <DependentUpon>TripTableViewCellWithImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Cells\SettingDetailTextFieldTableViewCell.cs" />
+    <Compile Include="Cells\SettingDetailTextFieldTableViewCell.designer.cs">
+      <DependentUpon>SettingDetailTextFieldTableViewCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

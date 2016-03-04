@@ -103,10 +103,15 @@ namespace MyTrips.ViewModel
 						distanceSetting, capacitySetting, currencySetting
 					};
 
+					var hubSetting1 = new Setting { Name = "Hub Setting 1", IsTextField = true };
+					var hubSetting2 = new Setting { Name = "Hub Setting 2", IsTextField = true };
+
+					hubSetting1.PropertyChanged += HubSetting1_PropertyChanged;
+					hubSetting2.PropertyChanged += HubSetting2_PropertyChanged;
+
 					ioTHub = new List<Setting>
 					{
-						new Setting { Name = "Hub Setting 1", IsTextField = true },
-						new Setting { Name = "Hub Setting 2", IsTextField = true },
+						hubSetting1, hubSetting2
 					};
 
 					permissions = new List<Setting>
@@ -160,6 +165,24 @@ namespace MyTrips.ViewModel
 			{
 				var setting = (Setting)sender;
 				Settings.Current.Currency = setting.Value;
+			}
+		}
+
+		void HubSetting1_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "Value")
+			{
+				var setting = (Setting)sender;
+				Settings.Current.HubSetting1 = setting.Value;
+			}
+		}
+
+		void HubSetting2_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "Value")
+			{
+				var setting = (Setting)sender;
+				Settings.Current.HubSetting2 = setting.Value;
 			}
 		}
 	}
