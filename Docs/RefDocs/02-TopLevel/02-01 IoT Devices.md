@@ -63,9 +63,6 @@ We often characterize field gateways as being *transparent* or *opaque*. A trans
 
 ## What is OBD and does it do?
 
-Summarize the types of data that ODB can collect and forward.
-Callout any potential security issues as a disclaimer here.
-
 ## What devices did we use and why?
 
 Describe the particular devices we used and why.
@@ -74,8 +71,7 @@ Describe the particular devices we used and why.
 
 ## Decision point: why did we choose the phone
 
-What other devices would work with this solution? Discuss some alternatives.
-Suggest some possible command and control scenarios - hard breaking, activate dashcam, engine fault codes adjust route to pass by garage for maintenance.
+What other devices would work with this solution? Discuss some alternatives
 
 ## Resources - other ways to connect your OBD device to the internet
 
@@ -105,4 +101,3 @@ To communicate with IoT Hub directly, an IoT device or field gateway must use on
 # How does the OBD device communicate with IoT Hub?
 
 Choice of protocols, SDKs and libraries, field gateway implementation, encryption.
-Relevant code walkthroughs here.
