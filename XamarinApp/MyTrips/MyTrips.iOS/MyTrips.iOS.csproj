@@ -193,6 +193,9 @@
     </Reference>
     <Reference Include="HockeySDK">
       <HintPath>..\..\packages\HockeySDK.Xamarin.4.0.0-alpha1\lib\Xamarin.iOS10\HockeySDK.dll</HintPath>
+   </Reference>
+    <Reference Include="Acr.Support.iOS">
+      <HintPath>..\..\packages\Acr.Support.1.1.1\lib\Xamarin.iOS10\Acr.Support.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +358,10 @@
     <Compile Include="Cells\SettingDetailTextFieldTableViewCell.designer.cs">
       <DependentUpon>SettingDetailTextFieldTableViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Screens\TripSummaryTableViewController.cs" />
+    <Compile Include="Screens\TripSummaryTableViewController.designer.cs">
+      <DependentUpon>TripSummaryTableViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -389,6 +396,9 @@
     <BundleResource Include="Resources\camera.png" />
     <BundleResource Include="Resources\camera%402x.png" />
     <BundleResource Include="Resources\camera%403x.png" />
+    <BundleResource Include="Resources\769-male.png" />
+    <BundleResource Include="Resources\769-male%402x.png" />
+    <BundleResource Include="Resources\769-male%403x.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />

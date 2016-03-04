@@ -215,6 +215,10 @@ namespace MyTrips.iOS
 
 				NavigationItem.RightBarButtonItem.Clicked -= TakePhotoButton_Clicked;
 				NavigationItem.SetRightBarButtonItem(null, true);
+
+				var vc = Storyboard.InstantiateViewController("tripSummaryTableViewController") as TripSummaryTableViewController;
+				PresentModalViewController(vc, true);
+
 			}
 
 			// Add start or end waypoint

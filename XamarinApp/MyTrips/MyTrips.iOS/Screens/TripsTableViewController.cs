@@ -5,7 +5,6 @@ using Foundation;
 using UIKit;
 
 using MyTrips.ViewModel;
-
 using SDWebImage;
 
 namespace MyTrips.iOS
