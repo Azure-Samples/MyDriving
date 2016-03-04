@@ -12,8 +12,6 @@ namespace MyTrips.ViewModel
         public ProfileViewModel()
         {
             InitializeDrivingSkills();
-
-
         }
 
         const int drivingSkillsBuckets = 4;
@@ -36,23 +34,23 @@ namespace MyTrips.ViewModel
         }
 
 
-        int totalMiles;
-        public int TotalMiles
+        double totalDistance;
+        public double TotalDistance
         {
-            get { return totalMiles; }
-            set { SetProperty(ref totalMiles, value); }
+            get { return totalDistance; }
+            set { SetProperty(ref totalDistance, value); }
         }
 
-        int totalTime;
-        public int TotalTime
+        double totalTime;
+        public double TotalTime
         {
             get { return totalTime; }
             set { SetProperty(ref totalTime, value); }
         }
 
 
-        int avgSpeed;
-        public int AvgSpeed
+        double avgSpeed;
+        public double AvgSpeed
         {
             get { return avgSpeed; }
             set { SetProperty(ref avgSpeed, value); }
