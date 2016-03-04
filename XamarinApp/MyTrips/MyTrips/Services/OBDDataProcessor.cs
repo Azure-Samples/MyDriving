@@ -126,7 +126,7 @@ namespace MyTrips.Services
                     {
                         //Once the trip is pushed to the IOT Hub, delete it from the local store
                         await this.iotHub.SendEvent(JsonConvert.SerializeObject(blob));
-                        await this.storeManager.IOTHubStore.RemoveAsync(blob);
+                       // await this.storeManager.IOTHubStore.RemoveAsync(blob);
                     }
                     catch (Exception e)
                     {
@@ -144,7 +144,7 @@ namespace MyTrips.Services
             }
 
             //If any data wasn't received by the IOT Hub, there may still be data in the local store - try again
-            await this.PushTripData();
+            //await this.PushTripData();
         }
 
         public async Task StopReadingOBDData()

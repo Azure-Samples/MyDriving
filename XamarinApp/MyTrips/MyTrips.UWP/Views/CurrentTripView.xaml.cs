@@ -144,7 +144,7 @@ namespace MyTrips.UWP.Views
                     //
                     startRecordBtn.IsEnabled = true;
 
-            viewModel.StartTrackingTripCommand.Execute(null);
+                   viewModel.StartTrackingTripCommand.Execute(null);
 
                     break;
 
@@ -180,6 +180,7 @@ namespace MyTrips.UWP.Views
             {
                 AddEndMarker(basicGeoposition);
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
+                OnPropertyChanged(nameof(RecordButtonImage));
                 UpdateCarIcon(basicGeoposition);
                 await viewModel.StopRecordingTripAsync();
         }
@@ -188,6 +189,7 @@ namespace MyTrips.UWP.Views
                 if (!await viewModel.StartRecordingTripAsync())
                     return;
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StopRecord.png", UriKind.Absolute));
+                OnPropertyChanged(nameof(RecordButtonImage));
                 AddStartMarker(basicGeoposition);
 
                 UpdateCarIcon(basicGeoposition);
@@ -232,7 +234,7 @@ namespace MyTrips.UWP.Views
                 mapStartIcon.Location = new Geopoint(basicGeoposition);
                 mapStartIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
                 mapStartIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_start_point.png"));
-                mapStartIcon.ZIndex = 1;
+                mapStartIcon.ZIndex = 3;
                 mapStartIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
                 MyMap.Center = mapStartIcon.Location;
                 MyMap.MapElements.Add(mapStartIcon);
@@ -345,7 +347,7 @@ namespace MyTrips.UWP.Views
                 mapEndIcon.Location = new Geopoint(basicGeoposition);
                 mapEndIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
                 mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png"));
-                mapEndIcon.ZIndex = 1;
+                mapEndIcon.ZIndex = 3;
                 mapEndIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
                 MyMap.MapElements.Add(mapEndIcon);
             });
