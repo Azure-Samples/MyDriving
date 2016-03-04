@@ -34,7 +34,7 @@ namespace MyTrips.iOS.CustomControls
 
 			// coverView Drawing
 			var coverViewPath = UIBezierPath.FromOval(new CGRect(frame.GetMinX() + 5.0f, frame.GetMinY() + 4.0f, frame.Width - 10.0f, frame.Height - 10.0f));
-			UIColor.FromRGB(92,92,92).SetFill();
+			UIColor.FromRGB(21, 169, 254).SetFill();
 			coverViewPath.Fill();
 
 
@@ -50,14 +50,14 @@ namespace MyTrips.iOS.CustomControls
 			completedViewPath.AddLineTo(new CGPoint(completedViewRect.GetMidX(), completedViewRect.GetMidY()));
 			completedViewPath.ClosePath();
 
-			UIColor.FromRGB(109, 199, 184).SetFill();
+			UIColor.FromRGB(247, 247, 247).SetFill();
 			completedViewPath.Fill();
 
 			context.RestoreState();
 
 			// backgroundView Drawing
 			var backgroundViewPath = UIBezierPath.FromOval(new CGRect(frame.GetMinX() + 12.0f, frame.GetMinY() + 11.0f, frame.Width - 24.0f, frame.Height - 24.0f));
-			UIColor.FromRGB(92,92,92).SetFill();
+			UIColor.FromRGB(21, 169, 254).SetFill();
 			backgroundViewPath.Fill();
 		}
 

@@ -24,6 +24,10 @@ namespace MyTrips.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton btnSkipAuth { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton btnTwitter { get; set; }
 
         [Outlet]
@@ -52,6 +56,11 @@ namespace MyTrips.iOS
             if (btnMicrosoft != null) {
                 btnMicrosoft.Dispose ();
                 btnMicrosoft = null;
+            }
+
+            if (btnSkipAuth != null) {
+                btnSkipAuth.Dispose ();
+                btnSkipAuth = null;
             }
 
             if (btnTwitter != null) {
