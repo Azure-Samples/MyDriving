@@ -30,7 +30,10 @@ namespace MyTrips.iOS
 //            ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
             //            ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
             Xamarin.Insights.Initialize(Logger.InsightsKey);
-			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
+			
+            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+            SQLitePCL.CurrentPlatform.Init();
+            if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
 			{
 				Setup.EnableCustomCrashReporting(() =>
 					{

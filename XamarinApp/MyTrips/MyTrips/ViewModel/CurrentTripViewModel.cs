@@ -205,7 +205,7 @@ namespace MyTrips.ViewModel
 
 		public async Task ExecuteStartTrackingTripCommandAsync ()
 		{
-			if(IsBusy)
+            if(IsBusy || Geolocator.IsListening)
 				return;
 
 			try 

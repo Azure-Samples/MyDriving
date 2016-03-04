@@ -20,6 +20,7 @@ namespace MyTrips.iOS
 		public override void ViewDidLoad()
 		{
             viewModel = new LoginViewModel();
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
 			//Prepare buttons for fade in animation.
 			btnFacebook.Alpha = 0;
 			btnTwitter.Alpha = 0;
@@ -27,11 +28,22 @@ namespace MyTrips.iOS
 			btnSkipAuth.Alpha = 0;
 		}
 
-		public override void ViewDidAppear(bool animated)
+        void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(viewModel.IsLoggedIn):
+                    if(viewModel.IsLoggedIn)
+                        GoToMain();
+                    break;
+            }
+        }
+
+        public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
 
-            if (Settings.Current.IsLoggedIn)
+            if (Settings.Current.IsLoggedIn || viewModel.IsLoggedIn)
             {
                 GoToMain();
                 return;
@@ -56,7 +68,7 @@ namespace MyTrips.iOS
         partial void BtnMicrosoft_TouchUpInside(UIButton sender) => LoginAsync(LoginAccount.Microsoft);
 
 
-        Task LoginAsync(LoginAccount account)
+        void LoginAsync(LoginAccount account)
         {
             switch (account)
             {
