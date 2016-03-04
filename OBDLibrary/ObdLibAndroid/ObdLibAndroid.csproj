@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -25,9 +25,12 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidLinkMode>None</AndroidLinkMode>
-    <AndroidSupportedAbis></AndroidSupportedAbis>
-    <EmbedAssembliesIntoApk></EmbedAssembliesIntoApk>
-    <AndroidFastDeploymentType></AndroidFastDeploymentType>
+    <AndroidSupportedAbis>
+    </AndroidSupportedAbis>
+    <EmbedAssembliesIntoApk>
+    </EmbedAssembliesIntoApk>
+    <AndroidFastDeploymentType>
+    </AndroidFastDeploymentType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -36,9 +39,12 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <AndroidSupportedAbis></AndroidSupportedAbis>
-    <EmbedAssembliesIntoApk></EmbedAssembliesIntoApk>
-    <AndroidFastDeploymentType></AndroidFastDeploymentType>
+    <AndroidSupportedAbis>
+    </AndroidSupportedAbis>
+    <EmbedAssembliesIntoApk>
+    </EmbedAssembliesIntoApk>
+    <AndroidFastDeploymentType>
+    </AndroidFastDeploymentType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -56,6 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ObdShare\ObdShare.csproj">
+      <Project>{7a88da9b-a374-4de2-b46e-ed2c45434508}</Project>
+      <Name>ObdShare</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
