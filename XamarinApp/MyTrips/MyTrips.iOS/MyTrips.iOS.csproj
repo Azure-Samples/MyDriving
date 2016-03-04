@@ -396,6 +396,9 @@
     <BundleResource Include="Resources\camera.png" />
     <BundleResource Include="Resources\camera%402x.png" />
     <BundleResource Include="Resources\camera%403x.png" />
+    <BundleResource Include="Resources\769-male.png" />
+    <BundleResource Include="Resources\769-male%402x.png" />
+    <BundleResource Include="Resources\769-male%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">
