@@ -19,5 +19,11 @@ namespace MyTrips.DataStore.Azure.Stores
         {
             return Task.FromResult(true);
         }
+
+        public override Task<bool> DropTable()
+        {
+            //TODO: need to figure out how to drop table or delete contents from table (currently exception thrown)
+            throw new NotImplementedException();
+        }
     }
 }
