@@ -48,6 +48,14 @@ namespace MyTrips.iOS
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString ("RefreshSettingsTable"), HandleReloadTableNotification); 
 		}
 
+		public override bool ShouldPerformSegue(string segueIdentifier, NSObject sender)
+		{
+			var cell = (SettingTableViewCell)sender;
+			if (cell.Accessory == UITableViewCellAccessory.None)
+				return false;
+			else
+				return true;
+		}
 
 		public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
 		{
@@ -99,6 +107,23 @@ namespace MyTrips.iOS
 			header.TextLabel.TextColor = "5C5C5C".ToUIColor();
 			header.TextLabel.Font = UIFont.FromName("AvenirNext-Medium", 16);
 			header.TextLabel.Text = TitleForHeader(tableView, section);
+		}
+
+		public override async void RowSelected(UITableView tableView, NSIndexPath indexPath)
+		{
+			var setting = data[keys[indexPath.Section]][indexPath.Row];
+			if (setting.IsButton)
+			{
+				if (setting.ButtonUrl != "Permissions")
+				{
+					await viewModel.ExecuteOpenBrowserCommandAsync(setting.ButtonUrl);
+				}
+				else
+				{
+					var url = NSUrl.FromString(UIApplication.OpenSettingsUrlString);
+					UIApplication.SharedApplication.OpenUrl(url);
+				}
+			}
 		}
 
 		public override nint NumberOfSections(UITableView tableView)
