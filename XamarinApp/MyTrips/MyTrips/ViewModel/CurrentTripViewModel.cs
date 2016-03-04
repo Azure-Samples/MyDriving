@@ -214,7 +214,8 @@ namespace MyTrips.ViewModel
 					Geolocator.DesiredAccuracy = 25;
 
                     Geolocator.PositionChanged += Geolocator_PositionChanged;
-                    await Geolocator.StartListeningAsync(1, 1);
+                    //every second, 5 meters
+                    await Geolocator.StartListeningAsync(1000, 5);
 				}
 				else
 				{

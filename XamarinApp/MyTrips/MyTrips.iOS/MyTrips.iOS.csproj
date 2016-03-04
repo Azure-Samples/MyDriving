@@ -168,9 +168,6 @@
       <HintPath>..\..\packages\PCLStorage.1.0.2\lib\portable-Xamarin.iOS+Xamarin.Mac\PCLStorage.Abstractions.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="HockeyApp.iOS">
-      <HintPath>..\..\Components\hockeyappios-3.8.5.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="Plugin.Geolocator">
       <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\Xamarin.iOS10\Plugin.Geolocator.dll</HintPath>
     </Reference>
@@ -188,14 +185,14 @@
       <HintPath>..\..\packages\Xamarin.Insights.1.11.4\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="BTProgressHUD">
-      <HintPath>..\..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
-    </Reference>
     <Reference Include="Plugin.Share">
       <HintPath>..\..\packages\Plugin.Share.4.0.0\lib\Xamarin.iOS10\Plugin.Share.dll</HintPath>
     </Reference>
     <Reference Include="Plugin.Share.Abstractions">
       <HintPath>..\..\packages\Plugin.Share.4.0.0\lib\Xamarin.iOS10\Plugin.Share.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="HockeySDK">
+      <HintPath>..\..\packages\HockeySDK.Xamarin.4.0.0-alpha1\lib\Xamarin.iOS10\HockeySDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -392,16 +389,6 @@
     <BundleResource Include="Resources\camera.png" />
     <BundleResource Include="Resources\camera%402x.png" />
     <BundleResource Include="Resources\camera%403x.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <XamarinComponentReference Include="hockeyappios">
-      <Version>3.8.5.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="btprogresshud">
-      <Version>1.20</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />
