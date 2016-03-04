@@ -45,7 +45,6 @@
     <Compile Include="Stores\BaseStore.cs" />
     <Compile Include="Stores\TripStore.cs" />
     <Compile Include="StoreManager.cs" />
-    <Compile Include="AuthHandler.cs" />
     <Compile Include="Stores\PhotoStore.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -101,8 +100,10 @@
       <Project>{649300CE-70EA-4606-983F-F4476FDD6C7E}</Project>
       <Name>MyTrips.DataStore.Abstractions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyTrips.AzureClient\MyTrips.AzureClient.csproj">
+      <Project>{29B6B823-6639-4942-9723-0075BBEF7C69}</Project>
+      <Name>MyTrips.AzureClient</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Stores\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

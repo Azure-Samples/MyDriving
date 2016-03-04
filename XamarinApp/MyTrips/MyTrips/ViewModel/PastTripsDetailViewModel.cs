@@ -42,6 +42,7 @@ namespace MyTrips.ViewModel
             if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
                 CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
             {
+
                 progress = Acr.UserDialogs.UserDialogs.Instance.Progress("Loading trip details...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
                 progress.IsDeterministic = false;
             }

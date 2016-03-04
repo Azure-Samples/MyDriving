@@ -12,6 +12,8 @@ namespace MyTrips.iOS
 		public static UIColor SECONDARY_TEXT = "727272".ToUIColor ();
 		public static UIColor ICONS = "FFFFFF".ToUIColor ();
 		public static UIColor DIVIDER = "B6B6B6".ToUIColor ();
+
+		public static UIColor BLUE = "Blue".ToUIColor();
 	}
 }
 

@@ -7,6 +7,7 @@ using UIKit;
 using MyTrips.Utils;
 using MyTrips.Interfaces;
 using MyTrips.iOS.Helpers;
+using MyTrips.Shared;
 
 using HockeyApp;
 using MyTrips.DataStore.Abstractions;
@@ -23,7 +24,9 @@ namespace MyTrips.iOS
 			ThemeManager.ApplyTheme();
 			ViewModel.ViewModelBase.Init();
 
-			ServiceLocator.Instance.Add<IAuthentication, Authentication>();
+            ServiceLocator.Instance.Add<IAuthentication, Authentication>();
+            ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
+            ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
             Xamarin.Insights.Initialize(Logger.InsightsKey);
 			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
 			{
@@ -40,10 +43,16 @@ namespace MyTrips.iOS
 					});
 			}
 
-			if (!Settings.Current.IsLoggedIn)
+			// if (!Settings.Current.IsLoggedIn)
+			if (false)
 			{
 				var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("loginViewController"); // Storyboard.InstantiateViewController("loginViewController");
 				Window.RootViewController = viewController;
+			}
+			else
+			{
+				var tabBarController = Window.RootViewController as UITabBarController;
+				tabBarController.SelectedIndex = 1;
 			}
 
 			return true;
@@ -78,7 +87,7 @@ namespace MyTrips.iOS
 			}
 			catch (Exception ex)
 			{
-				//TODO probably send this to hockeyApp. 
+				Logger.Instance.Report(ex);			
 			}
 
 			// If you don't call this, your application will be terminated by the OS.

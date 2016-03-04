@@ -5,22 +5,18 @@ using MyTrips.Helpers;
 using MyTrips.Interfaces;
 using Microsoft.WindowsAzure.MobileServices;
 using MyTrips.DataStore.Abstractions;
+using MyTrips.AzureClient;
+using System;
 
 namespace MyTrips.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        public MobileServiceClient client = null;
+        private IMobileServiceClient client;
         IAuthentication authentication;
         public LoginViewModel()
         {
-            var manager = ServiceLocator.Instance.Resolve<IStoreManager>() as MyTrips.DataStore.Azure.StoreManager;
-
-            if (manager != null)
-            {
-                client = MyTrips.DataStore.Azure.StoreManager.MobileService;
-            }
-            
+            client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
             authentication = ServiceLocator.Instance.Resolve<IAuthentication>();
 
 
@@ -42,6 +38,13 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref isLoggedIn, value); }
         }
 
+        public void InitFakeUser()
+        {
+            Settings.UserFirstName = "Scott";
+            Settings.UserLastName = "Gu";
+            Settings.UserProfileUrl = "http://refractored.com/images/Scott.png";
+        }
+
         ICommand  loginTwitterCommand;
         public ICommand LoginTwitterCommand =>
             loginTwitterCommand ?? (loginTwitterCommand = new RelayCommand(async () => await ExecuteLoginTwitterCommandAsync())); 
@@ -55,8 +58,17 @@ namespace MyTrips.ViewModel
             track.Start();
 
             Settings.LoginAccount = LoginAccount.Twitter;
-            var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Twitter);
-
+            MobileServiceUser user = null;
+            try
+            {
+                user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Twitter);
+                if(user != null)
+                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Report(ex);
+            }
             track.Stop();
 
             if(user == null)
@@ -83,9 +95,17 @@ namespace MyTrips.ViewModel
 
 
             Settings.LoginAccount = LoginAccount.Microsoft;
-            var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
-            UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
-
+            MobileServiceUser user = null;
+            try
+            {
+                user = user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
+                if (user != null)
+                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Report(ex);
+            }
             track.Stop();
 
             if(user == null)
@@ -108,11 +128,18 @@ namespace MyTrips.ViewModel
                 return;
             var track = Logger.Instance.TrackTime("LoginFacebook");
             track.Start();
-
             Settings.LoginAccount = LoginAccount.Facebook;
-            var user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
-            UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
-
+            MobileServiceUser user = null;
+            try
+            {
+                user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
+                if(user != null)
+                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Report(ex);
+            }
             track.Stop();
 
             if(user == null)
@@ -121,7 +148,7 @@ namespace MyTrips.ViewModel
                 return;
             }
 
-            
+
             IsLoggedIn = true;
         }
     }

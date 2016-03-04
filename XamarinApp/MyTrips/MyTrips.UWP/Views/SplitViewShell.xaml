@@ -32,7 +32,7 @@
                     <TextBlock Text="Trips" VerticalAlignment="Center" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="NewTripButton" FontFamily="Segoe MDL2 Assets" Content="&#xE707;" Background="Transparent"/>
+                        <Button x:Name="NewTripButton" FontFamily="Segoe MDL2 Assets" Content="&#xE707;" Background="Transparent" Click="NewTripButton_Click"/>
                     <TextBlock Text="New Trip" VerticalAlignment="Center" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">

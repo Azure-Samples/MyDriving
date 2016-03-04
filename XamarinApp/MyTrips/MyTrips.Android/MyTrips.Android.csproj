@@ -30,6 +30,11 @@
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>Build2016.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>Build*1234</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>Build2016</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>Build*1234</AndroidSigningKeyPass>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -43,6 +48,10 @@
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClientDeviceAndroid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\ClientDeviceAndroid.dll</HintPath>
+    </Reference>
     <Reference Include="HockeyApp.Android">
       <HintPath>..\..\Components\hockeyappandroid-3.7.0.0\lib\android\HockeyApp.Android.dll</HintPath>
     </Reference>
@@ -235,6 +244,14 @@
       <Project>{CEF8CB82-B2BF-42D0-998C-8C50A4CA7AE6}</Project>
       <Name>MyTrips.Utils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyTrips.AzureClient\MyTrips.AzureClient.csproj">
+      <Project>{29B6B823-6639-4942-9723-0075BBEF7C69}</Project>
+      <Name>MyTrips.AzureClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\OBDLibrary\ObdLibAndroid\ObdLibAndroid.csproj">
+      <Project>{9A377DF7-3E28-4B4B-8BD2-61416F7AEA1F}</Project>
+      <Name>ObdLibAndroid</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\Settings.cs" />
@@ -306,11 +323,6 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_camera.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_camera.png" />
     <AndroidResource Include="Resources\menu\menu_current_trip.xml" />
-    <AndroidResource Include="Resources\drawable-nodpi\ic_car_blue.png" />
-    <AndroidResource Include="Resources\drawable-nodpi\ic_car_red.png" />
-    <AndroidResource Include="Resources\drawable-nodpi\ic_end_point.png" />
-    <AndroidResource Include="Resources\drawable-nodpi\ic_info.png" />
-    <AndroidResource Include="Resources\drawable-nodpi\ic_start_point.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_stop.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_start.png" />
     <AndroidResource Include="Resources\drawable-mdpi\ic_start.png" />
@@ -336,14 +348,27 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_facebook.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_windows.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_twitter.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_car_blue.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_car_red.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_end_point.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_info.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_start_point.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_notification.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_notification.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_notification.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_notification.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_notification.png" />
+    <AndroidResource Include="Resources\drawable\navigation_header.png" />
+    <AndroidResource Include="Resources\drawable\navigation_logo.png" />
+    <AndroidResource Include="Resources\drawable\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
-    <AndroidResource Include="Resources\drawable-hdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\ic_menu.png" />
@@ -392,12 +417,9 @@
       <Visible>False</Visible>
       <Version>3.7.0.0</Version>
     </XamarinComponentReference>
-    <XamarinComponentReference Include="square.picasso">
-      <Version>2.5.2.2</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
     <AndroidEnvironment Include="environment.txt" />
   </ItemGroup>
+  <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />
 </Project>

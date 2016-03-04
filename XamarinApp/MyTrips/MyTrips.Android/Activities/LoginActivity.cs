@@ -12,7 +12,7 @@ using Android.Graphics;
 
 namespace MyTrips.Droid
 {
-    [Activity(Label = "Login", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]            
+    [Activity(Label = "Login", Theme="@style/MyThemeDark", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]            
     public class LoginActivity : BaseActivity
     {
         protected override int LayoutResource
@@ -38,13 +38,20 @@ namespace MyTrips.Droid
             var twitter = FindViewById<Button>(Resource.Id.button_twitter);
             var microsoft = FindViewById<Button>(Resource.Id.button_microsoft);
             var facebook = FindViewById<Button>(Resource.Id.button_facebook);
+
             twitter.Click += (sender, e) => Login(LoginAccount.Twitter);
             microsoft.Click += (sender, e) => Login(LoginAccount.Microsoft);
             facebook.Click += (sender, e) => Login(LoginAccount.Facebook);
 
+            FindViewById<Button>(Resource.Id.button_skip).Click += (sender, e) => 
+            {
+                viewModel.InitFakeUser();
+                var intent = new Intent(this, typeof(MainActivity));
+                intent.AddFlags(ActivityFlags.ClearTop);
+                StartActivity(intent);
+                Finish();
+            };
 
-            SupportActionBar.SetDisplayHomeAsUpEnabled(false);
-            SupportActionBar.SetDisplayShowHomeEnabled(false);
         }
 
         protected override void OnResume()

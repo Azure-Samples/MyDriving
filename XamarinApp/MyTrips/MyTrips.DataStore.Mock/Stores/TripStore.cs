@@ -16,6 +16,7 @@ namespace MyTrips.DataStore.Mock.Stores
         List<Trip> Trips {get;set;}
 
         static Random random;
+        IPhotoStore photoStore;
         static void AddTripDetails(Trip trip, int id, double lat, double lng, DateTime timestamp)
         {
             Trail pt = new Trail();
@@ -227,6 +228,17 @@ namespace MyTrips.DataStore.Mock.Stores
         {
             if (!initialized)
                 await InitializeStoreAsync();
+            if (photoStore == null)
+                photoStore = Utils.ServiceLocator.Instance.Resolve<IPhotoStore>();
+
+            foreach (var trip in Trips)
+            {
+                if (trip.Photos == null)
+                    trip.Photos = new List<Photo>();
+                trip.Photos.Clear();
+                foreach (var photo in await photoStore.GetTripPhotos(trip.Id))
+                    trip.Photos.Add(photo);
+            }
             
             return Trips.OrderByDescending(s => s.TimeStamp);
         }
@@ -235,6 +247,7 @@ namespace MyTrips.DataStore.Mock.Stores
         {
             if (!initialized)
                 await InitializeStoreAsync();
+
 
             var trip = Trips.FirstOrDefault(t => t.Id == id);
 

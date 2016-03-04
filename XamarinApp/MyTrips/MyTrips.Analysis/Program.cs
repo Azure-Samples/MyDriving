@@ -25,6 +25,7 @@ namespace MyTrips.Analysis
                             Path.Combine(path, "MyTrips.DataStore.Abstractions/MyTrips.DataStore.Abstractions.csproj"),
                             Path.Combine(path, "MyTrips.DataStore.Azure/MyTrips.DataStore.Azure.csproj"),
                             Path.Combine(path, "MyTrips.DataStore.Mock/MyTrips.DataStore.Mock.csproj"),
+                            Path.Combine(path, "MyTrips.AzureClient/MyTrips.AzureClient.csproj"),
                             Path.Combine(path, "MyTrips.Utils/MyTrips.Utils.csproj"),
                             Path.Combine(path, "MyTrips/MyTrips.csproj"),
                             Path.Combine(path, "MyTrips.DataObjects/MyTrips.DataObjects.projitems")
@@ -38,6 +39,7 @@ namespace MyTrips.Analysis
                             Path.Combine(path, "MyTrips.DataStore.Abstractions/MyTrips.DataStore.Abstractions.csproj"),
                             Path.Combine(path, "MyTrips.DataStore.Azure/MyTrips.DataStore.Azure.csproj"),
                             Path.Combine(path, "MyTrips.DataStore.Mock/MyTrips.DataStore.Mock.csproj"),
+                            Path.Combine(path, "MyTrips.AzureClient/MyTrips.AzureClient.csproj"),
                             Path.Combine(path, "MyTrips.Utils/MyTrips.Utils.csproj"),
                             Path.Combine(path, "MyTrips/MyTrips.csproj"),
                             Path.Combine(path, "MyTrips.DataObjects/MyTrips.DataObjects.projitems")
@@ -50,6 +52,7 @@ namespace MyTrips.Analysis
                             Path.Combine(path, "MyTrips.DataStore.Abstractions/MyTrips.DataStore.Abstractions.csproj"),
                             Path.Combine(path, "MyTrips.DataStore.Azure/MyTrips.DataStore.Azure.csproj"),
                             Path.Combine(path, "MyTrips.DataStore.Mock/MyTrips.DataStore.Mock.csproj"),
+                            Path.Combine(path, "MyTrips.AzureClient/MyTrips.AzureClient.csproj"),
                             Path.Combine(path, "MyTrips.Utils/MyTrips.Utils.csproj"),
                             Path.Combine(path, "MyTrips/MyTrips.csproj"),
                             Path.Combine(path, "MyTrips.DataObjects/MyTrips.DataObjects.projitems")
