@@ -202,10 +202,11 @@ namespace MyTrips.ViewModel
         public ICommand StartTrackingTripCommand =>
             startTrackingTripCommand ?? (startTrackingTripCommand = new RelayCommand(async () => await ExecuteStartTrackingTripCommandAsync()));
 
-        public async Task ExecuteStartTrackingTripCommandAsync()
-        {
-            if (IsBusy)
-                return;
+
+		public async Task ExecuteStartTrackingTripCommandAsync ()
+		{
+            if(IsBusy || Geolocator.IsListening)
+				return;
 
             try
             {
@@ -215,27 +216,32 @@ namespace MyTrips.ViewModel
                     Geolocator.DesiredAccuracy = 25;
 
                     Geolocator.PositionChanged += Geolocator_PositionChanged;
-                    await Geolocator.StartListeningAsync(1, 1);
-                }
-                else
-                {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
-                                                                "Geolcoation Disabled", "OK");
-                }
+                    //every second, 5 meters
+                    await Geolocator.StartListeningAsync(1000, 5);
+				}
+				else
+				{
 
+                    
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
+                                                                   "Geolcoation Disabled", "OK");
+                    
+				}
+                
                 //Connect to the OBD device
                 await this.obdDataProcessor.Initialize();
                 await this.obdDataProcessor.ConnectToOBDDevice();
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Report(ex);
-            }
-            finally
-            {
+			}
+			catch (Exception ex) 
+			{
+				Logger.Instance.Report(ex);
+			} 
+			finally 
+			{
 
-            }
-        }
+			}
+		}
+
 
         ICommand stopTrackingTripCommand;
         public ICommand StopTrackingTripCommand =>
@@ -300,9 +306,12 @@ namespace MyTrips.ViewModel
                     CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude, userLocation.Longitude, previous.Latitude, previous.Longitude);
                     OnPropertyChanged(nameof(CurrentTrip.Distance));
                 }
+                
                 var timeDif = trail.RecordedTimeStamp - CurrentTrip.RecordedTimeStamp;
-                //track minutes first and then calculat the hours
-                if (timeDif.TotalHours > 0)
+				//track minutes first and then calculat the hours
+				if (timeDif.TotalMinutes < 1)
+					ElapsedTime = $"{timeDif.Seconds}s";
+				else if (timeDif.TotalHours > 0)
                     ElapsedTime = $"{timeDif.Minutes}m";
                 else
                     ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";

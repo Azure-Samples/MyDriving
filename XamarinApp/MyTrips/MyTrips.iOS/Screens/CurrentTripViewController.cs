@@ -46,6 +46,16 @@ namespace MyTrips.iOS
 			}
 		}
 
+		public override async void ViewWillAppear(bool animated)
+		{
+			base.ViewWillAppear(animated);
+
+			if (CurrentTripViewModel != null && !CurrentTripViewModel.IsRecording)
+			{
+				await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync();
+			}
+		}
+
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
@@ -53,6 +63,16 @@ namespace MyTrips.iOS
 			if (recordButton.Hidden == true && PastTripsDetailViewModel == null)
 			{
 				recordButton.Pop(0.5, 0, 1);
+			}
+		}
+
+		public override async void ViewWillDisappear(bool animated)
+		{
+			base.ViewWillDisappear(animated);
+
+			if (CurrentTripViewModel != null && !CurrentTripViewModel.IsRecording)
+			{
+				await CurrentTripViewModel.ExecuteStopTrackingTripCommandAsync();
 			}
 		}
 
@@ -195,6 +215,10 @@ namespace MyTrips.iOS
 
 				NavigationItem.RightBarButtonItem.Clicked -= TakePhotoButton_Clicked;
 				NavigationItem.SetRightBarButtonItem(null, true);
+
+				var vc = Storyboard.InstantiateViewController("tripSummaryTableViewController") as TripSummaryTableViewController;
+				PresentModalViewController(vc, true);
+
 			}
 
 			// Add start or end waypoint
@@ -221,6 +245,10 @@ namespace MyTrips.iOS
 
 			if (CurrentTripViewModel.IsRecording)
 			{
+				// Update trip information
+				lblDuration.Text = CurrentTripViewModel.ElapsedTime;
+				lblDistance.Text = CurrentTripViewModel.CurrentTrip.TotalDistanceNoUnits;
+
 				// If we already haven't starting tracking route yet, start that.
 				if (route == null)
 					StartTrackingRoute(coordinate);
@@ -290,6 +318,10 @@ namespace MyTrips.iOS
 			endTimeLabel.Hidden = false;
 			startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
 			endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
+
+			// Configure UI
+			lblDistance.Text = PastTripsDetailViewModel.Trip.TotalDistanceNoUnits;
+			// lblDuration.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay
 		}
 
 		void ConfigureSlider()

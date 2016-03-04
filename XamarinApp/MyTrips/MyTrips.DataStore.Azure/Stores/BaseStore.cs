@@ -124,9 +124,9 @@ namespace MyTrips.DataStore.Azure.Stores
 
                     return false;
                 }
+                await PullLatestAsync().ConfigureAwait(false);
                 await client.SyncContext.PushAsync().ConfigureAwait(false);
-                if(!(await PullLatestAsync().ConfigureAwait(false)))
-                    return false;
+
             }
             catch(Exception ex)
             {
