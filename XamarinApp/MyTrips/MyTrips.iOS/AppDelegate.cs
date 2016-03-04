@@ -60,9 +60,6 @@ namespace MyTrips.iOS
 		}
 
 		#region Background Refresh
-
-		// Minimum number of seconds between a background refresh
-		// 15 minutes = 15 * 60 = 900 seconds
 		private const double MINIMUM_BACKGROUND_FETCH_INTERVAL = 900;
 
 		private void SetMinimumBackgroundFetchInterval()
@@ -70,14 +67,11 @@ namespace MyTrips.iOS
 			UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(MINIMUM_BACKGROUND_FETCH_INTERVAL);
 		}
 
-		// Called whenever your app performs a background fetch
 		public override async void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
 		{
-			// Do Background Fetch
 			var downloadSuccessful = false;
 			try
 			{
-				// Download data
 				var manager = ServiceLocator.Instance.Resolve<IStoreManager>() as DataStore.Azure.StoreManager;
 				if (manager != null)
 				{
@@ -91,8 +85,6 @@ namespace MyTrips.iOS
 				Logger.Instance.Report(ex);			
 			}
 
-			// If you don't call this, your application will be terminated by the OS.
-			// Allows OS to collect stats like data cost and power consumption
 			if (downloadSuccessful)
 			{
 				completionHandler(UIBackgroundFetchResult.NewData);
@@ -113,13 +105,12 @@ namespace MyTrips.iOS
 				if (uuid == null)
 					return true;
 
-				// Navigate to trip
 				var appDelegate = (AppDelegate)application.Delegate;
-				var tabBarController = (TabBarController)appDelegate.Window.RootViewController;
+				var tabBarController = (UITabBarController) appDelegate.Window.RootViewController;
+				tabBarController.SelectedIndex = 0;
 				var navigationController = (UINavigationController)tabBarController.ViewControllers[0];
 				var tripsViewController = (TripsTableViewController) navigationController.TopViewController;
 				tripsViewController.NavigationController.PopToRootViewController(false);
-
 
 				var trip = tripsViewController.ViewModel.Trips[Int32.Parse(uuid.ToString())];
 
