@@ -14,25 +14,12 @@ namespace MyTrips.iOS
     [Register ("TripSummaryTableViewController")]
     partial class TripSummaryTableViewController
     {
-        [Outlet]
+        [Action ("UIButtonmgbbGHnL_TouchUpInside:")]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblBetterThan { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblDrivingSkill { get; set; }
+        partial void UIButtonmgbbGHnL_TouchUpInside (UIKit.UIButton sender);
 
         void ReleaseDesignerOutlets ()
         {
-            if (lblBetterThan != null) {
-                lblBetterThan.Dispose ();
-                lblBetterThan = null;
-            }
-
-            if (lblDrivingSkill != null) {
-                lblDrivingSkill.Dispose ();
-                lblDrivingSkill = null;
-            }
         }
     }
 }
