@@ -99,7 +99,6 @@
     <Compile Include="Controls\ProfileViewTabControl.xaml.cs">
       <DependentUpon>ProfileViewTabControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\CountConverter.cs" />
     <Compile Include="Converters\DistanceConverter.cs" />
     <Compile Include="Converters\ImageSourceConverter.cs" />
     <Compile Include="Converters\SpeedConverter.cs" />
