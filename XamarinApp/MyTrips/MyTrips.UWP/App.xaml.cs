@@ -23,6 +23,7 @@ using MyTrips.Interfaces;
 using MyTrips.DataStore.Abstractions;
 using MyTrips.DataStore.Mock;
 using MyTrips.DataStore.Mock.Stores;
+using MyTrips.DataObjects;
 
 namespace MyTrips.UWP
 {
@@ -35,6 +36,10 @@ namespace MyTrips.UWP
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
+
+        Trip currentTrip; 
+
+
         public App()
         {
             this.InitializeComponent();
