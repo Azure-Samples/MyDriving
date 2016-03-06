@@ -63,6 +63,7 @@ namespace MyTrips.ViewModel
             MobileServiceUser user = null;
             try
             {
+                authentication.ClearCookies();
                 user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Twitter);
                 if (user != null)
                 {
@@ -113,7 +114,8 @@ namespace MyTrips.ViewModel
             MobileServiceUser user = null;
             try
             {
-                user = user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
+                authentication.ClearCookies();
+                user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
                 if (user != null)
                 {
                     IsBusy = true;
@@ -158,6 +160,7 @@ namespace MyTrips.ViewModel
             MobileServiceUser user = null;
             try
             {
+                authentication.ClearCookies();
                 user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
                 if (user != null)
                 {
