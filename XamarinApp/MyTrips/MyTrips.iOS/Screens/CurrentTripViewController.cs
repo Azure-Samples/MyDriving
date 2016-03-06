@@ -42,6 +42,7 @@ namespace MyTrips.iOS
 			}
 			else
 			{
+                await PastTripsDetailViewModel.ExecuteLoadTripCommandAsync(PastTripsDetailViewModel.Trip.Id);
 				ConfigurePastTripUserInterface();
 			}
 		}
