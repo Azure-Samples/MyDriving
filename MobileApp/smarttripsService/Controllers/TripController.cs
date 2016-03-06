@@ -21,7 +21,8 @@ namespace smarttripsService.Controllers
         }
 
         // GET tables/trip
-       //[Authorize]
+        //[Authorize]
+        [QueryableExpand("Points,Tips")]
         public IQueryable<Trip> GetAllTrips()
         {
             var id = IdentitiyHelper.FindSid(this.User);
