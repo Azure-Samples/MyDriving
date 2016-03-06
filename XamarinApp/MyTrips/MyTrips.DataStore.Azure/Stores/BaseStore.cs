@@ -60,13 +60,14 @@ namespace MyTrips.DataStore.Azure.Stores
         {
             await InitializeStoreAsync().ConfigureAwait(false);
             await PullLatestAsync().ConfigureAwait(false);
-            var items = await Table.Where(s => s.Id == id).ToListAsync().ConfigureAwait(false);
-            return items?[0];
+            var item = await Table.LookupAsync(id).ConfigureAwait(false);
+            return item;
         }
 
         public virtual async Task<bool> InsertAsync(T item)
         {
             await InitializeStoreAsync().ConfigureAwait(false);
+
             await Table.InsertAsync(item).ConfigureAwait(false);
             await SyncAsync();
             return true;

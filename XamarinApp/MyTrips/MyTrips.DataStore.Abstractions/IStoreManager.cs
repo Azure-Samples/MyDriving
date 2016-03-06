@@ -9,6 +9,7 @@ namespace MyTrips.DataStore.Abstractions
         Task InitializeAsync();
         ITripStore TripStore { get; }
         IPhotoStore PhotoStore { get; }
+        IUserStore UserStore { get; }
 
         Task<bool> SyncAllAsync(bool syncUserSpecific);
         Task DropEverythingAsync();

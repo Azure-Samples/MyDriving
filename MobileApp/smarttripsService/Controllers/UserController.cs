@@ -7,58 +7,57 @@ using Microsoft.Azure.Mobile.Server;
 using MyTrips.DataObjects;
 using smarttripsService.Models;
 using smarttripsService.Helpers;
-using System.Web;
 
 namespace smarttripsService.Controllers
 {
-    public class TripController : TableController<Trip>
+    public class UserController : TableController<UserProfile>
     {
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
             smarttripsContext context = new smarttripsContext();
-            DomainManager = new EntityDomainManager<Trip>(context, Request);
+            DomainManager = new EntityDomainManager<UserProfile>(context, Request);
         }
 
-        // GET tables/trip
-        //[Authorize]
-        [QueryableExpand("Points,Tips")]
-        public IQueryable<Trip> GetAllTrips()
+        // GET tables/User
+       //[Authorize]
+        public IQueryable<UserProfile> GetAllUsers()
         {
+            //TODO: remove and add authorize in future
             var id = IdentitiyHelper.FindSid(this.User);
             if (string.IsNullOrWhiteSpace(id))
                 return Query();
-            return Query().Where(s => s.UserId == id);
+            return Query().Where(s => s.UserId == IdentitiyHelper.FindSid(this.User));
         }
 
-        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        [QueryableExpand("Points,Tips")]
+        // GET tables/User/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        [QueryableExpand("Devices")]
        //[Authorize]
-        public SingleResult<Trip> GetTrip(string id)
+        public SingleResult<UserProfile> GetUser(string id)
         {
             return Lookup(id);
         }
 
-        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // PATCH tables/User/48D68C86-6EA6-4C25-AA33-223FC9A27959
        //[Authorize]
-        public Task<Trip> PatchTrip(string id, Delta<Trip> patch)
+        public Task<UserProfile> PatchUser(string id, Delta<UserProfile> patch)
         {
             return UpdateAsync(id, patch);
         }
 
-        // POST tables/TodoItem
+        // POST tables/User
        //[Authorize]
-        public async Task<IHttpActionResult> PostTrip(Trip trip)
+        public async Task<IHttpActionResult> PostUser(UserProfile user)
         {
             var id = IdentitiyHelper.FindSid(this.User);
-            trip.UserId = id;
-            Trip current = await InsertAsync(trip);
+            user.UserId = id;
+            UserProfile current = await InsertAsync(user);
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 
-        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // DELETE tables/User/48D68C86-6EA6-4C25-AA33-223FC9A27959
        //[Authorize]
-        public Task DeleteTrip(string id)
+        public Task DeleteUser(string id)
         {
             return DeleteAsync(id);
         }

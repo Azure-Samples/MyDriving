@@ -338,18 +338,18 @@ namespace MyTrips.iOS
 			return new CLLocationCoordinate2D(position.Latitude, position.Longitude);
 		}
 
-		public static CLLocationCoordinate2D ToCoordinate(this Trail trail)
+        public static CLLocationCoordinate2D ToCoordinate(this TripPoint point)
 		{
-			return new CLLocationCoordinate2D(trail.Latitude, trail.Longitude);
+			return new CLLocationCoordinate2D(point.Latitude, point.Longitude);
 		}
 
-		public static CLLocationCoordinate2D[] ToCoordinateArray(this IList<Trail> trail)
+        public static CLLocationCoordinate2D[] ToCoordinateArray(this IList<TripPoint> points)
 		{
-			var count = trail.Count;
+			var count = points.Count;
 			var coordinates = new CLLocationCoordinate2D[count];
 			for (int i = 0; i < count; i++)
 			{
-				coordinates[i] = trail[i].ToCoordinate();
+				coordinates[i] = points[i].ToCoordinate();
 			}
 
 			return coordinates;

@@ -23,7 +23,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:Trip">
                         <StackPanel>
-                            <TextBlock Text="{x:Bind TripId}" Margin="0,5,0,0"/>
+                            <TextBlock Text="{x:Bind Name}" Margin="0,5,0,0"/>
                             <Grid  Margin="0" HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto" />

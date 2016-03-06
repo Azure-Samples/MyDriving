@@ -6,6 +6,7 @@ using Microsoft.Azure.Devices.Common.Exceptions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using smarttripsService.Models;
+using MyTrips.DataObjects;
 using System.Linq;
 using System;
 
@@ -21,6 +22,7 @@ namespace smarttripsService.Controllers
 
         // GET api/values
         [HttpGet]
+       //[Authorize]
         public async Task<IEnumerable<Device>> Get()
         {
             ensureRegistryManagerInitialized();
@@ -29,6 +31,7 @@ namespace smarttripsService.Controllers
 
         // POST api/values
         [HttpPost]
+       //[Authorize]
         public async Task<IHttpActionResult> Post(string userId, string deviceName)
         {
             Device device;
@@ -41,7 +44,7 @@ namespace smarttripsService.Controllers
             var curUser = context.Users.Where(user => user.UserId == userId).FirstOrDefault();
             if(curUser == null)
             {
-                curUser = context.Users.Add(new DataObjects.User() { Id= Guid.NewGuid().ToString(), UserId = userId });
+                return BadRequest("User has not authenticated with mobile app yet.");
             }
             if(curUser.Devices == null)
             {

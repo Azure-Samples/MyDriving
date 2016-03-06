@@ -42,6 +42,7 @@ namespace MyTrips.iOS
 			}
 			else
 			{
+                await PastTripsDetailViewModel.ExecuteLoadTripCommandAsync(PastTripsDetailViewModel.Trip.Id);
 				ConfigurePastTripUserInterface();
 			}
 		}
@@ -262,14 +263,14 @@ namespace MyTrips.iOS
 		{
 			route = new List<CLLocationCoordinate2D>();
 
-			var count = CurrentTripViewModel.CurrentTrip.Trail.Count;
+            var count = CurrentTripViewModel.CurrentTrip.Points.Count;
 			if (count == 0)
 			{
 				route.Add(coordinate);
 			}
 			else
 			{
-				var firstPoint = CurrentTripViewModel.CurrentTrip.Trail?[0];
+                var firstPoint = CurrentTripViewModel.CurrentTrip.Points?[0];
 				var firstCoordinate = new CLLocationCoordinate2D(firstPoint.Latitude, firstPoint.Longitude);
 				route.Add(firstCoordinate);
 			}
@@ -281,27 +282,27 @@ namespace MyTrips.iOS
 		{
 			NavigationItem.Title = PastTripsDetailViewModel.Title;
 
-			var coordinateCount = PastTripsDetailViewModel.Trip.Trail.Count;
+            var coordinateCount = PastTripsDetailViewModel.Trip.Points.Count;
 
 			// Setup map
 			mapDelegate = new TripMapViewDelegate(UIColor.Blue, 0.6);
 			tripMapView.Delegate = mapDelegate;
 			tripMapView.ShowsUserLocation = false;
 			tripMapView.Camera.Altitude = 5000;
-			tripMapView.SetVisibleMapRect(MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Trail.ToCoordinateArray()).BoundingMapRect, new UIEdgeInsets(25, 25, 25, 25), false);
+            tripMapView.SetVisibleMapRect(MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray()).BoundingMapRect, new UIEdgeInsets(25, 25, 25, 25), false);
 
 			// Draw endpoints
-			var startEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Trail[0].ToCoordinate(), "A");
+            var startEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Points[0].ToCoordinate(), "A");
 			tripMapView.AddAnnotation(startEndpoint);
 
-			var endEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Trail[coordinateCount - 1].ToCoordinate(), "B");
+            var endEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Points[coordinateCount - 1].ToCoordinate(), "B");
 			tripMapView.AddAnnotation(endEndpoint);
 
 			// Draw route
-			tripMapView.DrawRoute(PastTripsDetailViewModel.Trip.Trail.ToCoordinateArray());
+            tripMapView.DrawRoute(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray());
 
 			// Draw car
-			var carCoordinate = PastTripsDetailViewModel.Trip.Trail[coordinateCount / 2].ToCoordinate();
+            var carCoordinate = PastTripsDetailViewModel.Trip.Points[coordinateCount / 2].ToCoordinate();
 			currentLocationAnnotation = new CarAnnotation(carCoordinate, UIColor.Blue);
 			tripMapView.AddAnnotation(currentLocationAnnotation);
 
@@ -326,10 +327,10 @@ namespace MyTrips.iOS
 
 		void ConfigureSlider()
 		{
-			var dataPoints = PastTripsDetailViewModel.Trip.Trail.Count - 1;
+            var dataPoints = PastTripsDetailViewModel.Trip.Points.Count - 1;
 			tripSlider.MinValue = 0;
 			tripSlider.MaxValue = dataPoints;
-			tripSlider.Value = PastTripsDetailViewModel.Trip.Trail.Count / 2;
+            tripSlider.Value = PastTripsDetailViewModel.Trip.Points.Count / 2;
 
 			tripSlider.ValueChanged += TripSlider_ValueChanged;
 		}
@@ -360,7 +361,7 @@ namespace MyTrips.iOS
 		{
 			// Move car to coordinate
 			var value = (int)tripSlider.Value;
-			var coordinate = PastTripsDetailViewModel.Trip.Trail[value].ToCoordinate();
+            var coordinate = PastTripsDetailViewModel.Trip.Points[value].ToCoordinate();
 			UpdateCarAnnotationPosition(coordinate);
 		}
 		#endregion

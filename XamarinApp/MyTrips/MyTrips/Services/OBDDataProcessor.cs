@@ -76,13 +76,13 @@ namespace MyTrips.Services
 
         public async Task AddTripDataPointToBuffer(Trip currentTrip)
         {
-            foreach (Trail tripDataPoint in currentTrip.Trail)
+            foreach (var tripDataPoint in currentTrip.Points)
             {
                 var blob = JsonConvert.SerializeObject(
                     new
                     {
                         Id = currentTrip.Id,
-                        Name = currentTrip.TripId,
+                        Name = currentTrip.Name,
                         UserId = currentTrip.UserId,
                         TripDataPoint = JsonConvert.SerializeObject(tripDataPoint)
             }

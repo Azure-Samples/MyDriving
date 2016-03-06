@@ -47,6 +47,7 @@
     <Compile Include="Stores\TripStore.cs" />
     <Compile Include="StoreManager.cs" />
     <Compile Include="Stores\PhotoStore.cs" />
+    <Compile Include="Stores\UserStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.WindowsAzure.Mobile, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
