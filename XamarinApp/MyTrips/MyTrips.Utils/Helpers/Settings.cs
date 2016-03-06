@@ -14,6 +14,13 @@ namespace MyTrips.Utils
         Microsoft = 2,
         Twitter = 3,
     }
+
+    public enum UserPictureSourceKind
+    {
+        None = 0,
+        Url,
+        Byte
+    }
     /// <summary>
     /// This is the Settings static class that can be used in your Core solution or in any
     /// of your client applications. All settings are laid out the same exact way with getters
@@ -140,6 +147,19 @@ namespace MyTrips.Utils
                     OnPropertyChanged();
             }
         }
+
+		const string CurrencyKey = "currency";
+		static readonly string CurrencyDefault = "US (Dollar)";
+
+		public string Currency
+		{
+			get { return AppSettings.GetValueOrDefault<string>(CurrencyKey, CurrencyDefault); }
+			set
+			{
+				if (AppSettings.AddOrUpdateValue<string>(CurrencyKey, value))
+					OnPropertyChanged();
+			}
+		}
 
         const string FirstRunKey = "first_run";
         static readonly bool FirstRunDefault = true;
@@ -286,6 +306,47 @@ namespace MyTrips.Utils
             }
         }
 
+
+        const string ProfileByteKey = "user_profile_byte";
+        static readonly byte[] ProfileByteDefault = new byte[0];
+
+        public byte[] UserProfileByteArr
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault<byte[]>(ProfileByteKey, ProfileByteDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue<byte[]>(ProfileByteKey, value);
+            }
+        }
+
+
+        const string UserPictureSourceKey = "picture_source";
+        static readonly UserPictureSourceKind UserPictureSourceDefault = UserPictureSourceKind.None;
+
+        public UserPictureSourceKind UserPictureSourceKind
+        {
+            get { return (UserPictureSourceKind)AppSettings.GetValueOrDefault<int>(UserPictureSourceKey, (int)UserPictureSourceDefault); }
+            set
+            {
+                if (AppSettings.AddOrUpdateValue<int>(UserPictureSourceKey, (int)value))
+                    OnPropertyChanged();
+            }
+        }
+
+        public void CleanupUserProfile()
+        {
+            UserId = String.Empty;
+            AuthToken = String.Empty;
+            UserProfileUrl = String.Empty;
+            UserFirstName = String.Empty;
+            UserLastName = String.Empty;
+            LoginAccount = LoginAccount.None;
+            UserPictureSourceKind = UserPictureSourceKind.None;
+            UserProfileByteArr = new byte[0];
+        }
         #endregion
 
 

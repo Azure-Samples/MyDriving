@@ -16,6 +16,8 @@ namespace MyTrips.DataStore.Azure
     {
         #region IStoreManager implementation
 
+        MobileServiceSQLiteStore store;
+
         public async Task InitializeAsync()
         {
             if (IsInitialized)
@@ -31,28 +33,26 @@ namespace MyTrips.DataStore.Azure
             
             var path = $"syncstore{Settings.Current.DatabaseId}.db";
             //setup our local sqlite store and intialize our table
-            var store = new MobileServiceSQLiteStore(path);
+            store = new MobileServiceSQLiteStore(path);
 
             store.DefineTable<Telemetry>();
             store.DefineTable<Trail>();
             store.DefineTable<Photo>();
             store.DefineTable<Trip>();
+            store.DefineTable<IOTHubData>();
 
             await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler()).ConfigureAwait(false);
-
 
             IsInitialized = true;
         }
 
         public async Task<bool> SyncAllAsync(bool syncUserSpecific)
         {
-
             if(!IsInitialized)
                 await InitializeAsync();
 
             var taskList = new List<Task<bool>>();
             taskList.Add(TripStore.SyncAsync());
-
 
             var successes = await Task.WhenAll(taskList).ConfigureAwait(false);
             return successes.Any(x => !x);//if any were a failure.
@@ -77,6 +77,9 @@ namespace MyTrips.DataStore.Azure
 
         IPhotoStore photoStore;
         public IPhotoStore PhotoStore => photoStore ?? (photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
+
+        IHubIOTStore iotHubStore;
+        public IHubIOTStore IOTHubStore => iotHubStore ?? (iotHubStore = ServiceLocator.Instance.Resolve<IHubIOTStore>());
 
         #endregion
     }

@@ -43,6 +43,7 @@ namespace MyTrips.ViewModel
             Settings.UserFirstName = "Scott";
             Settings.UserLastName = "Gu";
             Settings.UserProfileUrl = "http://refractored.com/images/Scott.png";
+            Settings.UserPictureSourceKind = UserPictureSourceKind.Url;
         }
 
         ICommand  loginTwitterCommand;

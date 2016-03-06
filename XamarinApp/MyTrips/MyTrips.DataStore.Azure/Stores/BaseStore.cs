@@ -25,9 +25,10 @@ namespace MyTrips.DataStore.Azure.Stores
 
         
 
-        public void DropTable()
+        public virtual Task<bool> DropTable()
         {
             table = null;
+            return Task.FromResult(true);
         }
 
         public BaseStore()
@@ -91,7 +92,7 @@ namespace MyTrips.DataStore.Azure.Stores
         {
             if (!CrossConnectivity.Current.IsConnected)
             {
-                Debug.WriteLine("Unable to pull items, we are offline");
+                Logger.Instance.WriteLine("Unable to pull items, we are offline");
                 return false;
             }
             try
@@ -100,7 +101,7 @@ namespace MyTrips.DataStore.Azure.Stores
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Unable to pull items, that is alright as we have offline capabilities: " + ex);
+                Logger.Instance.WriteLine("Unable to pull items, that is alright as we have offline capabilities: " + ex);
                 return false;
             }
             return true;
@@ -111,7 +112,7 @@ namespace MyTrips.DataStore.Azure.Stores
         {
             if (!CrossConnectivity.Current.IsConnected)
             {
-                Debug.WriteLine("Unable to sync items, we are offline");
+                Logger.Instance.WriteLine("Unable to sync items, we are offline");
                 return false;
             }
             try
@@ -119,17 +120,17 @@ namespace MyTrips.DataStore.Azure.Stores
                 var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
                 if (client == null)
                 {
-                    Debug.WriteLine("Unable to sync items, client is null");
+                    Logger.Instance.WriteLine("Unable to sync items, client is null");
 
                     return false;
                 }
+                await PullLatestAsync().ConfigureAwait(false);
                 await client.SyncContext.PushAsync().ConfigureAwait(false);
-                if(!(await PullLatestAsync().ConfigureAwait(false)))
-                    return false;
+
             }
             catch(Exception ex)
             {
-                Debug.WriteLine("Unable to sync items, that is alright as we have offline capabilities: " + ex);
+                Logger.Instance.WriteLine("Unable to sync items, that is alright as we have offline capabilities: " + ex);
                 return false;
             }
             finally

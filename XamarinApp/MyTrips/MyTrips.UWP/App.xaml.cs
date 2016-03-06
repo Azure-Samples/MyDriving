@@ -20,6 +20,9 @@ using Microsoft.WindowsAzure.MobileServices;
 using MyTrips.UWP.Views;
 using MyTrips.Shared;
 using MyTrips.Interfaces;
+using MyTrips.DataStore.Abstractions;
+using MyTrips.DataStore.Mock;
+using MyTrips.DataStore.Mock.Stores;
 
 namespace MyTrips.UWP
 {
@@ -68,8 +71,17 @@ namespace MyTrips.UWP
                 //Register platform specific implementations of shared interfaces
                 ServiceLocator.Instance.Add<IAuthentication, Authentication>();
                 ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
+                ServiceLocator.Instance.Add<MyTrips.Utils.Interfaces.ILogger, MyTrips.Shared.PlatformLogger>();
+                
+                //TODO: Need to add #debug compile dir for all offline\mock interfaces
                 //ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
                 ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
+
+                ServiceLocator.Instance.Add<IStoreManager, MyTrips.DataStore.Mock.StoreManager>();
+                //ServiceLocator.Instance.Add<IStoreManager, MyTrips.DataStore.Azure.StoreManager>();
+
+                ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Mock.Stores.IOTHubStore>();
+                //ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Azure.Stores.IOTHubStore>();
 
                 Xamarin.Insights.Initialize(Logger.InsightsKey);
 

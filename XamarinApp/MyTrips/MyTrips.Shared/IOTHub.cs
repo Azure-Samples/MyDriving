@@ -12,7 +12,7 @@ namespace MyTrips.Shared
 {
     public class IOTHub : IHubIOT
     {
-        #if WINDOWS_UWP
+#if WINDOWS_UWP
         private DeviceClient deviceClient;
 
         public void Initialize(string connectionStr)
@@ -20,27 +20,18 @@ namespace MyTrips.Shared
             this.deviceClient = DeviceClient.CreateFromConnectionString(connectionStr);
         }
 
-        public async Task SendEvent(string blob)
+        public async Task SendEvents(IEnumerable<String> blobs)
         {
-            var message = new Message(Encoding.ASCII.GetBytes(blob));
-
-            try
-            {
-                await this.deviceClient.SendEventAsync(message);
-            }
-            catch
-            {
-                //TODO: need to add retry logic
-                throw;
-            }
+            List<Microsoft.Azure.Devices.Client.Message> messages = blobs.Select(b => new Microsoft.Azure.Devices.Client.Message(System.Text.Encoding.ASCII.GetBytes(b))).ToList();
+            await this.deviceClient.SendEventBatchAsync(messages);
         }
-        #else
+#else
         public void Initialize(string connectionStr)
         {
            
         }
 
-        public Task SendEvent(string blob)
+        public Task SendEvents(IEnumerable<String> blobs)
         {
             return Task.FromResult(true);
         }

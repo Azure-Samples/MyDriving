@@ -37,7 +37,7 @@ namespace MyTrips.iOS
 				fromView.Superview.AddSubview(toView);
 				toView.Frame = new CGRect(offset, destFrame.Y, destFrame.Width, destFrame.Height);
 
-				UIView.Animate(0.1,
+				UIView.Animate(0.2,
 				               () =>
 				{
 					toView.Frame = new CGRect(0, destFrame.Y, destFrame.Width, destFrame.Height);

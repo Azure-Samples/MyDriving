@@ -31,8 +31,7 @@ namespace MyTrips.UWP.Views
 
         public IList<BasicGeoposition> Locations { get; set; }
 
-        RandomAccessStreamReference mapIconStreamReference;
-
+      
         public PastTripMapView()
         {
             this.InitializeComponent();
@@ -41,13 +40,12 @@ namespace MyTrips.UWP.Views
         }
 
         PastTripsDetailViewModel ViewModel;
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var trip = e.Parameter as Trip;
             base.OnNavigatedTo(e);
             this.MyMap.Loaded += MyMap_Loaded;
             this.ViewModel.Trip = trip;
-            mapIconStreamReference = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_start_point.png"));
             DrawPath();
         }
 
@@ -91,8 +89,7 @@ namespace MyTrips.UWP.Views
             mapStartIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
 
             MyMap.MapElements.Add(mapStartIcon);
-            mapStartIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-
+     
             //Draw End Icon
             MapIcon mapEndIcon = new MapIcon();
             mapEndIcon.Location = new Geopoint(Locations.Last());
@@ -130,15 +127,6 @@ namespace MyTrips.UWP.Views
             MyMap.MapElements.RemoveAt(MyMap.MapElements.Count - 1);
             DrawCarOnMap(basicGeoposition);
             await MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
-            //if (carMarker == null)
-            //    return;
-            //var location = viewModel.Trip.Trail[e.Progress];
-
-            //RunOnUiThread(() =>
-            //{
-            //    carMarker.Position = new LatLng(location.Latitude, location.Longitude);
-            //    map.MoveCamera(CameraUpdateFactory.NewLatLng(carMarker.Position));
-            //});
         }
     }
 }

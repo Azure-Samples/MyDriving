@@ -17,50 +17,48 @@ namespace MyTrips.Utils
         static ILogger instance;
         public static ILogger Instance
         {
-            get  { return instance ?? (instance = new Logger()); }
+            get  { return instance ?? (instance = ServiceLocator.Instance.Resolve<ILogger>()); }
         }
         #region ILogger implementation
-        public void Identify(string uid, IDictionary<string, string> table = null)
+
+        public virtual void WriteLine(string line)
         {
-            Debug.WriteLine("Logger: Identify: " + uid);
+        }
+        public virtual void Identify(string uid, IDictionary<string, string> table = null)
+        {
             if (!Xamarin.Insights.IsInitialized)
                 return;
             Xamarin.Insights.Identify(uid, table);
         }
-        public void Identify(string uid, string key, string value)
+        public virtual void Identify(string uid, string key, string value)
         {
-            Debug.WriteLine("Logger: Identify: " + uid + " key: " + key + " value: " + value);
             if (!Xamarin.Insights.IsInitialized)
                 return;
             Xamarin.Insights.Identify(uid, key, value);
         }
 
-        public void Track(string trackIdentifier, IDictionary<string, string> table = null)
+        public virtual  void Track(string trackIdentifier, IDictionary<string, string> table = null)
         {
-            Debug.WriteLine("Logger: Track: " + trackIdentifier);
             if (!Xamarin.Insights.IsInitialized)
                 return;
             Xamarin.Insights.Track(trackIdentifier, table);
         }
-        public void Track(string trackIdentifier, string key, string value)
+        public virtual void Track(string trackIdentifier, string key, string value)
         {
-            Debug.WriteLine("Logger: Track: " + trackIdentifier + " key: " + key + " value: " + value);
             if (!Xamarin.Insights.IsInitialized)
                 return;
             Xamarin.Insights.Track(trackIdentifier, key, value);
         }
-        public ITrackHandle TrackTime(string identifier, IDictionary<string, string> table = null)
+        public virtual ITrackHandle TrackTime(string identifier, IDictionary<string, string> table = null)
         {
-            Debug.WriteLine("Logger: TrackTime: " + identifier);
 
             if (!Xamarin.Insights.IsInitialized)
                 return null;
             var handle = Xamarin.Insights.TrackTime(identifier, table);
             return new MyTripsTrackHandle(handle);
         }
-        public ITrackHandle TrackTime(string identifier, string key, string value)
+        public virtual ITrackHandle TrackTime(string identifier, string key, string value)
         {
-            Debug.WriteLine("Logger: TrackTime: " + identifier + " key: " + key + " value: " + value);
 
             if (!Xamarin.Insights.IsInitialized)
                 return null;
@@ -68,39 +66,34 @@ namespace MyTrips.Utils
             var handle = Xamarin.Insights.TrackTime(identifier, key, value);
             return new MyTripsTrackHandle(handle);
         }
-        public void Report(Exception exception = null, Severity warningLevel = Severity.Warning)
+        public virtual void Report(Exception exception = null, Severity warningLevel = Severity.Warning)
         {
-            Debug.WriteLine("Logger: Report: " + exception);
             if (!Xamarin.Insights.IsInitialized)
                 return;
 
             Xamarin.Insights.Report(exception, GetSeverity(warningLevel));
         }
-        public void Report(Exception exception, IDictionary extraData, Severity warningLevel = Severity.Warning)
+        public virtual void Report(Exception exception, IDictionary extraData, Severity warningLevel = Severity.Warning)
         {
-            Debug.WriteLine("Logger: Report: " + exception);
 
             if (!Xamarin.Insights.IsInitialized)
                 return;
             Xamarin.Insights.Report(exception, extraData, GetSeverity(warningLevel));
         }
-        public void Report(Exception exception, string key, string value, Severity warningLevel = Severity.Warning)
+        public virtual void Report(Exception exception, string key, string value, Severity warningLevel = Severity.Warning)
         {
-            Debug.WriteLine("Logger: Report: " + exception + " key: " + key + " value: " + value);
             if (!Xamarin.Insights.IsInitialized)
                 return;
             Xamarin.Insights.Report(exception, key, value, GetSeverity(warningLevel));
         }
-        public Task Save()
+        public virtual Task Save()
         {
-            Debug.WriteLine("Logger: Save");
             if (!Xamarin.Insights.IsInitialized)
                 return null;
             return Xamarin.Insights.Save();
         }
-        public Task PurgePendingCrashReports()
+        public virtual Task PurgePendingCrashReports()
         {
-            Debug.WriteLine("Logger: PurgePendingCrashReports");
             if (!Xamarin.Insights.IsInitialized)
                 return null;
             return Xamarin.Insights.PurgePendingCrashReports();
