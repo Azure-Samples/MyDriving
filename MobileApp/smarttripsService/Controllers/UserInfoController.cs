@@ -21,10 +21,7 @@ namespace smarttripsService.Controllers
     [MobileAppController]
     public class UserInfoController : ApiController
     {
-        const string FacebookGraphUrl = "https://graph.facebook.com/v2.5/me?fields=first_name%2Clast_name%2Cpicture%7Burl%7D&access_token=";
-        const string MicrosoftUrl = "https://apis.live.net/v5.0/me?access_token=";
-        const string TwitterUrl = "https://api.twitter.com/1.1/users/show.json?user_id=";
-
+       
         // GET api/UserInfo
         public async Task<DataObjects.UserProfile> Get()
         {
@@ -44,12 +41,12 @@ namespace smarttripsService.Controllers
                 {
                     userId = fbCredentials.UserId;
 
-                    await FillDataFromFacebook(userProfile, fbCredentials.AccessToken);
+                    await FillDataFromFacebook(userProfile, fbCredentials);
                 }
                 else if (msCredentials?.UserClaims?.Count() > 0)
                 {
                     userId = msCredentials.UserId;
-                    await FillDataFromMS(userProfile, msCredentials.AccessToken);
+                    await FillDataFromMS(userProfile, msCredentials);
                 }
                 else
                 {
@@ -79,96 +76,51 @@ namespace smarttripsService.Controllers
             return userProfile;
         }
 
-        private static async Task FillDataFromFacebook(DataObjects.UserProfile userProfile, string token)
+        private static async Task FillDataFromFacebook(DataObjects.UserProfile userProfile, FacebookCredentials credentials)
         {
-            // Create a query string with the Facebook access token.
-            var fbRequestUrl = FacebookGraphUrl + token;
 
-            using (var client = new HttpClient())
-            {
-                // Request the current user info from Facebook.
-                var resp = await client.GetAsync(fbRequestUrl);
-                resp.EnsureSuccessStatusCode();
+            var first = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value ?? string.Empty;
+            var last = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value ?? string.Empty;
+            var id = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
 
-                string fbInfo = await resp.Content.ReadAsStringAsync();
+            var profile = $"https://graph.facebook.com/{id}/picture?type=large";
 
-                JObject fbObject = JObject.Parse(fbInfo);
-                userProfile.FirstName = fbObject.GetValue("first_name")?.ToString() ?? string.Empty;
-                userProfile.LastName = fbObject.GetValue("last_name")?.ToString() ?? string.Empty;
-                var picture = fbObject.GetValue("picture")?.ToString() ?? string.Empty;
-                var data = JObject.Parse(picture)?.GetValue("data")?.ToString() ?? string.Empty;
-                var url = JObject.Parse(data)?.GetValue("url")?.ToString() ?? string.Empty;
-                userProfile.ProfilePictureUri = url;
-            }
+            userProfile.FirstName = first;
+            userProfile.LastName = last;
+            userProfile.ProfilePictureUri = profile;
         }
 
         static async Task FillDataFromTwitter(DataObjects.UserProfile userProfile, TwitterCredentials credentials, string key, string secret)
         {
-            var twitterId = ulong.Parse(credentials.UserId.Substring(credentials.UserId.IndexOf(':') + 1));
-            
-            var auth = new MvcAuthorizer
-            {
-                CredentialStore = new LinqToTwitter.SessionStateCredentialStore
-                {
-                    OAuthToken = credentials.AccessToken,
-                    OAuthTokenSecret = credentials.AccessTokenSecret,
-                    ConsumerKey = key,
-                    ConsumerSecret = secret,
-                    UserID = twitterId
-                }
-            };
+            var name = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? string.Empty;
+            var profile = credentials.UserClaims.FirstOrDefault(c => c.Type == "urn:twitter:profile_image_url_https")?.Value ?? string.Empty;
 
-            await auth.AuthorizeAsync();
-
-            var ctx = new TwitterContext(auth);
-
-            var userResponse =
-              await
-              (from user in ctx.User
-               where user.Type == UserType.Lookup &&
-                     user.UserID == twitterId
-               select user)
-              .ToListAsync();
-
-            if (userResponse.Count == 0)
-                return;
-
-            var twitterUser = userResponse[0];
-            userProfile.FirstName = twitterUser.Name;
+            //get largest image from twitter
+            profile = profile.Replace("_normal", string.Empty);
+            userProfile.FirstName = name;
             userProfile.LastName = string.Empty;
-            userProfile.ProfilePictureUri = twitterUser.ProfileImageUrlHttps;
+            userProfile.ProfilePictureUri = profile;
 
         }
 
 
-        private static async Task FillDataFromMS(DataObjects.UserProfile userProfile, string token)
+        private static async Task FillDataFromMS(DataObjects.UserProfile userProfile, MicrosoftAccountCredentials credentials)
         {
-            // Create a query string with the Facebook access token.
-            var msRequestUrl = MicrosoftUrl + token;
-            var pictureUrl = string.Empty;
-            using (var client = new System.Net.Http.HttpClient())
-            {
-                var resp = await client.GetAsync(msRequestUrl);
-                resp.EnsureSuccessStatusCode();
-                string info = await resp.Content.ReadAsStringAsync();
-                JObject fbObject = JObject.Parse(info);
-                userProfile.FirstName = fbObject.GetValue("first_name")?.ToString() ?? string.Empty;
-                userProfile.LastName = fbObject.GetValue("last_name")?.ToString() ?? string.Empty;
-                string id = fbObject.GetValue("id")?.ToString() ?? string.Empty;
-              
-                if(!string.IsNullOrWhiteSpace(id))
-                    pictureUrl = string.Format("https://apis.live.net/v5.0/{0}/picture", id);
+           
+            var first = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value ?? string.Empty;
+            var last = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value ?? string.Empty;
+            var id = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
 
-                userProfile.ProfilePictureUri = pictureUrl;
-            }
+            var profile = $"https://apis.live.net/v5.0/{id}/picture";
 
-            if (string.IsNullOrWhiteSpace(pictureUrl))
-                return;
+            userProfile.FirstName = first;
+            userProfile.LastName = last;
+            userProfile.ProfilePictureUri = profile;
 
             //request for the profile picture
             using (var client = new HttpClient())
             {
-                var resp = await client.GetAsync(pictureUrl);
+                var resp = await client.GetAsync(userProfile.ProfilePictureUri);
                 resp.EnsureSuccessStatusCode();
                 var picture = await resp.Content.ReadAsByteArrayAsync();
                 userProfile.ProfilePicture = picture;

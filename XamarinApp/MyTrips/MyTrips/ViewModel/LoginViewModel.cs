@@ -64,8 +64,17 @@ namespace MyTrips.ViewModel
             try
             {
                 user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Twitter);
-                if(user != null)
-                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+                if (user != null)
+                {
+                    IsBusy = true;
+                    using (Acr.UserDialogs.UserDialogs.Instance.Loading("Creating account...", show: true, maskType: Acr.UserDialogs.MaskType.Clear))
+                    {
+
+                        UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+                    }
+                }
+                
+             
             }
             catch (Exception ex)
             {
@@ -73,9 +82,13 @@ namespace MyTrips.ViewModel
             }
             track.Stop();
 
-            if(user == null)
+            if(user == null || UserInfo == null)
             {
                 Settings.LoginAccount = LoginAccount.None;
+                Settings.UserFirstName = string.Empty;
+                Settings.AuthToken = string.Empty;
+                Settings.UserLastName = string.Empty;
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to login or create account.", "Login error", "OK");
                 return;
             }
 
@@ -102,7 +115,14 @@ namespace MyTrips.ViewModel
             {
                 user = user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
                 if (user != null)
-                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+                {
+                    IsBusy = true;
+                    using (Acr.UserDialogs.UserDialogs.Instance.Loading("Creating account...", show: true, maskType: Acr.UserDialogs.MaskType.Clear))
+                    {
+
+                        UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -110,9 +130,13 @@ namespace MyTrips.ViewModel
             }
             track.Stop();
 
-            if(user == null)
+            if(user == null || UserInfo == null)
             {
                 Settings.LoginAccount = LoginAccount.None;
+                Settings.UserFirstName = string.Empty;
+                Settings.AuthToken = string.Empty;
+                Settings.UserLastName = string.Empty;
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to login or create account.", "Login error", "OK");
                 return;
             }
 
@@ -135,8 +159,15 @@ namespace MyTrips.ViewModel
             try
             {
                 user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
-                if(user != null)
-                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+                if (user != null)
+                {
+                    IsBusy = true;
+                    using (Acr.UserDialogs.UserDialogs.Instance.Loading("Creating account...", show: true, maskType: Acr.UserDialogs.MaskType.Clear))
+                    {
+
+                        UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -144,9 +175,13 @@ namespace MyTrips.ViewModel
             }
             track.Stop();
 
-            if(user == null)
+            if(user == null || UserInfo == null)
             {
                 Settings.LoginAccount = LoginAccount.None;
+                Settings.UserFirstName = string.Empty;
+                Settings.AuthToken = string.Empty;
+                Settings.UserLastName = string.Empty;
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to login or create account.", "Login error", "OK");
                 return;
             }
 
