@@ -9,7 +9,7 @@ namespace MyTrips.ViewModel
     public class ViewModelBase : BaseViewModel
     {
         
-        public static void Init(bool useMock = true)
+        public static void Init(bool useMock = false)
         {
             ServiceLocator.Instance.Add<IAzureClient, AzureClient.AzureClient>();
             if (useMock)

@@ -7,7 +7,7 @@ namespace MyTrips.AzureClient
     public class AzureClient : IAzureClient
     {
         IMobileServiceClient client;
-        public IMobileServiceClient Client => client ?? (client = new MobileServiceClient("https://smartkar.azurewebsites.net", new AuthHandler()));
+        public IMobileServiceClient Client => client ?? (client = new MobileServiceClient("https://motzsmarttrips.azurewebsites.net", new AuthHandler()));
     }
 }
 

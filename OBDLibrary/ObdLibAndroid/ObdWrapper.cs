@@ -429,9 +429,12 @@ namespace ObdLibAndroid
         public void Disconnect()
         {
             _running = false;
-            _bluetoothSocket.Dispose();
-            _bluetoothSocket.Close();
-            _bluetoothSocket = null;
+            if (_bluetoothSocket != null)
+            {
+                _bluetoothSocket.Dispose();
+                _bluetoothSocket.Close();
+                _bluetoothSocket = null;
+            }
         }
     }
 }

@@ -29,7 +29,7 @@ namespace MyTrips.DataObjects
 
         public IList<Tip> Tips { get; set; }
 
-        public DateTime TimeStamp { get; set; }
+        public DateTime RecordedTimeStamp { get; set; }
 
         public int Rating { get; set; }
 
@@ -56,12 +56,10 @@ namespace MyTrips.DataObjects
             get { return distance; }
             set { SetProperty(ref distance, value); }
         }
-        #endif
 
-        #if !BACKEND
         //Do not sync with backend, used localy only
         [JsonIgnore]
-        public string TimeAgo => TimeStamp.Humanize();
+        public string TimeAgo => RecordedTimeStamp.Humanize();
 
         [JsonIgnore]
         public string TotalDistance => Distance.ToString("F") + " miles";
@@ -70,10 +68,10 @@ namespace MyTrips.DataObjects
         public string TotalDistanceNoUnits => Distance.ToString("f");
 
         [JsonIgnore]
-        public string StartTimeDisplay => TimeStamp.ToLocalTime().ToString("t");
+        public string StartTimeDisplay => RecordedTimeStamp.ToLocalTime().ToString("t");
 
         [JsonIgnore]
-        public string EndTimeDisplay => (Points?.Count).GetValueOrDefault() > 0 ? Points[Points.Count - 1].TimeStamp.ToLocalTime().ToString("t") : string.Empty;
+        public string EndTimeDisplay => (Points?.Count).GetValueOrDefault() > 0 ? Points[Points.Count - 1].RecordedTimeStamp.ToLocalTime().ToString("t") : string.Empty;
 
         [JsonIgnore]
         public IList<Photo> Photos { get; set; }

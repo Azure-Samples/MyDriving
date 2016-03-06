@@ -4,6 +4,7 @@ using MyTrips.DataStore.Abstractions;
 using MyTrips.DataStore.Mock;
 using MyTrips.Interfaces;
 using MyTrips.Utils;
+using MyTrips.ViewModel;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
@@ -17,16 +18,16 @@ namespace MyTrips.Services
 {
     public class OBDDataProcessor
     {
+        int pushDataAttempts = 0;
         IHubIOT iotHub;
         IOBDDevice obdDevice;
-        Dictionary<string, string> diagnosticDataDictionary;
         bool canReadData;
-        StringBuilder obdDataBuffer;
         Stopwatch obdReconnectTimer;
         //MyTrips.DataStore.Azure.StoreManager storeManager;
         MyTrips.DataStore.Mock.StoreManager storeManager;
 
-        public event EventHandler OnOBDDeviceDisconnected;
+        public delegate void OBDDeviceHandler(bool retryToConnect);
+        public event OBDDeviceHandler OnOBDDeviceDisconnected;
 
         //Init must be called each time to connect and reconnect to the OBD device
         public async Task Initialize()
@@ -45,38 +46,51 @@ namespace MyTrips.Services
             //Initialize the IOT Hub
             this.iotHub.Initialize(connectionStr);
 
-            this.obdDataBuffer = new StringBuilder();
             this.obdReconnectTimer = new Stopwatch();
 
             CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
         }
 
-        public async Task StartReadingOBDData()
+        public Dictionary<String, String> ReadOBDData()
         {
-            this.canReadData = await this.ConnectToOBDDevice();
-
-            while (this.canReadData)
+            Dictionary<String, String> obdData;
+            if (this.canReadData)
             {
-                this.diagnosticDataDictionary = this.obdDevice.ReadData();
+                obdData = this.obdDevice.ReadData();
 
-                //If the dictionary contains all empty strings, then it hasn't been refreshed with new data yet
-                bool isDataRefreshed = this.diagnosticDataDictionary.Values.Where(d => d != String.Empty).ToArray().Count() >= 1;
-
-                //Null is returned when OBD device cannot be connected to
-                if (this.diagnosticDataDictionary != null && isDataRefreshed)
+                if (obdData == null)
                 {
-                    //Buffer the trip data read from the OBD device
-                    string obdDataPoint = JsonConvert.SerializeObject(this.diagnosticDataDictionary);
-                    this.obdDataBuffer.Append(obdDataPoint);
-                }
-                else
-                {
+                    //Null is returned if connection to the OBD device is dropped
                     this.canReadData = false;
-                    this.canReadData = await this.ConnectToOBDDevice();
+                    this.OnOBDDeviceDisconnected(true);
+                    obdData = new Dictionary<string, string>();
                 }
+            }
+            else
+            {
+                obdData = new Dictionary<string, string>();
+            }
 
-                //Attempt to read OBD device data every 3 seconds
-                await Task.Delay(3000);
+            return obdData;
+        }
+
+        public async Task AddTripDataPointToBuffer(Trip currentTrip)
+        {
+            foreach (var tripDataPoint in currentTrip.Points)
+            {
+                var blob = JsonConvert.SerializeObject(
+                    new
+                    {
+                        Id = currentTrip.Id,
+                        Name = currentTrip.Name,
+                        UserId = currentTrip.UserId,
+                        TripDataPoint = JsonConvert.SerializeObject(tripDataPoint)
+                    }
+                 );
+
+                IOTHubData iotHubData = new IOTHubData();
+                iotHubData.Blob = blob;
+                await this.storeManager.IOTHubStore.InsertAsync(iotHubData);
             }
         }
 
@@ -84,76 +98,56 @@ namespace MyTrips.Services
         {
             if (e.IsConnected)
             {
-                await this.PushTripData();
+                await this.PushTripDataToIOTHub();
             }
         }
 
-        public async Task PushTripData(Trip currentTrip)
+        public async Task PushTripDataToIOTHub()
         {
-            //TODO: Still deciding on data that will be sent and format - just packaging a bunch of stuff for now
-            //Package the trip data gathered from the phone
-            IOTHubData iotHubData = new IOTHubData();
-            iotHubData.Id = currentTrip.Id;
-            iotHubData.TripName = currentTrip.Name;
-            iotHubData.UserId = currentTrip.UserId;
-            iotHubData.TimeStamp = currentTrip.TimeStamp;
-            iotHubData.TripPoints = JsonConvert.SerializeObject(currentTrip.Points);
-
-            //And package it with the OBD data
-            iotHubData.OBDData = this.obdDataBuffer.ToString();
-            this.obdDataBuffer.Clear();
-
-            //Store the trip data locally until it's successfully pushed to the IOT Hub
-            await this.storeManager.IOTHubStore.InsertAsync(iotHubData);
-
-            await this.PushTripData();
-        }
-
-        private async Task PushTripData()
-        {
+            pushDataAttempts++;
             var iotHubDataBlobs = await this.storeManager.IOTHubStore.GetItemsAsync();
 
-            if (iotHubDataBlobs.Count() <= 0)
+            //Stop pushing data if the buffer is empty (which means all data has been successfully pushed)
+            //Or, we've had more than 50 failed attempts
+            if (iotHubDataBlobs.Count() <= 0 || pushDataAttempts > 50)
             {
+                pushDataAttempts = 0;
                 return;
             }
 
-            foreach (var blob in iotHubDataBlobs)
+            if (CrossConnectivity.Current.IsConnected)
             {
-                if (CrossConnectivity.Current.IsConnected)
+                try
                 {
-                    try
-                    {
-                        //Once the trip is pushed to the IOT Hub, delete it from the local store
-                        await this.iotHub.SendEvent(JsonConvert.SerializeObject(blob));
-                        await this.storeManager.IOTHubStore.RemoveAsync(blob);
-                    }
-                    catch (Exception e)
-                    {
-                        //An exception will be thrown if the data isn't received by the IOT Hub
-                        //In this case, wait a second and try again with the next trip
-                        await Task.Delay(1000);
-                    }
+                    //Once the trip is pushed to the IOT Hub, delete it from the local store
+                    await this.iotHub.SendEvents(iotHubDataBlobs.Select(i => i.Blob));
+                    await this.storeManager.IOTHubStore.DropTable();
                 }
-                else
+                catch (Exception ex)
                 {
-                    //If there is no network connection, then stop trying to push data entirely
-                    //Instead, we'll wait to try to push data again when the ConnectivityChanged event is raised with successful network connection
-                    return;
+                    //An exception will be thrown if the data isn't received by the IOT Hub
+                    await Task.Delay(1000);
+                    Logger.Instance.Report(ex);
                 }
+            }
+            else
+            {
+                //If there is no network connection, then stop trying to push data entirely
+                //Instead, we'll wait to try to push data again when the ConnectivityChanged event is raised with successful network connection
+                return;
             }
 
             //If any data wasn't received by the IOT Hub, there may still be data in the local store - try again
-            await this.PushTripData();
+            await this.PushTripDataToIOTHub();
         }
 
-        public async Task StopReadingOBDData()
+        public async Task DisconnectFromOBDDevice()
         {
             await this.obdDevice.Disconnect();
             this.canReadData = false;
         }
 
-        private async Task<bool> ConnectToOBDDevice()
+        public async Task ConnectToOBDDevice()
         {
             this.obdReconnectTimer.Restart();
             while (!await this.obdDevice.Initialize())
@@ -176,16 +170,16 @@ namespace MyTrips.Services
                 else
                 {
                     //Give up after 24 hours???
-                    this.OnOBDDeviceDisconnected(this.obdDevice, new EventArgs());
-                    return false;
+                    this.OnOBDDeviceDisconnected(false);
+                    this.canReadData = false;
                 }
             }
 
             this.obdReconnectTimer.Stop();
-            return true;
+            this.canReadData = true;
         }
 
-        //Called by mobile app when an app is resumed
+        //TODO: Should be called by mobile app when an app is resumed
         public void ResetIncrementalConnection()
         {
             this.obdReconnectTimer.Restart();

@@ -20,15 +20,34 @@ namespace MyTrips.iOS
 		public override void ViewDidLoad()
 		{
             viewModel = new LoginViewModel();
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
 			//Prepare buttons for fade in animation.
 			btnFacebook.Alpha = 0;
 			btnTwitter.Alpha = 0;
 			btnMicrosoft.Alpha = 0;
+			btnSkipAuth.Alpha = 0;
 		}
 
-		public override async void ViewDidAppear(bool animated)
+        void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(viewModel.IsLoggedIn):
+                    if(viewModel.IsLoggedIn)
+                        GoToMain();
+                    break;
+            }
+        }
+
+        public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
+
+            if (Settings.Current.IsLoggedIn || viewModel.IsLoggedIn)
+            {
+                GoToMain();
+                return;
+            }
 
             if (didAnimate)
                 return;
@@ -37,33 +56,20 @@ namespace MyTrips.iOS
 			btnFacebook.FadeIn(0.3, 0.3f);
 			btnTwitter.FadeIn(0.3, 0.5f);
 			btnMicrosoft.FadeIn(0.3, 0.7f);
+			btnSkipAuth.FadeIn(0.3, 0.9f);
 		}
 
-		async partial void BtnFacebook_TouchUpInside(UIButton sender)
-		{
-            await LoginAsync(LoginAccount.Facebook);
-        }
+		partial void BtnFacebook_TouchUpInside(UIButton sender) => LoginAsync(LoginAccount.Facebook);
 
-		async partial void BtnTwitter_TouchUpInside(UIButton sender)
-		{
-            await LoginAsync(LoginAccount.Twitter);
-        }
 
-		async partial void BtnMicrosoft_TouchUpInside(UIButton sender)
-		{
-            await LoginAsync(LoginAccount.Microsoft);
-		}
+        partial void BtnTwitter_TouchUpInside(UIButton sender) => LoginAsync(LoginAccount.Twitter);
 
-        async Task LoginAsync(LoginAccount account)
+
+        partial void BtnMicrosoft_TouchUpInside(UIButton sender) => LoginAsync(LoginAccount.Microsoft);
+
+
+        void LoginAsync(LoginAccount account)
         {
-#if DEBUG
-			var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
-			var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
-			viewController.SelectedIndex = 1;
-			app.Window.RootViewController = viewController;
-            viewModel.InitFakeUser();
-            #endif
-
             switch (account)
             {
                 case LoginAccount.Facebook:
@@ -76,6 +82,18 @@ namespace MyTrips.iOS
                     viewModel.LoginTwitterCommand.Execute(null);
                     break;
             }
+        }
+
+        partial void BtnSkipAuth_TouchUpInside(UIButton sender) => GoToMain(true);
+
+        void GoToMain(bool fakeUser = false)
+        {
+            if (fakeUser)
+                viewModel.InitFakeUser();
+            var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
+            var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
+            viewController.SelectedIndex = 1;
+            app.Window.RootViewController = viewController;
         }
 	}
 }

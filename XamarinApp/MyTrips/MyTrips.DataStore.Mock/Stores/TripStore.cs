@@ -25,10 +25,10 @@ namespace MyTrips.DataStore.Mock.Stores
             pt.Sequence = id;
             pt.Latitude = lat;
             pt.Longitude = lng;
-            pt.TimeStamp = timestamp;
+            pt.RecordedTimeStamp = timestamp;
             trip.Points.Add(pt);
 
-
+            
         }
 
         public static List<Trip> GetTrips()
@@ -41,7 +41,7 @@ namespace MyTrips.DataStore.Mock.Stores
             trip1.Photos = new List<Photo>();
             trip1.MainPhotoUrl = "http://cplinc.com/wp-content/uploads/2014/02/MS-1.jpg";
             var startTime = DateTime.UtcNow;
-            trip1.TimeStamp = startTime;
+            trip1.RecordedTimeStamp = startTime;
             var timeIncrement = 1;
             AddTripDetails(trip1, 1, 47.738928, -122.185165, startTime);
             AddTripDetails(trip1, 2, 47.738929, -122.185166, startTime.AddMinutes(timeIncrement++));
@@ -75,7 +75,7 @@ namespace MyTrips.DataStore.Mock.Stores
             trip2.Distance = 22;
 
             startTime = DateTime.UtcNow.AddDays(-2.0);
-            trip2.TimeStamp = startTime;
+            trip2.RecordedTimeStamp = startTime;
             timeIncrement = 1;
             AddTripDetails(trip2, 1, 47.738928, -122.185165, startTime);
             AddTripDetails(trip2, 2, 47.738929, -122.185166, startTime.AddMinutes(timeIncrement++));
@@ -96,7 +96,7 @@ namespace MyTrips.DataStore.Mock.Stores
             trip3.Distance = 173;
 
             startTime = DateTime.UtcNow.AddDays(-10.0);
-            trip3.TimeStamp = startTime;
+            trip3.RecordedTimeStamp = startTime;
             timeIncrement = 1;
             AddTripDetails(trip3, 2, 47.738929, -122.185166, startTime.AddMinutes(timeIncrement++));
             AddTripDetails(trip3, 3, 47.738930, -122.185167, startTime.AddMinutes(timeIncrement++));
@@ -124,7 +124,7 @@ namespace MyTrips.DataStore.Mock.Stores
             trip4.Distance = 22;
 
             startTime = DateTime.UtcNow.AddMonths(-3);
-            trip4.TimeStamp = startTime;
+            trip4.RecordedTimeStamp = startTime;
             timeIncrement = 1;
             AddTripDetails(trip4, 2, 47.738929, -122.185166, startTime.AddMinutes(timeIncrement++));
             AddTripDetails(trip4, 3, 47.738930, -122.185167, startTime.AddMinutes(timeIncrement++));
@@ -142,7 +142,7 @@ namespace MyTrips.DataStore.Mock.Stores
             trip5.Distance = 3;
 
             startTime = DateTime.Now.AddYears(-4);
-            trip5.TimeStamp = startTime;
+            trip5.RecordedTimeStamp = startTime;
             timeIncrement = 1;
             AddTripDetails(trip5, 2, 37.63973671, -122.44194609, startTime.AddMinutes(timeIncrement++));
             AddTripDetails(trip5, 3, 37.63997584, -122.44214793, startTime.AddMinutes(timeIncrement++));
@@ -238,7 +238,7 @@ namespace MyTrips.DataStore.Mock.Stores
                     trip.Photos.Add(photo);
             }
             
-            return Trips.OrderByDescending(s => s.TimeStamp);
+            return Trips.OrderByDescending(s => s.RecordedTimeStamp);
         }
 
         public override async Task<Trip> GetItemAsync(string id)

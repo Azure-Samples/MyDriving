@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MyTrips.DataObjects
 {
@@ -12,8 +13,10 @@ namespace MyTrips.DataObjects
 
         public double Speed { get; set; }
 
-        public DateTime TimeStamp { get; set; }
+        public DateTime RecordedTimeStamp { get; set; }
 
         public int Sequence {get;set;}
+
+        public Dictionary<String, String> OBDData { get; set; }
     }
 }
