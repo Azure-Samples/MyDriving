@@ -6,15 +6,8 @@ namespace MyTrips.iOS
 {
 	public partial class TripSummaryCell : UITableViewCell
 	{
-		public TripSummaryCell(IntPtr handle) : base(handle)
-		{
-		}
-
-		public TripSummaryCell(NSString cellId)
-			: base(UITableViewCellStyle.Default, cellId)
-		{
-
-		}
+		public TripSummaryCell(IntPtr handle) : base(handle) { }
+		public TripSummaryCell(NSString cellId) : base(UITableViewCellStyle.Default, cellId) { }
 
 		public string Name
 		{

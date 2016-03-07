@@ -77,14 +77,5 @@ namespace MyTrips.iOS
 
 			return annotationView;
 		}
-
-		public override void DidSelectAnnotationView(MKMapView mapView, MKAnnotationView view)
-		{
-			// TODO: Implement navigation to photo detail page
-			if (view.Annotation is PhotoAnnotation)
-			{
-
-			}
-		}
 	}
 }

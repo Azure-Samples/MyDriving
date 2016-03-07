@@ -6,16 +6,8 @@ namespace MyTrips.iOS
 {
     public partial class ProfileStatCell : UITableViewCell
     {
-		public ProfileStatCell (IntPtr handle) : base (handle)
-		{
-
-		}
-
-		public ProfileStatCell(NSString cellId)
-			: base(UITableViewCellStyle.Default, cellId)
-		{
-
-		}
+		public ProfileStatCell (IntPtr handle) : base (handle) { }
+		public ProfileStatCell(NSString cellId) : base(UITableViewCellStyle.Default, cellId) { }
 
 		public string Value
 		{

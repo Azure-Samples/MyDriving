@@ -8,15 +8,8 @@ namespace MyTrips.iOS
 {
 	public partial class SettingDetailTextFieldTableViewCell : UITableViewCell
     {
-		public SettingDetailTextFieldTableViewCell (IntPtr handle) : base (handle)
-        {
-			
-        }
-
-		public SettingDetailTextFieldTableViewCell(NSString cellId)
-			: base(UITableViewCellStyle.Default, cellId)
-		{
-		}
+		public SettingDetailTextFieldTableViewCell (IntPtr handle) : base (handle) { }
+		public SettingDetailTextFieldTableViewCell(NSString cellId) : base(UITableViewCellStyle.Default, cellId) { }
 
 		public string Row { get; set; }
 		public string Section { get; set; }

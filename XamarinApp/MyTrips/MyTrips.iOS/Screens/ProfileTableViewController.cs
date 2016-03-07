@@ -34,7 +34,6 @@ namespace MyTrips.iOS
 			};
 		}
 
-
 		#region UITableViewSource
 		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
 		{
@@ -56,6 +55,5 @@ namespace MyTrips.iOS
 			return cell;
 		}
 		#endregion
-
     }
 }

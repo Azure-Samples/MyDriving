@@ -9,9 +9,7 @@ namespace MyTrips.iOS
 {
 	public partial class SettingDetailTableViewCell : UITableViewCell
 	{
-		public SettingDetailTableViewCell (IntPtr handle) : base (handle)
-		{
-		}
+		public SettingDetailTableViewCell (IntPtr handle) : base (handle) { }
 
 		public string Name
 		{

@@ -6,16 +6,8 @@ namespace MyTrips.iOS
 {
     public partial class TripTableViewCellWithImage : UITableViewCell
     {
-		public TripTableViewCellWithImage (IntPtr handle) : base (handle)
-		{
-
-		}
-
-		public TripTableViewCellWithImage(NSString cellId)
-			: base(UITableViewCellStyle.Default, cellId)
-		{
-
-		}
+		public TripTableViewCellWithImage(IntPtr handle) : base(handle) { }
+		public TripTableViewCellWithImage(NSString cellId) : base(UITableViewCellStyle.Default, cellId) { }
 
 		public UIImageView DisplayImage
 		{

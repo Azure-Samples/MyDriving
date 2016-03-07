@@ -26,17 +26,13 @@ namespace MyTrips.iOS.CustomControls
 
 		public override void Draw(CoreGraphics.CGRect frame)
 		{
-			// General Declarations
 			var context = UIGraphics.GetCurrentContext();
-
-			// Variable Declarations
 			var expression = 377.0f - percentage;
 
 			// coverView Drawing
 			var coverViewPath = UIBezierPath.FromOval(new CGRect(frame.GetMinX() + 5.0f, frame.GetMinY() + 4.0f, frame.Width - 10.0f, frame.Height - 10.0f));
 			UIColor.FromRGB(21, 169, 254).SetFill();
 			coverViewPath.Fill();
-
 
 			// completedView Drawing
 			context.SaveState();
@@ -52,7 +48,6 @@ namespace MyTrips.iOS.CustomControls
 
 			UIColor.FromRGB(247, 247, 247).SetFill();
 			completedViewPath.Fill();
-
 			context.RestoreState();
 
 			// backgroundView Drawing
@@ -77,4 +72,3 @@ namespace MyTrips.iOS.CustomControls
 		}	
 	}
 }
-
