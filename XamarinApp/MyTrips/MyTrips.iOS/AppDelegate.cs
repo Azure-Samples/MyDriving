@@ -5,13 +5,13 @@ using CoreSpotlight;
 using Foundation;
 using UIKit;
 
+using MyTrips.DataStore.Abstractions;
 using MyTrips.Utils;
 using MyTrips.Interfaces;
 using MyTrips.iOS.Helpers;
 using MyTrips.ViewModel;
 
 using HockeyApp;
-using MyTrips.DataStore.Abstractions;
 
 namespace MyTrips.iOS
 {
@@ -64,7 +64,6 @@ namespace MyTrips.iOS
 
 		#region Background Refresh
 		private const double MINIMUM_BACKGROUND_FETCH_INTERVAL = 900;
-
 		private void SetMinimumBackgroundFetchInterval()
 		{
 			UIApplication.SharedApplication.SetMinimumBackgroundFetchInterval(MINIMUM_BACKGROUND_FETCH_INTERVAL);
@@ -89,12 +88,9 @@ namespace MyTrips.iOS
 			}
 
 			if (downloadSuccessful)
-			{
 				completionHandler(UIBackgroundFetchResult.NewData);
-			}
-			else {
+			else
 				completionHandler(UIBackgroundFetchResult.Failed);
-			}
 		}
 
 		#endregion
@@ -134,9 +130,7 @@ namespace MyTrips.iOS
         public override void MotionBegan(UIEventSubtype motion, UIEvent evt)
         {
             if (motion == UIEventSubtype.MotionShake)
-            {
                 BITHockeyManager.SharedHockeyManager.FeedbackManager.ShowFeedbackComposeViewWithGeneratedScreenshot();
-            }
         }
     }
 }
