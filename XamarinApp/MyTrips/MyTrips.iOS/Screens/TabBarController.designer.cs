@@ -11,11 +11,11 @@ using UIKit;
 
 namespace MyTrips.iOS
 {
-	[Register ("TabBarController")]
-	partial class TabBarController
-	{
-		void ReleaseDesignerOutlets ()
-		{
-		}
-	}
+    [Register ("TabBarController")]
+    partial class TabBarController
+    {
+        void ReleaseDesignerOutlets ()
+        {
+        }
+    }
 }
