@@ -210,7 +210,7 @@ namespace MyTrips.ViewModel
 
             try
             {
-                if (Geolocator.IsGeolocationAvailable && Geolocator.IsGeolocationEnabled)
+				if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
                 {
                     Geolocator.AllowsBackgroundUpdates = true;
                     Geolocator.DesiredAccuracy = 25;
@@ -221,11 +221,8 @@ namespace MyTrips.ViewModel
 				}
 				else
 				{
-
-                    
                         Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
-                                                                   "Geolcoation Disabled", "OK");
-                    
+                                                                   "Geolocation Disabled", "OK");
 				}
                 
                 //Connect to the OBD device

@@ -107,8 +107,8 @@ namespace MyTrips.iOS
 			// Start tracking user location, pending permission from user.
 			await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
 			{
-				// If we don't have permission from the user, prompt a dialog requesting permission.
-				await PromptPermissionsChangeDialog();
+				if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
+					await PromptPermissionsChangeDialog();
 			});
 		}
 
