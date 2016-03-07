@@ -59,38 +59,40 @@ namespace MyTrips.iOS
             await LoginAsync(LoginAccount.Microsoft);
 		}
 
-        async Task LoginAsync(LoginAccount account)
+		async Task LoginAsync(LoginAccount account)
         {
-#if DEBUG
-			var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
-			var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
-			viewController.SelectedIndex = 1;
-			app.Window.RootViewController = viewController;
-            viewModel.InitFakeUser();
-            #endif
-
             switch (account)
             {
                 case LoginAccount.Facebook:
-                    viewModel.LoginFacebookCommand.Execute(null);
+					await viewModel.ExecuteLoginFacebookCommandAsync();
                     break;
                 case LoginAccount.Microsoft:
-                    viewModel.LoginMicrosoftCommand.Execute(null);
+					await viewModel.ExecuteLoginMicrosoftCommandAsync();
                     break;
                 case LoginAccount.Twitter:
-                    viewModel.LoginTwitterCommand.Execute(null);
+					await viewModel.ExecuteLoginTwitterCommandAsync();
                     break;
             }
+
+			if (viewModel.IsLoggedIn)
+				NavigateToTabs();
         }
 
 		partial void BtnSkipAuth_TouchUpInside(UIButton sender)
 		{
 			viewModel.InitFakeUser();
+			NavigateToTabs();
+		}
 
-			var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
-			var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
-			viewController.SelectedIndex = 1;
-			app.Window.RootViewController = viewController;
+		void NavigateToTabs()
+		{
+			InvokeOnMainThread(() =>
+			{
+				var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
+				var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
+				viewController.SelectedIndex = 1;
+				app.Window.RootViewController = viewController;
+			});
 		}
 	}
 }

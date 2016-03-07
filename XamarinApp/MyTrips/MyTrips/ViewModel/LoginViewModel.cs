@@ -50,7 +50,7 @@ namespace MyTrips.ViewModel
         public ICommand LoginTwitterCommand =>
             loginTwitterCommand ?? (loginTwitterCommand = new RelayCommand(async () => await ExecuteLoginTwitterCommandAsync())); 
 
-        async Task ExecuteLoginTwitterCommandAsync()
+        public async Task ExecuteLoginTwitterCommandAsync()
         {
             if(client == null)
                 return;
@@ -86,7 +86,7 @@ namespace MyTrips.ViewModel
         public ICommand LoginMicrosoftCommand =>
             loginMicrosoftCommand ?? (loginMicrosoftCommand = new RelayCommand(async () => await ExecuteLoginMicrosoftCommandAsync())); 
 
-        async Task ExecuteLoginMicrosoftCommandAsync()
+        public async Task ExecuteLoginMicrosoftCommandAsync()
         {
             if(client == null)
                 return;
@@ -123,7 +123,7 @@ namespace MyTrips.ViewModel
         public ICommand LoginFacebookCommand =>
             loginFacebookCommand ?? (loginFacebookCommand = new RelayCommand(async () => await ExecuteLoginFacebookCommandAsync())); 
 
-        async Task ExecuteLoginFacebookCommandAsync()
+        public async Task ExecuteLoginFacebookCommandAsync()
         {
             if(client == null)
                 return;
