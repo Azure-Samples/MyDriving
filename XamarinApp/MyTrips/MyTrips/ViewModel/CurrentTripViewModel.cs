@@ -89,6 +89,20 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref distanceUnits, value); }
         }
 
+        string rpm = "N/A";
+        public string RPM
+        {
+            get { return rpm; }
+            set { SetProperty(ref rpm, value); }
+        }
+
+        string engineFuelRate = "N/A";
+        public string EngineFuelRate
+        {
+            get { return engineFuelRate; }
+            set { SetProperty(ref engineFuelRate, value); }
+        }
+
 		public CurrentTripViewModel()
 		{
             CurrentTrip = new Trip();
@@ -192,9 +206,7 @@ namespace MyTrips.ViewModel
                 track.Start();
                 IsBusy = true;
                 progress?.Show();
-#if DEBUG
-                await Task.Delay(3000);
-#endif
+
 
                 //TODO: use real city here
 #if DEBUG
@@ -256,7 +268,7 @@ namespace MyTrips.ViewModel
 
 			try 
 			{
-						if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
+				if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
 				{
 					Geolocator.AllowsBackgroundUpdates = true;
 					Geolocator.DesiredAccuracy = 25;
@@ -332,6 +344,8 @@ namespace MyTrips.ViewModel
                     obdData = this.obdDataProcessor.ReadOBDData();
                 }
 
+
+
                 var point = new TripPoint
                 {
                     RecordedTimeStamp = DateTime.UtcNow,
@@ -340,6 +354,29 @@ namespace MyTrips.ViewModel
                     Sequence = CurrentTrip.Points.Count,
                     OBDData = obdData
 				};
+
+                if (obdData != null)
+                {
+                    double.TryParse(obdData["spd"], out point.Speed);
+                    double.TryParse(obdData["bp"], out point.BarometricPressure);
+                    double.TryParse(obdData["rpm"], out point.RPM);
+                    double.TryParse(obdData["ot"], out point.OutsideTemperature);
+                    double.TryParse(obdData["it"], out point.InsideTemperature);
+                    double.TryParse(obdData["efr"], out point.EngineFuelRate);
+
+                    Speed = Settings.Current.MetricDistance ? point.Speed.ToString("N1") : point.Speed.ToString("N1");
+
+                    RPM = point.RPM.ToString("N0");
+                    EngineFuelRate = point.EngineFuelRate.ToString("N0");
+                }
+                else
+                {
+                    Speed = "N/A";
+                    RPM = "N/A";
+                    EngineFuelRate = "N/A";
+                }
+
+                SpeedUnits = (Settings.Current.MetricDistance ? "km/h" : "mph");
 
                 CurrentTrip.Points.Add(point);
 
@@ -358,6 +395,8 @@ namespace MyTrips.ViewModel
                     ElapsedTime = $"{timeDif.Minutes}m";
                 else
                     ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";
+
+                OnPropertyChanged("Stats");
 			}
 
             CurrentPosition = e.Position;
