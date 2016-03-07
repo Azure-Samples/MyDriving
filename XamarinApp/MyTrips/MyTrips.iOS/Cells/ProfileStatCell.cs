@@ -11,26 +11,14 @@ namespace MyTrips.iOS
 
 		public string Value
 		{
-			get
-			{
-				return lblValue.Text;
-			}
-			set
-			{
-				lblValue.Text = value;
-			}
+			get { return lblValue.Text; }
+			set { lblValue.Text = value; }
 		}
 
 		public string Name
 		{
-			get
-			{
-				return lblText.Text;
-			}
-			set
-			{
-				lblText.Text = value;
-			}
+			get { return lblText.Text; }
+			set {lblText.Text = value; }
 		}
     }
 }
