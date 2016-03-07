@@ -110,6 +110,12 @@ namespace MyTrips.iOS
 				if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
 					await PromptPermissionsChangeDialog();
 			});
+
+			if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
+			{
+				tripMapView.Camera.CenterCoordinate = new CLLocationCoordinate2D(47.6204, -122.3491);
+				tripMapView.Camera.Altitude = 5000;
+			}
 		}
 
 		void ResetMapViewState()
@@ -196,6 +202,25 @@ namespace MyTrips.iOS
 
 		async void RecordButton_TouchUpInside(object sender, EventArgs e)
 		{
+			if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
+			{
+				InvokeOnMainThread(() =>
+				{
+					var alertController = UIAlertController.Create("Location Permission Denied", "Tracking your location is required to record trips. Visit the Settings app to change the permission status.", UIAlertControllerStyle.Alert);
+					alertController.AddAction(UIAlertAction.Create("Change Permission", UIAlertActionStyle.Default, (obj) =>
+					{
+						var url = NSUrl.FromString(UIApplication.OpenSettingsUrlString);
+						UIApplication.SharedApplication.OpenUrl(url);
+					}));
+
+					alertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Cancel, null));
+
+					PresentViewController(alertController, true, null);
+				});
+
+				return;
+			}
+
 			var position = await CurrentTripViewModel.Geolocator.GetPositionAsync();
 			var coordinate = position.ToCoordinate();
 
