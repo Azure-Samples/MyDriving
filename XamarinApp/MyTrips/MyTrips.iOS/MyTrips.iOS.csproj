@@ -336,7 +336,6 @@
     <Compile Include="Helpers\Images.cs" />
     <Compile Include="Helpers\Authentication.cs" />
     <Compile Include="Views\Annotations\BaseCustomAnnotation.cs" />
-    <Compile Include="Views\Annotations\PhotoAnnotation.cs" />
     <Compile Include="Views\Annotations\WaypointAnnotation.cs" />
     <Compile Include="Views\Annotations\CarAnnotation.cs" />
     <Compile Include="Views\Maps\TripMapViewDelegate.cs" />
