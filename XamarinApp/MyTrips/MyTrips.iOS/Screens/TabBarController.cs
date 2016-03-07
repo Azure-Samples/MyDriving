@@ -6,9 +6,7 @@ namespace MyTrips.iOS
 {
 	partial class TabBarController : UITabBarController
 	{
-		public TabBarController (IntPtr handle) : base (handle)
-		{
-		}
+		public TabBarController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
 		{

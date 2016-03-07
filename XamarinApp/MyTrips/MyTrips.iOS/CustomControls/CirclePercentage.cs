@@ -9,22 +9,15 @@ namespace MyTrips.iOS.CustomControls
 	[Register("CirclePercentage"), DesignTimeVisible(true)]
 	public class CirclePercentage : UIView
 	{
-		public CirclePercentage(IntPtr p) : base(p)
-		{
-			Initialize ();
-		}
-
-		public CirclePercentage ()
-		{
-			Initialize ();
-		}
+		public CirclePercentage(IntPtr p) : base(p) { Initialize (); }
+		public CirclePercentage() { Initialize(); }
 
 		void Initialize ()
 		{
 			percentage = 50;
 		}
 
-		public override void Draw(CoreGraphics.CGRect frame)
+		public override void Draw(CGRect frame)
 		{
 			var context = UIGraphics.GetCurrentContext();
 			var expression = 377.0f - percentage;

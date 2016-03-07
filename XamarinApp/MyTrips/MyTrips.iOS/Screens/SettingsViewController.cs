@@ -15,10 +15,7 @@ namespace MyTrips.iOS
 
 		string[] keys;
 
-		public SettingsViewController (IntPtr handle) : base (handle)
-		{
-			
-		}
+		public SettingsViewController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
 		{

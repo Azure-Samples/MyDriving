@@ -8,11 +8,9 @@ namespace MyTrips.iOS
     public partial class ProfileTableViewController : UITableViewController
     {
 		const string STAT_CELL_IDENTIFIER = "STAT_CELL_IDENTIFIER";
-		List<DrivingStatistic> data; 
+		List<DrivingStatistic> data;
 
-        public ProfileTableViewController (IntPtr handle) : base (handle)
-        {
-        }
+		public ProfileTableViewController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
 		{
