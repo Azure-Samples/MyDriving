@@ -55,7 +55,7 @@ namespace MyTrips.UWP.Views
         {
             MapPolyline mapPolyLine = new MapPolyline();
 
-            foreach (var trail in this.viewModel.Trip.Trail)
+            foreach (var trail in this.viewModel.Trip.Points)
             {
                 var basicGeoPosion = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
                 Locations.Add(basicGeoPosion);
