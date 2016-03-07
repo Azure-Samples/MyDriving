@@ -25,8 +25,8 @@ namespace MyTrips.iOS
 
 			data = new List<ProfileStat>
 			{
-				new ProfileStat { Name = "Distance", Value = "275.43 miles"},
-				new ProfileStat { Name = "Time", Value = "8 hours, 45 minutes"},
+				new ProfileStat { Name = "Total Distance", Value = "275.43 miles"},
+				new ProfileStat { Name = "Total Duration", Value = "8 hours, 45 minutes"},
 				new ProfileStat { Name = "Average Speed", Value = "31 MPH"},
 				new ProfileStat { Name = "Average Consumption", Value = "2.5 gallons"},
 				new ProfileStat { Name = "Hard Breaks", Value = "21"},
@@ -36,9 +36,14 @@ namespace MyTrips.iOS
 
 
 		#region UITableViewSource
+		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+		{
+			return 60;
+		}
+
 		public override nint RowsInSection(UITableView tableView, nint section)
 		{
-			return 6;
+			return data.Count;
 		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
