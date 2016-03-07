@@ -2,14 +2,12 @@
 using MyTrips.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Windows.Devices.Geolocation;
-using Windows.Foundation;
-using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Navigation;
+using MyTrips.UWP;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -22,12 +20,12 @@ namespace MyTrips.UWP.Views
     public sealed partial class TripSummaryView : Page
     {
         TripSummaryViewModel viewModel;
-        private IList<BasicGeoposition> Locations = new List<BasicGeoposition>();
+        private List<BasicGeoposition> Locations = new List<BasicGeoposition>();
         public TripSummaryView()
         {
             this.InitializeComponent();
             viewModel = new TripSummaryViewModel();
-            viewModel.Trip = getTestTrip();
+            viewModel.Trip = App.currentTrip;
 
             DataContext = viewModel;
 
@@ -44,15 +42,12 @@ namespace MyTrips.UWP.Views
             HardBreaksTab.Title2 = "BREAKS";
 
             TipsTab.Title1 = "TIPS";
-
         }
 
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-
             base.OnNavigatedTo(e);
-
             DrawPath();
         }
 
@@ -72,42 +67,51 @@ namespace MyTrips.UWP.Views
             mapPolyLine.StrokeColor = Colors.Red;
             mapPolyLine.StrokeThickness = 3;
 
-            // Starting off with the first point as center
+            // compute center
             if (Locations.Count > 0)
-                MyMap.Center = new Geopoint(Locations.First());
+            {
+                double north, east, south, west;
 
+                north = south = Locations[0].Latitude;
+                west = east = Locations[0].Longitude;
+
+                foreach (var p in Locations)
+                {
+                    if (north < p.Latitude) north = p.Latitude;
+                    if (west > p.Longitude) west = p.Longitude;
+                    if (south > p.Latitude) south = p.Latitude;
+                    if (east < p.Longitude) east = p.Longitude;
+                }
+
+
+                BasicGeoposition pos = new BasicGeoposition();
+                pos.Latitude = (north + south) / 2;
+                pos.Longitude = (east + west) / 2;
+                var center = new Geopoint(pos);
+                MyMap.Center = center;
+
+               //find zoom
+                double buffer = 2;
+                double zoom1, zoom2;
+               
+                if (east != west && north != south)
+                {
+                    //best zoom level based on map width
+                    zoom1 = Math.Log(360.0 / 256.0 * (MyMap.Width - 2 * buffer) / (east - west)) / Math.Log(2);
+                    //best zoom level based on map height
+                    zoom2 = Math.Log(180.0 / 256.0 * (MyMap.Height - 2 * buffer) / (north - south)) / Math.Log(2);
+                }
+                else
+                {
+                    zoom1 = zoom2 = 15;
+                }
+
+                //use the most zoomed out of the two zoom levels
+                double zoomLevel = (zoom1 < zoom2) ? zoom1 : zoom2;
+                MyMap.ZoomLevel = zoomLevel;
+            }
 
             MyMap.MapElements.Add(mapPolyLine);
-
-            // Draw Start Icon
-            MapIcon mapStartIcon = new MapIcon();
-            mapStartIcon.Location = new Geopoint(Locations.First());
-            mapStartIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-            mapStartIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_start_point.png"));
-            mapStartIcon.ZIndex = 1;
-            mapStartIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
-
-            MyMap.MapElements.Add(mapStartIcon);
-            mapStartIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-
-            //Draw End Icon
-            MapIcon mapEndIcon = new MapIcon();
-            mapEndIcon.Location = new Geopoint(Locations.Last());
-            mapEndIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-            mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png"));
-            mapEndIcon.ZIndex = 1;
-            mapEndIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
-            MyMap.MapElements.Add(mapEndIcon);
-
-
-        }
-
-
-
-        public Trip getTestTrip()
-        {
-            var trips = MyTrips.DataStore.Mock.Stores.TripStore.GetTrips();
-            return trips[4];
         }
     }
 

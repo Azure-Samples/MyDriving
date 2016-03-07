@@ -37,7 +37,7 @@ namespace MyTrips.UWP
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
 
-        Trip currentTrip; 
+        public static Trip currentTrip; 
 
 
         public App()
