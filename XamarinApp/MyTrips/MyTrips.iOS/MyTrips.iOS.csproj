@@ -365,6 +365,10 @@
     <Compile Include="Screens\TripSummaryTableViewController.designer.cs">
       <DependentUpon>TripSummaryTableViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="TripSummaryCell.cs" />
+    <Compile Include="TripSummaryCell.designer.cs">
+      <DependentUpon>TripSummaryCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -403,6 +407,9 @@
     <BundleResource Include="Resources\769-male%402x.png" />
     <BundleResource Include="Resources\769-male%403x.png" />
     <BundleResource Include="Resources\.DS_Store" />
+    <BundleResource Include="Resources\logo.png" />
+    <BundleResource Include="Resources\logo%402x.png" />
+    <BundleResource Include="Resources\logo%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="hockeyappios">

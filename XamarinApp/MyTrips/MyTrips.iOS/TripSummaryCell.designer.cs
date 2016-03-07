@@ -11,8 +11,8 @@ using UIKit;
 
 namespace MyTrips.iOS
 {
-    [Register ("ProfileStatCell")]
-    partial class ProfileStatCell
+    [Register ("TripSummaryCell")]
+    partial class TripSummaryCell
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]

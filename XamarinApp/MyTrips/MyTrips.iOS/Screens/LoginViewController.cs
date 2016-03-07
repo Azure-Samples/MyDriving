@@ -25,6 +25,9 @@ namespace MyTrips.iOS
 			btnTwitter.Alpha = 0;
 			btnMicrosoft.Alpha = 0;
 			btnSkipAuth.Alpha = 0;
+
+			btnSkipAuth.Layer.CornerRadius = 4;
+			btnSkipAuth.Layer.MasksToBounds = true;
 		}
 
 		public override async void ViewDidAppear(bool animated)
@@ -82,11 +85,12 @@ namespace MyTrips.iOS
 
 		partial void BtnSkipAuth_TouchUpInside(UIButton sender)
 		{
+			viewModel.InitFakeUser();
+
 			var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
 			var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
 			viewController.SelectedIndex = 1;
 			app.Window.RootViewController = viewController;
-			viewModel.InitFakeUser();
 		}
 	}
 }

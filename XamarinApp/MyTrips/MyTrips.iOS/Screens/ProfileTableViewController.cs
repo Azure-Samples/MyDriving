@@ -6,6 +6,8 @@ namespace MyTrips.iOS
 {
     public partial class ProfileTableViewController : UITableViewController
     {
+
+		 
         public ProfileTableViewController (IntPtr handle) : base (handle)
         {
         }
@@ -17,12 +19,10 @@ namespace MyTrips.iOS
 			imgAvatar.Layer.CornerRadius = imgAvatar.Frame.Width / 2;
 			imgAvatar.Layer.BorderWidth = 2;
 			imgAvatar.Layer.BorderColor = "15A9FE".ToUIColor().CGColor;
-			imgAvatar.Layer.MasksToBounds = true;
-
-		
+			imgAvatar.Layer.MasksToBounds = true;		
 		}
 
-		/*
+
 		#region UITableViewSource
 
 		public override nint RowsInSection(UITableView tableView, nint section)
@@ -39,12 +39,12 @@ namespace MyTrips.iOS
 				cell = new ProfileStatCell(new NSString("STAT_CELL_IDENTIFIER"));
 			}
 
-			cell.StatName = "Miles";
-			cell.Text = "65,876 mi";
+			cell.Text = "Miles";
+			cell.Value = "65,876 mi";
 
 			return cell;
 		}
 		#endregion
-		*/
+
     }
 }
