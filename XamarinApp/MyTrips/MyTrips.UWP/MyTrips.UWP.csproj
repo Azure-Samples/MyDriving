@@ -147,13 +147,14 @@
     <Content Include="Assets\Car Icon_Red.png" />
     <Content Include="Assets\ic_start.png" />
     <Content Include="Assets\ic_stop.png" />
-    <Content Include="Assets\Login\FBLogo.png" />
+    <Content Include="Assets\Login\appLogo.png" />
+    <Content Include="Assets\Login\facebook.png" />
     <Content Include="Assets\ic_start_point.png" />
     <Content Include="Assets\ic_end_point.png" />
     <Content Include="Assets\ic_car_blue.png" />
     <Content Include="Assets\ic_car_red.png" />
-    <Content Include="Assets\Login\MSLogo.jpg" />
-    <Content Include="Assets\Login\TwitterLogo.png" />
+    <Content Include="Assets\Login\Microsoft.png" />
+    <Content Include="Assets\Login\twitter.png" />
     <Content Include="Assets\mappin.png" />
     <Content Include="Assets\StartRecord.png" />
     <Content Include="Assets\StopRecord.png" />
