@@ -99,7 +99,7 @@ namespace MyTrips.ViewModel
             MobileServiceUser user = null;
             try
             {
-                user = user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
+                user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
                 if (user != null)
                     UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
             }
