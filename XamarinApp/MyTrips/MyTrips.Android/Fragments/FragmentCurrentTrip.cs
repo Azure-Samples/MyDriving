@@ -134,7 +134,7 @@ namespace MyTrips.Droid.Fragments
                     ResetTrip();
                     StartActivity(new Android.Content.Intent(Activity, typeof(TripSummaryActivity)));
                     break;
-                case "Distance":
+                case "Stats":
                     UpdateStats();
                     break;
             }
@@ -144,7 +144,7 @@ namespace MyTrips.Droid.Fragments
         {
             Activity?.RunOnUiThread(() =>
             {
-                mpg.Text = "0";
+                mpg.Text = viewModel.Speed;
                 time.Text = viewModel.ElapsedTime;
                 gallons.Text = "0";
                 cost.Text = "$0.00";

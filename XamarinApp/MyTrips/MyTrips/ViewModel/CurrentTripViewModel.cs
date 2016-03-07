@@ -364,8 +364,8 @@ namespace MyTrips.ViewModel
                     double.TryParse(obdData["it"], out point.InsideTemperature);
                     double.TryParse(obdData["efr"], out point.EngineFuelRate);
 
+                    //TODO adjust this for the UI
                     Speed = Settings.Current.MetricDistance ? point.Speed.ToString("N1") : point.Speed.ToString("N1");
-
                     RPM = point.RPM.ToString("N0");
                     EngineFuelRate = point.EngineFuelRate.ToString("N0");
                 }
@@ -388,10 +388,10 @@ namespace MyTrips.ViewModel
                 }
 
                 var timeDif = point.RecordedTimeStamp - CurrentTrip.RecordedTimeStamp;
-                //track minutes first and then calculat the hours
+                //track seconds, minutes, then hours
                 if (timeDif.TotalMinutes < 1)
                     ElapsedTime = $"{timeDif.Seconds}s";
-                else if (timeDif.TotalHours > 0)
+                else if (timeDif.TotalHours < 1)
                     ElapsedTime = $"{timeDif.Minutes}m";
                 else
                     ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";

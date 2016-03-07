@@ -34,7 +34,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="MPG" />
+                android:text="MPG"
+                android:id="@+id/text_mpg_units" />
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
@@ -54,7 +55,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Gallons" />
+                android:text="Gallons"
+                android:id="@+id/text_gallons_units" />
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
@@ -74,7 +76,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Miles" />
+                android:text="Miles"
+                android:id="@+id/text_miles_units" />
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
