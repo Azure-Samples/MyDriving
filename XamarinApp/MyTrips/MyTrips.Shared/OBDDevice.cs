@@ -14,28 +14,12 @@ namespace MyTrips.Shared
 {
     public class OBDDevice : IOBDDevice
     {
-        #if WINDOWS_UWP
+        #if WINDOWS_UWP || __ANDROID__
         ObdWrapper obdWrapper = new ObdWrapper();
 
         public async Task Disconnect()
         {
             await this.obdWrapper.Disconnect();
-        }
-
-        public async Task<bool> Initialize()
-        {
-            return await this.obdWrapper.Init();
-        }
-
-        public Dictionary<String, String> ReadData()
-        {
-            return this.obdWrapper.Read();
-        }
-        #elif __ANDROID__
-        ObdWrapper obdWrapper = new ObdWrapper();
-        public async Task Disconnect()
-        {
-            this.obdWrapper.Disconnect();
         }
 
         public async Task<bool> Initialize()

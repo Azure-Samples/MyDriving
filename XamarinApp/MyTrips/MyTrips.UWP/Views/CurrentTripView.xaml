@@ -1,77 +1,14 @@
 ﻿<Page
-    x:Class="MyTrips.UWP.Views.CurrentTripView"
+    x:Class="MyTrips.UWP.CurrentTripView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MyTrips.UWP.Views"
+    xmlns:local="using:MyTrips.UWP"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
-     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-        <StackPanel x:Name="HeaderPanel" Orientation="Horizontal" VerticalAlignment="Top" Height="Auto" Canvas.ZIndex="2" HorizontalAlignment="Stretch" Background="Azure" >
-            <StackPanel Name="MPG" Orientation="Vertical" Height="Auto" Width="50">
-
-                <TextBlock  Name="text_mpg" Text="14" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="13.333"/>
-                <TextBlock  Text="MPG" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
-
-            </StackPanel>
-
-            <StackPanel Name="Gallons" Orientation="Vertical" Height="Auto" Width="50">
-
-                <TextBlock  Name="text_gallons" Text="9" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="13.333"/>
-                <TextBlock  Text="Gallons" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
-
-            </StackPanel>
-
-            <StackPanel Name="Miles" Orientation="Vertical" Height="Auto" Width="50">
-
-                <TextBlock  Name="text_miles" Text="126" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="13.333"/>
-                <TextBlock  Text="Miles" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
-
-            </StackPanel>
-            <StackPanel Name="Hours" Orientation="Vertical" Height="Auto" Width="50">
-
-                <TextBlock  Name="text_hours" Text="2:25" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="13.333"/>
-                <TextBlock  Text="Hours" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
-
-            </StackPanel>
-            <StackPanel Name="Cost" Orientation="Vertical" Height="Auto" Width="50">
-
-                <TextBlock  Name="text_cost" Text="$11" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="13.333"/>
-                <TextBlock  Text="Cost" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
-
-            </StackPanel>
-            <StackPanel Name="Rating" Orientation="Vertical" Height="Auto" Width="50">
-
-                <TextBlock  Name="text_rating" Text="34" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="#7BA4C5" Margin="0,10,0,5" Visibility="Visible" FontSize="15.333"/>
-
-            </StackPanel>
-
-        </StackPanel>
-        <Maps:MapControl
-           x:Name="MyMap" 
-            MapServiceToken="JCV6QKnfQrP6Be6UuefM~6L1fUqScbKx0MP5UBI4pRw~AjMaYd80GWWDlLjZ06u2r3SHjFKy74e3P6ggHUKk1HFJsGpH19At3an_CG98AgNc"
-            ZoomInteractionMode="GestureAndControl"
-            Canvas.ZIndex="0"
-            LandmarksVisible="True"
-            IsRightTapEnabled="true"
-           />
-
-        <Button x:Name="startRecordBtn"  Width="50" Height="50"  HorizontalAlignment="Center" VerticalAlignment="Bottom"  Canvas.ZIndex="4" Margin="0,0,0,16">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <Ellipse Name="Elipse1" Stroke="White" Canvas.ZIndex="5"  StrokeThickness="3" >
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding RecordButtonImage}" />
-                            </Ellipse.Fill>
-                        </Ellipse>
-                    </Grid>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Button x:Name="startRecordBtn" Content="Start Recording" HorizontalAlignment="Left" Margin="108,218,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="stopRecordBtn" Content="Stop Recording" HorizontalAlignment="Left" Margin="108,275,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Page>

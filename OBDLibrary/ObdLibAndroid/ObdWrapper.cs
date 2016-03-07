@@ -426,7 +426,7 @@ namespace ObdLibAndroid
             System.Diagnostics.Debug.WriteLine(s);
             return s;
         }
-        public void Disconnect()
+        public async Task Disconnect()
         {
             _running = false;
             if (_bluetoothSocket != null)

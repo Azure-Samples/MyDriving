@@ -55,8 +55,8 @@ namespace MyTrips.AzureClient
             {
                 handler = new DeviceProvisionHandler();
                 //TODO: Need to get these values from Settings.Current
-                handler.UserId = "TestDeviceUser";
-                handler.DeviceId = "TestDevice";
+                handler.UserId = "TestDeviceUserNLH";
+                handler.DeviceId = "TestDeviceNLH";
                 handler.HostName = "smarttrips-dev.azure-devices.net";
             }
 

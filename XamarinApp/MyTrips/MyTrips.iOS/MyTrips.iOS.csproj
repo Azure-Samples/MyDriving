@@ -75,6 +75,9 @@
     <Reference Include="BTProgressHUD">
       <HintPath>..\..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
     </Reference>
+    <Reference Include="ClientDeviceiOS">
+      <HintPath>.\ClientDeviceiOS.dll</HintPath>
+    </Reference>
     <Reference Include="Plugin.DeviceInfo, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xam.Plugin.DeviceInfo.2.0.2\lib\Xamarin.iOS10\Plugin.DeviceInfo.dll</HintPath>
       <Private>True</Private>
@@ -196,7 +199,7 @@
     </Reference>
     <Reference Include="HockeySDK">
       <HintPath>..\..\packages\HockeySDK.Xamarin.4.0.0-alpha1\lib\Xamarin.iOS10\HockeySDK.dll</HintPath>
-   </Reference>
+    </Reference>
     <Reference Include="Acr.Support.iOS">
       <HintPath>..\..\packages\Acr.Support.1.1.1\lib\Xamarin.iOS10\Acr.Support.iOS.dll</HintPath>
     </Reference>
