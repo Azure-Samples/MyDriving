@@ -46,6 +46,16 @@ namespace MyTrips.iOS
 			}
 		}
 
+		public override async void ViewWillAppear(bool animated)
+		{
+			base.ViewWillAppear(animated);
+
+			if (CurrentTripViewModel != null && !CurrentTripViewModel.IsRecording)
+			{
+				await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync();
+			}
+		}
+
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
@@ -53,6 +63,16 @@ namespace MyTrips.iOS
 			if (recordButton.Hidden == true && PastTripsDetailViewModel == null)
 			{
 				recordButton.Pop(0.5, 0, 1);
+			}
+		}
+
+		public override async void ViewWillDisappear(bool animated)
+		{
+			base.ViewWillDisappear(animated);
+
+			if (CurrentTripViewModel != null && !CurrentTripViewModel.IsRecording)
+			{
+				await CurrentTripViewModel.ExecuteStopTrackingTripCommandAsync();
 			}
 		}
 
@@ -69,8 +89,8 @@ namespace MyTrips.iOS
 			recordButton.Hidden = true;
 			recordButton.Layer.CornerRadius = recordButton.Frame.Width / 2;
 			recordButton.Layer.MasksToBounds = true;
-			recordButton.Layer.BorderColor = UIColor.White.CGColor;
-			recordButton.Layer.BorderWidth = 2;
+			recordButton.Layer.BorderColor = "5C5C5C".ToUIColor().CGColor;
+			recordButton.Layer.BorderWidth = 1;
 			recordButton.TouchUpInside += RecordButton_TouchUpInside;
 
 			// Hide slider
@@ -182,7 +202,7 @@ namespace MyTrips.iOS
 			if (!CurrentTripViewModel.IsRecording)
 			{
 				if (NavigationItem.RightBarButtonItem == null)
-					NavigationItem.RightBarButtonItem = takePhotoButton;
+					NavigationItem.SetRightBarButtonItem(takePhotoButton, true);
 
 				NavigationItem.RightBarButtonItem.Clicked += TakePhotoButton_Clicked;
 
@@ -194,7 +214,11 @@ namespace MyTrips.iOS
 				UpdateRecordButton(false);
 
 				NavigationItem.RightBarButtonItem.Clicked -= TakePhotoButton_Clicked;
-				NavigationItem.RightBarButtonItem = null;
+				NavigationItem.SetRightBarButtonItem(null, true);
+
+				var vc = Storyboard.InstantiateViewController("tripSummaryTableViewController") as TripSummaryTableViewController;
+				PresentModalViewController(vc, true);
+
 			}
 
 			// Add start or end waypoint
@@ -221,6 +245,10 @@ namespace MyTrips.iOS
 
 			if (CurrentTripViewModel.IsRecording)
 			{
+				// Update trip information
+				lblDuration.Text = CurrentTripViewModel.ElapsedTime;
+				lblDistance.Text = CurrentTripViewModel.CurrentTrip.TotalDistanceNoUnits;
+
 				// If we already haven't starting tracking route yet, start that.
 				if (route == null)
 					StartTrackingRoute(coordinate);
@@ -277,11 +305,23 @@ namespace MyTrips.iOS
 			currentLocationAnnotation = new CarAnnotation(carCoordinate, UIColor.Blue);
 			tripMapView.AddAnnotation(currentLocationAnnotation);
 
+			ConfigureSlider();
+			ConfigureWayPointButtons();
+
 			// Hide record button
 			recordButton.Hidden = true;
 
-			ConfigureSlider();
-			ConfigureWayPointButtons();
+			// Show slider 
+			sliderView.Hidden = false;
+
+			startTimeLabel.Hidden = false;
+			endTimeLabel.Hidden = false;
+			startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
+			endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
+
+			// Configure UI
+			lblDistance.Text = PastTripsDetailViewModel.Trip.TotalDistanceNoUnits;
+			// lblDuration.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay
 		}
 
 		void ConfigureSlider()

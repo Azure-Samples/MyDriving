@@ -539,9 +539,12 @@ namespace ObdLibUWP
         public async Task Disconnect()
         {
             _running = false;
-            await this._socket.CancelIOAsync();
-            _socket.Dispose();
-            _socket = null;
+            if (this._socket != null)
+            {
+                await this._socket.CancelIOAsync();
+                _socket.Dispose();
+                _socket = null;
+            }
         }
     }
 }

@@ -35,25 +35,25 @@ namespace MyTrips.DataObjects
             set { SetProperty(ref distance, value); }
         }
 
-        public DateTime TimeStamp { get; set; }
+        public DateTime RecordedTimeStamp { get; set; }
 
         public int Rating { get; set; }
 
         //Do not sync with backend, used localy only
         [JsonIgnore]
-        public string TimeAgo => TimeStamp.Humanize();
+        public string TimeAgo => RecordedTimeStamp.Humanize();
 
         [JsonIgnore]
-        public string TotalDistance => Distance.ToString("F")+ " miles";
+        public string TotalDistance => Distance.ToString("F") + " miles";
 
         [JsonIgnore]
         public string TotalDistanceNoUnits => Distance.ToString("f");
 
         [JsonIgnore]
-        public string StartTimeDisplay => TimeStamp.ToLocalTime().ToString("t");
+        public string StartTimeDisplay => RecordedTimeStamp.ToLocalTime().ToString("t");
 
         [JsonIgnore]
-        public string EndTimeDisplay => (Trail?.Count).GetValueOrDefault() > 0 ? Trail[Trail.Count - 1].TimeStamp.ToLocalTime().ToString("t") : string.Empty;
+        public string EndTimeDisplay => (Trail?.Count).GetValueOrDefault() > 0 ? Trail[Trail.Count - 1].RecordedTimeStamp.ToLocalTime().ToString("t") : string.Empty;
 
         [JsonIgnore]
         public IList<Photo> Photos { get; set; }
@@ -65,20 +65,15 @@ namespace MyTrips.DataObjects
 
     public class Trail : BaseDataObject
     {
-        public Trail()
-        {
-            this.Telemetry = new List<Telemetry>();
-        }
+        public int SequenceId { get; set; }
 
-        public int TrailId { get; set; }
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
 
-        public DateTime TimeStamp { get; set; }
+        public DateTime RecordedTimeStamp { get; set; }
 
-        public IList<Telemetry> Telemetry { get; set; }
-
+        public Dictionary<String, String> OBDData { get; set; }
     }
 
     public class Telemetry : BaseDataObject

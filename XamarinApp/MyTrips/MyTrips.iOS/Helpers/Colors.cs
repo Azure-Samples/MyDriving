@@ -1,4 +1,5 @@
-﻿using UIKit;
+﻿using System;
+using UIKit;
 
 namespace MyTrips.iOS
 {
@@ -13,7 +14,6 @@ namespace MyTrips.iOS
 		public static UIColor ICONS = "FFFFFF".ToUIColor ();
 		public static UIColor DIVIDER = "B6B6B6".ToUIColor ();
 
-		public static UIColor BLUE = "Blue".ToUIColor();
+		public static UIColor BLUE = UIColor.FromRGB((nfloat) 0.196, (nfloat) 0.655, (nfloat)0.925);
 	}
 }
-
