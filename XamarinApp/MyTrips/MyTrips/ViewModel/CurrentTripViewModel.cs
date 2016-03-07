@@ -342,7 +342,6 @@ namespace MyTrips.ViewModel
                     Longitude = userLocation.Longitude,
                     Sequence = CurrentTrip.Points.Count,
                     OBDData = obdData
-
 				};
 
                 CurrentTrip.Points.Add(point);
