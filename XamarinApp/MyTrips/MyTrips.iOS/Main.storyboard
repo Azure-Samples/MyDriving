@@ -490,7 +490,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Scott Gu" id="vvn-ke-Zz4">
-                        <barButtonItem key="rightBarButtonItem" image="tabbar_settings.png" id="8ql-bS-Pap">
+                        <barButtonItem key="rightBarButtonItem" image="tab_Settings.png" id="8ql-bS-Pap">
                             <color key="tintColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <segue destination="6Zf-tF-y9k" kind="show" id="7rn-YY-P4y"/>
@@ -535,7 +535,7 @@
                                                 <rect key="frame" x="0.0" y="28" width="600" height="87"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JFl-6N-BUG" id="KZb-VX-FM2">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="87"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="86.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Miles" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsb-GH-nuK" misplaced="YES">
