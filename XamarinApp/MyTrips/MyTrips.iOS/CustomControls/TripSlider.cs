@@ -9,29 +9,16 @@ namespace MyTrip.iOS
 	[Register("TripSlider"), DesignTimeVisible(true)]
 	public class TripSlider : UIView
 	{
-
 		float percentage = 0;
 
-		public TripSlider()
-		{
-		}
-
-		public TripSlider(IntPtr p): base(p)
-		{
-		}
+		public TripSlider() { }
+		public TripSlider(IntPtr p) : base(p) {}
 
 		[Export("Percentage"), Browsable(true)]
 		public float Percentage	 
 		{
-			get 
-			{ 
-				return percentage; 
-			}
-			set 
-			{ 
-				percentage = value;
-				SetNeedsDisplay ();
-			}
+			get { return percentage; }
+			set { percentage = value; SetNeedsDisplay (); }
 		}
 
 		public override void Draw(CGRect frame)

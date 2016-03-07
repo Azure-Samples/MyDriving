@@ -60,15 +60,8 @@ namespace MyTrips.iOS.CustomControls
 		[Export("Value"), Browsable(true)]
 		public float Value 
 		{
-			get 
-			{
-				return percentage;
-			}
-			set
-			{
-				percentage = value;
-				SetNeedsDisplay();
-			}
+			get { return percentage; }
+			set { percentage = value; SetNeedsDisplay(); }
 		}	
 	}
 }

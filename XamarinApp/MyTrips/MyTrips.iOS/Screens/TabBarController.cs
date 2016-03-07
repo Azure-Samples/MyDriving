@@ -1,10 +1,6 @@
-using Foundation;
 using System;
-using System.CodeDom.Compiler;
 using UIKit;
 using CoreGraphics;
-
-using MyTrips.Utils;
 
 namespace MyTrips.iOS
 {

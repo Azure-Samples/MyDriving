@@ -2,7 +2,6 @@
 
 using System;
 
-using Foundation;
 using UIKit;
 
 namespace MyTrips.iOS

@@ -1,8 +1,7 @@
-using Foundation;
 using System;
-using UIKit;
 
-using MyTrips.ViewModel;
+using Foundation;
+using UIKit;
 
 namespace MyTrips.iOS
 {

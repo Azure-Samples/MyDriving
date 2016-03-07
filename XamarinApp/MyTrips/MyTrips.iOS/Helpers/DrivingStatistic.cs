@@ -1,5 +1,4 @@
-﻿using System;
-namespace MyTrips.iOS
+﻿namespace MyTrips.iOS
 {
 	public class DrivingStatistic
 	{
