@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -176,9 +176,6 @@
       <HintPath>..\..\packages\PCLStorage.1.0.2\lib\portable-Xamarin.iOS+Xamarin.Mac\PCLStorage.Abstractions.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="HockeyApp.iOS">
-      <HintPath>..\..\Components\hockeyappios-3.8.5.0\lib\ios-unified\HockeyApp.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="Plugin.Geolocator">
       <HintPath>..\..\packages\Xam.Plugin.Geolocator.3.0.4\lib\Xamarin.iOS10\Plugin.Geolocator.dll</HintPath>
     </Reference>
@@ -205,12 +202,9 @@
     <Reference Include="Plugin.Share.Abstractions">
       <HintPath>..\..\packages\Plugin.Share.4.0.0\lib\Xamarin.iOS10\Plugin.Share.Abstractions.dll</HintPath>
     </Reference>
-<<<<<<< HEAD
-=======
     <Reference Include="HockeySDK">
       <HintPath>..\..\packages\HockeySDK.Xamarin.4.0.0-alpha1\lib\Xamarin.iOS10\HockeySDK.dll</HintPath>
     </Reference>
->>>>>>> master
     <Reference Include="Acr.Support.iOS">
       <HintPath>..\..\packages\Acr.Support.1.1.1\lib\Xamarin.iOS10\Acr.Support.iOS.dll</HintPath>
     </Reference>
@@ -453,10 +447,6 @@
     <BundleResource Include="Resources\tab_Settings%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <XamarinComponentReference Include="hockeyappios">
-      <Version>3.8.5.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
     <XamarinComponentReference Include="btprogresshud">
       <Version>1.20</Version>
       <Visible>False</Visible>

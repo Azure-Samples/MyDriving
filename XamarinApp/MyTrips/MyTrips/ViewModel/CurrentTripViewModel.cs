@@ -254,45 +254,23 @@ namespace MyTrips.ViewModel
             if (IsBusy || Geolocator.IsListening)
                 return;
 
-<<<<<<< HEAD
-            try
-            {
-				if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
-                {
-                    Geolocator.AllowsBackgroundUpdates = true;
-                    Geolocator.DesiredAccuracy = 25;
-=======
 			try 
 			{
-				if (Geolocator.IsGeolocationAvailable && Geolocator.IsGeolocationEnabled)
+						if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
 				{
 					Geolocator.AllowsBackgroundUpdates = true;
 					Geolocator.DesiredAccuracy = 25;
->>>>>>> master
 
                     Geolocator.PositionChanged += Geolocator_PositionChanged;
                     //every second, 5 meters
                     await Geolocator.StartListeningAsync(1000, 5);
-<<<<<<< HEAD
 				}
 				else
 				{
                         Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
                                                                    "Geolocation Disabled", "OK");
 				}
-                
-=======
-                }
-                else
-                {
 
-
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
-                                                               "Geolcoation Disabled", "OK");
-
-                }
-
->>>>>>> master
                 //Connect to the OBD device
                 await this.obdDataProcessor.Initialize();
                 await this.obdDataProcessor.ConnectToOBDDevice();

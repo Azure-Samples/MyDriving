@@ -84,7 +84,6 @@ namespace MyTrips.iOS
 			NavigateToTabs();
 		}
 
-<<<<<<< HEAD
 		void NavigateToTabs()
 		{
 			InvokeOnMainThread(() =>
@@ -95,16 +94,5 @@ namespace MyTrips.iOS
 				app.Window.RootViewController = viewController;
 			});
 		}
-=======
-        void GoToMain(bool fakeUser = false)
-        {
-            if (fakeUser)
-                viewModel.InitFakeUser();
-            var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
-            var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
-            viewController.SelectedIndex = 1;
-            app.Window.RootViewController = viewController;
-        }
->>>>>>> master
 	}
 }
