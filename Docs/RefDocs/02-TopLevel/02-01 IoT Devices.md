@@ -59,6 +59,8 @@ We often characterize field gateways as being *transparent* or *opaque*. A trans
 
 # Devices in our solution: OBD
 
+The SmartKar [TODO change name of app] solution collects On-board Diagnostics (OBD) data from your car to send to the solution back end for analysis. Modern cars have a standard OBD-II Data Link Connector somewhere in the cabin that enables you plug in a OBD-II device that reads the OBD data and makes it available to other devices over USB, Bluetooth or a local WiFi network.
+
 ## What is OBD and does it do?
 
 Summarize the types of data that ODB can collect and forward.
