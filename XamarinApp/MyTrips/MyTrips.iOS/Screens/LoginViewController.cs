@@ -12,10 +12,7 @@ namespace MyTrips.iOS
 	{
         LoginViewModel viewModel;
         bool didAnimate;
-		public LoginViewController (IntPtr handle) : base (handle)
-		{
-			
-		}
+		public LoginViewController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
 		{

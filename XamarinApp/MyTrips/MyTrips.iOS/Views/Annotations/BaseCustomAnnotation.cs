@@ -1,9 +1,5 @@
-﻿using System;
-
-using Foundation;
-using UIKit;
+﻿using CoreLocation;
 using MapKit;
-using CoreLocation;
 
 namespace MyTrips.iOS
 {

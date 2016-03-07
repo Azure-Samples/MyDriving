@@ -7,9 +7,7 @@ namespace MyTrips.iOS
 {
     public partial class TripSummaryTableViewController : UIViewController
     {
-        public TripSummaryTableViewController (IntPtr handle) : base (handle)
-        {
-        }
+		public TripSummaryTableViewController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
 		{
