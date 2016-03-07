@@ -84,22 +84,14 @@ namespace MyTrips.UWP.Views
             this.MyMap.ZoomLevel = 17;
             this.CarIcon = new MapIcon();
             this.mapPolyline = new MapPolyline();
-
+            MyMap.MapElements.Clear();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            // ResetTrip();
             viewModel.PropertyChanged += OnPropertyChanged;
-
-
             await StartTrackingAsync();
-
-            //var basicGeoposition = new BasicGeoposition() { Latitude = this.viewModel.CurrentPosition.Latitude, Longitude = this.viewModel.CurrentPosition.Longitude };
-            //UpdateMapView(basicGeoposition);
-            //UpdateCarIcon(basicGeoposition);
-
         }
 
         void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -220,6 +212,7 @@ namespace MyTrips.UWP.Views
                 CarIcon.ZIndex = 4;
                 CarIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
                 MyMap.Center = CarIcon.Location;
+                //MyMap.MapElements.Clear();
                 MyMap.MapElements.Add(CarIcon);
             });
          
