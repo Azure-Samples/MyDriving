@@ -30,6 +30,7 @@ namespace MyTrips.Droid
             ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
             ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
             Xamarin.Insights.Initialize(Logger.InsightsKey, this);
+            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             UserDialogs.Init(() => CrossCurrentActivity.Current.Activity);
         }
 

@@ -14,6 +14,10 @@ namespace MyTrips.iOS
     [Register ("TripSummaryTableViewController")]
     partial class TripSummaryTableViewController
     {
+        [Action ("UIButtonmgbbGHnL_TouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void UIButtonmgbbGHnL_TouchUpInside (UIKit.UIButton sender);
+
         void ReleaseDesignerOutlets ()
         {
         }

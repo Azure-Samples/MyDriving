@@ -16,5 +16,10 @@ namespace MyTrips.iOS
 
 
 		}
-    }
+
+		partial void UIButtonmgbbGHnL_TouchUpInside(UIButton sender)
+		{
+			DismissViewController(true, null);
+		}
+	}
 }
