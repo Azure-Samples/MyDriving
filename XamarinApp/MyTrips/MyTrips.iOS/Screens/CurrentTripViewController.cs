@@ -13,7 +13,6 @@ using MyTrips.ViewModel;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 
-
 namespace MyTrips.iOS
 {
 	partial class CurrentTripViewController : UIViewController
@@ -26,9 +25,7 @@ namespace MyTrips.iOS
 
 		public PastTripsDetailViewModel PastTripsDetailViewModel { get; set; }
 
-		public CurrentTripViewController (IntPtr handle) : base (handle)
-		{
-		}
+		public CurrentTripViewController (IntPtr handle) : base (handle) { }
 
 		public async override void ViewDidLoad()
 		{
@@ -52,9 +49,7 @@ namespace MyTrips.iOS
 			base.ViewWillAppear(animated);
 
 			if (CurrentTripViewModel != null && !CurrentTripViewModel.IsRecording)
-			{
 				await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync();
-			}
 		}
 
 		public override void ViewDidAppear(bool animated)
@@ -62,9 +57,7 @@ namespace MyTrips.iOS
 			base.ViewDidAppear(animated);
 
 			if (recordButton.Hidden == true && PastTripsDetailViewModel == null)
-			{
 				recordButton.Pop(0.5, 0, 1);
-			}
 		}
 
 		public override async void ViewWillDisappear(bool animated)
@@ -98,6 +91,7 @@ namespace MyTrips.iOS
 			tripSlider.Hidden = true;
 			wayPointA.Hidden = true;
 			wayPointB.Hidden = true;
+			tripInfoView.Alpha = 0;
 
 			UpdateRecordButton(false);
 
@@ -108,40 +102,37 @@ namespace MyTrips.iOS
 			// Start tracking user location, pending permission from user.
 			await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
 			{
-				// If we don't have permission from the user, prompt a dialog requesting permission.
-				await PromptPermissionsChangeDialog();
+				if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
+					await PromptPermissionsChangeDialog();
 			});
+
+			if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
+			{
+				tripMapView.Camera.CenterCoordinate = new CLLocationCoordinate2D(47.6204, -122.3491);
+			}
 		}
 
 		void ResetMapViewState()
 		{
 			if (tripMapView.Overlays != null)
-			{
 				tripMapView.RemoveOverlays(tripMapView.Overlays);
-			}
 
 			tripMapView.RemoveAnnotations(tripMapView.Annotations);
 			route = null;
 		}
 
+		void AnimateTripInfoView()
+		{
+			tripInfoView.FadeIn(0.3, 0);
+		}
+
 		void ResetTripInfoView()
 		{
-			var duration = 0.5f;
-
 			lblMpg.Text = "0";
-			lblMpg.Pop(duration, 0, 1);
-
 			lblGallons.Text = "0";
-			lblGallons.Pop(duration, 0, 1);
-
 			lblDistance.Text = "0";
-			lblDistance.Pop(duration, 0, 1);
-
 			lblDuration.Text = "0:00";
-			lblDuration.Pop(duration, 0, 1);
-
 			lblCost.Text = "$0.00";
-			lblCost.Pop(duration, 0, 1);
 		}
 
 		void UpdateRecordButton(bool isRecording)
@@ -197,6 +188,25 @@ namespace MyTrips.iOS
 
 		async void RecordButton_TouchUpInside(object sender, EventArgs e)
 		{
+			if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
+			{
+				InvokeOnMainThread(() =>
+				{
+					var alertController = UIAlertController.Create("Location Permission Denied", "Tracking your location is required to record trips. Visit the Settings app to change the permission status.", UIAlertControllerStyle.Alert);
+					alertController.AddAction(UIAlertAction.Create("Change Permission", UIAlertActionStyle.Default, (obj) =>
+					{
+						var url = NSUrl.FromString(UIApplication.OpenSettingsUrlString);
+						UIApplication.SharedApplication.OpenUrl(url);
+					}));
+
+					alertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Cancel, null));
+
+					PresentViewController(alertController, true, null);
+				});
+
+				return;
+			}
+
 			var position = await CurrentTripViewModel.Geolocator.GetPositionAsync();
 			var coordinate = position.ToCoordinate();
 
@@ -209,17 +219,20 @@ namespace MyTrips.iOS
 
 				UpdateRecordButton(true);
 				ResetTripInfoView();
+				AnimateTripInfoView();
 			}
 			else
 			{
 				UpdateRecordButton(false);
+
+				tripInfoView.Alpha = 0;
+				ResetTripInfoView();
 
 				NavigationItem.RightBarButtonItem.Clicked -= TakePhotoButton_Clicked;
 				NavigationItem.SetRightBarButtonItem(null, true);
 
 				var vc = Storyboard.InstantiateViewController("tripSummaryTableViewController") as TripSummaryTableViewController;
 				PresentModalViewController(vc, true);
-
 			}
 
 			// Add start or end waypoint
@@ -309,14 +322,12 @@ namespace MyTrips.iOS
 			ConfigureSlider();
 			ConfigureWayPointButtons();
 
-			// Hide record button
+			// Hide current trip views
 			recordButton.Hidden = true;
-
-			// Show slider 
 			sliderView.Hidden = false;
-
 			startTimeLabel.Hidden = false;
 			endTimeLabel.Hidden = false;
+
 			startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
 			endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
 
@@ -370,9 +381,7 @@ namespace MyTrips.iOS
 		void UpdateCarAnnotationPosition(CLLocationCoordinate2D coordinate)
 		{
 			if (currentLocationAnnotation != null)
-			{
 				tripMapView.RemoveAnnotation(currentLocationAnnotation);
-			}
 
 			var color = CurrentTripViewModel != null && CurrentTripViewModel.IsRecording ? UIColor.Red : UIColor.Blue;
 			currentLocationAnnotation = new CarAnnotation(coordinate, color);

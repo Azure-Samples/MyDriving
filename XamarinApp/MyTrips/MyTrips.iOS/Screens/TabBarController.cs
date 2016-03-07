@@ -1,18 +1,12 @@
-using Foundation;
 using System;
-using System.CodeDom.Compiler;
 using UIKit;
 using CoreGraphics;
-
-using MyTrips.Utils;
 
 namespace MyTrips.iOS
 {
 	partial class TabBarController : UITabBarController
 	{
-		public TabBarController (IntPtr handle) : base (handle)
-		{
-		}
+		public TabBarController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
 		{

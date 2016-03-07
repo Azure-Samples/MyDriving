@@ -69,6 +69,7 @@ namespace MyTrips.Droid
 
             HockeyApp.CrashManager.Register(this, Logger.HockeyAppAndroid);
             HockeyApp.UpdateManager.Register(this, Logger.HockeyAppAndroid);
+            HockeyApp.Metrics.MetricsManager.Register(this, Application);
             HockeyApp.TraceWriter.Initialize();
 
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>

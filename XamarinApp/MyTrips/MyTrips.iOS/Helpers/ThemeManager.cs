@@ -7,7 +7,6 @@ namespace MyTrips.iOS
 	{
 		public static void ApplyTheme ()
 		{
-			
 			// Status Bar
 			UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
 
@@ -20,6 +19,7 @@ namespace MyTrips.iOS
 				Font = UIFont.FromName("Avenir-Medium", 17f),
 				TextColor = UIColor.White
 			});
+
 			//NavigationBar Buttons 
 			UIBarButtonItem.Appearance.SetTitleTextAttributes(new UITextAttributes
 			{

@@ -1,20 +1,14 @@
-using Foundation;
 using System;
+
+using Foundation;
 using UIKit;
 
 namespace MyTrips.iOS
 {
     public partial class SettingTableViewCell : UITableViewCell
     {
-        public SettingTableViewCell (IntPtr handle) : base (handle)
-        {
-        }
-
-		public SettingTableViewCell(NSString cellId)
-			: base(UITableViewCellStyle.Default, cellId)
-		{
-
-		}
+		public SettingTableViewCell(IntPtr handle) : base(handle) { }
+		public SettingTableViewCell(NSString cellId) : base(UITableViewCellStyle.Default, cellId) { }
 
 		public string Name
 		{
