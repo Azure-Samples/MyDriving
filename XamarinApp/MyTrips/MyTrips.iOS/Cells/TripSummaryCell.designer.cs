@@ -16,22 +16,22 @@ namespace MyTrips.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblText { get; set; }
+        UIKit.UILabel nameLabel { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblValue { get; set; }
+        UIKit.UILabel valueLabel { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
-            if (lblText != null) {
-                lblText.Dispose ();
-                lblText = null;
+            if (nameLabel != null) {
+                nameLabel.Dispose ();
+                nameLabel = null;
             }
 
-            if (lblValue != null) {
-                lblValue.Dispose ();
-                lblValue = null;
+            if (valueLabel != null) {
+                valueLabel.Dispose ();
+                valueLabel = null;
             }
         }
     }

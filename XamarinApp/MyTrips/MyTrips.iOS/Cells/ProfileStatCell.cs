@@ -29,7 +29,7 @@ namespace MyTrips.iOS
 			}
 		}
 
-		public string Text
+		public string Name
 		{
 			get
 			{
