@@ -17,6 +17,16 @@ namespace MyTrips.DataObjects
 
         public int Sequence {get;set;}
 
+        public double RPM { get; set;}
+
+        public double BarometricPressure { get; set; }
+
+        public double OutsideTemperature { get; set; }
+
+        public double InsideTemperature { get; set; }
+
+        public double EngineFuelRate { get; set; }
+
         public Dictionary<String, String> OBDData { get; set; }
     }
 }
