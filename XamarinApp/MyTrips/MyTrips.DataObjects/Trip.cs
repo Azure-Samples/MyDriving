@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+
+#if !BACKEND
 using System.Text;
 using Humanizer;
 using Newtonsoft.Json;
+using MvvmHelpers;
+#endif
 
 namespace MyTrips.DataObjects
 {
@@ -13,17 +17,35 @@ namespace MyTrips.DataObjects
     {
         public Trip()
         {
-            this.Trail = new List<Trail>();
+            Points = new List<TripPoint>();
+            Tips = new List<Tip>();
         }
 
-        /// <summary>
-        /// This is actually the name
-        /// </summary>
-        /// <value>The trip identifier.</value>
-        public string TripId { get; set; }
+        public string Name { get; set; }
 
         public string UserId { get; set; }
 
+        public IList<TripPoint> Points { get; set; }
+
+        public IList<Tip> Tips { get; set; }
+
+        public DateTime RecordedTimeStamp { get; set; }
+
+        public int Rating { get; set; }
+
+        public bool IsComplete { get; set; }
+
+        public double AverageSpeed { get; set; }
+
+        public double Emissions { get; set; }
+
+        public double FuelUsed { get; set; }
+
+        public string MainPhotoUrl { get; set; }
+
+        #if BACKEND
+        public double Distance { get; set; } 
+        #else
         double distance;
         /// <summary>
         /// Gets or sets the total distance in miles.
@@ -34,10 +56,6 @@ namespace MyTrips.DataObjects
             get { return distance; }
             set { SetProperty(ref distance, value); }
         }
-
-        public DateTime RecordedTimeStamp { get; set; }
-
-        public int Rating { get; set; }
 
         //Do not sync with backend, used localy only
         [JsonIgnore]
@@ -53,69 +71,11 @@ namespace MyTrips.DataObjects
         public string StartTimeDisplay => RecordedTimeStamp.ToLocalTime().ToString("t");
 
         [JsonIgnore]
-        public string EndTimeDisplay => (Trail?.Count).GetValueOrDefault() > 0 ? Trail[Trail.Count - 1].RecordedTimeStamp.ToLocalTime().ToString("t") : string.Empty;
+        public string EndTimeDisplay => (Points?.Count).GetValueOrDefault() > 0 ? Points[Points.Count - 1].RecordedTimeStamp.ToLocalTime().ToString("t") : string.Empty;
 
         [JsonIgnore]
         public IList<Photo> Photos { get; set; }
 
-        public IList<Trail> Trail { get; set; }
-
-        public string MainPhotoUrl { get; set; }
+        #endif
     }
-
-    public class Trail : BaseDataObject
-    {
-        public int SequenceId { get; set; }
-
-        public double Latitude { get; set; }
-
-        public double Longitude { get; set; }
-
-        public DateTime RecordedTimeStamp { get; set; }
-
-        public Dictionary<String, String> OBDData { get; set; }
-    }
-
-    public class Telemetry : BaseDataObject
-    {
-        public string Key { get; set; }
-
-
-        public string Value { get; set; }
-    }
-
-
-    //TODO: Conflicting with structure discussed with Haishi - commenting out for now and can discuss in next sync meeting
-    //public class Point : BaseDataObject
-    //{
-    //    public string Elevation { get; set; }
-
-    //    public DateTime Time { get; set; }
-
-    //    public string Latitude { get; set; }
-
-    //    public string Longitude { get; set; }
-    //}
-
-
-    //public class Trip : BaseDataObject
-    //{
-    //    public string Name { get; set; }
-
-    //    public List<Point> Points { get; set; }
-
-    //    public double Distance { get; set; }
-
-    //    public Feedback Feedback { get; set; }
-
-    //    public DateTime StartTime { get; set; }
-
-    //    public DateTime EndTime { get; set; }
-
-    //    public double MPG { get; set; }
-
-    //    public double Gallons { get; set; }
-
-    //    public double Cost { get; set; }
-    //}
 }

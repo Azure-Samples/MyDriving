@@ -66,27 +66,28 @@ namespace MyTrips.Services
                     obdData = new Dictionary<string, string>();
                 }
             }
-            else
-            {
+                else
+                {
                 obdData = new Dictionary<string, string>();
-            }
+                }
 
             return obdData;
-        }
+            }
 
         public async Task AddTripDataPointToBuffer(Trip currentTrip)
         {
-            foreach (Trail tripDataPoint in currentTrip.Trail)
+            foreach (var tripDataPoint in currentTrip.Points)
             {
+                var tripDataBlob = JsonConvert.SerializeObject(tripDataPoint).TrimStart('{').TrimEnd('}');
+
                 var blob = JsonConvert.SerializeObject(
                     new
                     {
                         Id = currentTrip.Id,
-                        Name = currentTrip.TripId,
+                        Name = currentTrip.Name,
                         UserId = currentTrip.UserId,
-                        TripDataPoint = JsonConvert.SerializeObject(tripDataPoint)
-                    }
-                 );
+                        TripDataPoint = tripDataBlob
+                    } );
 
                 IOTHubData iotHubData = new IOTHubData();
                 iotHubData.Blob = blob;
@@ -115,27 +116,27 @@ namespace MyTrips.Services
                 return;
             }
 
-            if (CrossConnectivity.Current.IsConnected)
-            {
-                try
+                if (CrossConnectivity.Current.IsConnected)
                 {
-                    //Once the trip is pushed to the IOT Hub, delete it from the local store
-                    await this.iotHub.SendEvents(iotHubDataBlobs.Select(i => i.Blob));
-                    await this.storeManager.IOTHubStore.DropTable();
+                    try
+                    {
+                        //Once the trip is pushed to the IOT Hub, delete it from the local store
+                        await this.iotHub.SendEvents(iotHubDataBlobs.Select(i => i.Blob));
+                        await this.storeManager.IOTHubStore.DropTable();
+                    }
+                    catch (Exception ex)
+                    {
+                        //An exception will be thrown if the data isn't received by the IOT Hub
+                        await Task.Delay(1000);
+                        Logger.Instance.Report(ex);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    //An exception will be thrown if the data isn't received by the IOT Hub
-                    await Task.Delay(1000);
-                    Logger.Instance.Report(ex);
+                    //If there is no network connection, then stop trying to push data entirely
+                    //Instead, we'll wait to try to push data again when the ConnectivityChanged event is raised with successful network connection
+                    return;
                 }
-            }
-            else
-            {
-                //If there is no network connection, then stop trying to push data entirely
-                //Instead, we'll wait to try to push data again when the ConnectivityChanged event is raised with successful network connection
-                return;
-            }
 
             //If any data wasn't received by the IOT Hub, there may still be data in the local store - try again
             await this.PushTripDataToIOTHub();

@@ -67,7 +67,7 @@
             <Image Source="ms-appx:///Assets/ic_start_point.png"  AutomationProperties.Name="Start Point"  Stretch="None" VerticalAlignment="Center"
                    HorizontalAlignment="Left" Margin="10,0,0,10" Canvas.ZIndex="3"/>
 
-            <Slider Name="positionSlider" HorizontalAlignment="Stretch" Margin="0,0,0,10" ValueChanged="positionSlider_ValueChanged" Canvas.ZIndex="2" VerticalAlignment="Center" Width="170" />
+            <Slider Name="positionSlider" HorizontalAlignment="Stretch" Margin="0,0,0,10" ValueChanged="positionSlider_ValueChanged" Canvas.ZIndex="2" VerticalAlignment="Center" Width="170" RequestedTheme="Dark" />
             <Image Source="ms-appx:///Assets/ic_end_point.png" Canvas.ZIndex="3" AutomationProperties.Name="End Point" Stretch="None" Margin="0,0,10,10" VerticalAlignment="Center" HorizontalAlignment="Right"/>
 
         </StackPanel>

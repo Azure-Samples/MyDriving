@@ -84,7 +84,7 @@ namespace MyTrips.iOS
 					cell = new TripTableViewCell(new NSString(TRIP_CELL_IDENTIFIER));
 				}
 
-				cell.LocationName = trip.TripId;
+				cell.LocationName = trip.Name;
 				cell.TimeAgo = trip.TimeAgo;
 				cell.Distance = trip.TotalDistance;
 
@@ -100,7 +100,7 @@ namespace MyTrips.iOS
 				}
 
 				cell.DisplayImage.SetImage(new NSUrl(trip.MainPhotoUrl));
-				cell.LocationName = trip.TripId;
+				cell.LocationName = trip.Name;
 				cell.TimeAgo = trip.TimeAgo;
 				cell.Distance = trip.TotalDistance;
 				return cell;

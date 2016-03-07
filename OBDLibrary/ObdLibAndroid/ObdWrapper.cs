@@ -235,7 +235,7 @@ namespace ObdLibAndroid
                     result += tmp;
                 }
             }
-            return ParseObd2Msg(result);
+            return ObdShare.ObdUtil.ParseObd09Msg(result);
         }
         public async Task<string> GetSpeed()
         {
@@ -246,7 +246,7 @@ namespace ObdLibAndroid
             }
             string result;
             result = await SendAndReceive("010D\r");
-            return ParseObdMsg(result);
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
         public async Task<string> GetOutsideTemperature()
         {
@@ -257,7 +257,7 @@ namespace ObdLibAndroid
             }
             string result;
             result = await SendAndReceive("0146\r");
-            return ParseObdMsg(result);
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
         public async Task<string> GetInsideTemperature()
         {
@@ -268,7 +268,7 @@ namespace ObdLibAndroid
             }
             string result;
             result = await SendAndReceive("010F\r");
-            return ParseObdMsg(result);
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
         public async Task<string> GetBarometricPressure()
         {
@@ -279,7 +279,7 @@ namespace ObdLibAndroid
             }
             string result;
             result = await SendAndReceive("0133\r");
-            return ParseObdMsg(result);
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
         public async Task<string> GetRPM()
         {
@@ -290,7 +290,7 @@ namespace ObdLibAndroid
             }
             string result;
             result = await SendAndReceive("010C\r");
-            return ParseObdMsg(result);
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
         public async Task<string> GetEngineFuelRate()
         {
@@ -301,90 +301,7 @@ namespace ObdLibAndroid
             }
             string result;
             result = await SendAndReceive("015E\r");
-            return ParseObdMsg(result);
-        }
-        private string ParseObdMsg(string result)
-        {
-            if (result.Contains("STOPPED"))
-                return result;
-            if (result.Contains("NO DATA") || result.Contains("ERROR"))
-                return result;
-            var items = result.Replace("\r", "").Replace("\n", "").Split(' ');
-            if (items.Length < 3)
-                return "ERROR";
-            if (items[0].Trim() != "41")
-                return "ERROR";
-            int ret;
-            switch (items[1])
-            {
-                case "0D":  //Speed
-                    ret = int.Parse(items[2], System.Globalization.NumberStyles.HexNumber);
-                    return ret.ToString();
-                case "33":  //BarometricPressure
-                    ret = int.Parse(items[2], System.Globalization.NumberStyles.HexNumber);
-                    return ret.ToString();
-                case "0C":  //RPM
-                    ret = int.Parse(items[2] + items[3], System.Globalization.NumberStyles.HexNumber);
-                    return (ret / 4).ToString();
-                case "46":  //OutsideTemperature
-                    ret = int.Parse(items[2], System.Globalization.NumberStyles.HexNumber);
-                    return (ret - 40).ToString();
-                case "0F":   //InsideTemperature
-                    ret = int.Parse(items[2], System.Globalization.NumberStyles.HexNumber);
-                    return (ret - 40).ToString();
-                case "5E":  //EngineFuelRate
-                    ret = int.Parse(items[2] + items[3], System.Globalization.NumberStyles.HexNumber);
-                    return (ret / 20).ToString();
-            }
-            return "ERROR";
-        }
-        private string ParseObd2Msg(string result)  //VIN
-        {
-            if (result.Contains("STOPPED"))
-                return result;
-            if (result.Contains("NO DATA") || result.Contains("ERROR"))
-                return result;
-            var items = result.Replace("\r\n", "").Split(' ');
-            if (items.Length < 36)
-                return "ERROR";
-            if (items[0].Trim() != "49")
-                return "ERROR";
-            string ret = "";
-            int tint;
-            char tchar;
-            switch (items[1])
-            {
-                case "02":  //VIN
-                    tint = int.Parse(items[6], System.Globalization.NumberStyles.HexNumber);
-                    tchar = (char)tint;
-                    ret += tchar.ToString();
-                    for (int i = 10; i < 14; i++)
-                    {
-                        tint = int.Parse(items[i], System.Globalization.NumberStyles.HexNumber);
-                        tchar = (char)tint;
-                        ret += tchar.ToString();
-                    }
-                    for (int i = 17; i < 21; i++)
-                    {
-                        tint = int.Parse(items[i], System.Globalization.NumberStyles.HexNumber);
-                        tchar = (char)tint;
-                        ret += tchar.ToString();
-                    }
-                    for (int i = 24; i < 28; i++)
-                    {
-                        tint = int.Parse(items[i], System.Globalization.NumberStyles.HexNumber);
-                        tchar = (char)tint;
-                        ret += tchar.ToString();
-                    }
-                    for (int i = 31; i < 35; i++)
-                    {
-                        tint = int.Parse(items[i], System.Globalization.NumberStyles.HexNumber);
-                        tchar = (char)tint;
-                        ret += tchar.ToString();
-                    }
-                    return ret;
-            }
-            return "ERROR";
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
         private async Task<string> SendAndReceive(string msg)
         {
@@ -409,7 +326,7 @@ namespace ObdLibAndroid
         private async Task<string> ReadAsync()
         {
             string ret = await ReadAsyncRaw();
-            while (!ret.Trim().EndsWith("\r\n") && !ret.Trim().EndsWith("\r\r>") && !ret.Trim().EndsWith("\r\n>"))
+            while (!ret.Trim().EndsWith(">"))
             {
                 string tmp = await ReadAsyncRaw();
                 ret = ret + tmp;
@@ -429,9 +346,12 @@ namespace ObdLibAndroid
         public void Disconnect()
         {
             _running = false;
-            _bluetoothSocket.Dispose();
-            _bluetoothSocket.Close();
-            _bluetoothSocket = null;
+            if (_bluetoothSocket != null)
+            {
+                _bluetoothSocket.Dispose();
+                _bluetoothSocket.Close();
+                _bluetoothSocket = null;
+            }
         }
     }
 }

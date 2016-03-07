@@ -34,8 +34,8 @@ namespace MyTrips.iOS
 				foreach (var trip in trips)
 				{
 					var attributeSet = new CSSearchableItemAttributeSet(UTType.Text);
-					attributeSet.Title = trip.TripId;
-					attributeSet.ContentDescription = $"{trip.TripId} was on {trip.TimeAgo} and lasted {trip.TotalDistance}.";
+					attributeSet.Title = trip.Name;
+					attributeSet.ContentDescription = $"{trip.Name} was on {trip.TimeAgo} and lasted {trip.TotalDistance}.";
 
 					var dataItem = new CSSearchableItem(i.ToString(), "com.microsoft.mytrips.trip", attributeSet);
 					dataItems.Add(dataItem);

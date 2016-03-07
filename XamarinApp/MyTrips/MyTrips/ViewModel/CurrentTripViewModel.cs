@@ -28,7 +28,7 @@ namespace MyTrips.ViewModel
         OBDDataProcessor obdDataProcessor;
 
         bool isRecording;
-        public bool IsRecording
+		public bool IsRecording
         {
             get { return isRecording; }
             private set { SetProperty(ref isRecording, value); }
@@ -47,24 +47,65 @@ namespace MyTrips.ViewModel
             get { return elapsedTime; }
             set { SetProperty(ref elapsedTime, value); }
         }
-
-        public CurrentTripViewModel()
+        string speed = "N/A";
+        public string Speed
         {
+            get { return speed; }
+            set { SetProperty(ref speed, value); }
+        }
+
+        string speedUnits = "MPH";
+        public string SpeedUnits
+        {
+            get { return speedUnits; }
+            set { SetProperty(ref speedUnits, value); }
+        }
+
+        string emissions = "N/A";
+        public string Emissions
+        {
+            get { return emissions; }
+            set { SetProperty(ref emissions, value); }
+        }
+
+        string emissionUnits = "ERU";
+        public string EmissionUnits
+        {
+            get { return emissionUnits; }
+            set { SetProperty(ref emissionUnits, value); }
+        }
+
+        string distance = "0";
+        public string Distance
+        {
+            get { return distance; }
+            set { SetProperty(ref distance, value); }
+        }
+
+        string distanceUnits = "miles";
+        public string DistanceUnits
+        {
+            get { return distanceUnits; }
+            set { SetProperty(ref distanceUnits, value); }
+        }
+
+		public CurrentTripViewModel()
+		{
             CurrentTrip = new Trip();
 
-            CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
+            CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
             photos = new List<Photo>();
 
             this.obdDataProcessor = new OBDDataProcessor();
             this.obdDataProcessor.OnOBDDeviceDisconnected += ObdDataProcessor_OnOBDDeviceDisconnected;
-        }
+		}
 
         private async void ObdDataProcessor_OnOBDDeviceDisconnected(bool retryToConnect)
         {
             if (retryToConnect)
             {
                 await this.obdDataProcessor.ConnectToOBDDevice();
-            }
+        }
         }
 
         public IGeolocator Geolocator => CrossGeolocator.Current;
@@ -78,11 +119,12 @@ namespace MyTrips.ViewModel
 
             try
             {
-                if (CurrentPosition == null)
+                if (this.CurrentPosition == null)
                 {
 
                     if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
+                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS ||
+                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
                     {
                         Acr.UserDialogs.UserDialogs.Instance.Toast(new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Waiting for current location.")
                         {
@@ -91,7 +133,7 @@ namespace MyTrips.ViewModel
                             BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139)
                         });
                     }
-
+                    
                     return true;
                 }
 
@@ -103,17 +145,19 @@ namespace MyTrips.ViewModel
                     CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
                     //Read data from the OBD device and push it to the IOT Hub
-                    Dictionary<String, String> obdData = this.obdDataProcessor.ReadOBDData();
+                    var obdData = this.obdDataProcessor.ReadOBDData();
+                    CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
-                    var trail = new Trail
+                    var point = new TripPoint
                     {
                         RecordedTimeStamp = DateTime.UtcNow,
                         Latitude = CurrentPosition.Latitude,
                         Longitude = CurrentPosition.Longitude,
+                        Sequence = CurrentTrip.Points.Count,
                         OBDData = obdData
                     };
 
-                    CurrentTrip.Trail.Add(trail);
+                    CurrentTrip.Points.Add(point);
                 }
             }
             catch (Exception ex)
@@ -127,7 +171,7 @@ namespace MyTrips.ViewModel
             return true;
         }
 
-
+   
         public async Task<bool> StopRecordingTripAsync()
         {
             if (IsBusy || !IsRecording)
@@ -135,16 +179,16 @@ namespace MyTrips.ViewModel
 
 
             var track = Logger.Instance.TrackTime("SaveRecording");
-
-
+           
+            
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-
+            
             try
             {
                 IsRecording = false;
 
                 var result = await Acr.UserDialogs.UserDialogs.Instance.PromptAsync("Name of Trip");
-                CurrentTrip.TripId = result?.Text ?? string.Empty;
+                CurrentTrip.Name = result?.Text ?? string.Empty;
                 track.Start();
                 IsBusy = true;
                 progress?.Show();
@@ -159,9 +203,11 @@ namespace MyTrips.ViewModel
                 CurrentTrip.MainPhotoUrl = await BingHelper.QueryBingImages("Seattle", CurrentPosition.Latitude, CurrentPosition.Longitude);
 #endif
                 CurrentTrip.Rating = 90;
+
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
-                if (string.IsNullOrWhiteSpace(CurrentTrip.TripId))
-                    CurrentTrip.TripId = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
+                if (string.IsNullOrWhiteSpace(CurrentTrip.Name))
+                    CurrentTrip.Name = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
+
 
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
 
@@ -178,7 +224,7 @@ namespace MyTrips.ViewModel
                 await this.obdDataProcessor.PushTripDataToIOTHub();
 
                 CurrentTrip = new Trip();
-                CurrentTrip.Trail = new ObservableRangeCollection<Trail>();
+                CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
                 photos = new List<Photo>();
                 OnPropertyChanged(nameof(CurrentTrip));
 
@@ -199,25 +245,35 @@ namespace MyTrips.ViewModel
         }
 
         ICommand startTrackingTripCommand;
-        public ICommand StartTrackingTripCommand =>
-            startTrackingTripCommand ?? (startTrackingTripCommand = new RelayCommand(async () => await ExecuteStartTrackingTripCommandAsync()));
+		public ICommand StartTrackingTripCommand =>
+		    startTrackingTripCommand ?? (startTrackingTripCommand = new RelayCommand(async () => await ExecuteStartTrackingTripCommandAsync())); 
 
 
-		public async Task ExecuteStartTrackingTripCommandAsync ()
-		{
-            if(IsBusy || Geolocator.IsListening)
-				return;
+        public async Task ExecuteStartTrackingTripCommandAsync()
+        {
+            if (IsBusy || Geolocator.IsListening)
+                return;
 
+<<<<<<< HEAD
             try
             {
 				if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
                 {
                     Geolocator.AllowsBackgroundUpdates = true;
                     Geolocator.DesiredAccuracy = 25;
+=======
+			try 
+			{
+				if (Geolocator.IsGeolocationAvailable && Geolocator.IsGeolocationEnabled)
+				{
+					Geolocator.AllowsBackgroundUpdates = true;
+					Geolocator.DesiredAccuracy = 25;
+>>>>>>> master
 
                     Geolocator.PositionChanged += Geolocator_PositionChanged;
                     //every second, 5 meters
                     await Geolocator.StartListeningAsync(1000, 5);
+<<<<<<< HEAD
 				}
 				else
 				{
@@ -225,42 +281,21 @@ namespace MyTrips.ViewModel
                                                                    "Geolocation Disabled", "OK");
 				}
                 
+=======
+                }
+                else
+                {
+
+
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
+                                                               "Geolcoation Disabled", "OK");
+
+                }
+
+>>>>>>> master
                 //Connect to the OBD device
                 await this.obdDataProcessor.Initialize();
                 await this.obdDataProcessor.ConnectToOBDDevice();
-			}
-			catch (Exception ex) 
-			{
-				Logger.Instance.Report(ex);
-			} 
-			finally 
-			{
-
-			}
-		}
-
-
-        ICommand stopTrackingTripCommand;
-        public ICommand StopTrackingTripCommand =>
-        stopTrackingTripCommand ?? (stopTrackingTripCommand = new RelayCommand(async () => await ExecuteStopTrackingTripCommandAsync()));
-
-        public async Task ExecuteStopTrackingTripCommandAsync()
-        {
-            if (IsBusy || !IsRecording)
-                return;
-
-            try
-            {
-                //Unsubscribe because we were recording and it is alright
-                Geolocator.PositionChanged -= Geolocator_PositionChanged;
-                await Geolocator.StopListeningAsync();
-
-                //Only call for WinPhone for now since the OBD wrapper isn't available yet for android\ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
-                {
-                    //Stop reading data from the OBD device
-                    await this.obdDataProcessor.DisconnectFromOBDDevice();
-                }
             }
             catch (Exception ex)
             {
@@ -268,18 +303,50 @@ namespace MyTrips.ViewModel
             }
             finally
             {
+
             }
         }
 
+
+        ICommand stopTrackingTripCommand;
+		public ICommand StopTrackingTripCommand =>
+		stopTrackingTripCommand ?? (stopTrackingTripCommand = new RelayCommand(async () => await ExecuteStopTrackingTripCommandAsync())); 
+
+        public async Task ExecuteStopTrackingTripCommandAsync()
+		{
+            if (IsBusy || !IsRecording)
+				return;
+
+			try 
+			{
+                //Unsubscribe because we were recording and it is alright
+                Geolocator.PositionChanged -= Geolocator_PositionChanged;
+				await Geolocator.StopListeningAsync();
+
+                //Only call for WinPhone for now since the OBD wrapper isn't available yet for android\ios
+                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
+                {
+                    //Stop reading data from the OBD device
+                    await this.obdDataProcessor.DisconnectFromOBDDevice();
+			}
+            }
+			catch (Exception ex) 
+			{
+				Logger.Instance.Report(ex);
+			} 
+			finally 
+			{
+			}
+		}
+
         async void Geolocator_PositionChanged(object sender, PositionEventArgs e)
         {
-            // Only update the route if we are meant to be recording coordinates
-            if (IsRecording)
-            {
-                var userLocation = e.Position;
+			// Only update the route if we are meant to be recording coordinates
+			if (IsRecording)
+			{
+				var userLocation = e.Position;
 
-                Dictionary<String, String> obdData = new Dictionary<string, string>();
-
+                var obdData = new Dictionary<string, string>();
                 //Only call for WinPhone for now since the OBD wrapper isn't available yet for android\ios
                 if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
                 {
@@ -287,67 +354,68 @@ namespace MyTrips.ViewModel
                     obdData = this.obdDataProcessor.ReadOBDData();
                 }
 
-                var trail = new Trail
+                var point = new TripPoint
                 {
                     RecordedTimeStamp = DateTime.UtcNow,
                     Latitude = userLocation.Latitude,
                     Longitude = userLocation.Longitude,
+                    Sequence = CurrentTrip.Points.Count,
                     OBDData = obdData
-                };
+				};
 
-                CurrentTrip.Trail.Add(trail);
+                CurrentTrip.Points.Add(point);
 
-                if (CurrentTrip.Trail.Count > 1)
+                if (CurrentTrip.Points.Count > 1)
                 {
-                    var previous = CurrentTrip.Trail[CurrentTrip.Trail.Count - 2];//2 back now
+                    var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];//2 back now
                     CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude, userLocation.Longitude, previous.Latitude, previous.Longitude);
-                    OnPropertyChanged(nameof(CurrentTrip.Distance));
+                    Distance = CurrentTrip.TotalDistanceNoUnits;
                 }
-                
-                var timeDif = trail.RecordedTimeStamp - CurrentTrip.RecordedTimeStamp;
-				//track minutes first and then calculat the hours
-				if (timeDif.TotalMinutes < 1)
-					ElapsedTime = $"{timeDif.Seconds}s";
-				else if (timeDif.TotalHours > 0)
+
+                var timeDif = point.RecordedTimeStamp - CurrentTrip.RecordedTimeStamp;
+                //track minutes first and then calculat the hours
+                if (timeDif.TotalMinutes < 1)
+                    ElapsedTime = $"{timeDif.Seconds}s";
+                else if (timeDif.TotalHours > 0)
                     ElapsedTime = $"{timeDif.Minutes}m";
                 else
                     ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";
-            }
+			}
 
             CurrentPosition = e.Position;
-        }
+		}
 
         ICommand takePhotoCommand;
         public ICommand TakePhotoCommand =>
-            takePhotoCommand ?? (takePhotoCommand = new RelayCommand(async () => await ExecuteTakePhotoCommandAsync()));
+            takePhotoCommand ?? (takePhotoCommand = new RelayCommand(async () => await ExecuteTakePhotoCommandAsync())); 
 
         async Task ExecuteTakePhotoCommandAsync()
         {
-            try
+            try 
             {
-
+                
                 await Media.Initialize();
 
                 if (!Media.IsCameraAvailable || !Media.IsTakePhotoSupported)
                 {
 
 
-
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
-                                                               "Camera Disabled", "OK");
-
+                    
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
+                                                                   "Camera Disabled", "OK");
+                    
                     return;
                 }
 
                 var locationTask = Geolocator.GetPositionAsync(2500);
                 var photo = await Media.TakePhotoAsync(new StoreCameraMediaOptions
-                {
-                    DefaultCamera = CameraDevice.Rear,
-                    Directory = "MyTrips",
-                    Name = "MyTrips_",
-                    SaveToAlbum = true,
-                    PhotoSize = PhotoSize.Small
-                });
+                    {
+                        DefaultCamera = CameraDevice.Rear,
+                        Directory = "MyTrips",
+                        Name = "MyTrips_",
+                        SaveToAlbum = true,    
+                        PhotoSize = PhotoSize.Small
+                    });
 
                 if (photo == null)
                 {
@@ -368,22 +436,22 @@ namespace MyTrips.ViewModel
 
                 var local = await locationTask;
                 var photoDB = new Photo
-                {
-                    PhotoUrl = photo.Path,
-                    Latitude = local.Latitude,
-                    Longitude = local.Longitude,
-                    TimeStamp = DateTime.UtcNow
-                };
+                    {
+                        PhotoUrl = photo.Path,
+                        Latitude = local.Latitude,
+                        Longitude = local.Longitude, 
+                        TimeStamp = DateTime.UtcNow
+                    };
 
                 photos.Add(photoDB);
 
                 photo.Dispose();
-
-            }
-            catch (Exception ex)
+                
+            } 
+            catch (Exception ex) 
             {
                 Logger.Instance.Report(ex);
             }
         }
-    }
+	}
 }
