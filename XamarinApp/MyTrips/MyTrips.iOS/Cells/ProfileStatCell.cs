@@ -17,19 +17,19 @@ namespace MyTrips.iOS
 
 		}
 
-		public string StatName
+		public string Value
 		{
 			get
 			{
-				return lblStatName.Text;
+				return lblValue.Text;
 			}
 			set
 			{
-				lblStatName.Text = value;
+				lblValue.Text = value;
 			}
 		}
 
-		public string Text
+		public string Name
 		{
 			get
 			{

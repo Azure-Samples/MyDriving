@@ -4,11 +4,7 @@
 
 ![Architecture: IoT Device](media/device-architecture.png "IoT device role in architecture")
 
-An IoT device is a physical device that typically collects and shares data with a cloud-based service. In some scenarios, IoT devices can also receive and act upon commands sent from a cloud-based service. An IoT device typically consists of:
-
-- One or more sensors that enable it to collect data.
-- A networking connectivity component that enables it to share the data it collects and possibly receive commands from a service.
-- Optionally, some mechanism that enables the device to control the hardware to which it is connected.
+An IoT device is a physical device that collects data from one or more sensors and shares that data with a cloud-based service. For example, a simple device might use a temperature sensor to collect the temperature in the environment and send that data every second to a cloud-based monitoring system. In some scenarios, IoT devices receive and act upon commands sent from a cloud-based service. For example, a cloud-based monitoring system might send a command to a device telling it to open a valve.
 
 Example scenarios where IoT devices may be used include:
 
@@ -23,6 +19,7 @@ Example scenarios where IoT devices may be used include:
 - Smart vending machines
 - Environmental monitoring such as pollution sensors
 - Asset tracking
+- Industrial automation controllers
 - Industrial equipment monitoring for predictive maintenance
 - Manufacturing process monitoring devices
 
@@ -31,11 +28,12 @@ As you can see from the previous list, there are a wide variety of IoT scenarios
 | Device characteristic | Example |
 | ----------------------| ------- |
 | Often embedded systems with no human operator. | A smart vending machine tracks stock levels and automatically requests refills. |
+| Typically a special-purpose device | Unlike a phone or a tablet, and IoT device usually has a spefic function, such as reporting the temperature in the environment |
 | Can be in remote locations where physical access is very expensive. | A sensor attached to a pipe in a remote oil pumping installation. |
 | May only be reachable through the solution back end. | An aircraft engine monitoring device may only be reachable from the monitoring service. |
 | May have limited power and processing resources. | A health monitoring band worn on the wrist. |
 | May have intermittent, slow, or expensive network connectivity. | A on-board diagnostics device in a car has no network access when there is no cellular coverage or when the car is in a tunnel. |
-| May need to use proprietary, custom, or industry-specific application protocols. | Cars typically expose on-board diagnostics using one of the OBD protocols. |
+| May need to use proprietary, custom, or industry-specific application protocols. | Cars typically expose on-board diagnostics using one of the OBD protocols. Industrial automation controllers may use protocols such as DeviceNet, PROFIBUS-DP, or CAN |
 | Can be created from a large set of popular hardware and software platforms. | Examples include Raspberry Pi, Arduino, or Beaglebone devices. |
 | May only send data or may also receive data from a service (typically in the cloud). | A car on-board diagnostics system only sends telemetry to the back end system, whereas a home automation system reports information about the home as well as enabling you to control lights and temperature remotely. |
 | May send or receive sensitive data that requires a secure communication channel. | A person tracking system for children should only allow parents or other designated individuals access to information about a child's location. |
@@ -61,6 +59,8 @@ We often characterize field gateways as being *transparent* or *opaque*. A trans
 
 # Devices in our solution: OBD
 
+The SmartKar [TODO change name of app] solution collects On-board Diagnostics (OBD) data from your car to send to the solution back end for analysis. Modern cars have a standard OBD-II Data Link Connector somewhere in the cabin that enables you plug in a OBD-II device that reads the OBD data and makes it available to other devices over USB, Bluetooth or a local WiFi network.
+
 ## What is OBD and does it do?
 
 Summarize the types of data that ODB can collect and forward.
@@ -85,7 +85,7 @@ It is possible to connect some OBD devices directly to the internet rather than 
 
 This device is compatible with an Arduino UNO enabling you to program the device directly and customize the OBD and sensor data sent to IoT Hub.
 
-# How data gets from here to the backend
+# How data gets from a device to the backend
 
 ## Device requirements for working with IoT Hub
 
@@ -96,13 +96,30 @@ To communicate with IoT Hub directly, an IoT device or field gateway must use on
 | Protocol | Port(s) |
 | -------- | ------- |
 | HTTPS    | 443     |
-| AMQP     | 5671    |
-| AMQP over WebSockets | 443    |
+| AMQPS     | 5671    |
+| AMQPS over WebSockets | 443    |
 | MQTT | 8883 |
 
 > Note: These are all secure protocols that encrypt the data the device exchanges with IoT Hub. If your IoT device cannot use one of these protocols, you must use a protocol translation gateway.
 
-# How does the OBD device communicate with IoT Hub?
+## Decision point: which protocol do we use to communicate with IoT Hub?
+[TODO add discussion of different IoT protocols - HTTP, AMQP, MQTT]
+
+There are four key considerations in the choice of protocol for the device connecting to IoT Hub. Only the first two are relevant in this solution, and led us to choose the AMQPS protocol [TODO - check this, this is my assumption].
+
+- **Cloud-to-device pattern**. HTTP does not have an efficient way to implement server push. As such, when using HTTP, devices must poll IoT Hub for cloud-to-device messages. This is very inefficient for both the device and IoT Hub and introduces latency in command delivery to a device. Although the current solution does not send commands to the device, a possible extension is to to send a command to switch on a dash-cam if sudden breaking is detected. To minimize latency in delivering commands, you should use the AMQPS or MQTT protocol.
+
+- **Payload size**. AMQPS and MQTT are binary protocols, which are significantly more compact than HTTP. Using AMQPS or MQTT will help to minimize any charges that arise from the phone's connection to IoT Hub.
+
+- **Field gateways**. When using HTTP or MQTT, you cannot connect multiple devices (each with its own per-device credentials) using the same TLS connection. It follows that these protocols are suboptimal when implementing a field gateway, because they require one TLS connection between the field gateway and IoT Hub for each device connected to the gateway. However, in the current solution there is only one OBD device per phone, so there will be only one TLS connection to IoT Hub.
+
+- **Low resource devices**. The MQTT and HTTP libraries have a smaller footprint than the AMQP libraries. As such, if the device has few resources (for example, less than 1Mb RAM), these protocols might be the only protocol implementation available. However, modern smart phones typically have sufficient RAM to use the AMQPS protocol.
+
+- **Network traversal**. MQTT uses port 8883. This could cause problems in networks that are closed to non-HTTP protocols. You can use both HTTPS and AMQPS over WebSockets in this scenario. However, this is unlikely to be an issue over the public network used by the smart phone.
+
+# How does the OBD device communicate with the field gateway?
 
 Choice of protocols, SDKs and libraries, field gateway implementation, encryption.
 Relevant code walkthroughs here.
+OBD to phone
+Phone to IoT Hub
