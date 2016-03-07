@@ -34,7 +34,7 @@
         <scene sceneID="192">
             <objects>
                 <navigationController definesPresentationContext="YES" id="193" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Trips" image="tabbar_trips.png" selectedImage="tabbar_trips.png" id="245"/>
+                    <tabBarItem key="tabBarItem" title="Trips" image="tab_myTrips.png" selectedImage="tab_MyTrips_selected.png" id="245"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="196">
                         <rect key="frame" x="0.0" y="20" width="600" height="44"/>
@@ -894,7 +894,7 @@
         <scene sceneID="qtd-LI-IC0">
             <objects>
                 <navigationController id="oBo-hj-yrJ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" image="769-male.png" id="xv0-xR-aBW"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="tab_Profile.png" id="xv0-xR-aBW" selectedImage="tab_Profile_selected.png"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="M34-di-xdM">
                         <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -917,7 +917,7 @@
         <scene sceneID="340">
             <objects>
                 <navigationController definesPresentationContext="YES" id="341" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Current Trip" image="tabbar_currentTrip.png" selectedImage="tabbar_currentTrip.png" id="381"/>
+                    <tabBarItem key="tabBarItem" title="Current Trip" image="tab_Current.png" selectedImage="tab_Current_selected.png" id="381"/>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="344">
@@ -946,7 +946,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="98A-ze-WHa">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="98A-ze-WHa" misplaced="YES">
                                 <rect key="frame" x="-4" y="0.0" width="383" height="551"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
@@ -957,7 +957,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Setting Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Myt-zn-AA5">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Setting Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Myt-zn-AA5" misplaced="YES">
                                                     <rect key="frame" x="8" y="11" width="118" height="21"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="16"/>
                                                     <color key="textColor" red="0.15294118230000001" green="0.15686275059999999" blue="0.19607843459999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -1315,7 +1315,6 @@
         <image name="login_twitter.png" width="589" height="89"/>
         <image name="logo.png" width="286" height="161"/>
         <image name="scott.png" width="266" height="264"/>
-        <image name="tabbar_settings.png" width="30" height="30"/>
         <image name="tabbar_trips.png" width="28" height="22"/>
         <image name="tabbar_currenttrip.png" width="28" height="12"/>
         <image name="Map/waypoint_a.png" width="24" height="24"/>
@@ -1324,6 +1323,16 @@
         <image name="Map/car_annotation_red.png" width="32.5" height="32.5"/>
         <image name="Map/waypoint_tip.png" width="20.5" height="20.5"/>
         <image name="navigation_logo.png" width="179" height="110"/>
+        <image name="icon_profilePic.png" width="55" height="55"/>
+        <image name="icon_twitter.png" width="24" height="24"/>
+        <image name="tab_Current_selected.png" width="32" height="30"/>
+        <image name="tab_Current.png" width="32" height="30"/>
+        <image name="tab_MyTrips_selected.png" width="32" height="30"/>
+        <image name="tab_myTrips.png" width="32" height="30"/>
+        <image name="tab_Profile_selected.png" width="32" height="30"/>
+        <image name="tab_Profile.png" width="32" height="30"/>
+        <image name="tab_Settings_selected.png" width="32" height="30"/>
+        <image name="tab_Settings.png" width="32" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="RsI-Me-VZW"/>
