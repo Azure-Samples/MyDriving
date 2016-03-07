@@ -97,6 +97,7 @@ namespace MyTrips.iOS
 			tripSlider.Hidden = true;
 			wayPointA.Hidden = true;
 			wayPointB.Hidden = true;
+			tripInfoView.Alpha = 0;
 
 			UpdateRecordButton(false);
 
@@ -127,6 +128,11 @@ namespace MyTrips.iOS
 
 			tripMapView.RemoveAnnotations(tripMapView.Annotations);
 			route = null;
+		}
+
+		void AnimateTripInfoView()
+		{
+			tripInfoView.FadeIn(0.3, 0);
 		}
 
 		void ResetTripInfoView()
@@ -233,17 +239,19 @@ namespace MyTrips.iOS
 
 				UpdateRecordButton(true);
 				ResetTripInfoView();
+				AnimateTripInfoView();
 			}
 			else
 			{
 				UpdateRecordButton(false);
+
+				tripInfoView.Alpha = 0;
 
 				NavigationItem.RightBarButtonItem.Clicked -= TakePhotoButton_Clicked;
 				NavigationItem.SetRightBarButtonItem(null, true);
 
 				var vc = Storyboard.InstantiateViewController("tripSummaryTableViewController") as TripSummaryTableViewController;
 				PresentModalViewController(vc, true);
-
 			}
 
 			// Add start or end waypoint

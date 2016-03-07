@@ -1300,6 +1300,7 @@
                         <outlet property="tripSlider" destination="Yuw-JM-bdT" id="vXb-Rv-N0v"/>
                         <outlet property="wayPointA" destination="7mA-Mi-nwI" id="m5y-2I-1KZ"/>
                         <outlet property="wayPointB" destination="3jO-Rf-KjH" id="khi-1p-1zj"/>
+                        <outlet property="tripInfoView" destination="IwO-im-EC0" id="name-outlet-IwO-im-EC0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g60-su-Omq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1315,7 +1316,6 @@
         <image name="login_twitter.png" width="589" height="89"/>
         <image name="logo.png" width="286" height="161"/>
         <image name="scott.png" width="266" height="264"/>
-        <image name="tabbar_trips.png" width="28" height="22"/>
         <image name="tabbar_currenttrip.png" width="28" height="12"/>
         <image name="Map/waypoint_a.png" width="24" height="24"/>
         <image name="Map/waypoint_b.png" width="24" height="24"/>
