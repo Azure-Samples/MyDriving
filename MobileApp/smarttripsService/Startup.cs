@@ -9,6 +9,7 @@ namespace smarttripsService
     {
         public void Configuration(IAppBuilder app)
         {
+            
             ConfigureMobileApp(app);
         }
     }

@@ -111,6 +111,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\ObdLibUWP.rd.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ObdShare\ObdShare.csproj">
+      <Project>{7a88da9b-a374-4de2-b46e-ed2c45434508}</Project>
+      <Name>ObdShare</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

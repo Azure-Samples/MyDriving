@@ -28,7 +28,8 @@ namespace MyTrips.Analysis
                             Path.Combine(path, "MyTrips.AzureClient/MyTrips.AzureClient.csproj"),
                             Path.Combine(path, "MyTrips.Utils/MyTrips.Utils.csproj"),
                             Path.Combine(path, "MyTrips/MyTrips.csproj"),
-                            Path.Combine(path, "MyTrips.DataObjects/MyTrips.DataObjects.projitems")
+                            Path.Combine(path, "MyTrips.DataObjects/MyTrips.DataObjects.projitems"),
+                            Path.Combine(path, "MyTrips.Shared/MyTrips.Shared.projitems")
                     },
                 },
 
@@ -42,7 +43,8 @@ namespace MyTrips.Analysis
                             Path.Combine(path, "MyTrips.AzureClient/MyTrips.AzureClient.csproj"),
                             Path.Combine(path, "MyTrips.Utils/MyTrips.Utils.csproj"),
                             Path.Combine(path, "MyTrips/MyTrips.csproj"),
-                            Path.Combine(path, "MyTrips.DataObjects/MyTrips.DataObjects.projitems")
+                            Path.Combine(path, "MyTrips.DataObjects/MyTrips.DataObjects.projitems"),
+                            Path.Combine(path, "MyTrips.Shared/MyTrips.Shared.projitems")
                     },
                 },
                 new Solution {
@@ -55,7 +57,8 @@ namespace MyTrips.Analysis
                             Path.Combine(path, "MyTrips.AzureClient/MyTrips.AzureClient.csproj"),
                             Path.Combine(path, "MyTrips.Utils/MyTrips.Utils.csproj"),
                             Path.Combine(path, "MyTrips/MyTrips.csproj"),
-                            Path.Combine(path, "MyTrips.DataObjects/MyTrips.DataObjects.projitems")
+                            Path.Combine(path, "MyTrips.DataObjects/MyTrips.DataObjects.projitems"),
+                            Path.Combine(path, "MyTrips.Shared/MyTrips.Shared.projitems")
                     },
                 },
             };

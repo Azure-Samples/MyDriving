@@ -31,8 +31,7 @@ namespace MyTrips.UWP.Views
 
         public IList<BasicGeoposition> Locations { get; set; }
 
-        RandomAccessStreamReference mapIconStreamReference;
-
+      
         public PastTripMapView()
         {
             this.InitializeComponent();
@@ -41,20 +40,23 @@ namespace MyTrips.UWP.Views
         }
 
         PastTripsDetailViewModel ViewModel;
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var trip = e.Parameter as Trip;
             base.OnNavigatedTo(e);
             this.MyMap.Loaded += MyMap_Loaded;
             this.ViewModel.Trip = trip;
-            mapIconStreamReference = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_start_point.png"));
             DrawPath();
         }
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
             this.MyMap.ZoomLevel = 17;
-            this.positionSlider.Maximum = this.ViewModel.Trip.Trail.Count - 1;
+            if (this.ViewModel.Trip.Points.Count > 0)
+                this.positionSlider.Maximum = this.ViewModel.Trip.Points.Count - 1;
+            else
+                this.positionSlider.Maximum = 0;
+
             this.positionSlider.Minimum = 0;
             this.positionSlider.IsThumbToolTipEnabled = false;
         }
@@ -63,7 +65,7 @@ namespace MyTrips.UWP.Views
         {
             MapPolyline mapPolyLine = new MapPolyline();
 
-            foreach (var trail in this.ViewModel.Trip.Trail)
+            foreach (var trail in this.ViewModel.Trip.Points)
             {
                 var basicGeoPosion = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
                 Locations.Add(basicGeoPosion);
@@ -91,8 +93,7 @@ namespace MyTrips.UWP.Views
             mapStartIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
 
             MyMap.MapElements.Add(mapStartIcon);
-            mapStartIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-
+     
             //Draw End Icon
             MapIcon mapEndIcon = new MapIcon();
             mapEndIcon.Location = new Geopoint(Locations.Last());
@@ -124,21 +125,12 @@ namespace MyTrips.UWP.Views
 
         private async void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            var location = this.ViewModel.Trip.Trail[(int)e.NewValue];
+            var location = this.ViewModel.Trip.Points[(int)e.NewValue];
             var basicGeoposition = new BasicGeoposition { Latitude = location.Latitude, Longitude = location.Longitude };
             // Currently removing the Car from Map which is the last item added. 
             MyMap.MapElements.RemoveAt(MyMap.MapElements.Count - 1);
             DrawCarOnMap(basicGeoposition);
             await MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
-            //if (carMarker == null)
-            //    return;
-            //var location = viewModel.Trip.Trail[e.Progress];
-
-            //RunOnUiThread(() =>
-            //{
-            //    carMarker.Position = new LatLng(location.Latitude, location.Longitude);
-            //    map.MoveCamera(CameraUpdateFactory.NewLatLng(carMarker.Position));
-            //});
         }
     }
 }
