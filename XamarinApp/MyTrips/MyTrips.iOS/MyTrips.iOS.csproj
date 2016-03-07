@@ -309,25 +309,13 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Helpers\ThemeManager.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
-    <Compile Include="Screens\SettingsViewController.cs" />
-    <Compile Include="Screens\SettingsViewController.designer.cs">
-      <DependentUpon>SettingsViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Screens\TabBarController.cs" />
     <Compile Include="Screens\TabBarController.designer.cs">
       <DependentUpon>TabBarController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Screens\CurrentTripViewController.cs" />
-    <Compile Include="Screens\CurrentTripViewController.designer.cs">
-      <DependentUpon>CurrentTripViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Screens\LoginViewController.cs" />
     <Compile Include="Screens\LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Screens\TripsTableViewController.cs" />
-    <Compile Include="Screens\TripsTableViewController.designer.cs">
-      <DependentUpon>TripsTableViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Cells\TripTableViewCell.cs" />
     <Compile Include="Cells\TripTableViewCell.designer.cs">
@@ -362,10 +350,6 @@
     <Compile Include="Cells\SettingDetailTableViewCell.designer.cs">
       <DependentUpon>SettingDetailTableViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Screens\SettingsDetailViewController.cs" />
-    <Compile Include="Screens\SettingsDetailViewController.designer.cs">
-      <DependentUpon>SettingsDetailViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Cells\TripTableViewCellWithImage.cs" />
     <Compile Include="Cells\TripTableViewCellWithImage.designer.cs">
       <DependentUpon>TripTableViewCellWithImage.cs</DependentUpon>
@@ -374,14 +358,30 @@
     <Compile Include="Cells\SettingDetailTextFieldTableViewCell.designer.cs">
       <DependentUpon>SettingDetailTextFieldTableViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="Screens\TripSummaryTableViewController.cs" />
-    <Compile Include="Screens\TripSummaryTableViewController.designer.cs">
-      <DependentUpon>TripSummaryTableViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\DrivingStatistic.cs" />
     <Compile Include="Cells\TripSummaryCell.cs" />
     <Compile Include="Cells\TripSummaryCell.designer.cs">
       <DependentUpon>TripSummaryCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Trips\CurrentTripViewController.cs" />
+    <Compile Include="Screens\Trips\CurrentTripViewController.designer.cs">
+      <DependentUpon>CurrentTripViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Trips\TripsTableViewController.cs" />
+    <Compile Include="Screens\Trips\TripsTableViewController.designer.cs">
+      <DependentUpon>TripsTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Trips\TripSummaryTableViewController.cs" />
+    <Compile Include="Screens\Trips\TripSummaryTableViewController.designer.cs">
+      <DependentUpon>TripSummaryTableViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Settings\SettingsDetailViewController.cs" />
+    <Compile Include="Screens\Settings\SettingsDetailViewController.designer.cs">
+      <DependentUpon>SettingsDetailViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Settings\SettingsViewController.cs" />
+    <Compile Include="Screens\Settings\SettingsViewController.designer.cs">
+      <DependentUpon>SettingsViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -452,5 +452,9 @@
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Screens\Trips\" />
+    <Folder Include="Screens\Settings\" />
+  </ItemGroup>
   <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />
 </Project>
