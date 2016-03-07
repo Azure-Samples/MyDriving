@@ -2,16 +2,13 @@
 
 using System;
 
-using Foundation;
 using UIKit;
 
 namespace MyTrips.iOS
 {
 	public partial class SettingDetailTableViewCell : UITableViewCell
 	{
-		public SettingDetailTableViewCell (IntPtr handle) : base (handle)
-		{
-		}
+		public SettingDetailTableViewCell (IntPtr handle) : base (handle) { }
 
 		public string Name
 		{
@@ -21,7 +18,7 @@ namespace MyTrips.iOS
 
 		public bool Checked
 		{
-			get { return Accessory == UITableViewCellAccessory.Checkmark ? true : false; }
+			get { return Accessory == UITableViewCellAccessory.Checkmark; }
 			set 
 			{ 
 				if (value == true)

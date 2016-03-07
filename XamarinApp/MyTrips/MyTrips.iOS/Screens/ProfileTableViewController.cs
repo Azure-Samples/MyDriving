@@ -8,11 +8,9 @@ namespace MyTrips.iOS
     public partial class ProfileTableViewController : UITableViewController
     {
 		const string STAT_CELL_IDENTIFIER = "STAT_CELL_IDENTIFIER";
-		List<DrivingStatistic> data; 
+		List<DrivingStatistic> data;
 
-        public ProfileTableViewController (IntPtr handle) : base (handle)
-        {
-        }
+		public ProfileTableViewController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
 		{
@@ -33,7 +31,6 @@ namespace MyTrips.iOS
 				new DrivingStatistic { Name = "Tips Received", Value = "14"},
 			};
 		}
-
 
 		#region UITableViewSource
 		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
@@ -56,6 +53,5 @@ namespace MyTrips.iOS
 			return cell;
 		}
 		#endregion
-
     }
 }
