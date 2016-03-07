@@ -1108,7 +1108,7 @@
                                                         <color key="textColor" red="0.36113083959999998" green="0.36113083959999998" blue="0.36113083959999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOd-sv-rgi" fixedFrame="YES">
+                                                    <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Duration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOd-sv-rgi" fixedFrame="YES">
                                                         <rect key="frame" x="0.0" y="30.5" width="120" height="19.5"/>
                                                         <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
                                                         <color key="textColor" red="0.08235294118" green="0.66274509800000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
@@ -1316,7 +1316,6 @@
         <image name="login_twitter.png" width="589" height="89"/>
         <image name="logo.png" width="286" height="161"/>
         <image name="scott.png" width="266" height="264"/>
-        <image name="tabbar_currenttrip.png" width="28" height="12"/>
         <image name="Map/waypoint_a.png" width="24" height="24"/>
         <image name="Map/waypoint_b.png" width="24" height="24"/>
         <image name="Map/car_annotation_blue.png" width="32.5" height="32.5"/>

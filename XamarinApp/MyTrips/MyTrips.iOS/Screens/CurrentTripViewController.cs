@@ -246,6 +246,7 @@ namespace MyTrips.iOS
 				UpdateRecordButton(false);
 
 				tripInfoView.Alpha = 0;
+				ResetTripInfoView();
 
 				NavigationItem.RightBarButtonItem.Clicked -= TakePhotoButton_Clicked;
 				NavigationItem.SetRightBarButtonItem(null, true);
