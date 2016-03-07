@@ -53,7 +53,7 @@ namespace ObdLibUWP
 
                 return true;
             }
-            
+
             DeviceInformationCollection DeviceInfoCollection = await DeviceInformation.FindAllAsync(RfcommDeviceService.GetDeviceSelector(RfcommServiceId.SerialPort));
             var numDevices = DeviceInfoCollection.Count();
             DeviceInformation device = null;
@@ -77,14 +77,15 @@ namespace ObdLibUWP
                 }
 
                 _socket = new StreamSocket();
-                try { 
+                try
+                {
                     // Note: If either parameter is null or empty, the call will throw an exception
                     await _socket.ConnectAsync(_service.ConnectionHostName, _service.ConnectionServiceName);
                 }
                 catch (Exception ex)
                 {
-                        this._connected = false;
-                        System.Diagnostics.Debug.WriteLine("Connect:" + ex.Message);
+                    this._connected = false;
+                    System.Diagnostics.Debug.WriteLine("Connect:" + ex.Message);
                 }
                 // If the connection was successful, the RemoteAddress field will be populated
                 if (this._connected)
@@ -135,7 +136,7 @@ namespace ObdLibUWP
                     s = "SIMULATOR12345678";
                 else
                     s = await GetVIN();
-                lock(_lock)
+                lock (_lock)
                 {
                     _data["vin"] = s;
                 }
@@ -207,113 +208,12 @@ namespace ObdLibUWP
             }
         }
 
-        private string ParseObdMsg(string result)
-        {
-            if (result.Contains("STOPPED"))
-                return result;
-            if (result.Contains("NO DATA") || result.Contains("ERROR"))
-                return result;
-            var items = result.Replace("\r", "").Replace("\n", "").Split(' ');
-            if (items.Length < 3)
-                return "ERROR";
-            if (items[0].Trim() != "41")
-                return "ERROR";
-            int ret;
-            switch (items[1])
-            {
-                case "0D":  //Speed
-                    ret = int.Parse(items[2], System.Globalization.NumberStyles.HexNumber);
-                    return ret.ToString();
-                case "33":  //BarometricPressure
-                    ret = int.Parse(items[2], System.Globalization.NumberStyles.HexNumber);
-                    return ret.ToString();
-                case "0C":  //RPM
-                    ret = int.Parse(items[2] + items[3], System.Globalization.NumberStyles.HexNumber);
-                    return (ret / 4).ToString();
-                case "46":  //OutsideTemperature
-                    ret = int.Parse(items[2], System.Globalization.NumberStyles.HexNumber);
-                    return (ret - 40).ToString();
-                case "0F":   //InsideTemperature
-                    ret = int.Parse(items[2], System.Globalization.NumberStyles.HexNumber);
-                    return (ret - 40).ToString();
-                case "5E":  //EngineFuelRate
-                    ret = int.Parse(items[2] + items[3], System.Globalization.NumberStyles.HexNumber);
-                    return (ret / 20).ToString();
-            }
-            return "ERROR";
-        }
-
-        private string ParseObd2Msg(string result)  //VIN
-        {
-            if (result.Contains("STOPPED"))
-                return result;
-            if (result.Contains("NO DATA") || result.Contains("ERROR"))
-                return result;
-            var items = result.Replace("\r\n", "").Split(' ');
-            if (items.Length < 36)
-                return "ERROR";
-            if (items[0].Trim() != "49")
-                return "ERROR";
-            string ret = "";
-            int tint;
-            char tchar;
-            switch (items[1])
-            {
-                case "02":  //VIN
-                    tint = int.Parse(items[6], System.Globalization.NumberStyles.HexNumber);
-                    tchar = (char)tint;
-                    ret += tchar.ToString();
-                    for (int i = 10; i < 14; i++)
-                    {
-                        tint = int.Parse(items[i], System.Globalization.NumberStyles.HexNumber);
-                        tchar = (char)tint;
-                        ret += tchar.ToString();
-                    }
-                    for (int i = 17; i < 21; i++)
-                    {
-                        tint = int.Parse(items[i], System.Globalization.NumberStyles.HexNumber);
-                        tchar = (char)tint;
-                        ret += tchar.ToString();
-                    }
-                    for (int i = 24; i < 28; i++)
-                    {
-                        tint = int.Parse(items[i], System.Globalization.NumberStyles.HexNumber);
-                        tchar = (char)tint;
-                        ret += tchar.ToString();
-                    }
-                    for (int i = 31; i < 35; i++)
-                    {
-                        tint = int.Parse(items[i], System.Globalization.NumberStyles.HexNumber);
-                        tchar = (char)tint;
-                        ret += tchar.ToString();
-                    }
-                    return ret;
-            }
-            return "ERROR";
-        }
-
         private async Task<string> ReadAsync()
         {
             string ret = await ReadAsyncRaw();
-            //string ret1 = ret.Replace("\r", "").Replace("\n", "");
-            //if ( ret1 == "" || ret1 == ">")
-            //    ret = await ReadAsyncRaw();
-            //while (!ret.ToLower().Contains("\r"))
-            //{
-            //    string tmp = await ReadAsyncRaw();
-            //    ret = ret + tmp;
-            //}
-            //if (!ret.ToLower().Contains("searching"))
-            //    return ret;
-            //ret = await ReadAsyncRaw();
-            //while (!ret.ToLower().Contains("\r"))
-            //{
-            //    string tmp = await ReadAsyncRaw();
-            //    ret = ret + tmp;
-            //}
-            while (!ret.Trim().EndsWith("\r\n") && !ret.Trim().EndsWith("\r\r>") && !ret.Trim().EndsWith("\r\n>"))
+            while (!ret.Trim().EndsWith(">"))
             {
-                string tmp =  await ReadAsyncRaw();
+                string tmp = await ReadAsyncRaw();
                 ret = ret + tmp;
             }
             return ret;
@@ -328,9 +228,7 @@ namespace ObdLibUWP
             }
             string result;
             result = await SendAndReceive("010D\r");
-            //if(result == "STOPPED")
-            //    result = await SendAndReceive("010D\r");
-            return ParseObdMsg(result);
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
         public async Task<string> GetVIN()
         {
@@ -344,9 +242,7 @@ namespace ObdLibUWP
                     result += tmp;
                 }
             }
-            //if(result == "STOPPED")
-            //    result = await SendAndReceive("010D\r");
-            return ParseObd2Msg(result);
+            return ObdShare.ObdUtil.ParseObd09Msg(result);
         }
 
         public async Task<string> GetOutsideTemperature()
@@ -358,9 +254,7 @@ namespace ObdLibUWP
             }
             string result;
             result = await SendAndReceive("0146\r");
-            //if (result == "STOPPED")
-            //    result = await SendAndReceive("0146\r");
-            return ParseObdMsg(result);
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
 
         public async Task<string> GetInsideTemperature()
@@ -372,9 +266,7 @@ namespace ObdLibUWP
             }
             string result;
             result = await SendAndReceive("010F\r");
-            //if (result == "STOPPED")
-            //    result = await SendAndReceive("010F\r");
-            return ParseObdMsg(result);
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
 
         public async Task<string> GetBarometricPressure()
@@ -386,9 +278,7 @@ namespace ObdLibUWP
             }
             string result;
             result = await SendAndReceive("0133\r");
-            //if (result == "STOPPED")
-            //    result = await SendAndReceive("0133\r");
-            return ParseObdMsg(result);
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
 
         public async Task<string> GetRPM()
@@ -400,9 +290,7 @@ namespace ObdLibUWP
             }
             string result;
             result = await SendAndReceive("010C\r");
-            //if (result == "STOPPED")
-            //    result = await SendAndReceive("010C\r");
-            return ParseObdMsg(result);
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
 
         public async Task<string> GetEngineFuelRate()
@@ -414,21 +302,19 @@ namespace ObdLibUWP
             }
             string result;
             result = await SendAndReceive("015E\r");
-            //if (result == "STOPPED")
-            //    result = await SendAndReceive("015E\r");
-            return ParseObdMsg(result);
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
 
         public Dictionary<string, string> Read()
         {
-            if(!this._simulatormode && this._socket == null)
+            if (!this._simulatormode && this._socket == null)
             {
                 //if there is no connection
                 return null;
             }
             var ret = new Dictionary<string, string>();
             lock (_lock)
-            {   
+            {
                 foreach (var key in _data.Keys)
                 {
                     ret.Add(key, _data[key]);
@@ -485,7 +371,7 @@ namespace ObdLibUWP
         private async Task WriteAsync(string msg)
         {
             Task<UInt32> storeAsyncTask;
-            
+
             if (msg.Length != 0)
             {
                 // Load the text from the sendText input text box to the dataWriter object
@@ -505,12 +391,12 @@ namespace ObdLibUWP
                 }
             }
         }
-        
+
         private async Task<string> ReadAsyncRaw()
         {
             Task<UInt32> loadAsyncTask;
             uint ReadBufferLength = 1024;
-            
+
             // Set InputStreamOptions to complete the asynchronous read operation when one or more bytes is available
             dataReaderObject.InputStreamOptions = InputStreamOptions.Partial;
 
