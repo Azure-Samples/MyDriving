@@ -4,11 +4,7 @@
 
 ![Architecture: IoT Device](media/device-architecture.png "IoT device role in architecture")
 
-An IoT device is a physical device that typically collects and shares data with a cloud-based service. In some scenarios, IoT devices can also receive and act upon commands sent from a cloud-based service. An IoT device typically consists of:
-
-- One or more sensors that enable it to collect data.
-- A networking connectivity component that enables it to share the data it collects and possibly receive commands from a service.
-- Optionally, some mechanism that enables the device to control the hardware to which it is connected.
+An IoT device is a physical device that collects data from one or more sensors and shares that data with a cloud-based service. For example, a simple device might use a temperature sensor to collect the temperature in the environment and send that data every second to a cloud-based monitoring system. In some scenarios, IoT devices receive and act upon commands sent from a cloud-based service. For example, a cloud-based monitoring system might send a command to a device telling it to open a valve.
 
 Example scenarios where IoT devices may be used include:
 
