@@ -9,6 +9,7 @@ using MyTrips.Interfaces;
 using MyTrips.Droid.Helpers;
 using Acr.UserDialogs;
 using MyTrips.Shared;
+using MyTrips.DataStore.Abstractions;
 
 namespace MyTrips.Droid
 {
@@ -28,7 +29,14 @@ namespace MyTrips.Droid
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
             ServiceLocator.Instance.Add<MyTrips.Utils.Interfaces.ILogger, MyTrips.Shared.PlatformLogger>();
             ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
-            ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
+
+            //TODO: Need to add #debug compile dir for all offline\mock interfaces
+            //ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
+            ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
+
+            ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Mock.Stores.IOTHubStore>();
+            //ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Azure.Stores.IOTHubStore>();
+
             Xamarin.Insights.Initialize(Logger.InsightsKey, this);
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             UserDialogs.Init(() => CrossCurrentActivity.Current.Activity);

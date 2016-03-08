@@ -61,7 +61,7 @@ namespace MyTrips.UWP.Views
         //private Geolocator geolocator = null;
         public void OnPropertyChanged(string name)
         {
-            if(PropertyChanged!=null)
+            if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
@@ -81,10 +81,10 @@ namespace MyTrips.UWP.Views
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
+            //MyMap.MapElements.Clear();
             this.MyMap.ZoomLevel = 17;
             this.CarIcon = new MapIcon();
             this.mapPolyline = new MapPolyline();
-
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -128,7 +128,7 @@ namespace MyTrips.UWP.Views
             }
         }
 
-  
+
         private async Task StartTrackingAsync()
         {
             // Request permission to access location
@@ -144,7 +144,7 @@ namespace MyTrips.UWP.Views
                     //
                     startRecordBtn.IsEnabled = true;
 
-                   viewModel.StartTrackingTripCommand.Execute(null);
+                    viewModel.StartTrackingTripCommand.Execute(null);
 
                     break;
 
@@ -155,7 +155,7 @@ namespace MyTrips.UWP.Views
                     break;
 
                 case GeolocationAccessStatus.Unspecified:
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unspecified Error..." , "Geolcoation Disabled", "OK");
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unspecified Error...", "Geolcoation Disabled", "OK");
                     startRecordBtn.IsEnabled = false;
                     break;
             }
@@ -183,7 +183,7 @@ namespace MyTrips.UWP.Views
                 OnPropertyChanged(nameof(RecordButtonImage));
                 UpdateCarIcon(basicGeoposition);
                 await viewModel.StopRecordingTripAsync();
-        }
+            }
             else
             {
                 if (!await viewModel.StartRecordingTripAsync())
@@ -222,7 +222,7 @@ namespace MyTrips.UWP.Views
                 MyMap.Center = CarIcon.Location;
                 MyMap.MapElements.Add(CarIcon);
             });
-         
+
         }
 
         private async void AddStartMarker(BasicGeoposition basicGeoposition)
@@ -252,7 +252,7 @@ namespace MyTrips.UWP.Views
                     return;
                 //Get trail position or current potion to move car
 
-            
+
                 if (viewModel?.CurrentPosition != null)
                 {
                     basicGeoposition.Latitude = viewModel.CurrentPosition.Latitude;
@@ -286,7 +286,7 @@ namespace MyTrips.UWP.Views
 
                 // Moves the camera to make the trail location as the center of the view. 
             });
-             basicGeoposition = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
+            basicGeoposition = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
 
             if (updateCamera)
                 await MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
@@ -314,7 +314,7 @@ namespace MyTrips.UWP.Views
         {
             trailPointList = viewModel.CurrentTrip.Points as ObservableRangeCollection<TripPoint>;
             trailPointList.CollectionChanged += OnTrailUpdated;
-           // MyMap.MapElements.Clear();
+            // MyMap.MapElements.Clear();
             Locations?.Clear();
             Locations = null;
             SetupMap();
@@ -329,7 +329,7 @@ namespace MyTrips.UWP.Views
 
             start = viewModel.CurrentTrip.Points[0];
             UpdateMap(start, false);
-            AddStartMarker(new BasicGeoposition() {Latitude = start.Latitude, Longitude = start.Longitude });
+            AddStartMarker(new BasicGeoposition() { Latitude = start.Latitude, Longitude = start.Longitude });
         }
 
         private void OnTrailUpdated(object sender, NotifyCollectionChangedEventArgs e)
@@ -341,7 +341,7 @@ namespace MyTrips.UWP.Views
         private async void AddEndMarker(BasicGeoposition basicGeoposition)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-        {
+            {
 
                 MapIcon mapEndIcon = new MapIcon();
                 mapEndIcon.Location = new Geopoint(basicGeoposition);
