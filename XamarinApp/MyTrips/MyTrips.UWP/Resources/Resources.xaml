@@ -9,4 +9,13 @@
     <BitmapImage x:Key="MicrosoftLogo" UriSource="ms-appx:///Assets/Login/Microsoft.png"/>
     <BitmapImage x:Key="ApplicationLogo" UriSource="ms-appx:///Assets/Login/appLogo.png"/>
 
+
+    <BitmapImage x:Key="Current" UriSource="ms-appx:///Assets/SplitView/current_32.png"/>
+    <BitmapImage x:Key="CurrentWhite" UriSource="ms-appx:///Assets/SplitView/current_white_32.png"/>
+    <BitmapImage x:Key="CurrentBlue" UriSource="ms-appx:///Assets/SplitView/current_blue_32.png"/>
+
+    <BitmapImage x:Key="Past" UriSource="ms-appx:///Assets/SplitView/past_32.png"/>
+    <BitmapImage x:Key="PastWhite" UriSource="ms-appx:///Assets/SplitView/past_white_32.png"/>
+    <BitmapImage x:Key="PastBlue" UriSource="ms-appx:///Assets/SplitView/past_blue_32.png"/>
+
 </ResourceDictionary>
