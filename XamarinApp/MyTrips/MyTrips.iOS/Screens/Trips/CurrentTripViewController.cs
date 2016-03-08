@@ -1,5 +1,5 @@
-
 using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,7 +13,6 @@ using MyTrips.ViewModel;
 
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-
 
 namespace MyTrips.iOS
 {
@@ -244,6 +243,7 @@ namespace MyTrips.iOS
 				labelOneTitle.Text = CurrentTripViewModel.FuelConsumptionUnits;
 				labelThreeValue.Text = CurrentTripViewModel.ElapsedTime;
 				labelTwoValue.Text = CurrentTripViewModel.CurrentTrip.Distance.ToString("F");
+				labelTwoTitle.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentTripViewModel.CurrentTrip.Units.ToLower());
 				labelFourValue.Text = CurrentTripViewModel.Temperature;
 
 				// If we already haven't starting tracking route yet, start that.
