@@ -176,7 +176,7 @@ namespace MyTrips.ViewModel
 
                     CurrentTrip.Points.Add(point);
                 }*/
-                }
+            }
             catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
@@ -192,25 +192,24 @@ namespace MyTrips.ViewModel
         {
             if (IsRecording)
                 return false;
-
+            
             var track = Logger.Instance.TrackTime("SaveRecording");
-           
-            
+            IsBusy = true;
+
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-            
+
             try
             {
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                var result = await Acr.UserDialogs.UserDialogs.Instance.PromptAsync("Name of Trip");
-                CurrentTrip.Name = result?.Text ?? string.Empty;
+                    var result = await Acr.UserDialogs.UserDialogs.Instance.PromptAsync("Name of Trip");
+                    CurrentTrip.Name = result?.Text ?? string.Empty;
                 }
                 else
                 {
                     CurrentTrip.Name = name;
                 }
                 track.Start();
-                IsBusy = true;
                 progress?.Show();
 
 
@@ -271,7 +270,7 @@ namespace MyTrips.ViewModel
 
             return false;
         }
-
+   
         public bool StopRecordingTrip()
         {
             if (IsBusy || !IsRecording)
@@ -308,7 +307,10 @@ namespace MyTrips.ViewModel
         public async Task ExecuteStartTrackingTripCommandAsync()
         {
             if (IsBusy)
+            {
                 return;
+
+            }
 
 			try 
 			{
@@ -332,10 +334,10 @@ namespace MyTrips.ViewModel
                                                                    "Geolocation Disabled", "OK");
 				}
 
-                //Connect to the OBD device
+                    //Connect to the OBD device
                 await this.obdDataProcessor.Initialize(this.StoreManager);
-                await this.obdDataProcessor.ConnectToOBDDevice();
-            }
+                    await this.obdDataProcessor.ConnectToOBDDevice();
+                }
             catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
@@ -362,9 +364,9 @@ namespace MyTrips.ViewModel
                 Geolocator.PositionChanged -= Geolocator_PositionChanged;
 				await Geolocator.StopListeningAsync();
 
-                //Stop reading data from the OBD device
-                await this.obdDataProcessor.DisconnectFromOBDDevice();
-            }
+                    //Stop reading data from the OBD device
+                    await this.obdDataProcessor.DisconnectFromOBDDevice();
+			}
 			catch (Exception ex) 
 			{
 				Logger.Instance.Report(ex);
@@ -381,7 +383,7 @@ namespace MyTrips.ViewModel
 			{
 				var userLocation = e.Position;
 
-                //Read data from the OBD device and push it to the IOT Hub
+                    //Read data from the OBD device and push it to the IOT Hub
                 var obdData = this.obdDataProcessor.ReadOBDData();
 
                 var point = new TripPoint
@@ -424,14 +426,14 @@ namespace MyTrips.ViewModel
                 {
                     point.HasOBDData = false;
                 }
-               
+
                 CurrentTrip.Points.Add(point);
 
                 if (CurrentTrip.Points.Count > 1)
                 {
                     var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];
                     CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude, userLocation.Longitude, previous.Latitude, previous.Longitude);
-					Distance = CurrentTrip.TotalDistanceNoUnits;
+                    Distance = CurrentTrip.TotalDistanceNoUnits;
                 }
 
                 var timeDif = point.RecordedTimeStamp - CurrentTrip.RecordedTimeStamp;
