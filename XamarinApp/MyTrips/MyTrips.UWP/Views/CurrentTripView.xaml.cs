@@ -185,19 +185,22 @@ namespace MyTrips.UWP.Views
 
             if (viewModel.IsRecording)
             {
+                if (!viewModel.StopRecordingTrip())
+                    return;
+
                 AddEndMarker(basicGeoposition);
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
-
+                UpdateCarIcon(basicGeoposition);
                 var recordedTrip = viewModel.CurrentTrip;
-                await viewModel.StopRecordingTripAsync();
+                await viewModel.SaveRecordingTripAsync();
                 // Launch Trip Summary Page. 
                 this.Frame.Navigate(typeof(TripSummaryView), recordedTrip);
                 return;
-           }
+        }
             else
             {
-                if (!await viewModel.StartRecordingTripAsync())
+                if (!viewModel.StartRecordingTrip())
                     return;
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StopRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
@@ -213,15 +216,13 @@ namespace MyTrips.UWP.Views
             if (viewModel.IsBusy)
                 return;
 
+          
+
             // To update the carIcon first find it and remove it from the MapElements
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                if (MyMap.MapElements.Count > 0)
-                {
-                    var index = MyMap.MapElements.IndexOf(CarIcon);
-                    if (index > 0)
-                        MyMap.MapElements.RemoveAt(index);
-                }
+                MyMap.MapElements.Clear();
+
                 CarIcon = new MapIcon();
                 CarIcon.Location = new Geopoint(basicGeoposition);
                 CarIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
@@ -233,9 +234,15 @@ namespace MyTrips.UWP.Views
 
                 CarIcon.ZIndex = 4;
                 CarIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+                //if (MyMap.MapElements.Count > 0)
+                //{
+                //    var index = MyMap.MapElements.IndexOf(CarIcon);
+                //    if (index > 0)
+                //        MyMap.MapElements.RemoveAt(index);
+                //}
 
                 MyMap.Center = CarIcon.Location;
-                //MyMap.MapElements.Clear();
+                //
                 MyMap.MapElements.Add(CarIcon);
             });
          
@@ -365,7 +372,7 @@ namespace MyTrips.UWP.Views
         private async void AddEndMarker(BasicGeoposition basicGeoposition)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
+        {
 
                 MapIcon mapEndIcon = new MapIcon();
                 mapEndIcon.Location = new Geopoint(basicGeoposition);

@@ -12,7 +12,7 @@ namespace ObdLibiOS
     public class ObdWrapper
     {
         const uint BufSize = 1024;
-        const int Interval = 500;
+        const int Interval = 100;
         const string DefValue = "";
         bool _connected = true;
         Dictionary<string, string> _data = null;
@@ -40,7 +40,7 @@ namespace ObdLibiOS
             _simulatormode = simulatormode;
             if (simulatormode)
             {
-                //PollObd();
+                PollObd();
 
                 ////these code is for testing.
                 //while (true)
@@ -100,24 +100,24 @@ namespace ObdLibiOS
                 }
                 while (true)
                 {
-                    //s = GetSpeed();
-                    //if (s != "ERROR")
-                    //    lock (_lock)
-                    //    {
-                    //        _data["spd"] = s;
-                    //    }
-                    //if (!this._running)
-                    //    break;
-                    //System.Threading.Thread.Sleep(Interval);
-                    //s = GetBarometricPressure();
-                    //if (s != "ERROR")
-                    //    lock (_lock)
-                    //    {
-                    //        _data["bp"] = s;
-                    //    }
-                    //if (!this._running)
-                    //    break;
-                    //System.Threading.Thread.Sleep(Interval);
+                    s = await GetSpeed();
+                    if (s != "ERROR")
+                        lock (_lock)
+                        {
+                            _data["spd"] = s;
+                        }
+                    if (!this._running)
+                        break;
+                    System.Threading.Thread.Sleep(Interval);
+                    s = await GetBarometricPressure();
+                    if (s != "ERROR")
+                        lock (_lock)
+                        {
+                            _data["bp"] = s;
+                        }
+                    if (!this._running)
+                        break;
+                    System.Threading.Thread.Sleep(Interval);
                     s = await GetRPM();
                     if (s != "ERROR")
                         lock (_lock)
@@ -127,33 +127,33 @@ namespace ObdLibiOS
                     if (!this._running)
                         break;
                     await Task.Delay(Interval);
-                    //s = GetOutsideTemperature();
-                    //if (s != "ERROR")
-                    //    lock (_lock)
-                    //    {
-                    //        _data["ot"] = s;
-                    //    }
-                    //if (!this._running)
-                    //    break;
-                    //System.Threading.Thread.Sleep(Interval);
-                    //s = GetInsideTemperature();
-                    //if (s != "ERROR")
-                    //    lock (_lock)
-                    //    {
-                    //        _data["it"] = s;
-                    //    }
-                    //if (!this._running)
-                    //    break;
-                    //System.Threading.Thread.Sleep(Interval);
-                    //s = GetEngineFuelRate();
-                    //if (s != "ERROR")
-                    //    lock (_lock)
-                    //    {
-                    //        _data["efr"] = s;
-                    //    }
-                    //if (!this._running)
-                    //    break;
-                    //System.Threading.Thread.Sleep(Interval);
+                    s = await GetOutsideTemperature();
+                    if (s != "ERROR")
+                        lock (_lock)
+                        {
+                            _data["ot"] = s;
+                        }
+                    if (!this._running)
+                        break;
+                    System.Threading.Thread.Sleep(Interval);
+                    s = await GetInsideTemperature();
+                    if (s != "ERROR")
+                        lock (_lock)
+                        {
+                            _data["it"] = s;
+                        }
+                    if (!this._running)
+                        break;
+                    System.Threading.Thread.Sleep(Interval);
+                    s = await GetEngineFuelRate();
+                    if (s != "ERROR")
+                        lock (_lock)
+                        {
+                            _data["efr"] = s;
+                        }
+                    if (!this._running)
+                        break;
+                    System.Threading.Thread.Sleep(Interval);
                 }
             }
             catch (System.Exception ex)
@@ -177,10 +177,10 @@ namespace ObdLibiOS
                     result += tmp;
                 }
             }
-            return ObdShare.ObdUtil.ParseObd09Msg(result);
+            return ObdShare.ObdUtil.ParseVINMsg(result);
         }
 
-        private async Task<string> GetRPM()
+        public async Task<string> GetSpeed()
         {
             if (_simulatormode)
             {
@@ -188,10 +188,64 @@ namespace ObdLibiOS
                 return r.Next().ToString();
             }
             string result;
+            result = await SendAndReceive("010D\r");
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
+        }
+        public async Task<string> GetOutsideTemperature()
+        {
+            if (_simulatormode)
+            {
+                var r = new System.Random();
+                return r.Next().ToString();
+            }
+            string result;
+            result = await SendAndReceive("0146\r");
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
+        }
+        public async Task<string> GetInsideTemperature()
+        {
+            if (_simulatormode)
+            {
+                var r = new System.Random();
+                return r.Next().ToString();
+            }
+            string result;
+            result = await SendAndReceive("010F\r");
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
+        }
+        public async Task<string> GetBarometricPressure()
+        {
+            if (_simulatormode)
+            {
+                var r = new System.Random();
+                return r.Next().ToString();
+            }
+            string result;
+            result = await SendAndReceive("0133\r");
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
+        }
+        public async Task<string> GetRPM()
+        {
+            if (_simulatormode)
+            {
+                var r = new System.Random();
+                return r.Next(0, 16383).ToString();
+            }
+            string result;
             result = await SendAndReceive("010C\r");
             return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
-        
+        public async Task<string> GetEngineFuelRate()
+        {
+            if (_simulatormode)
+            {
+                var r = new System.Random();
+                return r.Next().ToString();
+            }
+            string result;
+            result = await SendAndReceive("015E\r");
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
+        }
         private bool ConnectSocket()
         {
             //setup the connection via socket
