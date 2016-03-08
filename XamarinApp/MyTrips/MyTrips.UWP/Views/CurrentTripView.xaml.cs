@@ -61,7 +61,7 @@ namespace MyTrips.UWP.Views
         //private Geolocator geolocator = null;
         public void OnPropertyChanged(string name)
         {
-            if(PropertyChanged!=null)
+            if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
@@ -81,25 +81,18 @@ namespace MyTrips.UWP.Views
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
+            //MyMap.MapElements.Clear();
             this.MyMap.ZoomLevel = 17;
             this.CarIcon = new MapIcon();
             this.mapPolyline = new MapPolyline();
-
+            MyMap.MapElements.Clear();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            // ResetTrip();
             viewModel.PropertyChanged += OnPropertyChanged;
-
-
             await StartTrackingAsync();
-
-            //var basicGeoposition = new BasicGeoposition() { Latitude = this.viewModel.CurrentPosition.Latitude, Longitude = this.viewModel.CurrentPosition.Longitude };
-            //UpdateMapView(basicGeoposition);
-            //UpdateCarIcon(basicGeoposition);
-
         }
 
         void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -155,7 +148,7 @@ namespace MyTrips.UWP.Views
                     break;
 
                 case GeolocationAccessStatus.Unspecified:
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unspecified Error..." , "Geolcoation Disabled", "OK");
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unspecified Error...", "Geolcoation Disabled", "OK");
                     startRecordBtn.IsEnabled = false;
                     break;
             }
@@ -183,6 +176,9 @@ namespace MyTrips.UWP.Views
                 OnPropertyChanged(nameof(RecordButtonImage));
                 UpdateCarIcon(basicGeoposition);
                 await viewModel.StopRecordingTripAsync();
+                // Launch Trip Summary Page. 
+                this.Frame.Navigate(typeof(TripSummaryView), viewModel.CurrentTrip);
+                return;
         }
             else
             {
@@ -220,6 +216,7 @@ namespace MyTrips.UWP.Views
                 CarIcon.ZIndex = 4;
                 CarIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
                 MyMap.Center = CarIcon.Location;
+                //MyMap.MapElements.Clear();
                 MyMap.MapElements.Add(CarIcon);
             });
          
@@ -329,7 +326,7 @@ namespace MyTrips.UWP.Views
 
             start = viewModel.CurrentTrip.Points[0];
             UpdateMap(start, false);
-            AddStartMarker(new BasicGeoposition() {Latitude = start.Latitude, Longitude = start.Longitude });
+            AddStartMarker(new BasicGeoposition() { Latitude = start.Latitude, Longitude = start.Longitude });
         }
 
         private void OnTrailUpdated(object sender, NotifyCollectionChangedEventArgs e)

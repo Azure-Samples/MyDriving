@@ -35,6 +35,7 @@ namespace MyTrips.Droid
             }
 
             viewModel = new LoginViewModel();
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
             var twitter = FindViewById<Button>(Resource.Id.button_twitter);
             var microsoft = FindViewById<Button>(Resource.Id.button_microsoft);
             var facebook = FindViewById<Button>(Resource.Id.button_facebook);
@@ -54,9 +55,8 @@ namespace MyTrips.Droid
 
         }
 
-        protected override void OnResume()
+        void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            base.OnResume();
             if (!viewModel.IsLoggedIn)
                 return;
 
@@ -66,14 +66,9 @@ namespace MyTrips.Droid
             Finish();
         }
 
+
         void Login(LoginAccount account)
         {
-            #if DEBUG
-            var intent = new Intent(this, typeof(MainActivity));
-            intent.AddFlags(ActivityFlags.ClearTop);
-            StartActivity(intent);
-            Finish();
-            #endif
 
             switch (account)
             {
