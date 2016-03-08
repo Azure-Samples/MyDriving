@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="Converters\DistanceConverter.cs" />
     <Compile Include="Converters\ImageSourceConverter.cs" />
+    <Compile Include="Converters\NotConverter.cs" />
     <Compile Include="Converters\SpeedConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Views\CurrentTripView.xaml.cs">
@@ -294,7 +295,6 @@
       <Name>SQLite for Universal Windows Platform</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

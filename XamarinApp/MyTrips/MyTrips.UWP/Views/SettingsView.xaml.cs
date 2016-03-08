@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MyTrips.ViewModel;
+using MyTrips.Utils;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -30,6 +31,7 @@ namespace MyTrips.UWP.Views
             DataContext = Utils.Settings.Current;
             settingsViewModel = new SettingsViewModel();
         }
+
 
         public void PrivacyPolicyButton_Click(object sender, RoutedEventArgs e)
         {
