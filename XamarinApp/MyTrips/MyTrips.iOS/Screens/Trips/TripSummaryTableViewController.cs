@@ -26,6 +26,9 @@ namespace MyTrips.iOS
 			};
 
 			tripSummaryTableView.Source = new TripSummaryTableViewSource(data);
+
+			tripNameTextField.ReturnKeyType = UIReturnKeyType.Done;
+			tripNameTextField.Delegate = new TextViewDelegate();
 		}
 
 		async partial void DoneButton_TouchUpInside(UIButton sender)
@@ -34,6 +37,16 @@ namespace MyTrips.iOS
 			NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshPastTripsTable", null);
 
 			DismissViewController(true, null);
+		}
+
+		public class TextViewDelegate : UITextFieldDelegate
+		{
+			public override bool ShouldReturn(UITextField textField)
+			{
+				textField.ResignFirstResponder();
+
+				return true;
+			}
 		}
 
 		public class TripSummaryTableViewSource : UITableViewSource
