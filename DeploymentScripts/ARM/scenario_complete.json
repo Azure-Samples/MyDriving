@@ -1,0 +1,355 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "iotHubSku": {
+      "type": "object",
+      "defaultValue": { "name": "Free", "tier": "F1", "capacity": 1 }, 
+      "allowedValues": [
+        { "name": "Free", "tier": "F1", "capacity": 1 },
+        { "name": "Standard", "tier": "S1", "capacity": 1 },
+        { "name": "Standard", "tier": "S2", "capacity": 1 }
+      ]
+    },
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [ "Standard_LRS", "Standard_ZRS", "Standard_GRS", "Standard_RAGRS", "Premium_LRS" ]
+    },
+    "sqlServiceObjectiveName": {
+      "type": "string",
+      "defaultValue": "DW100",
+      "allowedValues": [ "DW100", "DW200", "DW300", "DW400", "DW500", "DW600", "DW1000", "DW1200", "DW1500", "DW2000" ]
+    },
+    "hostingPlanSku": {
+      "type": "object",
+      "defaultValue": { "tier": "Free", "name": "F1", "capacity": 0 }, 
+      "allowedValues": [
+        { "tier": "Free", "name": "F1", "capacity": 0 },
+        { "tier": "Shared", "name": "D1", "capacity": 0 },
+        { "tier": "Basic", "name": "B1", "capacity": 0 },
+        { "tier": "Basic", "name": "B2", "capacity": 0 },
+        { "tier": "Basic", "name": "B3", "capacity": 0 },
+        { "tier": "Standard", "name": "S1", "capacity": 0 },
+        { "tier": "Standard", "name": "S2", "capacity": 0 },
+        { "tier": "Standard", "name": "S3", "capacity": 0 },
+        { "tier": "Premium", "name": "P1", "capacity": 0 },
+        { "tier": "Premium", "name": "P2", "capacity": 0 },
+        { "tier": "Premium", "name": "P3", "capacity": 0 }
+      ]
+    }
+  },
+  "variables": {
+    "baseName": "CarTelemetry",
+    /* uniquestring is always 13 characters long, need to shorten as 24 is the max value for a storage account name */
+    "storageAccountName": "[toLower(substring(concat(variables('baseName'), uniquestring(resourceGroup().id)), 0, 24))]",
+    /* IoT Hub settings */
+    "iotHubName": "[concat(variables('baseName'), 'IoTHub', '-', uniquestring(resourceGroup().id))]",
+    "iotHubKeyName": "iothubowner",
+    /* Event Hub settings */
+    "eventHubNamespace": "[concat(variables('baseName'), 'EventHub', '-', uniquestring(resourceGroup().id))]",
+    "eventHubName": "[concat(variables('eventHubNamespace'), '-', 'Publish')]",
+    "eventHubKeyName": "RootManageSharedAccessKey",
+    /* ASA Job settings */
+    "streamingJobName": "[concat(variables('baseName'), 'ASAJob', '-', uniquestring(resourceGroup().id))]",
+    /* SQL Data Warehouse settings */
+    "sqlServerName": "[toLower(concat(variables('baseName'), '-', uniquestring(resourceGroup().id)))]",
+    "sqlServerAdminLogin": "mylogin",
+    "sqlServerAdminPassword": "<password>",
+    "sqlServerVersion": "12.0",
+    "sqlDBName": "[concat(variables('baseName'), 'DB')]",
+    "sqlFirewallIpStart": "0.0.0.0",
+    "sqlFirewallIpEnd": "255.255.255.255",
+    /* Hostin Plan settings */
+    "hostingPlanName": "[concat(variables('baseName'), 'Plan', '-', uniquestring(resourceGroup().id))]",
+    /* Mobile App settings */
+    "mobileAppName": "[concat(variables('baseName'), 'API', '-', uniquestring(resourceGroup().id))]",
+    /* App Insights settings */
+    "appInsightsName": "[concat(variables('baseName'), 'API', '-', uniquestring(resourceGroup().id))]",
+    /* App Insights is currently only available in Central US */
+    "appInsightsLocation": "centralus"
+  },
+  "resources": [
+    /* Create Storage Account */
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[variables('storageAccountName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "properties": { "accountType": "[parameters('storageAccountType')]" }
+    },
+    /* Create IoT Hub */
+    {
+      "apiVersion": "2016-02-03",
+      "type": "Microsoft.Devices/IotHubs",
+      "name": "[variables('iotHubName')]",
+      "location": "[resourceGroup().location]",
+      "sku": "[parameters('iotHubSku')]",
+      "properties": { }
+    },
+    /* Create Event Hub */
+    {
+      "apiVersion": "2014-09-01",
+      "type": "Microsoft.EventHub/namespaces",
+      "name": "[variables('eventHubNamespace')]",
+      "location": "[resourceGroup().location]",
+      "properties": { "region": "[resourceGroup().location]" },
+      "resources": [
+        {
+          "apiVersion": "2014-09-01",
+          "name": "[variables('eventHubName')]",
+          "type": "eventHubs",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [ "[resourceId('Microsoft.EventHub/namespaces', variables('eventHubNamespace'))]" ],
+          "properties": { "path": "[variables('eventHubName')]" }
+        }
+      ]
+    },
+    /* Create ASA Job */
+    {
+      "apiVersion": "2015-09-01",
+      "type": "Microsoft.StreamAnalytics/StreamingJobs",
+      "name": "[variables('streamingJobName')]",
+      "location": "[resourceGroup().location]",
+      "properties": { 
+        /* The only supported value for ASA sku is standard https://msdn.microsoft.com/en-us/library/azure/dn834994.aspx */
+        "sku": { "name": "Standard" },
+        "inputs": [
+          {
+            "name": "IoTHubSource",
+            "properties": {
+              "type": "stream",
+              "serialization": {
+                "type": "JSON",
+                "properties": { "encoding": "UTF8" }
+              },
+              "datasource": {
+                "type": "Microsoft.Devices/IotHubs",
+                "properties": {
+                  "iotHubNamespace": "[variables('iotHubName')]",
+                  "sharedAccessPolicyName": "[variables('iotHubKeyName')]",
+                  "sharedAccessPolicyKey": "[listKeys(resourceId('Microsoft.Devices/IotHubs/Iothubkeys', variables('iotHubName'), variables('iotHubKeyName')), '2016-02-03')].primaryKey"
+                }
+              }
+            }
+          }
+        ],
+        "transformation": {
+          "name": "ProcessData",
+          "properties": {
+            "streamingUnits": 1,
+            /* TODO: review this query */
+            "query": "SELECT\r\n\tIoTHubSource.city,\r\n\tcount(vin) AS cars,\r\n\tavg(IoTHubSource.engineTemperature) AS engineTemperature,\r\n\tavg(IoTHubSource.speed) AS Speed,\r\n\tavg(IoTHubSource.fuel) AS Fuel,\r\n\tavg(IoTHubSource.engineoil) AS EngineOil,\r\n\tavg(IoTHubSource.tirepressure) AS TirePressure,\r\n\tavg(IoTHubSource.odometer) AS Odometer\r\nINTO\r\n\tColdBlobSink\r\nFROM\r\n\tIoTHubSource\r\nGROUP BY\r\n\tIoTHubSource.city,\r\n\tTumblingWindow(second,3)"
+          }
+        },
+        "outputs": [
+          {
+            "name": "ColdBlobSink",
+            "properties": {
+              "serialization": {
+                "type": "CSV",
+                "properties": { "fieldDelimiter": ",", "encoding": "UTF8" }
+              },
+              "datasource": {
+                "type": "Microsoft.Storage/Blob",
+                "properties": {
+                  "storageAccounts": [
+                    {
+                      "accountName": "[variables('storageAccountName')]",
+                      "accountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-06-15').key1]"
+                    }
+                  ],
+                  "container": "cartelemetry-cold",
+                  /* TODO: review this value */
+                  "PathPattern": "rawcareventstream"
+                }
+              }
+            }
+          },
+          {
+            "name": "HotBlobSink",
+            "properties": {
+              "serialization": {
+                "type": "CSV",
+                "properties": { "fieldDelimiter": ",", "encoding": "UTF8" }
+              },
+              "datasource": {
+                "type": "Microsoft.Storage/Blob",
+                "properties": {
+                  "storageAccounts": [
+                    {
+                      "accountName": "[variables('storageAccountName')]",
+                      "accountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-06-15').key1]"
+                    }
+                  ],
+                  "container": "cartelemetry-hot",
+                  /* TODO: review this value */
+                  "PathPattern": "rawcareventstream"
+                }
+              }
+            }
+          },
+          {
+            "name": "EventHubOut",
+            "properties": {
+              "type": "stream",
+              "serialization": {
+                "type": "JSON",
+                "properties": { "encoding": "UTF8" }
+              },
+              "datasource": {
+                "type": "Microsoft.ServiceBus/EventHub",
+                "properties": {
+                  "eventHubName": "[variables('eventHubName')]",
+                  "serviceBusNamespace": "[variables('eventHubNamespace')]",
+                  "sharedAccessPolicyName": "[variables('eventHubKeyName')]",
+                  "sharedAccessPolicyKey": "[listKeys(resourceId('Microsoft.Eventhub/namespaces/authorizationRules', variables('eventHubNamespace'), variables('eventHubKeyName') ), '2014-09-01').primaryKey]",
+                  "sourcePartitionCount": 16
+                }
+              }
+            }
+          }          
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Devices/IotHubs', variables('iotHubName'))]",
+        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHubNamespace'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+      ]
+    },
+    /* Create SQL Data Warehouse */
+    {
+      "apiVersion": "2014-04-01-preview",
+      "type": "Microsoft.Sql/servers",
+      "name": "[variables('sqlServerName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "administratorLogin": "[variables('sqlServerAdminLogin')]",
+        "administratorLoginPassword": "[variables('sqlServerAdminPassword')]",
+        "version": "[variables('sqlServerVersion')]"
+      },
+      "resources": [
+        {
+          "apiVersion": "2014-04-01-preview",
+          "type": "databases",
+          "name": "[variables('sqlDBName')]",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "edition": "DataWarehouse",
+            "requestedServiceObjectiveName": "[parameters('sqlServiceObjectiveName')]"
+          },
+          "dependsOn": [ "[resourceId('Microsoft.Sql/servers', variables('sqlServerName'))]" ]
+        },
+        {
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [ "[resourceId('Microsoft.Sql/servers', variables('sqlServerName'))]" ],
+          "location": "[resourceGroup().location]",
+          "name": "AllowAllWindowsAzureIps",
+          "properties": {
+            "startIpAddress": "[variables('sqlFirewallIpStart')]",
+            "endIpAddress": "[variables('sqlFirewallIpEnd')]"
+          },
+          "type": "firewallrules"
+        }
+      ]
+    },
+    /* Create Hosting Plan */
+    {
+      "apiVersion": "2015-08-01",
+      "type": "Microsoft.Web/serverfarms",
+      "name": "[variables('hostingPlanName')]",
+      "location": "[resourceGroup().location]",
+      "sku": "[parameters('hostingPlanSku')]",
+      "properties": { "numberOfWorkers": 1 }
+    },
+    /* Create Mobile App */
+    {
+      "apiVersion": "2015-08-01",
+      "type": "Microsoft.Web/sites",
+      "name": "[variables('mobileAppName')]",
+      "location": "[resourceGroup().location]",
+      "kind": "mobileapp",
+      "properties": {
+        "name": "[variables('mobileAppName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-08-01",
+          "name": "connectionstrings",
+          "type": "config",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', variables('mobileAppName'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+            "[resourceId('Microsoft.Devices/IotHubs', variables('iotHubName'))]"
+          ],
+          "properties": {
+            "AzureStorageAccount": {
+              "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-06-15').key1)]",
+              "type": "Custom"
+            },
+            "IoTHub": {
+              "value": "[concat('HostName=', variables('iotHubName'), 'azure-devices.net;SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs/Iothubkeys', variables('iotHubName'), variables('iotHubKeyName')), '2016-02-03').primaryKey)]",
+              "type": "Custom"
+            }
+          }
+        }
+      ],
+      "dependsOn": [ "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]" ]
+    },
+    /* Create Site Alert Rules */
+    {
+      "apiVersion": "2015-04-01",
+      "type": "microsoft.insights/alertrules",
+      "name": "[concat('ForbiddenRequests ', variables('mobileAppName'), resourceGroup().location)]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[concat('ForbiddenRequests ', variables('mobileAppName'), resourceGroup().location)]",
+        "description": "[concat(variables('mobileAppName'), ' has some requests that are forbidden, status code 403.')]",
+        "condition": {
+          "odata.type": "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
+          "dataSource": {
+            "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
+            "resourceUri": "[resourceId('Microsoft.Web/sites', variables('mobileAppName'))]",
+            "metricName": "Http403"
+          },
+          "windowSize": "PT5M"
+        },
+        "action": { "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction" }
+      },
+      "dependsOn": [ "[resourceId('Microsoft.Web/sites', variables('mobileAppName'))]" ]
+    },
+    {
+      "apiVersion": "2015-04-01",
+      "type": "microsoft.insights/alertrules",
+      "name": "[concat('ServerErrors ', variables('mobileAppName'), resourceGroup().location)]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[concat('ServerErrors ', variables('mobileAppName'), resourceGroup().location)]",
+        "description": "[concat(variables('mobileAppName'), ' has some server errors, status code 5xx.')]",
+        "condition": {
+          "odata.type": "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
+          "dataSource": {
+            "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
+            "resourceUri": "[resourceId('Microsoft.Web/sites', variables('mobileAppName'))]",
+            "metricName": "Http5xx"
+          },
+          "windowSize": "PT5M"
+        },
+        "action": { "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction" }
+      },
+      "dependsOn": [ "[resourceId('Microsoft.Web/sites', variables('mobileAppName'))]" ]      
+    },
+    /* Create App Insights Component */
+    {
+      "apiVersion": "2015-05-01",
+      "type": "microsoft.insights/components",
+      "name": "[variables('appInsightsName')]",
+      "location": "[variables('appInsightsLocation')]",
+      "kind": "web",
+      "properties": { "ApplicationId": "[variables('appInsightsName')]" }
+    }    
+  ],
+  "outputs": {
+  }
+}

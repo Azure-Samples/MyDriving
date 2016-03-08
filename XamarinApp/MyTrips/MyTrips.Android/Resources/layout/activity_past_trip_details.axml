@@ -17,7 +17,11 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/keyline_margin">
+        android:padding="@dimen/keyline_margin"
+        android:background="@color/primary_transparent"
+        android:layout_gravity="top"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:id="@+id/stats">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
@@ -28,15 +32,15 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="14"
-                android:id="@+id/text_mpg" />
+                android:text="0s"
+                android:id="@+id/text_time" />
             <TextView
                 android:layout_marginTop="4dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="MPG" />
+                android:text="Time" />
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
@@ -48,15 +52,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="9"
-                android:id="@+id/text_gallons" />
+                android:text="0.0"
+                android:id="@+id/text_distance" />
             <TextView
                 android:layout_marginTop="4dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Gallons" />
+                android:text="Miles"
+                android:id="@+id/text_distance_units" />
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
@@ -68,15 +73,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="126"
-                android:id="@+id/text_miles" />
+                android:text="N/A"
+                android:id="@+id/text_consumption" />
             <TextView
                 android:layout_marginTop="4dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Miles" />
+                android:text="Gallons"
+                android:id="@+id/text_consumption_units" />
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
@@ -88,53 +94,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="2:25"
-                android:id="@+id/text_hours" />
+                android:text="N/A"
+                android:id="@+id/text_temp" />
             <TextView
                 android:layout_marginTop="4dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Hours" />
+                android:text="Temp" />
         </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="$11"
-                android:id="@+id/text_cost" />
-            <TextView
-                android:layout_marginTop="4dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Cost" />
-        </LinearLayout>
-        <FrameLayout
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:id="@+id/full_rating"
-            android:transitionName="rating">
-            <mytrips.droid.controls.RatingCircle
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/rating_circle" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="?attr/colorPrimary"
-                android:id="@+id/text_rating" />
-        </FrameLayout>
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
@@ -176,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
-                    android:layout_marginTop="-6dp">
+                    android:layout_marginTop="-4dp">
                     <TextView
                         android:id="@+id/text_start_time"
                         android:layout_width="wrap_content"

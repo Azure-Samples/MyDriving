@@ -128,11 +128,10 @@ namespace MyTrips.iOS
 
 		void ResetTripInfoView()
 		{
-			lblMpg.Text = "0";
-			lblGallons.Text = "0";
+			lblConsumption.Text = "0";
 			lblDistance.Text = "0";
 			lblDuration.Text = "0:00";
-			lblCost.Text = "$0.00";
+			lblTemperature.Text = "0";
 		}
 
 		void UpdateRecordButton(bool isRecording)
@@ -242,13 +241,18 @@ namespace MyTrips.iOS
 
 			if (CurrentTripViewModel.IsRecording)
 			{
+                if (CurrentTripViewModel.StopRecordingTrip())
+                    return;
+                
 				ResetMapViewState();
-				await CurrentTripViewModel.StopRecordingTripAsync();
+
+                await CurrentTripViewModel.SaveRecordingTripAsync();
+
 				NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshPastTripsTable", null);
 			}
 			else
 			{
-				await CurrentTripViewModel.StartRecordingTripAsync();
+				CurrentTripViewModel.StartRecordingTrip();
 			}
 		}
 
@@ -262,6 +266,8 @@ namespace MyTrips.iOS
 				// Update trip information
 				lblDuration.Text = CurrentTripViewModel.ElapsedTime;
 				lblDistance.Text = CurrentTripViewModel.CurrentTrip.TotalDistanceNoUnits;
+				lblTemperature.Text = CurrentTripViewModel.Temperature;
+				lblConsumption.Text = CurrentTripViewModel.FuelConsumptionUnits;
 
 				// If we already haven't starting tracking route yet, start that.
 				if (route == null)

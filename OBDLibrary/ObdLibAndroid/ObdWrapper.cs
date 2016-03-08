@@ -235,14 +235,14 @@ namespace ObdLibAndroid
                     result += tmp;
                 }
             }
-            return ObdShare.ObdUtil.ParseObd09Msg(result);
+            return ObdShare.ObdUtil.ParseVINMsg(result);
         }
         public async Task<string> GetSpeed()
         {
             if (_simulatormode)
             {
                 var r = new System.Random();
-                return r.Next().ToString();
+                return r.Next(0,255).ToString();
             }
             string result;
             result = await SendAndReceive("010D\r");
@@ -253,7 +253,7 @@ namespace ObdLibAndroid
             if (_simulatormode)
             {
                 var r = new System.Random();
-                return r.Next().ToString();
+                return r.Next(-40,215).ToString();
             }
             string result;
             result = await SendAndReceive("0146\r");
@@ -264,7 +264,7 @@ namespace ObdLibAndroid
             if (_simulatormode)
             {
                 var r = new System.Random();
-                return r.Next().ToString();
+                return r.Next(-40,215).ToString();
             }
             string result;
             result = await SendAndReceive("010F\r");
@@ -286,7 +286,7 @@ namespace ObdLibAndroid
             if (_simulatormode)
             {
                 var r = new System.Random();
-                return r.Next().ToString();
+                return r.Next(0,255).ToString();
             }
             string result;
             result = await SendAndReceive("010C\r");
@@ -297,7 +297,7 @@ namespace ObdLibAndroid
             if (_simulatormode)
             {
                 var r = new System.Random();
-                return r.Next().ToString();
+                return r.Next(0, 3212).ToString();
             }
             string result;
             result = await SendAndReceive("015E\r");
