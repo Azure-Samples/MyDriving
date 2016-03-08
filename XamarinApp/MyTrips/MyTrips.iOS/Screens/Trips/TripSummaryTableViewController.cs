@@ -30,10 +30,10 @@ namespace MyTrips.iOS
 
 		async partial void DoneButton_TouchUpInside(UIButton sender)
 		{
-			DismissViewController(true, null);
-
 			await ViewModel.SaveRecordingTripAsync(tripNameTextField.Text);
 			NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshPastTripsTable", null);
+
+			DismissViewController(true, null);
 		}
 
 		public class TripSummaryTableViewSource : UITableViewSource

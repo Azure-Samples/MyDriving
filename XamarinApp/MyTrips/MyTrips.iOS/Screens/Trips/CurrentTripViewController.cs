@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using MyTrips.ViewModel;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 
+
 namespace MyTrips.iOS
 {
 	partial class CurrentTripViewController : UIViewController
@@ -25,7 +27,9 @@ namespace MyTrips.iOS
 
 		public PastTripsDetailViewModel PastTripsDetailViewModel { get; set; }
 
-		public CurrentTripViewController (IntPtr handle) : base (handle) { }
+		public CurrentTripViewController (IntPtr handle) : base (handle)
+		{
+		}
 
 		public async override void ViewDidLoad()
 		{
@@ -39,7 +43,6 @@ namespace MyTrips.iOS
 			}
 			else
 			{
-                await PastTripsDetailViewModel.ExecuteLoadTripCommandAsync(PastTripsDetailViewModel.Trip.Id);
 				ConfigurePastTripUserInterface();
 			}
 		}
@@ -49,7 +52,9 @@ namespace MyTrips.iOS
 			base.ViewWillAppear(animated);
 
 			if (CurrentTripViewModel != null && !CurrentTripViewModel.IsRecording)
+			{
 				await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync();
+			}
 		}
 
 		public override void ViewDidAppear(bool animated)
@@ -57,7 +62,9 @@ namespace MyTrips.iOS
 			base.ViewDidAppear(animated);
 
 			if (recordButton.Hidden == true && PastTripsDetailViewModel == null)
+			{
 				recordButton.Pop(0.5, 0, 1);
+			}
 		}
 
 		public override async void ViewWillDisappear(bool animated)
@@ -91,9 +98,9 @@ namespace MyTrips.iOS
 			tripSlider.Hidden = true;
 			wayPointA.Hidden = true;
 			wayPointB.Hidden = true;
-			tripInfoView.Alpha = 0;
 
 			UpdateRecordButton(false);
+			ResetTripInfoView();
 
 			// Setup view model
 			CurrentTripViewModel = new CurrentTripViewModel();
@@ -102,26 +109,9 @@ namespace MyTrips.iOS
 			// Start tracking user location, pending permission from user.
 			await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
 			{
-				if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
-					await PromptPermissionsChangeDialog();
+				// If we don't have permission from the user, prompt a dialog requesting permission.
+				await PromptPermissionsChangeDialog();
 			});
-
-			if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
-			{
-				tripMapView.Camera.CenterCoordinate = new CLLocationCoordinate2D(47.6204, -122.3491);
-			}
-
-			ResetTripInfoView();
-		}
-
-		void ResetMapViewState()
-		{
-			route = null;
-
-			if (tripMapView.Overlays != null)
-				tripMapView.RemoveOverlays(tripMapView.Overlays);
-
-			tripMapView.RemoveAnnotations(tripMapView.Annotations);
 		}
 
 		void AnimateTripInfoView()
@@ -129,14 +119,26 @@ namespace MyTrips.iOS
 			tripInfoView.FadeIn(0.3, 0);
 		}
 
+		void ResetMapViewState()
+		{
+			InvokeOnMainThread(() =>
+		   {
+				route = null;
+				tripMapView.RemoveAnnotations(tripMapView.Annotations);
+
+				if (tripMapView.Overlays != null)
+				{
+					tripMapView.RemoveOverlays(tripMapView.Overlays[0]);
+				}
+		   });
+		}
+
 		void ResetTripInfoView()
 		{
-			tripInfoView.Alpha = 0;
-			labelTwoTitle.Text = CurrentTripViewModel.DistanceUnits;
-			labelOneValue.Text = "0";
+			labelOneValue.Text = "N/A";
 			labelTwoValue.Text = "0";
 			labelThreeValue.Text = "0:00";
-			labelFourValue.Text = "0";
+			labelFourValue.Text = "N/A";
 		}
 
 		void UpdateRecordButton(bool isRecording)
@@ -192,17 +194,9 @@ namespace MyTrips.iOS
 
 		async void RecordButton_TouchUpInside(object sender, EventArgs e)
 		{
-			if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
-			{
-				await PromptPermissionsChangeDialog();
-
-				return;
-			}
-
 			var position = await CurrentTripViewModel.Geolocator.GetPositionAsync();
 			var coordinate = position.ToCoordinate();
 
-			// Add start or end waypoint
 			var endpoint = !CurrentTripViewModel.IsRecording ? "A" : "B";
 			var annotation = new WaypointAnnotation(coordinate, endpoint);
 			tripMapView.AddAnnotation(annotation);
@@ -215,6 +209,7 @@ namespace MyTrips.iOS
 				NavigationItem.RightBarButtonItem.Clicked += TakePhotoButton_Clicked;
 
 				UpdateRecordButton(true);
+				ResetTripInfoView();
 				AnimateTripInfoView();
 
 				CurrentTripViewModel.StartRecordingTrip();
@@ -222,10 +217,10 @@ namespace MyTrips.iOS
 			else
 			{
 				CurrentTripViewModel.StopRecordingTrip();
-
 				ResetMapViewState();
+
 				UpdateRecordButton(false);
-				ResetTripInfoView();
+				tripInfoView.Alpha = 0;
 
 				NavigationItem.RightBarButtonItem.Clicked -= TakePhotoButton_Clicked;
 				NavigationItem.SetRightBarButtonItem(null, true);
@@ -263,14 +258,14 @@ namespace MyTrips.iOS
 		{
 			route = new List<CLLocationCoordinate2D>();
 
-            var count = CurrentTripViewModel.CurrentTrip.Points.Count;
+			var count = CurrentTripViewModel.CurrentTrip.Points.Count;
 			if (count == 0)
 			{
 				route.Add(coordinate);
 			}
 			else
 			{
-                var firstPoint = CurrentTripViewModel.CurrentTrip.Points?[0];
+				var firstPoint = CurrentTripViewModel.CurrentTrip.Points?[0];
 				var firstCoordinate = new CLLocationCoordinate2D(firstPoint.Latitude, firstPoint.Longitude);
 				route.Add(firstCoordinate);
 			}
@@ -282,39 +277,41 @@ namespace MyTrips.iOS
 		{
 			NavigationItem.Title = PastTripsDetailViewModel.Title;
 
-            var coordinateCount = PastTripsDetailViewModel.Trip.Points.Count;
+			var coordinateCount = PastTripsDetailViewModel.Trip.Points.Count;
 
 			// Setup map
 			mapDelegate = new TripMapViewDelegate(UIColor.Blue, 0.6);
 			tripMapView.Delegate = mapDelegate;
 			tripMapView.ShowsUserLocation = false;
 			tripMapView.Camera.Altitude = 5000;
-            tripMapView.SetVisibleMapRect(MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray()).BoundingMapRect, new UIEdgeInsets(25, 25, 25, 25), false);
+			tripMapView.SetVisibleMapRect(MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray()).BoundingMapRect, new UIEdgeInsets(25, 25, 25, 25), false);
 
 			// Draw endpoints
-            var startEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Points[0].ToCoordinate(), "A");
+			var startEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Points[0].ToCoordinate(), "A");
 			tripMapView.AddAnnotation(startEndpoint);
 
-            var endEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Points[coordinateCount - 1].ToCoordinate(), "B");
+			var endEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Points[coordinateCount - 1].ToCoordinate(), "B");
 			tripMapView.AddAnnotation(endEndpoint);
 
 			// Draw route
-            tripMapView.DrawRoute(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray());
+			tripMapView.DrawRoute(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray());
 
 			// Draw car
-            var carCoordinate = PastTripsDetailViewModel.Trip.Points[coordinateCount / 2].ToCoordinate();
+			var carCoordinate = PastTripsDetailViewModel.Trip.Points[coordinateCount / 2].ToCoordinate();
 			currentLocationAnnotation = new CarAnnotation(carCoordinate, UIColor.Blue);
 			tripMapView.AddAnnotation(currentLocationAnnotation);
 
 			ConfigureSlider();
 			ConfigureWayPointButtons();
 
-			// Hide current trip views
+			// Hide record button
 			recordButton.Hidden = true;
+
+			// Show slider 
 			sliderView.Hidden = false;
+
 			startTimeLabel.Hidden = false;
 			endTimeLabel.Hidden = false;
-
 			startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
 			endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
 
@@ -330,10 +327,10 @@ namespace MyTrips.iOS
 
 		void ConfigureSlider()
 		{
-            var dataPoints = PastTripsDetailViewModel.Trip.Points.Count - 1;
+			var dataPoints = PastTripsDetailViewModel.Trip.Points.Count - 1;
 			tripSlider.MinValue = 0;
 			tripSlider.MaxValue = dataPoints;
-            tripSlider.Value = PastTripsDetailViewModel.Trip.Points.Count / 2;
+			tripSlider.Value = PastTripsDetailViewModel.Trip.Points.Count / 2;
 
 			tripSlider.ValueChanged += TripSlider_ValueChanged;
 		}
@@ -364,7 +361,7 @@ namespace MyTrips.iOS
 		{
 			// Move car to coordinate
 			var value = (int)tripSlider.Value;
-            var coordinate = PastTripsDetailViewModel.Trip.Points[value].ToCoordinate();
+			var coordinate = PastTripsDetailViewModel.Trip.Points[value].ToCoordinate();
 			UpdateCarAnnotationPosition(coordinate);
 		}
 		#endregion
@@ -373,7 +370,9 @@ namespace MyTrips.iOS
 		void UpdateCarAnnotationPosition(CLLocationCoordinate2D coordinate)
 		{
 			if (currentLocationAnnotation != null)
+			{
 				tripMapView.RemoveAnnotation(currentLocationAnnotation);
+			}
 
 			var color = CurrentTripViewModel != null && CurrentTripViewModel.IsRecording ? UIColor.Red : UIColor.Blue;
 			currentLocationAnnotation = new CarAnnotation(coordinate, color);
