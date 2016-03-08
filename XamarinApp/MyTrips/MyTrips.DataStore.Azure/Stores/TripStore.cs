@@ -4,6 +4,7 @@ using MyTrips.DataStore.Abstractions;
 using System.Threading.Tasks;
 using MyTrips.Utils;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyTrips.DataStore.Azure.Stores
 {
@@ -41,6 +42,9 @@ namespace MyTrips.DataStore.Azure.Stores
             var photos = await photoStore.GetTripPhotos(item.Id);
             foreach(var photo in photos)
                 item.Photos.Add(photo);
+
+
+            item.Points = item.Points.OrderBy(p => p.Sequence).ToArray();
 
             return item;
         }
