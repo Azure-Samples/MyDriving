@@ -10,7 +10,7 @@ namespace MyTrips.DataStore.Abstractions
         ITripStore TripStore { get; }
         IPhotoStore PhotoStore { get; }
         IUserStore UserStore { get; }
-
+        IHubIOTStore IOTHubStore { get; }
         Task<bool> SyncAllAsync(bool syncUserSpecific);
         Task DropEverythingAsync();
     }
