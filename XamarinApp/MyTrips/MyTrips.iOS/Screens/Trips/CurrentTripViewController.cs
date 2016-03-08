@@ -258,7 +258,8 @@ namespace MyTrips.iOS
 				lblDuration.Text = CurrentTripViewModel.ElapsedTime;
 				lblDistance.Text = CurrentTripViewModel.CurrentTrip.TotalDistanceNoUnits;
 				lblTemperature.Text = CurrentTripViewModel.Temperature;
-				lblConsumption.Text = CurrentTripViewModel.FuelConsumptionUnits;
+				lblConsumption.Text = CurrentTripViewModel.FuelConsumption;
+				lblConsumptionUnits.Text = CurrentTripViewModel.FuelConsumptionUnits;
 
 				// If we already haven't starting tracking route yet, start that.
 				if (route == null)

@@ -1267,6 +1267,7 @@
                         <outlet property="wayPointA" destination="7mA-Mi-nwI" id="m5y-2I-1KZ"/>
                         <outlet property="wayPointB" destination="3jO-Rf-KjH" id="khi-1p-1zj"/>
                         <outlet property="lblDistanceUnits" destination="kxR-IG-ADX" id="name-outlet-kxR-IG-ADX"/>
+                        <outlet property="lblConsumptionUnits" destination="mz9-7G-uze" id="name-outlet-mz9-7G-uze"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g60-su-Omq" userLabel="First Responder" sceneMemberID="firstResponder"/>
