@@ -76,6 +76,9 @@
       <HintPath>..\..\packages\Acr.UserDialogs.4.3.4\lib\Xamarin.iOS10\BTProgressHUD.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ClientDeviceiOS">
+      <HintPath>.\ClientDeviceiOS.dll</HintPath>
+    </Reference>
     <Reference Include="Plugin.DeviceInfo, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xam.Plugin.DeviceInfo.2.0.2\lib\Xamarin.iOS10\Plugin.DeviceInfo.dll</HintPath>
       <Private>True</Private>

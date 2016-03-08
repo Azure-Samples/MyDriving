@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -24,7 +24,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG;__ANDROID__</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -215,15 +215,6 @@
     <Reference Include="Acr.Support.Android">
       <HintPath>..\..\packages\Acr.Support.1.1.1\lib\MonoAndroid10\Acr.Support.Android.dll</HintPath>
     </Reference>
-    <Reference Include="Acr.UserDialogs">
-      <HintPath>..\..\packages\Acr.UserDialogs.Android.AppCompat.4.3.2\lib\MonoAndroid10\Acr.UserDialogs.dll</HintPath>
-    </Reference>
-    <Reference Include="Acr.UserDialogs.Interface">
-      <HintPath>..\..\packages\Acr.UserDialogs.Android.AppCompat.4.3.2\lib\MonoAndroid10\Acr.UserDialogs.Interface.dll</HintPath>
-    </Reference>
-    <Reference Include="AndHUD">
-      <HintPath>..\..\packages\Acr.UserDialogs.Android.AppCompat.4.3.2\lib\MonoAndroid10\AndHUD.dll</HintPath>
-    </Reference>
     <Reference Include="HockeySDK">
       <HintPath>..\..\packages\HockeySDK.Xamarin.4.0.0-alpha1\lib\MonoAndroid403\HockeySDK.dll</HintPath>
     </Reference>
@@ -232,6 +223,15 @@
     </Reference>
     <Reference Include="Plugin.Connectivity.Abstractions">
       <HintPath>..\..\packages\Xam.Plugin.Connectivity.2.1.2\lib\MonoAndroid10\Plugin.Connectivity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs">
+      <HintPath>..\..\packages\Acr.UserDialogs.Android.AppCompat.4.3.2\lib\MonoAndroid10\Acr.UserDialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs.Interface">
+      <HintPath>..\..\packages\Acr.UserDialogs.Android.AppCompat.4.3.2\lib\MonoAndroid10\Acr.UserDialogs.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="AndHUD">
+      <HintPath>..\..\packages\Acr.UserDialogs.Android.AppCompat.4.3.2\lib\MonoAndroid10\AndHUD.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

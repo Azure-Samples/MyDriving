@@ -1,6 +1,5 @@
 ﻿using MyTrips.Interfaces;
 #if WINDOWS_UWP
-using MyTrips.UWP.Helpers;
 using ObdLibUWP;
 #elif __ANDROID__
 using ObdLibAndroid;
@@ -15,7 +14,7 @@ namespace MyTrips.Shared
 {
     public class OBDDeviceSim : IOBDDevice
     {
-        #if WINDOWS_UWP
+        #if WINDOWS_UWP || __ANDROID__
         ObdWrapper obdWrapper = new ObdWrapper();
 
         public async Task Disconnect()
@@ -32,23 +31,7 @@ namespace MyTrips.Shared
         {
             return this.obdWrapper.Read();
         }
-        #elif __ANDROID__
-        ObdWrapper obdWrapper = new ObdWrapper();
-        public async Task Disconnect()
-        {
-            this.obdWrapper.Disconnect();
-        }
-
-        public async Task<bool> Initialize()
-        {
-            return await this.obdWrapper.Init(true);
-        }
-
-        public Dictionary<String, String> ReadData()
-        {
-            return this.obdWrapper.Read();
-        }
-        #else
+#else
         public Task Disconnect()
         {
             return Task.FromResult(true);
