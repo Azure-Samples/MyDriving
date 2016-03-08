@@ -331,8 +331,6 @@ namespace MyTrips.ViewModel
                 if (Geolocator.IsListening)
                 {
                     await Geolocator.StopListeningAsync();
-                    //// Need to listen to this event once we start tracking the event. 
-                    //Geolocator.PositionChanged += Geolocator_PositionChanged;
                 }
 
                 if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
