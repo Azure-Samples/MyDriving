@@ -92,15 +92,13 @@ namespace MyTrips.ViewModel
 				{
 					var distanceSetting = new Setting { Name = "Distance", PossibleValues = new List<string> { "US/Imperial (miles)", "Metric (km)" }, Value = Settings.Current.MetricDistance == true ? "Metric (km)" : "US/Imperial (miles)"};
 					var capacitySetting = new Setting { Name = "Capacity", PossibleValues = new List<string> { "US/Imperial (gallons)", "Metric (liters)" }, Value = Settings.Current.MetricUnits == true ? "Metric (liters)" : "US/Imperial (gallons)"};
-					var currencySetting = new Setting { Name = "Currency", PossibleValues = new List<string> { "US (Dollar)", "UK (Pound)", "Europe (Euro)" }, Value = Settings.Current.Currency };
-
+					
 					distanceSetting.PropertyChanged += DistanceSetting_PropertyChanged;
 					capacitySetting.PropertyChanged += CapacitySetting_PropertyChanged;
-					currencySetting.PropertyChanged += CurrencySetting_PropertyChanged;
 
 					units = new List<Setting>
 					{
-						distanceSetting, capacitySetting, currencySetting
+						distanceSetting, capacitySetting
 					};
 
 					var hubSetting1 = new Setting { Name = "Hub Setting 1", IsTextField = true };
@@ -159,14 +157,6 @@ namespace MyTrips.ViewModel
 			}
 		}
 
-		void CurrencySetting_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "Value")
-			{
-				var setting = (Setting)sender;
-				Settings.Current.Currency = setting.Value;
-			}
-		}
 
 		void HubSetting1_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{

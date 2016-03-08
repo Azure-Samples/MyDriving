@@ -61,7 +61,7 @@ namespace MyTrips.UWP.Views
         //private Geolocator geolocator = null;
         public void OnPropertyChanged(string name)
         {
-            if(PropertyChanged!=null)
+            if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
@@ -81,6 +81,7 @@ namespace MyTrips.UWP.Views
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
+            //MyMap.MapElements.Clear();
             this.MyMap.ZoomLevel = 17;
             this.CarIcon = new MapIcon();
             this.mapPolyline = new MapPolyline();
@@ -119,7 +120,7 @@ namespace MyTrips.UWP.Views
                     break;
             }
         }
-    
+
   
         private async Task StartTrackingAsync()
         {
@@ -147,7 +148,7 @@ namespace MyTrips.UWP.Views
                     break;
 
                 case GeolocationAccessStatus.Unspecified:
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unspecified Error..." , "Geolcoation Disabled", "OK");
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unspecified Error...", "Geolcoation Disabled", "OK");
                     startRecordBtn.IsEnabled = false;
                     break;
             }
@@ -178,7 +179,7 @@ namespace MyTrips.UWP.Views
                 // Launch Trip Summary Page. 
                 this.Frame.Navigate(typeof(TripSummaryView), viewModel.CurrentTrip);
                 return;
-            }
+        }
             else
             {
                 if (!await viewModel.StartRecordingTripAsync())
@@ -325,7 +326,7 @@ namespace MyTrips.UWP.Views
 
             start = viewModel.CurrentTrip.Points[0];
             UpdateMap(start, false);
-            AddStartMarker(new BasicGeoposition() {Latitude = start.Latitude, Longitude = start.Longitude });
+            AddStartMarker(new BasicGeoposition() { Latitude = start.Latitude, Longitude = start.Longitude });
         }
 
         private void OnTrailUpdated(object sender, NotifyCollectionChangedEventArgs e)
