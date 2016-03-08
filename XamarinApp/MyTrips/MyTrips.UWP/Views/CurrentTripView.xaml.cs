@@ -137,7 +137,7 @@ namespace MyTrips.UWP.Views
                     //
                     startRecordBtn.IsEnabled = true;
 
-                   viewModel.StartTrackingTripCommand.Execute(null);
+                    viewModel.StartTrackingTripCommand.Execute(null);
 
                     break;
 
@@ -171,18 +171,21 @@ namespace MyTrips.UWP.Views
 
             if (viewModel.IsRecording)
             {
+                if (!viewModel.StopRecordingTrip())
+                    return;
+
                 AddEndMarker(basicGeoposition);
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
                 UpdateCarIcon(basicGeoposition);
-                await viewModel.StopRecordingTripAsync();
+                await viewModel.SaveRecordingTripAsync();
                 // Launch Trip Summary Page. 
                 this.Frame.Navigate(typeof(TripSummaryView), viewModel.CurrentTrip);
                 return;
         }
             else
             {
-                if (!await viewModel.StartRecordingTripAsync())
+                if (!viewModel.StartRecordingTrip())
                     return;
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StopRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
