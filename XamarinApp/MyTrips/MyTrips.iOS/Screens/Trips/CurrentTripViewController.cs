@@ -116,11 +116,12 @@ namespace MyTrips.iOS
 
 		void ResetMapViewState()
 		{
+			route = null;
+
 			if (tripMapView.Overlays != null)
 				tripMapView.RemoveOverlays(tripMapView.Overlays);
 
 			tripMapView.RemoveAnnotations(tripMapView.Annotations);
-			route = null;
 		}
 
 		void AnimateTripInfoView()
@@ -130,6 +131,7 @@ namespace MyTrips.iOS
 
 		void ResetTripInfoView()
 		{
+			tripInfoView.Alpha = 0;
 			labelTwoTitle.Text = CurrentTripViewModel.DistanceUnits;
 			labelOneValue.Text = "0";
 			labelTwoValue.Text = "0";
@@ -192,19 +194,7 @@ namespace MyTrips.iOS
 		{
 			if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
 			{
-				InvokeOnMainThread(() =>
-				{
-					var alertController = UIAlertController.Create("Location Permission Denied", "Tracking your location is required to record trips. Visit the Settings app to change the permission status.", UIAlertControllerStyle.Alert);
-					alertController.AddAction(UIAlertAction.Create("Change Permission", UIAlertActionStyle.Default, (obj) =>
-					{
-						var url = NSUrl.FromString(UIApplication.OpenSettingsUrlString);
-						UIApplication.SharedApplication.OpenUrl(url);
-					}));
-
-					alertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Cancel, null));
-
-					PresentViewController(alertController, true, null);
-				});
+				await PromptPermissionsChangeDialog();
 
 				return;
 			}
@@ -235,7 +225,6 @@ namespace MyTrips.iOS
 
 				ResetMapViewState();
 				UpdateRecordButton(false);
-				tripInfoView.Alpha = 0;
 				ResetTripInfoView();
 
 				NavigationItem.RightBarButtonItem.Clicked -= TakePhotoButton_Clicked;
