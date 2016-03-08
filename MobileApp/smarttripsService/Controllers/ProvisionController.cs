@@ -25,8 +25,8 @@ namespace smarttripsService.Controllers
        //[Authorize]
         public async Task<IEnumerable<Device>> Get()
         {
-            ensureRegistryManagerInitialized();
-            return await getDevices();
+            EnsureRegistryManagerInitialized();
+            return await GetDevices();
         }
 
         // POST api/values
@@ -35,16 +35,17 @@ namespace smarttripsService.Controllers
         public async Task<IHttpActionResult> Post(string userId, string deviceName)
         {
             Device device;
-            ensureRegistryManagerInitialized();
+            EnsureRegistryManagerInitialized();
             MobileAppSettingsDictionary settings = this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
 
-            var existingDevices = await getDevices();
+            var existingDevices = await GetDevices();
             int maxDevices = int.Parse(settings["MaxDevices"]);
             smarttripsContext context = new smarttripsContext();
             var curUser = context.Users.Where(user => user.UserId == userId).FirstOrDefault();
             if(curUser == null)
             {
-                return BadRequest("User has not authenticated with mobile app yet.");
+                curUser = context.Users.Add(new MyTrips.DataObjects.UserProfile { Id = Guid.NewGuid().ToString(), UserId = userId });
+                //return BadRequest("User has not authenticated with mobile app yet.");
             }
             if(curUser.Devices == null)
             {
@@ -69,7 +70,7 @@ namespace smarttripsService.Controllers
             return Created("api/provision", device.Authentication.SymmetricKey.PrimaryKey);
         }
 
-        private void ensureRegistryManagerInitialized()
+        private void EnsureRegistryManagerInitialized()
         {
             if (registryManager == null)
             {
@@ -77,7 +78,7 @@ namespace smarttripsService.Controllers
                 {
                     if (registryManager == null)
                     {
-                        MobileAppSettingsDictionary settings = this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
+                        var settings = this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
                         string iotHubconnectionString = settings["IoTHubConnectionString"]; //ConfigurationManager.AppSettings["IoTHubConnectionString"];
                         registryManager = RegistryManager.CreateFromConnectionString(iotHubconnectionString);
                     }
@@ -85,7 +86,7 @@ namespace smarttripsService.Controllers
             }
         }
 
-        private async Task<IEnumerable<Device>> getDevices()
+        private async Task<IEnumerable<Device>> GetDevices()
         {
             MobileAppSettingsDictionary settings = this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
             int maxDevices = int.Parse(settings["MaxDevices"]);

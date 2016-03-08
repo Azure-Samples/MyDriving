@@ -56,6 +56,10 @@ namespace MyTrips.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView tripInfoView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         MyTrips.iOS.TripMapView tripMapView { get; set; }
 
         [Outlet]
@@ -120,6 +124,11 @@ namespace MyTrips.iOS
             if (takePhotoButton != null) {
                 takePhotoButton.Dispose ();
                 takePhotoButton = null;
+            }
+
+            if (tripInfoView != null) {
+                tripInfoView.Dispose ();
+                tripInfoView = null;
             }
 
             if (tripMapView != null) {
