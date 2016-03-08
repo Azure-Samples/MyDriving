@@ -14,12 +14,16 @@ namespace MyTrips.iOS
     [Register ("TripSummaryTableViewController")]
     partial class TripSummaryTableViewController
     {
-        [Action ("UIButtonmgbbGHnL_TouchUpInside:")]
+        [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        partial void UIButtonmgbbGHnL_TouchUpInside (UIKit.UIButton sender);
+        UIKit.UITableView tripSummaryTableView { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
+            if (tripSummaryTableView != null) {
+                tripSummaryTableView.Dispose ();
+                tripSummaryTableView = null;
+            }
         }
     }
 }

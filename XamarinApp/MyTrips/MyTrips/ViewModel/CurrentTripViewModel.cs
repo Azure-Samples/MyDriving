@@ -150,7 +150,7 @@ namespace MyTrips.ViewModel
                     if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
                         CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
                     {
-                        //Read data from the OBD device and push it to the IOT Hub
+                    //Read data from the OBD device and push it to the IOT Hub
                         obdData = this.obdDataProcessor.ReadOBDData();
                     }
 
@@ -229,11 +229,11 @@ namespace MyTrips.ViewModel
                 if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
                     CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
                 {
-                    //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
-                    await this.obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
+                //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
+                await this.obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
 
-                    //Push the trip data packaged with the OBD data to the IOT Hub
-                    await this.obdDataProcessor.PushTripDataToIOTHub();
+                //Push the trip data packaged with the OBD data to the IOT Hub
+                await this.obdDataProcessor.PushTripDataToIOTHub();
                 }
 
                 CurrentTrip = new Trip();
@@ -269,7 +269,7 @@ namespace MyTrips.ViewModel
 
 			try 
 			{
-				if (Geolocator.IsGeolocationAvailable && Geolocator.IsGeolocationEnabled)
+						if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
 				{
 					Geolocator.AllowsBackgroundUpdates = true;
 					Geolocator.DesiredAccuracy = 25;
@@ -281,17 +281,17 @@ namespace MyTrips.ViewModel
                 else
                 {
                     Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
-                                                               "Geolcoation Disabled", "OK");
+                                                                   "Geolocation Disabled", "OK");
                 }
 
                 //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
                 if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
                     CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
                 {
-                    //Connect to the OBD device
-                    await this.obdDataProcessor.Initialize();
-                    await this.obdDataProcessor.ConnectToOBDDevice();
-                }
+                //Connect to the OBD device
+                await this.obdDataProcessor.Initialize();
+                await this.obdDataProcessor.ConnectToOBDDevice();
+            }
             }
             catch (Exception ex)
             {
@@ -325,7 +325,7 @@ namespace MyTrips.ViewModel
                 {
                     //Stop reading data from the OBD device
                     await this.obdDataProcessor.DisconnectFromOBDDevice();
-			    }
+			}
             }
 			catch (Exception ex) 
 			{
@@ -396,8 +396,8 @@ namespace MyTrips.ViewModel
 
                 if (!Media.IsCameraAvailable || !Media.IsTakePhotoSupported)
                 {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
-                                                                "Camera Disabled", "OK");
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
+                                                                   "Camera Disabled", "OK");
                     
                     return;
                 }

@@ -12,42 +12,24 @@ namespace MyTrips.iOS
 	{
         LoginViewModel viewModel;
         bool didAnimate;
-		public LoginViewController (IntPtr handle) : base (handle)
-		{
-			
-		}
+		public LoginViewController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
 		{
             viewModel = new LoginViewModel();
-            viewModel.PropertyChanged += ViewModel_PropertyChanged;
 			//Prepare buttons for fade in animation.
 			btnFacebook.Alpha = 0;
 			btnTwitter.Alpha = 0;
 			btnMicrosoft.Alpha = 0;
 			btnSkipAuth.Alpha = 0;
+
+			btnSkipAuth.Layer.CornerRadius = 4;
+			btnSkipAuth.Layer.MasksToBounds = true;
 		}
 
-        void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(viewModel.IsLoggedIn):
-                    if(viewModel.IsLoggedIn)
-                        GoToMain();
-                    break;
-            }
-        }
-
-        public override void ViewDidAppear(bool animated)
+		public override async void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
-
-            if (Settings.Current.IsLoggedIn || viewModel.IsLoggedIn)
-            {
-                GoToMain();
-                return;
-            }
 
             if (didAnimate)
                 return;
@@ -59,41 +41,55 @@ namespace MyTrips.iOS
 			btnSkipAuth.FadeIn(0.3, 0.9f);
 		}
 
-		partial void BtnFacebook_TouchUpInside(UIButton sender) => LoginAsync(LoginAccount.Facebook);
+		async partial void BtnFacebook_TouchUpInside(UIButton sender)
+		{
+            await LoginAsync(LoginAccount.Facebook);
+        }
 
+		async partial void BtnTwitter_TouchUpInside(UIButton sender)
+		{
+            await LoginAsync(LoginAccount.Twitter);
+        }
 
-        partial void BtnTwitter_TouchUpInside(UIButton sender) => LoginAsync(LoginAccount.Twitter);
+		async partial void BtnMicrosoft_TouchUpInside(UIButton sender)
+		{
+            await LoginAsync(LoginAccount.Microsoft);
+		}
 
-
-        partial void BtnMicrosoft_TouchUpInside(UIButton sender) => LoginAsync(LoginAccount.Microsoft);
-
-
-        void LoginAsync(LoginAccount account)
+		async Task LoginAsync(LoginAccount account)
         {
             switch (account)
             {
                 case LoginAccount.Facebook:
-                    viewModel.LoginFacebookCommand.Execute(null);
+					await viewModel.ExecuteLoginFacebookCommandAsync();
                     break;
                 case LoginAccount.Microsoft:
-                    viewModel.LoginMicrosoftCommand.Execute(null);
+					await viewModel.ExecuteLoginMicrosoftCommandAsync();
                     break;
                 case LoginAccount.Twitter:
-                    viewModel.LoginTwitterCommand.Execute(null);
+					await viewModel.ExecuteLoginTwitterCommandAsync();
                     break;
             }
+
+			if (viewModel.IsLoggedIn)
+				NavigateToTabs();
         }
 
-        partial void BtnSkipAuth_TouchUpInside(UIButton sender) => GoToMain(true);
+		partial void BtnSkipAuth_TouchUpInside(UIButton sender)
+		{
+			viewModel.InitFakeUser();
+			NavigateToTabs();
+		}
 
-        void GoToMain(bool fakeUser = false)
-        {
-            if (fakeUser)
-                viewModel.InitFakeUser();
-            var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
-            var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
-            viewController.SelectedIndex = 1;
-            app.Window.RootViewController = viewController;
-        }
+		void NavigateToTabs()
+		{
+			InvokeOnMainThread(() =>
+			{
+				var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
+				var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
+				viewController.SelectedIndex = 1;
+				app.Window.RootViewController = viewController;
+			});
+		}
 	}
 }

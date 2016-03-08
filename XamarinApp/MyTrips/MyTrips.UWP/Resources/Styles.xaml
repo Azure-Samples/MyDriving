@@ -10,7 +10,7 @@
         <Setter Property="Height" Value="40"/>
         <Setter Property="MaxWidth" Value="300"/>
         <!-- For rounded corners  -->
-   <!--     <Setter Property="Template">
+        <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="5" Background="{TemplateBinding Background}"  BorderThickness="1" Padding="2">
@@ -19,8 +19,15 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-     -->  
     </Style>
+
+    <Style x:Key="LoginButtonTextStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="15,0,0,0" />
+        <Setter Property="FontFamily" Value="SegoeUI" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    
 
     <Style x:Key="SettingsSeparatorLine" TargetType="Border">
         <Setter  Property="BorderBrush" Value="Gray" />

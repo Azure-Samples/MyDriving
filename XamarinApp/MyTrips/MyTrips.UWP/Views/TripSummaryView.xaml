@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:MyTrips.UWP.Controls"
+     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
     xmlns:local="using:MyTrips.UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,15 +12,16 @@
 
     <Grid Background="{StaticResource MainBackgroundColor2}">
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
-            <StackPanel Margin="24,24,24,24">
+            <StackPanel>
+                <StackPanel Margin="24,4,24,4">
 
                 <StackPanel>
-                    <TextBlock Text="You completed your trip!" HorizontalAlignment="Center" Margin="0,15,0,5" FontFamily="SegoeUI-Light" FontSize="21" Foreground="#8ab0cc" />
+                    <TextBlock Text="You completed your trip!" HorizontalAlignment="Center" Margin="0,0,0,5" FontFamily="SegoeUI-Light" FontSize="21" Foreground="#8ab0cc" />
                     <TextBlock Text="Trip Summary" HorizontalAlignment="Center" Margin="0,5,0,15" FontFamily="SegoeUI-Semibold" FontSize="16" Foreground="White" FontWeight="Bold" />
                 </StackPanel>
 
                 <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="TotalDistanceTab" DataContext="{Binding TotalTime, Converter={StaticResource DistanceConverter} }" />
+                <controls:ProfileViewTabControl x:Name="TotalDistanceTab" DataContext="{Binding Trip.Distance, Converter={StaticResource DistanceConverter} }" />
 
                 <Border Margin="0,10,0,0" />
                 <controls:ProfileViewTabControl x:Name="TotalTimeTab" DataContext="{Binding TotalTime, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  hours'}" />
@@ -31,7 +33,19 @@
                 <controls:ProfileViewTabControl x:Name="HardBreaksTab" DataContext="{Binding HardBreaks,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
 
                 <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="TipsTab" DataContext="{Binding Tips.Count,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  tips'}" />
+                    <controls:ProfileViewTabControl x:Name="TipsTab" DataContext="{Binding Tips.Count,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  tips'}" />
+
+                </StackPanel>
+
+                <Maps:MapControl
+           x:Name="MyMap" 
+            MapServiceToken="JCV6QKnfQrP6Be6UuefM~6L1fUqScbKx0MP5UBI4pRw~AjMaYd80GWWDlLjZ06u2r3SHjFKy74e3P6ggHUKk1HFJsGpH19At3an_CG98AgNc"
+            ZoomInteractionMode="Disabled"
+   
+            LandmarksVisible="False"
+            IsRightTapEnabled="False"
+                    Height="150"
+           />
             </StackPanel>
         </ScrollViewer>
 
