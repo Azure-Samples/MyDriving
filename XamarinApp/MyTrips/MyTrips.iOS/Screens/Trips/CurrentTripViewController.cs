@@ -241,13 +241,18 @@ namespace MyTrips.iOS
 
 			if (CurrentTripViewModel.IsRecording)
 			{
+                if (CurrentTripViewModel.StopRecordingTrip())
+                    return;
+                
 				ResetMapViewState();
-				await CurrentTripViewModel.StopRecordingTripAsync();
+
+                await CurrentTripViewModel.SaveRecordingTripAsync();
+
 				NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshPastTripsTable", null);
 			}
 			else
 			{
-				await CurrentTripViewModel.StartRecordingTripAsync();
+				CurrentTripViewModel.StartRecordingTrip();
 			}
 		}
 

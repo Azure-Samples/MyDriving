@@ -80,11 +80,12 @@ Azure App Service is basically a container for a variety of features that you ca
 
 It must be pointed out that as App Service has evolved, its features have been grouped together and presented in different ways, but with just a few exceptions they’re all part of the same whole. At present, for example, the portal shows four apparently distinct “app types”: Web, Mobile, API, and Logic. The first three—Web, Mobile, and API—are all the same thing and all use the same configuration UI in the portal. The best way to streamline configuration of each part is to go to the **Tools** blade and select one of the **Quick Start** options:
  
-![QuickStart options in Azure App Services](media/app-services-05-combined.png)
+![QuickStart options in Azure App Service](media/app-services-05-combined.png)
 
 As you can see, the quick starts for API Apps let you choose from ASP.NET, Node.js, and Java; Mobile Apps gives you starter code for both native and cross-platform mobile clients; and Web Apps gives you guidance on starting a project in Visual Studio that you can deploy to App Service to stand up a web site.
 
-The **Logic Apps** type within App Service, though, stands apart and has its own UI through which you create integrations between different services including those that connect to on-prem data. This is done through “connectors” and a visual designer that you can find documented on <link>.
+The **Logic Apps** type within App Service, though, stands apart and has its own UI through which you create integrations between different services. This is done through “managed APIs“ or “connectors” and a visual designer. For details, refer to [What are Logic Apps?](https://azure.microsoft.com/en-us/documentation/articles/app-service-logic-what-are-logic-apps/) in the Azure documentation.
+
 
 
 > **Did you know?** Azure App Service is the next-generation Azure product that combines the capabilities of older products such as Azure Websites and Azure Mobile Services, among others. Although Mobile Services is still supported, but Microsoft recommends that new projects begin with Azure App Service because it gives you all the features of Mobile Services, web apps, and API apps in the same place.

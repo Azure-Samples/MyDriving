@@ -85,21 +85,14 @@ namespace MyTrips.UWP.Views
             this.MyMap.ZoomLevel = 17;
             this.CarIcon = new MapIcon();
             this.mapPolyline = new MapPolyline();
+            MyMap.MapElements.Clear();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            // ResetTrip();
             viewModel.PropertyChanged += OnPropertyChanged;
-
-
             await StartTrackingAsync();
-
-            //var basicGeoposition = new BasicGeoposition() { Latitude = this.viewModel.CurrentPosition.Latitude, Longitude = this.viewModel.CurrentPosition.Longitude };
-            //UpdateMapView(basicGeoposition);
-            //UpdateCarIcon(basicGeoposition);
-
         }
 
         void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -128,7 +121,7 @@ namespace MyTrips.UWP.Views
             }
         }
 
-
+  
         private async Task StartTrackingAsync()
         {
             // Request permission to access location
@@ -178,15 +171,21 @@ namespace MyTrips.UWP.Views
 
             if (viewModel.IsRecording)
             {
+                if (!viewModel.StopRecordingTrip())
+                    return;
+
                 AddEndMarker(basicGeoposition);
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
                 UpdateCarIcon(basicGeoposition);
-                await viewModel.StopRecordingTripAsync();
-            }
+                await viewModel.SaveRecordingTripAsync();
+                // Launch Trip Summary Page. 
+                this.Frame.Navigate(typeof(TripSummaryView), viewModel.CurrentTrip);
+                return;
+        }
             else
             {
-                if (!await viewModel.StartRecordingTripAsync())
+                if (!viewModel.StartRecordingTrip())
                     return;
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StopRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
@@ -220,9 +219,10 @@ namespace MyTrips.UWP.Views
                 CarIcon.ZIndex = 4;
                 CarIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
                 MyMap.Center = CarIcon.Location;
+                //MyMap.MapElements.Clear();
                 MyMap.MapElements.Add(CarIcon);
             });
-
+         
         }
 
         private async void AddStartMarker(BasicGeoposition basicGeoposition)
@@ -252,7 +252,7 @@ namespace MyTrips.UWP.Views
                     return;
                 //Get trail position or current potion to move car
 
-
+            
                 if (viewModel?.CurrentPosition != null)
                 {
                     basicGeoposition.Latitude = viewModel.CurrentPosition.Latitude;
@@ -286,7 +286,7 @@ namespace MyTrips.UWP.Views
 
                 // Moves the camera to make the trail location as the center of the view. 
             });
-            basicGeoposition = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
+             basicGeoposition = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
 
             if (updateCamera)
                 await MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
@@ -314,7 +314,7 @@ namespace MyTrips.UWP.Views
         {
             trailPointList = viewModel.CurrentTrip.Points as ObservableRangeCollection<TripPoint>;
             trailPointList.CollectionChanged += OnTrailUpdated;
-            // MyMap.MapElements.Clear();
+           // MyMap.MapElements.Clear();
             Locations?.Clear();
             Locations = null;
             SetupMap();
@@ -341,7 +341,7 @@ namespace MyTrips.UWP.Views
         private async void AddEndMarker(BasicGeoposition basicGeoposition)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
+        {
 
                 MapIcon mapEndIcon = new MapIcon();
                 mapEndIcon.Location = new Geopoint(basicGeoposition);

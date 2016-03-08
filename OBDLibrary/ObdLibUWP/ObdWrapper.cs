@@ -242,7 +242,7 @@ namespace ObdLibUWP
                     result += tmp;
                 }
             }
-            return ObdShare.ObdUtil.ParseObd09Msg(result);
+            return ObdShare.ObdUtil.ParseVINMsg(result);
         }
 
         public async Task<string> GetOutsideTemperature()

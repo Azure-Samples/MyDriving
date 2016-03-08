@@ -32,7 +32,7 @@
     <Style x:Key="SettingsSeparatorLine" TargetType="Border">
         <Setter  Property="BorderBrush" Value="Gray" />
         <Setter Property="BorderThickness" Value="0,0.5,0,0" />
-        <Setter Property="Margin" Value="10,5,10,5"/>
+        <Setter Property="Margin" Value="0,5,0,5"/>
     </Style>
 
     <Style x:Key="SettingsLabelStyle" TargetType="TextBlock">
@@ -41,7 +41,7 @@
     </Style>
 
     <Style x:Key="SettingsSubLabelStyle" TargetType="TextBlock">
-        <Setter Property="Margin" Value="15,5,0,5" />
+        <Setter Property="Margin" Value="0,5,0,5" />
     </Style>
 
     <Style x:Key="ProfileTabStyle" TargetType="TextBlock">
@@ -49,5 +49,11 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontFamily" Value="SegoeUI" />
         <Setter Property="FontSize" Value="20" />
+    </Style>
+
+    <Style x:Key="SettingsAboutButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
     </Style>
 </ResourceDictionary>

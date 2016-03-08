@@ -25,7 +25,6 @@ namespace MyTrips.UWP.Views
         {
             this.InitializeComponent();
             viewModel = new TripSummaryViewModel();
-            viewModel.Trip = App.currentTrip;
 
             DataContext = viewModel;
 
@@ -45,15 +44,19 @@ namespace MyTrips.UWP.Views
         }
 
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            viewModel.Trip = e.Parameter as Trip;
             DrawPath();
         }
 
         private void DrawPath()
         {
             MapPolyline mapPolyLine = new MapPolyline();
+            
+            if (viewModel.Trip.Points.Count == 0)
+                return;
 
             foreach (var trail in this.viewModel.Trip.Points)
             {
@@ -90,10 +93,10 @@ namespace MyTrips.UWP.Views
                 var center = new Geopoint(pos);
                 MyMap.Center = center;
 
-               //find zoom
+                //find zoom
                 double buffer = 2;
                 double zoom1, zoom2;
-               
+
                 if (east != west && north != south)
                 {
                     //best zoom level based on map width
