@@ -9,6 +9,7 @@ using MyTrips.Interfaces;
 using MyTrips.Droid.Helpers;
 using Acr.UserDialogs;
 using MyTrips.Shared;
+using MyTrips.DataStore.Abstractions;
 
 namespace MyTrips.Droid
 {
@@ -32,6 +33,9 @@ namespace MyTrips.Droid
             //TODO: Need to add #debug compile dir for all offline\mock interfaces
             //ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
             ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
+
+            ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Mock.Stores.IOTHubStore>();
+            //ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Azure.Stores.IOTHubStore>();
 
             Xamarin.Insights.Initialize(Logger.InsightsKey, this);
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
