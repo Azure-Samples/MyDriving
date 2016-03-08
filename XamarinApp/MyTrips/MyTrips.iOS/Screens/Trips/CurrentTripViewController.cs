@@ -315,10 +315,10 @@ namespace MyTrips.iOS
 			startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
 			endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
 
-			labelOneTitle.Text = "Average Speed";
+			labelOneTitle.Text = "Avg Speed";
 			labelOneValue.Text = PastTripsDetailViewModel.Trip.AverageSpeed.ToString();
-			labelTwoTitle.Text = "Distance";
-			labelTwoValue.Text = PastTripsDetailViewModel.Trip.TotalDistance;
+			labelTwoTitle.Text = PastTripsDetailViewModel.Settings.MetricDistance ? "Kilometers" : "Miles";
+			labelTwoValue.Text = PastTripsDetailViewModel.Trip.TotalDistanceNoUnits;
 			labelThreeTitle.Text = "Consumption";
 			labelThreeValue.Text = PastTripsDetailViewModel.Trip.FuelUsed.ToString();
 			labelFourTitle.Text = "Emissions";
