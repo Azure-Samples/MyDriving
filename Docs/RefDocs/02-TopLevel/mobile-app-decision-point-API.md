@@ -25,17 +25,17 @@ The tradeoff is that because the software that's installed on a Cloud Services V
 Another consideration is that any given instance of Cloud Services has its own dedicated VM that you can't reapportion for other purposes. This means that Cloud Services is best suited for API implementations that are rich enough to justify the cost of at least that one VM.
  
 
-**App Services — Web Apps**
-Azure App Services is another platform-as-a-service that was described earlier in the App Services Primer <TODO: link>. Like Cloud Services, Azure automatically provides for scaling and DNS name forwarding, and further insulates you from having to think much about the underlying VMs. To be more specific, you create an instance of App Services within an existing Azure Compute Plan that can be shared by multiple instances. This makes App Services highly suitable for low-demand APIs because you can share the cost of the Plan (which is based on the cost of a VM) with other instances. Of the choices outlined here, App Services is also the only one that gives you a free pricing tier that you can use until you reach production. 
+**App Service — Web Apps**
+Azure App Service is another platform-as-a-service that was described earlier in the App Service Primer <TODO: link>. Like Cloud Services, Azure automatically provides for scaling and DNS name forwarding, and further insulates you from having to think much about the underlying VMs. To be more specific, you create an instance of App Service within an existing Azure Compute Plan that can be shared by multiple instances. This makes App Service highly suitable for low-demand APIs because you can share the cost of the Plan (which is based on the cost of a VM) with other instances. Of the choices outlined here, App Service is also the only one that gives you a free pricing tier that you can use until you reach production. 
 
-With App Services, you work with the server through FTP like you do with a typical web host. This means you implement APIs exactly as you would with any other such host by uploading files and code through FTP, so long as the host supports the necessary language runtime. The App Services host presently supports .NET, PHP, Java, Node.js, and Python. Thus you can easily create, for example, an ASP.NET website in Visual Studio, including a rich API built on Entity Framework for data access, and deploy it from there directly to App Services.
+With App Service, you work with the server through FTP like you do with a typical web host. This means you implement APIs exactly as you would with any other such host by uploading files and code through FTP, so long as the host supports the necessary language runtime. The App Service host presently supports .NET, PHP, Java, Node.js, and Python. Thus you can easily create, for example, an ASP.NET website in Visual Studio, including a rich API built on Entity Framework for data access, and deploy it from there directly to App Service.
 
-If you're happy working with the supported languages, there really aren't any additional downsides with App Services. App Services, in fact, is what Microsoft generally recommends for new projects because it meets or exceeds the capabilities of Cloud Services.  
+If you're happy working with the supported languages, there really aren't any additional downsides with App Service. App Service, in fact, is what Microsoft generally recommends for new projects because it meets or exceeds the capabilities of Cloud Services.  
  
 
-**App Services — Easy APIs**
+**App Service — Easy APIs**
 
-There is one more way to implement an API that's even simpler: the Easy APIs feature within App Services.
+There is one more way to implement an API that's even simpler: the Easy APIs feature within App Service.
 
 Easy APIs is built entirely on Node.js (just like the Custom API feature of the previous-generation Azure Mobile Services). You can even write your code entirely within the context of the browser and the Azure portal—no external tools are necessary.
 
@@ -43,18 +43,18 @@ With Easy APIs, HTTP requests are always handled through a Node.js server using 
 
 Endpoints are implemented in JavaScript with Node.js and Azure-provided methods. Storage options are limited to Azure SQL databases and Azure tables, but because these mechanisms exist separate from an App Service instance they are easily shared with any other services that can access them. This means you can create an ASP.NET web app in another App Service instance (on the same or another underlying Plan) and share data with your Easy APIs endpoints.
 
-Taken all together, Easy APIs are best suited for mobile backend scenarios that are focused on the specific and private needs of one app or perhaps a set of related apps. Typical uses include creating endpoint to receive push notification channel IDs from apps, endpoints to roam configuration data across apps on different platforms (or this can be done transparently through offline sync), and endpoints to manage user identities to store per-user data. Public endpoints, on the other hand, typically have a related website and would be implemented alongside that site through App Services/Web Apps rather than Easy APIs. 
+Taken all together, Easy APIs are best suited for mobile backend scenarios that are focused on the specific and private needs of one app or perhaps a set of related apps. Typical uses include creating endpoint to receive push notification channel IDs from apps, endpoints to roam configuration data across apps on different platforms (or this can be done transparently through offline sync), and endpoints to manage user identities to store per-user data. Public endpoints, on the other hand, typically have a related website and would be implemented alongside that site through App Service/Web Apps rather than Easy APIs. 
 
 **Our choice**
 
-In this reference architecture, the API endpoints are implemented with App Services using C# and ASP.NET, a choice that's motivated by several factors:
+In this reference architecture, the API endpoints are implemented with App Service using C# and ASP.NET, a choice that's motivated by several factors:
 
 - The team's existing expertise in C#
 - The ability to use Entity Framework to interact with the rich backend data sets
 - The ability to easily test and debug APIs locally from Visual Studio
 - The ease of integration with GitHub version control through Visual Studio.
  
-In short, working locally in Visual Studio and then deploying to App Services integrates most easily with common developer workflows. With Easy APIs you can, of course, work with Node.js locally, manage your code in version control, and upload files to App Services, but Easy APIs is primarily oriented around working directly in the browser. 
+In short, working locally in Visual Studio and then deploying to App Service integrates most easily with common developer workflows. With Easy APIs you can, of course, work with Node.js locally, manage your code in version control, and upload files to App Service, but Easy APIs is primarily oriented around working directly in the browser. 
 
 
 For a further general comparison of these alternatives, see [Compute Hosting Options Provided by Azure](https://azure.microsoft.com/en-us/documentation/articles/fundamentals-application-models/). 
