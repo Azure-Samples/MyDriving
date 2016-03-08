@@ -67,6 +67,13 @@ namespace MyTrips.UWP.Views
         private void TripSummaryButton_Click(object sender, RoutedEventArgs e)
         {
             MyTripsSplitView.IsPaneOpen = false;
+
+            //test code to load a trip
+            if (App.currentTrip == null)
+            {
+                var trips = MyTrips.DataStore.Mock.Stores.TripStore.GetTrips();
+                App.currentTrip = trips[4];
+            }
             ((Frame)this.MyTripsSplitView.Content).Navigate(typeof(TripSummaryView));
         }
 
