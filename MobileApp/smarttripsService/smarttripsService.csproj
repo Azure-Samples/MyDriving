@@ -218,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Startup.MobileApp.cs" />
+    <Compile Include="Controllers\IOTHubDataController.cs" />
     <Compile Include="Controllers\TripController.cs" />
     <Compile Include="Controllers\TripPointController.cs" />
     <Compile Include="Controllers\ProvisionController.cs" />
