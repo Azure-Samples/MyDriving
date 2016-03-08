@@ -1,6 +1,7 @@
 ﻿using System;
 using MyTrips.DataStore.Abstractions;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace MyTrips.DataStore.Mock.Stores
 {
@@ -31,6 +32,12 @@ namespace MyTrips.DataStore.Mock.Stores
         {
             throw new NotImplementedException();
         }
+
+        public virtual Task<bool> RemoveItemsAsync(IEnumerable<T> items)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual Task<bool> SyncAsync()
         {
             return Task.FromResult(true);

@@ -41,10 +41,10 @@ namespace smarttripsService.Controllers
             var existingDevices = await GetDevices();
             int maxDevices = int.Parse(settings["MaxDevices"]);
             smarttripsContext context = new smarttripsContext();
-            var curUser = context.Users.Where(user => user.UserId == userId).FirstOrDefault();
+            var curUser = context.UserProfiles.Where(user => user.UserId == userId).FirstOrDefault();
             if(curUser == null)
             {
-                curUser = context.Users.Add(new MyTrips.DataObjects.UserProfile { Id = Guid.NewGuid().ToString(), UserId = userId });
+                curUser = context.UserProfiles.Add(new MyTrips.DataObjects.UserProfile { Id = Guid.NewGuid().ToString(), UserId = userId });
                 //return BadRequest("User has not authenticated with mobile app yet.");
             }
             if(curUser.Devices == null)
