@@ -351,6 +351,10 @@ namespace MyTrips.ViewModel
                     //Read data from the OBD device and push it to the IOT Hub
                     obdData = this.obdDataProcessor.ReadOBDData();
                 }
+                else
+                {
+                    obdData = null;
+                }
 
 
 
@@ -365,13 +369,19 @@ namespace MyTrips.ViewModel
 
                 if (obdData != null)
                 {
-                    double speed, barometric, rpm, outside, inside, efr = 0;
-                    double.TryParse(obdData["spd"], out speed);
-                    double.TryParse(obdData["bp"], out barometric);
-                    double.TryParse(obdData["rpm"], out rpm);
-                    double.TryParse(obdData["ot"], out outside);
-                    double.TryParse(obdData["it"], out inside);
-                    double.TryParse(obdData["efr"], out efr);
+                    double speed = 0, barometric = 0, rpm = 0, outside = 0, inside = 0, efr = 0;
+                    if(obdData.ContainsKey("spd"))
+                        double.TryParse(obdData["spd"], out speed);
+                    if(obdData.ContainsKey("bp"))
+                        double.TryParse(obdData["bp"], out barometric);
+                    if(obdData.ContainsKey("rpm"))
+                        double.TryParse(obdData["rpm"], out rpm);
+                    if(obdData.ContainsKey("ot"))
+                        double.TryParse(obdData["ot"], out outside);
+                    if(obdData.ContainsKey("it"))
+                        double.TryParse(obdData["it"], out inside);
+                    if(obdData.ContainsKey("efr"))
+                        double.TryParse(obdData["efr"], out efr);
 
                     point.Speed = speed;
                     point.BarometricPressure = barometric;
