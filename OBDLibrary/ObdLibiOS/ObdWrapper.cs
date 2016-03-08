@@ -84,7 +84,29 @@ namespace ObdLibiOS
             else
                 return false;
         }
-
+        public Dictionary<string, string> Read()
+        {
+            if (!this._simulatormode && this._socket == null)
+            {
+                //if there is no connection
+                return null;
+            }
+            var ret = new Dictionary<string, string>();
+            lock (_lock)
+            {
+                foreach (var key in _data.Keys)
+                {
+                    ret.Add(key, _data[key]);
+                }
+                _data["spd"] = DefValue;  //Speed
+                _data["bp"] = DefValue;   //BarometricPressure
+                _data["rpm"] = DefValue;  //RPM
+                _data["ot"] = DefValue;   //OutsideTemperature
+                _data["it"] = DefValue;   //InsideTemperature
+                _data["efr"] = DefValue;  //EngineFuelRate
+            }
+            return ret;
+        }
         private async void PollObd()
         {
             try
@@ -343,7 +365,7 @@ namespace ObdLibiOS
             System.Diagnostics.Debug.WriteLine(s);
             return s;
         }
-        public void Disconnect()
+        public async Task Disconnect()
         {
             _running = false;
             if(_stream != null)

@@ -71,12 +71,17 @@ namespace MyTrips.AzureClient
             myParms.Add("deviceName", this.DeviceId);
 
             var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client as MobileServiceClient;
-            if (client == null)
+
+            try
             {
-                throw new InvalidOperationException("Make sure to set the ServiceLocator has an instance of IAzureClient");
+                var response = await client.InvokeApiAsync("provision", null, HttpMethod.Post, myParms);
+                this.AccessKey = response.Value<string>();
             }
-            var response = await client.InvokeApiAsync("provision", null, HttpMethod.Post, myParms);
-            this.AccessKey = response.Value<string>();
+            catch(Exception e)
+            {
+                Logger.Instance.WriteLine("Unable to provision device with IOT Hub: " + e);
+            }
+
             return this.DeviceConnectionString;
         }
     }

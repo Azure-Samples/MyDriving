@@ -23,30 +23,26 @@ namespace MyTrips.Services
         IOBDDevice obdDevice;
         bool canReadData;
         Stopwatch obdReconnectTimer;
-        //MyTrips.DataStore.Azure.StoreManager storeManager;
-        MyTrips.DataStore.Mock.StoreManager storeManager;
+        IStoreManager storeManager;
 
         public delegate void OBDDeviceHandler(bool retryToConnect);
         public event OBDDeviceHandler OnOBDDeviceDisconnected;
 
         //Init must be called each time to connect and reconnect to the OBD device
-        public async Task Initialize()
+        public async Task Initialize(IStoreManager storeManager)
         {
+            this.obdReconnectTimer = new Stopwatch();
+            this.storeManager = storeManager;
+
             //Get platform specific implemenation of IOTHub and IOBDDevice
             this.iotHub = ServiceLocator.Instance.Resolve<IHubIOT>();
             this.obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
-
-            //TODO: Need to add compiler dir for debug
-            this.storeManager = ServiceLocator.Instance.Resolve<IStoreManager>() as MyTrips.DataStore.Mock.StoreManager;
-            //this.storeManager = ServiceLocator.Instance.Resolve<IStoreManager>() as MyTrips.DataStore.Azure.StoreManager;
 
             //Call into mobile service to provision the device
             var connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
 
             //Initialize the IOT Hub
             this.iotHub.Initialize(connectionStr);
-
-            this.obdReconnectTimer = new Stopwatch();
 
             CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
         }
@@ -68,7 +64,7 @@ namespace MyTrips.Services
             }
                 else
                 {
-                obdData = new Dictionary<string, string>();
+                    obdData = new Dictionary<string, string>();
                 }
 
             return obdData;
@@ -116,27 +112,27 @@ namespace MyTrips.Services
                 return;
             }
 
-                if (CrossConnectivity.Current.IsConnected)
+            if (CrossConnectivity.Current.IsConnected)
+            {
+                try
                 {
-                    try
-                    {
-                        //Once the trip is pushed to the IOT Hub, delete it from the local store
-                        await this.iotHub.SendEvents(iotHubDataBlobs.Select(i => i.Blob));
-                        await this.storeManager.IOTHubStore.DropTable();
-                    }
-                    catch (Exception ex)
-                    {
-                        //An exception will be thrown if the data isn't received by the IOT Hub
-                        await Task.Delay(1000);
-                        Logger.Instance.Report(ex);
-                    }
+                    //Once the trip is pushed to the IOT Hub, delete it from the local store
+                    await this.iotHub.SendEvents(iotHubDataBlobs.Select(i => i.Blob));
+                    await this.storeManager.IOTHubStore.RemoveItemsAsync(iotHubDataBlobs);
                 }
-                else
+                catch (Exception ex)
                 {
-                    //If there is no network connection, then stop trying to push data entirely
-                    //Instead, we'll wait to try to push data again when the ConnectivityChanged event is raised with successful network connection
-                    return;
+                    //An exception will be thrown if the data isn't received by the IOT Hub
+                    await Task.Delay(1000);
+                    Logger.Instance.Report(ex);
                 }
+            }
+            else
+            {
+                //If there is no network connection, then stop trying to push data entirely
+                //Instead, we'll wait to try to push data again when the ConnectivityChanged event is raised with successful network connection
+                return;
+            }
 
             //If any data wasn't received by the IOT Hub, there may still be data in the local store - try again
             await this.PushTripDataToIOTHub();
@@ -170,7 +166,7 @@ namespace MyTrips.Services
                 }
                 else
                 {
-                    //Give up after 24 hours???
+                    //Give up after 24 hours
                     this.OnOBDDeviceDisconnected(false);
                     this.canReadData = false;
                 }

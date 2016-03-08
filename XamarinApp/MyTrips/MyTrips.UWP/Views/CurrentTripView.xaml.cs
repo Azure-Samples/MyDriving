@@ -83,7 +83,6 @@ namespace MyTrips.UWP.Views
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
-            //MyMap.MapElements.Clear();
             this.MyMap.ZoomLevel = 17;
             this.CarIcon = new MapIcon();
             this.mapPolyline = new MapPolyline();

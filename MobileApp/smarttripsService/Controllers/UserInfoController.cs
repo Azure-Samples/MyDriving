@@ -58,19 +58,26 @@ namespace smarttripsService.Controllers
 
 
                 var context = new smarttripsContext();
-                var curUser = context.Users.Where(u => u.UserId == userId).FirstOrDefault();
-
-                if (curUser == null && userProfile != null)
+                try
                 {
-                    context.Users.Add(new MyTrips.DataObjects.UserProfile
+                    var curUser = context.UserProfiles.Where(u => u.UserId == userId).FirstOrDefault();
+               
+                    if (curUser == null && userProfile != null)
                     {
-                        UserId = userId,
-                        ProfilePictureUri = userProfile.ProfilePictureUri,
-                        FirstName = userProfile.FirstName,
-                        LastName = userProfile.LastName
-                    });
+                        context.UserProfiles.Add(new MyTrips.DataObjects.UserProfile
+                        {
+                            UserId = userId,
+                            ProfilePictureUri = userProfile.ProfilePictureUri,
+                            FirstName = userProfile.FirstName,
+                            LastName = userProfile.LastName
+                        });
 
-                    context.SaveChanges();
+                        context.SaveChanges();
+                    }
+                }
+                catch(Exception ex)
+                {
+
                 }
             }
             return userProfile;

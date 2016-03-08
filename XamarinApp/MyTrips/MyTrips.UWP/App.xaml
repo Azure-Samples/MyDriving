@@ -20,6 +20,7 @@
             <converters:ImageSourceConverter x:Key="ImageSourceConverter"/>
             <converters:DistanceConverter x:Key="DistanceConverter"/>
             <converters:SpeedConverter x:Key="SpeedConverter"/>
+            <converters:NotConverter x:Key="NotConverter"/>
         </ResourceDictionary>
     </Application.Resources>
     
