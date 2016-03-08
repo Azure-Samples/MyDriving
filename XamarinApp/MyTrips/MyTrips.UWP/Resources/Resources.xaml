@@ -18,4 +18,10 @@
     <BitmapImage x:Key="PastWhite" UriSource="ms-appx:///Assets/SplitView/past_white_32.png"/>
     <BitmapImage x:Key="PastBlue" UriSource="ms-appx:///Assets/SplitView/past_blue_32.png"/>
 
+    <BitmapImage x:Key="ProfileWhite" UriSource="ms-appx:///Assets/SplitView/user_white_32.png"/>
+    <BitmapImage x:Key="ProfileBlue" UriSource="ms-appx:///Assets/SplitView/user_blue_32.png"/>
+
+    <BitmapImage x:Key="SettingsWhite" UriSource="ms-appx:///Assets/SplitView/setting_white_32.png"/>
+    <BitmapImage x:Key="SettingsBlue" UriSource="ms-appx:///Assets/SplitView/setting_blue_32.png"/>
+
 </ResourceDictionary>
