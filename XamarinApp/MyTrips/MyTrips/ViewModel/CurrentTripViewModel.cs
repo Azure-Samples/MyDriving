@@ -223,10 +223,10 @@ namespace MyTrips.ViewModel
                 //Push the trip data packaged with the OBD data to the IOT Hub
                 await this.obdDataProcessor.PushTripDataToIOTHub();
 
-                CurrentTrip = new Trip();
-                CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
-                photos = new List<Photo>();
-                OnPropertyChanged(nameof(CurrentTrip));
+                //CurrentTrip = new Trip();
+                //CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
+                //photos = new List<Photo>();
+                //OnPropertyChanged(nameof(CurrentTrip));
 
                 return true;
             }

@@ -119,7 +119,7 @@ namespace MyTrips.UWP.Views
                     break;
             }
         }
-
+    
   
         private async Task StartTrackingAsync()
         {
@@ -175,7 +175,10 @@ namespace MyTrips.UWP.Views
                 OnPropertyChanged(nameof(RecordButtonImage));
                 UpdateCarIcon(basicGeoposition);
                 await viewModel.StopRecordingTripAsync();
-        }
+                // Launch Trip Summary Page. 
+                this.Frame.Navigate(typeof(TripSummaryView), viewModel.CurrentTrip);
+                return;
+            }
             else
             {
                 if (!await viewModel.StartRecordingTripAsync())
