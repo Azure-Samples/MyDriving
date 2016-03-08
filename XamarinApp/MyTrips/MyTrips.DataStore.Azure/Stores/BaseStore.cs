@@ -23,8 +23,6 @@ namespace MyTrips.DataStore.Azure.Stores
         protected IMobileServiceSyncTable<T> Table => 
             table ?? (table = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client?.GetSyncTable<T>()); 
 
-        
-
         public virtual Task<bool> DropTable()
         {
             table = null;
@@ -37,6 +35,18 @@ namespace MyTrips.DataStore.Azure.Stores
         }
 
         #region IBaseStore implementation
+
+        public virtual async Task<bool> RemoveItemsAsync(IEnumerable<T> items)
+        {
+            bool result = true;
+            foreach (var item in items)
+            {
+                result = result && await this.RemoveAsync(item);
+            }
+
+            return result;
+        }
+
 
         public async Task InitializeStoreAsync()
         {
@@ -83,10 +93,20 @@ namespace MyTrips.DataStore.Azure.Stores
 
         public virtual async Task<bool> RemoveAsync(T item)
         {
-            await InitializeStoreAsync().ConfigureAwait(false);
-            await Table.DeleteAsync(item).ConfigureAwait(false);
-            await SyncAsync();
-            return true;
+            bool result = false;
+            try
+            {
+                await InitializeStoreAsync().ConfigureAwait(false);
+                await PullLatestAsync();
+                await Table.DeleteAsync(item).ConfigureAwait(false);
+                result = true;
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.WriteLine(String.Format("Unable to remove item {0}:{1}", item.Id, e));
+            }
+
+            return result;
         }
 
         public virtual async Task<bool> PullLatestAsync()
@@ -139,7 +159,6 @@ namespace MyTrips.DataStore.Azure.Stores
             }
             return true;
         }
-
         #endregion
     }
 }
