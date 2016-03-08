@@ -17,7 +17,7 @@ namespace MyTrips.iOS
 
 			var data = new List<DrivingStatistic>
 			{
-				new DrivingStatistic { Name = "Total Distance", Value = $"{ViewModel.Distance} {ViewModel.DistanceUnits}" },
+				new DrivingStatistic { Name = "Total Distance", Value = $"{ViewModel.Distance} {ViewModel.DistanceUnits.ToLower()}" },
 				new DrivingStatistic { Name = "Total Duration", Value = ViewModel.ElapsedTime },
 				new DrivingStatistic { Name = "Total Fuel Consumption", Value = ViewModel.FuelConsumptionUnits},
 				new DrivingStatistic { Name = "Average Speed", Value = "31 MPH"},
