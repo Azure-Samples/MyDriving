@@ -123,7 +123,6 @@ namespace MyTrips.iOS
 		#endregion
 	}
 
-
     [Register("TripApplication")]
     public class TripApplication : UIApplication
     {
