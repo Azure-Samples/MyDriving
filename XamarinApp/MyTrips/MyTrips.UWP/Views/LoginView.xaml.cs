@@ -84,6 +84,7 @@ namespace MyTrips.UWP.Views
             {
                 LoginButtons.Visibility = Visibility.Collapsed;
                 SkipAuthBtn.Visibility = Visibility.Collapsed;
+                AppLogo.Visibility = Visibility.Collapsed;
                 WelcomeText.Text = "Welcome " + viewModel.UserInfo.FirstName + "!";
                 WelcomeText.Visibility = Visibility.Visible;
                 SetImageSource();

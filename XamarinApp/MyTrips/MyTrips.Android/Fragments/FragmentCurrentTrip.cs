@@ -37,8 +37,7 @@ namespace MyTrips.Droid.Fragments
         CurrentTripViewModel viewModel;
         GoogleMap map;
         MapView mapView;
-        TextView ratingText, mpg, distance, time, cost, gallons;
-        RatingCircle ratingCircle;
+        TextView distance, distanceUnits, time, temp, consumption, consumptionUnits;
         FloatingActionButton fab;
         Marker carMarker;
         Polyline driveLine;
@@ -53,19 +52,21 @@ namespace MyTrips.Droid.Fragments
 
             mapView = view.FindViewById<MapView>(Resource.Id.map);
             mapView.OnCreate(savedInstanceState);
-            mapView.GetMapAsync(this);
 
-            ratingText = view.FindViewById<TextView>(Resource.Id.text_rating);
-            ratingCircle = view.FindViewById<RatingCircle>(Resource.Id.rating_circle);
             fab = view.FindViewById<FloatingActionButton>(Resource.Id.fab);
-            cost = view.FindViewById<TextView>(Resource.Id.text_cost);
-            gallons = view.FindViewById<TextView>(Resource.Id.text_gallons);
-            time = view.FindViewById<TextView>(Resource.Id.text_hours);
-            distance = view.FindViewById<TextView>(Resource.Id.text_miles);
-            mpg = view.FindViewById<TextView>(Resource.Id.text_mpg);
-            ratingText.Text = "100";
-            ratingCircle.Rating = 100;
+            time = view.FindViewById<TextView>(Resource.Id.text_time);
+            distance = view.FindViewById<TextView>(Resource.Id.text_distance);
+            distanceUnits = view.FindViewById<TextView>(Resource.Id.text_distance_units);
+            consumption = view.FindViewById<TextView>(Resource.Id.text_consumption);
+            consumptionUnits = view.FindViewById<TextView>(Resource.Id.text_consumption_units);
+            temp = view.FindViewById<TextView>(Resource.Id.text_temp);
             return view;
+        }
+
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            mapView.GetMapAsync(this);
+            base.OnActivityCreated(savedInstanceState);
         }
 
         #region Options Menu & User Actions
@@ -134,7 +135,7 @@ namespace MyTrips.Droid.Fragments
                     ResetTrip();
                     StartActivity(new Android.Content.Intent(Activity, typeof(TripSummaryActivity)));
                     break;
-                case "Distance":
+                case "Stats":
                     UpdateStats();
                     break;
             }
@@ -144,11 +145,12 @@ namespace MyTrips.Droid.Fragments
         {
             Activity?.RunOnUiThread(() =>
             {
-                mpg.Text = "0";
+                
                 time.Text = viewModel.ElapsedTime;
-                gallons.Text = "0";
-                cost.Text = "$0.00";
-
+                consumption.Text = viewModel.FuelConsumption;
+                consumptionUnits.Text = viewModel.FuelConsumptionUnits;
+                temp.Text = viewModel.Temperature;
+                distanceUnits.Text = viewModel.DistanceUnits;
                 distance.Text = viewModel.CurrentTrip.TotalDistanceNoUnits;
             });
         }
