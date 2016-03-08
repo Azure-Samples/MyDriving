@@ -192,8 +192,8 @@ namespace MyTrips.ViewModel
 
 
             var track = Logger.Instance.TrackTime("SaveRecording");
-           
-            
+            IsBusy = true;
+
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
             
             try
@@ -203,7 +203,6 @@ namespace MyTrips.ViewModel
                 var result = await Acr.UserDialogs.UserDialogs.Instance.PromptAsync("Name of Trip");
                 CurrentTrip.Name = result?.Text ?? string.Empty;
                 track.Start();
-                IsBusy = true;
                 progress?.Show();
 
 
@@ -286,9 +285,13 @@ namespace MyTrips.ViewModel
         public async Task ExecuteStartTrackingTripCommandAsync()
         {
             if (IsBusy || Geolocator.IsListening)
+            {
+                Geolocator.PositionChanged += Geolocator_PositionChanged;
                 return;
 
-			try 
+            }
+
+            try 
 			{
 						if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
 				{

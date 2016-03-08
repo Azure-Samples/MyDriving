@@ -86,6 +86,14 @@ namespace MyTrips.UWP.Views
             this.CarIcon = new MapIcon();
             this.mapPolyline = new MapPolyline();
             MyMap.MapElements.Clear();
+
+            MyMap.Center =
+               new Geopoint(new BasicGeoposition()
+               {
+                    //Geopoint for Seattle 
+                    Latitude = 47.604,
+                   Longitude = -122.329
+               });
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -107,8 +115,8 @@ namespace MyTrips.UWP.Views
                         UpdateMap(item);
                     }
 
-                    //UpdateMapView(basicGeoposition);
                     UpdateCarIcon(basicGeoposition);
+                    UpdateMapView(basicGeoposition);
                     UpdateStats();
                     break;
 
@@ -160,6 +168,12 @@ namespace MyTrips.UWP.Views
             base.OnNavigatedFrom(e);
             //Ideally, we should stop tracking only if we aren't recording
             viewModel.StopTrackingTripCommand.Execute(null);
+            Locations?.Clear();
+            Locations = null;
+            MyMap.MapElements.Clear();
+            this.MyMap.Loaded -= MyMap_Loaded;
+            this.startRecordBtn.Click -= StartRecordBtn_Click;
+            viewModel.PropertyChanged -= OnPropertyChanged;
         }
 
         private async void StartRecordBtn_Click(object sender, RoutedEventArgs e)
@@ -180,7 +194,7 @@ namespace MyTrips.UWP.Views
                 // Launch Trip Summary Page. 
                 this.Frame.Navigate(typeof(TripSummaryView), viewModel.CurrentTrip);
                 return;
-        }
+           }
             else
             {
                 if (!await viewModel.StartRecordingTripAsync())
@@ -296,8 +310,15 @@ namespace MyTrips.UWP.Views
 
         private async void UpdateMapView(BasicGeoposition basicGeoposition)
         {
+            var geoPoint = new Geopoint(basicGeoposition);
             if (!viewModel.IsBusy)
-                await this.MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    this.MyMap.Center = geoPoint;
+                });
+                await this.MyMap.TrySetViewAsync(geoPoint);
+            }
         }
 
         private async void UpdateStats()
@@ -344,7 +365,7 @@ namespace MyTrips.UWP.Views
         private async void AddEndMarker(BasicGeoposition basicGeoposition)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-        {
+            {
 
                 MapIcon mapEndIcon = new MapIcon();
                 mapEndIcon.Location = new Geopoint(basicGeoposition);
