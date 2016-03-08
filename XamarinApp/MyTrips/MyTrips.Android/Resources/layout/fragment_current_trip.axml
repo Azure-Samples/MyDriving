@@ -26,71 +26,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="14"
-                android:id="@+id/text_mpg" />
-            <TextView
-                android:layout_marginTop="4dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="MPG"
-                android:id="@+id/text_mpg_units" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="9"
-                android:id="@+id/text_gallons" />
-            <TextView
-                android:layout_marginTop="4dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Gallons"
-                android:id="@+id/text_gallons_units" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="126"
-                android:id="@+id/text_miles" />
-            <TextView
-                android:layout_marginTop="4dp"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Miles"
-                android:id="@+id/text_miles_units" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="2:25"
-                android:id="@+id/text_hours" />
+                android:text="0s"
+                android:id="@+id/text_time" />
             <TextView
                 android:layout_marginTop="4dp"
                 android:layout_width="fill_parent"
@@ -109,32 +46,58 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="$11"
-                android:id="@+id/text_cost" />
+                android:text="0.0"
+                android:id="@+id/text_distance" />
             <TextView
                 android:layout_marginTop="4dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Cost" />
+                android:text="Miles"
+                android:id="@+id/text_distance_units" />
         </LinearLayout>
-        <FrameLayout
-            android:layout_width="44dp"
-            android:layout_height="44dp"
-            android:id="@+id/full_rating"
-            android:transitionName="rating">
-            <mytrips.droid.controls.RatingCircle
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/rating_circle" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/text_rating" />
-        </FrameLayout>
+                android:text="N/A"
+                android:id="@+id/text_consumption" />
+            <TextView
+                android:layout_marginTop="4dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Gallons"
+                android:id="@+id/text_consumption_units" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="N/A"
+                android:id="@+id/text_temp" />
+            <TextView
+                android:layout_marginTop="4dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Temp" />
+        </LinearLayout>
     </LinearLayout>
 <!--Overlay goes here-->
     <android.support.design.widget.FloatingActionButton

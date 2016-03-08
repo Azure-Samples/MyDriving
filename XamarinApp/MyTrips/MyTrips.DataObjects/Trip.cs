@@ -6,6 +6,7 @@ using System.Text;
 using Humanizer;
 using Newtonsoft.Json;
 using MvvmHelpers;
+using MyTrips.Utils;
 #endif
 
 namespace MyTrips.DataObjects
