@@ -31,6 +31,7 @@ namespace MyTrips.DataObjects
         public IList<Tip> Tips { get; set; }
 
         public DateTime RecordedTimeStamp { get; set; }
+        public DateTime EndTimeStamp { get; set; }
 
         public int Rating { get; set; }
 
@@ -60,7 +61,7 @@ namespace MyTrips.DataObjects
 
         //Do not sync with backend, used localy only
         [JsonIgnore]
-        public string TimeAgo => RecordedTimeStamp.Humanize();
+        public string TimeAgo => EndTimeStamp.Humanize();
 
         [JsonIgnore]
         public double DistanceConverted => (Settings.Current.MetricDistance ? (Distance * 1.60934) : Distance);
