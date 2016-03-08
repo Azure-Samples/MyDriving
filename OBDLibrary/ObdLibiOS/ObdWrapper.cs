@@ -185,7 +185,7 @@ namespace ObdLibiOS
             if (_simulatormode)
             {
                 var r = new System.Random();
-                return r.Next().ToString();
+                return r.Next(0, 16383).ToString();
             }
             string result;
             result = await SendAndReceive("010C\r");

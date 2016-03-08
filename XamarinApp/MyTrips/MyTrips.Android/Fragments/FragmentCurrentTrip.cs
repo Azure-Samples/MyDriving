@@ -114,6 +114,7 @@ namespace MyTrips.Droid.Fragments
                 Activity.SupportInvalidateOptionsMenu();
                 UpdateCarIcon(true);
                 UpdateStats();
+                StartFadeAnimation(true);
             }
         }
         #endregion
@@ -121,6 +122,10 @@ namespace MyTrips.Droid.Fragments
 
         void StartFadeAnimation(bool fadeIn)
         {
+            //handle first run
+            if (!viewModel.IsRecording && stats.Visibility == ViewStates.Invisible)
+                return;
+            
             var start = fadeIn ? 0f : 1f;
             var end = fadeIn ? 1f : 0f;
             stats.Alpha = fadeIn ? 0f : 1f;
