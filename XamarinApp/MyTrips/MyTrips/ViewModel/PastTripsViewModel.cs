@@ -36,10 +36,6 @@ namespace MyTrips.ViewModel
                 IsBusy = true;
                 CanLoadMore = true;
 
-#if DEBUG
-                await Task.Delay(1000);
-#endif
-
                 Trips.ReplaceRange(await StoreManager.TripStore.GetItemsAsync(0, 25, true));
 
                 CanLoadMore = Trips.Count == 25;
@@ -74,9 +70,6 @@ namespace MyTrips.ViewModel
                 IsBusy = true;
                 CanLoadMore = true;
 
-#if DEBUG
-                await Task.Delay(1000);
-#endif
                 Trips.AddRange(await StoreManager.TripStore.GetItemsAsync(Trips.Count, 25, true));
             }
             catch (Exception ex) 

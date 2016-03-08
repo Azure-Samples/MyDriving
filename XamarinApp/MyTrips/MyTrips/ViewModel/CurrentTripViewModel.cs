@@ -27,6 +27,9 @@ namespace MyTrips.ViewModel
         List<Photo> photos;
         OBDDataProcessor obdDataProcessor;
 
+        double totalConsumption = 0;
+        double totalConsumptionPoints = 0;
+
         bool isRecording;
 		public bool IsRecording
         {
@@ -41,41 +44,15 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref position, value); }
         }
 
-        string elapsedTime = "0:00";
+        string elapsedTime = "0s";
         public string ElapsedTime
         {
             get { return elapsedTime; }
             set { SetProperty(ref elapsedTime, value); }
         }
-        string speed = "N/A";
-        public string Speed
-        {
-            get { return speed; }
-            set { SetProperty(ref speed, value); }
-        }
-
-        string speedUnits = "MPH";
-        public string SpeedUnits
-        {
-            get { return speedUnits; }
-            set { SetProperty(ref speedUnits, value); }
-        }
-
-        string emissions = "N/A";
-        public string Emissions
-        {
-            get { return emissions; }
-            set { SetProperty(ref emissions, value); }
-        }
-
-        string emissionUnits = "ERU";
-        public string EmissionUnits
-        {
-            get { return emissionUnits; }
-            set { SetProperty(ref emissionUnits, value); }
-        }
-
-        string distance = "0";
+       
+       
+        string distance = "0.0";
         public string Distance
         {
             get { return distance; }
@@ -89,6 +66,27 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref distanceUnits, value); }
         }
 
+        string fuelConsumption = "N/A";
+        public string FuelConsumption
+        {
+            get { return fuelConsumption; }
+            set { SetProperty(ref fuelConsumption, value); }
+        }
+
+        string fuelConsumptionUnits = "Gallons";
+        public string FuelConsumptionUnits
+        {
+            get { return fuelConsumptionUnits; }
+            set { SetProperty(ref fuelConsumptionUnits, value); }
+        }
+
+        string temperature = "N/A";
+        public string Temperature
+        {
+            get { return temperature; }
+            set { SetProperty(ref temperature, value); }
+        }
+
 		public CurrentTripViewModel()
 		{
             CurrentTrip = new Trip();
@@ -96,6 +94,13 @@ namespace MyTrips.ViewModel
             CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
             photos = new List<Photo>();
 
+
+            FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
+            DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
+            ElapsedTime = "0s";
+            Distance = "0.0";
+            FuelConsumption = "N/A";
+            Temperature = "N/A";
             this.obdDataProcessor = new OBDDataProcessor();
             this.obdDataProcessor.OnOBDDeviceDisconnected += ObdDataProcessor_OnOBDDeviceDisconnected;
 		}
@@ -192,9 +197,7 @@ namespace MyTrips.ViewModel
                 track.Start();
                 IsBusy = true;
                 progress?.Show();
-#if DEBUG
-                await Task.Delay(3000);
-#endif
+
 
                 //TODO: use real city here
 #if DEBUG
@@ -203,6 +206,7 @@ namespace MyTrips.ViewModel
                 CurrentTrip.MainPhotoUrl = await BingHelper.QueryBingImages("Seattle", CurrentPosition.Latitude, CurrentPosition.Longitude);
 #endif
                 CurrentTrip.Rating = 90;
+
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
                 if (string.IsNullOrWhiteSpace(CurrentTrip.Name))
@@ -217,17 +221,33 @@ namespace MyTrips.ViewModel
                     await StoreManager.PhotoStore.InsertAsync(photo);
                 }
 
-                //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
-                await this.obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
+                try
+                {
+                    //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
+                    await this.obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
 
-                //Push the trip data packaged with the OBD data to the IOT Hub
-                await this.obdDataProcessor.PushTripDataToIOTHub();
+                    //Push the trip data packaged with the OBD data to the IOT Hub
+                    await this.obdDataProcessor.PushTripDataToIOTHub();
+                }
+                catch(Exception ex1)
+                {
+                    Logger.Instance.Report(ex1);
+                }
 
                 CurrentTrip = new Trip();
                 CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
+
+                totalConsumption = 0;
+                totalConsumptionPoints = 0;
+
+                ElapsedTime = "0s";
+                Distance = "0.0";
+                FuelConsumption = "N/A";
+                Temperature = "N/A";
+
                 photos = new List<Photo>();
                 OnPropertyChanged(nameof(CurrentTrip));
-
+                OnPropertyChanged("Stats");
                 return true;
             }
             catch (Exception ex)
@@ -256,7 +276,7 @@ namespace MyTrips.ViewModel
 
 			try 
 			{
-						if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
+				if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
 				{
 					Geolocator.AllowsBackgroundUpdates = true;
 					Geolocator.DesiredAccuracy = 25;
@@ -331,6 +351,12 @@ namespace MyTrips.ViewModel
                     //Read data from the OBD device and push it to the IOT Hub
                     obdData = this.obdDataProcessor.ReadOBDData();
                 }
+                else
+                {
+                    obdData = null;
+                }
+
+
 
                 var point = new TripPoint
                 {
@@ -341,6 +367,39 @@ namespace MyTrips.ViewModel
                     OBDData = obdData
 				};
 
+                if (obdData != null)
+                {
+                    double speed = 0, barometric = 0, rpm = 0, outside = 0, inside = 0, efr = 0;
+                    if(obdData.ContainsKey("spd"))
+                        double.TryParse(obdData["spd"], out speed);
+                    if(obdData.ContainsKey("bp"))
+                        double.TryParse(obdData["bp"], out barometric);
+                    if(obdData.ContainsKey("rpm"))
+                        double.TryParse(obdData["rpm"], out rpm);
+                    if(obdData.ContainsKey("ot"))
+                        double.TryParse(obdData["ot"], out outside);
+                    if(obdData.ContainsKey("it"))
+                        double.TryParse(obdData["it"], out inside);
+                    if(obdData.ContainsKey("efr"))
+                        double.TryParse(obdData["efr"], out efr);
+
+                    point.Speed = speed;
+                    point.BarometricPressure = barometric;
+                    point.RPM = rpm;
+                    point.OutsideTemperature = outside;
+                    point.InsideTemperature = inside;
+                    point.EngineFuelRate = efr;
+
+                    totalConsumption += point.EngineFuelRate;
+                    totalConsumptionPoints++;
+                    point.HasOBDData = true;
+                }
+                else
+                {
+                    point.HasOBDData = false;
+                }
+
+               
                 CurrentTrip.Points.Add(point);
 
                 if (CurrentTrip.Points.Count > 1)
@@ -351,13 +410,30 @@ namespace MyTrips.ViewModel
                 }
 
                 var timeDif = point.RecordedTimeStamp - CurrentTrip.RecordedTimeStamp;
-                //track minutes first and then calculat the hours
+                //track seconds, minutes, then hours
                 if (timeDif.TotalMinutes < 1)
                     ElapsedTime = $"{timeDif.Seconds}s";
-                else if (timeDif.TotalHours > 0)
+                else if (timeDif.TotalHours < 1)
                     ElapsedTime = $"{timeDif.Minutes}m";
                 else
                     ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";
+
+                if (totalConsumptionPoints > 0)
+                {
+                    var fuelUsedLiters = (totalConsumption / totalConsumptionPoints) * timeDif.TotalHours;
+                    CurrentTrip.FuelUsed = fuelUsedLiters * .264172;
+                    FuelConsumption = Settings.MetricUnits ? fuelUsedLiters.ToString("N2") : CurrentTrip.FuelUsed.ToString("N2");
+
+                }
+                else
+                {
+                    FuelConsumption = "N/A";
+                }
+
+                Temperature = point.DisplayTemp;
+                FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
+                DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
+                OnPropertyChanged("Stats");
 			}
 
             CurrentPosition = e.Position;
