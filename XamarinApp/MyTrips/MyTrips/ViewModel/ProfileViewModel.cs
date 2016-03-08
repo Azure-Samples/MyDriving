@@ -33,6 +33,14 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref drivingSkillsPlacementBucket, value); }
         }
 
+		public string TotalDistanceUnits
+		{
+			get 
+			{
+				var units = Settings.MetricUnits ? "kilometers" : "miles";
+				return $"{TotalDistance} {units}"; 
+			}
+		}
 
         double totalDistance;
         public double TotalDistance
@@ -48,6 +56,14 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref totalTime, value); }
         }
 
+		public string AverageSpeedUnits
+		{
+			get 
+			{
+				var units = Settings.MetricUnits ? "km/h" : "mph";
+				return $"{AvgSpeed} {units}"; 
+			}
+		}
 
         double avgSpeed;
         public double AvgSpeed
