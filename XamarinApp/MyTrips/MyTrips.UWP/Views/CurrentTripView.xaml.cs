@@ -174,7 +174,8 @@ namespace MyTrips.UWP.Views
                 AddEndMarker(basicGeoposition);
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
-                UpdateCarIcon(basicGeoposition);
+                
+                //UpdateCarIcon(basicGeoposition);
                 await viewModel.StopRecordingTripAsync();
                 // Launch Trip Summary Page. 
                 this.Frame.Navigate(typeof(TripSummaryView), viewModel.CurrentTrip);
@@ -195,6 +196,9 @@ namespace MyTrips.UWP.Views
 
         private async void UpdateCarIcon(BasicGeoposition basicGeoposition)
         {
+            if (viewModel.IsBusy)
+                return;
+
             // To update the carIcon first find it and remove it from the MapElements
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -215,6 +219,7 @@ namespace MyTrips.UWP.Views
 
                 CarIcon.ZIndex = 4;
                 CarIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+
                 MyMap.Center = CarIcon.Location;
                 //MyMap.MapElements.Clear();
                 MyMap.MapElements.Add(CarIcon);
@@ -285,13 +290,14 @@ namespace MyTrips.UWP.Views
             });
              basicGeoposition = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
 
-            if (updateCamera)
+            if (updateCamera && !viewModel.IsBusy)
                 await MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
         }
 
         private async void UpdateMapView(BasicGeoposition basicGeoposition)
         {
-            await this.MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
+            if (!viewModel.IsBusy)
+                await this.MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
         }
 
         private async void UpdateStats()
