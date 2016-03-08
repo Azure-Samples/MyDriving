@@ -1,5 +1,5 @@
-
 using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,7 +13,6 @@ using MyTrips.ViewModel;
 
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-
 
 namespace MyTrips.iOS
 {
@@ -100,6 +99,7 @@ namespace MyTrips.iOS
 			wayPointB.Hidden = true;
 
 			UpdateRecordButton(false);
+			tripInfoView.Alpha = 0;
 			ResetTripInfoView();
 
 			// Setup view model
@@ -243,6 +243,7 @@ namespace MyTrips.iOS
 				labelOneTitle.Text = CurrentTripViewModel.FuelConsumptionUnits;
 				labelThreeValue.Text = CurrentTripViewModel.ElapsedTime;
 				labelTwoValue.Text = CurrentTripViewModel.CurrentTrip.Distance.ToString("F");
+				labelTwoTitle.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentTripViewModel.CurrentTrip.Units.ToLower());
 				labelFourValue.Text = CurrentTripViewModel.Temperature;
 
 				// If we already haven't starting tracking route yet, start that.
@@ -315,10 +316,10 @@ namespace MyTrips.iOS
 			startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
 			endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
 
-			labelOneTitle.Text = "Average Speed";
+			labelOneTitle.Text = "Avg Speed";
 			labelOneValue.Text = PastTripsDetailViewModel.Trip.AverageSpeed.ToString();
-			labelTwoTitle.Text = "Distance";
-			labelTwoValue.Text = PastTripsDetailViewModel.Trip.TotalDistance;
+			labelTwoTitle.Text = PastTripsDetailViewModel.Settings.MetricDistance ? "Kilometers" : "Miles";
+			labelTwoValue.Text = PastTripsDetailViewModel.Trip.TotalDistanceNoUnits;
 			labelThreeTitle.Text = "Consumption";
 			labelThreeValue.Text = PastTripsDetailViewModel.Trip.FuelUsed.ToString();
 			labelFourTitle.Text = "Emissions";

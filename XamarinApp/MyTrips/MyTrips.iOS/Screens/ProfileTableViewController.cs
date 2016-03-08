@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UIKit;
 using System;
 using MyTrips.ViewModel;
+using SDWebImage;
 
 namespace MyTrips.iOS
 {
@@ -22,6 +23,17 @@ namespace MyTrips.iOS
 			ViewModel = new ProfileViewModel();
 			NavigationItem.Title = $"{ViewModel.Settings.UserFirstName} {ViewModel.Settings.UserLastName}";
 
+			if (ViewModel.UserPictureSourceKind == Utils.UserPictureSourceKind.Url)
+			{
+				var url = ViewModel.Settings.UserProfileUrl;
+				imgAvatar.SetImage(new NSUrl(url));
+			}
+			else
+			{
+				var image = new UIImage(NSData.FromArray(ViewModel.Settings.UserProfileByteArr));
+				imgAvatar.Image = image;
+			}
+
 			imgAvatar.Layer.CornerRadius = imgAvatar.Frame.Width / 2;
 			imgAvatar.Layer.BorderWidth = 2;
 			imgAvatar.Layer.BorderColor = "15A9FE".ToUIColor().CGColor;
@@ -29,12 +41,11 @@ namespace MyTrips.iOS
 
 			data = new List<DrivingStatistic>
 			{
-				new DrivingStatistic { Name = "Total Distance", Value = $"{ViewModel.TotalDistance}"},
+				new DrivingStatistic { Name = "Total Distance", Value = $"{ViewModel.TotalDistanceUnits}"},
 				new DrivingStatistic { Name = "Total Duration", Value = $"{ViewModel.TotalTime}"},
-				new DrivingStatistic { Name = "Average Speed", Value = $"{ViewModel.AvgSpeed}" },
+				new DrivingStatistic { Name = "Average Speed", Value = $"{ViewModel.AverageSpeedUnits}" },
 				new DrivingStatistic { Name = "Average Consumption", Value = "2.5 gallons"},
-				new DrivingStatistic { Name = "Hard Breaks", Value = "21"},
-				new DrivingStatistic { Name = "Tips Received", Value = "14"},
+				new DrivingStatistic { Name = "Hard Breaks", Value = "21"}
 			};
 		}
 

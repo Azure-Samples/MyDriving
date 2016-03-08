@@ -21,8 +21,7 @@ namespace MyTrips.iOS
 				new DrivingStatistic { Name = "Total Duration", Value = ViewModel.ElapsedTime },
 				new DrivingStatistic { Name = "Total Fuel Consumption", Value = ViewModel.FuelConsumptionUnits},
 				new DrivingStatistic { Name = "Average Speed", Value = "31 MPH"},
-				new DrivingStatistic { Name = "Hard Breaks", Value = "21"},
-				new DrivingStatistic { Name = "Tips Received", Value = "14"},
+				new DrivingStatistic { Name = "Hard Breaks", Value = "21"}
 			};
 
 			tripSummaryTableView.Source = new TripSummaryTableViewSource(data);
