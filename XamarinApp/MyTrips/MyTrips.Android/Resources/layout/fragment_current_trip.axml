@@ -16,8 +16,7 @@
         android:background="@color/primary_transparent"
         android:layout_gravity="top"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        android:id="@+id/stats"
-        android:visibility="invisible">
+        android:id="@+id/stats">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"

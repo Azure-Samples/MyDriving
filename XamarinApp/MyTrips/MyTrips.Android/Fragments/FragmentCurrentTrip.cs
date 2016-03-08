@@ -64,6 +64,7 @@ namespace MyTrips.Droid.Fragments
             consumptionUnits = view.FindViewById<TextView>(Resource.Id.text_consumption_units);
             temp = view.FindViewById<TextView>(Resource.Id.text_temp);
             stats = view.FindViewById<LinearLayout>(Resource.Id.stats);
+            stats.Visibility = ViewStates.Invisible;
             return view;
         }
 
@@ -98,16 +99,23 @@ namespace MyTrips.Droid.Fragments
             if (viewModel == null || viewModel.CurrentPosition == null || viewModel.IsBusy)
                 return;
 
+            if (viewModel.NeedSave)
+            {
+                await viewModel.SaveRecordingTripAsync();
+            }
+
             if (viewModel.IsRecording)
             {
-
+                if (!viewModel.StopRecordingTrip())
+                    return;
+                
                 AddEndMarker(viewModel.CurrentPosition.ToLatLng());
                 UpdateCarIcon(false);
-                await viewModel.StopRecordingTripAsync();
+                await viewModel.SaveRecordingTripAsync();
             }
             else
             {
-                if (!await viewModel.StartRecordingTripAsync())
+                if (!viewModel.StartRecordingTrip())
                     return;
                 AddStartMarker(viewModel.CurrentPosition.ToLatLng());
 
