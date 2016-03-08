@@ -20,7 +20,7 @@ namespace MyTrips.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblCost { get; set; }
+        UIKit.UILabel lblConsumption { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -32,11 +32,7 @@ namespace MyTrips.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblGallons { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblMpg { get; set; }
+        UIKit.UILabel lblTemperature { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -81,9 +77,9 @@ namespace MyTrips.iOS
                 endTimeLabel = null;
             }
 
-            if (lblCost != null) {
-                lblCost.Dispose ();
-                lblCost = null;
+            if (lblConsumption != null) {
+                lblConsumption.Dispose ();
+                lblConsumption = null;
             }
 
             if (lblDistance != null) {
@@ -96,14 +92,9 @@ namespace MyTrips.iOS
                 lblDuration = null;
             }
 
-            if (lblGallons != null) {
-                lblGallons.Dispose ();
-                lblGallons = null;
-            }
-
-            if (lblMpg != null) {
-                lblMpg.Dispose ();
-                lblMpg = null;
+            if (lblTemperature != null) {
+                lblTemperature.Dispose ();
+                lblTemperature = null;
             }
 
             if (recordButton != null) {
