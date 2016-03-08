@@ -130,11 +130,11 @@ namespace MyTrips.iOS
 
 		void ResetTripInfoView()
 		{
-			lblDistanceUnits.Text = CurrentTripViewModel.DistanceUnits;
-			lblConsumption.Text = "0";
-			lblDistance.Text = "0";
-			lblDuration.Text = "0:00";
-			lblTemperature.Text = "0";
+			labelTwoTitle.Text = CurrentTripViewModel.DistanceUnits;
+			labelOneValue.Text = "0";
+			labelTwoValue.Text = "0";
+			labelThreeValue.Text = "0:00";
+			labelFourValue.Text = "0";
 		}
 
 		void UpdateRecordButton(bool isRecording)
@@ -255,11 +255,11 @@ namespace MyTrips.iOS
 			if (CurrentTripViewModel.IsRecording)
 			{
 				// Update trip information
-				lblDuration.Text = CurrentTripViewModel.ElapsedTime;
-				lblDistance.Text = CurrentTripViewModel.CurrentTrip.TotalDistanceNoUnits;
-				lblTemperature.Text = CurrentTripViewModel.Temperature;
-				lblConsumption.Text = CurrentTripViewModel.FuelConsumption;
-				lblConsumptionUnits.Text = CurrentTripViewModel.FuelConsumptionUnits;
+				labelOneValue.Text = CurrentTripViewModel.FuelConsumption;
+				labelOneTitle.Text = CurrentTripViewModel.FuelConsumptionUnits;
+				labelThreeValue.Text = CurrentTripViewModel.ElapsedTime;
+				labelTwoValue.Text = CurrentTripViewModel.CurrentTrip.Distance.ToString("F");
+				labelFourValue.Text = CurrentTripViewModel.Temperature;
 
 				// If we already haven't starting tracking route yet, start that.
 				if (route == null)
@@ -329,9 +329,14 @@ namespace MyTrips.iOS
 			startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
 			endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
 
-			// Configure UI
-			lblDistance.Text = PastTripsDetailViewModel.Trip.TotalDistanceNoUnits;
-			// lblDuration.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay
+			labelOneTitle.Text = "Average Speed";
+			labelOneValue.Text = PastTripsDetailViewModel.Trip.AverageSpeed.ToString();
+			labelTwoTitle.Text = "Distance";
+			labelTwoValue.Text = PastTripsDetailViewModel.Trip.TotalDistance;
+			labelThreeTitle.Text = "Consumption";
+			labelThreeValue.Text = PastTripsDetailViewModel.Trip.FuelUsed.ToString();
+			labelFourTitle.Text = "Emissions";
+			labelFourValue.Text = PastTripsDetailViewModel.Trip.Emissions.ToString();
 		}
 
 		void ConfigureSlider()

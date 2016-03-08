@@ -20,27 +20,35 @@ namespace MyTrips.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblConsumption { get; set; }
+        UIKit.UILabel labelFourTitle { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblConsumptionUnits { get; set; }
+        UIKit.UILabel labelFourValue { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblDistance { get; set; }
+        UIKit.UILabel labelOneTitle { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblDistanceUnits { get; set; }
+        UIKit.UILabel labelOneValue { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblDuration { get; set; }
+        UIKit.UILabel labelThreeTitle { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel lblTemperature { get; set; }
+        UIKit.UILabel labelThreeValue { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel labelTwoTitle { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel labelTwoValue { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -85,34 +93,44 @@ namespace MyTrips.iOS
                 endTimeLabel = null;
             }
 
-            if (lblConsumption != null) {
-                lblConsumption.Dispose ();
-                lblConsumption = null;
+            if (labelFourTitle != null) {
+                labelFourTitle.Dispose ();
+                labelFourTitle = null;
             }
 
-            if (lblConsumptionUnits != null) {
-                lblConsumptionUnits.Dispose ();
-                lblConsumptionUnits = null;
+            if (labelFourValue != null) {
+                labelFourValue.Dispose ();
+                labelFourValue = null;
             }
 
-            if (lblDistance != null) {
-                lblDistance.Dispose ();
-                lblDistance = null;
+            if (labelOneTitle != null) {
+                labelOneTitle.Dispose ();
+                labelOneTitle = null;
             }
 
-            if (lblDistanceUnits != null) {
-                lblDistanceUnits.Dispose ();
-                lblDistanceUnits = null;
+            if (labelOneValue != null) {
+                labelOneValue.Dispose ();
+                labelOneValue = null;
             }
 
-            if (lblDuration != null) {
-                lblDuration.Dispose ();
-                lblDuration = null;
+            if (labelThreeTitle != null) {
+                labelThreeTitle.Dispose ();
+                labelThreeTitle = null;
             }
 
-            if (lblTemperature != null) {
-                lblTemperature.Dispose ();
-                lblTemperature = null;
+            if (labelThreeValue != null) {
+                labelThreeValue.Dispose ();
+                labelThreeValue = null;
+            }
+
+            if (labelTwoTitle != null) {
+                labelTwoTitle.Dispose ();
+                labelTwoTitle = null;
+            }
+
+            if (labelTwoValue != null) {
+                labelTwoValue.Dispose ();
+                labelTwoValue = null;
             }
 
             if (recordButton != null) {
