@@ -60,7 +60,6 @@ namespace MyTrips.Droid.Fragments
             consumption = view.FindViewById<TextView>(Resource.Id.text_consumption);
             consumptionUnits = view.FindViewById<TextView>(Resource.Id.text_consumption_units);
             temp = view.FindViewById<TextView>(Resource.Id.text_temp);
-            UpdateStats();
             return view;
         }
 
