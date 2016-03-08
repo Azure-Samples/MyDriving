@@ -148,18 +148,19 @@ namespace MyTrips.Utils
             }
         }
 
-		const string CurrencyKey = "currency";
-		static readonly string CurrencyDefault = "US (Dollar)";
+        const string MetricTempKey = "metric_temp";
+        static readonly bool MetricTempDefault = false;
 
-		public string Currency
-		{
-			get { return AppSettings.GetValueOrDefault<string>(CurrencyKey, CurrencyDefault); }
-			set
-			{
-				if (AppSettings.AddOrUpdateValue<string>(CurrencyKey, value))
-					OnPropertyChanged();
-			}
-		}
+        public bool MetricTemp
+        {
+            get { return AppSettings.GetValueOrDefault<bool>(MetricTempKey, MetricTempDefault); }
+            set
+            {
+                if (AppSettings.AddOrUpdateValue<bool>(MetricTempKey, value))
+                    OnPropertyChanged();
+            }
+        }
+
 
         const string FirstRunKey = "first_run";
         static readonly bool FirstRunDefault = true;

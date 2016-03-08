@@ -32,6 +32,8 @@ namespace smarttripsService.Models
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
         }
+
+        public System.Data.Entity.DbSet<MyTrips.DataObjects.IOTHubData> IOTHubDatas { get; set; }
     }
 
 }

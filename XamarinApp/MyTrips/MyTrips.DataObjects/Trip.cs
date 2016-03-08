@@ -6,6 +6,7 @@ using System.Text;
 using Humanizer;
 using Newtonsoft.Json;
 using MvvmHelpers;
+using MyTrips.Utils;
 #endif
 
 namespace MyTrips.DataObjects
@@ -62,10 +63,16 @@ namespace MyTrips.DataObjects
         public string TimeAgo => RecordedTimeStamp.Humanize();
 
         [JsonIgnore]
-        public string TotalDistance => Distance.ToString("F") + " miles";
+        public double DistanceConverted => (Settings.Current.MetricDistance ? (Distance * 1.60934) : Distance);
 
         [JsonIgnore]
-        public string TotalDistanceNoUnits => Distance.ToString("f");
+        public string Units => (Settings.Current.MetricDistance ? "km" : "miles");
+
+        [JsonIgnore]
+        public string TotalDistance => DistanceConverted.ToString("f") + " "  + Units;
+
+        [JsonIgnore]
+        public string TotalDistanceNoUnits => DistanceConverted.ToString("f");
 
         [JsonIgnore]
         public string StartTimeDisplay => RecordedTimeStamp.ToLocalTime().ToString("t");
