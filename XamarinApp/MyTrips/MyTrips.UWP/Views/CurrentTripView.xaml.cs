@@ -188,11 +188,11 @@ namespace MyTrips.UWP.Views
                 AddEndMarker(basicGeoposition);
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
-                
-                //UpdateCarIcon(basicGeoposition);
+
+                var recordedTrip = viewModel.CurrentTrip;
                 await viewModel.StopRecordingTripAsync();
                 // Launch Trip Summary Page. 
-                this.Frame.Navigate(typeof(TripSummaryView), viewModel.CurrentTrip);
+                this.Frame.Navigate(typeof(TripSummaryView), recordedTrip);
                 return;
            }
             else
