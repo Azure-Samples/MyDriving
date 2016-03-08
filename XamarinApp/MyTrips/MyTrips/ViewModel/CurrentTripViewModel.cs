@@ -429,9 +429,9 @@ namespace MyTrips.ViewModel
 
                 if (CurrentTrip.Points.Count > 1)
                 {
-                    var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];//2 back now
+                    var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];
                     CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude, userLocation.Longitude, previous.Latitude, previous.Longitude);
-                    Distance = CurrentTrip.TotalDistanceNoUnits;
+					Distance = CurrentTrip.TotalDistanceNoUnits;
                 }
 
                 var timeDif = point.RecordedTimeStamp - CurrentTrip.RecordedTimeStamp;
