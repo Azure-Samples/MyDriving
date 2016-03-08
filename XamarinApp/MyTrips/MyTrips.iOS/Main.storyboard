@@ -579,6 +579,7 @@
                                         </state>
                                         <connections>
                                             <action selector="BtnMicrosoft_TouchUpInside:" destination="xFX-AO-ONA" eventType="touchUpInside" id="fhB-sF-jOV"/>
+                                            <action selector="DoneButton_TouchUpInside:" destination="tG4-YA-cIU" id="1528" eventType="touchUpInside"/>
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OBf-9f-QNC">
@@ -756,6 +757,8 @@
                     </view>
                     <connections>
                         <outlet property="tripSummaryTableView" destination="vqH-FY-hSw" id="name-outlet-vqH-FY-hSw"/>
+                        <outlet property="doneButton" destination="mgb-bG-HnL" id="name-outlet-mgb-bG-HnL"/>
+                        <outlet property="tripNameTextField" destination="BLc-Uc-Czd" id="name-outlet-BLc-Uc-Czd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qdR-JM-SZf" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -7,6 +7,8 @@ namespace MyTrips.iOS
 {
     public partial class TripSummaryTableViewController : UIViewController
     {
+		public ViewModel.CurrentTripViewModel ViewModel { get; set; }
+
 		public TripSummaryTableViewController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
@@ -24,6 +26,14 @@ namespace MyTrips.iOS
 			};
 
 			tripSummaryTableView.Source = new TripSummaryTableViewSource(data);
+		}
+
+		async partial void DoneButton_TouchUpInside(UIButton sender)
+		{
+			DismissViewController(true, null);
+
+			await ViewModel.SaveRecordingTripAsync(tripNameTextField.Text);
+			NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshPastTripsTable", null);
 		}
 
 		public class TripSummaryTableViewSource : UITableViewSource

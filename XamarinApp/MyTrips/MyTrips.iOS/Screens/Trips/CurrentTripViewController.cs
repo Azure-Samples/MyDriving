@@ -209,6 +209,11 @@ namespace MyTrips.iOS
 			var position = await CurrentTripViewModel.Geolocator.GetPositionAsync();
 			var coordinate = position.ToCoordinate();
 
+			// Add start or end waypoint
+			var endpoint = !CurrentTripViewModel.IsRecording ? "A" : "B";
+			var annotation = new WaypointAnnotation(coordinate, endpoint);
+			tripMapView.AddAnnotation(annotation);
+
 			if (!CurrentTripViewModel.IsRecording)
 			{
 				if (NavigationItem.RightBarButtonItem == null)
@@ -217,13 +222,16 @@ namespace MyTrips.iOS
 				NavigationItem.RightBarButtonItem.Clicked += TakePhotoButton_Clicked;
 
 				UpdateRecordButton(true);
-				ResetTripInfoView();
 				AnimateTripInfoView();
+
+				CurrentTripViewModel.StartRecordingTrip();
 			}
 			else
 			{
-				UpdateRecordButton(false);
+				CurrentTripViewModel.StopRecordingTrip();
 
+				ResetMapViewState();
+				UpdateRecordButton(false);
 				tripInfoView.Alpha = 0;
 				ResetTripInfoView();
 
@@ -231,28 +239,8 @@ namespace MyTrips.iOS
 				NavigationItem.SetRightBarButtonItem(null, true);
 
 				var vc = Storyboard.InstantiateViewController("tripSummaryTableViewController") as TripSummaryTableViewController;
+				vc.ViewModel = CurrentTripViewModel;
 				PresentModalViewController(vc, true);
-			}
-
-			// Add start or end waypoint
-			var endpoint = !CurrentTripViewModel.IsRecording ? "A" : "B";
-			var annotation = new WaypointAnnotation(coordinate, endpoint);
-			tripMapView.AddAnnotation(annotation);
-
-			if (CurrentTripViewModel.IsRecording)
-			{
-                if (CurrentTripViewModel.StopRecordingTrip())
-                    return;
-                
-				ResetMapViewState();
-
-                await CurrentTripViewModel.SaveRecordingTripAsync();
-
-				NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshPastTripsTable", null);
-			}
-			else
-			{
-				CurrentTripViewModel.StartRecordingTrip();
 			}
 		}
 
