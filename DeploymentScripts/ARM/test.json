@@ -1,0 +1,92 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "iotHubSku": {
+      "type": "object",
+      "defaultValue": { "name": "Free", "tier": "F1", "capacity": 1 }, 
+      "allowedValues": [
+        { "name": "Free", "tier": "F1", "capacity": 1 },
+        { "name": "Standard", "tier": "S1", "capacity": 1 },
+        { "name": "Standard", "tier": "S2", "capacity": 1 }
+      ]
+    },
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_ZRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ]
+    },
+    "sqlServiceObjectiveName": {
+      "type": "string",
+      "defaultValue": "DW100",
+      "allowedValues": [
+        "DW100",
+        "DW200",
+        "DW300",
+        "DW400",
+        "DW500",
+        "DW600",
+        "DW1000",
+        "DW1200",
+        "DW1500",
+        "DW2000"
+      ]
+    },
+    "hostingPlanSku": {
+      "type": "object",
+      "defaultValue": { "tier": "Free", "name": "F1", "capacity": 0 }, 
+      "allowedValues": [
+        { "tier": "Free", "name": "F1", "capacity": 0 },
+        { "tier": "Shared", "name": "D1", "capacity": 0 },
+        { "tier": "Basic", "name": "B1", "capacity": 0 },
+        { "tier": "Basic", "name": "B2", "capacity": 0 },
+        { "tier": "Basic", "name": "B3", "capacity": 0 },
+        { "tier": "Standard", "name": "S1", "capacity": 0 },
+        { "tier": "Standard", "name": "S2", "capacity": 0 },
+        { "tier": "Standard", "name": "S3", "capacity": 0 },
+        { "tier": "Premium", "name": "P1", "capacity": 0 },
+        { "tier": "Premium", "name": "P2", "capacity": 0 },
+        { "tier": "Premium", "name": "P3", "capacity": 0 }
+      ]
+    }
+  },
+  "variables": {
+    "baseName": "CarTelemetry",
+    /* uniquestring is always 13 characters long, need to shorten as 24 is the max value for a storage account name */
+    "storageAccountName": "[toLower(substring(concat(variables('baseName'), uniquestring(resourceGroup().id)), 0, 24))]",
+    /* IoT Hub settings */
+    "iotHubName": "[concat(variables('baseName'), 'IoTHub', '-', uniquestring(resourceGroup().id))]",
+    "iotHubKeyName": "iothubowner",
+    /* Event Hub settings */
+    "eventHubNamespace": "[concat(variables('baseName'), 'EventHub', '-', uniquestring(resourceGroup().id))]",
+    "eventHubName": "[concat(variables('eventHubNamespace'), '-', 'Publish')]",
+    "eventHubKeyName": "RootManageSharedAccessKey",
+    /* ASA Job settings */
+    "streamingJobName": "[concat(variables('baseName'), 'ASAJob', '-', uniquestring(resourceGroup().id))]",
+    /* SQL Data Warehouse settings */
+    "sqlServerName": "[toLower(concat(variables('baseName'), '-', uniquestring(resourceGroup().id)))]",
+    "sqlServerAdminLogin": "mylogin",
+    "sqlServerAdminPassword": "<password>",
+    "sqlServerVersion": "12.0",
+    "sqlDBName": "[concat(variables('baseName'), 'DB')]",
+    "sqlFirewallIpStart": "0.0.0.0",
+    "sqlFirewallIpEnd": "255.255.255.255",
+    /* Hostin Plan settings */
+    "hostingPlanName":"[concat(variables('baseName'), 'Plan', '-', uniquestring(resourceGroup().id))]",
+    /* Mobile App settings */
+    "mobileAppName":"[concat(variables('baseName'), 'API', '-', uniquestring(resourceGroup().id))]",
+    /* App Insights settings */
+    "appInsigtsName":"[concat(variables('baseName'), 'API', '-', uniquestring(resourceGroup().id))]"
+  },
+  "resources": [
+    
+  ],
+  "outputs": {
+  }
+}
