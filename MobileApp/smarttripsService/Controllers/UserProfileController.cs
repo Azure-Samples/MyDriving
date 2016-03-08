@@ -10,7 +10,7 @@ using smarttripsService.Helpers;
 
 namespace smarttripsService.Controllers
 {
-    public class UserController : TableController<UserProfile>
+    public class UserProfileController : TableController<UserProfile>
     {
         protected override void Initialize(HttpControllerContext controllerContext)
         {
