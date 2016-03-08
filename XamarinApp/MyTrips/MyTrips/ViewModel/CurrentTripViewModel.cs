@@ -110,7 +110,7 @@ namespace MyTrips.ViewModel
             if (retryToConnect)
             {
                 await this.obdDataProcessor.ConnectToOBDDevice();
-        }
+            }
         }
 
         public bool NeedSave { get; set; }
@@ -227,7 +227,6 @@ namespace MyTrips.ViewModel
                 if (string.IsNullOrWhiteSpace(CurrentTrip.Name))
                     CurrentTrip.Name = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
 
-
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
 
                 foreach (var photo in photos)
@@ -236,23 +235,11 @@ namespace MyTrips.ViewModel
                     await StoreManager.PhotoStore.InsertAsync(photo);
                 }
 
-                //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                {
-                    try
-                    {
                 //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
                 await this.obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
 
                 //Push the trip data packaged with the OBD data to the IOT Hub
                 await this.obdDataProcessor.PushTripDataToIOTHub();
-                    }
-                    catch (Exception ex1)
-                    {
-                        Logger.Instance.Report(ex1);
-                    }
-                }
 
                 CurrentTrip = new Trip();
                 CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
@@ -330,7 +317,7 @@ namespace MyTrips.ViewModel
                     await Geolocator.StopListeningAsync();
                 }
 
-						if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
+				if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
 				{
 					Geolocator.AllowsBackgroundUpdates = true;
 					Geolocator.DesiredAccuracy = 25;
@@ -345,14 +332,9 @@ namespace MyTrips.ViewModel
                                                                    "Geolocation Disabled", "OK");
 				}
 
-                //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                {
                 //Connect to the OBD device
-                    await this.obdDataProcessor.Initialize(this.StoreManager);
+                await this.obdDataProcessor.Initialize(this.StoreManager);
                 await this.obdDataProcessor.ConnectToOBDDevice();
-            }
             }
             catch (Exception ex)
             {
@@ -380,13 +362,8 @@ namespace MyTrips.ViewModel
                 Geolocator.PositionChanged -= Geolocator_PositionChanged;
 				await Geolocator.StopListeningAsync();
 
-                //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                {
-                    //Stop reading data from the OBD device
-                    await this.obdDataProcessor.DisconnectFromOBDDevice();
-			}
+                //Stop reading data from the OBD device
+                await this.obdDataProcessor.DisconnectFromOBDDevice();
             }
 			catch (Exception ex) 
 			{
@@ -404,20 +381,8 @@ namespace MyTrips.ViewModel
 			{
 				var userLocation = e.Position;
 
-                var obdData = new Dictionary<string, string>();
-                //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                {
-                    //Read data from the OBD device and push it to the IOT Hub
-                    obdData = this.obdDataProcessor.ReadOBDData();
-                }
-                else
-                {
-                    obdData = null;
-                }
-
-
+                //Read data from the OBD device and push it to the IOT Hub
+                var obdData = this.obdDataProcessor.ReadOBDData();
 
                 var point = new TripPoint
                 {
@@ -459,7 +424,6 @@ namespace MyTrips.ViewModel
                 {
                     point.HasOBDData = false;
                 }
-
                
                 CurrentTrip.Points.Add(point);
 

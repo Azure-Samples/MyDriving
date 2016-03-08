@@ -12,6 +12,7 @@ using MyTrips.iOS.Helpers;
 using MyTrips.ViewModel;
 
 using HockeyApp;
+using MyTrips.Shared;
 
 namespace MyTrips.iOS
 {
@@ -27,8 +28,12 @@ namespace MyTrips.iOS
 
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
             ServiceLocator.Instance.Add<MyTrips.Utils.Interfaces.ILogger, MyTrips.Shared.PlatformLogger>();
-//            ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
-            //            ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
+            ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
+            
+            //TODO: Need to add #debug compile dir for all offline\mock interfaces
+            ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
+            ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
+
             Xamarin.Insights.Initialize(Logger.InsightsKey);
 			
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
