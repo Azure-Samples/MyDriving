@@ -100,6 +100,7 @@ namespace MyTrips.iOS
 			wayPointB.Hidden = true;
 
 			UpdateRecordButton(false);
+			tripInfoView.Alpha = 0;
 			ResetTripInfoView();
 
 			// Setup view model
