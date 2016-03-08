@@ -50,7 +50,7 @@ namespace MyTrips.ViewModel
             get { return elapsedTime; }
             set { SetProperty(ref elapsedTime, value); }
         }
-       
+
        
         string distance = "0.0";
         public string Distance
@@ -242,11 +242,11 @@ namespace MyTrips.ViewModel
                 {
                     try
                     {
-                        //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
-                        await this.obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
+                //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
+                await this.obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
 
-                        //Push the trip data packaged with the OBD data to the IOT Hub
-                        await this.obdDataProcessor.PushTripDataToIOTHub();
+                //Push the trip data packaged with the OBD data to the IOT Hub
+                await this.obdDataProcessor.PushTripDataToIOTHub();
                     }
                     catch (Exception ex1)
                     {
@@ -326,7 +326,6 @@ namespace MyTrips.ViewModel
 
 			try 
 			{
-
                 if (Geolocator.IsListening)
                 {
                     await Geolocator.StopListeningAsync();
@@ -340,12 +339,12 @@ namespace MyTrips.ViewModel
                     Geolocator.PositionChanged += Geolocator_PositionChanged;
                     //every second, 5 meters
                     await Geolocator.StartListeningAsync(1000, 5);
-                }
-                else
-                {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
+				}
+				else
+				{
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
                                                                    "Geolocation Disabled", "OK");
-                }
+				}
 
                 //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
                 if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||

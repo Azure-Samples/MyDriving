@@ -15,9 +15,9 @@ For most projects, we generally recommend starting with a Xamarin.Forms solution
 
 **Our choice**
 
-With the UX requirements in the mobile app of <TODO project name>, we could have chosen either path but we chose to use native UI from the beginning for the following reasons: 
+With the UX requirements in the mobile app of {Token:ProjectName}, we could have chosen either path but we chose to use native UI from the beginning for the following reasons: 
 
-- TODO <project name> is heavily oriented around geolocation and maps. Implementing native UI meant we could use all the geolocation features of each platform directly in the map-related UI. 
+- {Token:ProjectName} is heavily oriented around geolocation and maps. Implementing native UI meant we could use all the geolocation features of each platform directly in the map-related UI. 
 - Although Xamarin.Forms has a map control, it's better suited to simpler uses like displaying pins and points of interest. The app's UX makes extensive use of overlays which are presently somewhat easier to manage with native map controls. 
 - The other screens in the app are relatively simple to implement with native UI, and our team already had the necessary expertise. The ease of working with overlays in the native map controls made up for the small extra effort required to use native UI for these screens.    
 - Native UI provides more precise control over fine details like animations and transitions, allowing us to polish the UX to a greater extent than Xamarin.Forms presently allows. 
