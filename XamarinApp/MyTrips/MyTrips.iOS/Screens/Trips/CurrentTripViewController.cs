@@ -110,6 +110,8 @@ namespace MyTrips.iOS
 			{
 				tripMapView.Camera.CenterCoordinate = new CLLocationCoordinate2D(47.6204, -122.3491);
 			}
+
+			ResetTripInfoView();
 		}
 
 		void ResetMapViewState()
@@ -128,6 +130,7 @@ namespace MyTrips.iOS
 
 		void ResetTripInfoView()
 		{
+			lblDistanceUnits.Text = CurrentTripViewModel.DistanceUnits;
 			lblConsumption.Text = "0";
 			lblDistance.Text = "0";
 			lblDuration.Text = "0:00";

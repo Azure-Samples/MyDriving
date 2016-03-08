@@ -28,6 +28,10 @@ namespace MyTrips.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblDistanceUnits { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel lblDuration { get; set; }
 
         [Outlet]
@@ -85,6 +89,11 @@ namespace MyTrips.iOS
             if (lblDistance != null) {
                 lblDistance.Dispose ();
                 lblDistance = null;
+            }
+
+            if (lblDistanceUnits != null) {
+                lblDistanceUnits.Dispose ();
+                lblDistanceUnits = null;
             }
 
             if (lblDuration != null) {

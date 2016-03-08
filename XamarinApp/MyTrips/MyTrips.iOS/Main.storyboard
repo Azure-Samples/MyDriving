@@ -1266,6 +1266,7 @@
                         <outlet property="tripSlider" destination="Yuw-JM-bdT" id="vXb-Rv-N0v"/>
                         <outlet property="wayPointA" destination="7mA-Mi-nwI" id="m5y-2I-1KZ"/>
                         <outlet property="wayPointB" destination="3jO-Rf-KjH" id="khi-1p-1zj"/>
+                        <outlet property="lblDistanceUnits" destination="kxR-IG-ADX" id="name-outlet-kxR-IG-ADX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g60-su-Omq" userLabel="First Responder" sceneMemberID="firstResponder"/>
