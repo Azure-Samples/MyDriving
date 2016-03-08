@@ -17,10 +17,7 @@ namespace MyTrips.iOS
 
 		public PastTripsViewModel ViewModel { get; set; }
 
-        public TripsTableViewController (IntPtr handle) : base (handle)
-        {
-			
-        }
+		public TripsTableViewController(IntPtr handle) : base(handle) { }
 
 		public override async void ViewDidLoad()
 		{
