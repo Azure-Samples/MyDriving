@@ -121,8 +121,11 @@ namespace ObdLibUWP
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Overall Connect: " + ex.Message);
-                _socket.Dispose();
-                _socket = null;
+                if (_socket != null)
+                {
+                    _socket.Dispose();
+                    _socket = null;
+                }
                 return false;
             }
         }
@@ -164,9 +167,12 @@ namespace ObdLibUWP
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 _running = false;
-                await this._socket.CancelIOAsync();
-                _socket.Dispose();
-                _socket = null;
+                if (_socket != null)
+                {
+                    await this._socket.CancelIOAsync();
+                    _socket.Dispose();
+                    _socket = null;
+                }
             }
         }
 
