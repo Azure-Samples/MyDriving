@@ -12,7 +12,7 @@ namespace ObdLibAndroid
 {
     public class ObdWrapper
     {
-        const int Interval = 500;
+        const int Interval = 100;
         const string DefValue = "";
         private BluetoothAdapter _bluetoothAdapter = null;
         private BluetoothDevice _bluetoothDevice = null;
@@ -177,8 +177,11 @@ namespace ObdLibAndroid
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 _running = false;
-                _bluetoothSocket.Dispose();
-                _bluetoothSocket = null;
+                if (_bluetoothSocket != null)
+                {
+                    _bluetoothSocket.Close();
+                    _bluetoothSocket = null;
+                }
             }
         }
 
@@ -247,7 +250,6 @@ namespace ObdLibAndroid
             _running = false;
             if (_bluetoothSocket != null)
             {
-                _bluetoothSocket.Dispose();
                 _bluetoothSocket.Close();
                 _bluetoothSocket = null;
             }
