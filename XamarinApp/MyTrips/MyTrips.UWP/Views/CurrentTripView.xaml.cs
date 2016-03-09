@@ -37,15 +37,11 @@ namespace MyTrips.UWP.Views
     {
         CurrentTripViewModel viewModel;
 
-        ObservableRangeCollection<TripPoint> trailPointList;
-
         private MapIcon CarIcon;
 
         private MapPolyline mapPolyline;
 
         private ImageSource recordButtonImage;
-
-        private BasicGeoposition startMarker;
 
         public IList<BasicGeoposition> Locations { get; set; }
 
@@ -88,13 +84,13 @@ namespace MyTrips.UWP.Views
             this.mapPolyline = new MapPolyline();
             MyMap.MapElements.Clear();
 
-            MyMap.Center =
-               new Geopoint(new BasicGeoposition()
-               {
-                    //Geopoint for Seattle 
-                    Latitude = 47.604,
-                   Longitude = -122.329
-               });
+            //MyMap.Center =
+            //   new Geopoint(new BasicGeoposition()
+            //   {
+            //        //Geopoint for Seattle 
+            //        Latitude = 47.604,
+            //       Longitude = -122.329
+            //   });
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -299,11 +295,10 @@ namespace MyTrips.UWP.Views
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                this.text_mpg.Text = "0";
-                this.text_hours.Text = viewModel.ElapsedTime;
+                this.text_time.Text = viewModel.ElapsedTime;
                 this.text_miles.Text = viewModel.CurrentTrip.TotalDistanceNoUnits;
-                this.text_gallons.Text = "0";
-                this.text_cost.Text = "$0.00";
+                this.text_gallons.Text = viewModel.FuelConsumption;
+                this.text_temp.Text = viewModel.Temperature;
             });
         }
 

@@ -7,12 +7,13 @@
  
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:Name="PAST_TRIPS">
 
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <StackPanel x:Name="HeaderPanel" Orientation="Horizontal" VerticalAlignment="Top" Height="Auto" Canvas.ZIndex="2" HorizontalAlignment="Stretch" Background="Azure" >
+        <StackPanel x:Name="HeaderPanel" Orientation="Horizontal" VerticalAlignment="Top" Height="Auto" Canvas.ZIndex="2" HorizontalAlignment="Stretch" Background="#111111" >
             <StackPanel Name="MPG" Orientation="Vertical" Height="Auto" Width="50">
 
                 <TextBlock  Name="text_mpg" Text="14" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="13.333"/>
