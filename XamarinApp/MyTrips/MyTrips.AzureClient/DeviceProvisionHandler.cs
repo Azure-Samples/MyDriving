@@ -15,12 +15,28 @@ namespace MyTrips.AzureClient
     {
         private static DeviceProvisionHandler handler;
 
-        public string DeviceId
+        private const string defaultHostName = "smarttrips-dev.azure-devices.net";
+
+        private DeviceProvisionHandler()
         {
-            get; private set;
+            if (!string.IsNullOrEmpty(Settings.Current.DeviceId))
+                DeviceId = Settings.Current.DeviceId;
+            else
+            {
+                //generate device ID
+                DeviceId = Guid.NewGuid().ToString();
+                Settings.Current.DeviceId = DeviceId;
+            }
+
+            if (!string.IsNullOrEmpty(Settings.Current.HostName))
+                HostName = Settings.Current.HostName;
+            else
+            {
+                HostName = defaultHostName;
+                Settings.Current.HostName = HostName;
+            }
         }
-        
-        public string UserId
+        public string DeviceId
         {
             get; private set;
         }
@@ -54,10 +70,6 @@ namespace MyTrips.AzureClient
             if (handler == null)
             {
                 handler = new DeviceProvisionHandler();
-                //TODO: Need to get these values from Settings.Current
-                handler.UserId = Settings.Current.UserId;
-                handler.DeviceId = Settings.Current.DeviceId;
-                handler.HostName = "smarttrips-dev.azure-devices.net";
             }
 
             return handler;
@@ -65,24 +77,29 @@ namespace MyTrips.AzureClient
 
         public async Task<string> ProvisionDevice()
         {
-            //TODO: Need to get these values from Settings.Current
-            Dictionary<string, string> myParms = new Dictionary<string, string>();
-            myParms.Add("userId", Settings.Current.UserId);
-            myParms.Add("deviceName", Settings.Current.DeviceId);
-
-            var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client as MobileServiceClient;
-
-            try
+            if (!string.IsNullOrEmpty(Settings.Current.DeviceConnectionString))
+                return Settings.Current.DeviceConnectionString;
+            else
             {
-                var response = await client.InvokeApiAsync("provision", null, HttpMethod.Post, myParms);
-                this.AccessKey = response.Value<string>();
-            }
-            catch(Exception e)
-            {
-                Logger.Instance.WriteLine("Unable to provision device with IOT Hub: " + e);
-            }
+                Dictionary<string, string> myParms = new Dictionary<string, string>();
+                myParms.Add("userId", Settings.Current.UserId);
+                myParms.Add("deviceName", Settings.Current.DeviceId);
 
-            return this.DeviceConnectionString;
+                var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client as MobileServiceClient;
+
+                try
+                {
+                    var response = await client.InvokeApiAsync("provision", null, HttpMethod.Post, myParms);
+                    this.AccessKey = response.Value<string>();
+                }
+                catch (Exception e)
+                {
+                    Logger.Instance.WriteLine("Unable to provision device with IOT Hub: " + e);
+                }
+
+                Settings.Current.DeviceConnectionString = this.DeviceConnectionString;
+                return Settings.Current.DeviceConnectionString;
+            }
         }
     }
 }
