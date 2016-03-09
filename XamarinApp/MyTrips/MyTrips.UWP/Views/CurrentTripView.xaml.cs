@@ -177,7 +177,7 @@ namespace MyTrips.UWP.Views
 
             if (viewModel.IsRecording)
             {
-                if (!viewModel.StopRecordingTrip())
+                if (!viewModel.StopRecordingTrip().Result)
                     return;
 
                 AddEndMarker(basicGeoposition);
@@ -192,7 +192,7 @@ namespace MyTrips.UWP.Views
         }
             else
             {
-                if (!viewModel.StartRecordingTrip())
+                if (!viewModel.StartRecordingTrip().Result)
                     return;
 
                 // Update UI to start recording.
