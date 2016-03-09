@@ -56,4 +56,25 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
     </Style>
+
+
+    <Style x:Key="SplitViewText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#adacac" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="8,0,0,0"  />
+    </Style>
+
+    <Style x:Key="SplitViewIconStyle" TargetType="Image">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Height" Value="24"  />
+        <Setter Property="Width" Value="24"  />
+    </Style>
+
+    <Style x:Key="SplitViewButtonStyle" TargetType="Button">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="32"  />
+        <Setter Property="Width" Value="124"  />
+    </Style>
 </ResourceDictionary>
