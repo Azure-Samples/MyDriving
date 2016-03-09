@@ -1,7 +1,7 @@
 #addin "Cake.Xamarin"
 
 var username = EnvironmentVariable("XamarinLicenseUser");
-var password = EnvironmentVariable("XamarinLicensePassword");
+var password = EnvironmentVariable("GeneralPassword");
 
 var TARGET = Argument ("target", Argument ("t", "Default"));
 
