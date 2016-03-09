@@ -155,9 +155,9 @@ namespace ObdLibUWP
                                 _data[key] = s;
                             }
                         if (!this._running)
-                            break;
+                            return;
                         await Task.Delay(Interval);
-                    }                    
+                    }
                 }
             }
             catch (System.Exception ex)
