@@ -39,7 +39,11 @@ namespace MyTrips.Services
             this.obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
 
             //Call into mobile service to provision the device
-            var connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
+            // var connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
+
+            //Hack for bug #320
+            //When bug #319 is fixed, we should remove this and uncomment the above line
+            var connectionStr = DeviceProvisionHandler.GetHandler().DeviceConnectionString;
 
             //Initialize the IOT Hub
             this.iotHub.Initialize(connectionStr);
