@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -37,6 +37,9 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignProvision />
+    <CodesignResourceRules />
+    <CodesignExtraArgs />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -450,9 +453,6 @@
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Screens\Trips\" />
-    <Folder Include="Screens\Settings\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />
 </Project>
