@@ -5,13 +5,13 @@ using Foundation;
 using UIKit;
 
 using MyTrips.DataStore.Abstractions;
-using MyTrips.Utils;
 using MyTrips.Interfaces;
 using MyTrips.iOS.Helpers;
-using MyTrips.ViewModel;
+using MyTrips.Shared;
+using MyTrips.Utils;
+using MyTrips.Utils.Interfaces;
 
 using HockeyApp;
-using MyTrips.Shared;
 
 namespace MyTrips.iOS
 {
@@ -26,7 +26,7 @@ namespace MyTrips.iOS
 			ViewModel.ViewModelBase.Init();
 
 			ServiceLocator.Instance.Add<IAuthentication, Authentication>();
-			ServiceLocator.Instance.Add<MyTrips.Utils.Interfaces.ILogger, MyTrips.Shared.PlatformLogger>();
+			ServiceLocator.Instance.Add<ILogger, PlatformLogger>();
 			ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
 
 			//TODO: Need to add #debug compile dir for all offline\mock interfaces

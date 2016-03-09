@@ -29,12 +29,7 @@ namespace MyTrips.iOS
 			TableView.TableFooterView = new UIView(new CGRect(0, 0, 0,0));
             TableView.ReloadData();
 
-			// Check to see if 3D Touch is available
-			if (TraitCollection.ForceTouchCapability == UIForceTouchCapability.Available)
-				RegisterForPreviewingWithDelegate(new PreviewingDelegate(this), View);
-
 			RefreshControl.AddTarget(this, new ObjCRuntime.Selector("RefreshSource"), UIControlEvent.ValueChanged);
-
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString ("RefreshPastTripsTable"), HandleReloadTableNotification); 
 		}
 
@@ -104,8 +99,6 @@ namespace MyTrips.iOS
 				return 221;
 			}
 		}
-
-
 		#endregion
 
 		// For some reason, RefreshControl.ValueChanged doesn't function properly?
