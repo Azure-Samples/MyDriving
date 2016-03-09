@@ -23,16 +23,10 @@ namespace MyTrips.iOS
 			ViewModel = new ProfileViewModel();
 			NavigationItem.Title = $"{ViewModel.Settings.UserFirstName} {ViewModel.Settings.UserLastName}";
 
-			if (ViewModel.UserPictureSourceKind == Utils.UserPictureSourceKind.Url)
-			{
-				var url = ViewModel.Settings.UserProfileUrl;
-				imgAvatar.SetImage(new NSUrl(url));
-			}
-			else
-			{
-				var image = new UIImage(NSData.FromArray(ViewModel.Settings.UserProfileByteArr));
-				imgAvatar.Image = image;
-			}
+			
+			var url = ViewModel.Settings.UserProfileUrl;
+			imgAvatar.SetImage(new NSUrl(url));
+			
 
 			imgAvatar.Layer.CornerRadius = imgAvatar.Frame.Width / 2;
 			imgAvatar.Layer.BorderWidth = 2;
@@ -41,11 +35,14 @@ namespace MyTrips.iOS
 
 			data = new List<DrivingStatistic>
 			{
-				new DrivingStatistic { Name = "Total Distance", Value = $"{ViewModel.TotalDistanceUnits}"},
-				new DrivingStatistic { Name = "Total Duration", Value = $"{ViewModel.TotalTime}"},
-				new DrivingStatistic { Name = "Average Speed", Value = $"{ViewModel.AverageSpeedUnits}" },
-				new DrivingStatistic { Name = "Average Consumption", Value = "2.5 gallons"},
-				new DrivingStatistic { Name = "Hard Breaks", Value = "21"}
+                new DrivingStatistic { Name = "Total Distance", Value = ViewModel.TotalDistanceDisplay},
+                new DrivingStatistic { Name = "Total Duration", Value = ViewModel.TotalTimeDisplay },
+                new DrivingStatistic { Name = "Max Speed", Value = ViewModel.MaxSpeedDisplay },
+                new DrivingStatistic { Name = "Fuel Consumption", Value = ViewModel.FuelDisplay},
+                new DrivingStatistic { Name = "Hard Breaks", Value = ViewModel.HardStops.ToString()},
+                new DrivingStatistic { Name = "Hard Accelerations", Value = ViewModel.HardAccelerations.ToString()},
+                new DrivingStatistic { Name = "Total Trips", Value = ViewModel.TotalTrips.ToString()},
+
 			};
 		}
 
