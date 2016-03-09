@@ -12,31 +12,12 @@ namespace MyTrips.UWP.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value == null)
+            var imageUrl = value as string;
+            if (string.IsNullOrWhiteSpace(imageUrl))
                 return null;
 
-            int sourceKind = (int)value;
-
-            if (sourceKind == (int)UserPictureSourceKind.Url)
-            {
-                return new BitmapImage(new Uri(Settings.Current.UserProfileUrl));
-            }
-            else if (sourceKind == (int)UserPictureSourceKind.Byte)
-            {
-                using (var ms = new InMemoryRandomAccessStream())
-                {
-                    var pictureBytes = (byte[])value;
-                    using (var writer = new DataWriter(ms.GetOutputStreamAt(0)))
-                    {
-                        writer.WriteBytes(Settings.Current.UserProfileByteArr);
-                        writer.StoreAsync().GetResults();
-                    }
-                    var image = new BitmapImage();
-                    image.SetSource(ms);
-                    return image;
-                }
-            }
-            return null;
+           return new BitmapImage(new Uri(imageUrl));
+            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
