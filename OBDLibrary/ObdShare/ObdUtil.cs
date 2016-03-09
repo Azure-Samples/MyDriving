@@ -26,25 +26,33 @@ namespace ObdShare
             {
                 case "04":  //EngineLoad
                     return (ParseString(str, 1) * 100 / 255).ToString();
+                case "06":  //ShortTermFuelBank1
+                    return ((ParseString(str, 1) - 128) * 100 / 128).ToString();
+                case "07":  //LongTermFuelBank1
+                    return ((ParseString(str, 1) - 128) * 100 / 128).ToString();
                 case "0C":  //RPM
                     return (ParseString(str, 2) / 4).ToString();
                 case "0D":  //Speed
                     return ParseString(str, 1).ToString();
+                case "0F":   //InsideTemperature
+                    return (ParseString(str, 1) - 40).ToString();
                 case "10":  //MAF air flow rate
                     return (ParseString(str, 2) / 100).ToString();
-                case "11":  //Throttle position                         
+                case "11":  //Throttle position
                     return (ParseString(str, 1) * 100 / 255).ToString();
+                case "1F":  //Runtime 
+                    return ParseString(str, 2).ToString();
+                case "21":  //DistancewithML  
+                    return ParseString(str, 2).ToString();
                 case "2C":  //Commanded EGR
                     return (ParseString(str, 1) * 100 / 255).ToString();
                 case "2D":  //EGR Error
                     return ((ParseString(str, 1) - 128) * 100 / 128).ToString();
-                case "45":  //Relative throttle position
-                    return (ParseString(str, 1) * 100 / 255).ToString();                
                 case "33":  //BarometricPressure
                     return ParseString(str, 1).ToString();
+                case "45":  //Relative throttle position
+                    return (ParseString(str, 1) * 100 / 255).ToString();  
                 case "46":  //OutsideTemperature
-                    return (ParseString(str, 1) - 40).ToString();
-                case "0F":   //InsideTemperature
                     return (ParseString(str, 1) - 40).ToString();
                 case "5E":  //EngineFuelRate
                     return (ParseString(str, 2) / 20).ToString();
@@ -132,6 +140,57 @@ namespace ObdShare
                     return ret;
             }
             return "ERROR";
+        }
+        public static Dictionary<string, string> GetPIDs()
+        {
+            //return PIDs we want to collect
+            //the structure is <cmd, key>
+            var ret = new Dictionary<string, string>();
+            ret.Add("0104", "el");    //EngineLoad 
+            ret.Add("0106", "stfb");    //ShortTermFuelBank1 
+            ret.Add("0107", "ltfb");    //LongTermFuelBank1 
+            ret.Add("010C", "rpm");    //EngineRPM 
+            ret.Add("010D", "spd");    //Speed 
+            ret.Add("0110", "fr");    //MAFFlowRate
+            ret.Add("0111", "tp");    //ThrottlePosition 
+            ret.Add("011F", "rt");    //Runtime 
+            ret.Add("0121", "dis");    //DistancewithML 
+            ret.Add("0145", "rtp");    //RelativeThrottlePosition 
+            ret.Add("0146", "ot");    //OutsideTemperature
+            ret.Add("015E", "efr");    //EngineFuelRate
+            return ret;
+        }
+        public static string GetEmulatorValue(string cmd)
+        {
+            var r = new System.Random();
+            switch (cmd)
+            {
+                case "0104":
+                    return r.Next(0, 100).ToString();
+                case "0106":
+                    return (r.Next(0, 200) - 100).ToString();
+                case "0107":
+                    return (r.Next(0, 200) - 100).ToString();
+                case "010C":
+                    return r.Next(0, 16000).ToString();
+                case "010D":
+                    return r.Next(0, 255).ToString();
+                case "0110":
+                    return r.Next(0, 600).ToString();
+                case "0111":
+                    return r.Next(0, 100).ToString();
+                case "011F":
+                    return r.Next(0, 65535).ToString();
+                case "0121":
+                    return r.Next(0, 65535).ToString();
+                case "0145":
+                    return r.Next(0, 100).ToString();
+                case "0146":
+                    return (r.Next(0, 255)-40).ToString();
+                case "015E":
+                    return r.Next(0, 3000).ToString();
+            }
+            return "0";
         }
     }
 }

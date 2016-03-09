@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using CoreSpotlight;
 using Foundation;
 using UIKit;
 
 using MyTrips.DataStore.Abstractions;
-using MyTrips.Utils;
 using MyTrips.Interfaces;
 using MyTrips.iOS.Helpers;
-using MyTrips.ViewModel;
+using MyTrips.Shared;
+using MyTrips.Utils;
+using MyTrips.Utils.Interfaces;
 
 using HockeyApp;
-using MyTrips.Shared;
 
 namespace MyTrips.iOS
 {
@@ -26,19 +25,19 @@ namespace MyTrips.iOS
 			ThemeManager.ApplyTheme();
 			ViewModel.ViewModelBase.Init();
 
-            ServiceLocator.Instance.Add<IAuthentication, Authentication>();
-            ServiceLocator.Instance.Add<MyTrips.Utils.Interfaces.ILogger, MyTrips.Shared.PlatformLogger>();
-            ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
-            
-            //TODO: Need to add #debug compile dir for all offline\mock interfaces
-            ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
-            //ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
+			ServiceLocator.Instance.Add<IAuthentication, Authentication>();
+			ServiceLocator.Instance.Add<ILogger, PlatformLogger>();
+			ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
 
-            Xamarin.Insights.Initialize(Logger.InsightsKey);
-			
-            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
-            SQLitePCL.CurrentPlatform.Init();
-            if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
+			//TODO: Need to add #debug compile dir for all offline\mock interfaces
+			//ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
+			//ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
+
+			Xamarin.Insights.Initialize(Logger.InsightsKey);
+
+			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+			SQLitePCL.CurrentPlatform.Init();
+			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
 			{
 				Setup.EnableCustomCrashReporting(() =>
 					{
@@ -89,41 +88,13 @@ namespace MyTrips.iOS
 			}
 			catch (Exception ex)
 			{
-				Logger.Instance.Report(ex);			
+				Logger.Instance.Report(ex);
 			}
 
 			if (downloadSuccessful)
 				completionHandler(UIBackgroundFetchResult.NewData);
 			else
 				completionHandler(UIBackgroundFetchResult.Failed);
-		}
-
-		#endregion
-		#region CoreSpotlight Search
-		public override bool ContinueUserActivity(UIApplication application, NSUserActivity userActivity, UIApplicationRestorationHandler completionHandler)
-		{
-			if (userActivity.ActivityType == CSSearchableItem.ActionType)
-			{
-				var uuid = userActivity.UserInfo.ObjectForKey(CSSearchableItem.ActivityIdentifier);
-
-				if (uuid == null)
-					return true;
-
-				var appDelegate = (AppDelegate)application.Delegate;
-				var tabBarController = (UITabBarController) appDelegate.Window.RootViewController;
-				tabBarController.SelectedIndex = 0;
-				var navigationController = (UINavigationController)tabBarController.ViewControllers[0];
-				var tripsViewController = (TripsTableViewController) navigationController.TopViewController;
-				tripsViewController.NavigationController.PopToRootViewController(false);
-
-				var trip = tripsViewController.ViewModel.Trips[Int32.Parse(uuid.ToString())];
-
-				var currentTripVc = UIStoryboard.FromName("Main", null).InstantiateViewController("CURRENT_TRIP_STORYBIARD_IDENTIFIER") as CurrentTripViewController;
-				currentTripVc.PastTripsDetailViewModel = new PastTripsDetailViewModel(trip);
-				tripsViewController.NavigationController.PushViewController(currentTripVc, false);
-			}
-
-			return true;
 		}
 		#endregion
 	}

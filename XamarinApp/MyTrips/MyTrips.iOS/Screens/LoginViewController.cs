@@ -27,7 +27,7 @@ namespace MyTrips.iOS
 			btnSkipAuth.Layer.MasksToBounds = true;
 		}
 
-		public override async void ViewDidAppear(bool animated)
+		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
 
