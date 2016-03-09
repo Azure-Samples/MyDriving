@@ -25,13 +25,14 @@ namespace ObdLibAndroid
         bool _running = true;
         private Object _lock = new Object();
         private bool _simulatormode;
+        private Dictionary<string, string> _PIDs;
         public async Task<bool> Init(bool simulatormode = false)
         {
             //initialize _data
             this._data = new Dictionary<string, string>();
             this._data.Add("vin", DefValue);  //VIN
-            var dic = ObdShare.ObdUtil.GetPIDs();
-            foreach (var v in dic.Values)
+            _PIDs = ObdShare.ObdUtil.GetPIDs();
+            foreach (var v in _PIDs.Values)
             {
                 this._data.Add(v, DefValue);
             }
@@ -152,10 +153,9 @@ namespace ObdLibAndroid
                 }
                 while (true)
                 {
-                    var dic = ObdShare.ObdUtil.GetPIDs();
-                    foreach (var cmd in dic.Keys)
+                    foreach (var cmd in _PIDs.Keys)
                     {
-                        var key = dic[cmd];
+                        var key = _PIDs[cmd];
                         if (_simulatormode)
                             s = ObdShare.ObdUtil.GetEmulatorValue(cmd);
                         else
