@@ -76,21 +76,22 @@ namespace MyTrips.Services
 
         public async Task AddTripDataPointToBuffer(Trip currentTrip)
         {
-            foreach (Trail tripDataPoint in currentTrip.Trail)
+            foreach (var tripDataPoint in currentTrip.Points)
             {
+                var tripDataBlob = JsonConvert.SerializeObject(tripDataPoint).TrimStart('{').TrimEnd('}');
+
                 var blob = JsonConvert.SerializeObject(
                     new
                     {
                         Id = currentTrip.Id,
-                        Name = currentTrip.TripId,
+                        Name = currentTrip.Name,
                         UserId = currentTrip.UserId,
-                        TripDataPoint = JsonConvert.SerializeObject(tripDataPoint)
-            }
-                 );
+                        TripDataPoint = tripDataBlob
+                    } );
 
-            IOTHubData iotHubData = new IOTHubData();
+                IOTHubData iotHubData = new IOTHubData();
                 iotHubData.Blob = blob;
-            await this.storeManager.IOTHubStore.InsertAsync(iotHubData);
+                await this.storeManager.IOTHubStore.InsertAsync(iotHubData);
             }
         }
 
@@ -120,14 +121,14 @@ namespace MyTrips.Services
                     try
                     {
                         //Once the trip is pushed to the IOT Hub, delete it from the local store
-                    await this.iotHub.SendEvents(iotHubDataBlobs.Select(i => i.Blob));
-                    await this.storeManager.IOTHubStore.DropTable();
+                        await this.iotHub.SendEvents(iotHubDataBlobs.Select(i => i.Blob));
+                        await this.storeManager.IOTHubStore.DropTable();
                     }
-                catch (Exception ex)
+                    catch (Exception ex)
                     {
                         //An exception will be thrown if the data isn't received by the IOT Hub
                         await Task.Delay(1000);
-                    Logger.Instance.Report(ex);
+                        Logger.Instance.Report(ex);
                     }
                 }
                 else

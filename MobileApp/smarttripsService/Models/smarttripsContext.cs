@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Tables;
-using smarttripsService.DataObjects;
+using MyTrips.DataObjects;
 
 namespace smarttripsService.Models
 {
@@ -24,7 +24,7 @@ namespace smarttripsService.Models
 
         public DbSet<Trip> Trips { get; set; }
         public DbSet<TripPoint> TripPoints { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserProfile> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -32,6 +32,8 @@ namespace smarttripsService.Models
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
         }
+
+        public System.Data.Entity.DbSet<MyTrips.DataObjects.IOTHubData> IOTHubDatas { get; set; }
     }
 
 }

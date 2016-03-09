@@ -9,54 +9,39 @@ namespace MyTrip.iOS
 	[Register("TripSlider"), DesignTimeVisible(true)]
 	public class TripSlider : UIView
 	{
-
 		float percentage = 0;
 
-		public TripSlider()
-		{
-		}
-
-		public TripSlider(IntPtr p): base(p)
-		{
-		}
+		public TripSlider() { }
+		public TripSlider(IntPtr p) : base(p) {}
 
 		[Export("Percentage"), Browsable(true)]
 		public float Percentage	 
 		{
-			get 
-			{ 
-				return percentage; 
-			}
-			set 
-			{ 
-				percentage = value;
-				SetNeedsDisplay ();
-			}
+			get { return percentage; }
+			set { percentage = value; SetNeedsDisplay (); }
 		}
-
 
 		public override void Draw(CGRect frame)
 		{
-			//// General Declarations
+			// General Declarations
 			var context = UIGraphics.GetCurrentContext();
 
-			//// Color Declarations
+			// Color Declarations
 			var minimumTrackColor = UIColor.FromRGBA(0.502f, 0.812f, 0.769f, 1.000f);
 			var maximumTrackColor = UIColor.FromRGBA(0.314f, 0.314f, 0.314f, 1.000f);
 			var color = UIColor.FromRGBA(0.376f, 0.490f, 0.722f, 1.000f);
 
-			//// Variable Declarations
+			// Variable Declarations
 			var expression2 = percentage * 2.0f;
 			var expression = new CGPoint(25.0f + expression2, 61.0f);
 			var expression3 = 200.0f - percentage * 2.0f;
 
-			//// Minimum Track Drawing
+			// Minimum Track Drawing
 			var minimumTrackPath = UIBezierPath.FromRoundedRect(new CGRect(frame.GetMinX(), frame.GetMinY() + 24.0f, frame.Width, frame.Height - 29.0f), 2.0f);
 			minimumTrackColor.SetFill();
 			minimumTrackPath.Fill();
 
-
-			//// Maximum Track Drawing
+			// Maximum Track Drawing
 			context.SaveState();
 			context.TranslateCTM(frame.GetMinX() + 1.00000f * frame.Width, frame.GetMinY() + 0.85714f * frame.Height);
 			context.RotateCTM(-180.0f * NMath.PI / 180.0f);
@@ -68,8 +53,7 @@ namespace MyTrip.iOS
 
 			context.RestoreState();
 
-
-			//// Bezier Drawing
+			// Bezier Drawing
 			context.SaveState();
 			context.TranslateCTM(expression.X, expression.Y);
 
@@ -96,8 +80,6 @@ namespace MyTrip.iOS
 			bezierPath.Stroke();
 
 			context.RestoreState();
-
 		}
 	}
 }
-

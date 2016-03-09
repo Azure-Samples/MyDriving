@@ -147,13 +147,14 @@
     <Content Include="Assets\Car Icon_Red.png" />
     <Content Include="Assets\ic_start.png" />
     <Content Include="Assets\ic_stop.png" />
-    <Content Include="Assets\Login\FBLogo.png" />
+    <Content Include="Assets\Login\appLogo.png" />
+    <Content Include="Assets\Login\facebook.png" />
     <Content Include="Assets\ic_start_point.png" />
     <Content Include="Assets\ic_end_point.png" />
     <Content Include="Assets\ic_car_blue.png" />
     <Content Include="Assets\ic_car_red.png" />
-    <Content Include="Assets\Login\MSLogo.jpg" />
-    <Content Include="Assets\Login\TwitterLogo.png" />
+    <Content Include="Assets\Login\Microsoft.png" />
+    <Content Include="Assets\Login\twitter.png" />
     <Content Include="Assets\mappin.png" />
     <Content Include="Assets\StartRecord.png" />
     <Content Include="Assets\StopRecord.png" />
@@ -257,6 +258,11 @@
       <Project>{a68cccda-e4a5-4128-920f-ac00ecb9e3e6}</Project>
       <Name>MyTrips</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="SQLite.UWP.2015, Version=3.11.1">
+      <Name>SQLite for Universal Windows Platform</Name>
+    </SDKReference>
   </ItemGroup>
   <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

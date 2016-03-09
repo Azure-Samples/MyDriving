@@ -35,8 +35,9 @@ namespace MyTrips.DataStore.Azure
             //setup our local sqlite store and intialize our table
             store = new MobileServiceSQLiteStore(path);
 
-            store.DefineTable<Telemetry>();
-            store.DefineTable<Trail>();
+            store.DefineTable<UserProfile>();
+            store.DefineTable<Tip>();
+            store.DefineTable<TripPoint>();
             store.DefineTable<Photo>();
             store.DefineTable<Trip>();
             store.DefineTable<IOTHubData>();
@@ -77,6 +78,9 @@ namespace MyTrips.DataStore.Azure
 
         IPhotoStore photoStore;
         public IPhotoStore PhotoStore => photoStore ?? (photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
+
+        IUserStore userStore;
+        public IUserStore UserStore => userStore ?? (userStore = ServiceLocator.Instance.Resolve<IUserStore>());
 
         IHubIOTStore iotHubStore;
         public IHubIOTStore IOTHubStore => iotHubStore ?? (iotHubStore = ServiceLocator.Instance.Resolve<IHubIOTStore>());

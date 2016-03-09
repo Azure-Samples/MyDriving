@@ -15,10 +15,7 @@ namespace MyTrips.iOS
 
 		string[] keys;
 
-		public SettingsViewController (IntPtr handle) : base (handle)
-		{
-			
-		}
+		public SettingsViewController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
 		{
@@ -39,7 +36,15 @@ namespace MyTrips.iOS
 
 			btnLogout.TouchUpInside += async delegate {
 				await ViewModel.ExecuteLogoutCommandAsync();
-				Acr.UserDialogs.UserDialogs.Instance.ShowSuccess("Successfully logged out");
+
+				InvokeOnMainThread(() =>
+				{
+					var appDelegate = (AppDelegate) UIApplication.SharedApplication.Delegate;
+					var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("loginViewController"); // Storyboard.InstantiateViewController("loginViewController");
+					appDelegate.Window.RootViewController = viewController;
+
+					Acr.UserDialogs.UserDialogs.Instance.ShowSuccess("Successfully logged out");
+				});
 			};
 
 			btnLogout.Layer.CornerRadius = 4;

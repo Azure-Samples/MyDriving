@@ -3,18 +3,15 @@ using MvvmHelpers;
 using MyTrips.AzureClient;
 using MyTrips.Utils;
 using System.Threading.Tasks;
+using MyTrips.DataObjects;
+
 
 
 namespace MyTrips.ViewModel
 {
     public class TripSummaryViewModel : ViewModelBase
     {
-        double totalDistance;
-        public double TotalDistance
-        {
-            get { return totalDistance; }
-            set { SetProperty(ref totalDistance, value); }
-        }
+        public Trip Trip { get; set; }
 
         double totalTime;
         public double TotalTime
@@ -47,5 +44,6 @@ namespace MyTrips.ViewModel
             get { return tips; }
             set { SetProperty(ref tips, value); }
         }
+
     }
 }

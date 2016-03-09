@@ -94,9 +94,9 @@ namespace MyTrips.Droid.Activities
                 mapFrag.View.PostDelayed (() => { SetupMap();}, 500);
                 return;
             }
-            var start = viewModel.Trip.Trail[0];
-            var end = viewModel.Trip.Trail[viewModel.Trip.Trail.Count - 1];
-            seekBar.Max = viewModel.Trip.Trail.Count - 1;
+            var start = viewModel.Trip.Points[0];
+            var end = viewModel.Trip.Points[viewModel.Trip.Points.Count - 1];
+            seekBar.Max = viewModel.Trip.Points.Count - 1;
             seekBar.ProgressChanged += SeekBar_ProgressChanged;
 
             var logicalDensity = Resources.DisplayMetrics.Density;
@@ -129,7 +129,7 @@ namespace MyTrips.Droid.Activities
 
 
 
-            var points = viewModel.Trip.Trail.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
+            var points = viewModel.Trip.Points.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
             var rectOptions = new PolylineOptions();
             rectOptions.Add(points);
             rectOptions.InvokeColor(ContextCompat.GetColor(this, Resource.Color.accent));
@@ -158,7 +158,7 @@ namespace MyTrips.Droid.Activities
         {
             if (carMarker == null)
                 return;
-            var location = viewModel.Trip.Trail[e.Progress];
+            var location = viewModel.Trip.Points[e.Progress];
 
             RunOnUiThread(() =>
             {

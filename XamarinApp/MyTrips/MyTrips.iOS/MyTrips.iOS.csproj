@@ -72,6 +72,13 @@
       <HintPath>..\..\packages\Acr.UserDialogs.4.3.4\lib\Xamarin.iOS10\Acr.UserDialogs.Interface.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="BTProgressHUD, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Acr.UserDialogs.4.3.4\lib\Xamarin.iOS10\BTProgressHUD.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ClientDeviceiOS">
+      <HintPath>.\ClientDeviceiOS.dll</HintPath>
+    </Reference>
     <Reference Include="Plugin.DeviceInfo, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xam.Plugin.DeviceInfo.2.0.2\lib\Xamarin.iOS10\Plugin.DeviceInfo.dll</HintPath>
       <Private>True</Private>
@@ -100,6 +107,10 @@
       <HintPath>..\..\packages\Xamarin.SDWebImage.3.7.5\lib\Xamarin.iOS\SDWebImage.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Splat.1.6.2\lib\Xamarin.iOS10\Splat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -118,14 +129,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
       <HintPath>..\..\packages\Newtonsoft.Json.8.0.2\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Plugin.Connectivity, Version=2.0.2.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\Xam.Plugin.Connectivity.2.1.1\lib\Xamarin.iOS10\Plugin.Connectivity.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Plugin.Connectivity.Abstractions, Version=2.0.2.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\Xam.Plugin.Connectivity.2.1.1\lib\Xamarin.iOS10\Plugin.Connectivity.Abstractions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Plugin.Settings, Version=2.1.0.0, Culture=neutral, PublicKeyToken=null">
@@ -185,6 +188,9 @@
       <HintPath>..\..\packages\Xamarin.Insights.1.11.4\lib\Xamarin.iOS10\PLCrashReporterUnifiedBinding.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="BTProgressHUD">
+      <HintPath>..\..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
+    </Reference>
     <Reference Include="Plugin.Share">
       <HintPath>..\..\packages\Plugin.Share.4.0.0\lib\Xamarin.iOS10\Plugin.Share.dll</HintPath>
     </Reference>
@@ -193,15 +199,24 @@
     </Reference>
     <Reference Include="HockeySDK">
       <HintPath>..\..\packages\HockeySDK.Xamarin.4.0.0-alpha1\lib\Xamarin.iOS10\HockeySDK.dll</HintPath>
-   </Reference>
+    </Reference>
     <Reference Include="Acr.Support.iOS">
       <HintPath>..\..\packages\Acr.Support.1.1.1\lib\Xamarin.iOS10\Acr.Support.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="BTProgressHUD">
-      <HintPath>..\..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
+    <Reference Include="Plugin.Connectivity">
+      <HintPath>..\..\packages\Xam.Plugin.Connectivity.2.1.2\lib\Xamarin.iOS10\Plugin.Connectivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Connectivity.Abstractions">
+      <HintPath>..\..\packages\Xam.Plugin.Connectivity.2.1.2\lib\Xamarin.iOS10\Plugin.Connectivity.Abstractions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\OBDLibrary\ObdLibiOS\ObdLibiOS.csproj">
+      <Project>{8b136d60-8e68-4871-bf25-52e27c61e8e9}</Project>
+      <Name>ObdLibiOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
+    </ProjectReference>
     <ProjectReference Include="..\MyTrips.DataStore.Abstractions\MyTrips.DataStore.Abstractions.csproj">
       <Project>{649300CE-70EA-4606-983F-F4476FDD6C7E}</Project>
       <Name>MyTrips.DataStore.Abstractions</Name>
@@ -322,7 +337,6 @@
     <Compile Include="Helpers\Images.cs" />
     <Compile Include="Helpers\Authentication.cs" />
     <Compile Include="Views\Annotations\BaseCustomAnnotation.cs" />
-    <Compile Include="Views\Annotations\PhotoAnnotation.cs" />
     <Compile Include="Views\Annotations\WaypointAnnotation.cs" />
     <Compile Include="Views\Annotations\CarAnnotation.cs" />
     <Compile Include="Views\Maps\TripMapViewDelegate.cs" />
@@ -365,7 +379,11 @@
     <Compile Include="Screens\TripSummaryTableViewController.designer.cs">
       <DependentUpon>TripSummaryTableViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\SpotlightSearch.cs" />
+    <Compile Include="Helpers\DrivingStatistic.cs" />
+    <Compile Include="Cells\TripSummaryCell.cs" />
+    <Compile Include="Cells\TripSummaryCell.designer.cs">
+      <DependentUpon>TripSummaryCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -381,15 +399,6 @@
     <BundleResource Include="Resources\login_facebook.png" />
     <BundleResource Include="Resources\login_microsoft.png" />
     <BundleResource Include="Resources\login_twitter.png" />
-    <BundleResource Include="Resources\tabbar_currenttrip.png" />
-    <BundleResource Include="Resources\tabbar_currenttrip%402x.png" />
-    <BundleResource Include="Resources\tabbar_currenttrip%403x.png" />
-    <BundleResource Include="Resources\tabbar_settings.png" />
-    <BundleResource Include="Resources\tabbar_settings%402x.png" />
-    <BundleResource Include="Resources\tabbar_settings%403x.png" />
-    <BundleResource Include="Resources\tabbar_trips.png" />
-    <BundleResource Include="Resources\tabbar_trips%402x.png" />
-    <BundleResource Include="Resources\tabbar_trips%403x.png" />
     <BundleResource Include="Resources\Map\waypoint_a%402x.png" />
     <BundleResource Include="Resources\Map\waypoint_b%402x.png" />
     <BundleResource Include="Resources\Map\car_annotation_blue%402x.png" />
@@ -403,13 +412,46 @@
     <BundleResource Include="Resources\769-male.png" />
     <BundleResource Include="Resources\769-male%402x.png" />
     <BundleResource Include="Resources\769-male%403x.png" />
+    <BundleResource Include="Resources\logo.png" />
+    <BundleResource Include="Resources\logo%402x.png" />
+    <BundleResource Include="Resources\logo%403x.png" />
+    <BundleResource Include="Resources\icon_profilePic.png" />
+    <BundleResource Include="Resources\icon_profilePic%402x.png" />
+    <BundleResource Include="Resources\icon_profilePic%403x.png" />
+    <BundleResource Include="Resources\icon_twitter.png" />
+    <BundleResource Include="Resources\icon_twitter%402x.png" />
+    <BundleResource Include="Resources\icon_twitter%403x.png" />
+    <BundleResource Include="Resources\tab_Current_selected.png" />
+    <BundleResource Include="Resources\tab_Current_selected%402x.png" />
+    <BundleResource Include="Resources\tab_Current_selected%403x.png" />
+    <BundleResource Include="Resources\tab_Current.png" />
+    <BundleResource Include="Resources\tab_Current%402x.png" />
+    <BundleResource Include="Resources\tab_Current%403x.png" />
+    <BundleResource Include="Resources\tab_MyTrips_selected.png" />
+    <BundleResource Include="Resources\tab_MyTrips_selected%402x.png" />
+    <BundleResource Include="Resources\tab_MyTrips_selected%403x.png" />
+    <BundleResource Include="Resources\tab_myTrips.png" />
+    <BundleResource Include="Resources\tab_myTrips%402x.png" />
+    <BundleResource Include="Resources\tab_myTrips%403x.png" />
+    <BundleResource Include="Resources\tab_Profile_selected.png" />
+    <BundleResource Include="Resources\tab_Profile_selected%402x.png" />
+    <BundleResource Include="Resources\tab_Profile_selected%403x.png" />
+    <BundleResource Include="Resources\tab_Profile.png" />
+    <BundleResource Include="Resources\tab_Profile%402x.png" />
+    <BundleResource Include="Resources\tab_Profile%403x.png" />
+    <BundleResource Include="Resources\tab_Settings_selected.png" />
+    <BundleResource Include="Resources\tab_Settings_selected%402x.png" />
+    <BundleResource Include="Resources\tab_Settings_selected%403x.png" />
+    <BundleResource Include="Resources\tab_Settings.png" />
+    <BundleResource Include="Resources\tab_Settings%402x.png" />
+    <BundleResource Include="Resources\tab_Settings%403x.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <XamarinComponentReference Include="btprogresshud">
       <Version>1.20</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />
 </Project>

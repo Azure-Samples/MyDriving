@@ -4,8 +4,9 @@
     xmlns:local="using:MyTrips.UWP">
 
 
-    <BitmapImage x:Key="FacebookLogo" UriSource="ms-appx:///Assets/Login/FBLogo.png"/>
-    <BitmapImage x:Key="TwitterLogo" UriSource="ms-appx:///Assets/Login/TwitterLogo.png"/>
-    <BitmapImage x:Key="MicrosoftLogo" UriSource="ms-appx:///Assets/Login/MSLogo.jpg"/>
-    
+    <BitmapImage x:Key="FacebookLogo" UriSource="ms-appx:///Assets/Login/facebook.png"/>
+    <BitmapImage x:Key="TwitterLogo" UriSource="ms-appx:///Assets/Login/twitter.png"/>
+    <BitmapImage x:Key="MicrosoftLogo" UriSource="ms-appx:///Assets/Login/Microsoft.png"/>
+    <BitmapImage x:Key="ApplicationLogo" UriSource="ms-appx:///Assets/Login/appLogo.png"/>
+
 </ResourceDictionary>

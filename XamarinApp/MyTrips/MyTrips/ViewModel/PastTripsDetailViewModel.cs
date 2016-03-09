@@ -23,7 +23,7 @@ namespace MyTrips.ViewModel
 
 		public PastTripsDetailViewModel(Trip trip)
 		{
-			Title = trip.TripId;
+			Title = trip.Name;
 			Trip = trip;
 		}
 
@@ -43,7 +43,7 @@ namespace MyTrips.ViewModel
                 IsBusy = true;
 
                 Trip = await StoreManager.TripStore.GetItemAsync(id);
-                Title = Trip.TripId;
+                Title = Trip.Name;
             }
             catch (Exception ex) 
             {

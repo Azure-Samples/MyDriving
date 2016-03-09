@@ -40,6 +40,7 @@
     <Compile Include="Stores\IOTHubStore.cs" />
     <Compile Include="Stores\TripStore.cs" />
     <Compile Include="Stores\PhotoStore.cs" />
+    <Compile Include="Stores\UserStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MvvmHelpers, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null">
@@ -59,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

@@ -183,7 +183,7 @@ namespace MyTrips.Droid.Fragments
                 return;
 
             var trip = viewModel.Trips[position];
-            vh.Title.Text = trip.TripId;
+            vh.Title.Text = trip.Name;
             vh.Distance.Text = trip.TotalDistance;
             vh.Date.Text = trip.TimeAgo;
             vh.Photo.Visibility = (trip?.Photos?.Count).GetValueOrDefault() > 0 || !string.IsNullOrWhiteSpace(trip.MainPhotoUrl) ? ViewStates.Visible : ViewStates.Gone;

@@ -37,7 +37,7 @@ namespace MyTrips.UWP.Views
     {
         CurrentTripViewModel viewModel;
 
-        ObservableRangeCollection<Trail> trailPointList;
+        ObservableRangeCollection<TripPoint> trailPointList;
 
         private MapIcon CarIcon;
 
@@ -61,7 +61,7 @@ namespace MyTrips.UWP.Views
         //private Geolocator geolocator = null;
         public void OnPropertyChanged(string name)
         {
-            if(PropertyChanged!=null)
+            if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
@@ -81,25 +81,18 @@ namespace MyTrips.UWP.Views
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
+            //MyMap.MapElements.Clear();
             this.MyMap.ZoomLevel = 17;
             this.CarIcon = new MapIcon();
             this.mapPolyline = new MapPolyline();
-
+            MyMap.MapElements.Clear();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            // ResetTrip();
             viewModel.PropertyChanged += OnPropertyChanged;
-
-
             await StartTrackingAsync();
-
-            //var basicGeoposition = new BasicGeoposition() { Latitude = this.viewModel.CurrentPosition.Latitude, Longitude = this.viewModel.CurrentPosition.Longitude };
-            //UpdateMapView(basicGeoposition);
-            //UpdateCarIcon(basicGeoposition);
-
         }
 
         void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -108,9 +101,9 @@ namespace MyTrips.UWP.Views
             {
                 case nameof(viewModel.CurrentPosition):
                     var basicGeoposition = new BasicGeoposition() { Latitude = viewModel.CurrentPosition.Latitude, Longitude = viewModel.CurrentPosition.Longitude };
-                    if (viewModel.CurrentTrip.Trail.Count > 0)
+                    if (viewModel.CurrentTrip.Points.Count > 0)
                     {
-                        var item = viewModel.CurrentTrip.Trail.Last();
+                        var item = viewModel.CurrentTrip.Points.Last();
                         UpdateMap(item);
                     }
 
@@ -155,7 +148,7 @@ namespace MyTrips.UWP.Views
                     break;
 
                 case GeolocationAccessStatus.Unspecified:
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unspecified Error..." , "Geolcoation Disabled", "OK");
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unspecified Error...", "Geolcoation Disabled", "OK");
                     startRecordBtn.IsEnabled = false;
                     break;
             }
@@ -183,6 +176,9 @@ namespace MyTrips.UWP.Views
                 OnPropertyChanged(nameof(RecordButtonImage));
                 UpdateCarIcon(basicGeoposition);
                 await viewModel.StopRecordingTripAsync();
+                // Launch Trip Summary Page. 
+                this.Frame.Navigate(typeof(TripSummaryView), viewModel.CurrentTrip);
+                return;
         }
             else
             {
@@ -220,6 +216,7 @@ namespace MyTrips.UWP.Views
                 CarIcon.ZIndex = 4;
                 CarIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
                 MyMap.Center = CarIcon.Location;
+                //MyMap.MapElements.Clear();
                 MyMap.MapElements.Add(CarIcon);
             });
          
@@ -241,7 +238,7 @@ namespace MyTrips.UWP.Views
             });
         }
 
-        async void UpdateMap(Trail trail, bool updateCamera = true)
+        async void UpdateMap(TripPoint trail, bool updateCamera = true)
         {
             var basicGeoposition = new BasicGeoposition();
 
@@ -268,7 +265,7 @@ namespace MyTrips.UWP.Views
 
                 if (Locations == null)
                 {
-                    Locations = new List<BasicGeoposition>(viewModel.CurrentTrip.Trail.Select(s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }));
+                    Locations = new List<BasicGeoposition>(viewModel.CurrentTrip.Points.Select(s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }));
                 }
                 else if (trail != null)
                 {
@@ -312,7 +309,7 @@ namespace MyTrips.UWP.Views
 
         private void ResetTrip()
         {
-            trailPointList = viewModel.CurrentTrip.Trail as ObservableRangeCollection<Trail>;
+            trailPointList = viewModel.CurrentTrip.Points as ObservableRangeCollection<TripPoint>;
             trailPointList.CollectionChanged += OnTrailUpdated;
            // MyMap.MapElements.Clear();
             Locations?.Clear();
@@ -323,18 +320,18 @@ namespace MyTrips.UWP.Views
 
         private void SetupMap()
         {
-            Trail start = null;
-            if (viewModel.CurrentTrip.Trail.Count == 0)
+            TripPoint start = null;
+            if (viewModel.CurrentTrip.Points.Count == 0)
                 return;
 
-            start = viewModel.CurrentTrip.Trail[0];
+            start = viewModel.CurrentTrip.Points[0];
             UpdateMap(start, false);
-            AddStartMarker(new BasicGeoposition() {Latitude = start.Latitude, Longitude = start.Longitude });
+            AddStartMarker(new BasicGeoposition() { Latitude = start.Latitude, Longitude = start.Longitude });
         }
 
         private void OnTrailUpdated(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var item = viewModel.CurrentTrip.Trail[viewModel.CurrentTrip.Trail.Count - 1];
+            var item = viewModel.CurrentTrip.Points[viewModel.CurrentTrip.Points.Count - 1];
             UpdateMap(item);
         }
 
