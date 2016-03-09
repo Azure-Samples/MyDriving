@@ -38,15 +38,6 @@ namespace MyTrips.iOS
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString ("RefreshPastTripsTable"), HandleReloadTableNotification); 
 		}
 
-		public override void TraitCollectionDidChange(UITraitCollection previousTraitCollection)
-		{
-			base.TraitCollectionDidChange(previousTraitCollection);
-
-			// Check to see if 3D Touch is available
-			if (TraitCollection.ForceTouchCapability == UIForceTouchCapability.Available)
-				RegisterForPreviewingWithDelegate(new PreviewingDelegate(this), View);
-		}
-
 		public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
 		{
 			if (segue.Identifier == PAST_TRIP_SEGUE_IDENTIFIER)
