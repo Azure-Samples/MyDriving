@@ -40,7 +40,7 @@ namespace MyTrips.Services
 
             //Call into mobile service to provision the device
             var connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
-
+            Settings.Current.DeviceConnectionString = connectionStr;
             //Initialize the IOT Hub
             this.iotHub.Initialize(connectionStr);
 

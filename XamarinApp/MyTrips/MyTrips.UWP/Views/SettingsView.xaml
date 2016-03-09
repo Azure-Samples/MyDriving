@@ -49,9 +49,9 @@
 
                 <TextBlock Name="IotHub" Text="IoT Hub Configuration" Style="{StaticResource SettingsSubLabelStyle}"/>
                 <TextBlock  Text="IoT Devices"  Style="{StaticResource SettingsSubLabelStyle}"/>
-                <TextBox Name="IoT" Text="{Binding HubSetting1, Mode=TwoWay}"  BorderBrush="Transparent" BorderThickness="0" Background="Transparent" Foreground="#7BA4C5"/>
+                <TextBox Name="IoT" Text="{Binding DeviceConnectionString, Mode=TwoWay}"  BorderBrush="Transparent" BorderThickness="0" Background="Transparent" Foreground="#7BA4C5"/>
                 <TextBlock  Text="Azure URL"   Style="{StaticResource SettingsSubLabelStyle}"/>
-                <TextBox Name="AzureURL" Text="{Binding HubSetting2, Mode=TwoWay}"  BorderBrush="Transparent" BorderThickness="0" Background="Transparent" Foreground="#7BA4C5"/>
+                <TextBox Name="AzureURL" Text="{Binding MobileClientUrl, Mode=TwoWay}"  BorderBrush="Transparent" BorderThickness="0" Background="Transparent" Foreground="#7BA4C5"/>
 
                 <Border Style="{StaticResource SettingsSeparatorLine}" />
 

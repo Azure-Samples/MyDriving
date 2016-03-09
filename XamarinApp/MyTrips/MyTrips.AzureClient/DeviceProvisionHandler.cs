@@ -55,8 +55,8 @@ namespace MyTrips.AzureClient
             {
                 handler = new DeviceProvisionHandler();
                 //TODO: Need to get these values from Settings.Current
-                handler.UserId = "TestDeviceUserNLHNew";
-                handler.DeviceId = "TestDeviceNLHNew";
+                handler.UserId = Settings.Current.UserId;
+                handler.DeviceId = Settings.Current.DeviceId;
                 handler.HostName = "smarttrips-dev.azure-devices.net";
             }
 
@@ -67,8 +67,8 @@ namespace MyTrips.AzureClient
         {
             //TODO: Need to get these values from Settings.Current
             Dictionary<string, string> myParms = new Dictionary<string, string>();
-            myParms.Add("userId", this.UserId);
-            myParms.Add("deviceName", this.DeviceId);
+            myParms.Add("userId", Settings.Current.UserId);
+            myParms.Add("deviceName", Settings.Current.DeviceId);
 
             var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client as MobileServiceClient;
 
