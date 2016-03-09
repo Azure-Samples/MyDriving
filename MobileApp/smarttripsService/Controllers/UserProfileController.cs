@@ -30,7 +30,7 @@ namespace smarttripsService.Controllers
             return Query().Where(s => s.UserId == IdentitiyHelper.FindSid(this.User));
         }
 
-        // GET tables/User/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // GET tables/UserProfile/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [QueryableExpand("Devices")]
        //[Authorize]
         public SingleResult<UserProfile> GetUser(string id)

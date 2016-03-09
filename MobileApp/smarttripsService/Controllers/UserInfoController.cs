@@ -1,20 +1,11 @@
 ﻿using Microsoft.Azure.Mobile.Server.Authentication;
 using Microsoft.Azure.Mobile.Server.Config;
-using Newtonsoft.Json.Linq;
-using smarttripsService.DataObjects;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web.Http;
-using MyTrips.DataObjects;
 using smarttripsService.Models;
-using LinqToTwitter;
-using System.Configuration;
 
 namespace smarttripsService.Controllers
 {
@@ -25,12 +16,11 @@ namespace smarttripsService.Controllers
         //[Authorize]
         public async Task<MyTrips.DataObjects.UserProfile> Get()
         {
-            DataObjects.UserProfile userProfile = new DataObjects.UserProfile();
             //return the current authenticated user profile
             ClaimsPrincipal user = User as ClaimsPrincipal;
             bool? isAuthenticated = user?.Identity?.IsAuthenticated;
             
-            if(!isAuthenticated)
+            if(!isAuthenticated.GetValueOrDefault())
             {
                 return null;
             }
@@ -41,47 +31,51 @@ namespace smarttripsService.Controllers
             var msCredentials = await user.GetAppServiceIdentityAsync<MicrosoftAccountCredentials>(Request);
             var twitterCredentials = await user.GetAppServiceIdentityAsync<TwitterCredentials>(Request);
 
+            string first = string.Empty, last = string.Empty, profile = string.Empty;
+
             if (fbCredentials?.UserClaims?.Count() > 0)
             {
                 userId = fbCredentials.UserId;
 
-                await FillDataFromFacebook(userProfile, fbCredentials);
+                FillDataFromFacebook(fbCredentials, out first, out last, out profile);
             }
             else if (msCredentials?.UserClaims?.Count() > 0)
             {
                 userId = msCredentials.UserId;
-                await FillDataFromMS(userProfile, msCredentials);
+                FillDataFromMS(msCredentials, out first, out last, out profile);
             }
             else if (twitterCredentials?.UserClaims?.Count() > 0)
             {
                 userId = twitterCredentials.UserId;
                 var settings = Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
 
-                await FillDataFromTwitter(userProfile, twitterCredentials);
+                FillDataFromTwitter(twitterCredentials, out first, out last, out profile);
             }
-
-            if(userProfile == null)
+            else
+            {
                 return null;
+            }
+            
 
             var context = new smarttripsContext();
             
-            var curUser = context.UserProfiles.Where(u => u.UserId == userId).FirstOrDefault();
+            var curUser = context.UserProfiles.FirstOrDefault(u => u.UserId == userId);
         
             if (curUser == null)
             {
                 context.UserProfiles.Add(new MyTrips.DataObjects.UserProfile
                 {
                     UserId = userId,
-                    ProfilePictureUri = userProfile.ProfilePictureUri,
-                    FirstName = userProfile.FirstName,
-                    LastName = userProfile.LastName
+                    ProfilePictureUri = profile,
+                    FirstName = first,
+                    LastName = last
                 });
             }
             else
             {
-                curUser.FirstName = userProfile.FirstName;
-                curUser.LastName = userProfile.LastName;
-                curUser.ProfilePictureUri.ProfilePictureUri;
+                curUser.FirstName = first;
+                curUser.LastName = last;
+                curUser.ProfilePictureUri = profile;
             }
                 
             context.SaveChanges();
@@ -89,46 +83,36 @@ namespace smarttripsService.Controllers
             return curUser;
         }
 
-        private static async Task FillDataFromFacebook(DataObjects.UserProfile userProfile, FacebookCredentials credentials)
+        void FillDataFromFacebook(FacebookCredentials credentials, out string first, out string last, out string profile)
         {
 
-            var first = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value ?? string.Empty;
-            var last = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value ?? string.Empty;
+            first = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value ?? string.Empty;
+            last = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value ?? string.Empty;
             var id = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
 
-            var profile = $"https://graph.facebook.com/{id}/picture?type=large";
-
-            userProfile.FirstName = first;
-            userProfile.LastName = last;
-            userProfile.ProfilePictureUri = profile;
+            profile = $"https://graph.facebook.com/{id}/picture?type=large";
         }
 
-        static async Task FillDataFromTwitter(DataObjects.UserProfile userProfile, TwitterCredentials credentials)
+        void FillDataFromTwitter(TwitterCredentials credentials, out string first, out string last, out string profile)
         {
-            var name = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? string.Empty;
-            var profile = credentials.UserClaims.FirstOrDefault(c => c.Type == "urn:twitter:profile_image_url_https")?.Value ?? string.Empty;
+            first = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? string.Empty;
+            profile = credentials.UserClaims.FirstOrDefault(c => c.Type == "urn:twitter:profile_image_url_https")?.Value ?? string.Empty;
 
             //get largest image from twitter
             profile = profile.Replace("_normal", string.Empty);
-            userProfile.FirstName = name;
-            userProfile.LastName = string.Empty;
-            userProfile.ProfilePictureUri = profile;
+            last = string.Empty;
 
         }
 
 
-        private static async Task FillDataFromMS(DataObjects.UserProfile userProfile, MicrosoftAccountCredentials credentials)
+        void FillDataFromMS(MicrosoftAccountCredentials credentials, out string first, out string last, out string profile)
         {
            
-            var first = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value ?? string.Empty;
-            var last = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value ?? string.Empty;
+            first = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value ?? string.Empty;
+            last = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value ?? string.Empty;
             var id = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
 
-            var profile = $"https://apis.live.net/v5.0/{id}/picture";
-
-            userProfile.FirstName = first;
-            userProfile.LastName = last;
-            userProfile.ProfilePictureUri = profile;
+            profile = $"https://apis.live.net/v5.0/{id}/picture";
         }
 
     }
