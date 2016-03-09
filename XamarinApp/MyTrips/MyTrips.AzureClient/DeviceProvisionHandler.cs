@@ -39,6 +39,10 @@ namespace MyTrips.AzureClient
         {
             get
             {
+                //Hack for bug #320; hard-coding the AccessKey since we have a provisioned device already that we can re-use
+                //When bug #319 is fixed, we should remove this
+                this.AccessKey = "PZ4daiMJXIFvuHEOiXqperWQUHcq73fAiskFcjqYX84=";
+
                 string connectionStr = String.Empty;
                 if (!String.IsNullOrEmpty(this.AccessKey))
                 {
