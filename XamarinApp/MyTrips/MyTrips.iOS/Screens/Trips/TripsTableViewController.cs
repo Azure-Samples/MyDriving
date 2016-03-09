@@ -2,6 +2,7 @@ using System;
 
 using CoreGraphics;
 using Foundation;
+using ObjCRuntime;
 using UIKit;
 
 using MyTrips.ViewModel;
@@ -26,10 +27,9 @@ namespace MyTrips.iOS
 			ViewModel = new PastTripsViewModel();
 			await ViewModel.ExecuteLoadPastTripsCommandAsync();
 
-			TableView.TableFooterView = new UIView(new CGRect(0, 0, 0,0));
-            TableView.ReloadData();
+			TableView.TableFooterView = new UIView(new CGRect(0, 0, 0, 0));
 
-			RefreshControl.AddTarget(this, new ObjCRuntime.Selector("RefreshSource"), UIControlEvent.ValueChanged);
+			RefreshControl.AddTarget(this, new Selector("RefreshSource"), UIControlEvent.ValueChanged);
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString ("RefreshPastTripsTable"), HandleReloadTableNotification); 
 		}
 
