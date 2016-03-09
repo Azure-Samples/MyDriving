@@ -90,15 +90,16 @@ namespace MyTrips.ViewModel
 			{
 				if (settingsData == null)
 				{
-					var distanceSetting = new Setting { Name = "Distance", PossibleValues = new List<string> { "US/Imperial (miles)", "Metric (km)" }, Value = Settings.Current.MetricDistance == true ? "Metric (km)" : "US/Imperial (miles)"};
-					var capacitySetting = new Setting { Name = "Capacity", PossibleValues = new List<string> { "US/Imperial (gallons)", "Metric (liters)" }, Value = Settings.Current.MetricUnits == true ? "Metric (liters)" : "US/Imperial (gallons)"};
-					
+					var distanceSetting = new Setting { Name = "Distance", PossibleValues = new List<string> { "US/Imperial (miles)", "Metric (km)" }, Value = Settings.Current.MetricDistance ? "Metric (km)" : "US/Imperial (miles)"};
+					var capacitySetting = new Setting { Name = "Capacity", PossibleValues = new List<string> { "US/Imperial (gallons)", "Metric (liters)" }, Value = Settings.Current.MetricUnits ? "Metric (liters)" : "US/Imperial (gallons)"};
+					var temperatureSetting = new Setting { Name = "Temperature", PossibleValues = new List<string> { "Fahrenheit", "Celsius" }, Value = Settings.Current.MetricTemp ? "Celsius" : "Fahrenheit" };
+
 					distanceSetting.PropertyChanged += DistanceSetting_PropertyChanged;
 					capacitySetting.PropertyChanged += CapacitySetting_PropertyChanged;
-
+					temperatureSetting.PropertyChanged += TemperatureSetting_PropertyChanged;
 					units = new List<Setting>
 					{
-						distanceSetting, capacitySetting
+						distanceSetting, capacitySetting, temperatureSetting
 					};
 
 					var hubSetting1 = new Setting { Name = "Hub Setting 1", IsTextField = true };
@@ -144,7 +145,7 @@ namespace MyTrips.ViewModel
 			if (e.PropertyName == "Value")
 			{
 				var setting = (Setting)sender;
-				Settings.Current.MetricDistance = setting.Value == "Metric (km)" ? true : false;
+				Settings.Current.MetricDistance = setting.Value == "Metric (km)";
 			}
 		}
 
@@ -153,10 +154,18 @@ namespace MyTrips.ViewModel
 			if (e.PropertyName == "Value")
 			{
 				var setting = (Setting)sender;
-				Settings.Current.MetricUnits = setting.Value == "Metric (liters)" ? true : false;
+				Settings.Current.MetricUnits = setting.Value == "Metric (liters)";
 			}
 		}
 
+		void TemperatureSetting_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "Value")
+			{
+				var setting = (Setting)sender;
+				Settings.Current.MetricUnits = setting.Value == "Celsius";
+			}
+		}
 
 		void HubSetting1_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{

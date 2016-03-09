@@ -579,6 +579,7 @@
                                         </state>
                                         <connections>
                                             <action selector="BtnMicrosoft_TouchUpInside:" destination="xFX-AO-ONA" eventType="touchUpInside" id="fhB-sF-jOV"/>
+                                            <action selector="DoneButton_TouchUpInside:" destination="tG4-YA-cIU" id="1528" eventType="touchUpInside"/>
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OBf-9f-QNC">
@@ -756,6 +757,8 @@
                     </view>
                     <connections>
                         <outlet property="tripSummaryTableView" destination="vqH-FY-hSw" id="name-outlet-vqH-FY-hSw"/>
+                        <outlet property="doneButton" destination="mgb-bG-HnL" id="name-outlet-mgb-bG-HnL"/>
+                        <outlet property="tripNameTextField" destination="BLc-Uc-Czd" id="name-outlet-BLc-Uc-Czd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qdR-JM-SZf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1054,7 +1057,7 @@
                                                         <color key="textColor" red="0.36113083959999998" green="0.36113083959999998" blue="0.36113083959999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Miles" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kxR-IG-ADX" fixedFrame="YES">
+                                                    <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kxR-IG-ADX" fixedFrame="YES">
                                                         <rect key="frame" x="0.0" y="30.5" width="150" height="19.5"/>
                                                         <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
                                                         <color key="textColor" red="0.08235294118" green="0.66274509800000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
@@ -1250,10 +1253,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="endTimeLabel" destination="yIa-7g-1wt" id="name-outlet-yIa-7g-1wt"/>
-                        <outlet property="lblTemperature" destination="lWE-xz-5pg" id="name-outlet-lWE-xz-5pg"/>
-                        <outlet property="lblDistance" destination="Pxk-2y-rAO" id="bwn-db-4IC"/>
-                        <outlet property="lblDuration" destination="GVa-HN-IkL" id="hbj-h6-a0S"/>
-                        <outlet property="lblConsumption" destination="hBO-cX-I9w" id="name-outlet-hBO-cX-I9w"/>
+                        <outlet property="labelFourValue" destination="lWE-xz-5pg" id="name-outlet-lWE-xz-5pg"/>
+                        <outlet property="labelTwoValue" destination="Pxk-2y-rAO" id="name-outlet-Pxk-2y-rAO"/>
+                        <outlet property="labelThreeValue" destination="GVa-HN-IkL" id="name-outlet-GVa-HN-IkL"/>
+                        <outlet property="labelOneValue" destination="hBO-cX-I9w" id="name-outlet-hBO-cX-I9w"/>
                         <outlet property="recordButton" destination="p6d-Wb-uN3" id="CSh-qW-RJz"/>
                         <outlet property="sliderView" destination="ZDU-Mr-e8H" id="name-outlet-ZDU-Mr-e8H"/>
                         <outlet property="startTimeLabel" destination="CVa-Qv-Jre" id="name-outlet-CVa-Qv-Jre"/>
@@ -1263,6 +1266,10 @@
                         <outlet property="tripSlider" destination="Yuw-JM-bdT" id="vXb-Rv-N0v"/>
                         <outlet property="wayPointA" destination="7mA-Mi-nwI" id="m5y-2I-1KZ"/>
                         <outlet property="wayPointB" destination="3jO-Rf-KjH" id="khi-1p-1zj"/>
+                        <outlet property="labelTwoTitle" destination="kxR-IG-ADX" id="name-outlet-kxR-IG-ADX"/>
+                        <outlet property="labelOneTitle" destination="mz9-7G-uze" id="name-outlet-mz9-7G-uze"/>
+                        <outlet property="labelThreeTitle" destination="zOd-sv-rgi" id="name-outlet-zOd-sv-rgi"/>
+                        <outlet property="labelFourTitle" destination="ela-Vw-BNa" id="name-outlet-ela-Vw-BNa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g60-su-Omq" userLabel="First Responder" sceneMemberID="firstResponder"/>

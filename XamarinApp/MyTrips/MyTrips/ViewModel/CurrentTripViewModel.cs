@@ -194,7 +194,7 @@ namespace MyTrips.ViewModel
                 return false;
             
             var track = Logger.Instance.TrackTime("SaveRecording");
-
+            IsBusy = true;
 
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
 
@@ -210,7 +210,6 @@ namespace MyTrips.ViewModel
                     CurrentTrip.Name = name;
                 }
                 track.Start();
-                IsBusy = true;
                 progress?.Show();
 
 
@@ -227,7 +226,6 @@ namespace MyTrips.ViewModel
                 if (string.IsNullOrWhiteSpace(CurrentTrip.Name))
                     CurrentTrip.Name = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
 
-
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
 
                 foreach (var photo in photos)
@@ -236,24 +234,11 @@ namespace MyTrips.ViewModel
                     await StoreManager.PhotoStore.InsertAsync(photo);
                 }
 
-                //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                {
-                    try
-                    {
                 //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
                 await this.obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
 
                 //Push the trip data packaged with the OBD data to the IOT Hub
                 await this.obdDataProcessor.PushTripDataToIOTHub();
-                    }
-                    catch (Exception ex1)
-                    {
-                        Logger.Instance.Report(ex1);
-                    }
-                }
-
 
                 CurrentTrip = new Trip();
                 CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
@@ -322,7 +307,10 @@ namespace MyTrips.ViewModel
         public async Task ExecuteStartTrackingTripCommandAsync()
         {
             if (IsBusy)
+            {
                 return;
+
+            }
 
 			try 
 			{
@@ -346,15 +334,10 @@ namespace MyTrips.ViewModel
                                                                    "Geolocation Disabled", "OK");
 				}
 
-                //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                {
                     //Connect to the OBD device
-                    await this.obdDataProcessor.Initialize();
+                await this.obdDataProcessor.Initialize(this.StoreManager);
                     await this.obdDataProcessor.ConnectToOBDDevice();
                 }
-            }
             catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
@@ -381,14 +364,9 @@ namespace MyTrips.ViewModel
                 Geolocator.PositionChanged -= Geolocator_PositionChanged;
 				await Geolocator.StopListeningAsync();
 
-                //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                {
                     //Stop reading data from the OBD device
                     await this.obdDataProcessor.DisconnectFromOBDDevice();
 			}
-            }
 			catch (Exception ex) 
 			{
 				Logger.Instance.Report(ex);
@@ -405,20 +383,8 @@ namespace MyTrips.ViewModel
 			{
 				var userLocation = e.Position;
 
-                var obdData = new Dictionary<string, string>();
-                //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                {
                     //Read data from the OBD device and push it to the IOT Hub
-                    obdData = this.obdDataProcessor.ReadOBDData();
-                }
-                else
-                {
-                    obdData = null;
-                }
-
-
+                var obdData = this.obdDataProcessor.ReadOBDData();
 
                 var point = new TripPoint
                 {
@@ -461,12 +427,11 @@ namespace MyTrips.ViewModel
                     point.HasOBDData = false;
                 }
 
-               
                 CurrentTrip.Points.Add(point);
 
                 if (CurrentTrip.Points.Count > 1)
                 {
-                    var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];//2 back now
+                    var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];
                     CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude, userLocation.Longitude, previous.Latitude, previous.Longitude);
                     Distance = CurrentTrip.TotalDistanceNoUnits;
                 }

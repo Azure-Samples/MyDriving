@@ -3,6 +3,8 @@
 using ObdLibUWP;
 #elif __ANDROID__
 using ObdLibAndroid;
+#elif __IOS__
+using ObdLibiOS;
 #endif
 using System;
 using System.Collections.Generic;
@@ -14,7 +16,6 @@ namespace MyTrips.Shared
 {
     public class OBDDeviceSim : IOBDDevice
     {
-        #if WINDOWS_UWP || __ANDROID__
         ObdWrapper obdWrapper = new ObdWrapper();
 
         public async Task Disconnect()
@@ -31,21 +32,5 @@ namespace MyTrips.Shared
         {
             return this.obdWrapper.Read();
         }
-#else
-        public Task Disconnect()
-        {
-            return Task.FromResult(true);
-        }
-
-        public Task<bool> Initialize()
-        {
-            return Task.FromResult(true);
-        }
-
-        public Dictionary<string, string> ReadData()
-        {
-            return new Dictionary<string, string>();
-        }
-        #endif
     }
 }

@@ -21,8 +21,6 @@ using MyTrips.UWP.Views;
 using MyTrips.Shared;
 using MyTrips.Interfaces;
 using MyTrips.DataStore.Abstractions;
-using MyTrips.DataStore.Mock;
-using MyTrips.DataStore.Mock.Stores;
 using MyTrips.DataObjects;
 
 namespace MyTrips.UWP
@@ -44,7 +42,9 @@ namespace MyTrips.UWP
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
             ViewModel.ViewModelBase.Init();
+
             // Added the AppId's provided by Thomas Dohmke. 
             Microsoft.HockeyApp.HockeyClient.Current.Configure(Logger.HockeyAppUWP);
         }
@@ -81,12 +81,6 @@ namespace MyTrips.UWP
                 //TODO: Need to add #debug compile dir for all offline\mock interfaces
                 //ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
                 ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
-
-                ServiceLocator.Instance.Add<IStoreManager, MyTrips.DataStore.Mock.StoreManager>();
-                //ServiceLocator.Instance.Add<IStoreManager, MyTrips.DataStore.Azure.StoreManager>();
-
-                ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Mock.Stores.IOTHubStore>();
-                //ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Azure.Stores.IOTHubStore>();
 
                 Xamarin.Insights.Initialize(Logger.InsightsKey);
 
