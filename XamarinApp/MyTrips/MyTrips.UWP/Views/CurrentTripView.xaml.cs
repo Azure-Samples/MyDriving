@@ -35,17 +35,13 @@ namespace MyTrips.UWP.Views
     /// </summary>
     public sealed partial class CurrentTripView : Page, INotifyPropertyChanged
     {
-        CurrentTripViewModel viewModel;
-
-        ObservableRangeCollection<TripPoint> trailPointList;
-
+        public CurrentTripViewModel viewModel;
+       
         private MapIcon CarIcon;
 
         private MapPolyline mapPolyline;
 
         private ImageSource recordButtonImage;
-
-        private BasicGeoposition startMarker;
 
         public IList<BasicGeoposition> Locations { get; set; }
 
@@ -87,14 +83,6 @@ namespace MyTrips.UWP.Views
             this.CarIcon = new MapIcon();
             this.mapPolyline = new MapPolyline();
             MyMap.MapElements.Clear();
-
-            MyMap.Center =
-               new Geopoint(new BasicGeoposition()
-               {
-                    //Geopoint for Seattle 
-                    Latitude = 47.604,
-                   Longitude = -122.329
-               });
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -106,11 +94,12 @@ namespace MyTrips.UWP.Views
 
         void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            //PropertyChanged(this, new PropertyChangedEventArgs("viewModel"));
             switch (e.PropertyName)
             {
                 case nameof(viewModel.CurrentPosition):
                     var basicGeoposition = new BasicGeoposition() { Latitude = viewModel.CurrentPosition.Latitude, Longitude = viewModel.CurrentPosition.Longitude };
-                
+
                     UpdateMap_PositionChanged(basicGeoposition);
                     UpdateMapView(basicGeoposition);
                     UpdateStats();
@@ -119,13 +108,20 @@ namespace MyTrips.UWP.Views
                 case nameof(viewModel.CurrentTrip):
                     ResetTrip();
                     break;
-                case "Distance":
+
+                //    Todo VJ. Fix Databinding issue to directly update the UI. Currently updating manually.
+                case nameof(viewModel.Distance):
+                case nameof(viewModel.Temperature):
+                case nameof(viewModel.FuelConsumption):
+                case nameof(viewModel.ElapsedTime):
+                case nameof(viewModel.DistanceUnits):
+                case nameof(viewModel.FuelConsumptionUnits):
                     UpdateStats();
                     break;
             }
         }
 
-  
+
         private async Task StartTrackingAsync()
         {
             // Request permission to access location
@@ -181,13 +177,15 @@ namespace MyTrips.UWP.Views
 
             if (viewModel.IsRecording)
             {
+                // Need to update Map UI before we start saving. So that the entire trip is visible. 
+                UpdateMap_PositionChanged(basicGeoposition);
+                AddEndMarker(basicGeoposition);
+
                 if (!viewModel.StopRecordingTrip().Result)
                     return;
 
-                AddEndMarker(basicGeoposition);
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
-                UpdateMap_PositionChanged(basicGeoposition);
                 var recordedTrip = viewModel.CurrentTrip;
                 await viewModel.SaveRecordingTripAsync();
                 // Launch Trip Summary Page. 
@@ -299,11 +297,12 @@ namespace MyTrips.UWP.Views
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                this.text_mpg.Text = "0";
-                this.text_hours.Text = viewModel.ElapsedTime;
-                this.text_miles.Text = viewModel.CurrentTrip.TotalDistanceNoUnits;
-                this.text_gallons.Text = "0";
-                this.text_cost.Text = "$0.00";
+                this.text_time.Text = viewModel.ElapsedTime;
+                this.text_miles.Text = viewModel.Distance;
+                this.text_gallons.Text = viewModel.FuelConsumption;
+                this.text_temp.Text = viewModel.Temperature;
+                this.text_distanceunits.Text = viewModel.DistanceUnits;
+                this.text_fuelunits.Text = viewModel.FuelConsumptionUnits;
             });
         }
 
