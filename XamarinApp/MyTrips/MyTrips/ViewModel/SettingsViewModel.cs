@@ -66,9 +66,7 @@ namespace MyTrips.ViewModel
                 progress?.Show();
                 await StoreManager.DropEverythingAsync();
 
-                Settings.UserId = string.Empty;
-                Settings.AuthToken = string.Empty;
-                Settings.LoginAccount = LoginAccount.None;
+                Settings.Logout();
 
             }
             catch (Exception ex)

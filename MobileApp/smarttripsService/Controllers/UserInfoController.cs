@@ -21,66 +21,72 @@ namespace smarttripsService.Controllers
     [MobileAppController]
     public class UserInfoController : ApiController
     {
-       
         // GET api/UserInfo
-        public async Task<DataObjects.UserProfile> Get()
+        //[Authorize]
+        public async Task<MyTrips.DataObjects.UserProfile> Get()
         {
             DataObjects.UserProfile userProfile = new DataObjects.UserProfile();
             //return the current authenticated user profile
             ClaimsPrincipal user = User as ClaimsPrincipal;
             bool? isAuthenticated = user?.Identity?.IsAuthenticated;
-            if (isAuthenticated == true)
+            
+            if(!isAuthenticated)
             {
-                var userId = string.Empty;
-                // Get the credentials for the logged-in user.
-                var fbCredentials = await user.GetAppServiceIdentityAsync<FacebookCredentials>(Request);
-                var msCredentials = await user.GetAppServiceIdentityAsync<MicrosoftAccountCredentials>(Request);
-                var twitterCredentials = await user.GetAppServiceIdentityAsync<TwitterCredentials>(Request);
-
-                if (fbCredentials?.UserClaims?.Count() > 0)
-                {
-                    userId = fbCredentials.UserId;
-
-                    await FillDataFromFacebook(userProfile, fbCredentials);
-                }
-                else if (msCredentials?.UserClaims?.Count() > 0)
-                {
-                    userId = msCredentials.UserId;
-                    await FillDataFromMS(userProfile, msCredentials);
-                }
-                else
-                {
-                    userId = twitterCredentials.UserId;
-                    var settings = Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
-
-                    await FillDataFromTwitter(userProfile, twitterCredentials, settings["TwitterKey"], settings["TwitterSecret"]);
-                }
-
-
-                var context = new smarttripsContext();
-                try
-                {
-                    var curUser = context.UserProfiles.Where(u => u.UserId == userId).FirstOrDefault();
-               
-                    if (curUser == null && userProfile != null)
-                    {
-                        context.UserProfiles.Add(new MyTrips.DataObjects.UserProfile
-                        {
-                            UserId = userId,
-                            ProfilePictureUri = userProfile.ProfilePictureUri,
-                            FirstName = userProfile.FirstName,
-                            LastName = userProfile.LastName
-                        });
-
-                        context.SaveChanges();
-                    }
-                }
-                catch(Exception ex)
-                {
-
-                }
+                return null;
             }
-            return userProfile;
+            
+            var userId = string.Empty;
+            // Get the credentials for the logged-in user.
+            var fbCredentials = await user.GetAppServiceIdentityAsync<FacebookCredentials>(Request);
+            var msCredentials = await user.GetAppServiceIdentityAsync<MicrosoftAccountCredentials>(Request);
+            var twitterCredentials = await user.GetAppServiceIdentityAsync<TwitterCredentials>(Request);
+
+            if (fbCredentials?.UserClaims?.Count() > 0)
+            {
+                userId = fbCredentials.UserId;
+
+                await FillDataFromFacebook(userProfile, fbCredentials);
+            }
+            else if (msCredentials?.UserClaims?.Count() > 0)
+            {
+                userId = msCredentials.UserId;
+                await FillDataFromMS(userProfile, msCredentials);
+            }
+            else if (twitterCredentials?.UserClaims?.Count() > 0)
+            {
+                userId = twitterCredentials.UserId;
+                var settings = Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
+
+                await FillDataFromTwitter(userProfile, twitterCredentials);
+            }
+
+            if(userProfile == null)
+                return null;
+
+            var context = new smarttripsContext();
+            
+            var curUser = context.UserProfiles.Where(u => u.UserId == userId).FirstOrDefault();
+        
+            if (curUser == null)
+            {
+                context.UserProfiles.Add(new MyTrips.DataObjects.UserProfile
+                {
+                    UserId = userId,
+                    ProfilePictureUri = userProfile.ProfilePictureUri,
+                    FirstName = userProfile.FirstName,
+                    LastName = userProfile.LastName
+                });
+            }
+            else
+            {
+                curUser.FirstName = userProfile.FirstName;
+                curUser.LastName = userProfile.LastName;
+                curUser.ProfilePictureUri.ProfilePictureUri;
+            }
+                
+            context.SaveChanges();
+            
+            return curUser;
         }
 
         private static async Task FillDataFromFacebook(DataObjects.UserProfile userProfile, FacebookCredentials credentials)
@@ -97,7 +103,7 @@ namespace smarttripsService.Controllers
             userProfile.ProfilePictureUri = profile;
         }
 
-        static async Task FillDataFromTwitter(DataObjects.UserProfile userProfile, TwitterCredentials credentials, string key, string secret)
+        static async Task FillDataFromTwitter(DataObjects.UserProfile userProfile, TwitterCredentials credentials)
         {
             var name = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? string.Empty;
             var profile = credentials.UserClaims.FirstOrDefault(c => c.Type == "urn:twitter:profile_image_url_https")?.Value ?? string.Empty;
@@ -123,15 +129,6 @@ namespace smarttripsService.Controllers
             userProfile.FirstName = first;
             userProfile.LastName = last;
             userProfile.ProfilePictureUri = profile;
-
-            //request for the profile picture
-            using (var client = new HttpClient())
-            {
-                var resp = await client.GetAsync(userProfile.ProfilePictureUri);
-                resp.EnsureSuccessStatusCode();
-                var picture = await resp.Content.ReadAsByteArrayAsync();
-                userProfile.ProfilePicture = picture;
-            }
         }
 
     }

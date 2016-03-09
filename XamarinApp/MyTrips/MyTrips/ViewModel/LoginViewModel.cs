@@ -3,6 +3,7 @@ using System.Windows.Input;
 using MyTrips.Utils;
 using MyTrips.Helpers;
 using MyTrips.Interfaces;
+using MyTrips.DataObjects;
 using Microsoft.WindowsAzure.MobileServices;
 using MyTrips.DataStore.Abstractions;
 using MyTrips.AzureClient;
@@ -22,13 +23,7 @@ namespace MyTrips.ViewModel
 
         }
 
-        UserProfile userInfo;
-        public UserProfile UserInfo
-        {
-            get { return userInfo; }
-            set { SetProperty(ref userInfo, value); }
-        }
-
+        public UserProfile UserProfile { get; set; }
 
 
         bool isLoggedIn;
@@ -44,7 +39,6 @@ namespace MyTrips.ViewModel
             Settings.UserFirstName = "Scott";
             Settings.UserLastName = "Gu";
             Settings.UserProfileUrl = "http://refractored.com/images/Scott.png";
-            Settings.UserPictureSourceKind = UserPictureSourceKind.Url;
         }
 
         ICommand  loginTwitterCommand;
@@ -106,7 +100,7 @@ namespace MyTrips.ViewModel
                 if (user != null)
                 {
                     IsBusy = true;
-                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+                    UserProfile = await UserProfileHelper.GetUserProfileAsync(client);
                 }
             }
             catch (Exception ex)
@@ -119,7 +113,7 @@ namespace MyTrips.ViewModel
             }
 
 
-            if (user == null || UserInfo == null)
+            if (user == null || UserProfile == null)
             {
                 Settings.LoginAccount = LoginAccount.None;
                 Settings.UserFirstName = string.Empty;

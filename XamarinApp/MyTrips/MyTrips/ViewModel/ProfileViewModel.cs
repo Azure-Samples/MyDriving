@@ -3,6 +3,8 @@ using MvvmHelpers;
 using MyTrips.AzureClient;
 using MyTrips.Utils;
 using System.Threading.Tasks;
+using System.Linq;
+using System;
 
 
 namespace MyTrips.ViewModel
@@ -19,12 +21,57 @@ namespace MyTrips.ViewModel
         public int DrivingSkills
         {
             get { return drivingSkills; }
-            set
+            set 
             {
                 SetProperty(ref drivingSkills, value);
                 UpdatePlacementBucket(drivingSkills);
             }
         }
+
+        public async Task<bool> UpdateProfileAsync()
+        {
+            if (IsBusy)
+                return false;
+
+            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading profile...", maskType: Acr.UserDialogs.MaskType.Clear);
+            var error = false;
+            try
+            {
+                IsBusy = true;
+
+                var users = await StoreManager.UserStore.GetItemsAsync(0, 100, true);
+
+                var currentUser = users.FirstOrDefault(s => s.UserId == Settings.UserId);
+
+                if (currentUser == null)
+                {
+                    error = true;
+                }
+                else
+                {
+                    TotalDistance = currentUser.TotalDistance;
+                }
+                //update stats here.
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Report(ex);
+                error = true;
+            }
+            finally
+            {
+                progress?.Dispose();
+                IsBusy = false;
+            }
+
+            if (error)
+            {
+                //display dialog
+            }
+
+            return !error;
+        }
+
 
         DrivingSkillsBucket drivingSkillsPlacementBucket;
         public DrivingSkillsBucket DrivingSkillsPlacementBucket
@@ -33,14 +80,13 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref drivingSkillsPlacementBucket, value); }
         }
 
-		public string TotalDistanceUnits
-		{
-			get 
-			{
-				var units = Settings.MetricUnits ? "kilometers" : "miles";
-				return $"{TotalDistance} {units}"; 
-			}
-		}
+        public string TotalDistanceUnits
+        {
+            get {
+                var units = Settings.MetricUnits ? "kilometers" : "miles";
+                return $"{TotalDistance} {units}";
+            }
+        }
 
         double totalDistance;
         public double TotalDistance
@@ -56,14 +102,13 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref totalTime, value); }
         }
 
-		public string AverageSpeedUnits
-		{
-			get 
-			{
-				var units = Settings.MetricUnits ? "km/h" : "mph";
-				return $"{AvgSpeed} {units}"; 
-			}
-		}
+        public string AverageSpeedUnits
+        {
+            get {
+                var units = Settings.MetricUnits ? "km/h" : "mph";
+                return $"{AvgSpeed} {units}";
+            }
+        }
 
         double avgSpeed;
         public double AvgSpeed
@@ -91,18 +136,11 @@ namespace MyTrips.ViewModel
         }
 
 
-        UserPictureSourceKind pictureSourceKind = Settings.Current.UserPictureSourceKind;
-        public UserPictureSourceKind UserPictureSourceKind
-        {
-            get { return pictureSourceKind; }
-            set { SetProperty(ref pictureSourceKind, value); }
-        }
 
         async Task UpdatePictureAsync()
         {
             IMobileServiceClient client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
             await Helpers.UserProfileHelper.GetUserProfileAsync(client);
-            UserPictureSourceKind = Settings.Current.UserPictureSourceKind;
         }
 
 
@@ -116,7 +154,7 @@ namespace MyTrips.ViewModel
             // to do find specifications for colors/desription 
             Skills = new DrivingSkillsBucket[drivingSkillsBuckets]
             {
-                new DrivingSkillsBucket()    {  betterThan=0,  description="Very bad",  color=SkillsColor.Red },
+                new DrivingSkillsBucket()   {  betterThan=0,  description="Very bad",  color=SkillsColor.Red },
                 new DrivingSkillsBucket()   {   betterThan=25,    description="Poor",   color=SkillsColor.Orange },
                 new DrivingSkillsBucket()   {   betterThan=50,    description="Good",   color=SkillsColor.Yellow },
                 new DrivingSkillsBucket()   {   betterThan=75,    description="Great!",   color=SkillsColor.Green }

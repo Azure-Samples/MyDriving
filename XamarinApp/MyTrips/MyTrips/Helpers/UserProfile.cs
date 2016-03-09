@@ -1,6 +1,7 @@
 ﻿using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 using MyTrips.Utils;
+using MyTrips.DataObjects;
 
 namespace MyTrips.Helpers
 {
@@ -19,28 +20,12 @@ namespace MyTrips.Helpers
             Settings.Current.UserLastName = userprof?.LastName ?? string.Empty;
             Settings.Current.UserProfileUrl = userprof?.ProfilePictureUri ?? string.Empty;
 
-            if (userprof?.ProfilePictureUri != null && userprof?.ProfilePictureUri != string.Empty)
-                Settings.Current.UserPictureSourceKind = UserPictureSourceKind.Url;
-            else if (userprof?.ProfilePicture?.Length > 0 )
+            if (string.IsNullOrWhiteSpace(userprof?.ProfilePictureUri))
             {
-                Settings.Current.UserProfileByteArr = userprof?.ProfilePicture;
-                Settings.Current.UserPictureSourceKind = UserPictureSourceKind.Byte;
+                //should set a default here
             }
-            else
-                Settings.Current.UserPictureSourceKind = UserPictureSourceKind.None;
 
             return userprof;
         }
-    }
-}
-
-namespace MyTrips
-{
-    public class UserProfile
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string ProfilePictureUri { get; set; }
-        public byte[] ProfilePicture { get; set; }
     }
 }
