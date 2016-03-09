@@ -23,7 +23,6 @@ namespace MyTrips.iOS
 		TripMapViewDelegate mapDelegate;
 
 		CurrentTripViewModel CurrentTripViewModel { get; set; }
-
 		public PastTripsDetailViewModel PastTripsDetailViewModel { get; set; }
 
 		public CurrentTripViewController (IntPtr handle) : base (handle)
@@ -37,13 +36,9 @@ namespace MyTrips.iOS
 			NavigationItem.RightBarButtonItem = null;
 
 			if (PastTripsDetailViewModel == null)
-			{
 				await ConfigureCurrentTripUserInterface();
-			}
 			else
-			{
 				ConfigurePastTripUserInterface();
-			}
 		}
 
 		public override void ViewDidAppear(bool animated)

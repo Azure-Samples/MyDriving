@@ -101,7 +101,6 @@ namespace MyTrips.iOS
 		}
 		#endregion
 
-		// For some reason, RefreshControl.ValueChanged doesn't function properly?
 		[Export ("RefreshSource")]
 		async void RefreshControl_ValueChanged()
 		{
