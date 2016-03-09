@@ -119,7 +119,7 @@ namespace MyTrips.ViewModel
 
         public IMedia Media => CrossMedia.Current;
 
-        public bool StartRecordingTrip()
+        public async Task<bool> StartRecordingTrip()
         {
             if (IsBusy || IsRecording)
                 return false;
@@ -148,6 +148,10 @@ namespace MyTrips.ViewModel
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
                 IsRecording = true;
+
+                //Connect to the OBD device
+                await this.obdDataProcessor.Initialize(this.StoreManager);
+                await this.obdDataProcessor.ConnectToOBDDevice();
 
                 //Simulate recording several data points
                 /*for (int i = 0; i < 10; i++)
@@ -271,7 +275,7 @@ namespace MyTrips.ViewModel
             return false;
         }
    
-        public bool StopRecordingTrip()
+        public async Task<bool> StopRecordingTrip()
         {
             if (IsBusy || !IsRecording)
                 return false;
@@ -293,6 +297,9 @@ namespace MyTrips.ViewModel
 
                 return false;
             }
+
+            //Stop reading data from the OBD device
+            await this.obdDataProcessor.DisconnectFromOBDDevice();
 
             IsRecording = false;
             NeedSave = true;
@@ -333,11 +340,7 @@ namespace MyTrips.ViewModel
                         Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
                                                                    "Geolocation Disabled", "OK");
 				}
-
-                    //Connect to the OBD device
-                await this.obdDataProcessor.Initialize(this.StoreManager);
-                    await this.obdDataProcessor.ConnectToOBDDevice();
-                }
+            }
             catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
@@ -363,9 +366,6 @@ namespace MyTrips.ViewModel
                 //Unsubscribe because we were recording and it is alright
                 Geolocator.PositionChanged -= Geolocator_PositionChanged;
 				await Geolocator.StopListeningAsync();
-
-                    //Stop reading data from the OBD device
-                    await this.obdDataProcessor.DisconnectFromOBDDevice();
 			}
 			catch (Exception ex) 
 			{

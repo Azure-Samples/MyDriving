@@ -23,7 +23,6 @@ namespace MyTrips.iOS
 		TripMapViewDelegate mapDelegate;
 
 		CurrentTripViewModel CurrentTripViewModel { get; set; }
-
 		public PastTripsDetailViewModel PastTripsDetailViewModel { get; set; }
 
 		public CurrentTripViewController (IntPtr handle) : base (handle)
@@ -37,56 +36,27 @@ namespace MyTrips.iOS
 			NavigationItem.RightBarButtonItem = null;
 
 			if (PastTripsDetailViewModel == null)
-			{
 				await ConfigureCurrentTripUserInterface();
-			}
 			else
-			{
 				ConfigurePastTripUserInterface();
-			}
-		}
-
-		public override async void ViewWillAppear(bool animated)
-		{
-			base.ViewWillAppear(animated);
-
-			if (CurrentTripViewModel != null && !CurrentTripViewModel.IsRecording)
-			{
-				await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync();
-			}
 		}
 
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
-
-			if (recordButton.Hidden == true && PastTripsDetailViewModel == null)
-			{
-				recordButton.Pop(0.5, 0, 1);
-			}
-		}
-
-		public override async void ViewWillDisappear(bool animated)
-		{
-			base.ViewWillDisappear(animated);
-
-			if (CurrentTripViewModel != null && !CurrentTripViewModel.IsRecording)
-			{
-				await CurrentTripViewModel.ExecuteStopTrackingTripCommandAsync();
-			}
+			PopRecordButtonAnimation();
 		}
 
 		#region Current Trip User Interface Logic
 		async Task ConfigureCurrentTripUserInterface()
 		{
 			// Configure map
-			mapDelegate = new TripMapViewDelegate(UIColor.Red, 0.6);
+			mapDelegate = new TripMapViewDelegate(true);
 			tripMapView.Delegate = mapDelegate;
 			tripMapView.ShowsUserLocation = false;
 			tripMapView.Camera.Altitude = 5000;
 
 			// Setup record button
-			recordButton.Hidden = true;
 			recordButton.Layer.CornerRadius = recordButton.Frame.Width / 2;
 			recordButton.Layer.MasksToBounds = true;
 			recordButton.Layer.BorderColor = "5C5C5C".ToUIColor().CGColor;
@@ -277,14 +247,12 @@ namespace MyTrips.iOS
 		void ConfigurePastTripUserInterface()
 		{
 			NavigationItem.Title = PastTripsDetailViewModel.Title;
-
 			var coordinateCount = PastTripsDetailViewModel.Trip.Points.Count;
 
 			// Setup map
-			mapDelegate = new TripMapViewDelegate(UIColor.Blue, 0.6);
+			mapDelegate = new TripMapViewDelegate(false);
 			tripMapView.Delegate = mapDelegate;
 			tripMapView.ShowsUserLocation = false;
-			tripMapView.Camera.Altitude = 5000;
 			tripMapView.SetVisibleMapRect(MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray()).BoundingMapRect, new UIEdgeInsets(25, 25, 25, 25), false);
 
 			// Draw endpoints
@@ -302,20 +270,12 @@ namespace MyTrips.iOS
 			currentLocationAnnotation = new CarAnnotation(carCoordinate, UIColor.Blue);
 			tripMapView.AddAnnotation(currentLocationAnnotation);
 
+			// Configure slider area
 			ConfigureSlider();
 			ConfigureWayPointButtons();
-
-			// Hide record button
 			recordButton.Hidden = true;
 
-			// Show slider 
-			sliderView.Hidden = false;
-
-			startTimeLabel.Hidden = false;
-			endTimeLabel.Hidden = false;
-			startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
-			endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
-
+			// Configure trip info labels
 			labelOneTitle.Text = "Avg Speed";
 			labelOneValue.Text = PastTripsDetailViewModel.Trip.AverageSpeed.ToString();
 			labelTwoTitle.Text = PastTripsDetailViewModel.Settings.MetricDistance ? "Kilometers" : "Miles";
@@ -328,6 +288,9 @@ namespace MyTrips.iOS
 
 		void ConfigureSlider()
 		{
+			sliderView.Hidden = false;
+			tripSlider.Hidden = false;
+
 			var dataPoints = PastTripsDetailViewModel.Trip.Points.Count - 1;
 			tripSlider.MinValue = 0;
 			tripSlider.MaxValue = dataPoints;
@@ -338,6 +301,12 @@ namespace MyTrips.iOS
 
 		void ConfigureWayPointButtons()
 		{
+			startTimeLabel.Hidden = false;
+			endTimeLabel.Hidden = false;
+
+			startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
+			endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
+
 			wayPointA.Layer.CornerRadius = wayPointA.Frame.Width / 2;
 			wayPointA.Layer.BorderWidth = 2;
 			wayPointA.Layer.BorderColor = UIColor.White.CGColor;
@@ -345,7 +314,6 @@ namespace MyTrips.iOS
 			{
 				tripSlider.Value = 0;
 				TripSlider_ValueChanged(this, null);
-
 			};
 
 			wayPointB.Layer.CornerRadius = wayPointB.Frame.Width / 2;
@@ -360,10 +328,15 @@ namespace MyTrips.iOS
 
 		void TripSlider_ValueChanged(object sender, EventArgs e)
 		{
-			// Move car to coordinate
 			var value = (int)tripSlider.Value;
 			var coordinate = PastTripsDetailViewModel.Trip.Points[value].ToCoordinate();
 			UpdateCarAnnotationPosition(coordinate);
+		}
+
+		void PopRecordButtonAnimation()
+		{
+			if (recordButton.Hidden == true && PastTripsDetailViewModel == null)
+				recordButton.Pop(0.5, 0, 1);
 		}
 		#endregion
 
@@ -371,9 +344,7 @@ namespace MyTrips.iOS
 		void UpdateCarAnnotationPosition(CLLocationCoordinate2D coordinate)
 		{
 			if (currentLocationAnnotation != null)
-			{
 				tripMapView.RemoveAnnotation(currentLocationAnnotation);
-			}
 
 			var color = CurrentTripViewModel != null && CurrentTripViewModel.IsRecording ? UIColor.Red : UIColor.Blue;
 			currentLocationAnnotation = new CarAnnotation(coordinate, color);

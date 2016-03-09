@@ -10,12 +10,14 @@ namespace MyTrips.iOS
 		const string WAYPOINT_ANNOTATION = "WAYPOINT_ANNOTATION";
 
 		UIColor color;
-		double alpha;
+		double alpha = 0.6;
 
-		public TripMapViewDelegate(UIColor color, double alpha)
+		public TripMapViewDelegate(bool isCurrentTripMap)
 		{
-			this.color = color;
-			this.alpha = alpha;
+			if (isCurrentTripMap)
+				color = UIColor.Red;
+			else
+				color = UIColor.Blue;
 		}
 
 		public override MKOverlayRenderer OverlayRenderer(MKMapView mapView, IMKOverlay overlay)
