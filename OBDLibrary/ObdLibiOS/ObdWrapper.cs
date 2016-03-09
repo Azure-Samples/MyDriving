@@ -23,15 +23,16 @@ namespace ObdLibiOS
         private IPEndPoint _ipEndPoint;
         private Socket _socket;
         private Stream _stream;
-        bool _running = true;
+        private bool _running = true;
+        private Dictionary<string, string> _PIDs;
 
         public async Task<bool> Init(bool simulatormode = false)
         {
             //initialize _data
             this._data = new Dictionary<string, string>();
             this._data.Add("vin", DefValue);  //VIN
-            var dic = ObdShare.ObdUtil.GetPIDs();
-            foreach (var v in dic.Values)
+            _PIDs = ObdShare.ObdUtil.GetPIDs();
+            foreach (var v in _PIDs.Values)
             {
                 this._data.Add(v, DefValue);
             }
@@ -96,7 +97,10 @@ namespace ObdLibiOS
                 foreach (var key in _data.Keys)
                 {
                     ret.Add(key, _data[key]);
-                    _data[key] = DefValue;
+                }
+                foreach (var v in _PIDs.Values)
+                {
+                    this._data[v] = DefValue;
                 }
             }
             return ret;
@@ -116,10 +120,9 @@ namespace ObdLibiOS
                 }
                 while (true)
                 {
-                    var dic = ObdShare.ObdUtil.GetPIDs();
-                    foreach (var cmd in dic.Keys)
+                    foreach (var cmd in _PIDs.Keys)
                     {
-                        var key = dic[cmd];
+                        var key = _PIDs[cmd];
                         if (_simulatormode)
                             s = ObdShare.ObdUtil.GetEmulatorValue(cmd);
                         else
@@ -130,7 +133,7 @@ namespace ObdLibiOS
                                 _data[key] = s;
                             }
                         if (!this._running)
-                            break;
+                            return;
                         await Task.Delay(Interval);
                     }
                 }
@@ -139,9 +142,18 @@ namespace ObdLibiOS
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 _running = false;
-                _socket.Shutdown(SocketShutdown.Both);
-                _socket.Close();
-                _socket = null;
+                if (_stream != null)
+                {
+                    _stream.Dispose();
+                    _stream.Close();
+                    _stream = null;
+                }
+                if (_socket != null)
+                {
+                    _socket.Shutdown(SocketShutdown.Both);
+                    _socket.Close();
+                    _socket = null;
+                }
             }
         }
         private async Task<string> GetVIN()
