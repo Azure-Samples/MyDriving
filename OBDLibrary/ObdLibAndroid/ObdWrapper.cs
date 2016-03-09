@@ -169,7 +169,7 @@ namespace ObdLibAndroid
                                 _data[key] = s;
                             }
                         if (!this._running)
-                            break;
+                            return;
                     }
                 }
             }
