@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
+using MyTrips.DataObjects;
 using MyTrips.Helpers;
 using MyTrips.Utils;
-using MvvmHelpers;
-using MyTrips.DataObjects;
-using System.Collections.ObjectModel;
-using Plugin.DeviceInfo;
+
 using Acr.UserDialogs;
+using MvvmHelpers;
+using Plugin.DeviceInfo;
 
 namespace MyTrips.ViewModel
 {
