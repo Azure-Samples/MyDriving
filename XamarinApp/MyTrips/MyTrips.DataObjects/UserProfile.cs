@@ -28,6 +28,7 @@ namespace MyTrips.DataObjects
         public double FuelConsumption { get; set; }
 
         public double MaxSpeed { get; set; }
+
         public List<string> Devices { get; set; }
     }
 }

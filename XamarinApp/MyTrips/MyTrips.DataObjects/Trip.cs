@@ -11,15 +11,11 @@ using MyTrips.Utils;
 
 namespace MyTrips.DataObjects
 {
-    /// <summary>
-    /// Note that this is the structure that was discussed with Haishi - is subject to change.
-    /// </summary>
     public class Trip : BaseDataObject
     {
         public Trip()
         {
             Points = new List<TripPoint>();
-            Tips = new List<Tip>();
         }
 
         public string Name { get; set; }
@@ -38,6 +34,10 @@ namespace MyTrips.DataObjects
         public double AverageSpeed { get; set; }
 
         public double FuelUsed { get; set; }
+
+        public long HardStops { get; set; }
+
+        public long HardAcceleration { get; set; }
 
         public string MainPhotoUrl { get; set; }
 
