@@ -26,9 +26,6 @@ namespace MyTrips.iOS
 			ViewModel = new PastTripsViewModel();
 			await ViewModel.ExecuteLoadPastTripsCommandAsync();
 
-			//TODO Find why this doesn't work on Mikes machine...Pierce?
-			//await SpotlightSearch.IndexTrips(ViewModel.Trips);
-
 			TableView.TableFooterView = new UIView(new CGRect(0, 0, 0,0));
             TableView.ReloadData();
 
@@ -136,8 +133,6 @@ namespace MyTrips.iOS
 		async void HandleReloadTableNotification(NSNotification obj)
 		{
 			await ViewModel.ExecuteLoadPastTripsCommandAsync();
-
-			//await SpotlightSearch.IndexTrips(ViewModel.Trips);
 
 			InvokeOnMainThread(delegate
 			{
