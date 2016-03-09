@@ -10,6 +10,7 @@ using MvvmHelpers;
 using MyTrips.DataObjects;
 using System.Collections.ObjectModel;
 using Plugin.DeviceInfo;
+using Acr.UserDialogs;
 
 namespace MyTrips.ViewModel
 {
@@ -29,8 +30,13 @@ namespace MyTrips.ViewModel
 
             var track = Logger.Instance.TrackTime("LoadTrips");
             track.Start();
-            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading trips...", maskType: Acr.UserDialogs.MaskType.Clear);
-            
+
+			IProgressDialog progressDialog = null;
+			if (CrossDeviceInfo.Current.Platform != Plugin.DeviceInfo.Abstractions.Platform.iOS)
+			{
+				progressDialog = UserDialogs.Instance.Loading("Loading trips...", maskType: MaskType.Clear);
+			}   
+
             try 
             {
                 IsBusy = true;
@@ -48,7 +54,8 @@ namespace MyTrips.ViewModel
             {
                 track.Stop();
                 IsBusy = false;
-                progress?.Dispose();
+
+				progressDialog?.Dispose();
             }
         }
 
