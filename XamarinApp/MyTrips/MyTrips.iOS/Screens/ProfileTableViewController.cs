@@ -28,6 +28,11 @@ namespace MyTrips.iOS
 			imgAvatar.SetImage(new NSUrl(url));
 			
 
+			PercentageView.Value = 86;
+
+			// TODO: Bind to actual value when there is one.
+			// PercentageView.Value = ViewModel.DrivingSkills;
+
 			imgAvatar.Layer.CornerRadius = imgAvatar.Frame.Width / 2;
 			imgAvatar.Layer.BorderWidth = 2;
 			imgAvatar.Layer.BorderColor = "15A9FE".ToUIColor().CGColor;
