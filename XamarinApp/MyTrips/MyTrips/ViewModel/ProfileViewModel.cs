@@ -50,6 +50,13 @@ namespace MyTrips.ViewModel
                 else
                 {
                     TotalDistance = currentUser.TotalDistance;
+                    HardStops = currentUser.HardStops;
+                    HardAccelerations = currentUser.HardAcceleration;
+                    DrivingSkills = currentUser.Rating;
+                    TotalTime = currentUser.TotalTime;
+                    TotalTrips = currentUser.TotalTrips;
+                    FuelUsed = currentUser.FuelConsumption;
+                    OnPropertyChanged("Stats");
                 }
                 //update stats here.
             }
@@ -80,11 +87,46 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref drivingSkillsPlacementBucket, value); }
         }
 
-        public string TotalDistanceUnits
+
+        public string FuelUnits => Settings.MetricUnits ? "Liters" : "Gallons";
+
+        public double FuelConverted => Settings.MetricUnits ? FuelUsed / .264172 : FuelUsed;
+
+        public string FuelDisplayNoUnits => FuelConverted.ToString("F");
+
+        public string FuelDisplay => $"{FuelDisplayNoUnits} {FuelUnits}";
+
+
+        public string DistanceUnits => Settings.MetricDistance ? "kilometers" : "miles";
+
+        public string TotalDistanceDisplayNoUnits => DistanceConverted.ToString("F");
+
+        public string TotalDistanceDisplay => $"{TotalDistanceDisplayNoUnits} {DistanceUnits}";
+
+        public double DistanceConverted => (Settings.Current.MetricDistance ? (TotalDistance * 1.60934) : TotalDistance);
+
+        public string SpeedUnits => Settings.MetricUnits ? "km/h" : "mph";
+
+        public double MaxSpeedConverted => Settings.MetricDistance ? MaxSpeed : MaxSpeed * 0.621371;
+
+        public string MaxSpeedDisplayNoUnits => MaxSpeedConverted.ToString("F");
+
+        public string MaxSpeedDisplay => $"{MaxSpeedDisplayNoUnits} {SpeedUnits}";
+
+
+
+        public string TotalTimeDisplay
         {
-            get {
-                var units = Settings.MetricUnits ? "kilometers" : "miles";
-                return $"{TotalDistance} {units}";
+            get 
+            {
+                var time = TimeSpan.FromSeconds(TotalTime);
+                if (time.TotalMinutes < 1)
+                    return $"{time.Seconds}s";
+
+                if (time.TotalHours < 1)
+                    return $"{time.Minutes}m {time.Seconds}s";
+                
+                return $"{(int)time.TotalHours}h {time.Minutes}m {time.Seconds}s";
             }
         }
 
@@ -92,50 +134,86 @@ namespace MyTrips.ViewModel
         public double TotalDistance
         {
             get { return totalDistance; }
-            set { SetProperty(ref totalDistance, value); }
+            set 
+            {
+                if (!SetProperty(ref totalDistance, value))
+                    return;
+                
+                OnPropertyChanged(nameof(DistanceUnits));
+                OnPropertyChanged(nameof(TotalDistanceDisplay));
+                OnPropertyChanged(nameof(TotalDistanceDisplayNoUnits));
+                OnPropertyChanged(nameof(DistanceConverted));
+            }
+        }
+
+        double fuelUsed;
+        public double FuelUsed
+        {
+            get { return fuelUsed; }
+            set 
+            {
+                if (!SetProperty(ref fuelUsed, value))
+                    return;
+
+
+                OnPropertyChanged(nameof(FuelUnits));
+                OnPropertyChanged(nameof(FuelDisplay));
+                OnPropertyChanged(nameof(FuelDisplayNoUnits));
+                OnPropertyChanged(nameof(FuelConverted));
+            }
         }
 
         double totalTime;
         public double TotalTime
         {
             get { return totalTime; }
-            set { SetProperty(ref totalTime, value); }
-        }
+            set 
+            {
+                if (!SetProperty(ref totalTime, value))
+                    return;
 
-        public string AverageSpeedUnits
-        {
-            get {
-                var units = Settings.MetricUnits ? "km/h" : "mph";
-                return $"{AvgSpeed} {units}";
+                OnPropertyChanged(nameof(TotalTimeDisplay));
             }
         }
 
-        double avgSpeed;
-        public double AvgSpeed
+        double maxSpeed;
+        public double MaxSpeed
         {
-            get { return avgSpeed; }
-            set { SetProperty(ref avgSpeed, value); }
-        }
+            get { return maxSpeed; }
+            set 
+            {
+                if (!SetProperty(ref maxSpeed, value))
+                    return;
 
-        int hardBreaks;
-        public int HardBreaks
-        {
-            get { return hardBreaks; }
-            set { SetProperty(ref hardBreaks, value); }
-        }
 
-        public class Tip
-        {
-
-        }
-        ObservableRangeCollection<Tip> tips = new ObservableRangeCollection<Tip>();
-        public ObservableRangeCollection<Tip> Tips
-        {
-            get { return tips; }
-            set { SetProperty(ref tips, value); }
+                OnPropertyChanged(nameof(SpeedUnits));
+                OnPropertyChanged(nameof(MaxSpeedConverted));
+                OnPropertyChanged(nameof(MaxSpeedDisplayNoUnits));
+                OnPropertyChanged(nameof(MaxSpeedDisplay));
+            }
         }
 
 
+        long hardStops;
+        public long HardStops
+        {
+            get { return hardStops; }
+            set { SetProperty(ref hardStops, value); }
+        }
+
+        long hardAccelerations;
+        public long HardAccelerations
+        {
+            get { return hardAccelerations; }
+            set { SetProperty(ref hardAccelerations, value); }
+        }
+
+        long totalTrips;
+        public long TotalTrips
+        {
+            get { return totalTrips; }
+            set { SetProperty(ref totalTrips, value); }
+        }
 
         async Task UpdatePictureAsync()
         {
@@ -144,7 +222,7 @@ namespace MyTrips.ViewModel
         }
 
 
-        private DrivingSkillsBucket[] Skills
+        DrivingSkillsBucket[] Skills
         {
             get; set;
         }

@@ -17,11 +17,14 @@ namespace MyTrips.DataStore.Mock.Stores
                 FirstName = "Scott",
                 LastName = "Gu",
                 ProfilePictureUri = "http://refractored.com/images/Scott.png",
-                AverageSpeed = 55,
-                AverageFuelConsumption = 2,
+                HardAcceleration = 55,
+                HardStops = 2,
                 Rating = 98,
                 TotalDistance = 99,
-                TotalEmissions = 1,
+                MaxSpeed = 55,
+                FuelConsumption = 10,
+                TotalTime = 60 * 90,
+                TotalTrips = 8,
                 UserId = "1"
             });
 

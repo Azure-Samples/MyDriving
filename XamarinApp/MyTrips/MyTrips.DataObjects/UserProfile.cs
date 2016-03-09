@@ -15,6 +15,10 @@ namespace MyTrips.DataObjects
 
         public int Rating {get;set;}
 
+        /// <summary>
+        /// Gets or sets the total distance. Stored in Miles
+        /// </summary>
+        /// <value>The total distance.</value>
         public double TotalDistance {get;set;}
 
         public long TotalTrips { get; set; }
@@ -25,8 +29,16 @@ namespace MyTrips.DataObjects
 
         public long HardAcceleration { get; set; }
 
+        /// <summary>
+        /// Gets or sets the fuel consumption. Stored in gallons
+        /// </summary>
+        /// <value>The fuel consumption.</value>
         public double FuelConsumption { get; set; }
 
+        /// <summary>
+        /// Gets or sets the max speed. Stored in km/h
+        /// </summary>
+        /// <value>The max speed.</value>
         public double MaxSpeed { get; set; }
 
         public List<string> Devices { get; set; }

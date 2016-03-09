@@ -14,10 +14,18 @@ namespace MyTrips.DataObjects
 
         public double Longitude { get; set; }
 
+        /// <summary>
+        /// Gets or sets the speed, in km/h
+        /// </summary>
+        /// <value>The speed.</value>
         public double Speed { get; set; }
 
         public DateTime RecordedTimeStamp { get; set; }
 
+        /// <summary>
+        /// Gets or sets the sequence order number starting at 0
+        /// </summary>
+        /// <value>The sequence.</value>
         public int Sequence {get;set;}
 
         public double RPM { get; set;}

@@ -27,12 +27,24 @@ namespace MyTrips.DataObjects
         public DateTime RecordedTimeStamp { get; set; }
         public DateTime EndTimeStamp { get; set; }
 
+        /// <summary>
+        /// Gets or sets the rating. 0 - 100
+        /// </summary>
+        /// <value>The rating.</value>
         public int Rating { get; set; }
 
         public bool IsComplete { get; set; }
 
+        /// <summary>
+        /// Gets or sets the average speed. 
+        /// </summary>
+        /// <value>The average speed.</value>
         public double AverageSpeed { get; set; }
 
+        /// <summary>
+        /// Gets or sets the fuel used. Stored in Gallons
+        /// </summary>
+        /// <value>The fuel used.</value>
         public double FuelUsed { get; set; }
 
         public long HardStops { get; set; }
