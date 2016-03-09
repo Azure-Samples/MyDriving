@@ -2,6 +2,7 @@ using System;
 
 using CoreGraphics;
 using Foundation;
+using ObjCRuntime;
 using UIKit;
 
 using MyTrips.ViewModel;
@@ -26,28 +27,10 @@ namespace MyTrips.iOS
 			ViewModel = new PastTripsViewModel();
 			await ViewModel.ExecuteLoadPastTripsCommandAsync();
 
-			//TODO Find why this doesn't work on Mikes machine...Pierce?
-			//await SpotlightSearch.IndexTrips(ViewModel.Trips);
+			TableView.TableFooterView = new UIView(new CGRect(0, 0, 0, 0));
 
-			TableView.TableFooterView = new UIView(new CGRect(0, 0, 0,0));
-            TableView.ReloadData();
-
-			// Check to see if 3D Touch is available
-			if (TraitCollection.ForceTouchCapability == UIForceTouchCapability.Available)
-				RegisterForPreviewingWithDelegate(new PreviewingDelegate(this), View);
-
-			RefreshControl.AddTarget(this, new ObjCRuntime.Selector("RefreshSource"), UIControlEvent.ValueChanged);
-
+			RefreshControl.AddTarget(this, new Selector("RefreshSource"), UIControlEvent.ValueChanged);
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString ("RefreshPastTripsTable"), HandleReloadTableNotification); 
-		}
-
-		public override void TraitCollectionDidChange(UITraitCollection previousTraitCollection)
-		{
-			base.TraitCollectionDidChange(previousTraitCollection);
-
-			// Check to see if 3D Touch is available
-			if (TraitCollection.ForceTouchCapability == UIForceTouchCapability.Available)
-				RegisterForPreviewingWithDelegate(new PreviewingDelegate(this), View);
 		}
 
 		public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -116,11 +99,8 @@ namespace MyTrips.iOS
 				return 221;
 			}
 		}
-
-
 		#endregion
 
-		// For some reason, RefreshControl.ValueChanged doesn't function properly?
 		[Export ("RefreshSource")]
 		async void RefreshControl_ValueChanged()
 		{
@@ -137,73 +117,10 @@ namespace MyTrips.iOS
 		{
 			await ViewModel.ExecuteLoadPastTripsCommandAsync();
 
-			//await SpotlightSearch.IndexTrips(ViewModel.Trips);
-
 			InvokeOnMainThread(delegate
 			{
 				TableView.ReloadData();
 			});
 		}
-	}
-
-	public class PreviewingDelegate : UIViewControllerPreviewingDelegate
-	{
-
-		PastTripsViewModel ViewModel;
-
-		#region Computed Properties
-		public TripsTableViewController MasterController { get; set; }
-		#endregion
-
-		#region Constructors
-		public PreviewingDelegate (TripsTableViewController masterController)
-		{
-			// Initialize
-			this.MasterController = masterController;
-			ViewModel = masterController.ViewModel;
-		}
-
-		public PreviewingDelegate (NSObjectFlag t) : base(t)
-		{
-		}
-
-		public PreviewingDelegate (IntPtr handle) : base (handle)
-		{
-		}
-		#endregion
-
-		#region Override Methods
-		/// Present the view controller for the "Pop" action.
-		public override void CommitViewController (IUIViewControllerPreviewing previewingContext, UIViewController viewControllerToCommit)
-		{
-			// Reuse Peek view controller for details presentation
-			MasterController.ShowViewController(viewControllerToCommit,this);
-		}
-
-		/// Create a previewing view controller to be shown at "Peek".
-		public override UIViewController GetViewControllerForPreview (IUIViewControllerPreviewing previewingContext, CGPoint location)
-		{
-			// Grab the item to preview
-			var indexPath = MasterController.TableView.IndexPathForRowAtPoint (location);
-			var cell = MasterController.TableView.CellAt (indexPath);
-			var item = MasterController.ViewModel.Trips[indexPath.Row];
-
-			// Grab a controller and set it to the default sizes
-			var detailViewController = MasterController.Storyboard.InstantiateViewController ("CURRENT_TRIP_STORYBIARD_IDENTIFIER") as CurrentTripViewController;
-			detailViewController.PreferredContentSize = new CGSize (0, 0);
-
-			// Set the data for the display
-			var trip = ViewModel.Trips[indexPath.Row];
-			detailViewController.PastTripsDetailViewModel = new PastTripsDetailViewModel(trip);
-
-			detailViewController.NavigationItem.LeftBarButtonItem = MasterController.SplitViewController.DisplayModeButtonItem;
-			detailViewController.NavigationItem.LeftItemsSupplementBackButton = true;
-
-			// Set the source rect to the cell frame, so everything else is blurred.
-			previewingContext.SourceRect = cell.Frame;
-
-			return detailViewController;
-		}
-		#endregion
 	}
 }
