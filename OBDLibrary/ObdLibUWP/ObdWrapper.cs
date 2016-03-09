@@ -155,9 +155,9 @@ namespace ObdLibUWP
                                 _data[key] = s;
                             }
                         if (!this._running)
-                            break;
+                            return;
                         await Task.Delay(Interval);
-                    }                    
+                    }
                 }
             }
             catch (System.Exception ex)
@@ -219,7 +219,10 @@ namespace ObdLibUWP
                 foreach (var key in _data.Keys)
                 {
                     ret.Add(key, _data[key]);
-                    _data[key] = DefValue;
+                }
+                foreach (var v in _PIDs.Values)
+                {
+                    this._data[v] = DefValue;
                 }
             }
             return ret;
