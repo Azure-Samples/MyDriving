@@ -102,7 +102,11 @@ namespace MyTrips.Utils
             set
             {
                 if (AppSettings.AddOrUpdateValue<string>(HostNameKey, value))
+                {
+                    //if hostname is changed, DeviceConnectionString must be recreated
+                    DeviceConnectionString = string.Empty;
                     OnPropertyChanged();
+                }
             }
         }
 
@@ -128,11 +132,14 @@ namespace MyTrips.Utils
             set
             {
                 if (AppSettings.AddOrUpdateValue<string>(MobileClientUrlKey, value))
+                {
+                    //if MobileClientUrl changes, user must login again
+                    CleanupUserProfile();
                     OnPropertyChanged();
+                }
             }
         }
             
-
 
         const string PushNotificationsEnabledKey = "push_enabled";
         static readonly bool PushNotificationsEnabledDefault = false;
