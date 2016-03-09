@@ -14,6 +14,7 @@ namespace MyTrips.DataStore.Abstractions
         Task<bool> InsertAsync(T item);
         Task<bool> UpdateAsync(T item);
         Task<bool> RemoveAsync(T item);
+        Task<bool> RemoveItemsAsync(IEnumerable<T> items);
         Task<bool> SyncAsync();
         Task<bool> PullLatestAsync();
         Task<bool> DropTable();

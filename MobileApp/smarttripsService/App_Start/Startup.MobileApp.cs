@@ -59,7 +59,7 @@ namespace smarttripsService
         }
         private void seedTripPoints(smarttripsService.Models.smarttripsContext context)
         {
-            foreach (var point in context.TripPoints)
+            /*foreach (var point in context.TripPoints)
             {
                 context.TripPoints.Remove(point);
             }
@@ -101,11 +101,11 @@ namespace smarttripsService
             foreach (TripPoint point in tripPoints)
             {
                 context.Set<TripPoint>().Add(point);
-            }
+            }*/
         }
         private void seedTrips(smarttripsService.Models.smarttripsContext context)
         {
-            foreach (var trip in context.Trips)
+            /*foreach (var trip in context.Trips)
             {
                 context.Trips.Remove(trip);
             }
@@ -117,7 +117,7 @@ namespace smarttripsService
                     Name = "Haishi@Seattle",
                     IsComplete = true,
                     RecordedTimeStamp = new DateTime(2016,2,1, 12,34,50),
-
+                    EndTimeStamp  = new DateTime(2016,2,1, 12,34,50),
                     Rating = 90
                     },
                 new Trip {
@@ -125,6 +125,7 @@ namespace smarttripsService
                     Name = "Scott@San Francisco",
                     IsComplete = true,
                     RecordedTimeStamp = new DateTime(2015,1,18, 20,14,20),
+                    EndTimeStamp = new DateTime(2015,1,18, 20,14,20),
                     Rating = 86
                     },
             };
@@ -132,7 +133,7 @@ namespace smarttripsService
             foreach (Trip trip in trips)
             {
                 context.Set<Trip>().Add(trip);
-            }
+            }*/
         }
     }
 }

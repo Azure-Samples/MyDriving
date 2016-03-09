@@ -7,6 +7,8 @@ namespace MyTrips.iOS
 {
     public partial class TripSummaryTableViewController : UIViewController
     {
+		public ViewModel.CurrentTripViewModel ViewModel { get; set; }
+
 		public TripSummaryTableViewController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
@@ -15,15 +17,35 @@ namespace MyTrips.iOS
 
 			var data = new List<DrivingStatistic>
 			{
-				new DrivingStatistic { Name = "Total Distance", Value = "275.43 miles"},
-				new DrivingStatistic { Name = "Total Duration", Value = "8 hours, 45 minutes"},
-				new DrivingStatistic { Name = "Total Fuel Consumption", Value = "2.5 gallons"},
+				new DrivingStatistic { Name = "Total Distance", Value = $"{ViewModel.Distance} {ViewModel.DistanceUnits.ToLower()}" },
+				new DrivingStatistic { Name = "Total Duration", Value = ViewModel.ElapsedTime },
+				new DrivingStatistic { Name = "Total Fuel Consumption", Value = ViewModel.FuelConsumptionUnits},
 				new DrivingStatistic { Name = "Average Speed", Value = "31 MPH"},
-				new DrivingStatistic { Name = "Hard Breaks", Value = "21"},
-				new DrivingStatistic { Name = "Tips Received", Value = "14"},
+				new DrivingStatistic { Name = "Hard Breaks", Value = "21"}
 			};
 
 			tripSummaryTableView.Source = new TripSummaryTableViewSource(data);
+
+			tripNameTextField.ReturnKeyType = UIReturnKeyType.Done;
+			tripNameTextField.Delegate = new TextViewDelegate();
+		}
+
+		async partial void DoneButton_TouchUpInside(UIButton sender)
+		{
+			await ViewModel.SaveRecordingTripAsync(tripNameTextField.Text);
+			NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshPastTripsTable", null);
+
+			DismissViewController(true, null);
+		}
+
+		public class TextViewDelegate : UITextFieldDelegate
+		{
+			public override bool ShouldReturn(UITextField textField)
+			{
+				textField.ResignFirstResponder();
+
+				return true;
+			}
 		}
 
 		public class TripSummaryTableViewSource : UITableViewSource
