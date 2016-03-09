@@ -22,7 +22,7 @@ namespace smarttripsService.Controllers
 
         // GET tables/trip
         //[Authorize]
-        [QueryableExpand("Points,Tips")]
+        [QueryableExpand("Points")]
         public IQueryable<Trip> GetAllTrips()
         {
             var id = IdentitiyHelper.FindSid(this.User);
@@ -32,7 +32,7 @@ namespace smarttripsService.Controllers
         }
 
         // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        [QueryableExpand("Points,Tips")]
+        [QueryableExpand("Points")]
        //[Authorize]
         public SingleResult<Trip> GetTrip(string id)
         {

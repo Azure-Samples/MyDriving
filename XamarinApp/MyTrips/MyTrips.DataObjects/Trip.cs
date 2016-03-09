@@ -28,8 +28,6 @@ namespace MyTrips.DataObjects
 
         public IList<TripPoint> Points { get; set; }
 
-        public IList<Tip> Tips { get; set; }
-
         public DateTime RecordedTimeStamp { get; set; }
         public DateTime EndTimeStamp { get; set; }
 
@@ -38,8 +36,6 @@ namespace MyTrips.DataObjects
         public bool IsComplete { get; set; }
 
         public double AverageSpeed { get; set; }
-
-        public double Emissions { get; set; }
 
         public double FuelUsed { get; set; }
 

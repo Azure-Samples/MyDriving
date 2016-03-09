@@ -13,22 +13,21 @@ namespace MyTrips.DataObjects
 
         public string ProfilePictureUri { get; set; }
 
-        public double TotalDistance {get;set;}
-
         public int Rating {get;set;}
 
-        public double AverageFuelConsumption { get; set; }
+        public double TotalDistance {get;set;}
+
+        public long TotalTrips { get; set; }
+
+        public long TotalTime { get; set; }
+
+        public long HardStops { get; set; }
+
+        public long HardAcceleration { get; set; }
 
         public double FuelConsumption { get; set; }
 
-        public double AverageSpeed { get; set; }
-
         public double MaxSpeed { get; set; }
-
-        public double TotalEmissions { get; set; }
-
-        public double AverageEmissions { get; set; }
-
         public List<string> Devices { get; set; }
     }
 }
