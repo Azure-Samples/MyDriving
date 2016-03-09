@@ -29,13 +29,12 @@ namespace ObdLibAndroid
         {
             //initialize _data
             this._data = new Dictionary<string, string>();
-            this._data.Add("spd", "");  //Speed
-            this._data.Add("bp", "");   //BarometricPressure
-            this._data.Add("rpm", "");  //RPM
-            this._data.Add("ot", "");   //OutsideTemperature
-            this._data.Add("it", "");   //InsideTemperature
-            this._data.Add("efr", "");  //EngineFuelRate
-            this._data.Add("vin", "");  //VIN
+            this._data.Add("vin", DefValue);  //VIN
+            var dic = ObdShare.ObdUtil.GetPIDs();
+            foreach (var v in dic.Values)
+            {
+                this._data.Add(v, DefValue);
+            }
 
             _simulatormode = simulatormode;
             if (simulatormode)
@@ -132,13 +131,8 @@ namespace ObdLibAndroid
                 foreach (var key in _data.Keys)
                 {
                     ret.Add(key, _data[key]);
+                    _data[key] = DefValue;
                 }
-                _data["spd"] = DefValue;  //Speed
-                _data["bp"] = DefValue;   //BarometricPressure
-                _data["rpm"] = DefValue;  //RPM
-                _data["ot"] = DefValue;   //OutsideTemperature
-                _data["it"] = DefValue;   //InsideTemperature
-                _data["efr"] = DefValue;  //EngineFuelRate
             }
             return ret;
         }
@@ -158,60 +152,22 @@ namespace ObdLibAndroid
                 }
                 while (true)
                 {
-                    s = await GetSpeed();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["spd"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
-                    s = await GetBarometricPressure();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["bp"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
-                    s = await GetRPM();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["rpm"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
-                    s = await GetOutsideTemperature();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["ot"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
-                    s = await GetInsideTemperature();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["it"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
-                    s = await GetEngineFuelRate();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["efr"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
+                    var dic = ObdShare.ObdUtil.GetPIDs();
+                    foreach (var cmd in dic.Keys)
+                    {
+                        var key = dic[cmd];
+                        if (_simulatormode)
+                            s = ObdShare.ObdUtil.GetEmulatorValue(cmd);
+                        else
+                            s = await RunCmd(cmd);
+                        if (s != "ERROR")
+                            lock (_lock)
+                            {
+                                _data[key] = s;
+                            }
+                        if (!this._running)
+                            break;
+                    }
                 }
             }
             catch (System.Exception ex)
@@ -236,72 +192,6 @@ namespace ObdLibAndroid
                 }
             }
             return ObdShare.ObdUtil.ParseVINMsg(result);
-        }
-        public async Task<string> GetSpeed()
-        {
-            if (_simulatormode)
-            {
-                var r = new System.Random();
-                return r.Next(0,255).ToString();
-            }
-            string result;
-            result = await SendAndReceive("010D\r");
-            return ObdShare.ObdUtil.ParseObd01Msg(result);
-        }
-        public async Task<string> GetOutsideTemperature()
-        {
-            if (_simulatormode)
-            {
-                var r = new System.Random();
-                return r.Next(-40,215).ToString();
-            }
-            string result;
-            result = await SendAndReceive("0146\r");
-            return ObdShare.ObdUtil.ParseObd01Msg(result);
-        }
-        public async Task<string> GetInsideTemperature()
-        {
-            if (_simulatormode)
-            {
-                var r = new System.Random();
-                return r.Next(-40,215).ToString();
-            }
-            string result;
-            result = await SendAndReceive("010F\r");
-            return ObdShare.ObdUtil.ParseObd01Msg(result);
-        }
-        public async Task<string> GetBarometricPressure()
-        {
-            if (_simulatormode)
-            {
-                var r = new System.Random();
-                return r.Next().ToString();
-            }
-            string result;
-            result = await SendAndReceive("0133\r");
-            return ObdShare.ObdUtil.ParseObd01Msg(result);
-        }
-        public async Task<string> GetRPM()
-        {
-            if (_simulatormode)
-            {
-                var r = new System.Random();
-                return r.Next(0,255).ToString();
-            }
-            string result;
-            result = await SendAndReceive("010C\r");
-            return ObdShare.ObdUtil.ParseObd01Msg(result);
-        }
-        public async Task<string> GetEngineFuelRate()
-        {
-            if (_simulatormode)
-            {
-                var r = new System.Random();
-                return r.Next(0, 3212).ToString();
-            }
-            string result;
-            result = await SendAndReceive("015E\r");
-            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
         private async Task<string> SendAndReceive(string msg)
         {
@@ -342,6 +232,12 @@ namespace ObdLibAndroid
             var s = s1.ToString();
             System.Diagnostics.Debug.WriteLine(s);
             return s;
+        }
+        private async Task<string> RunCmd(string cmd)
+        {
+            string result;
+            result = await SendAndReceive(cmd + "\r");
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
         }
         public async Task Disconnect()
         {
