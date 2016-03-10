@@ -44,18 +44,18 @@ namespace MyTrips.UWP.Views
         }
 
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        /*protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            viewModel.Trip = e.Parameter as Trip;
-            DrawPath();
+            //viewModel.Trip = e.Parameter as Trip;
+            //DrawPath();
         }
 
         private void DrawPath()
         {
             MapPolyline mapPolyLine = new MapPolyline();
             
-            if (viewModel.Trip.Points.Count == 0)
+            if (viewModel..Points.Count == 0)
                 return;
 
             foreach (var trail in this.viewModel.Trip.Points)
@@ -115,7 +115,7 @@ namespace MyTrips.UWP.Views
             }
 
             MyMap.MapElements.Add(mapPolyLine);
-        }
+        }*/
     }
 
 }

@@ -358,11 +358,6 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_facebook.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_windows.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_twitter.png" />
-    <AndroidResource Include="Resources\drawable-nodpi\ic_car_blue.png" />
-    <AndroidResource Include="Resources\drawable-nodpi\ic_car_red.png" />
-    <AndroidResource Include="Resources\drawable-nodpi\ic_end_point.png" />
-    <AndroidResource Include="Resources\drawable-nodpi\ic_info.png" />
-    <AndroidResource Include="Resources\drawable-nodpi\ic_start_point.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_notification.png" />
     <AndroidResource Include="Resources\drawable-mdpi\ic_launcher.png" />
@@ -380,6 +375,21 @@
     <AndroidResource Include="Resources\layout\fragment_current_trip.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\drawable-hdpi\ic_car.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_end_point.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_start_point.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_end_point.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_start_point.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_car.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_car.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_end_point.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_start_point.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_car.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_end_point.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_start_point.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_car.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_end_point.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_start_point.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

@@ -182,11 +182,11 @@ namespace MyTrips.iOS
 				ResetTripInfoView();
 				AnimateTripInfoView();
 
-				CurrentTripViewModel.StartRecordingTrip();
+				await CurrentTripViewModel.StartRecordingTrip();
 			}
 			else
 			{
-				CurrentTripViewModel.StopRecordingTrip();
+				await CurrentTripViewModel.StopRecordingTrip();
 				ResetMapViewState();
 
 				UpdateRecordButton(false);
@@ -282,8 +282,8 @@ namespace MyTrips.iOS
 			labelTwoValue.Text = PastTripsDetailViewModel.Trip.TotalDistanceNoUnits;
 			labelThreeTitle.Text = "Consumption";
 			labelThreeValue.Text = PastTripsDetailViewModel.Trip.FuelUsed.ToString();
-			labelFourTitle.Text = "Emissions";
-			labelFourValue.Text = PastTripsDetailViewModel.Trip.Emissions.ToString();
+			labelFourTitle.Text = "Hard Stops";
+            labelFourValue.Text = PastTripsDetailViewModel.Trip.HardStops.ToString();
 		}
 
 		void ConfigureSlider()
