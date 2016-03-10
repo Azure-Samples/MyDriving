@@ -183,7 +183,10 @@ namespace MyTrips.Services
         //TODO: Should be called by mobile app when an app is resumed
         public void ResetIncrementalConnection()
         {
-            this.obdReconnectTimer.Restart();
+			if (obdReconnectTimer != null)
+			{
+				obdReconnectTimer.Restart();
+			}
         }
     }
 }

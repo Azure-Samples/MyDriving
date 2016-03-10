@@ -531,5 +531,13 @@ namespace MyTrips.ViewModel
                 Logger.Instance.Report(ex);
             }
         }
+
+		public void ResetObdIncrementalConnection()
+		{
+			if (obdDataProcessor != null)
+			{
+				obdDataProcessor.ResetIncrementalConnection();
+			}
+		}
 	}
 }
