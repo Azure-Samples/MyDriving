@@ -109,17 +109,7 @@ namespace MyTrips.UWP.Views
 
         private void SetImageSource()
         {
-            if(Utils.Settings.Current.LoginAccount == LoginAccount.Facebook)
-            {
-                //use picture url
-                ProfileImage.Source = new BitmapImage(new Uri(viewModel.UserInfo.ProfilePictureUri));
-            }
-            else if (Utils.Settings.Current.LoginAccount == LoginAccount.Microsoft)
-            {
-                //use bitmap
-                ProfileImage.Source = Helpers.BitmapImageConverter.ConvertImage(viewModel.UserInfo.ProfilePicture);
-                
-            }
+            ProfileImage.Source = new BitmapImage(new Uri(viewModel.UserInfo.ProfilePictureUri));
         }
 
     }

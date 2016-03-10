@@ -26,7 +26,7 @@
 
                     <Ellipse Grid.RowSpan="2" Width="100" Height="100">
                         <Ellipse.Fill>
-                            <ImageBrush x:Name="ProfileImage" ImageSource="{x:Bind profileViewModel.UserPictureSourceKind, Mode=OneWay, Converter={StaticResource ImageSourceConverter}}"/>
+                            <ImageBrush x:Name="ProfileImage" ImageSource="{x:Bind profileViewModel.ProfilePictureUrl, Mode=OneWay, Converter={StaticResource ImageSourceConverter}}"/>
                         </Ellipse.Fill>
                     </Ellipse>
                     <TextBlock Name="DrivingSkills" Text="{x:Bind profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}% '}"   
