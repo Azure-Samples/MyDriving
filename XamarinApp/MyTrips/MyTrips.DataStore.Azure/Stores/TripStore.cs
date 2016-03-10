@@ -10,6 +10,7 @@ namespace MyTrips.DataStore.Azure.Stores
 {
     public class TripStore : BaseStore<Trip>, ITripStore
     {
+        public override string Identifier => "Trip";
         IPhotoStore photoStore;
         public TripStore()
         {

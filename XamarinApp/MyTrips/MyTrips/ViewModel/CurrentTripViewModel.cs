@@ -161,7 +161,7 @@ namespace MyTrips.ViewModel
 
                 //Connect to the OBD device
                 await this.obdDataProcessor.Initialize(this.StoreManager);
-                await this.obdDataProcessor.ConnectToOBDDevice();
+                //await this.obdDataProcessor.ConnectToOBDDevice();
 
                 //Simulate recording several data points
                 //for (int i = 0; i < 10; i++)
@@ -231,7 +231,6 @@ namespace MyTrips.ViewModel
 
                 CurrentTrip.Rating = 90;
 
-                CurrentTrip.EndTimeStamp = DateTime.UtcNow;
 
                 if (string.IsNullOrWhiteSpace(CurrentTrip.Name))
                     CurrentTrip.Name = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
@@ -305,6 +304,9 @@ namespace MyTrips.ViewModel
 
                 return false;
             }
+
+
+            CurrentTrip.EndTimeStamp = DateTime.UtcNow;
 
             //Stop reading data from the OBD device
             await this.obdDataProcessor.DisconnectFromOBDDevice();

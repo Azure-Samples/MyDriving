@@ -96,7 +96,7 @@ namespace MyTrips.ViewModel
             try
             {
                 authentication.ClearCookies();
-                user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
+                user = await authentication.LoginAsync(client, provider);
                 if (user != null)
                 {
                     IsBusy = true;
