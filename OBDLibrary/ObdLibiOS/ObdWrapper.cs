@@ -14,8 +14,8 @@ namespace ObdLibiOS
         const uint BufSize = 1024;
         const int Interval = 100;
         const string DefValue = "";
-        bool _connected = true;
-        Dictionary<string, string> _data = null;
+        private bool _connected = true;
+        private Dictionary<string, string> _data = null;
         private Object _lock = new Object();
         private bool _simulatormode;
         private IPAddress _ipAddress;
@@ -28,6 +28,7 @@ namespace ObdLibiOS
 
         public async Task<bool> Init(bool simulatormode = false)
         {
+            this._running = true;
             //initialize _data
             this._data = new Dictionary<string, string>();
             this._data.Add("vin", DefValue);  //VIN

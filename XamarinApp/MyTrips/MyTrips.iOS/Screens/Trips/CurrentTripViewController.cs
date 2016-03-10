@@ -22,7 +22,7 @@ namespace MyTrips.iOS
 		CarAnnotation currentLocationAnnotation;
 		TripMapViewDelegate mapDelegate;
 
-		CurrentTripViewModel CurrentTripViewModel { get; set; }
+		public CurrentTripViewModel CurrentTripViewModel { get; set; }
 		public PastTripsDetailViewModel PastTripsDetailViewModel { get; set; }
 
 		public CurrentTripViewController (IntPtr handle) : base (handle)

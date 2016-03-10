@@ -31,7 +31,7 @@ namespace MyTrips.iOS
 
 			//TODO: Need to add #debug compile dir for all offline\mock interfaces
 			//ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
-			//ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
+			ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
 
 			Xamarin.Insights.Initialize(Logger.InsightsKey);
 
@@ -64,6 +64,14 @@ namespace MyTrips.iOS
 			}
 
 			return true;
+		}
+
+		public override void WillEnterForeground(UIApplication application)
+		{
+			var tabBarController = Window.RootViewController as UITabBarController;
+			var navigationController = tabBarController.ViewControllers[1] as UINavigationController;
+			var currentTripViewController = navigationController.TopViewController as CurrentTripViewController;
+			currentTripViewController.CurrentTripViewModel.ResetObdIncrementalConnection();
 		}
 
 		#region Background Refresh

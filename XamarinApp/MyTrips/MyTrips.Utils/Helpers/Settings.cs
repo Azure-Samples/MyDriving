@@ -74,33 +74,66 @@ namespace MyTrips.Utils
         }
 
 
-        const string HubSetting1Key = "hub_setting_1";
-        static readonly string HubSetting1Default = string.Empty;
+        const string DeviceIdKey = "device_id";
+        static readonly string DeviceIdDefault = string.Empty;
 
-        public string HubSetting1
+        public string DeviceId
         {
-            get { return AppSettings.GetValueOrDefault<string>(HubSetting1Key, HubSetting1Default); }
+            get { return AppSettings.GetValueOrDefault<string>(DeviceIdKey, DeviceIdDefault); }
             set
             {
-                if (AppSettings.AddOrUpdateValue<string>(HubSetting1Key, value))
+                if (AppSettings.AddOrUpdateValue<string>(DeviceIdKey, value))
                     OnPropertyChanged();
             }
         }
 
-        const string HubSetting2Key = "hub_setting_2";
-        static readonly string HubSetting2Default = string.Empty;
+        const string HostNameKey = "host_name";
+        static readonly string HostNameDefault = string.Empty;
 
-        public string HubSetting2
+        public string HostName
         {
-            get { return AppSettings.GetValueOrDefault<string>(HubSetting2Key, HubSetting2Default); }
+            get { return AppSettings.GetValueOrDefault<string>(HostNameKey, HostNameDefault); }
             set
             {
-                if (AppSettings.AddOrUpdateValue<string>(HubSetting2Key, value))
+                if (AppSettings.AddOrUpdateValue<string>(HostNameKey, value))
+                {
+                    //if hostname is changed, DeviceConnectionString must be recreated
+                    DeviceConnectionString = string.Empty;
                     OnPropertyChanged();
+                }
+            }
+        }
+
+        const string DeviceConnectionStringKey = "device_connection_string";
+        static readonly string DeviceConnectionStringDefault = string.Empty;
+
+        public string DeviceConnectionString
+        {
+            get { return AppSettings.GetValueOrDefault<string>(DeviceConnectionStringKey, DeviceConnectionStringDefault); }
+            set
+            {
+                if (AppSettings.AddOrUpdateValue<string>(DeviceConnectionStringKey, value))
+                    OnPropertyChanged();
+            }
+        }
+
+        const string MobileClientUrlKey = "mobile_client_url";
+        static readonly string MobileClientUrlDefault = string.Empty;
+
+        public string MobileClientUrl
+        {
+            get { return AppSettings.GetValueOrDefault<string>(MobileClientUrlKey, MobileClientUrlDefault); }
+            set
+            {
+                if (AppSettings.AddOrUpdateValue<string>(MobileClientUrlKey, value))
+                {
+                    //if MobileClientUrl changes, user must login again
+                    Logout();
+                    OnPropertyChanged();
+                }
             }
         }
             
-
 
         const string PushNotificationsEnabledKey = "push_enabled";
         static readonly bool PushNotificationsEnabledDefault = false;
@@ -303,8 +336,6 @@ namespace MyTrips.Utils
             }
         }
 
-
-     
 
         public void Logout()
         {

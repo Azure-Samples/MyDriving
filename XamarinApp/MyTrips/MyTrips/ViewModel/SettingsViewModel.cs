@@ -14,7 +14,7 @@ namespace MyTrips.ViewModel
 {
     public class SettingsViewModel : ViewModelBase
     {
-        //Use Settings.HubSetting1
+        //Use Settings.DeviceConnectionString
         public string PrivacyPolicyUrl => "http://microsoft.com";
         public string TermsOfUseUrl => "http://microsoft.com";
         public string OpenSourceNoticeUrl =>"http://microsoft.com";
@@ -100,15 +100,15 @@ namespace MyTrips.ViewModel
 						distanceSetting, capacitySetting, temperatureSetting
 					};
 
-					var hubSetting1 = new Setting { Name = "Hub Setting 1", IsTextField = true };
-					var hubSetting2 = new Setting { Name = "Hub Setting 2", IsTextField = true };
+					var deviceConnectionString = new Setting { Name = "Device connection string", IsTextField = true };
+					var mobileClientUrl = new Setting { Name = "Mobile client URL", IsTextField = true };
 
-					hubSetting1.PropertyChanged += HubSetting1_PropertyChanged;
-					hubSetting2.PropertyChanged += HubSetting2_PropertyChanged;
+					deviceConnectionString.PropertyChanged += DeviceConnectionString_PropertyChanged;
+					mobileClientUrl.PropertyChanged += MobileClientUrl_PropertyChanged;
 
 					ioTHub = new List<Setting>
 					{
-						hubSetting1, hubSetting2
+						deviceConnectionString, mobileClientUrl
 					};
 
 					permissions = new List<Setting>
@@ -165,21 +165,21 @@ namespace MyTrips.ViewModel
 			}
 		}
 
-		void HubSetting1_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		void DeviceConnectionString_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "Value")
 			{
 				var setting = (Setting)sender;
-				Settings.Current.HubSetting1 = setting.Value;
+				Settings.Current.DeviceConnectionString = setting.Value;
 			}
 		}
 
-		void HubSetting2_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		void MobileClientUrl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "Value")
 			{
 				var setting = (Setting)sender;
-				Settings.Current.HubSetting2 = setting.Value;
+				Settings.Current.MobileClientUrl = setting.Value;
 			}
 		}
 	}

@@ -16,8 +16,19 @@ namespace MyTrips.UWP.Converters
             if (string.IsNullOrWhiteSpace(imageUrl))
                 return null;
 
-           return new BitmapImage(new Uri(imageUrl));
-            
+            string url = value as string;
+            if(!string.IsNullOrEmpty(url))
+            {
+                try
+                {
+                    return new BitmapImage(new Uri(url));
+                }
+                catch(Exception)
+                {
+                    
+                }
+            }
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -12,7 +12,7 @@ namespace ObdLibAndroid
 {
     public class ObdWrapper
     {
-        const int Interval = 500;
+        const int Interval = 100;
         const string DefValue = "";
         private BluetoothAdapter _bluetoothAdapter = null;
         private BluetoothDevice _bluetoothDevice = null;
@@ -21,13 +21,14 @@ namespace ObdLibAndroid
         private Stream _writer = null;
         private bool _connected = true;
         private static UUID SPP_UUID = UUID.FromString("00001101-0000-1000-8000-00805F9B34FB");
-        Dictionary<string, string> _data = null;
-        bool _running = true;
+        private Dictionary<string, string> _data = null;
+        private bool _running = true;
         private Object _lock = new Object();
         private bool _simulatormode;
         private Dictionary<string, string> _PIDs;
         public async Task<bool> Init(bool simulatormode = false)
         {
+            this._running = true;
             //initialize _data
             this._data = new Dictionary<string, string>();
             this._data.Add("vin", DefValue);  //VIN
@@ -177,8 +178,21 @@ namespace ObdLibAndroid
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 _running = false;
-                _bluetoothSocket.Dispose();
-                _bluetoothSocket = null;
+                if (_reader != null)
+                {
+                    _reader.Close();
+                    _reader = null;
+                }
+                if (_writer != null)
+                {
+                    _writer.Close();
+                    _writer = null;
+                }                
+                if (_bluetoothSocket != null)
+                {
+                    _bluetoothSocket.Close();
+                    _bluetoothSocket = null;
+                }
             }
         }
 
@@ -245,9 +259,18 @@ namespace ObdLibAndroid
         public async Task Disconnect()
         {
             _running = false;
+            if (_reader != null)
+            {
+                _reader.Close();
+                _reader = null;
+            }
+            if (_writer != null)
+            {
+                _writer.Close();
+                _writer = null;
+            }
             if (_bluetoothSocket != null)
             {
-                _bluetoothSocket.Dispose();
                 _bluetoothSocket.Close();
                 _bluetoothSocket = null;
             }

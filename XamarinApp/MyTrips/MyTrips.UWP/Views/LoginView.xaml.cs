@@ -107,10 +107,7 @@ namespace MyTrips.UWP.Views
 
         private void SetImageSource()
         {
-
             ProfileImage.Source = new BitmapImage(new Uri(Settings.Current.UserProfileUrl));
-
-            
         }
 
     }

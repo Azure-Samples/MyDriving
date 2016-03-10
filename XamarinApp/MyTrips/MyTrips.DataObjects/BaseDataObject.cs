@@ -29,7 +29,6 @@ namespace MyTrips.DataObjects
             Id = Guid.NewGuid().ToString();
         }
         
-        [Newtonsoft.Json.JsonProperty("Id")]
         public string Id { get; set; }
         
     }

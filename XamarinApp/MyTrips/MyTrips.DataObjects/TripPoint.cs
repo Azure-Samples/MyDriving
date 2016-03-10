@@ -30,17 +30,29 @@ namespace MyTrips.DataObjects
 
         public double RPM { get; set;}
 
-        public double BarometricPressure { get; set; }
+        public double ShortTermFuelBank { get; set; }
+
+        public double LongTermFuelBank { get; set; }
+
+        public double ThrottlePosition { get; set; }
+
+        public double RelativeThrottlePosition { get; set; }
+
+        public double Runtime { get; set; }
+
+        public double DistanceWithMalfunctionLight { get; set; }
+
+        public double EngineLoad { get; set; }
+
+        public double MassFlowRate { get; set; }
 
         public double OutsideTemperature { get; set; }
 
-        public double InsideTemperature { get; set; }
-
         public double EngineFuelRate { get; set; }
 
-        public bool HasOBDData { get; set; }
+        public string VIN { get; set; }
 
-        public Dictionary<String, String> OBDData { get; set; }
+        public bool HasOBDData { get; set; }
 
         #if !BACKEND
         [JsonIgnore]

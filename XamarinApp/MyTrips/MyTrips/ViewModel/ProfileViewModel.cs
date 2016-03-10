@@ -5,6 +5,7 @@ using MyTrips.Utils;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using MyTrips.DataObjects;
 
 
 namespace MyTrips.ViewModel
@@ -214,6 +215,7 @@ namespace MyTrips.ViewModel
             get { return totalTrips; }
             set { SetProperty(ref totalTrips, value); }
         }
+
 
         async Task UpdatePictureAsync()
         {
