@@ -6,6 +6,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web.Http;
 using smarttripsService.Models;
+using smarttripsService.Helpers;
 
 namespace smarttripsService.Controllers
 {
@@ -32,21 +33,19 @@ namespace smarttripsService.Controllers
             var twitterCredentials = await user.GetAppServiceIdentityAsync<TwitterCredentials>(Request);
 
             string first = string.Empty, last = string.Empty, profile = string.Empty;
-
+            userId = User.FindSid();
             if (fbCredentials?.UserClaims?.Count() > 0)
             {
-                userId = fbCredentials.UserId;
-
                 FillDataFromFacebook(fbCredentials, out first, out last, out profile);
             }
             else if (msCredentials?.UserClaims?.Count() > 0)
             {
-                userId = msCredentials.UserId;
                 FillDataFromMS(msCredentials, out first, out last, out profile);
             }
             else if (twitterCredentials?.UserClaims?.Count() > 0)
             {
-                userId = twitterCredentials.UserId;
+                
+
                 var settings = Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
 
                 FillDataFromTwitter(twitterCredentials, out first, out last, out profile);
