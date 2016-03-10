@@ -14,7 +14,7 @@ namespace MyTrips.ViewModel
 {
     public class SettingsViewModel : ViewModelBase
     {
-        //Use Settings.HubSetting1
+        //Use Settings.DeviceConnectionString
         public string PrivacyPolicyUrl => "http://microsoft.com";
         public string TermsOfUseUrl => "http://microsoft.com";
         public string OpenSourceNoticeUrl =>"http://microsoft.com";
@@ -90,26 +90,27 @@ namespace MyTrips.ViewModel
 			{
 				if (settingsData == null)
 				{
-					var distanceSetting = new Setting { Name = "Distance", PossibleValues = new List<string> { "US/Imperial (miles)", "Metric (km)" }, Value = Settings.Current.MetricDistance == true ? "Metric (km)" : "US/Imperial (miles)"};
-					var capacitySetting = new Setting { Name = "Capacity", PossibleValues = new List<string> { "US/Imperial (gallons)", "Metric (liters)" }, Value = Settings.Current.MetricUnits == true ? "Metric (liters)" : "US/Imperial (gallons)"};
-					
+					var distanceSetting = new Setting { Name = "Distance", PossibleValues = new List<string> { "US/Imperial (miles)", "Metric (km)" }, Value = Settings.Current.MetricDistance ? "Metric (km)" : "US/Imperial (miles)"};
+					var capacitySetting = new Setting { Name = "Capacity", PossibleValues = new List<string> { "US/Imperial (gallons)", "Metric (liters)" }, Value = Settings.Current.MetricUnits ? "Metric (liters)" : "US/Imperial (gallons)"};
+					var temperatureSetting = new Setting { Name = "Temperature", PossibleValues = new List<string> { "Fahrenheit", "Celsius" }, Value = Settings.Current.MetricTemp ? "Celsius" : "Fahrenheit" };
+
 					distanceSetting.PropertyChanged += DistanceSetting_PropertyChanged;
 					capacitySetting.PropertyChanged += CapacitySetting_PropertyChanged;
-
+					temperatureSetting.PropertyChanged += TemperatureSetting_PropertyChanged;
 					units = new List<Setting>
 					{
-						distanceSetting, capacitySetting
+						distanceSetting, capacitySetting, temperatureSetting
 					};
 
-					var hubSetting1 = new Setting { Name = "Hub Setting 1", IsTextField = true };
-					var hubSetting2 = new Setting { Name = "Hub Setting 2", IsTextField = true };
+					var deviceConnectionString = new Setting { Name = "Device connection string", IsTextField = true };
+					var mobileClientUrl = new Setting { Name = "Mobile client URL", IsTextField = true };
 
-					hubSetting1.PropertyChanged += HubSetting1_PropertyChanged;
-					hubSetting2.PropertyChanged += HubSetting2_PropertyChanged;
+					deviceConnectionString.PropertyChanged += DeviceConnectionString_PropertyChanged;
+					mobileClientUrl.PropertyChanged += MobileClientUrl_PropertyChanged;
 
 					ioTHub = new List<Setting>
 					{
-						hubSetting1, hubSetting2
+						deviceConnectionString, mobileClientUrl
 					};
 
 					permissions = new List<Setting>
@@ -144,7 +145,7 @@ namespace MyTrips.ViewModel
 			if (e.PropertyName == "Value")
 			{
 				var setting = (Setting)sender;
-				Settings.Current.MetricDistance = setting.Value == "Metric (km)" ? true : false;
+				Settings.Current.MetricDistance = setting.Value == "Metric (km)";
 			}
 		}
 
@@ -153,26 +154,34 @@ namespace MyTrips.ViewModel
 			if (e.PropertyName == "Value")
 			{
 				var setting = (Setting)sender;
-				Settings.Current.MetricUnits = setting.Value == "Metric (liters)" ? true : false;
+				Settings.Current.MetricUnits = setting.Value == "Metric (liters)";
 			}
 		}
 
-
-		void HubSetting1_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		void TemperatureSetting_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "Value")
 			{
 				var setting = (Setting)sender;
-				Settings.Current.HubSetting1 = setting.Value;
+				Settings.Current.MetricUnits = setting.Value == "Celsius";
 			}
 		}
 
-		void HubSetting2_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		void DeviceConnectionString_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "Value")
 			{
 				var setting = (Setting)sender;
-				Settings.Current.HubSetting2 = setting.Value;
+				Settings.Current.DeviceConnectionString = setting.Value;
+			}
+		}
+
+		void MobileClientUrl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == "Value")
+			{
+				var setting = (Setting)sender;
+				Settings.Current.MobileClientUrl = setting.Value;
 			}
 		}
 	}

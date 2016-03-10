@@ -23,21 +23,21 @@ namespace smarttripsService.Controllers
             DomainManager = new EntityDomainManager<TripPoint>(context, Request);
         }
 
-        // GET tables/TodoItem
+        // GET tables/TripPoint
        //[Authorize]
         public IQueryable<TripPoint> GetAllTripPoints()
         {
             return Query();
         }
 
-        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // GET tables/TripPoint/<id>
        //[Authorize]
         public SingleResult<TripPoint> GetTripPoint(string id)
         {
             return Lookup(id);
         }
 
-        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // PATCH tables/TripPoint/<id>
        //[Authorize]
         public Task<TripPoint> PatchTripPoint(string id, Delta<TripPoint> patch)
         {
@@ -69,7 +69,7 @@ namespace smarttripsService.Controllers
             return Created("tables/trippoints", tripPoints);
         }*/
 
-        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // DELETE tables/TripPoint/<id>
        //[Authorize]
         public Task DeleteTripPoint(string id)
         {

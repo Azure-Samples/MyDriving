@@ -13,8 +13,7 @@ namespace MyTrips.iOS
 
 		public void DrawRoute(CLLocationCoordinate2D[] route)
 		{
-			var routeOverlay = MKPolyline.FromCoordinates(route);
-			AddOverlay(routeOverlay);
+			AddOverlay(MKPolyline.FromCoordinates(route));
 		}
     }
 }

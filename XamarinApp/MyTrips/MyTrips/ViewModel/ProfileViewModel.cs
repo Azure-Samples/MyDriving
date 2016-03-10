@@ -3,6 +3,7 @@ using MvvmHelpers;
 using MyTrips.AzureClient;
 using MyTrips.Utils;
 using System.Threading.Tasks;
+using MyTrips.DataObjects;
 
 
 namespace MyTrips.ViewModel
@@ -33,6 +34,14 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref drivingSkillsPlacementBucket, value); }
         }
 
+		public string TotalDistanceUnits
+		{
+			get 
+			{
+				var units = Settings.MetricUnits ? "kilometers" : "miles";
+				return $"{TotalDistance} {units}"; 
+			}
+		}
 
         double totalDistance;
         public double TotalDistance
@@ -48,6 +57,14 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref totalTime, value); }
         }
 
+		public string AverageSpeedUnits
+		{
+			get 
+			{
+				var units = Settings.MetricUnits ? "km/h" : "mph";
+				return $"{AvgSpeed} {units}"; 
+			}
+		}
 
         double avgSpeed;
         public double AvgSpeed
@@ -63,10 +80,14 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref hardBreaks, value); }
         }
 
-        public class Tip
+        string profilePictureUrl = Settings.Current.UserProfileUrl;
+        public string ProfilePictureUrl
         {
-
+            get { return profilePictureUrl; }
+            set { SetProperty(ref profilePictureUrl, value); }
         }
+
+
         ObservableRangeCollection<Tip> tips = new ObservableRangeCollection<Tip>();
         public ObservableRangeCollection<Tip> Tips
         {
@@ -74,19 +95,11 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref tips, value); }
         }
 
-
-        UserPictureSourceKind pictureSourceKind = Settings.Current.UserPictureSourceKind;
-        public UserPictureSourceKind UserPictureSourceKind
-        {
-            get { return pictureSourceKind; }
-            set { SetProperty(ref pictureSourceKind, value); }
-        }
-
         async Task UpdatePictureAsync()
         {
             IMobileServiceClient client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
             await Helpers.UserProfileHelper.GetUserProfileAsync(client);
-            UserPictureSourceKind = Settings.Current.UserPictureSourceKind;
+            ProfilePictureUrl = Settings.Current.UserProfileUrl;
         }
 
 

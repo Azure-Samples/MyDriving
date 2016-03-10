@@ -14,30 +14,30 @@ namespace ObdLibUWP
     public class ObdWrapper
     {
         const uint BufSize = 64;
-        const int Interval = 500;
+        const int Interval = 100;
         const string DefValue = "";
         private StreamSocket _socket = null;
         private RfcommDeviceService _service = null;
-        DataReader dataReaderObject = null;
-        DataWriter dataWriterObject = null;
-        string lastResponse;
-        bool _connected = true;
-        Dictionary<string, string> _data = null;
-        bool _running = true;
+        private DataReader dataReaderObject = null;
+        private DataWriter dataWriterObject = null;
+        private bool _connected = true;
+        private Dictionary<string, string> _data = null;
+        private bool _running = true;
         private Object _lock = new Object();
         private bool _simulatormode;
+        private Dictionary<string, string> _PIDs;
 
         public async Task<bool> Init(bool simulatormode = false)
         {
+            this._running = true;
             //initialize _data
             this._data = new Dictionary<string, string>();
-            this._data.Add("spd", DefValue);  //Speed
-            this._data.Add("bp", DefValue);   //BarometricPressure
-            this._data.Add("rpm", DefValue);  //RPM
-            this._data.Add("ot", DefValue);   //OutsideTemperature
-            this._data.Add("it", DefValue);   //InsideTemperature
-            this._data.Add("efr", DefValue);  //EngineFuelRate
             this._data.Add("vin", DefValue);  //VIN
+            _PIDs = ObdShare.ObdUtil.GetPIDs();
+            foreach (var v in _PIDs.Values)
+            {
+                this._data.Add(v, DefValue);
+            }
 
             _simulatormode = simulatormode;
             if (simulatormode)
@@ -121,8 +121,22 @@ namespace ObdLibUWP
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Overall Connect: " + ex.Message);
-                _socket.Dispose();
-                _socket = null;
+                if (dataReaderObject != null)
+                {
+                    dataReaderObject.Dispose();
+                    dataReaderObject = null;
+                }
+                if (dataWriterObject != null)
+                {
+                    dataWriterObject.Dispose();
+                    dataWriterObject = null;
+                }
+                if (this._socket != null)
+                {
+                    await this._socket.CancelIOAsync();
+                    _socket.Dispose();
+                    _socket = null;
+                }
                 return false;
             }
         }
@@ -142,69 +156,44 @@ namespace ObdLibUWP
                 }
                 while (true)
                 {
-                    s = await GetSpeed();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["spd"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
-                    s = await GetBarometricPressure();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["bp"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
-                    s = await GetRPM();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["rpm"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
-                    s = await GetOutsideTemperature();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["ot"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
-                    s = await GetInsideTemperature();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["it"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
-                    s = await GetEngineFuelRate();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["efr"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
+                    foreach (var cmd in _PIDs.Keys)
+                    {
+                        var key = _PIDs[cmd];
+                        if (_simulatormode)
+                            s = ObdShare.ObdUtil.GetEmulatorValue(cmd);
+                        else
+                            s = await RunCmd(cmd);
+                        if (s != "ERROR")
+                            lock (_lock)
+                            {
+                                _data[key] = s;
+                            }
+                        if (!this._running)
+                            return;
+                        await Task.Delay(Interval);
+                    }
                 }
             }
             catch (System.Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 _running = false;
-                await this._socket.CancelIOAsync();
-                _socket.Dispose();
-                _socket = null;
+                if (dataReaderObject != null)
+                {
+                    dataReaderObject.Dispose();
+                    dataReaderObject = null;
+                }
+                if (dataWriterObject != null)
+                {
+                    dataWriterObject.Dispose();
+                    dataWriterObject = null;
+                }
+                if (this._socket != null)
+                {
+                    await this._socket.CancelIOAsync();
+                    _socket.Dispose();
+                    _socket = null;
+                }
             }
         }
 
@@ -242,69 +231,8 @@ namespace ObdLibUWP
                     result += tmp;
                 }
             }
-            return ObdShare.ObdUtil.ParseObd09Msg(result);
+            return ObdShare.ObdUtil.ParseVINMsg(result);
         }
-
-        public async Task<string> GetOutsideTemperature()
-        {
-            if (_simulatormode)
-            {
-                var r = new Random();
-                return r.Next().ToString();
-            }
-            string result;
-            result = await SendAndReceive("0146\r");
-            return ObdShare.ObdUtil.ParseObd01Msg(result);
-        }
-
-        public async Task<string> GetInsideTemperature()
-        {
-            if (_simulatormode)
-            {
-                var r = new Random();
-                return r.Next().ToString();
-            }
-            string result;
-            result = await SendAndReceive("010F\r");
-            return ObdShare.ObdUtil.ParseObd01Msg(result);
-        }
-
-        public async Task<string> GetBarometricPressure()
-        {
-            if (_simulatormode)
-            {
-                var r = new Random();
-                return r.Next().ToString();
-            }
-            string result;
-            result = await SendAndReceive("0133\r");
-            return ObdShare.ObdUtil.ParseObd01Msg(result);
-        }
-
-        public async Task<string> GetRPM()
-        {
-            if (_simulatormode)
-            {
-                var r = new Random();
-                return r.Next().ToString();
-            }
-            string result;
-            result = await SendAndReceive("010C\r");
-            return ObdShare.ObdUtil.ParseObd01Msg(result);
-        }
-
-        public async Task<string> GetEngineFuelRate()
-        {
-            if (_simulatormode)
-            {
-                var r = new Random();
-                return r.Next().ToString();
-            }
-            string result;
-            result = await SendAndReceive("015E\r");
-            return ObdShare.ObdUtil.ParseObd01Msg(result);
-        }
-
         public Dictionary<string, string> Read()
         {
             if (!this._simulatormode && this._socket == null)
@@ -319,12 +247,10 @@ namespace ObdLibUWP
                 {
                     ret.Add(key, _data[key]);
                 }
-                _data["spd"] = DefValue;  //Speed
-                _data["bp"] = DefValue;   //BarometricPressure
-                _data["rpm"] = DefValue;  //RPM
-                _data["ot"] = DefValue;   //OutsideTemperature
-                _data["it"] = DefValue;   //InsideTemperature
-                _data["efr"] = DefValue;  //EngineFuelRate
+                foreach (var v in _PIDs.Values)
+                {
+                    this._data[v] = DefValue;
+                }
             }
             return ret;
         }
@@ -387,7 +313,6 @@ namespace ObdLibUWP
                     status_Text += bytesWritten.ToString();
                     status_Text += " bytes written successfully!";
                     System.Diagnostics.Debug.WriteLine(status_Text);
-                    this.lastResponse = status_Text;
                 }
             }
         }
@@ -421,10 +346,25 @@ namespace ObdLibUWP
             }
             return "";
         }
-
+        private async Task<string> RunCmd(string cmd)
+        {
+            string result;
+            result = await SendAndReceive(cmd + "\r");
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
+        }
         public async Task Disconnect()
         {
             _running = false;
+            if (dataReaderObject != null)
+            {
+                dataReaderObject.Dispose();
+                dataReaderObject = null;
+            }
+            if (dataWriterObject != null)
+            {
+                dataWriterObject.Dispose();
+                dataWriterObject = null;
+            }
             if (this._socket != null)
             {
                 await this._socket.CancelIOAsync();

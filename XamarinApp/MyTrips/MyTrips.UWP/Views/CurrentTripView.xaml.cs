@@ -35,10 +35,8 @@ namespace MyTrips.UWP.Views
     /// </summary>
     public sealed partial class CurrentTripView : Page, INotifyPropertyChanged
     {
-        CurrentTripViewModel viewModel;
-
-        ObservableRangeCollection<TripPoint> trailPointList;
-
+        public CurrentTripViewModel viewModel;
+       
         private MapIcon CarIcon;
 
         private MapPolyline mapPolyline;
@@ -81,7 +79,6 @@ namespace MyTrips.UWP.Views
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
-            //MyMap.MapElements.Clear();
             this.MyMap.ZoomLevel = 17;
             this.CarIcon = new MapIcon();
             this.mapPolyline = new MapPolyline();
@@ -97,31 +94,34 @@ namespace MyTrips.UWP.Views
 
         void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            //PropertyChanged(this, new PropertyChangedEventArgs("viewModel"));
             switch (e.PropertyName)
             {
                 case nameof(viewModel.CurrentPosition):
                     var basicGeoposition = new BasicGeoposition() { Latitude = viewModel.CurrentPosition.Latitude, Longitude = viewModel.CurrentPosition.Longitude };
-                    if (viewModel.CurrentTrip.Points.Count > 0)
-                    {
-                        var item = viewModel.CurrentTrip.Points.Last();
-                        UpdateMap(item);
-                    }
 
-                    //UpdateMapView(basicGeoposition);
-                    UpdateCarIcon(basicGeoposition);
+                    UpdateMap_PositionChanged(basicGeoposition);
+                    UpdateMapView(basicGeoposition);
                     UpdateStats();
                     break;
 
                 case nameof(viewModel.CurrentTrip):
                     ResetTrip();
                     break;
-                case "Distance":
+
+                //    Todo VJ. Fix Databinding issue to directly update the UI. Currently updating manually.
+                case nameof(viewModel.Distance):
+                case nameof(viewModel.Temperature):
+                case nameof(viewModel.FuelConsumption):
+                case nameof(viewModel.ElapsedTime):
+                case nameof(viewModel.DistanceUnits):
+                case nameof(viewModel.FuelConsumptionUnits):
                     UpdateStats();
                     break;
             }
         }
 
-  
+
         private async Task StartTrackingAsync()
         {
             // Request permission to access location
@@ -160,6 +160,12 @@ namespace MyTrips.UWP.Views
             base.OnNavigatedFrom(e);
             //Ideally, we should stop tracking only if we aren't recording
             viewModel.StopTrackingTripCommand.Execute(null);
+            Locations?.Clear();
+            Locations = null;
+            MyMap.MapElements.Clear();
+            this.MyMap.Loaded -= MyMap_Loaded;
+            this.startRecordBtn.Click -= StartRecordBtn_Click;
+            viewModel.PropertyChanged -= OnPropertyChanged;
         }
 
         private async void StartRecordBtn_Click(object sender, RoutedEventArgs e)
@@ -171,39 +177,48 @@ namespace MyTrips.UWP.Views
 
             if (viewModel.IsRecording)
             {
+                // Need to update Map UI before we start saving. So that the entire trip is visible. 
+                UpdateMap_PositionChanged(basicGeoposition);
+
+                if (!(await viewModel.StopRecordingTrip()))
+                    return;
+
+                // Need to add the end marker only when we are able to stop the trip. 
                 AddEndMarker(basicGeoposition);
+
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
-                UpdateCarIcon(basicGeoposition);
-                await viewModel.StopRecordingTripAsync();
+                var recordedTrip = viewModel.CurrentTrip;
+                await viewModel.SaveRecordingTripAsync();
                 // Launch Trip Summary Page. 
-                this.Frame.Navigate(typeof(TripSummaryView), viewModel.CurrentTrip);
+                this.Frame.Navigate(typeof(TripSummaryView), recordedTrip);
                 return;
         }
             else
             {
-                if (!await viewModel.StartRecordingTripAsync())
+                if (!(await viewModel.StartRecordingTrip()))
                     return;
+
+                // Update UI to start recording.
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StopRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
-                AddStartMarker(basicGeoposition);
-
-                UpdateCarIcon(basicGeoposition);
+                // Update the Map with StartMarker, Path
+                UpdateMap_PositionChanged(basicGeoposition);
                 UpdateStats();
             }
         }
 
-        private async void UpdateCarIcon(BasicGeoposition basicGeoposition)
+        private async void UpdateMap_PositionChanged(BasicGeoposition basicGeoposition)
         {
+            if (viewModel.IsBusy)
+                return;
+ 
             // To update the carIcon first find it and remove it from the MapElements
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                if (MyMap.MapElements.Count > 0)
-                {
-                    var index = MyMap.MapElements.IndexOf(CarIcon);
-                    if (index > 0)
-                        MyMap.MapElements.RemoveAt(index);
-                }
+                // Clear all the map elements. 
+                MyMap.MapElements.Clear();
+
                 CarIcon = new MapIcon();
                 CarIcon.Location = new Geopoint(basicGeoposition);
                 CarIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
@@ -216,130 +231,97 @@ namespace MyTrips.UWP.Views
                 CarIcon.ZIndex = 4;
                 CarIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
                 MyMap.Center = CarIcon.Location;
-                //MyMap.MapElements.Clear();
                 MyMap.MapElements.Add(CarIcon);
             });
-         
+
+
+            // Add the Start Icon
+            AddStartMarker();
+
+            // Add Path if we are recording 
+            DrawPath();
+
         }
 
-        private async void AddStartMarker(BasicGeoposition basicGeoposition)
+        private async void AddStartMarker()
         {
+            if (!viewModel.IsRecording || viewModel.CurrentTrip.Points.Count == 0)
+                return;
+
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-
+                // First point of the trip will be Start Position. 
+                var basicGeoposition = new BasicGeoposition() { Latitude = viewModel.CurrentTrip.Points.First().Latitude, Longitude = viewModel.CurrentTrip.Points.First().Longitude };
                 MapIcon mapStartIcon = new MapIcon();
                 mapStartIcon.Location = new Geopoint(basicGeoposition);
                 mapStartIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
                 mapStartIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_start_point.png"));
                 mapStartIcon.ZIndex = 3;
                 mapStartIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
-                MyMap.Center = mapStartIcon.Location;
+               //   MyMap.Center = mapStartIcon.Location;
                 MyMap.MapElements.Add(mapStartIcon);
             });
         }
 
-        async void UpdateMap(TripPoint trail, bool updateCamera = true)
+        private async void DrawPath()
         {
-            var basicGeoposition = new BasicGeoposition();
+            if (!viewModel.IsRecording || viewModel.CurrentTrip.Points.Count == 0)
+                return;
 
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-
                 if (MyMap == null)
                     return;
-                //Get trail position or current potion to move car
-
-            
-                if (viewModel?.CurrentPosition != null)
-                {
-                    basicGeoposition.Latitude = viewModel.CurrentPosition.Latitude;
-                    basicGeoposition.Longitude = viewModel.CurrentPosition.Longitude;
-                }
-
-                UpdateCarIcon(basicGeoposition);
-
-                // Remove the Polyline 
-                var index = MyMap.MapElements.IndexOf(mapPolyline);
-                if (index > 0)
-                    MyMap.MapElements.RemoveAt(index);
-
-                if (Locations == null)
-                {
-                    Locations = new List<BasicGeoposition>(viewModel.CurrentTrip.Points.Select(s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }));
-                }
-                else if (trail != null)
-                {
-                    basicGeoposition = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
-                    Locations.Add(basicGeoposition);
-                }
+                Locations = new List<BasicGeoposition>(viewModel.CurrentTrip.Points.Select(s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }));
 
                 mapPolyline.Path = new Geopath(Locations);
-                if (viewModel.IsRecording)
-                    mapPolyline.StrokeColor = Colors.Red;
-                else
-                    mapPolyline.StrokeColor = Colors.Blue;
+                mapPolyline.StrokeColor = Colors.Red;
                 mapPolyline.StrokeThickness = 3;
                 MyMap.MapElements.Add(mapPolyline);
-
-                // Moves the camera to make the trail location as the center of the view. 
             });
-             basicGeoposition = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
-
-            if (updateCamera)
-                await MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
+ 
         }
-
+ 
         private async void UpdateMapView(BasicGeoposition basicGeoposition)
         {
-            await this.MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
+            var geoPoint = new Geopoint(basicGeoposition);
+            if (!viewModel.IsBusy)
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    this.MyMap.Center = geoPoint;
+                });
+                await this.MyMap.TrySetViewAsync(geoPoint);
+            }
         }
 
         private async void UpdateStats()
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                this.text_mpg.Text = "0";
-                this.text_hours.Text = viewModel.ElapsedTime;
-                this.text_miles.Text = viewModel.CurrentTrip.TotalDistanceNoUnits;
-                this.text_gallons.Text = "0";
-                this.text_cost.Text = "$0.00";
+                this.text_time.Text = viewModel.ElapsedTime;
+                this.text_miles.Text = viewModel.Distance;
+                this.text_gallons.Text = viewModel.FuelConsumption;
+                this.text_temp.Text = viewModel.Temperature;
+                this.text_distanceunits.Text = viewModel.DistanceUnits;
+                this.text_fuelunits.Text = viewModel.FuelConsumptionUnits;
             });
         }
 
 
         private void ResetTrip()
         {
-            trailPointList = viewModel.CurrentTrip.Points as ObservableRangeCollection<TripPoint>;
-            trailPointList.CollectionChanged += OnTrailUpdated;
            // MyMap.MapElements.Clear();
             Locations?.Clear();
             Locations = null;
-            SetupMap();
             UpdateStats();
         }
 
-        private void SetupMap()
-        {
-            TripPoint start = null;
-            if (viewModel.CurrentTrip.Points.Count == 0)
-                return;
-
-            start = viewModel.CurrentTrip.Points[0];
-            UpdateMap(start, false);
-            AddStartMarker(new BasicGeoposition() { Latitude = start.Latitude, Longitude = start.Longitude });
-        }
-
-        private void OnTrailUpdated(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            var item = viewModel.CurrentTrip.Points[viewModel.CurrentTrip.Points.Count - 1];
-            UpdateMap(item);
-        }
-
+   
         private async void AddEndMarker(BasicGeoposition basicGeoposition)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-        {
-
+            {
                 MapIcon mapEndIcon = new MapIcon();
                 mapEndIcon.Location = new Geopoint(basicGeoposition);
                 mapEndIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
