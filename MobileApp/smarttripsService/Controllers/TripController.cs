@@ -71,7 +71,7 @@ namespace smarttripsService.Controllers
                     curUser.MaxSpeed = max;
 
                 curUser.TotalDistance += current.Distance;
-                curUser.HardAcceleration += current.HardAcceleration;
+                curUser.HardAccelerations += current.HardAccelerations;
                 curUser.HardStops += current.HardStops;
                 curUser.TotalTrips++;
                 curUser.TotalTime += (long)(current.RecordedTimeStamp - current.EndTimeStamp).TotalSeconds;

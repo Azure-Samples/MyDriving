@@ -17,7 +17,7 @@ namespace MyTrips.DataStore.Mock.Stores
                 FirstName = "Scott",
                 LastName = "Gu",
                 ProfilePictureUri = "http://refractored.com/images/Scott.png",
-                HardAcceleration = 55,
+                HardAccelerations = 55,
                 HardStops = 2,
                 Rating = 98,
                 TotalDistance = 99,

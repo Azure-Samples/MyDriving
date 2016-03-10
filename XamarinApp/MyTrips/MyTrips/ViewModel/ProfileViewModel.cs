@@ -52,7 +52,7 @@ namespace MyTrips.ViewModel
                 {
                     TotalDistance = currentUser.TotalDistance;
                     HardStops = currentUser.HardStops;
-                    HardAccelerations = currentUser.HardAcceleration;
+                    HardAccelerations = currentUser.HardAccelerations;
                     DrivingSkills = currentUser.Rating;
                     TotalTime = currentUser.TotalTime;
                     TotalTrips = currentUser.TotalTrips;

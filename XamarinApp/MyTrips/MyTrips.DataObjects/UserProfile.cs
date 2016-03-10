@@ -27,7 +27,7 @@ namespace MyTrips.DataObjects
 
         public long HardStops { get; set; }
 
-        public long HardAcceleration { get; set; }
+        public long HardAccelerations { get; set; }
 
         /// <summary>
         /// Gets or sets the fuel consumption. Stored in gallons
