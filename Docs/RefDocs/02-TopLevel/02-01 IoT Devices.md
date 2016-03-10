@@ -198,9 +198,7 @@ namespace MyTrips.Shared
 
 The **CreateFromConnectionString** method uses a connection string to authenticate with IoT Hub. The section *How do I provsion devices?* in the next chapter provides more information about this connection string.
 
-The **SendEventBatchAsync** method sends multiple **Microsoft.Azure.Devices.Client.Message** messages to IoT Hub. These messages contain OBD and GPS data encoded as JSON.
-
-For more information about sending messages to IoT Hub, see [Messaging][lnk-iothubmessaging] in the Azure IoT Hub developer guide.
+The **SendEventBatchAsync** method sends multiple **Microsoft.Azure.Devices.Client.Message** messages to IoT Hub. These messages contain OBD and GPS data encoded as JSON. For more information about sending messages to IoT Hub, see [Messaging][lnk-iothubmessaging] in the Azure IoT Hub developer guide.
 
 > NOTE: The maximum size of the batch of messages sent is 256 KB. See [IoT Hub limits][lnk-hub-limits].
 
@@ -210,7 +208,11 @@ The **OBDDataProcessor** class in the **MyTrips (Portable)** project includes th
 - **AddTripDataPointToBuffer** to store trip data in a local store on the phone. A trip consists of a collection of data points recorded at set intervals, each of which includes GPS coordinates and OBD data. See below for a complete description of the **Trip** data structure [TODO: this may go into the reference section rather than this chapter].
 - **PushTripDataToIOTHub** to send trip data to IoT Hub using the **SendEvents** method shown previously and to remove the trip data from the local store after it has been sent to IoT Hub.
 
-The **CurrentTripViewModel** class in the **MyTrips (Portable)** project coordinates calling the **ReadOBDData**, **AddTripDataPointToBuffer**, and **PushTripDataToIOTHub** methods in response to events such as a user starting or stopping a trip, or the **Geolocator_PositionChanged** event firing.
+The **CurrentTripViewModel** class in the **MyTrips (Portable)** project coordinates calling the **ReadOBDData**, **AddTripDataPointToBuffer**, and **PushTripDataToIOTHub** methods in response to events such as a user starting or stopping a trip, or the **Geolocator_PositionChanged** event firing. Note that the **CurrentTripViewModel** class does not call the **PushTripDataToIOTHub** method to send data to IoT Hub until the user of the phone pushes the **Stop Record** button on the **Current Trip** screen.
+
+## Next steps
+
+Now that you've learned how the the [TODO:appname] solution collects data from the OBD connector in your car, merges it with GPS data collected by the phone, and sends it to IoT Hub, the next steps are to learn more about the features of the [TODO:appname] phone app and then examine the role of the IoT Hub service and how it enables data ingress to the solution back end.
 
 
 [lnk-obd-homepage]: http://www.obdii.com/
@@ -218,6 +220,7 @@ The **CurrentTripViewModel** class in the **MyTrips (Portable)** project coordin
 [lnk-bluetooth-dongle]: http://www.amazon.com/gp/product/B005NLQAHS
 [lnk-wifi-dongle]: http://www.amazon.com/gp/product/B00OCYXTYY
 [lnk-obd-emulator]: http://freematics.com/pages/products/freematics-obd-emulator-mk2/
+[lnk-freematics-one]: http://freematics.com/pages/products/freematics-one/
 [lnk-iot-sdks-repo]: https://github.com/Azure/azure-iot-sdks
 [lnk-uwp-amqp]: https://github.com/Azure/azure-iot-sdks/blob/master/doc/faq.md#notimpluwp
 [lnk-hub-limits]: https://azure.microsoft.com/documentation/articles/azure-subscription-service-limits/#iot-hub-limits
