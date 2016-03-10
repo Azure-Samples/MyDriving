@@ -49,7 +49,7 @@ namespace smarttripsService.Controllers
 
             if (curUser.Devices == null)
             {
-                curUser.Devices = new List<string>();
+                curUser.Devices = new List<MyTrips.DataObjects.Device>();
             }
 
             if (curUser.Devices.Count >= maxDevices)
@@ -60,7 +60,7 @@ namespace smarttripsService.Controllers
             try
             {
                 device = await registryManager.AddDeviceAsync(new Device(deviceName));
-                curUser.Devices.Add(deviceName);
+                curUser.Devices.Add(new MyTrips.DataObjects.Device { Name = deviceName });
                 await context.SaveChangesAsync();
             }
             catch (DeviceAlreadyExistsException)

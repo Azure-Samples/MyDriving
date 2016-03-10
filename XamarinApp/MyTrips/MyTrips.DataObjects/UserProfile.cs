@@ -41,6 +41,11 @@ namespace MyTrips.DataObjects
         /// <value>The max speed.</value>
         public double MaxSpeed { get; set; }
 
-        public List<string> Devices { get; set; }
+        public List<Device> Devices { get; set; }
+    }
+
+    public class Device : BaseDataObject
+    {
+        public string Name { get; set; }
     }
 }
