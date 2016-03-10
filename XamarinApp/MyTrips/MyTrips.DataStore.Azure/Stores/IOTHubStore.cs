@@ -13,6 +13,7 @@ namespace MyTrips.DataStore.Azure.Stores
 {
     public class IOTHubStore : BaseStore<IOTHubData>, IHubIOTStore
     {
+        public override string Identifier => "IOTHub";
         public override Task<bool> PullLatestAsync()
         {
             return Task.FromResult(true);

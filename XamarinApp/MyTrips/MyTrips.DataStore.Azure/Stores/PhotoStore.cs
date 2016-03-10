@@ -9,6 +9,7 @@ namespace MyTrips.DataStore.Azure.Stores
 {
     public class PhotoStore : BaseStore<Photo>, IPhotoStore
     {
+        public override string Identifier => "Photo";
         public override Task<bool> PullLatestAsync()
         {
             return Task.FromResult(true);

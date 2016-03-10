@@ -36,7 +36,6 @@ namespace MyTrips.DataStore.Azure
             store = new MobileServiceSQLiteStore(path);
 
             store.DefineTable<UserProfile>();
-            store.DefineTable<Tip>();
             store.DefineTable<TripPoint>();
             store.DefineTable<Photo>();
             store.DefineTable<Trip>();
