@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -149,6 +150,15 @@ namespace MyTrips.ViewModel
 
                 IsRecording = true;
 
+                //add start point
+                CurrentTrip.Points.Add(new TripPoint
+                {
+                    RecordedTimeStamp = DateTime.UtcNow,
+                    Latitude = CurrentPosition.Latitude,
+                    Longitude = CurrentPosition.Longitude,
+                    Sequence = CurrentTrip.Points.Count,
+                });
+
                 //Connect to the OBD device
                 await this.obdDataProcessor.Initialize(this.StoreManager);
                 await this.obdDataProcessor.ConnectToOBDDevice();
@@ -218,11 +228,8 @@ namespace MyTrips.ViewModel
 
 
                 //TODO: use real city here
-#if DEBUG
-                CurrentTrip.MainPhotoUrl = "http://loricurie.files.wordpress.com/2010/11/seattle-skyline.jpg";
-#else
-                CurrentTrip.MainPhotoUrl = await BingHelper.QueryBingImages("Seattle", CurrentPosition.Latitude, CurrentPosition.Longitude);
-#endif
+                CurrentTrip.MainPhotoUrl = $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{CurrentPosition.Latitude.ToString(CultureInfo.InvariantCulture)},{CurrentPosition.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key=J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
+
                 CurrentTrip.Rating = 90;
 
                 CurrentTrip.EndTimeStamp = DateTime.UtcNow;
