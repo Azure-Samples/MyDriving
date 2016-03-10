@@ -74,7 +74,7 @@ namespace smarttripsService.Controllers
                 curUser.HardAccelerations += current.HardAccelerations;
                 curUser.HardStops += current.HardStops;
                 curUser.TotalTrips++;
-                curUser.TotalTime += (long)(current.RecordedTimeStamp - current.EndTimeStamp).TotalSeconds;
+                curUser.TotalTime += (long)(current.EndTimeStamp - current.RecordedTimeStamp).TotalSeconds;
 
                 _dbContext.SaveChanges();
             }
