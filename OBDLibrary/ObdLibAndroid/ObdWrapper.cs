@@ -41,7 +41,7 @@ namespace ObdLibAndroid
             _simulatormode = simulatormode;
             if (simulatormode)
             {
-                PollObd();
+                //PollObd();
 
                 ////these code is for testing.
                 //while (true)
@@ -122,12 +122,27 @@ namespace ObdLibAndroid
 
         public Dictionary<string, string> Read()
         {
+            var ret = new Dictionary<string, string>();
+            string s;
+            if (this._simulatormode)
+            {
+                s = "SIMULATOR12345678";
+                ret.Add("vin", s);
+                foreach (var cmd in _PIDs.Keys)
+                {
+                    var key = _PIDs[cmd];
+                    s = ObdShare.ObdUtil.GetEmulatorValue(cmd);
+                    ret.Add(key,s);
+                }
+                return ret;
+            }
+
             if (!this._simulatormode && this._bluetoothSocket == null)
             {
                 //if there is no connection
                 return null;
             }
-            var ret = new Dictionary<string, string>();
+            
             lock (_lock)
             {
                 foreach (var key in _data.Keys)

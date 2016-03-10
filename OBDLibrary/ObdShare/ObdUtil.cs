@@ -186,7 +186,7 @@ namespace ObdShare
                 case "0145":
                     return r.Next(0, 100).ToString();
                 case "0146":
-                    return (r.Next(0, 255)-40).ToString();
+                    return r.Next(0, 60).ToString();
                 case "015E":
                     return r.Next(0, 3000).ToString();
             }
