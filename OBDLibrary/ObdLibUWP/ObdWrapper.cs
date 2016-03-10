@@ -18,18 +18,18 @@ namespace ObdLibUWP
         const string DefValue = "";
         private StreamSocket _socket = null;
         private RfcommDeviceService _service = null;
-        DataReader dataReaderObject = null;
-        DataWriter dataWriterObject = null;
-        string lastResponse;
-        bool _connected = true;
-        Dictionary<string, string> _data = null;
-        bool _running = true;
+        private DataReader dataReaderObject = null;
+        private DataWriter dataWriterObject = null;
+        private bool _connected = true;
+        private Dictionary<string, string> _data = null;
+        private bool _running = true;
         private Object _lock = new Object();
         private bool _simulatormode;
         private Dictionary<string, string> _PIDs;
 
         public async Task<bool> Init(bool simulatormode = false)
         {
+            this._running = true;
             //initialize _data
             this._data = new Dictionary<string, string>();
             this._data.Add("vin", DefValue);  //VIN
@@ -121,8 +121,19 @@ namespace ObdLibUWP
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Overall Connect: " + ex.Message);
-                if (_socket != null)
+                if (dataReaderObject != null)
                 {
+                    dataReaderObject.Dispose();
+                    dataReaderObject = null;
+                }
+                if (dataWriterObject != null)
+                {
+                    dataWriterObject.Dispose();
+                    dataWriterObject = null;
+                }
+                if (this._socket != null)
+                {
+                    await this._socket.CancelIOAsync();
                     _socket.Dispose();
                     _socket = null;
                 }
@@ -167,7 +178,17 @@ namespace ObdLibUWP
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 _running = false;
-                if (_socket != null)
+                if (dataReaderObject != null)
+                {
+                    dataReaderObject.Dispose();
+                    dataReaderObject = null;
+                }
+                if (dataWriterObject != null)
+                {
+                    dataWriterObject.Dispose();
+                    dataWriterObject = null;
+                }
+                if (this._socket != null)
                 {
                     await this._socket.CancelIOAsync();
                     _socket.Dispose();
@@ -292,7 +313,6 @@ namespace ObdLibUWP
                     status_Text += bytesWritten.ToString();
                     status_Text += " bytes written successfully!";
                     System.Diagnostics.Debug.WriteLine(status_Text);
-                    this.lastResponse = status_Text;
                 }
             }
         }
@@ -335,6 +355,16 @@ namespace ObdLibUWP
         public async Task Disconnect()
         {
             _running = false;
+            if (dataReaderObject != null)
+            {
+                dataReaderObject.Dispose();
+                dataReaderObject = null;
+            }
+            if (dataWriterObject != null)
+            {
+                dataWriterObject.Dispose();
+                dataWriterObject = null;
+            }
             if (this._socket != null)
             {
                 await this._socket.CancelIOAsync();
