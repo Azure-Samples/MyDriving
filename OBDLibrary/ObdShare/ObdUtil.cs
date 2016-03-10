@@ -8,6 +8,8 @@ namespace ObdShare
 {
     public class ObdUtil
     {
+		static string outsideTemperature = "0";
+
         private static int ParseString(string str, int bytes)
         {
             return int.Parse(str.Substring(4, bytes * 2), NumberStyles.HexNumber);
@@ -186,7 +188,10 @@ namespace ObdShare
                 case "0145":
                     return r.Next(0, 100).ToString();
                 case "0146":
-                    return r.Next(0, 60).ToString();
+					if (outsideTemperature == "0")
+						outsideTemperature = r.Next(0, 60).ToString();
+
+					return outsideTemperature;
                 case "015E":
                     return r.Next(0, 3000).ToString();
             }
