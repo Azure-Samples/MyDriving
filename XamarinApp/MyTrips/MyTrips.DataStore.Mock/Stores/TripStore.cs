@@ -19,7 +19,6 @@ namespace MyTrips.DataStore.Mock.Stores
         IPhotoStore photoStore;
         static void AddTripDetails(Trip trip, int id, double lat, double lng, DateTime timestamp)
         {
-
             var pt = new TripPoint();
             pt.TripId = id.ToString();
             pt.Sequence = id;
@@ -27,8 +26,6 @@ namespace MyTrips.DataStore.Mock.Stores
             pt.Longitude = lng;
             pt.RecordedTimeStamp = timestamp;
             trip.Points.Add(pt);
-
-            
         }
 
         public static List<Trip> GetTrips()
@@ -262,7 +259,7 @@ namespace MyTrips.DataStore.Mock.Stores
 
         public override async Task<bool> InsertAsync(Trip item)
         {
-            item.Id = Guid.NewGuid().ToString();
+            //No need to set the Id here since it's already set in the BaseDataObject
             Trips.Add(item);
             return true;
         }
