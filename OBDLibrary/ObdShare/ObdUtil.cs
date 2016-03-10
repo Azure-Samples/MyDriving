@@ -187,15 +187,37 @@ namespace ObdShare
                     return r.Next(0, 65535).ToString();
                 case "0145":
                     return r.Next(0, 100).ToString();
-                case "0146":
-					if (outsideTemperature == "0")
-						outsideTemperature = r.Next(0, 60).ToString();
-
-					return outsideTemperature;
-                case "015E":
+				case "0146":
+					return SimulateTemperatureValue(r);
+				case "015E":
                     return r.Next(0, 3000).ToString();
             }
             return "0";
         }
-    }
+
+		static string SimulateTemperatureValue(Random r)
+		{
+			if (outsideTemperature == "0")
+			{
+				outsideTemperature = r.Next(0, 45).ToString();
+			}
+			else
+			{
+				var temperature = Double.Parse(outsideTemperature);
+
+				// Returns variance value between .01 and .05
+				var variance = r.NextDouble() * (0.04) + .01;
+
+				var varyTemperatureDirection = r.Next(0, 2);
+				if (varyTemperatureDirection == 0)
+					temperature += variance;
+				else
+					temperature -= variance;
+
+				outsideTemperature = temperature.ToString();
+			}
+
+			return outsideTemperature;
+		}
+	}
 }
