@@ -29,7 +29,7 @@ namespace MyTrips.DataObjects
             Id = Guid.NewGuid().ToString();
         }
         
-        public virtual string Id { get; set; }
+        public string Id { get; set; }
         
     }
 #endif

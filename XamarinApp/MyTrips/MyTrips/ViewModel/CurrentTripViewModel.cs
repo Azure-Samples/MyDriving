@@ -387,6 +387,7 @@ namespace MyTrips.ViewModel
       
                 var point = new TripPoint
                 {
+                    TripId = CurrentTrip.Id,
                     RecordedTimeStamp = DateTime.UtcNow,
                     Latitude = userLocation.Latitude,
                     Longitude = userLocation.Longitude,
@@ -428,13 +429,13 @@ namespace MyTrips.ViewModel
                     point.EngineLoad = el;
                     point.ShortTermFuelBank = stfb;
                     point.LongTermFuelBank = ltfb;
-                    point.FlowRate = fr;
+                    point.MassFlowRate = fr;
                     point.ThrottlePosition = tp;
                     point.Runtime = rt;
-                    point.DistWithMalfunctionLight = dis;
+                    point.DistanceWithMalfunctionLight = dis;
                     point.RelativeThrottlePosition = rtp;
                     point.Speed = speed;
-                    point.EngineRPM = rpm;
+                    point.RPM = rpm;
                     point.OutsideTemperature = outside;
                     point.EngineFuelRate = efr;
                     point.VIN = vin;
