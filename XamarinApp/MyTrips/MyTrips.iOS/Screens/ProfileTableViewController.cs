@@ -23,16 +23,8 @@ namespace MyTrips.iOS
 			ViewModel = new ProfileViewModel();
 			NavigationItem.Title = $"{ViewModel.Settings.UserFirstName} {ViewModel.Settings.UserLastName}";
 
-			if (ViewModel.UserPictureSourceKind == Utils.UserPictureSourceKind.Url)
-			{
-				var url = ViewModel.Settings.UserProfileUrl;
-				imgAvatar.SetImage(new NSUrl(url));
-			}
-			else
-			{
-				var image = new UIImage(NSData.FromArray(ViewModel.Settings.UserProfileByteArr));
-				imgAvatar.Image = image;
-			}
+			var url = ViewModel.Settings.UserProfileUrl;
+			imgAvatar.SetImage(new NSUrl(url));
 
 			PercentageView.Value = 86;
 
