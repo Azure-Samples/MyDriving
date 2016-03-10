@@ -15,25 +15,16 @@ namespace MyTrips.UWP.Converters
             if (value == null)
                 return null;
 
-            int sourceKind = (int)value;
-
-            if (sourceKind == (int)UserPictureSourceKind.Url)
+            string url = value as string;
+            if(!string.IsNullOrEmpty(url))
             {
-                return new BitmapImage(new Uri(Settings.Current.UserProfileUrl));
-            }
-            else if (sourceKind == (int)UserPictureSourceKind.Byte)
-            {
-                using (var ms = new InMemoryRandomAccessStream())
+                try
                 {
-                    var pictureBytes = (byte[])value;
-                    using (var writer = new DataWriter(ms.GetOutputStreamAt(0)))
-                    {
-                        writer.WriteBytes(Settings.Current.UserProfileByteArr);
-                        writer.StoreAsync().GetResults();
-                    }
-                    var image = new BitmapImage();
-                    image.SetSource(ms);
-                    return image;
+                    return new BitmapImage(new Uri(url));
+                }
+                catch(Exception)
+                {
+                    
                 }
             }
             return null;

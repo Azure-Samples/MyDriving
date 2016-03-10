@@ -1,13 +1,50 @@
 ﻿using System;
 using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
+using MyTrips.Utils;
 
 namespace MyTrips.AzureClient
 {
     public class AzureClient : IAzureClient
     {
+        const string defaultMobileServiceUrl = "https://motzsmarttrips.azurewebsites.net";
+        string mobileServiceUrl;
         IMobileServiceClient client;
-        public IMobileServiceClient Client => client ?? (client = new MobileServiceClient("https://motzsmarttrips.azurewebsites.net", new AuthHandler()));
+        public IMobileServiceClient Client => client ?? (client = CreateClient());
+      
+
+        private IMobileServiceClient CreateClient()
+        {
+            if (string.IsNullOrEmpty(mobileServiceUrl))
+            {
+                if(string.IsNullOrEmpty(Settings.Current.MobileClientUrl))
+                {
+                    mobileServiceUrl = defaultMobileServiceUrl;
+                    Settings.Current.MobileClientUrl = defaultMobileServiceUrl;
+                }
+                else
+                {
+                    mobileServiceUrl = Settings.Current.MobileClientUrl;
+                }
+            }
+            client = new MobileServiceClient(mobileServiceUrl, new AuthHandler());
+            return client;
+        }
+
+        public void UpdateMobileServiceUrl(string url)
+        {
+            if(string.Compare(url, mobileServiceUrl, StringComparison.OrdinalIgnoreCase) != 0)
+            {
+                mobileServiceUrl = url;
+                Settings.Current.MobileClientUrl = url;
+                client = new MobileServiceClient(mobileServiceUrl, new AuthHandler());
+            }
+        }
+  
     }
+
+
+    //Client => client ?? (client = new MobileServiceClient("https://motzsmarttrips.azurewebsites.net", new AuthHandler()));
 }
+
 
