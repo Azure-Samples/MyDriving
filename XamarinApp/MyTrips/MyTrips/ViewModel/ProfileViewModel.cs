@@ -95,7 +95,7 @@ namespace MyTrips.ViewModel
 
         public string FuelDisplayNoUnits => FuelConverted.ToString("F");
 
-        public string FuelDisplay => $"{FuelDisplayNoUnits} {FuelUnits}";
+		public string FuelDisplay => $"{FuelDisplayNoUnits} {FuelUnits.ToLowerInvariant()}";
 
 
         public string DistanceUnits => Settings.MetricDistance ? "kilometers" : "miles";
