@@ -7,7 +7,6 @@ using Microsoft.Azure.Mobile.Server;
 using MyTrips.DataObjects;
 using smarttripsService.Models;
 using smarttripsService.Helpers;
-using System.Web;
 
 namespace smarttripsService.Controllers
 {
@@ -20,7 +19,7 @@ namespace smarttripsService.Controllers
             DomainManager = new EntityDomainManager<Trip>(context, Request);
         }
 
-        // GET tables/trip
+        // GET tables/Trip
         //[Authorize]
         [QueryableExpand("Points,Tips")]
         public IQueryable<Trip> GetAllTrips()
@@ -31,7 +30,7 @@ namespace smarttripsService.Controllers
             return Query().Where(s => s.UserId == id);
         }
 
-        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // GET tables/Trip/<id>
         [QueryableExpand("Points,Tips")]
        //[Authorize]
         public SingleResult<Trip> GetTrip(string id)
@@ -39,14 +38,14 @@ namespace smarttripsService.Controllers
             return Lookup(id);
         }
 
-        // PATCH tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // PATCH tables/Trip/<id>
        //[Authorize]
         public Task<Trip> PatchTrip(string id, Delta<Trip> patch)
         {
             return UpdateAsync(id, patch);
         }
 
-        // POST tables/TodoItem
+        // POST tables/Trip
        //[Authorize]
         public async Task<IHttpActionResult> PostTrip(Trip trip)
         {
@@ -56,7 +55,7 @@ namespace smarttripsService.Controllers
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 
-        // DELETE tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // DELETE tables/Trip/<id>
        //[Authorize]
         public Task DeleteTrip(string id)
         {

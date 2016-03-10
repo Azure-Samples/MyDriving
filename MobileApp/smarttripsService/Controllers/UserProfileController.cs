@@ -19,7 +19,7 @@ namespace smarttripsService.Controllers
             DomainManager = new EntityDomainManager<UserProfile>(context, Request);
         }
 
-        // GET tables/User
+        // GET tables/UserProfile
        //[Authorize]
         public IQueryable<UserProfile> GetAllUsers()
         {
@@ -30,7 +30,7 @@ namespace smarttripsService.Controllers
             return Query().Where(s => s.UserId == IdentitiyHelper.FindSid(this.User));
         }
 
-        // GET tables/User/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // GET tables/UserProfile/<id>
         [QueryableExpand("Devices")]
        //[Authorize]
         public SingleResult<UserProfile> GetUser(string id)
@@ -38,14 +38,14 @@ namespace smarttripsService.Controllers
             return Lookup(id);
         }
 
-        // PATCH tables/User/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // PATCH tables/UserProfile/<id>
        //[Authorize]
         public Task<UserProfile> PatchUser(string id, Delta<UserProfile> patch)
         {
             return UpdateAsync(id, patch);
         }
 
-        // POST tables/User
+        // POST tables/UserProfile
        //[Authorize]
         public async Task<IHttpActionResult> PostUser(UserProfile user)
         {
@@ -55,7 +55,7 @@ namespace smarttripsService.Controllers
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 
-        // DELETE tables/User/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // DELETE tables/UserProfile/<id>
        //[Authorize]
         public Task DeleteUser(string id)
         {
