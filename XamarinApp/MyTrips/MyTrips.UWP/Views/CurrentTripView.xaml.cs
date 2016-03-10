@@ -179,11 +179,13 @@ namespace MyTrips.UWP.Views
             {
                 // Need to update Map UI before we start saving. So that the entire trip is visible. 
                 UpdateMap_PositionChanged(basicGeoposition);
-                AddEndMarker(basicGeoposition);
-
+          
                 bool result = await viewModel.StopRecordingTrip();
                 if (!result)
                     return;
+                
+                // Need to add the end marker only when we are able to stop the trip. 
+                AddEndMarker(basicGeoposition);
 
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));

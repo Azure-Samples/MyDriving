@@ -287,12 +287,8 @@ namespace MyTrips.ViewModel
                         CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS ||
                         CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
                 {
-                    Acr.UserDialogs.UserDialogs.Instance.Toast(new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Keep driving! Need a few more points.")
-                    {
-                        Duration = TimeSpan.FromSeconds(3),
-                        TextColor = System.Drawing.Color.White,
-                        BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139)
-                    });
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("We need few more points.",
+                                                            "Keep driving!", "OK");
                 }
 
                 return false;
