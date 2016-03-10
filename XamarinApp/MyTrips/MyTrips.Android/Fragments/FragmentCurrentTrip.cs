@@ -167,6 +167,7 @@ namespace MyTrips.Droid.Fragments
                     UpdateCamera(latlng);
                     break;
                 case nameof(viewModel.CurrentTrip):
+                    TripSummaryActivity.ViewModel = viewModel.TripSummary;
                     ResetTrip();
                     StartActivity(new Android.Content.Intent(Activity, typeof(TripSummaryActivity)));
                     break;

@@ -21,7 +21,6 @@ namespace MyTrips.Droid.Activities
     public class PastTripDetailsActivity : BaseActivity, IOnMapReadyCallback  
     {
         
-
         protected override int LayoutResource
         {
             get

@@ -49,7 +49,7 @@ namespace MyTrips.DataObjects
 
         public long HardStops { get; set; }
 
-        public long HardAcceleration { get; set; }
+        public long HardAccelerations { get; set; }
 
         public string MainPhotoUrl { get; set; }
 
