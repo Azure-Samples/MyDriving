@@ -80,12 +80,12 @@ namespace MyTrips.UWP.Views
 
         private void ShowUserWelcome()
         {
-            if (viewModel.UserInfo?.FirstName != null && viewModel.UserInfo?.FirstName != string.Empty)
+            if (!string.IsNullOrWhiteSpace(Settings.Current.UserId))
             {
                 LoginButtons.Visibility = Visibility.Collapsed;
                 SkipAuthBtn.Visibility = Visibility.Collapsed;
                 AppLogo.Visibility = Visibility.Collapsed;
-                WelcomeText.Text = "Welcome " + viewModel.UserInfo.FirstName + "!";
+                WelcomeText.Text = "Welcome " + Settings.Current.UserFirstName + "!";
                 WelcomeText.Visibility = Visibility.Visible;
                 SetImageSource();
                 ProfileImage.Visibility = Visibility.Visible;
@@ -100,16 +100,14 @@ namespace MyTrips.UWP.Views
 
         private void Continue_Click(object sender, RoutedEventArgs e)
         {
-            if (viewModel.UserInfo == null)
-            viewModel.InitFakeUser();
-
+            
             Window.Current.Content = new SplitViewShell(this.Frame);
             this.Frame.Navigate(typeof(PastTripsMenuView));
         }
 
         private void SetImageSource()
         {
-            ProfileImage.Source = new BitmapImage(new Uri(viewModel.UserInfo.ProfilePictureUri));
+            ProfileImage.Source = new BitmapImage(new Uri(Settings.Current.UserProfileUrl));
         }
 
     }

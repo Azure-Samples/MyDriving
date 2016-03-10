@@ -5,6 +5,7 @@ namespace MyTrips.DataStore.Azure.Stores
 {
     public class UserStore : BaseStore<UserProfile>, IUserStore
     {
+        public override string Identifier => "User";
     }
 }
 

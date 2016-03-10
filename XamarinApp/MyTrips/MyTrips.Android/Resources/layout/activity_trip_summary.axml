@@ -24,52 +24,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginBottom="4dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp">
-                <FrameLayout
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:id="@+id/full_rating"
-                    android:transitionName="rating">
-                    <refractored.controls.CircleImageView
-                        android:id="@+id/profile_image"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_margin="8dp"
-                        local:civ_border_width="0dp" />
-                    <mytrips.droid.controls.RatingCircle
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:id="@+id/rating_circle" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="86"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                        android:textColor="@color/accent" />
-                </FrameLayout>
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Driving skills: Great!"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Better than 86% of drivers"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-                </LinearLayout>
-            </LinearLayout>
             <android.support.v7.widget.CardView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -92,21 +46,22 @@
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|right"
-                            android:id="@+id/total_miles"
-                            android:text="65,876"
+                            android:id="@+id/text_distance"
+                            android:text="45 miles"
                             android:textColor="@color/accent"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                         <TextView
                             android:layout_marginLeft="4dp"
                             android:layout_width="0dp"
-                            android:layout_weight="3"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|left"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:text="miles" />
+                            android:text="total distance"
+                            android:id="@+id/text_distance_units" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_marginTop="4dp"
@@ -115,22 +70,39 @@
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|right"
-                            android:id="@+id/total_time"
-                            android:text="23:47"
+                            android:id="@+id/text_time"
+                            android:text="2h 3m 45s"
                             android:textColor="@color/accent"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                         <TextView
                             android:layout_marginLeft="4dp"
                             android:layout_width="0dp"
-                            android:layout_weight="3"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|left"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:text="hours" />
+                            android:text="trip time" />
                     </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                local:cardBackgroundColor="@android:color/white"
+                local:cardElevation="2dp"
+                local:cardUseCompatPadding="true"
+                local:cardCornerRadius="2dp"
+                android:layout_marginTop="4dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true">
+                <LinearLayout
+                    style="@style/Widget.CardContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
                     <LinearLayout
                         android:layout_marginTop="4dp"
                         android:layout_width="fill_parent"
@@ -138,21 +110,21 @@
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|right"
-                            android:id="@+id/local_mph"
+                            android:id="@+id/text_max_speed"
                             android:text="35"
                             android:textColor="@color/accent"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                         <TextView
                             android:layout_marginLeft="4dp"
                             android:layout_width="0dp"
-                            android:layout_weight="3"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|left"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:text="local" />
+                            android:text="max speed" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="fill_parent"
@@ -160,22 +132,39 @@
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|right"
-                            android:id="@+id/highway_mph"
+                            android:id="@+id/text_fuel_consumption"
                             android:text="62"
                             android:textColor="@color/accent"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                         <TextView
                             android:layout_marginLeft="4dp"
                             android:layout_width="0dp"
-                            android:layout_weight="3"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|left"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:text="highway" />
+                            android:text="fuel consumed" />
                     </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                local:cardBackgroundColor="@android:color/white"
+                local:cardElevation="2dp"
+                local:cardUseCompatPadding="true"
+                local:cardCornerRadius="2dp"
+                android:layout_marginTop="4dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true">
+                <LinearLayout
+                    style="@style/Widget.CardContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
                     <LinearLayout
                         android:layout_marginTop="4dp"
                         android:layout_width="fill_parent"
@@ -183,17 +172,17 @@
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|right"
-                            android:id="@+id/total_hard_breaks"
+                            android:id="@+id/text_hard_breaks"
                             android:text="41"
                             android:textColor="@color/accent"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                         <TextView
                             android:layout_marginLeft="4dp"
                             android:layout_width="0dp"
-                            android:layout_weight="3"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|left"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -206,21 +195,21 @@
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|right"
-                            android:id="@+id/total_tips"
+                            android:id="@+id/text_hard_accelerations"
                             android:text="23"
                             android:textColor="@color/accent"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                         <TextView
                             android:layout_marginLeft="4dp"
                             android:layout_width="0dp"
-                            android:layout_weight="3"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|left"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                            android:text="tips generated" />
+                            android:text="hard accelerations" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -233,5 +222,6 @@
         android:text="Done"
         android:elevation="0dp"
         android:stateListAnimator="@null"
+        android:foreground="?android:attr/selectableItemBackground"
         android:backgroundTint="@android:color/transparent" />
 </LinearLayout>

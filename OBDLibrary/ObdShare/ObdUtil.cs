@@ -8,6 +8,8 @@ namespace ObdShare
 {
     public class ObdUtil
     {
+		static string outsideTemperature = "0";
+
         private static int ParseString(string str, int bytes)
         {
             return int.Parse(str.Substring(4, bytes * 2), NumberStyles.HexNumber);
@@ -185,12 +187,37 @@ namespace ObdShare
                     return r.Next(0, 65535).ToString();
                 case "0145":
                     return r.Next(0, 100).ToString();
-                case "0146":
-                    return (r.Next(0, 255)-40).ToString();
-                case "015E":
+				case "0146":
+					return SimulateTemperatureValue(r);
+				case "015E":
                     return r.Next(0, 3000).ToString();
             }
             return "0";
         }
-    }
+
+		static string SimulateTemperatureValue(Random r)
+		{
+			if (outsideTemperature == "0")
+			{
+				outsideTemperature = r.Next(0, 38).ToString();
+			}
+			else
+			{
+				var temperature = Double.Parse(outsideTemperature);
+
+				// Returns variance value between .01 and .05
+				var variance = r.NextDouble() * (0.04) + .01;
+
+				var varyTemperatureDirection = r.Next(0, 2);
+				if (varyTemperatureDirection == 0)
+					temperature += variance;
+				else
+					temperature -= variance;
+
+				outsideTemperature = temperature.ToString();
+			}
+
+			return outsideTemperature;
+		}
+	}
 }
