@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -149,6 +150,15 @@ namespace MyTrips.ViewModel
 
                 IsRecording = true;
 
+                //add start point
+                CurrentTrip.Points.Add(new TripPoint
+                {
+                    RecordedTimeStamp = DateTime.UtcNow,
+                    Latitude = CurrentPosition.Latitude,
+                    Longitude = CurrentPosition.Longitude,
+                    Sequence = CurrentTrip.Points.Count,
+                });
+
                 //Connect to the OBD device
                 await this.obdDataProcessor.Initialize(this.StoreManager);
                 await this.obdDataProcessor.ConnectToOBDDevice();
@@ -217,14 +227,10 @@ namespace MyTrips.ViewModel
 
 
                 //TODO: use real city here
-#if DEBUG
-                CurrentTrip.MainPhotoUrl = "http://loricurie.files.wordpress.com/2010/11/seattle-skyline.jpg";
-#else
-                CurrentTrip.MainPhotoUrl = await BingHelper.QueryBingImages("Seattle", CurrentPosition.Latitude, CurrentPosition.Longitude);
-#endif
+                CurrentTrip.MainPhotoUrl = $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{CurrentPosition.Latitude.ToString(CultureInfo.InvariantCulture)},{CurrentPosition.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key=J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
+
                 CurrentTrip.Rating = 90;
 
-                CurrentTrip.EndTimeStamp = DateTime.UtcNow;
 
                 if (string.IsNullOrWhiteSpace(CurrentTrip.Name))
                     CurrentTrip.Name = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
@@ -273,6 +279,8 @@ namespace MyTrips.ViewModel
 
             return false;
         }
+
+        public TripSummaryViewModel TripSummary { get; set; }
    
         public async Task<bool> StopRecordingTrip()
         {
@@ -293,8 +301,21 @@ namespace MyTrips.ViewModel
                 return false;
             }
 
+
+            CurrentTrip.EndTimeStamp = DateTime.UtcNow;
+
             //Stop reading data from the OBD device
             await this.obdDataProcessor.DisconnectFromOBDDevice();
+
+            TripSummary = new TripSummaryViewModel
+            {
+                TotalTime = (CurrentTrip.EndTimeStamp - CurrentTrip.RecordedTimeStamp).TotalSeconds,
+                TotalDistance = CurrentTrip.Distance,
+                FuelUsed = CurrentTrip.FuelUsed,
+                MaxSpeed = CurrentTrip.Points.Max(s => s.Speed),
+                HardStops = CurrentTrip.HardStops,
+                HardAccelerations = CurrentTrip.HardAccelerations
+            };
 
             IsRecording = false;
             NeedSave = true;
@@ -392,7 +413,7 @@ namespace MyTrips.ViewModel
 
                 if (obdData != null)
                 {
-                    double speed = 0, rpm = 0, outside = 0, efr = 0, el = 0, stfb = 0, ltfb = 0, fr = 0, tp = 0, rt = 0, dis = 0, rtp = 0;
+                    double speed = 0, rpm = 0, outside = -1, efr = 0, el = 0, stfb = 0, ltfb = 0, fr = 0, tp = 0, rt = 0, dis = 0, rtp = 0;
                     string vin = String.Empty;
 
                     if (obdData.ContainsKey("el"))
@@ -415,7 +436,7 @@ namespace MyTrips.ViewModel
                         double.TryParse(obdData["spd"], out speed);
                     if(obdData.ContainsKey("rpm"))
                         double.TryParse(obdData["rpm"], out rpm);
-                    if(obdData.ContainsKey("ot"))
+                    if (obdData.ContainsKey("ot") && !string.IsNullOrWhiteSpace(obdData["ot"]))
                         double.TryParse(obdData["ot"], out outside);
                     if(obdData.ContainsKey("efr"))
                         double.TryParse(obdData["efr"], out efr);
@@ -476,7 +497,9 @@ namespace MyTrips.ViewModel
                     FuelConsumption = "N/A";
                 }
 
-                Temperature = point.DisplayTemp;
+                if(point.OutsideTemperature >= 0)
+                    Temperature = point.DisplayTemp;
+                
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
                 DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
                 OnPropertyChanged("Stats");

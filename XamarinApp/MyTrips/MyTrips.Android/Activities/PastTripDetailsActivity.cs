@@ -21,7 +21,6 @@ namespace MyTrips.Droid.Activities
     public class PastTripDetailsActivity : BaseActivity, IOnMapReadyCallback  
     {
         
-
         protected override int LayoutResource
         {
             get
@@ -111,7 +110,7 @@ namespace MyTrips.Droid.Activities
             var thicknessCar = (int)Math.Ceiling(24 * logicalDensity + .5f);
             var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
 
-            var b = ContextCompat.GetDrawable(this, Resource.Drawable.ic_car_blue) as BitmapDrawable;
+            var b = ContextCompat.GetDrawable(this, Resource.Drawable.ic_car) as BitmapDrawable;
             var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessCar, thicknessCar, false);
 
             var car = new MarkerOptions();

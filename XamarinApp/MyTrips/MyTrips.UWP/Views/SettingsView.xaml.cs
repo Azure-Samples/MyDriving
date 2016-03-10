@@ -60,10 +60,8 @@ namespace MyTrips.UWP.Views
 
         public async void Logout_Click(object sender, RoutedEventArgs e)
         {
-            await settingsViewModel.StoreManager.DropEverythingAsync();
-            settingsViewModel.Settings.CleanupUserProfile();
-
-            this.Frame.Navigate(typeof(LoginView));
+            if(await settingsViewModel.ExecuteLogoutCommandAsync())
+                this.Frame.Navigate(typeof(LoginView));
         }
     }
 }

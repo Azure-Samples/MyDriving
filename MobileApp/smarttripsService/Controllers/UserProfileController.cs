@@ -20,26 +20,27 @@ namespace smarttripsService.Controllers
         }
 
         // GET tables/UserProfile
-       //[Authorize]
+        //[Authorize]
+        [QueryableExpand("Devices")]
         public IQueryable<UserProfile> GetAllUsers()
         {
             //TODO: remove and add authorize in future
             var id = IdentitiyHelper.FindSid(this.User);
             if (string.IsNullOrWhiteSpace(id))
                 return Query();
-            return Query().Where(s => s.UserId == IdentitiyHelper.FindSid(this.User));
+            return Query().Where(s => s.UserId == id);
         }
 
         // GET tables/UserProfile/<id>
+        //[Authorize]
         [QueryableExpand("Devices")]
-       //[Authorize]
         public SingleResult<UserProfile> GetUser(string id)
         {
             return Lookup(id);
         }
 
         // PATCH tables/UserProfile/<id>
-       //[Authorize]
+        //[Authorize]
         public Task<UserProfile> PatchUser(string id, Delta<UserProfile> patch)
         {
             return UpdateAsync(id, patch);

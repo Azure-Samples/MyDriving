@@ -3,6 +3,7 @@ using System.Windows.Input;
 using MyTrips.Utils;
 using MyTrips.Helpers;
 using MyTrips.Interfaces;
+using MyTrips.DataObjects;
 using Microsoft.WindowsAzure.MobileServices;
 using MyTrips.DataStore.Abstractions;
 using MyTrips.AzureClient;
@@ -22,13 +23,7 @@ namespace MyTrips.ViewModel
 
         }
 
-        UserProfile userInfo;
-        public UserProfile UserInfo
-        {
-            get { return userInfo; }
-            set { SetProperty(ref userInfo, value); }
-        }
-
+        public UserProfile UserProfile { get; set; }
 
 
         bool isLoggedIn;
@@ -54,47 +49,13 @@ namespace MyTrips.ViewModel
         {
             if(client == null || IsBusy)
                 return;
-
-            var track = Logger.Instance.TrackTime("LoginTwitter");
-            track.Start();
+            
 
             Settings.LoginAccount = LoginAccount.Twitter;
-            MobileServiceUser user = null;
-            try
-            {
-                authentication.ClearCookies();
-                user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Twitter);
-                if (user != null)
-                {
-                    IsBusy = true;
-
-                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
-
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Report(ex);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            var track = Logger.Instance.TrackTime("LoginTwitter");
+            track.Start();
+            IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.Twitter);
             track.Stop();
-
-            if(user == null || UserInfo == null)
-            {
-                Settings.LoginAccount = LoginAccount.None;
-                Settings.UserFirstName = string.Empty;
-                Settings.AuthToken = string.Empty;
-                Settings.UserLastName = string.Empty;
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to login or create account.", "Login error", "OK");
-                return;
-            }
-
-            IsLoggedIn = true;
         }
 
 
@@ -106,48 +67,12 @@ namespace MyTrips.ViewModel
         {
             if(client == null || IsBusy)
                 return;
-
+            
+            Settings.LoginAccount = LoginAccount.Microsoft;
             var track = Logger.Instance.TrackTime("LoginMicrosoft");
             track.Start();
-
-
-            Settings.LoginAccount = LoginAccount.Microsoft;
-            MobileServiceUser user = null;
-            try
-            {
-                authentication.ClearCookies();
-
-                user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
-                if (user != null)
-                {
-                    IsBusy = true;
-
-                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Report(ex);
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.MicrosoftAccount);
             track.Stop();
-
-            if(user == null || UserInfo == null)
-            {
-                Settings.LoginAccount = LoginAccount.None;
-                Settings.UserFirstName = string.Empty;
-                Settings.AuthToken = string.Empty;
-                Settings.UserLastName = string.Empty;
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to login or create account.", "Login error", "OK");
-                return;
-            }
-
-            IsLoggedIn = true;
-            
         }
 
         ICommand  loginFacebookCommand;
@@ -158,19 +83,24 @@ namespace MyTrips.ViewModel
         {
             if(client == null || IsBusy)
                 return;
+            Settings.LoginAccount = LoginAccount.Facebook;
             var track = Logger.Instance.TrackTime("LoginFacebook");
             track.Start();
-            Settings.LoginAccount = LoginAccount.Facebook;
+            IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.Facebook);
+            track.Stop();
+        }
+
+        async Task<bool> LoginAsync(MobileServiceAuthenticationProvider provider)
+        {
             MobileServiceUser user = null;
             try
             {
                 authentication.ClearCookies();
-                user = await authentication.LoginAsync(client, MobileServiceAuthenticationProvider.Facebook);
+                user = await authentication.LoginAsync(client, provider);
                 if (user != null)
                 {
                     IsBusy = true;
-                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
-
+                    UserProfile = await UserProfileHelper.GetUserProfileAsync(client);
                 }
             }
             catch (Exception ex)
@@ -181,20 +111,24 @@ namespace MyTrips.ViewModel
             {
                 IsBusy = false;
             }
-            track.Stop();
 
-            if(user == null || UserInfo == null)
+
+            if (user == null || UserProfile == null)
             {
                 Settings.LoginAccount = LoginAccount.None;
                 Settings.UserFirstName = string.Empty;
                 Settings.AuthToken = string.Empty;
                 Settings.UserLastName = string.Empty;
                 Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to login or create account.", "Login error", "OK");
-                return;
+                return false;
+            }
+            else
+            {
+                var profile = StoreManager.UserStore.GetItemsAsync(0, 100, true);
+                //we should have 1 here!
             }
 
-
-            IsLoggedIn = true;
+            return true;
         }
     }
 }

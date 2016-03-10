@@ -12,7 +12,8 @@ namespace MyTrips.UWP.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value == null)
+            var imageUrl = value as string;
+            if (string.IsNullOrWhiteSpace(imageUrl))
                 return null;
 
             string url = value as string;
