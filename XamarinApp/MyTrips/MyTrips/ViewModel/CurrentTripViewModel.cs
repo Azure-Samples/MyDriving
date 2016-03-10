@@ -161,7 +161,7 @@ namespace MyTrips.ViewModel
 
                 //Connect to the OBD device
                 await this.obdDataProcessor.Initialize(this.StoreManager);
-                //await this.obdDataProcessor.ConnectToOBDDevice();
+                await this.obdDataProcessor.ConnectToOBDDevice();
 
                 //Simulate recording several data points
                 //for (int i = 0; i < 10; i++)
