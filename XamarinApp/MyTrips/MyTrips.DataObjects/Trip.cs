@@ -22,6 +22,9 @@ namespace MyTrips.DataObjects
             Tips = new List<Tip>();
         }
 
+        [Newtonsoft.Json.JsonProperty("TripId")]
+        public override string Id { get; set; }
+
         public string Name { get; set; }
 
         public string UserId { get; set; }

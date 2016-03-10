@@ -8,10 +8,13 @@ namespace MyTrips.DataObjects
 {
     public class TripPoint: BaseDataObject
     {
-        public string TripId { get; set; }
+        [Newtonsoft.Json.JsonProperty("TripPointId")]
+        public override string Id { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("Lat")]
         public double Latitude { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("Lon")]
         public double Longitude { get; set; }
 
         public double Speed { get; set; }
@@ -20,19 +23,36 @@ namespace MyTrips.DataObjects
 
         public int Sequence {get;set;}
 
-        public double RPM { get; set;}
+        public double EngineRPM { get; set;}
 
-        public double BarometricPressure { get; set; }
+        [Newtonsoft.Json.JsonProperty("ShortTermFuelBank1")]
+        public double ShortTermFuelBank { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("LongTermFuelBank1")]
+        public double LongTermFuelBank { get; set; }
+
+        public double ThrottlePosition { get; set; }
+
+        public double RelativeThrottlePosition { get; set; }
+
+        public double Runtime { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("DistancewithMIL")]
+        public double DistWithMalfunctionLight { get; set; }
+
+        public double EngineLoad { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("MAFFlowRate")]
+        public double FlowRate { get; set; }
 
         public double OutsideTemperature { get; set; }
 
-        public double InsideTemperature { get; set; }
-
         public double EngineFuelRate { get; set; }
 
-        public bool HasOBDData { get; set; }
+        public string VIN { get; set; }
 
-        public Dictionary<String, String> OBDData { get; set; }
+        [JsonIgnore]
+        public bool HasOBDData { get; set; }
 
         #if !BACKEND
         [JsonIgnore]

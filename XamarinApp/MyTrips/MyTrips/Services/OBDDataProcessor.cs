@@ -78,16 +78,20 @@ namespace MyTrips.Services
         {
             foreach (var tripDataPoint in currentTrip.Points)
             {
-                var tripDataBlob = JsonConvert.SerializeObject(tripDataPoint).TrimStart('{').TrimEnd('}');
+                var tripDataBlob = JsonConvert.SerializeObject(tripDataPoint);
 
                 var blob = JsonConvert.SerializeObject(
                     new
                     {
-                        Id = currentTrip.Id,
+                        TripId = currentTrip.Id,
                         Name = currentTrip.Name,
                         UserId = currentTrip.UserId,
                         TripDataPoint = tripDataBlob
                     } );
+
+                //Remove extra quotes in trip point
+                blob = blob.Replace(":\"{", ":{");
+                blob = blob.Replace("}\"}", "}}");
 
                 IOTHubData iotHubData = new IOTHubData();
                 iotHubData.Blob = blob;
@@ -172,7 +176,9 @@ namespace MyTrips.Services
                 {
                     //Give up after 24 hours
                     this.OnOBDDeviceDisconnected(false);
+                    this.obdReconnectTimer.Stop();
                     this.canReadData = false;
+                    return;
                 }
             }
 
