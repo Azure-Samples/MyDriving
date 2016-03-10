@@ -66,6 +66,14 @@ namespace MyTrips.iOS
 			return true;
 		}
 
+		public override void WillEnterForeground(UIApplication application)
+		{
+			var tabBarController = Window.RootViewController as UITabBarController;
+			var navigationController = tabBarController.ViewControllers[1] as UINavigationController;
+			var currentTripViewController = navigationController.TopViewController as CurrentTripViewController;
+			currentTripViewController.CurrentTripViewModel.ResetObdIncrementalConnection();
+		}
+
 		#region Background Refresh
 		private const double MINIMUM_BACKGROUND_FETCH_INTERVAL = 900;
 		private void SetMinimumBackgroundFetchInterval()

@@ -130,19 +130,5 @@ namespace MyTrips.UWP
             deferral.Complete();
         }
 
-        protected override void OnActivated(IActivatedEventArgs args)
-        {
-            // do we need this?
-#if WINDOWS_PHONE_APP
-    if (args.Kind == ActivationKind.WebAuthenticationBrokerContinuation)
-    {
-        // Completes the sign-in process started by LoginAsync.
-        // Change 'MobileService' to the name of your MobileServiceClient instance. 
-        App.MobileService.LoginComplete(args as WebAuthenticationBrokerContinuationEventArgs);
-    }
-#endif
-
-            base.OnActivated(args);
-        }
     }
 }

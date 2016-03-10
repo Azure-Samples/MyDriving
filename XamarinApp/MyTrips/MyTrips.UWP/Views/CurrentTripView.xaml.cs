@@ -181,7 +181,8 @@ namespace MyTrips.UWP.Views
                 UpdateMap_PositionChanged(basicGeoposition);
                 AddEndMarker(basicGeoposition);
 
-                if (!(await viewModel.StopRecordingTrip()))
+                bool result = await viewModel.StopRecordingTrip();
+                if (!result)
                     return;
 
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
@@ -194,7 +195,7 @@ namespace MyTrips.UWP.Views
         }
             else
             {
-                if (!(await viewModel.StartRecordingTrip()))
+                if (!viewModel.StartRecordingTrip().Result)
                     return;
 
                 // Update UI to start recording.
