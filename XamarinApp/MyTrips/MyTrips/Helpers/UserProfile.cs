@@ -19,16 +19,6 @@ namespace MyTrips.Helpers
             Settings.Current.UserLastName = userprof?.LastName ?? string.Empty;
             Settings.Current.UserProfileUrl = userprof?.ProfilePictureUri ?? string.Empty;
 
-            if (userprof?.ProfilePictureUri != null && userprof?.ProfilePictureUri != string.Empty)
-                Settings.Current.UserPictureSourceKind = UserPictureSourceKind.Url;
-            else if (userprof?.ProfilePicture?.Length > 0 )
-            {
-                Settings.Current.UserProfileByteArr = userprof?.ProfilePicture;
-                Settings.Current.UserPictureSourceKind = UserPictureSourceKind.Byte;
-            }
-            else
-                Settings.Current.UserPictureSourceKind = UserPictureSourceKind.None;
-
             return userprof;
         }
     }
@@ -41,6 +31,5 @@ namespace MyTrips
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ProfilePictureUri { get; set; }
-        public byte[] ProfilePicture { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace MyTrips.iOS
 			{
 				new DrivingStatistic { Name = "Total Distance", Value = $"{ViewModel.Distance} {ViewModel.DistanceUnits.ToLower()}" },
 				new DrivingStatistic { Name = "Total Duration", Value = ViewModel.ElapsedTime },
-				new DrivingStatistic { Name = "Total Fuel Consumption", Value = ViewModel.FuelConsumptionUnits},
+				new DrivingStatistic { Name = "Total Fuel Consumption", Value = $"{ViewModel.FuelConsumption} {ViewModel.FuelConsumptionUnits.ToLower()}" },
 				new DrivingStatistic { Name = "Average Speed", Value = "31 MPH"},
 				new DrivingStatistic { Name = "Hard Breaks", Value = "21"}
 			};
