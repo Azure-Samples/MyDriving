@@ -6,6 +6,7 @@ using MyTrips.Interfaces;
 using MyTrips.Utils;
 using MyTrips.ViewModel;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace MyTrips.Services
 {
@@ -78,22 +80,30 @@ namespace MyTrips.Services
                 }
 
             return obdData;
-            }
+        }
 
         public async Task AddTripDataPointToBuffer(Trip currentTrip)
         {
+            //Note: Each individual trip point is being serialized separately so that it can be sent over as an individual message
+            //This was the requested format by Haishi's team
             foreach (var tripDataPoint in currentTrip.Points)
             {
-                var tripDataBlob = JsonConvert.SerializeObject(tripDataPoint).TrimStart('{').TrimEnd('}');
+                var settings = new JsonSerializerSettings();
+                settings.ContractResolver = new CustomContractResolver();
+                var tripDataBlob = JsonConvert.SerializeObject(tripDataPoint, settings);
 
                 var blob = JsonConvert.SerializeObject(
                     new
                     {
-                        Id = currentTrip.Id,
+                        TripId = currentTrip.Id,
                         Name = currentTrip.Name,
                         UserId = currentTrip.UserId,
                         TripDataPoint = tripDataBlob
                     } );
+
+                //Remove extra quotes in trip point
+                blob = blob.Replace(":\"{", ":{");
+                blob = blob.Replace("}\"}", "}}");
 
                 IOTHubData iotHubData = new IOTHubData();
                 iotHubData.Blob = blob;
@@ -178,7 +188,9 @@ namespace MyTrips.Services
                 {
                     //Give up after 24 hours
                     this.OnOBDDeviceDisconnected(false);
+                    this.obdReconnectTimer.Stop();
                     this.canReadData = false;
+                    return;
                 }
             }
 
@@ -193,6 +205,48 @@ namespace MyTrips.Services
 			{
 				obdReconnectTimer.Restart();
 			}
+        }
+    }
+
+    public class CustomContractResolver : DefaultContractResolver
+    {
+        private Dictionary<string, string> PropertyMappings { get; set; }
+
+        private List<string> IgnoreProperties { get; set; }
+
+        public CustomContractResolver()
+        {
+            this.PropertyMappings = new Dictionary<string, string>();
+            this.PropertyMappings.Add("Longitude", "Lon");
+            this.PropertyMappings.Add("Latitude", "Lat");
+            this.PropertyMappings.Add("ShortTermFuelBank", "ShortTermFuelBank1");
+            this.PropertyMappings.Add("LongTermFuelBank", "LongTermFuelBank1");
+            this.PropertyMappings.Add("MassFlowRate", "MAFFlowRate");
+            this.PropertyMappings.Add("RPM", "EngineRPM");
+            this.PropertyMappings.Add("Id", "TripPointId");
+            this.PropertyMappings.Add("DistanceWithMalfunctionLight", "DistancewithMIL");
+
+            this.IgnoreProperties = new List<string>();
+            this.IgnoreProperties.Add("HasOBDData");
+        }
+
+        protected override string ResolvePropertyName(string propertyName)
+        {
+            string resolvedName = null;
+            var resolved = this.PropertyMappings.TryGetValue(propertyName, out resolvedName);
+            return (resolved) ? resolvedName : base.ResolvePropertyName(propertyName);
+        }
+
+        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+        {
+            JsonProperty property = base.CreateProperty(member, memberSerialization);
+
+            if (this.IgnoreProperties.Contains(property.PropertyName))
+            {
+                property.ShouldSerialize = p => { return false; };
+            }
+
+            return property;
         }
     }
 }

@@ -154,32 +154,31 @@ namespace MyTrips.ViewModel
                 await this.obdDataProcessor.ConnectToOBDDevice();
 
                 //Simulate recording several data points
-                /*for (int i = 0; i < 10; i++)
-                {
+                //for (int i = 0; i < 10; i++)
+                //{
 
-                    var obdData = new Dictionary<string, string>();
+                //    var obdData = new Dictionary<string, string>();
 
-                    //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                    if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                    {
-                    //Read data from the OBD device and push it to the IOT Hub
-                        obdData = this.obdDataProcessor.ReadOBDData();
-                    }
+                //    //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
+                //    if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
+                //        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
+                //    {
+                //    //Read data from the OBD device and push it to the IOT Hub
+                //        obdData = this.obdDataProcessor.ReadOBDData();
+                //    }
 
-                    CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
+                //    CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
-                    var point = new TripPoint
-                    {
-                        RecordedTimeStamp = DateTime.UtcNow,
-                        Latitude = CurrentPosition.Latitude,
-                        Longitude = CurrentPosition.Longitude,
-                        Sequence = CurrentTrip.Points.Count,
-                        OBDData = obdData
-                    };
+                //    var point = new TripPoint
+                //    {
+                //        RecordedTimeStamp = DateTime.UtcNow,
+                //        Latitude = CurrentPosition.Latitude,
+                //        Longitude = CurrentPosition.Longitude,
+                //        Sequence = CurrentTrip.Points.Count,
+                //    };
 
-                    CurrentTrip.Points.Add(point);
-                }*/
+                //    CurrentTrip.Points.Add(point);
+                //}
             }
             catch (Exception ex)
             {
@@ -287,12 +286,8 @@ namespace MyTrips.ViewModel
                         CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS ||
                         CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
                 {
-                    Acr.UserDialogs.UserDialogs.Instance.Toast(new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Keep driving! Need a few more points.")
-                    {
-                        Duration = TimeSpan.FromSeconds(3),
-                        TextColor = System.Drawing.Color.White,
-                        BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139)
-                    });
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("We need few more points.",
+                                                            "Keep driving!", "OK");
                 }
 
                 return false;
@@ -383,40 +378,63 @@ namespace MyTrips.ViewModel
 			{
 				var userLocation = e.Position;
 
-                    //Read data from the OBD device and push it to the IOT Hub
+                //Read data from the OBD device
                 var obdData = this.obdDataProcessor.ReadOBDData();
-
+      
                 var point = new TripPoint
                 {
+                    TripId = CurrentTrip.Id,
                     RecordedTimeStamp = DateTime.UtcNow,
                     Latitude = userLocation.Latitude,
                     Longitude = userLocation.Longitude,
                     Sequence = CurrentTrip.Points.Count,
-                    OBDData = obdData
 				};
 
                 if (obdData != null)
                 {
-                    double speed = 0, barometric = 0, rpm = 0, outside = 0, inside = 0, efr = 0;
-                    if(obdData.ContainsKey("spd"))
+                    double speed = 0, rpm = 0, outside = 0, efr = 0, el = 0, stfb = 0, ltfb = 0, fr = 0, tp = 0, rt = 0, dis = 0, rtp = 0;
+                    string vin = String.Empty;
+
+                    if (obdData.ContainsKey("el"))
+                        double.TryParse(obdData["el"], out el);
+                    if (obdData.ContainsKey("stfb"))
+                        double.TryParse(obdData["stfb"], out stfb);
+                    if (obdData.ContainsKey("ltfb"))
+                        double.TryParse(obdData["ltfb"], out ltfb);
+                    if (obdData.ContainsKey("fr"))
+                        double.TryParse(obdData["fr"], out fr);
+                    if (obdData.ContainsKey("tp"))
+                        double.TryParse(obdData["tp"], out tp);
+                    if (obdData.ContainsKey("rt"))
+                        double.TryParse(obdData["rt"], out rt);
+                    if (obdData.ContainsKey("dis"))
+                        double.TryParse(obdData["dis"], out dis);
+                    if (obdData.ContainsKey("rtp"))
+                        double.TryParse(obdData["rtp"], out rtp);
+                    if (obdData.ContainsKey("spd"))
                         double.TryParse(obdData["spd"], out speed);
-                    if(obdData.ContainsKey("bp"))
-                        double.TryParse(obdData["bp"], out barometric);
                     if(obdData.ContainsKey("rpm"))
                         double.TryParse(obdData["rpm"], out rpm);
                     if(obdData.ContainsKey("ot"))
                         double.TryParse(obdData["ot"], out outside);
-                    if(obdData.ContainsKey("it"))
-                        double.TryParse(obdData["it"], out inside);
                     if(obdData.ContainsKey("efr"))
                         double.TryParse(obdData["efr"], out efr);
+                    if (obdData.ContainsKey("vin"))
+                        vin = obdData["vin"];
 
+                    point.EngineLoad = el;
+                    point.ShortTermFuelBank = stfb;
+                    point.LongTermFuelBank = ltfb;
+                    point.MassFlowRate = fr;
+                    point.ThrottlePosition = tp;
+                    point.Runtime = rt;
+                    point.DistanceWithMalfunctionLight = dis;
+                    point.RelativeThrottlePosition = rtp;
                     point.Speed = speed;
-                    point.BarometricPressure = barometric;
                     point.RPM = rpm;
                     point.OutsideTemperature = outside;
-                    point.InsideTemperature = inside;
                     point.EngineFuelRate = efr;
+                    point.VIN = vin;
 
                     totalConsumption += point.EngineFuelRate;
                     totalConsumptionPoints++;

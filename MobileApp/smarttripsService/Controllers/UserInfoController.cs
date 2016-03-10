@@ -20,9 +20,9 @@ namespace smarttripsService.Controllers
 {
     [MobileAppController]
     public class UserInfoController : ApiController
-    {
-       
+    {       
         // GET api/UserInfo
+        [HttpGet]
         public async Task<DataObjects.UserProfile> Get()
         {
             DataObjects.UserProfile userProfile = new DataObjects.UserProfile();
@@ -56,8 +56,8 @@ namespace smarttripsService.Controllers
                     await FillDataFromTwitter(userProfile, twitterCredentials, settings["TwitterKey"], settings["TwitterSecret"]);
                 }
 
-
                 var context = new smarttripsContext();
+
                 try
                 {
                     var curUser = context.UserProfiles.Where(u => u.UserId == userId).FirstOrDefault();
@@ -85,7 +85,6 @@ namespace smarttripsService.Controllers
 
         private static async Task FillDataFromFacebook(DataObjects.UserProfile userProfile, FacebookCredentials credentials)
         {
-
             var first = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value ?? string.Empty;
             var last = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value ?? string.Empty;
             var id = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
@@ -107,13 +106,10 @@ namespace smarttripsService.Controllers
             userProfile.FirstName = name;
             userProfile.LastName = string.Empty;
             userProfile.ProfilePictureUri = profile;
-
         }
 
-
         private static async Task FillDataFromMS(DataObjects.UserProfile userProfile, MicrosoftAccountCredentials credentials)
-        {
-           
+        {           
             var first = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName)?.Value ?? string.Empty;
             var last = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.Surname)?.Value ?? string.Empty;
             var id = credentials.UserClaims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
@@ -133,8 +129,6 @@ namespace smarttripsService.Controllers
                 userProfile.ProfilePicture = picture;
             }
         }
-
     }
-
 
 }

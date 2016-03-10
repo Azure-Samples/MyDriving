@@ -24,13 +24,13 @@ namespace smarttripsService.Controllers
             return Query(); 
         }
 
-        // GET tables/IOTHubData/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // GET tables/IOTHubData/<id>
         public SingleResult<IOTHubData> GetIOTHubData(string id)
         {
             return Lookup(id);
         }
 
-        // PATCH tables/IOTHubData/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // PATCH tables/IOTHubData/<id>
         public Task<IOTHubData> PatchIOTHubData(string id, Delta<IOTHubData> patch)
         {
              return UpdateAsync(id, patch);
@@ -43,7 +43,7 @@ namespace smarttripsService.Controllers
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 
-        // DELETE tables/IOTHubData/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // DELETE tables/IOTHubData/<id>
         public Task DeleteIOTHubData(string id)
         {
              return DeleteAsync(id);
