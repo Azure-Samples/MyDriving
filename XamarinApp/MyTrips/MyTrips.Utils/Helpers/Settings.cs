@@ -128,7 +128,7 @@ namespace MyTrips.Utils
                 if (AppSettings.AddOrUpdateValue<string>(MobileClientUrlKey, value))
                 {
                     //if MobileClientUrl changes, user must login again
-                    CleanupUserProfile();
+                    Logout();
                     OnPropertyChanged();
                 }
             }
@@ -319,6 +319,8 @@ namespace MyTrips.Utils
             }
         }
 
+
+
         const string ProfileUrlKey = "user_profile_url";
         static readonly string ProfileUrlDefault = string.Empty;
 
@@ -335,14 +337,13 @@ namespace MyTrips.Utils
         }
 
 
-
-        public void CleanupUserProfile()
+        public void Logout()
         {
-            UserId = String.Empty;
-            AuthToken = String.Empty;
-            UserProfileUrl = String.Empty;
-            UserFirstName = String.Empty;
-            UserLastName = String.Empty;
+            AuthToken = string.Empty;
+            UserProfileUrl = string.Empty;
+            UserFirstName = string.Empty;
+            UserLastName = string.Empty;
+            UserId = string.Empty;
             LoginAccount = LoginAccount.None;
         }
         #endregion

@@ -1,6 +1,7 @@
 ﻿using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 using MyTrips.Utils;
+using MyTrips.DataObjects;
 
 namespace MyTrips.Helpers
 {
@@ -19,17 +20,12 @@ namespace MyTrips.Helpers
             Settings.Current.UserLastName = userprof?.LastName ?? string.Empty;
             Settings.Current.UserProfileUrl = userprof?.ProfilePictureUri ?? string.Empty;
 
+            if (string.IsNullOrWhiteSpace(userprof?.ProfilePictureUri))
+            {
+                //should set a default here
+            }
+
             return userprof;
         }
-    }
-}
-
-namespace MyTrips
-{
-    public class UserProfile
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string ProfilePictureUri { get; set; }
     }
 }

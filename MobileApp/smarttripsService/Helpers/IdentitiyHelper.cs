@@ -10,8 +10,18 @@ namespace smarttripsService.Helpers
     public static class IdentitiyHelper
     {
 
-        public static string FindSid(this IPrincipal claimsPrincipal) =>
-            ((claimsPrincipal as ClaimsPrincipal)?.FindFirst(ClaimTypes.NameIdentifier)?.Value) ?? string.Empty;
+        public static string FindSid(this IPrincipal claimsPrincipal)
+        {
+            var claim = claimsPrincipal as ClaimsPrincipal;
+            if (claim == null)
+                return string.Empty;
+
+            var first  = claim.FindFirst(ClaimTypes.NameIdentifier);
+            if (first == null)
+                return string.Empty;
+
+            return first.Value ?? string.Empty;
+        }
 
     }
 }
