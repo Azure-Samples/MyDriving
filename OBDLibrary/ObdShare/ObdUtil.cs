@@ -199,7 +199,7 @@ namespace ObdShare
 		{
 			if (outsideTemperature == "0")
 			{
-				outsideTemperature = r.Next(0, 45).ToString();
+				outsideTemperature = r.Next(0, 38).ToString();
 			}
 			else
 			{
