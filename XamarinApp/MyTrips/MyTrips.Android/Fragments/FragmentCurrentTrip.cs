@@ -106,7 +106,7 @@ namespace MyTrips.Droid.Fragments
 
             if (viewModel.IsRecording)
             {
-                if (!viewModel.StopRecordingTrip().Result)
+                if (!(await viewModel.StopRecordingTrip()))
                     return;
                 
                 AddEndMarker(viewModel.CurrentPosition.ToLatLng());
@@ -115,7 +115,7 @@ namespace MyTrips.Droid.Fragments
             }
             else
             {
-                if (!viewModel.StartRecordingTrip().Result)
+                if (!(await viewModel.StartRecordingTrip()))
                     return;
                 AddStartMarker(viewModel.CurrentPosition.ToLatLng());
 
