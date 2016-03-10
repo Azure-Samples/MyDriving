@@ -182,11 +182,11 @@ namespace MyTrips.iOS
 				ResetTripInfoView();
 				AnimateTripInfoView();
 
-				CurrentTripViewModel.StartRecordingTrip();
+				await CurrentTripViewModel.StartRecordingTrip();
 			}
 			else
 			{
-				CurrentTripViewModel.StopRecordingTrip();
+				await CurrentTripViewModel.StopRecordingTrip();
 				ResetMapViewState();
 
 				UpdateRecordButton(false);
