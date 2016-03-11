@@ -28,7 +28,7 @@ namespace MyTrips.DataStore.Azure.Stores
                     item.Photos.Add(photo);
             }
 
-            return items;
+            return items.OrderByDescending(s => s.RecordedTimeStamp);
         }
 
         public override async Task<Trip> GetItemAsync(string id)

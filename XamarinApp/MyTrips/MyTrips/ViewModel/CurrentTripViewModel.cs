@@ -215,7 +215,14 @@ namespace MyTrips.ViewModel
             {
                 if (string.IsNullOrWhiteSpace(name))
                 {
-                    var result = await Acr.UserDialogs.UserDialogs.Instance.PromptAsync("Name of Trip");
+                    CurrentTrip.Name = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
+                    var result = await Acr.UserDialogs.UserDialogs.Instance.PromptAsync(new Acr.UserDialogs.PromptConfig
+                    {
+                        Text = CurrentTrip.Name,
+                        OkText = "OK",
+                        IsCancellable = false,
+                        Title = "Name of trip"
+                    });
                     CurrentTrip.Name = result?.Text ?? string.Empty;
                 }
                 else
@@ -232,8 +239,7 @@ namespace MyTrips.ViewModel
                 CurrentTrip.Rating = 90;
 
 
-                if (string.IsNullOrWhiteSpace(CurrentTrip.Name))
-                    CurrentTrip.Name = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
+
 
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
 
