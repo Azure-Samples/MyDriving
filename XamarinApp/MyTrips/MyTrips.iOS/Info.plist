@@ -55,8 +55,6 @@
 	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Track your current trip even when MyTrip isn&apos;t running.</string>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleLightContent</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
