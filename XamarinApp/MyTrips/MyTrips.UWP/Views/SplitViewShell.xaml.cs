@@ -28,7 +28,7 @@ namespace MyTrips.UWP.Views
             this.Current.defaultImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_current.png", UriKind.Absolute));
             this.Current.selectedImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_current.png", UriKind.Absolute));
 
-            this.PastTrips.labelText = "Past Trips";
+            this.PastTrips.labelText = "Past";
             this.PastTrips.defaultImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_pastTrips.png", UriKind.Absolute));
             this.PastTrips.selectedImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_pastTrips.png", UriKind.Absolute));
 
