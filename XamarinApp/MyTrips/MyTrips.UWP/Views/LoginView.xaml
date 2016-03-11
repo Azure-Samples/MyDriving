@@ -18,7 +18,7 @@
         <Image x:Name="ProfileImage" HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="70" Height="70"  Grid.Row ="0" Visibility="Collapsed"/>
         <TextBlock x:Name="WelcomeText" HorizontalAlignment="Center"  VerticalAlignment="Top" Visibility="Collapsed"  Grid.Row="1"  Margin="0,10,0,10"/>
       
-       <Image x:Name="AppLogo" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Source="{StaticResource ApplicationLogo}" Stretch="Uniform" Margin="50,0,50,0" MaxWidth="300"/>
+       <Image x:Name="AppLogo" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Source="{StaticResource ApplicationLogoA}" Stretch="Uniform" Margin="80,0,80,0" MaxWidth="300"/>
      
   
         <StackPanel x:Name="LoginButtons" VerticalAlignment="Center" Grid.Row="1" Visibility="Visible" Margin="50,0,50,0">

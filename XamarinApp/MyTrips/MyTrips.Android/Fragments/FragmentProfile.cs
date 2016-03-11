@@ -5,7 +5,7 @@ using MyTrips.Droid.Controls;
 using Refractored.Controls;
 using MyTrips.Utils;
 using MyTrips.ViewModel;
-
+using Android.Widget;
 
 namespace MyTrips.Droid.Fragments
 {
@@ -17,6 +17,8 @@ namespace MyTrips.Droid.Fragments
         bool refresh = true;
         public static FragmentProfile NewInstance() => new FragmentProfile { Arguments = new Bundle() };
         ProfileViewModel viewModel;
+
+        TextView distance, maxSpeed, time, stops, accelerations, trips, fuelUsed, distanceUnits;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
@@ -31,10 +33,19 @@ namespace MyTrips.Droid.Fragments
             viewModel = new ProfileViewModel();
             Square.Picasso.Picasso.With(Activity).Load(Settings.Current.UserProfileUrl).Into(circleImage);
 
+
+            time = view.FindViewById<TextView>(Resource.Id.text_time);
+            distance = view.FindViewById<TextView>(Resource.Id.text_distance);
+            distanceUnits = view.FindViewById<TextView>(Resource.Id.text_distance_units);
+            maxSpeed = view.FindViewById<TextView>(Resource.Id.text_max_speed);
+            fuelUsed = view.FindViewById<TextView>(Resource.Id.text_fuel_consumption);
+            accelerations = view.FindViewById<TextView>(Resource.Id.text_hard_accelerations);
+            stops = view.FindViewById<TextView>(Resource.Id.text_hard_breaks);
+            UpdateUI();
             return view;
         }
 
-        public override async void OnStart()
+        public override void OnStart()
         {
             base.OnStart();
 
@@ -49,7 +60,13 @@ namespace MyTrips.Droid.Fragments
         {
             Activity.RunOnUiThread(() =>
             {
-                //We did it!
+                time.Text = viewModel.TotalTimeDisplay;
+                distance.Text = viewModel.TotalDistanceDisplayNoUnits;
+                distanceUnits.Text = viewModel.SpeedUnits;
+                maxSpeed.Text = viewModel.MaxSpeedDisplay;
+                fuelUsed.Text = viewModel.FuelDisplay;
+                accelerations.Text = viewModel.HardAccelerations.ToString();
+                stops.Text = viewModel.HardStops.ToString();
             });
         }
 

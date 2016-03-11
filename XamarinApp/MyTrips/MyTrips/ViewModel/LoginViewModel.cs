@@ -92,6 +92,14 @@ namespace MyTrips.ViewModel
 
         async Task<bool> LoginAsync(MobileServiceAuthenticationProvider provider)
         {
+            if (!Plugin.Connectivity.CrossConnectivity.Current.IsConnected)
+            {
+                
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Ensure you have internet connection to login.",
+                                                            "No Connection", "OK");
+                
+                return false;
+            }
             MobileServiceUser user = null;
             try
             {
