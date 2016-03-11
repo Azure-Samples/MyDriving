@@ -153,7 +153,39 @@ Stream Analytics is applicable wherever a continuous stream of data has to be pr
 
 ## Best practices for Stream Analytics
 
+* Run Stream Analytics in the same geo location as the other components, so as to minimise long-distance traffic and latency. In particular, output storage should be co-located. 
 
 ## Scaling
 
+[Monitoring metrics](http://blogs.msdn.com/b/streamanalytics/archive/2015/06/29/intro-to-diagnostics-for-azure-stream-analytics.aspx) are surfaced in Monitor tab of the Azure Stream Analytics Job. The main metrics show counts of input events, and error counts. As with other Azure metrics, you can set alerts so that you receive an email any metric goes above a threshold you set. 
+
+As your traffic increases, you can [scale up](https://azure.microsoft.com/documentation/articles/stream-analytics-scale-jobs/) the power of your Stream Analytics job, in units of about 1Mb/s of throughput per query step. You can also set up multiple event hubs and stream analytics units in  parallel-running partitions. 
+
+
+
+# Azure storage
+
+We use [Azure cloud storage](https://azure.microsoft.com/documentation/articles/storage-introduction/) as a medium to long term store for raw and analysed data in our dataflows. It gives the option of storing in a variety of formats as blobs, tables, queues or files. It's massively scalable - you can use as little or as much as you want, and pay only for the data you store. 
+
+Available formats are:
+
+* Blobs - for unstructured data such as documents or media. This is what we use for Stream Analytics input and output.
+* Tables - for NoSQL data (structured without a schema)
+* Queues - for messages typically consumed in order
+* Files - for old applications, requiring no code changes
+
+It's easy to create storage in Azure:
+
+![](./media/sa-30.png)
+
+
+You need the storage access id and key:
+
+![](./media/sa-35.png)
+
+In a separate browser window (so that you can copy the key), open your Stream Analytics, create a new input or output, and supply the keys:
+
+![](./media/sa-37.png)
+
+You can download the content of the store from the Azure portal, or use one of the many apps and plug-ins that can be found.
 

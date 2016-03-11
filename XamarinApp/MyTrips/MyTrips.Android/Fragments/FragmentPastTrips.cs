@@ -112,15 +112,13 @@ namespace MyTrips.Droid.Fragments
 
         void OnItemClick(object sender, TripClickEventArgs args)
         {
-            var options = ActivityOptionsCompat.MakeSceneTransitionAnimation(
-                Activity, args.View.FindViewById(Resource.Id.full_rating), "rating");
             
             
             var trip = viewModel.Trips[args.Position];
             var intent = new Intent(Activity, typeof(PastTripDetailsActivity));
             intent.PutExtra(nameof(trip.Id), trip.Id);
             intent.PutExtra(nameof(trip.Rating), trip.Rating);
-            ActivityCompat.StartActivity(Activity, intent, options.ToBundle());
+            Activity.StartActivity(intent);
         }
     }
 
@@ -130,9 +128,7 @@ namespace MyTrips.Droid.Fragments
         public TextView Title { get; set; }
         public TextView Date { get; set; }
         public TextView Distance { get; set; }
-        public TextView Rating { get; set; }
         public ImageView Photo { get; set; }
-        public RatingCircle RatingCircle { get; set; }
 
         public TripViewHolder(View itemView, Action<TripClickEventArgs> listener) : base(itemView)
         {
@@ -140,8 +136,6 @@ namespace MyTrips.Droid.Fragments
             Distance = itemView.FindViewById<TextView>(Resource.Id.text_distance);
             Date = itemView.FindViewById<TextView>(Resource.Id.text_date);
             Photo = itemView.FindViewById<ImageView>(Resource.Id.photo);
-            Rating = itemView.FindViewById<TextView>(Resource.Id.text_rating);
-            RatingCircle = itemView.FindViewById<RatingCircle>(Resource.Id.rating_circle);
             itemView.Click += (sender, e) => listener(new TripClickEventArgs { View = sender as View, Position = AdapterPosition });
         }
     }
@@ -187,8 +181,6 @@ namespace MyTrips.Droid.Fragments
             vh.Distance.Text = trip.TotalDistance;
             vh.Date.Text = trip.TimeAgo;
             vh.Photo.Visibility = (trip?.Photos?.Count).GetValueOrDefault() > 0 || !string.IsNullOrWhiteSpace(trip.MainPhotoUrl) ? ViewStates.Visible : ViewStates.Gone;
-            vh.Rating.Text = trip.Rating.ToString();
-            vh.RatingCircle.Rating = trip.Rating;
 
             if (vh.Photo.Visibility == ViewStates.Visible)
             {

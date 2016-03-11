@@ -107,6 +107,7 @@
     <Compile Include="Converters\NotConverter.cs" />
     <Compile Include="Converters\SpeedConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
+    <Compile Include="Converters\TimeConverter.cs" />
     <Compile Include="Views\CurrentTripView.xaml.cs">
       <DependentUpon>CurrentTripView.xaml</DependentUpon>
     </Compile>
@@ -149,6 +150,10 @@
     <Content Include="Assets\B.png" />
     <Content Include="Assets\Car Icon_Blue.png" />
     <Content Include="Assets\Car Icon_Red.png" />
+    <Content Include="Assets\ic_launcher144.png" />
+    <Content Include="Assets\ic_launcher48.png" />
+    <Content Include="Assets\ic_launcher48.scale-200.png" />
+    <Content Include="Assets\ic_launcher48.targetsize-48.png" />
     <Content Include="Assets\ic_start.png" />
     <Content Include="Assets\ic_stop.png" />
     <Content Include="Assets\Login\appLogo.png" />
@@ -157,9 +162,12 @@
     <Content Include="Assets\ic_end_point.png" />
     <Content Include="Assets\ic_car_blue.png" />
     <Content Include="Assets\ic_car_red.png" />
+    <Content Include="Assets\Login\logo.png" />
     <Content Include="Assets\Login\Microsoft.png" />
     <Content Include="Assets\Login\twitter.png" />
+    <Content Include="Assets\logo%403x.png" />
     <Content Include="Assets\mappin.png" />
+    <Content Include="Assets\Smarttriplogo.png" />
     <Content Include="Assets\SplitView\default_Current.png" />
     <Content Include="Assets\SplitView\default_logout.png" />
     <Content Include="Assets\SplitView\default_pastTrips.png" />
@@ -175,6 +183,7 @@
     <Content Include="Assets\SplitView\selected_pastTrips.png" />
     <Content Include="Assets\SplitView\selected_profile.png" />
     <Content Include="Assets\SplitView\selected_settings.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\StartRecord.png" />
     <Content Include="Assets\StopRecord.png" />
     <Content Include="Properties\Default.rd.xml" />

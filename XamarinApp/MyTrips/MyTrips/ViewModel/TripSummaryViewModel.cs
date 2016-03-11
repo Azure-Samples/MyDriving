@@ -6,7 +6,7 @@ namespace MyTrips.ViewModel
     public class TripSummaryViewModel : ViewModelBase
     {
 
-        public string FuelUnits => Settings.MetricUnits ? "Liters" : "Gallons";
+        public string FuelUnits => Settings.MetricUnits ? "L" : "gal.";
 
         public double FuelConverted => Settings.MetricUnits ? FuelUsed / .264172 : FuelUsed;
 

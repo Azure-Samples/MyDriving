@@ -122,7 +122,7 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref fuelConsumption, value); }
         }
 
-        string fuelConsumptionUnits = "Gallons";
+        string fuelConsumptionUnits = "gal";
         public string FuelConsumptionUnits
         {
             get { return fuelConsumptionUnits; }

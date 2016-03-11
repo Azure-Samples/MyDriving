@@ -56,7 +56,7 @@
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Total"
+            android:text="Driving Stats"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,16 +81,17 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/total_miles"
+                        android:id="@+id/text_distance"
                         android:gravity="center_horizontal"
-                        android:text="65,876"
+                        android:text="0"
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
                     <TextView
                         android:layout_width="match_parent"
                         android:gravity="center_horizontal"
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:text="miles" />
+                        android:text="miles"
+                        android:id="@+id/text_distance_units" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
@@ -113,24 +114,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:id="@+id/total_time"
-                        android:text="23:47"
+                        android:id="@+id/text_time"
+                        android:text="0"
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
+                        android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:text="hours" />
+                        android:text="total time" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
-        <TextView
-            android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="MPH Averages"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -154,16 +149,16 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/local_mph"
+                        android:id="@+id/text_trips"
                         android:gravity="center_horizontal"
-                        android:text="35"
+                        android:text="0"
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:text="local" />
+                        android:text="trips" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
@@ -185,16 +180,16 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/highway_mph"
+                        android:id="@+id/text_fuel_consumption"
                         android:gravity="center_horizontal"
-                        android:text="62"
+                        android:text="0"
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:text="highway" />
+                        android:text="fuel consumption" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
@@ -227,9 +222,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/total_hard_breaks"
+                        android:id="@+id/text_hard_breaks"
                         android:gravity="center_horizontal"
-                        android:text="41"
+                        android:text="0"
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
                     <TextView
                         android:layout_width="match_parent"
@@ -259,15 +254,51 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:id="@+id/total_tips"
-                        android:text="23"
+                        android:id="@+id/text_hard_accelerations"
+                        android:text="0"
                         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:text="tips" />
+                        android:text="hard accelerations" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                local:cardBackgroundColor="@android:color/white"
+                local:cardElevation="2dp"
+                local:cardUseCompatPadding="true"
+                local:cardCornerRadius="2dp"
+                android:layout_marginBottom="4dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true">
+                <LinearLayout
+                    style="@style/Widget.CardContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/text_max_speed"
+                        android:gravity="center_horizontal"
+                        android:text="0 mph"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:text="max speed" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>

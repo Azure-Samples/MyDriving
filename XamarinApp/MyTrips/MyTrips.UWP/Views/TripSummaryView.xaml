@@ -21,23 +21,24 @@
                 </StackPanel>
 
                 <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="TotalDistanceTab" DataContext="{Binding Trip.Distance, Converter={StaticResource DistanceConverter} }" />
+                    <controls:ProfileViewTabControl x:Name="TotalDistanceTab" DataContext="{Binding ViewModel.TotalDistance, Converter={StaticResource DistanceConverter} }" />
 
                 <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="TotalTimeTab" DataContext="{Binding TotalTime, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  hours'}" />
+                    <controls:ProfileViewTabControl x:Name="TotalTimeTab" DataContext="{Binding ViewModel.TotalTime, Converter={StaticResource TimeConverter}, ConverterParameter=' {0}  seconds'}" />
 
                 <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="AvgSpeedTab" DataContext="{Binding AvgSpeed, Converter={StaticResource SpeedConverter} }" />
+                    <controls:ProfileViewTabControl x:Name="AvgSpeedTab" DataContext="{Binding ViewModel.MaxSpeed, Converter={StaticResource SpeedConverter} }" />
 
                 <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="HardBreaksTab" DataContext="{Binding HardBreaks,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
+                    <controls:ProfileViewTabControl x:Name="HardBreaksTab" DataContext="{Binding ViewModel.HardStops,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
 
                 <Border Margin="0,10,0,0" />
                     <controls:ProfileViewTabControl x:Name="TipsTab" DataContext="{Binding Tips.Count,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  tips'}" />
 
                 </StackPanel>
-
-                <Maps:MapControl
+                
+                
+                <!--<Maps:MapControl
            x:Name="MyMap" 
             MapServiceToken="JCV6QKnfQrP6Be6UuefM~6L1fUqScbKx0MP5UBI4pRw~AjMaYd80GWWDlLjZ06u2r3SHjFKy74e3P6ggHUKk1HFJsGpH19At3an_CG98AgNc"
             ZoomInteractionMode="Disabled"
@@ -45,7 +46,7 @@
             LandmarksVisible="False"
             IsRightTapEnabled="False"
                     Height="150"
-           />
+           />-->
             </StackPanel>
         </ScrollViewer>
 
