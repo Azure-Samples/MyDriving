@@ -26,6 +26,8 @@ namespace MyTrips.ViewModel
         public PastTripsDetailViewModel(Trip trip) : this()
 		{
 			Title = trip.Name;
+            //make sure the points are ordered
+            trip.Points = trip.Points.OrderBy(p => p.Sequence).ToArray();
 			Trip = trip;
 
 		}
