@@ -33,6 +33,8 @@ namespace MyTrips.UWP.Views
         public IList<BasicGeoposition> Locations { get; set; }
 
         public Trip SelectedTrip;
+
+        public List<TripPoint> TripPoints { get; set; }
       
         public PastTripMapView()
         {
@@ -51,9 +53,13 @@ namespace MyTrips.UWP.Views
             this.ViewModel.Trip = trip;
             DrawPath();
 
-            if (this.ViewModel.Trip.Points.Count() > 0)
+            // Currently Points are all jumbled. We need to investigate why this is happening.
+            // As a workaround I am sorting the points based on timestamp.  
+            this.TripPoints = this.ViewModel.Trip.Points.OrderBy(p => p.RecordedTimeStamp).ToList();
+
+            if (this.TripPoints.Count() > 0)
             {
-                ViewModel.CurrentPosition = this.ViewModel.Trip.Points[0];
+                ViewModel.CurrentPosition = this.TripPoints[0];
                 this.UpdateStats();
             }
         }
@@ -62,7 +68,7 @@ namespace MyTrips.UWP.Views
         {
             this.MyMap.ZoomLevel = 17;
             if (this.ViewModel.Trip.Points.Count > 0)
-                this.positionSlider.Maximum = this.ViewModel.Trip.Points.Count - 1;
+                this.positionSlider.Maximum = this.TripPoints.Count - 1;
             else
                 this.positionSlider.Maximum = 0;
 
@@ -74,14 +80,9 @@ namespace MyTrips.UWP.Views
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-
                 MapPolyline mapPolyLine = new MapPolyline();
 
-                // Currently Points are all jumbled. We need to investigate why this is happening.
-                // As a workaround I am sorting the points based on timestamp.  
-                var tripPoints = ViewModel.Trip.Points.OrderBy(s => s.RecordedTimeStamp);
-
-                Locations = tripPoints.Select(s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }).ToList<BasicGeoposition>();
+                Locations = this.TripPoints.Select(s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }).ToList<BasicGeoposition>();
 
                 mapPolyLine.Path = new Geopath(Locations);
 
@@ -133,12 +134,11 @@ namespace MyTrips.UWP.Views
 
             MyMap.MapElements.Add(mapCarIcon);
             MyMap.Center = mapCarIcon.Location;
-
         }
 
         private async void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            ViewModel.CurrentPosition = ViewModel.Trip.Points[(int)e.NewValue];
+            ViewModel.CurrentPosition = this.TripPoints[(int)e.NewValue];
 
             var basicGeoposition = Locations[(int)e.NewValue]; 
             // Currently removing the Car from Map which is the last item added. 
