@@ -45,7 +45,10 @@ namespace MyTrips.Droid
                 ListItemClicked(e.MenuItem.ItemId);
 
 
-                SupportActionBar.Title = e.MenuItem.TitleFormatted.ToString();
+                if (e.MenuItem.ItemId == Resource.Id.menu_profile)
+                    SupportActionBar.Title = Settings.Current.UserFirstName;
+                else
+                    SupportActionBar.Title = e.MenuItem.TitleFormatted.ToString();
 
                 drawerLayout.CloseDrawers();
             };
@@ -58,7 +61,10 @@ namespace MyTrips.Droid
 
             //if first time you will want to go ahead and click first item.
             if (bundle == null)
+            {
                 ListItemClicked(Resource.Id.menu_past_trips);
+                SupportActionBar.Title = "Past Trips";
+            }
 
         }
 
