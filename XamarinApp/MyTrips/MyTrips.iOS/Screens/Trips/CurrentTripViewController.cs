@@ -155,13 +155,7 @@ namespace MyTrips.iOS
 				});
 			}
 		}
-
-		void TakePhotoButton_Clicked(object sender, EventArgs e)
-		{
-			if (!CurrentTripViewModel.IsBusy && CurrentTripViewModel.IsRecording)
-				CurrentTripViewModel?.TakePhotoCommand.Execute(null);
-		}
-
+	
 		async void RecordButton_TouchUpInside(object sender, EventArgs e)
 		{
 			var position = await CurrentTripViewModel.Geolocator.GetPositionAsync();
@@ -173,11 +167,6 @@ namespace MyTrips.iOS
 
 			if (!CurrentTripViewModel.IsRecording)
 			{
-				if (NavigationItem.RightBarButtonItem == null)
-					NavigationItem.SetRightBarButtonItem(takePhotoButton, true);
-
-				NavigationItem.RightBarButtonItem.Clicked += TakePhotoButton_Clicked;
-
 				UpdateRecordButton(true);
 				ResetTripInfoView();
 				AnimateTripInfoView();
@@ -191,9 +180,6 @@ namespace MyTrips.iOS
 
 				UpdateRecordButton(false);
 				tripInfoView.Alpha = 0;
-
-				NavigationItem.RightBarButtonItem.Clicked -= TakePhotoButton_Clicked;
-				NavigationItem.SetRightBarButtonItem(null, true);
 
 				var vc = Storyboard.InstantiateViewController("tripSummaryTableViewController") as TripSummaryTableViewController;
 				vc.ViewModel = CurrentTripViewModel;
