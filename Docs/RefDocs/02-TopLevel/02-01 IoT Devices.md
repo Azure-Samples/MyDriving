@@ -44,7 +44,7 @@ As you can see from the previous list, there are a variety of IoT scenarios wher
 | Can be in remote locations where physical access is very expensive. | A sensor attached to a pipe in a remote oil pumping installation. |
 | May only be reachable through the solution back end. | An aircraft engine monitoring device may only be reachable from the monitoring service. |
 | May have limited power and processing resources. | A health monitoring band worn on the wrist. |
-| May have intermittent, slow, or expensive network connectivity. | An device in a car has no network access when there is no cellular coverage or when the car is in a tunnel. |
+| May have intermittent, slow, or expensive network connectivity. | A device in a car has no network access when there is no cellular coverage or when the car is in a tunnel. |
 | May need to use proprietary, custom, or industry-specific application protocols. | Cars typically expose on-board diagnostics using the OBD-II protocol. Industrial automation controllers may use protocols such as DeviceNet, PROFIBUS-DP, or CAN. |
 | Can be created using a large set of popular hardware and software platforms. | Examples include Raspberry Pi, Arduino, or Beaglebone devices. |
 | May only send data or may also receive data from a service (typically in the cloud). | A car on-board diagnostics system only sends telemetry to the back end system, whereas a home automation system reports information about the home as well as enabling you to control lights and temperature remotely. |
@@ -95,7 +95,7 @@ Car manufacturers do not make the same types of data available over OBD-II. The 
 
 ### What devices did we use and why?
 
-During the development of the [TODO:appname] we used several different OBD-II dongles to collect data from cars. Most OBD dongles cannot connect directly to a cloud-based back end, therefore they must connect to local field gateway that can forward the telemetry data on to IoT Hub. The following table lists the dongles we used and why. However there are many more dongles to choose from, with a range of features and prices, that comply with the OBD-II standards.
+During the development of the [TODO:appname] we used several different OBD-II dongles to collect data from cars. Most OBD dongles cannot connect directly to a cloud-based back end, therefore they must connect to local field gateway that can forward the telemetry data on to IoT Hub. The following table lists the dongles we used and why. However, there are many more dongles to choose from, with a range of features and prices, that comply with the OBD-II standards.
 
 | Device | Notes |
 | ------ | ----- |
