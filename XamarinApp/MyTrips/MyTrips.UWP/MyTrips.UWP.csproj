@@ -157,6 +157,7 @@
     <Content Include="Assets\ic_end_point.png" />
     <Content Include="Assets\ic_car_blue.png" />
     <Content Include="Assets\ic_car_red.png" />
+    <Content Include="Assets\Login\logo.png" />
     <Content Include="Assets\Login\Microsoft.png" />
     <Content Include="Assets\Login\twitter.png" />
     <Content Include="Assets\mappin.png" />
