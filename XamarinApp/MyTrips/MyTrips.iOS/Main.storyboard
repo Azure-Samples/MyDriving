@@ -92,6 +92,13 @@
                                                 <constraint firstAttribute="height" constant="20" id="cwo-a1-Klw"/>
                                             </constraints>
                                         </stackView>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="NU9-f0-RSd">
+                                            <rect key="frame" x="290" y="68" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="M0Z-MZ-GPm"/>
+                                                <constraint firstAttribute="width" constant="20" id="WGv-xZ-vZq"/>
+                                            </constraints>
+                                        </activityIndicatorView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T3A-dm-Ldu">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="157"/>
                                             <accessibility key="accessibilityConfiguration">
@@ -125,11 +132,13 @@
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="T3A-dm-Ldu" firstAttribute="top" secondItem="MOV-ca-aXN" secondAttribute="top" id="Bp5-qa-yBo"/>
+                                        <constraint firstItem="NU9-f0-RSd" firstAttribute="top" secondItem="MOV-ca-aXN" secondAttribute="topMargin" constant="60" id="M2u-4y-fLA"/>
                                         <constraint firstItem="ijH-Nt-723" firstAttribute="leading" secondItem="MOV-ca-aXN" secondAttribute="leadingMargin" constant="8" id="MNm-Of-KsS"/>
                                         <constraint firstItem="ijH-Nt-723" firstAttribute="top" secondItem="T3A-dm-Ldu" secondAttribute="bottom" constant="8" id="N0T-CZ-occ"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="sTF-bd-30q" secondAttribute="bottom" constant="1" id="RTL-Wg-pdO"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="ijH-Nt-723" secondAttribute="trailing" constant="8" id="XAc-dF-R9M"/>
                                         <constraint firstItem="sTF-bd-30q" firstAttribute="top" secondItem="ijH-Nt-723" secondAttribute="bottom" constant="6" id="dSI-hh-5ff"/>
+                                        <constraint firstItem="NU9-f0-RSd" firstAttribute="centerX" secondItem="MOV-ca-aXN" secondAttribute="centerX" id="gfs-Zl-oOL"/>
                                         <constraint firstItem="sTF-bd-30q" firstAttribute="leading" secondItem="MOV-ca-aXN" secondAttribute="leadingMargin" constant="8" id="jnl-Sl-Ag0"/>
                                         <constraint firstItem="T3A-dm-Ldu" firstAttribute="leading" secondItem="MOV-ca-aXN" secondAttribute="leading" id="kIk-Is-Wfb"/>
                                         <constraint firstAttribute="trailing" secondItem="T3A-dm-Ldu" secondAttribute="trailing" id="mkG-qE-P7d"/>
