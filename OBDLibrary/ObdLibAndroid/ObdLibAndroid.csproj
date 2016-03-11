@@ -25,12 +25,9 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidLinkMode>None</AndroidLinkMode>
-    <AndroidSupportedAbis>
-    </AndroidSupportedAbis>
-    <EmbedAssembliesIntoApk>
-    </EmbedAssembliesIntoApk>
-    <AndroidFastDeploymentType>
-    </AndroidFastDeploymentType>
+    <AndroidSupportedAbis></AndroidSupportedAbis>
+    <EmbedAssembliesIntoApk></EmbedAssembliesIntoApk>
+    <AndroidFastDeploymentType></AndroidFastDeploymentType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -39,12 +36,9 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <AndroidSupportedAbis>
-    </AndroidSupportedAbis>
-    <EmbedAssembliesIntoApk>
-    </EmbedAssembliesIntoApk>
-    <AndroidFastDeploymentType>
-    </AndroidFastDeploymentType>
+    <AndroidSupportedAbis></AndroidSupportedAbis>
+    <EmbedAssembliesIntoApk></EmbedAssembliesIntoApk>
+    <AndroidFastDeploymentType></AndroidFastDeploymentType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

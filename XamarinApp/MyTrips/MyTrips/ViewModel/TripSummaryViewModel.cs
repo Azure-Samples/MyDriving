@@ -34,10 +34,6 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref hardBreaks, value); }
         }
 
-        public class Tip
-        {
-
-        }
         ObservableRangeCollection<Tip> tips = new ObservableRangeCollection<Tip>();
         public ObservableRangeCollection<Tip> Tips
         {

@@ -44,7 +44,6 @@ namespace MyTrips.ViewModel
             Settings.UserFirstName = "Scott";
             Settings.UserLastName = "Gu";
             Settings.UserProfileUrl = "http://refractored.com/images/Scott.png";
-            Settings.UserPictureSourceKind = UserPictureSourceKind.Url;
         }
 
         ICommand  loginTwitterCommand;
@@ -53,7 +52,7 @@ namespace MyTrips.ViewModel
 
         public async Task ExecuteLoginTwitterCommandAsync()
         {
-            if(client == null)
+            if(client == null || IsBusy)
                 return;
 
             var track = Logger.Instance.TrackTime("LoginTwitter");
@@ -68,18 +67,20 @@ namespace MyTrips.ViewModel
                 if (user != null)
                 {
                     IsBusy = true;
-                    using (Acr.UserDialogs.UserDialogs.Instance.Loading("Creating account...", show: true, maskType: Acr.UserDialogs.MaskType.Clear))
-                    {
 
-                        UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
-                    }
+                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+
                 }
-                
-             
+
+
             }
             catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
+            }
+            finally
+            {
+                IsBusy = false;
             }
             track.Stop();
 
@@ -103,7 +104,7 @@ namespace MyTrips.ViewModel
 
         public async Task ExecuteLoginMicrosoftCommandAsync()
         {
-            if(client == null)
+            if(client == null || IsBusy)
                 return;
 
             var track = Logger.Instance.TrackTime("LoginMicrosoft");
@@ -120,16 +121,18 @@ namespace MyTrips.ViewModel
                 if (user != null)
                 {
                     IsBusy = true;
-                    using (Acr.UserDialogs.UserDialogs.Instance.Loading("Creating account...", show: true, maskType: Acr.UserDialogs.MaskType.Clear))
-                    {
 
-                        UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
-                    }
+                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
+
                 }
             }
             catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
+            }
+            finally
+            {
+                IsBusy = false;
             }
             track.Stop();
 
@@ -153,7 +156,7 @@ namespace MyTrips.ViewModel
 
         public async Task ExecuteLoginFacebookCommandAsync()
         {
-            if(client == null)
+            if(client == null || IsBusy)
                 return;
             var track = Logger.Instance.TrackTime("LoginFacebook");
             track.Start();
@@ -166,16 +169,17 @@ namespace MyTrips.ViewModel
                 if (user != null)
                 {
                     IsBusy = true;
-                    using (Acr.UserDialogs.UserDialogs.Instance.Loading("Creating account...", show: true, maskType: Acr.UserDialogs.MaskType.Clear))
-                    {
+                    UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
 
-                        UserInfo = await UserProfileHelper.GetUserProfileAsync(client);
-                    }
                 }
             }
             catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
+            }
+            finally
+            {
+                IsBusy = false;
             }
             track.Stop();
 

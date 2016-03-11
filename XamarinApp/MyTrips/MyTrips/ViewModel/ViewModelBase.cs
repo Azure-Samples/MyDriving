@@ -18,21 +18,20 @@ namespace MyTrips.ViewModel
                 ServiceLocator.Instance.Add<ITripStore, DataStore.Mock.Stores.TripStore>();
                 ServiceLocator.Instance.Add<IPhotoStore, DataStore.Mock.Stores.PhotoStore>();
                 ServiceLocator.Instance.Add<IUserStore, DataStore.Mock.Stores.UserStore>();
+                ServiceLocator.Instance.Add<IHubIOTStore, DataStore.Mock.Stores.IOTHubStore>();
                 ServiceLocator.Instance.Add<IStoreManager, DataStore.Mock.StoreManager>();
-
             }
             else
             {
                 ServiceLocator.Instance.Add<ITripStore, DataStore.Azure.Stores.TripStore>();
                 ServiceLocator.Instance.Add<IPhotoStore, DataStore.Azure.Stores.PhotoStore>();
                 ServiceLocator.Instance.Add<IUserStore, DataStore.Azure.Stores.UserStore>();
+                ServiceLocator.Instance.Add<IHubIOTStore, DataStore.Azure.Stores.IOTHubStore>();
                 ServiceLocator.Instance.Add<IStoreManager, DataStore.Azure.StoreManager>();
-
             }
 
             //TODO: Put this somewhere....
             ServiceLocator.Instance.Resolve<IStoreManager>().InitializeAsync();
-
         }
 
         public Settings Settings

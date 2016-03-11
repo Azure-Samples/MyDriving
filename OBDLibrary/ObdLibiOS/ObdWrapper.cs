@@ -12,10 +12,10 @@ namespace ObdLibiOS
     public class ObdWrapper
     {
         const uint BufSize = 1024;
-        const int Interval = 500;
+        const int Interval = 100;
         const string DefValue = "";
-        bool _connected = true;
-        Dictionary<string, string> _data = null;
+        private bool _connected = true;
+        private Dictionary<string, string> _data = null;
         private Object _lock = new Object();
         private bool _simulatormode;
         private IPAddress _ipAddress;
@@ -23,24 +23,25 @@ namespace ObdLibiOS
         private IPEndPoint _ipEndPoint;
         private Socket _socket;
         private Stream _stream;
-        bool _running = true;
+        private bool _running = true;
+        private Dictionary<string, string> _PIDs;
 
         public async Task<bool> Init(bool simulatormode = false)
         {
+            this._running = true;
             //initialize _data
             this._data = new Dictionary<string, string>();
-            this._data.Add("spd", DefValue);  //Speed
-            this._data.Add("bp", DefValue);   //BarometricPressure
-            this._data.Add("rpm", DefValue);  //RPM
-            this._data.Add("ot", DefValue);   //OutsideTemperature
-            this._data.Add("it", DefValue);   //InsideTemperature
-            this._data.Add("efr", DefValue);  //EngineFuelRate
             this._data.Add("vin", DefValue);  //VIN
+            _PIDs = ObdShare.ObdUtil.GetPIDs();
+            foreach (var v in _PIDs.Values)
+            {
+                this._data.Add(v, DefValue);
+            }
 
             _simulatormode = simulatormode;
             if (simulatormode)
             {
-                //PollObd();
+                PollObd();
 
                 ////these code is for testing.
                 //while (true)
@@ -84,7 +85,27 @@ namespace ObdLibiOS
             else
                 return false;
         }
-
+        public Dictionary<string, string> Read()
+        {
+            if (!this._simulatormode && this._socket == null)
+            {
+                //if there is no connection
+                return null;
+            }
+            var ret = new Dictionary<string, string>();
+            lock (_lock)
+            {
+                foreach (var key in _data.Keys)
+                {
+                    ret.Add(key, _data[key]);
+                }
+                foreach (var v in _PIDs.Values)
+                {
+                    this._data[v] = DefValue;
+                }
+            }
+            return ret;
+        }
         private async void PollObd()
         {
             try
@@ -100,69 +121,40 @@ namespace ObdLibiOS
                 }
                 while (true)
                 {
-                    //s = GetSpeed();
-                    //if (s != "ERROR")
-                    //    lock (_lock)
-                    //    {
-                    //        _data["spd"] = s;
-                    //    }
-                    //if (!this._running)
-                    //    break;
-                    //System.Threading.Thread.Sleep(Interval);
-                    //s = GetBarometricPressure();
-                    //if (s != "ERROR")
-                    //    lock (_lock)
-                    //    {
-                    //        _data["bp"] = s;
-                    //    }
-                    //if (!this._running)
-                    //    break;
-                    //System.Threading.Thread.Sleep(Interval);
-                    s = await GetRPM();
-                    if (s != "ERROR")
-                        lock (_lock)
-                        {
-                            _data["rpm"] = s;
-                        }
-                    if (!this._running)
-                        break;
-                    await Task.Delay(Interval);
-                    //s = GetOutsideTemperature();
-                    //if (s != "ERROR")
-                    //    lock (_lock)
-                    //    {
-                    //        _data["ot"] = s;
-                    //    }
-                    //if (!this._running)
-                    //    break;
-                    //System.Threading.Thread.Sleep(Interval);
-                    //s = GetInsideTemperature();
-                    //if (s != "ERROR")
-                    //    lock (_lock)
-                    //    {
-                    //        _data["it"] = s;
-                    //    }
-                    //if (!this._running)
-                    //    break;
-                    //System.Threading.Thread.Sleep(Interval);
-                    //s = GetEngineFuelRate();
-                    //if (s != "ERROR")
-                    //    lock (_lock)
-                    //    {
-                    //        _data["efr"] = s;
-                    //    }
-                    //if (!this._running)
-                    //    break;
-                    //System.Threading.Thread.Sleep(Interval);
+                    foreach (var cmd in _PIDs.Keys)
+                    {
+                        var key = _PIDs[cmd];
+                        if (_simulatormode)
+                            s = ObdShare.ObdUtil.GetEmulatorValue(cmd);
+                        else
+                            s = await RunCmd(cmd);
+                        if (s != "ERROR")
+                            lock (_lock)
+                            {
+                                _data[key] = s;
+                            }
+                        if (!this._running)
+                            return;
+                        await Task.Delay(Interval);
+                    }
                 }
             }
             catch (System.Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 _running = false;
-                _socket.Shutdown(SocketShutdown.Both);
-                _socket.Close();
-                _socket = null;
+                if (_stream != null)
+                {
+                    _stream.Dispose();
+                    _stream.Close();
+                    _stream = null;
+                }
+                if (_socket != null)
+                {
+                    _socket.Shutdown(SocketShutdown.Both);
+                    _socket.Close();
+                    _socket = null;
+                }
             }
         }
         private async Task<string> GetVIN()
@@ -177,21 +169,8 @@ namespace ObdLibiOS
                     result += tmp;
                 }
             }
-            return ObdShare.ObdUtil.ParseObd09Msg(result);
+            return ObdShare.ObdUtil.ParseVINMsg(result);
         }
-
-        private async Task<string> GetRPM()
-        {
-            if (_simulatormode)
-            {
-                var r = new System.Random();
-                return r.Next().ToString();
-            }
-            string result;
-            result = await SendAndReceive("010C\r");
-            return ObdShare.ObdUtil.ParseObd01Msg(result);
-        }
-        
         private bool ConnectSocket()
         {
             //setup the connection via socket
@@ -212,7 +191,6 @@ namespace ObdLibiOS
             }
             return true;
         }
-
         private async Task<string> SendAndReceive(string msg)
         {
             try
@@ -238,12 +216,6 @@ namespace ObdLibiOS
             }
             return "";
         }
-        //private void Write(string msg)
-        //{
-        //    System.Diagnostics.Debug.WriteLine(msg);
-        //    byte[] buffer = Encoding.ASCII.GetBytes(msg);
-        //    _socket.Send(buffer);
-        //}
         private async Task WriteAsync(string msg)
         {
             System.Diagnostics.Debug.WriteLine(msg);
@@ -251,35 +223,16 @@ namespace ObdLibiOS
             await _stream.WriteAsync(buffer, 0, buffer.Length);
             _stream.Flush();
         }
-        //private string Receive()
-        //{
-        //    string ret = ReceiveRaw();
-        //    while (!ret.Trim().EndsWith("\r\n") && !ret.Trim().EndsWith("\r\r>") && !ret.Trim().EndsWith("\r\n>"))
-        //    {
-        //        string tmp = ReceiveRaw();
-        //        ret = ret + tmp;
-        //    }
-        //    return ret;
-        //}
         private async Task<string> ReceiveAsync()
         {
             string ret = await ReceiveAsyncRaw();
-            while (!ret.Trim().EndsWith("\r\n") && !ret.Trim().EndsWith("\r\r>") && !ret.Trim().EndsWith("\r\n>"))
+            while (!ret.Trim().EndsWith(">"))
             {
                 string tmp = await ReceiveAsyncRaw();
                 ret = ret + tmp;
             }
             return ret;
         }
-        //private string ReceiveRaw()
-        //{
-        //    byte[] buffer = new byte[BufSize];
-        //    int bytes;
-        //    bytes = _socket.Receive(buffer);
-        //    var s = Encoding.ASCII.GetString(buffer, 0, bytes);
-        //    System.Diagnostics.Debug.WriteLine(s);
-        //    return s;
-        //}
         private async Task<string> ReceiveAsyncRaw()
         {
             byte[] buffer = new byte[BufSize];
@@ -289,7 +242,13 @@ namespace ObdLibiOS
             System.Diagnostics.Debug.WriteLine(s);
             return s;
         }
-        public void Disconnect()
+        private async Task<string> RunCmd(string cmd)
+        {
+            string result;
+            result = await SendAndReceive(cmd + "\r");
+            return ObdShare.ObdUtil.ParseObd01Msg(result);
+        }
+        public async Task Disconnect()
         {
             _running = false;
             if(_stream != null)

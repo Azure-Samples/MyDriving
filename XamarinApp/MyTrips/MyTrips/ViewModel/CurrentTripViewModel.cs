@@ -110,14 +110,16 @@ namespace MyTrips.ViewModel
             if (retryToConnect)
             {
                 await this.obdDataProcessor.ConnectToOBDDevice();
+            }
         }
-        }
+
+        public bool NeedSave { get; set; }
 
         public IGeolocator Geolocator => CrossGeolocator.Current;
 
         public IMedia Media => CrossMedia.Current;
 
-        public async Task<bool> StartRecordingTripAsync()
+        public async Task<bool> StartRecordingTrip()
         {
             if (IsBusy || IsRecording)
                 return false;
@@ -139,39 +141,44 @@ namespace MyTrips.ViewModel
                         });
                     }
                     
-                    return true;
+                    return false;
                 }
+
+
+                CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
                 IsRecording = true;
 
+                //Connect to the OBD device
+                await this.obdDataProcessor.Initialize(this.StoreManager);
+                await this.obdDataProcessor.ConnectToOBDDevice();
+
                 //Simulate recording several data points
-                for (int i = 0; i < 10; i++)
-                {
-                    CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
+                //for (int i = 0; i < 10; i++)
+                //{
 
-                    var obdData = new Dictionary<string, string>();
+                //    var obdData = new Dictionary<string, string>();
 
-                    //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                    if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                    {
-                    //Read data from the OBD device and push it to the IOT Hub
-                        obdData = this.obdDataProcessor.ReadOBDData();
-                    }
+                //    //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
+                //    if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
+                //        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
+                //    {
+                //    //Read data from the OBD device and push it to the IOT Hub
+                //        obdData = this.obdDataProcessor.ReadOBDData();
+                //    }
 
-                    CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
+                //    CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
-                    var point = new TripPoint
-                    {
-                        RecordedTimeStamp = DateTime.UtcNow,
-                        Latitude = CurrentPosition.Latitude,
-                        Longitude = CurrentPosition.Longitude,
-                        Sequence = CurrentTrip.Points.Count,
-                        OBDData = obdData
-                    };
+                //    var point = new TripPoint
+                //    {
+                //        RecordedTimeStamp = DateTime.UtcNow,
+                //        Latitude = CurrentPosition.Latitude,
+                //        Longitude = CurrentPosition.Longitude,
+                //        Sequence = CurrentTrip.Points.Count,
+                //    };
 
-                    CurrentTrip.Points.Add(point);
-                }
+                //    CurrentTrip.Points.Add(point);
+                //}
             }
             catch (Exception ex)
             {
@@ -181,29 +188,31 @@ namespace MyTrips.ViewModel
             {
             }
 
-            return true;
+            return IsRecording;
         }
 
-   
-        public async Task<bool> StopRecordingTripAsync()
+        public async Task<bool> SaveRecordingTripAsync(string name = "")
         {
-            if (IsBusy || !IsRecording)
+            if (IsRecording)
                 return false;
-
-
+            
             var track = Logger.Instance.TrackTime("SaveRecording");
-           
-            
+            IsBusy = true;
+
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-            
+
             try
             {
-                IsRecording = false;
-
-                var result = await Acr.UserDialogs.UserDialogs.Instance.PromptAsync("Name of Trip");
-                CurrentTrip.Name = result?.Text ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    var result = await Acr.UserDialogs.UserDialogs.Instance.PromptAsync("Name of Trip");
+                    CurrentTrip.Name = result?.Text ?? string.Empty;
+                }
+                else
+                {
+                    CurrentTrip.Name = name;
+                }
                 track.Start();
-                IsBusy = true;
                 progress?.Show();
 
 
@@ -215,11 +224,10 @@ namespace MyTrips.ViewModel
 #endif
                 CurrentTrip.Rating = 90;
 
+                CurrentTrip.EndTimeStamp = DateTime.UtcNow;
 
-                CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
                 if (string.IsNullOrWhiteSpace(CurrentTrip.Name))
                     CurrentTrip.Name = DateTime.Now.ToString("d") + DateTime.Now.ToString("t");
-
 
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
 
@@ -229,24 +237,11 @@ namespace MyTrips.ViewModel
                     await StoreManager.PhotoStore.InsertAsync(photo);
                 }
 
-                //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                {
-                    try
-                    {
                 //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
                 await this.obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
 
                 //Push the trip data packaged with the OBD data to the IOT Hub
                 await this.obdDataProcessor.PushTripDataToIOTHub();
-                    }
-                    catch (Exception ex1)
-                    {
-                        Logger.Instance.Report(ex1);
-                    }
-                }
-
 
                 CurrentTrip = new Trip();
                 CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
@@ -262,6 +257,7 @@ namespace MyTrips.ViewModel
                 photos = new List<Photo>();
                 OnPropertyChanged(nameof(CurrentTrip));
                 OnPropertyChanged("Stats");
+                NeedSave = false;
                 return true;
             }
             catch (Exception ex)
@@ -277,6 +273,33 @@ namespace MyTrips.ViewModel
 
             return false;
         }
+   
+        public async Task<bool> StopRecordingTrip()
+        {
+            if (IsBusy || !IsRecording)
+                return false;
+
+            if (CurrentTrip.Points.Count == 0)
+            {
+
+                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
+                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS ||
+                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
+                {
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("We need few more points.",
+                                                            "Keep driving!", "OK");
+                }
+
+                return false;
+            }
+
+            //Stop reading data from the OBD device
+            await this.obdDataProcessor.DisconnectFromOBDDevice();
+
+            IsRecording = false;
+            NeedSave = true;
+            return true;
+        }
 
         ICommand startTrackingTripCommand;
 		public ICommand StartTrackingTripCommand =>
@@ -285,12 +308,20 @@ namespace MyTrips.ViewModel
 
         public async Task ExecuteStartTrackingTripCommandAsync()
         {
-            if (IsBusy || Geolocator.IsListening)
+            if (IsBusy)
+            {
                 return;
+
+            }
 
 			try 
 			{
-						if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
+                if (Geolocator.IsListening)
+                {
+                    await Geolocator.StopListeningAsync();
+                }
+
+				if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
 				{
 					Geolocator.AllowsBackgroundUpdates = true;
 					Geolocator.DesiredAccuracy = 25;
@@ -304,15 +335,6 @@ namespace MyTrips.ViewModel
                         Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
                                                                    "Geolocation Disabled", "OK");
 				}
-
-                //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                {
-                //Connect to the OBD device
-                await this.obdDataProcessor.Initialize();
-                await this.obdDataProcessor.ConnectToOBDDevice();
-            }
             }
             catch (Exception ex)
             {
@@ -339,15 +361,7 @@ namespace MyTrips.ViewModel
                 //Unsubscribe because we were recording and it is alright
                 Geolocator.PositionChanged -= Geolocator_PositionChanged;
 				await Geolocator.StopListeningAsync();
-
-                //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                {
-                    //Stop reading data from the OBD device
-                    await this.obdDataProcessor.DisconnectFromOBDDevice();
 			}
-            }
 			catch (Exception ex) 
 			{
 				Logger.Instance.Report(ex);
@@ -357,59 +371,70 @@ namespace MyTrips.ViewModel
 			}
 		}
 
-        async void Geolocator_PositionChanged(object sender, PositionEventArgs e)
+        void Geolocator_PositionChanged(object sender, PositionEventArgs e)
         {
 			// Only update the route if we are meant to be recording coordinates
 			if (IsRecording)
 			{
 				var userLocation = e.Position;
 
-                var obdData = new Dictionary<string, string>();
-                //Only call for WinPhone\Android for now since the OBD wrapper isn't available yet for ios
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone ||
-                    CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android)
-                {
-                    //Read data from the OBD device and push it to the IOT Hub
-                    obdData = this.obdDataProcessor.ReadOBDData();
-                }
-                else
-                {
-                    obdData = null;
-                }
-
-
-
+                //Read data from the OBD device
+                var obdData = this.obdDataProcessor.ReadOBDData();
+      
                 var point = new TripPoint
                 {
+                    TripId = CurrentTrip.Id,
                     RecordedTimeStamp = DateTime.UtcNow,
                     Latitude = userLocation.Latitude,
                     Longitude = userLocation.Longitude,
                     Sequence = CurrentTrip.Points.Count,
-                    OBDData = obdData
 				};
 
                 if (obdData != null)
                 {
-                    double speed = 0, barometric = 0, rpm = 0, outside = 0, inside = 0, efr = 0;
-                    if(obdData.ContainsKey("spd"))
+                    double speed = 0, rpm = 0, outside = 0, efr = 0, el = 0, stfb = 0, ltfb = 0, fr = 0, tp = 0, rt = 0, dis = 0, rtp = 0;
+                    string vin = String.Empty;
+
+                    if (obdData.ContainsKey("el"))
+                        double.TryParse(obdData["el"], out el);
+                    if (obdData.ContainsKey("stfb"))
+                        double.TryParse(obdData["stfb"], out stfb);
+                    if (obdData.ContainsKey("ltfb"))
+                        double.TryParse(obdData["ltfb"], out ltfb);
+                    if (obdData.ContainsKey("fr"))
+                        double.TryParse(obdData["fr"], out fr);
+                    if (obdData.ContainsKey("tp"))
+                        double.TryParse(obdData["tp"], out tp);
+                    if (obdData.ContainsKey("rt"))
+                        double.TryParse(obdData["rt"], out rt);
+                    if (obdData.ContainsKey("dis"))
+                        double.TryParse(obdData["dis"], out dis);
+                    if (obdData.ContainsKey("rtp"))
+                        double.TryParse(obdData["rtp"], out rtp);
+                    if (obdData.ContainsKey("spd"))
                         double.TryParse(obdData["spd"], out speed);
-                    if(obdData.ContainsKey("bp"))
-                        double.TryParse(obdData["bp"], out barometric);
                     if(obdData.ContainsKey("rpm"))
                         double.TryParse(obdData["rpm"], out rpm);
                     if(obdData.ContainsKey("ot"))
                         double.TryParse(obdData["ot"], out outside);
-                    if(obdData.ContainsKey("it"))
-                        double.TryParse(obdData["it"], out inside);
                     if(obdData.ContainsKey("efr"))
                         double.TryParse(obdData["efr"], out efr);
+                    if (obdData.ContainsKey("vin"))
+                        vin = obdData["vin"];
 
+                    point.EngineLoad = el;
+                    point.ShortTermFuelBank = stfb;
+                    point.LongTermFuelBank = ltfb;
+                    point.MassFlowRate = fr;
+                    point.ThrottlePosition = tp;
+                    point.Runtime = rt;
+                    point.DistanceWithMalfunctionLight = dis;
+                    point.RelativeThrottlePosition = rtp;
                     point.Speed = speed;
-                    point.BarometricPressure = barometric;
                     point.RPM = rpm;
                     point.OutsideTemperature = outside;
-                    point.InsideTemperature = inside;
                     point.EngineFuelRate = efr;
+                    point.VIN = vin;
 
                     totalConsumption += point.EngineFuelRate;
                     totalConsumptionPoints++;
@@ -420,12 +445,11 @@ namespace MyTrips.ViewModel
                     point.HasOBDData = false;
                 }
 
-               
                 CurrentTrip.Points.Add(point);
 
                 if (CurrentTrip.Points.Count > 1)
                 {
-                    var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];//2 back now
+                    var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];
                     CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude, userLocation.Longitude, previous.Latitude, previous.Longitude);
                     Distance = CurrentTrip.TotalDistanceNoUnits;
                 }
@@ -525,5 +549,13 @@ namespace MyTrips.ViewModel
                 Logger.Instance.Report(ex);
             }
         }
+
+		public void ResetObdIncrementalConnection()
+		{
+			if (obdDataProcessor != null)
+			{
+				obdDataProcessor.ResetIncrementalConnection();
+			}
+		}
 	}
 }

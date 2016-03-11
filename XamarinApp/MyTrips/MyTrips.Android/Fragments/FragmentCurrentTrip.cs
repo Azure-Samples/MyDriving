@@ -25,6 +25,8 @@ using MyTrips.Droid.Helpers;
 using Android.Support.Design.Widget;
 using System.Collections.Specialized;
 using System.Collections.Generic;
+using Android.Views.Animations;
+using Android.Animation;
 
 
 namespace MyTrips.Droid.Fragments
@@ -44,6 +46,7 @@ namespace MyTrips.Droid.Fragments
         Color? driveLineColor = null;
         bool setZoom = true;
         List<LatLng> allPoints;
+        LinearLayout stats;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
@@ -60,6 +63,8 @@ namespace MyTrips.Droid.Fragments
             consumption = view.FindViewById<TextView>(Resource.Id.text_consumption);
             consumptionUnits = view.FindViewById<TextView>(Resource.Id.text_consumption_units);
             temp = view.FindViewById<TextView>(Resource.Id.text_temp);
+            stats = view.FindViewById<LinearLayout>(Resource.Id.stats);
+            stats.Visibility = ViewStates.Invisible;
             return view;
         }
 
@@ -94,26 +99,56 @@ namespace MyTrips.Droid.Fragments
             if (viewModel == null || viewModel.CurrentPosition == null || viewModel.IsBusy)
                 return;
 
+            if (viewModel.NeedSave)
+            {
+                await viewModel.SaveRecordingTripAsync();
+            }
+
             if (viewModel.IsRecording)
             {
-
+                if (!(await viewModel.StopRecordingTrip()))
+                    return;
+                
                 AddEndMarker(viewModel.CurrentPosition.ToLatLng());
                 UpdateCarIcon(false);
-                await viewModel.StopRecordingTripAsync();
+                await viewModel.SaveRecordingTripAsync();
             }
             else
             {
-                if (!await viewModel.StartRecordingTripAsync())
+                if (!(await viewModel.StartRecordingTrip()))
                     return;
                 AddStartMarker(viewModel.CurrentPosition.ToLatLng());
 
                 Activity.SupportInvalidateOptionsMenu();
                 UpdateCarIcon(true);
                 UpdateStats();
+                StartFadeAnimation(true);
             }
         }
         #endregion
 
+
+        void StartFadeAnimation(bool fadeIn)
+        {
+            //handle first run
+            if (!viewModel.IsRecording && stats.Visibility == ViewStates.Invisible)
+                return;
+            
+            var start = fadeIn ? 0f : 1f;
+            var end = fadeIn ? 1f : 0f;
+            stats.Alpha = fadeIn ? 0f : 1f;
+            stats.Visibility = ViewStates.Visible;
+
+
+            var timerAnimator = ValueAnimator.OfFloat(start, end);
+            timerAnimator.SetDuration(Java.Util.Concurrent.TimeUnit.Seconds.ToMillis(1));
+            timerAnimator.SetInterpolator(new AccelerateInterpolator());
+            timerAnimator.Update += (sender, e) =>
+            {
+                Activity.RunOnUiThread(() => stats.Alpha = (float)e.Animation.AnimatedValue);
+            };
+            timerAnimator.Start();
+        }
 
         void OnLocationServiceConnected(object sender, ServiceConnectedEventArgs e)
         {
@@ -165,6 +200,7 @@ namespace MyTrips.Droid.Fragments
             allPoints = null;
             SetupMap();
             UpdateStats();
+            StartFadeAnimation(viewModel.IsRecording);
             Activity.SupportInvalidateOptionsMenu();
         }
 

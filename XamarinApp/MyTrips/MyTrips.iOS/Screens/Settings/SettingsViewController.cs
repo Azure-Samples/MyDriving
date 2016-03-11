@@ -90,7 +90,6 @@ namespace MyTrips.iOS
 		}
 	}
 
-	// TODO: Alter shared logic
 	public class SettingsDataSource : UITableViewSource
 	{
 		Dictionary<string, List<Setting>> data;

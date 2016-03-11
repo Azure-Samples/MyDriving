@@ -33,9 +33,8 @@ namespace MyTrips.Droid.Activities
         GoogleMap map;
         PastTripsDetailViewModel viewModel;
         SupportMapFragment mapFrag;
-        TextView ratingText, startTime, endTime;
-        RatingCircle ratingCircle;
-        int rating;
+        TextView startTime, endTime;
+        TextView distance, distanceUnits, time, temp, consumption, consumptionUnits;
         string id;
         protected override void OnCreate(Bundle bundle)
         {
@@ -46,24 +45,22 @@ namespace MyTrips.Droid.Activities
                 Window.DecorView.SystemUiVisibility = StatusBarVisibility.Visible;
             }
 
-            var view = FindViewById(Resource.Id.full_rating);
-            Android.Support.V4.View.ViewCompat.SetTransitionName(view,  "rating");
 
             viewModel = new PastTripsDetailViewModel();
             viewModel.Title = id = Intent.GetStringExtra("Id");
-            rating = Intent.GetIntExtra("Rating", 0);
-            ratingText = FindViewById<TextView>(Resource.Id.text_rating);
-            ratingCircle = FindViewById<RatingCircle>(Resource.Id.rating_circle);
             seekBar = FindViewById<SeekBar>(Resource.Id.trip_progress);
             seekBar.Enabled = false;
-            ratingCircle.PlayAnimation = false;
-            ratingText.Text = rating.ToString();
-            ratingCircle.Rating = rating;
 
             startTime = FindViewById<TextView>(Resource.Id.text_start_time);
             endTime = FindViewById<TextView>(Resource.Id.text_end_time);
             startTime.Text = endTime.Text = string.Empty;
 
+            time = FindViewById<TextView>(Resource.Id.text_time);
+            distance = FindViewById<TextView>(Resource.Id.text_distance);
+            distanceUnits = FindViewById<TextView>(Resource.Id.text_distance_units);
+            consumption = FindViewById<TextView>(Resource.Id.text_consumption);
+            consumptionUnits = FindViewById<TextView>(Resource.Id.text_consumption_units);
+            temp = FindViewById<TextView>(Resource.Id.text_temp);
 
             mapFrag = (SupportMapFragment) SupportFragmentManager.FindFragmentById(Resource.Id.map);
             mapFrag.GetMapAsync(this);
@@ -81,7 +78,18 @@ namespace MyTrips.Droid.Activities
             endTime.Text = viewModel.Trip.EndTimeDisplay;
             SupportActionBar.Title = viewModel.Title;
             SetupMap();
+            UpdateStats();
 
+        }
+
+        void UpdateStats()
+        {
+            time.Text = viewModel.ElapsedTime;
+            consumption.Text = viewModel.FuelConsumption;
+            consumptionUnits.Text = viewModel.FuelConsumptionUnits;
+            temp.Text = viewModel.Temperature;
+            distanceUnits.Text = viewModel.DistanceUnits;
+            distance.Text = viewModel.Distance;
         }
 
         Marker carMarker;
@@ -158,11 +166,13 @@ namespace MyTrips.Droid.Activities
         {
             if (carMarker == null)
                 return;
-            var location = viewModel.Trip.Points[e.Progress];
+            
+            viewModel.CurrentPosition  = viewModel.Trip.Points[e.Progress];
 
             RunOnUiThread(() =>
             {
-                carMarker.Position = new LatLng(location.Latitude, location.Longitude);
+                UpdateStats();
+                carMarker.Position = new LatLng(viewModel.CurrentPosition.Latitude, viewModel.CurrentPosition.Longitude);
                 map.MoveCamera(CameraUpdateFactory.NewLatLng(carMarker.Position));
             });
         }

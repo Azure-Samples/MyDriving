@@ -2,6 +2,8 @@ using Foundation;
 using System.Collections.Generic;
 using UIKit;
 using System;
+using MyTrips.ViewModel;
+using SDWebImage;
 
 namespace MyTrips.iOS
 {
@@ -10,11 +12,32 @@ namespace MyTrips.iOS
 		const string STAT_CELL_IDENTIFIER = "STAT_CELL_IDENTIFIER";
 		List<DrivingStatistic> data;
 
+		public ProfileViewModel ViewModel { get; set; }
+
 		public ProfileTableViewController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+
+			ViewModel = new ProfileViewModel();
+			NavigationItem.Title = $"{ViewModel.Settings.UserFirstName} {ViewModel.Settings.UserLastName}";
+
+			if (ViewModel.UserPictureSourceKind == Utils.UserPictureSourceKind.Url)
+			{
+				var url = ViewModel.Settings.UserProfileUrl;
+				imgAvatar.SetImage(new NSUrl(url));
+			}
+			else
+			{
+				var image = new UIImage(NSData.FromArray(ViewModel.Settings.UserProfileByteArr));
+				imgAvatar.Image = image;
+			}
+
+			PercentageView.Value = 86;
+
+			// TODO: Bind to actual value when there is one.
+			// PercentageView.Value = ViewModel.DrivingSkills;
 
 			imgAvatar.Layer.CornerRadius = imgAvatar.Frame.Width / 2;
 			imgAvatar.Layer.BorderWidth = 2;
@@ -23,12 +46,11 @@ namespace MyTrips.iOS
 
 			data = new List<DrivingStatistic>
 			{
-				new DrivingStatistic { Name = "Total Distance", Value = "275.43 miles"},
-				new DrivingStatistic { Name = "Total Duration", Value = "8 hours, 45 minutes"},
-				new DrivingStatistic { Name = "Average Speed", Value = "31 MPH"},
+				new DrivingStatistic { Name = "Total Distance", Value = $"{ViewModel.TotalDistanceUnits}"},
+				new DrivingStatistic { Name = "Total Duration", Value = $"{ViewModel.TotalTime}"},
+				new DrivingStatistic { Name = "Average Speed", Value = $"{ViewModel.AverageSpeedUnits}" },
 				new DrivingStatistic { Name = "Average Consumption", Value = "2.5 gallons"},
-				new DrivingStatistic { Name = "Hard Breaks", Value = "21"},
-				new DrivingStatistic { Name = "Tips Received", Value = "14"},
+				new DrivingStatistic { Name = "Hard Breaks", Value = "21"}
 			};
 		}
 

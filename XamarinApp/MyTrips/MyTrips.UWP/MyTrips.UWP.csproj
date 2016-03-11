@@ -99,8 +99,12 @@
     <Compile Include="Controls\ProfileViewTabControl.xaml.cs">
       <DependentUpon>ProfileViewTabControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SplitViewButtonContent.xaml.cs">
+      <DependentUpon>SplitViewButtonContent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\DistanceConverter.cs" />
     <Compile Include="Converters\ImageSourceConverter.cs" />
+    <Compile Include="Converters\NotConverter.cs" />
     <Compile Include="Converters\SpeedConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
     <Compile Include="Views\CurrentTripView.xaml.cs">
@@ -156,6 +160,21 @@
     <Content Include="Assets\Login\Microsoft.png" />
     <Content Include="Assets\Login\twitter.png" />
     <Content Include="Assets\mappin.png" />
+    <Content Include="Assets\SplitView\default_Current.png" />
+    <Content Include="Assets\SplitView\default_logout.png" />
+    <Content Include="Assets\SplitView\default_pastTrips.png" />
+    <Content Include="Assets\SplitView\default_profile.png" />
+    <Content Include="Assets\SplitView\default_settings.png" />
+    <Content Include="Assets\SplitView\Current.png" />
+    <Content Include="Assets\SplitView\logout.png" />
+    <Content Include="Assets\SplitView\pastTrips.png" />
+    <Content Include="Assets\SplitView\profile.png" />
+    <Content Include="Assets\SplitView\settings.png" />
+    <Content Include="Assets\SplitView\selected_Current.png" />
+    <Content Include="Assets\SplitView\selected_logout.png" />
+    <Content Include="Assets\SplitView\selected_pastTrips.png" />
+    <Content Include="Assets\SplitView\selected_profile.png" />
+    <Content Include="Assets\SplitView\selected_settings.png" />
     <Content Include="Assets\StartRecord.png" />
     <Content Include="Assets\StopRecord.png" />
     <Content Include="Properties\Default.rd.xml" />
@@ -174,6 +193,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\ProfileViewTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SplitViewButtonContent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
