@@ -46,6 +46,7 @@ namespace MyTrips.Droid.Fragments
 
             adapter = new TripAdapter(Activity, viewModel);
             adapter.ItemClick += OnItemClick;
+            adapter.ItemLongClick += OnItemLongClick;
             layoutManager = new LinearLayoutManager(Activity);
             layoutManager.Orientation = LinearLayoutManager.Vertical;
             recyclerView.SetLayoutManager(layoutManager);
@@ -120,6 +121,12 @@ namespace MyTrips.Droid.Fragments
             intent.PutExtra(nameof(trip.Rating), trip.Rating);
             Activity.StartActivity(intent);
         }
+
+        async void OnItemLongClick(object sender, TripClickEventArgs args)
+        {
+            var trip = viewModel.Trips[args.Position];
+            await viewModel.ExecuteDeleteTripCommand(trip);
+        }
     }
 
 
@@ -130,13 +137,15 @@ namespace MyTrips.Droid.Fragments
         public TextView Distance { get; set; }
         public ImageView Photo { get; set; }
 
-        public TripViewHolder(View itemView, Action<TripClickEventArgs> listener) : base(itemView)
+        public TripViewHolder(View itemView, Action<TripClickEventArgs> listener, Action<TripClickEventArgs> listenerLong) : base(itemView)
         {
+            itemView.LongClickable = true;
             Title = itemView.FindViewById<TextView>(Resource.Id.text_title);
             Distance = itemView.FindViewById<TextView>(Resource.Id.text_distance);
             Date = itemView.FindViewById<TextView>(Resource.Id.text_date);
             Photo = itemView.FindViewById<ImageView>(Resource.Id.photo);
             itemView.Click += (sender, e) => listener(new TripClickEventArgs { View = sender as View, Position = AdapterPosition });
+            itemView.LongClick += (sender, e) => listenerLong(new TripClickEventArgs { View = sender as View, Position = AdapterPosition });
         }
     }
 
@@ -150,7 +159,7 @@ namespace MyTrips.Droid.Fragments
     {
         
         public event EventHandler<TripClickEventArgs> ItemClick;
-
+        public event EventHandler<TripClickEventArgs> ItemLongClick;
         PastTripsViewModel viewModel;
         Android.App.Activity activity;
         public TripAdapter(Android.App.Activity activity, PastTripsViewModel viewModel)
@@ -168,7 +177,7 @@ namespace MyTrips.Droid.Fragments
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) =>
-            new TripViewHolder(LayoutInflater.From(parent.Context).Inflate(Resource.Layout.item_trip, parent, false), OnClick);
+            new TripViewHolder(LayoutInflater.From(parent.Context).Inflate(Resource.Layout.item_trip, parent, false), OnClick, OnClickLong);
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
@@ -198,6 +207,12 @@ namespace MyTrips.Droid.Fragments
         {
             if (ItemClick != null)
                 ItemClick(this, args);
+        }
+
+        void OnClickLong(TripClickEventArgs args)
+        {
+            if (ItemLongClick != null)
+                ItemLongClick(this, args);
         }
     }
 
