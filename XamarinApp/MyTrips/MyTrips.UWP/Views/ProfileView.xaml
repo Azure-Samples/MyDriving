@@ -24,6 +24,14 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
 
+
+                    
+           <!--         <Ellipse Grid.RowSpan="2" Width="110" Height="112" Stroke="#22cc95" StrokeThickness="4" Fill="{StaticResource MainBackgroundColor}">
+                    </Ellipse>
+                    
+                    -->
+
+                    <controls:CirclePercentage Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     <Ellipse Grid.RowSpan="2" Width="100" Height="100">
                         <Ellipse.Fill>
                             <ImageBrush x:Name="ProfileImage" ImageSource="{x:Bind profileViewModel.Settings.UserProfileUrl, Mode=OneWay, Converter={StaticResource ImageSourceConverter}}"/>
