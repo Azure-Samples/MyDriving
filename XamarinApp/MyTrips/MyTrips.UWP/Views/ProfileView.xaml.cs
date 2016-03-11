@@ -33,10 +33,7 @@ namespace MyTrips.UWP.Views
             HardBreaksTab.Title1 = "Hard";
             HardBreaksTab.Title2 = "BREAKS";
 
-            TipsTab.Title1 = "TIPS";
-
-          
-            
+            //TipsTab.Title1 = "TIPS";
 
 
         }
