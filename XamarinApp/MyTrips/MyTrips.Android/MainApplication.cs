@@ -31,8 +31,8 @@ namespace MyTrips.Droid
             ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
 
             //TODO: Need to add #debug compile dir for all offline\mock interfaces
-            ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
-            //ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
+            //ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
+            ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
 
             ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Mock.Stores.IOTHubStore>();
             //ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Azure.Stores.IOTHubStore>();
