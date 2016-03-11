@@ -50,6 +50,12 @@ namespace MyTrips.UWP.Views
             this.MyMap.MapElements.Clear();
             this.ViewModel.Trip = trip;
             DrawPath();
+
+            if (this.ViewModel.Trip.Points.Count() > 0)
+            {
+                ViewModel.CurrentPosition = this.ViewModel.Trip.Points[0];
+                this.UpdateStats();
+            }
         }
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
@@ -132,6 +138,8 @@ namespace MyTrips.UWP.Views
 
         private async void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
+            ViewModel.CurrentPosition = ViewModel.Trip.Points[(int)e.NewValue];
+
             var basicGeoposition = Locations[(int)e.NewValue]; 
             // Currently removing the Car from Map which is the last item added. 
             MyMap.MapElements.RemoveAt(MyMap.MapElements.Count - 1);
