@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="4dp">
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -72,7 +72,6 @@
                 local:cardUseCompatPadding="true"
                 local:cardCornerRadius="2dp"
                 android:layout_marginBottom="4dp"
-                android:layout_marginLeft="8dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -99,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="4dp">
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -109,6 +108,7 @@
                 local:cardUseCompatPadding="true"
                 local:cardCornerRadius="2dp"
                 android:layout_marginBottom="4dp"
+                android:layout_marginRight="2dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -140,6 +140,7 @@
                 local:cardUseCompatPadding="true"
                 local:cardCornerRadius="2dp"
                 android:layout_marginBottom="4dp"
+                android:layout_marginLeft="2dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -166,7 +167,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="4dp">
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -176,7 +177,6 @@
                 local:cardUseCompatPadding="true"
                 local:cardCornerRadius="2dp"
                 android:layout_marginBottom="4dp"
-                android:layout_marginLeft="8dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -203,7 +203,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="4dp">
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -213,6 +213,7 @@
                 local:cardUseCompatPadding="true"
                 local:cardCornerRadius="2dp"
                 android:layout_marginBottom="4dp"
+                android:layout_marginRight="2dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -243,7 +244,7 @@
                 local:cardUseCompatPadding="true"
                 local:cardCornerRadius="2dp"
                 android:layout_marginBottom="4dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="2dp"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:clickable="true">
                 <LinearLayout
@@ -270,7 +271,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="4dp">
             <android.support.v7.widget.CardView
                 android:layout_width="0dp"
                 android:layout_weight="1"
