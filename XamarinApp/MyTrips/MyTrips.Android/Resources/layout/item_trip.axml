@@ -7,77 +7,68 @@
     local:cardElevation="2dp"
     local:cardUseCompatPadding="true"
     local:cardCornerRadius="2dp"
-    android:layout_marginBottom="4dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="4dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="8dp"
     android:foreground="?android:attr/selectableItemBackground">
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="124dp"
             android:scaleType="centerCrop"
             android:id="@+id/photo" />
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <FrameLayout
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:padding="8dp"
-                android:id="@+id/full_rating"
-                android:transitionName="rating">
-                <mytrips.droid.controls.RatingCircle
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/rating_circle" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="?attr/colorPrimary"
-                    android:id="@+id/text_rating" />
-            </FrameLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical"
-                android:padding="8dp">
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:text="Hello World"
-                    android:id="@+id/text_title" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@color/primary_text"
+                android:text="Hello World"
+                android:id="@+id/text_title" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="fill_parent"
                     android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
+                    android:gravity="left|bottom">
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:text="Distance: "
+                        android:textColor="@color/secondary_text" />
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:text="Hello World"
-                        android:id="@+id/text_date"
-                        android:gravity="left" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:text="Hello World"
-                        android:id="@+id/text_distance"
-                        android:gravity="right" />
+                        android:textColor="@color/accent"
+                        android:id="@+id/text_distance" />
                 </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:text="Hello World"
+                    android:id="@+id/text_date"
+                    android:gravity="right|bottom"
+                    android:textColor="#C651C6" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -69,7 +69,7 @@ namespace MyTrips.DataObjects
 
         //Do not sync with backend, used localy only
         [JsonIgnore]
-        public string TimeAgo => EndTimeStamp.Humanize();
+        public string TimeAgo => EndTimeStamp.ToLocalTime().Humanize(false);
 
         [JsonIgnore]
         public double DistanceConverted => (Settings.Current.MetricDistance ? (Distance * 1.60934) : Distance);

@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Controls.Maps;
 using Windows.Devices.Geolocation;
 using Windows.UI;
 using Windows.Storage.Streams;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,6 +32,7 @@ namespace MyTrips.UWP.Views
 
         public IList<BasicGeoposition> Locations { get; set; }
 
+        public Trip SelectedTrip;
       
         public PastTripMapView()
         {
@@ -45,6 +47,7 @@ namespace MyTrips.UWP.Views
             var trip = e.Parameter as Trip;
             base.OnNavigatedTo(e);
             this.MyMap.Loaded += MyMap_Loaded;
+            this.MyMap.MapElements.Clear();
             this.ViewModel.Trip = trip;
             DrawPath();
         }
@@ -61,50 +64,54 @@ namespace MyTrips.UWP.Views
             this.positionSlider.IsThumbToolTipEnabled = false;
         }
 
-        private void DrawPath()
+        private async void DrawPath()
         {
-            MapPolyline mapPolyLine = new MapPolyline();
-
-            foreach (var trail in this.ViewModel.Trip.Points)
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                var basicGeoPosion = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
-                Locations.Add(basicGeoPosion);
-            }
-            mapPolyLine.Path = new Geopath(Locations);
 
-            mapPolyLine.ZIndex = 1;
-            mapPolyLine.Visible = true;
-            mapPolyLine.StrokeColor = Colors.Red;
-            mapPolyLine.StrokeThickness = 3;
+                MapPolyline mapPolyLine = new MapPolyline();
 
-            // Starting off with the first point as center
-            if (Locations.Count > 0)
-                MyMap.Center = new Geopoint(Locations.First());
+                // Currently Points are all jumbled. We need to investigate why this is happening.
+                // As a workaround I am sorting the points based on timestamp.  
+                var tripPoints = ViewModel.Trip.Points.OrderBy(s => s.RecordedTimeStamp);
 
+                Locations = tripPoints.Select(s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }).ToList<BasicGeoposition>();
 
-            MyMap.MapElements.Add(mapPolyLine);
+                mapPolyLine.Path = new Geopath(Locations);
 
-            // Draw Start Icon
-            MapIcon mapStartIcon = new MapIcon();
-            mapStartIcon.Location = new Geopoint(Locations.First());
-            mapStartIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-            mapStartIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_start_point.png"));
-            mapStartIcon.ZIndex = 1;
-            mapStartIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+                mapPolyLine.ZIndex = 1;
+                mapPolyLine.Visible = true;
+                mapPolyLine.StrokeColor = Colors.Red;
+                mapPolyLine.StrokeThickness = 3;
 
-            MyMap.MapElements.Add(mapStartIcon);
-     
-            //Draw End Icon
-            MapIcon mapEndIcon = new MapIcon();
-            mapEndIcon.Location = new Geopoint(Locations.Last());
-            mapEndIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-            mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png"));
-            mapEndIcon.ZIndex = 1;
-            mapEndIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
-            MyMap.MapElements.Add(mapEndIcon);
+                // Starting off with the first point as center
+                if (this.Locations.Count > 0)
+                    MyMap.Center = new Geopoint(this.Locations.First());
 
-            // Draw the Car 
-            DrawCarOnMap(Locations.First());
+                MyMap.MapElements.Add(mapPolyLine);
+
+                // Draw Start Icon
+                MapIcon mapStartIcon = new MapIcon();
+                mapStartIcon.Location = new Geopoint(this.Locations.First());
+                mapStartIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
+                mapStartIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_start_point.png"));
+                mapStartIcon.ZIndex = 1;
+                mapStartIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+
+                MyMap.MapElements.Add(mapStartIcon);
+
+                //Draw End Icon
+                MapIcon mapEndIcon = new MapIcon();
+                mapEndIcon.Location = new Geopoint(this.Locations.Last());
+                mapEndIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
+                mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png"));
+                mapEndIcon.ZIndex = 1;
+                mapEndIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+                MyMap.MapElements.Add(mapEndIcon);
+
+                // Draw the Car 
+                DrawCarOnMap(this.Locations.First());
+            });
 
         }
 
@@ -125,12 +132,27 @@ namespace MyTrips.UWP.Views
 
         private async void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            var location = this.ViewModel.Trip.Points[(int)e.NewValue];
-            var basicGeoposition = new BasicGeoposition { Latitude = location.Latitude, Longitude = location.Longitude };
+            var basicGeoposition = Locations[(int)e.NewValue]; 
             // Currently removing the Car from Map which is the last item added. 
             MyMap.MapElements.RemoveAt(MyMap.MapElements.Count - 1);
             DrawCarOnMap(basicGeoposition);
             await MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
+            UpdateStats();
+        }
+
+        private async void UpdateStats()
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                // TODO: Need to fix data binding and remove this code. 
+                this.text_time.Text = ViewModel.ElapsedTime ;
+                this.text_miles.Text = ViewModel.Distance;
+                this.text_gallons.Text = ViewModel.FuelConsumption;
+                this.text_temp.Text = ViewModel.Temperature;
+                this.text_fuelunits.Text = ViewModel.FuelConsumptionUnits;
+                this.text_distanceunits.Text = ViewModel.DistanceUnits;
+            });
+
         }
     }
 }

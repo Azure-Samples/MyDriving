@@ -18,10 +18,10 @@ namespace MyTrips.UWP.Converters
             if (Settings.Current.MetricDistance)
             {
                 double km = distance * 1.60934;
-                return string.Format("{0} km", (int)km);
+                return string.Format("{0:0.00} km", km);
             }
             else
-                return string.Format("{0} miles", (int)distance);
+                return string.Format("{0:0.00} miles", distance);
 
         }
 

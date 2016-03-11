@@ -42,7 +42,7 @@ namespace MyTrips.ViewModel
 
                 var users = await StoreManager.UserStore.GetItemsAsync(0, 100, true);
 
-                var currentUser = users.FirstOrDefault(s => s.UserId == Settings.UserId);
+                var currentUser = users.FirstOrDefault(s => s.UserId == Settings.UserSid);
 
                 if (currentUser == null)
                 {
@@ -89,7 +89,7 @@ namespace MyTrips.ViewModel
         }
 
 
-        public string FuelUnits => Settings.MetricUnits ? "Liters" : "Gallons";
+        public string FuelUnits => Settings.MetricUnits ? "L" : "gal.";
 
         public double FuelConverted => Settings.MetricUnits ? FuelUsed / .264172 : FuelUsed;
 

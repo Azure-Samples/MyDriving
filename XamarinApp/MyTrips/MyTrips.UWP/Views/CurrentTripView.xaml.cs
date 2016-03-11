@@ -188,10 +188,11 @@ namespace MyTrips.UWP.Views
 
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
-                var recordedTrip = viewModel.CurrentTrip;
+                var recordedTripSummary = viewModel.TripSummary;
                 await viewModel.SaveRecordingTripAsync();
                 // Launch Trip Summary Page. 
-                this.Frame.Navigate(typeof(TripSummaryView), recordedTrip);
+               
+                this.Frame.Navigate(typeof(TripSummaryView), recordedTripSummary);
                 return;
         }
             else

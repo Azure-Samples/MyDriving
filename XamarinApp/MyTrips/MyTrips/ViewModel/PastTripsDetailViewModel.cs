@@ -26,6 +26,8 @@ namespace MyTrips.ViewModel
         public PastTripsDetailViewModel(Trip trip) : this()
 		{
 			Title = trip.Name;
+            //make sure the points are ordered
+            trip.Points = trip.Points.OrderBy(p => p.Sequence).ToArray();
 			Trip = trip;
 
 		}
@@ -122,7 +124,7 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref fuelConsumption, value); }
         }
 
-        string fuelConsumptionUnits = "Gallons";
+        string fuelConsumptionUnits = "gal";
         public string FuelConsumptionUnits
         {
             get { return fuelConsumptionUnits; }
