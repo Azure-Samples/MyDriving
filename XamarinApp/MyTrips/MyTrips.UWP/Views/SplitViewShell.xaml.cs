@@ -28,7 +28,7 @@ namespace MyTrips.UWP.Views
             this.Current.defaultImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_current.png", UriKind.Absolute));
             this.Current.selectedImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_current.png", UriKind.Absolute));
 
-            this.PastTrips.labelText = "Past Trips";
+            this.PastTrips.labelText = "Past";
             this.PastTrips.defaultImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_pastTrips.png", UriKind.Absolute));
             this.PastTrips.selectedImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_pastTrips.png", UriKind.Absolute));
 
@@ -93,7 +93,17 @@ namespace MyTrips.UWP.Views
             MyTripsSplitView.IsPaneOpen = false;
 
             var frame = this.MyTripsSplitView.Content as Frame;
-            PageTitle.Text = ((Page)frame.Content).Name;
+
+            var name = ((Page)frame.Content).Name;
+            if (string.Compare(name, "Login", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                SetVisible(false);
+            }
+            else
+            {
+                SetVisible(true);
+                PageTitle.Text = name;
+            }        
         }
 
         private void SelectControl(SplitViewButtonContent control)
@@ -104,6 +114,34 @@ namespace MyTrips.UWP.Views
             }
             control.SetSelected(true);
             selectedControl = control;
+        }
+
+        public void SetVisible(bool visible)
+        {
+            if(visible)
+            {
+                HamburgerGrid.Visibility = Visibility.Visible;
+                SplitViewPanel.Visibility = Visibility.Visible;
+                TitleGrid.Visibility = Visibility.Visible;
+                HamburgerButton.IsEnabled = true;
+                NewTripButton.IsEnabled = true;
+                TripsButton.IsEnabled = true;
+                ProfileButton.IsEnabled = true;
+                SettingsButton.IsEnabled = true;
+            }
+            else
+            {
+                HamburgerGrid.Visibility = Visibility.Collapsed;
+                SplitViewPanel.Visibility = Visibility.Collapsed;
+                TitleGrid.Visibility = Visibility.Collapsed;
+                HamburgerButton.IsEnabled = false;
+                NewTripButton.IsEnabled = false;
+                TripsButton.IsEnabled = false;
+                ProfileButton.IsEnabled = false;
+                SettingsButton.IsEnabled = false;
+                PageTitle.Text = "";
+            }
+            
         }
     }
 }
