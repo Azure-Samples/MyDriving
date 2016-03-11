@@ -149,7 +149,9 @@
     <Content Include="Assets\B.png" />
     <Content Include="Assets\Car Icon_Blue.png" />
     <Content Include="Assets\Car Icon_Red.png" />
+    <Content Include="Assets\ic_launcher144.png" />
     <Content Include="Assets\ic_launcher48.png" />
+    <Content Include="Assets\ic_launcher48.scale-200.png" />
     <Content Include="Assets\ic_launcher48.targetsize-48.png" />
     <Content Include="Assets\ic_start.png" />
     <Content Include="Assets\ic_stop.png" />
