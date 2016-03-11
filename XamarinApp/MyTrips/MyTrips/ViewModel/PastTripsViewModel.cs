@@ -34,10 +34,9 @@ namespace MyTrips.ViewModel
             track.Start();
 
 			IProgressDialog progressDialog = null;
-			if (CrossDeviceInfo.Current.Platform != Plugin.DeviceInfo.Abstractions.Platform.iOS)
-			{
-				progressDialog = UserDialogs.Instance.Loading("Loading trips...", maskType: MaskType.Clear);
-			}   
+			
+			progressDialog = UserDialogs.Instance.Loading("Loading trips...", maskType: MaskType.Clear);
+			   
 
             try 
             {

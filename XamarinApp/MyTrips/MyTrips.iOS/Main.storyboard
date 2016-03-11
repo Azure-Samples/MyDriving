@@ -496,6 +496,7 @@
                                 <segue destination="6Zf-tF-y9k" kind="show" id="7rn-YY-P4y"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="backBarButtonItem" title="Back" id="1542"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
@@ -1297,7 +1298,6 @@
         <image name="Map/car_annotation_red.png" width="32.5" height="32.5"/>
         <image name="Map/waypoint_tip.png" width="20.5" height="20.5"/>
         <image name="navigation_logo.png" width="179" height="110"/>
-        <image name="769-male.png" width="28" height="28"/>
         <image name="icon_profilePic.png" width="55" height="55"/>
         <image name="icon_twitter.png" width="24" height="24"/>
         <image name="tab_Settings_selected.png" width="32" height="30"/>
