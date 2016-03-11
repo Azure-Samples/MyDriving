@@ -12,73 +12,46 @@
     android:layout_marginRight="8dp"
     android:layout_marginTop="4dp"
     android:foreground="?android:attr/selectableItemBackground">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="136dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/photo" />
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:scaleType="centerCrop"
-            android:id="@+id/photo" />
-        <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#90000000"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:orientation="vertical"
+        android:padding="8dp">
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <FrameLayout
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:padding="8dp"
-                android:id="@+id/full_rating"
-                android:transitionName="rating">
-                <mytrips.droid.controls.RatingCircle
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/rating_circle" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="?attr/colorPrimary"
-                    android:id="@+id/text_rating" />
-            </FrameLayout>
-            <LinearLayout
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:text="Hello World"
+            android:id="@+id/text_title" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+            <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical"
-                android:padding="8dp">
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                    android:text="Hello World"
-                    android:id="@+id/text_title" />
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:text="Hello World"
-                        android:id="@+id/text_date"
-                        android:gravity="left" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:text="Hello World"
-                        android:id="@+id/text_distance"
-                        android:gravity="right" />
-                </LinearLayout>
-            </LinearLayout>
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:text="Hello World"
+                android:id="@+id/text_date"
+                android:gravity="left" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:text="Hello World"
+                android:id="@+id/text_distance"
+                android:gravity="right" />
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

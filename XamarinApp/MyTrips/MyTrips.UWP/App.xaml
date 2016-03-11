@@ -19,6 +19,7 @@
             <converters:StringFormatConverter x:Key="StringFormatConverter"/>
             <converters:ImageSourceConverter x:Key="ImageSourceConverter"/>
             <converters:DistanceConverter x:Key="DistanceConverter"/>
+            <converters:TimeConverter x:Key="TimeConverter"/>
             <converters:SpeedConverter x:Key="SpeedConverter"/>
             <converters:NotConverter x:Key="NotConverter"/>
         </ResourceDictionary>
