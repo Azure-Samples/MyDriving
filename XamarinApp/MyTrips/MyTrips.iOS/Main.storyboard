@@ -314,7 +314,7 @@
                                     <constraint firstAttribute="width" constant="270" id="zgM-yg-w9M"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                <state key="normal" title="Test Cloud (Skip Auth)">
+                                <state key="normal" title="Skip Auth">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
