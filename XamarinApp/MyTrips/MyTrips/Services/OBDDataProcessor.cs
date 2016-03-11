@@ -90,23 +90,21 @@ namespace MyTrips.Services
             {
                 var settings = new JsonSerializerSettings();
                 settings.ContractResolver = new CustomContractResolver();
-                var tripDataBlob = JsonConvert.SerializeObject(tripDataPoint, settings);
+                var tripDataPointBlob = JsonConvert.SerializeObject(tripDataPoint, settings);
 
-                var blob = JsonConvert.SerializeObject(
+                var tripBlob = JsonConvert.SerializeObject(
                     new
                     {
                         TripId = currentTrip.Id,
                         Name = currentTrip.Name,
-                        UserId = currentTrip.UserId,
-                        TripDataPoint = tripDataBlob
-                    } );
+                        UserId = currentTrip.UserId
+                    });
 
-                //Remove extra quotes in trip point
-                blob = blob.Replace(":\"{", ":{");
-                blob = blob.Replace("}\"}", "}}");
+                tripBlob = tripBlob.TrimEnd('}');
+                var packagedBlob = String.Format("{0},\"TripDataPoint\":{1}}}", tripBlob, tripDataPointBlob);
 
                 IOTHubData iotHubData = new IOTHubData();
-                iotHubData.Blob = blob;
+                iotHubData.Blob = packagedBlob;
                 await this.storeManager.IOTHubStore.InsertAsync(iotHubData);
             }
         }

@@ -47,7 +47,7 @@ namespace MyTrips.DataStore.Mock.Stores
 
         public override Task<bool> RemoveItemsAsync(IEnumerable<IOTHubData> items)
         {
-            items.ToList().Clear();
+            ((List<IOTHubData>)items).Clear();
             return Task.FromResult(true);
         }
     }
