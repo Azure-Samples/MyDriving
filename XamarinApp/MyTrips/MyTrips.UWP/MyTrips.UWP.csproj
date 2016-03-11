@@ -166,6 +166,7 @@
     <Content Include="Assets\Login\twitter.png" />
     <Content Include="Assets\logo%403x.png" />
     <Content Include="Assets\mappin.png" />
+    <Content Include="Assets\Smarttriplogo.png" />
     <Content Include="Assets\SplitView\default_Current.png" />
     <Content Include="Assets\SplitView\default_logout.png" />
     <Content Include="Assets\SplitView\default_pastTrips.png" />
