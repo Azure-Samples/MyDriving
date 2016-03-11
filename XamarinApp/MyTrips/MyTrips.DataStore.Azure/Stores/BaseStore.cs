@@ -96,9 +96,12 @@ namespace MyTrips.DataStore.Azure.Stores
             bool result = false;
             try
             {
+               
+                
                 await InitializeStoreAsync().ConfigureAwait(false);
                 await PullLatestAsync();
                 await Table.DeleteAsync(item).ConfigureAwait(false);
+                await SyncAsync();
                 result = true;
             }
             catch (Exception e)

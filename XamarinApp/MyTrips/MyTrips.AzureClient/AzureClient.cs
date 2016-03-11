@@ -28,6 +28,11 @@ namespace MyTrips.AzureClient
                 }
             }
             client = new MobileServiceClient(mobileServiceUrl, new AuthHandler());
+            client.SerializerSettings = new MobileServiceJsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+                CamelCasePropertyNames = true
+            };
             return client;
         }
 
