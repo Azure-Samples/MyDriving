@@ -139,7 +139,7 @@ namespace MyTrips.Droid.Activities
             var points = viewModel.Trip.Points.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
             var rectOptions = new PolylineOptions();
             rectOptions.Add(points);
-            rectOptions.InvokeColor(ContextCompat.GetColor(this, Resource.Color.accent));
+            rectOptions.InvokeColor(ContextCompat.GetColor(this, Resource.Color.primary));
             map.AddPolyline(rectOptions);
 
 

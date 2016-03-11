@@ -50,6 +50,7 @@ namespace MyTrips.iOS
 			btnLogout.Layer.CornerRadius = 4;
 			btnLogout.Layer.MasksToBounds = true;
 
+
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString ("RefreshSettingsTable"), HandleReloadTableNotification); 
 		}
 

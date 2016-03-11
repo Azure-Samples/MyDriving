@@ -4,6 +4,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/toolbar_layout">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            local:layout_scrollFlags="scroll|enterAlways" />
+    </android.support.design.widget.AppBarLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -15,15 +24,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:id="@+id/total_miles"
-                android:text="Trip Summary"
-                android:layout_marginLeft="8dp"
-                android:layout_marginBottom="4dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
             <android.support.v7.widget.CardView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                             android:gravity="center_vertical|right"
                             android:id="@+id/text_distance"
                             android:text="45 miles"
-                            android:textColor="@color/accent"
+                            android:textColor="@color/stat_accent"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                         <TextView
                             android:layout_marginLeft="4dp"
@@ -75,7 +75,7 @@
                             android:gravity="center_vertical|right"
                             android:id="@+id/text_time"
                             android:text="2h 3m 45s"
-                            android:textColor="@color/accent"
+                            android:textColor="@color/stat_accent"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                         <TextView
                             android:layout_marginLeft="4dp"
@@ -115,7 +115,7 @@
                             android:gravity="center_vertical|right"
                             android:id="@+id/text_max_speed"
                             android:text="35"
-                            android:textColor="@color/accent"
+                            android:textColor="@color/stat_accent"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                         <TextView
                             android:layout_marginLeft="4dp"
@@ -137,7 +137,7 @@
                             android:gravity="center_vertical|right"
                             android:id="@+id/text_fuel_consumption"
                             android:text="62"
-                            android:textColor="@color/accent"
+                            android:textColor="@color/stat_accent"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                         <TextView
                             android:layout_marginLeft="4dp"
@@ -177,7 +177,7 @@
                             android:gravity="center_vertical|right"
                             android:id="@+id/text_hard_breaks"
                             android:text="41"
-                            android:textColor="@color/accent"
+                            android:textColor="@color/stat_accent"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                         <TextView
                             android:layout_marginLeft="4dp"
@@ -200,7 +200,7 @@
                             android:gravity="center_vertical|right"
                             android:id="@+id/text_hard_accelerations"
                             android:text="23"
-                            android:textColor="@color/accent"
+                            android:textColor="@color/stat_accent"
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
                         <TextView
                             android:layout_marginLeft="4dp"
@@ -220,8 +220,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Done"
-        android:elevation="0dp"
-        android:stateListAnimator="@null"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:backgroundTint="@android:color/transparent" />
+        android:backgroundTint="@color/primary"
+        android:textColor="@android:color/white" />
 </LinearLayout>

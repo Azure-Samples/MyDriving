@@ -22,6 +22,46 @@ namespace MyTrips.ViewModel
 
         ICommand  loadPastTripsCommand;
 
+
+
+        public async Task<bool> ExecuteDeleteTripCommand(Trip trip)
+        {
+            if (IsBusy)
+                return false;
+
+
+            var progress = UserDialogs.Instance.Loading("Deleting Trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
+
+            try
+            {
+
+                var result = await UserDialogs.Instance.ConfirmAsync($"Are you sure you want to delete trip: {trip.Name}?", "Delete trip?", "Delete", "Cancel");
+
+                if (!result)
+                    return false;
+
+
+
+                progress?.Show();
+
+                await StoreManager.TripStore.RemoveAsync(trip);
+
+                Trips.Remove(trip);
+                Settings.Logout();
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Report(ex);
+            }
+            finally
+            {
+                progress?.Dispose();
+            }
+
+            return true;
+        }
+
         public ICommand LoadPastTripsCommand =>
         loadPastTripsCommand ?? (loadPastTripsCommand = new RelayCommand(async () => await ExecuteLoadPastTripsCommandAsync())); 
 
@@ -34,10 +74,9 @@ namespace MyTrips.ViewModel
             track.Start();
 
 			IProgressDialog progressDialog = null;
-			if (CrossDeviceInfo.Current.Platform != Plugin.DeviceInfo.Abstractions.Platform.iOS)
-			{
-				progressDialog = UserDialogs.Instance.Loading("Loading trips...", maskType: MaskType.Clear);
-			}   
+			
+			progressDialog = UserDialogs.Instance.Loading("Loading trips...", maskType: MaskType.Clear);
+			   
 
             try 
             {

@@ -77,8 +77,8 @@ namespace MyTrips.Droid.Fragments
         #region Options Menu & User Actions
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
-            if((viewModel?.IsRecording).GetValueOrDefault())
-                inflater.Inflate(Resource.Menu.menu_current_trip, menu);
+            //if((viewModel?.IsRecording).GetValueOrDefault())
+            //     inflater.Inflate(Resource.Menu.menu_current_trip, menu);
             base.OnCreateOptionsMenu(menu, inflater);
         }
 
@@ -329,7 +329,7 @@ namespace MyTrips.Droid.Fragments
                 polyOptions.Add(allPoints.ToArray());
 
                 if (!driveLineColor.HasValue)
-                    driveLineColor = new Color(ContextCompat.GetColor(Activity, Resource.Color.accent));
+                    driveLineColor = new Color(ContextCompat.GetColor(Activity, Resource.Color.primary));
 
                 polyOptions.InvokeColor(driveLineColor.Value);
                 driveLine = map.AddPolyline(polyOptions);
