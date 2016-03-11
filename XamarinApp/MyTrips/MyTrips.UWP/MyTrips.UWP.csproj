@@ -107,6 +107,7 @@
     <Compile Include="Converters\NotConverter.cs" />
     <Compile Include="Converters\SpeedConverter.cs" />
     <Compile Include="Converters\StringFormatConverter.cs" />
+    <Compile Include="Converters\TimeConverter.cs" />
     <Compile Include="Views\CurrentTripView.xaml.cs">
       <DependentUpon>CurrentTripView.xaml</DependentUpon>
     </Compile>

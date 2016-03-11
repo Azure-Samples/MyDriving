@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Controls.Maps;
 using Windows.Devices.Geolocation;
 using Windows.UI;
 using Windows.Storage.Streams;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,6 +32,7 @@ namespace MyTrips.UWP.Views
 
         public IList<BasicGeoposition> Locations { get; set; }
 
+        public Trip SelectedTrip;
       
         public PastTripMapView()
         {
@@ -44,6 +46,7 @@ namespace MyTrips.UWP.Views
         {
             var trip = e.Parameter as Trip;
             base.OnNavigatedTo(e);
+            SelectedTrip = trip;
             this.MyMap.Loaded += MyMap_Loaded;
             this.ViewModel.Trip = trip;
             DrawPath();
@@ -125,12 +128,28 @@ namespace MyTrips.UWP.Views
 
         private async void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            var location = this.ViewModel.Trip.Points[(int)e.NewValue];
-            var basicGeoposition = new BasicGeoposition { Latitude = location.Latitude, Longitude = location.Longitude };
+            ViewModel.CurrentPosition = this.ViewModel.Trip.Points[(int)e.NewValue];
+            var basicGeoposition = new BasicGeoposition { Latitude = ViewModel.CurrentPosition.Latitude, Longitude = ViewModel.CurrentPosition.Longitude };
             // Currently removing the Car from Map which is the last item added. 
             MyMap.MapElements.RemoveAt(MyMap.MapElements.Count - 1);
             DrawCarOnMap(basicGeoposition);
             await MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
+            UpdateStats();
+        }
+
+        private async void UpdateStats()
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                // TODO: Need to fix data binding and remove this code. 
+                this.text_time.Text = ViewModel.ElapsedTime ;
+                this.text_miles.Text = ViewModel.Distance;
+                this.text_gallons.Text = ViewModel.FuelConsumption;
+                this.text_temp.Text = ViewModel.Temperature;
+                this.text_fuelunits.Text = ViewModel.FuelConsumptionUnits;
+                this.text_distanceunits.Text = ViewModel.DistanceUnits;
+            });
+
         }
     }
 }
