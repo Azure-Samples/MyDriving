@@ -57,6 +57,11 @@ namespace MyTrips.ViewModel
                     TotalTime = currentUser.TotalTime;
                     TotalTrips = currentUser.TotalTrips;
                     FuelUsed = currentUser.FuelConsumption;
+#if DEBUG
+                    DrivingSkills = 86;
+#else
+                    DrivingSkills = currentUser.Rating;
+#endif
                     OnPropertyChanged("Stats");
                 }
                 //update stats here.
