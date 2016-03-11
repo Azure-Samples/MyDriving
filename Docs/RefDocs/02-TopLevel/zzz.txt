@@ -39,7 +39,7 @@ Every code commit can trigger a build, and deploy the app to test users. Crash d
 * **Code:** We develop with Visual Studio, and use GitHub for version control. You can use Visual Studio as a front end to manage builds and version control.
 * **Build:** A code change in the GitHub repo triggers a compile and **test**, which runs in the cloud (or can run on-premises). The [continuous integration in VS Team Services](https://www.visualstudio.com/features/continuous-integration-vs) can handle code for all the major device platforms, languages, and unit test frameworks.
 * **Distribution:** Build output for client devices is pushed to a HockeyApp private app gallery, from where testers can get and update the mobile app. Update notifications are handled automatically.
-* **Feedback:** Once the client app is installed on a test userâ€™s device, [HockeySDK](http://hockeyapp.net/blog/2015/11/18/introducing-mobile-devops.html) collects usage data, **crash reports**, and user feedback with screenshots. Usage data includes counts of daily and monthly active users, new users, sessions, and crash impacted users.
+* **Feedback:** Once the client app is installed on a test user’s device, [HockeySDK](http://hockeyapp.net/blog/2015/11/18/introducing-mobile-devops.html) collects usage data, **crash reports**, and user feedback with screenshots. Usage data includes counts of daily and monthly active users, new users, sessions, and crash impacted users.
 * It creates work items/issues for each new crash group.
 
 
@@ -295,27 +295,11 @@ Crashes automatically create a bug ticket in VS Team System:
 
 # Monitoring the backend app
 
-The backend app is [monitored in Application Insights](https://azure.microsoft.com/documentation/articles/app-insights-dashboards/). There are four main aspects of the monitoring service.
+The backend app is [monitored in Application Insights](https://azure.microsoft.com/documentation/articles/app-insights-dashboards/). There are four main aspects of the monitoring service;
 
-## Performance monitoring
-
-
-* Performance monitoring. You can watch graphs of response times and request rates, to see how the app copes with varying loads. CPU and other resource monitors tell us whether we need to scale up our resource allocation.    
-    
-    ![](./media/10-perf.png)
-
+* Performance monitoring. You can watch graphs of response times and request rates, to see how the app copes with varying loads. CPU and other resource monitors tell us whether we need to scale up our resource allocation.
 * Alerts. Application Insights [automatically sends an email if there's an abnormal rise](https://azure.microsoft.com/documentation/articles/app-insights-nrt-proactive-diagnostics) in the rate of failed requests. We can also configure it to [send alerts](https://azure.microsoft.com/documentation/articles/app-insights-alerts/) if other metrics cross thresholds. Lastly, we set up [web tests](https://azure.microsoft.com/documentation/articles/app-insights-monitor-web-app-availability/) to ping the service from around the globe, to check that it's still live and visible from the outside world.
-    
-    
-    ![](./media/04-webtests.png)
-    
 * Diagnostics. There are powerful diagnostic search tools. You can filter and search by multiple parameters, and investigate all the telemetry related to particular incidents. Particularly useful are the [dependency traces](https://azure.microsoft.com/documentation/articles/app-insights-asp-net-dependencies/), which show whether the issues is in one of the other components of our application.
-
-
-    ![](./media/05-reqDetails.png)
-    
 * Usage tracking. In addition to monitoring usage through the devices, we can monitor how much use our app is getting, and what users are doing with it, by slicing and dicing the requests by operation name and other metrics. For this purpose, we can write tracing calls in the app, to log specific events such as the end of a trip, or metrics such as trip length.
 
-    Performance and usage data both provide essential input into the planning of our future development cycles.
-     
-    ![](./media/03-BROWSERS.png)
+Performance and usage data both provide essential input into the planning of our future development cycles.
