@@ -23,9 +23,9 @@ namespace MyTrips.Shared
             await this.obdWrapper.Disconnect();
         }
 
-        public async Task<bool> Initialize()
+        public async Task<bool> Initialize(bool simulatorMode = false)
         {
-            return await this.obdWrapper.Init();
+            return await this.obdWrapper.Init(simulatorMode);
         }
 
         public Dictionary<String, String> ReadData()

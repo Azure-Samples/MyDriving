@@ -27,8 +27,7 @@ namespace MyTrips.Services
         Stopwatch obdReconnectTimer;
         IStoreManager storeManager;
 
-        public delegate void OBDDeviceHandler(bool retryToConnect);
-        public event OBDDeviceHandler OnOBDDeviceDisconnected;
+        public event EventHandler OnOBDDeviceDisconnected;
 
         //Init must be called each time to connect and reconnect to the OBD device
         public async Task Initialize(IStoreManager storeManager)
@@ -70,7 +69,7 @@ namespace MyTrips.Services
                 {
                     //Null is returned if connection to the OBD device is dropped
                     this.canReadData = false;
-                    this.OnOBDDeviceDisconnected(true);
+                    this.OnOBDDeviceDisconnected(this.obdDevice, new EventArgs());
                     obdData = new Dictionary<string, string>();
                 }
             }
@@ -162,38 +161,48 @@ namespace MyTrips.Services
             this.canReadData = false;
         }
 
-        public async Task ConnectToOBDDevice()
+        public async Task<bool> ConnectToOBDDevice(bool showConfirmDialog)
         {
-            this.obdReconnectTimer.Restart();
-            while (!await this.obdDevice.Initialize())
+            if (showConfirmDialog)
             {
-                if (this.obdReconnectTimer.Elapsed.Minutes <= 5)
+                return await this.ConnectToOBDDeviceWithConfirmation();
+            }
+            else
+            {
+                //TODO: Need to silently retry if disconnection occurs when app is running in background
+                return false;
+            }
+        }
+
+        private async Task<bool> ConnectToOBDDeviceWithConfirmation()
+        {
+            bool isConnected = await this.obdDevice.Initialize();
+
+            if (!isConnected)
+            {
+                var result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync(new Acr.UserDialogs.ConfirmConfig
                 {
-                    //Try to connect every 10 seconds if the OBD device disconnected time is 5 mins or less
-                    await Task.Delay(10000);
-                }
-                else if (this.obdReconnectTimer.Elapsed.Minutes <= 30)
+                    OkText = "RETRY",
+                    CancelText = "CANCEL",
+                    Title = "Unable to connect to OBD device.  Would you like to retry?",
+                    Message = "Cancel to use the OBD simulator.",
+                });
+
+                if (result)
                 {
-                    //Try to connect every 5 minutes if the OBD device disconnected time is 30 mins or less
-                    await Task.Delay(new TimeSpan(0, 5, 0));
-                }
-                else if (this.obdReconnectTimer.Elapsed.Hours <= 24)
-                {
-                    //Otherwise, try to connect every 30 minutes
-                    await Task.Delay(new TimeSpan(0, 30, 0));
+                    this.canReadData = await this.ConnectToOBDDeviceWithConfirmation();
                 }
                 else
                 {
-                    //Give up after 24 hours
-                    this.OnOBDDeviceDisconnected(false);
-                    this.obdReconnectTimer.Stop();
-                    this.canReadData = false;
-                    return;
+                    this.canReadData = await this.obdDevice.Initialize(true);
                 }
             }
+            else
+            {
+                this.canReadData = true;
+            }
 
-            this.obdReconnectTimer.Stop();
-            this.canReadData = true;
+            return this.canReadData;
         }
 
         //TODO: Should be called by mobile app when an app is resumed

@@ -106,12 +106,13 @@ namespace MyTrips.ViewModel
             this.obdDataProcessor.OnOBDDeviceDisconnected += ObdDataProcessor_OnOBDDeviceDisconnected;
 		}
 
-        private async void ObdDataProcessor_OnOBDDeviceDisconnected(bool retryToConnect)
+        private async void ObdDataProcessor_OnOBDDeviceDisconnected(object sender, EventArgs e)
         {
-            if (retryToConnect)
-            {
-                await this.obdDataProcessor.ConnectToOBDDevice();
-            }
+            //TODO: Need to check if running in background thread...if so then call this:
+            //this.obdDataProcessor.ConnectToOBDDevice(false); (no await, just run in background..may need the incremental logic still)
+
+            //TODO: If not running in the background thread...then call this:
+            await this.obdDataProcessor.ConnectToOBDDevice(true);
         }
 
         public bool NeedSave { get; set; }
@@ -145,6 +146,9 @@ namespace MyTrips.ViewModel
                     return false;
                 }
 
+                //Connect to the OBD device
+                await this.obdDataProcessor.Initialize(this.StoreManager);
+                bool result = await this.obdDataProcessor.ConnectToOBDDevice(true);
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
@@ -158,10 +162,6 @@ namespace MyTrips.ViewModel
                     Longitude = CurrentPosition.Longitude,
                     Sequence = CurrentTrip.Points.Count,
                 });
-
-                //Connect to the OBD device
-                await this.obdDataProcessor.Initialize(this.StoreManager);
-                await this.obdDataProcessor.ConnectToOBDDevice();
 
                 //Simulate recording several data points
                 //for (int i = 0; i < 10; i++)
