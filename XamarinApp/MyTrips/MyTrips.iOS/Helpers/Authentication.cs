@@ -32,7 +32,7 @@ namespace MyTrips.iOS.Helpers
                     var user = await client.LoginAsync(current, provider);
 
                     Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
-                    Settings.Current.UserId = user?.UserId ?? string.Empty;
+                    Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
 
                     return user;
                 }

@@ -79,7 +79,7 @@ namespace MyTrips.UWP.Views
 
         private void ShowUserWelcome()
         {
-            if (!string.IsNullOrWhiteSpace(Settings.Current.UserId))
+            if (!string.IsNullOrWhiteSpace(Settings.Current.AzureMobileUserId))
             {
                 LoginButtons.Visibility = Visibility.Collapsed;
                 SkipAuthBtn.Visibility = Visibility.Collapsed;

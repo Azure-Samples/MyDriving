@@ -26,8 +26,8 @@ namespace MyTrips.DataStore.Azure
             //Get our current client, only ever need one
             var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
 
-            if (!string.IsNullOrWhiteSpace (Settings.Current.AuthToken) && !string.IsNullOrWhiteSpace (Settings.Current.UserId)) {
-                client.CurrentUser = new MobileServiceUser (Settings.Current.UserId);
+            if (!string.IsNullOrWhiteSpace (Settings.Current.AuthToken) && !string.IsNullOrWhiteSpace (Settings.Current.AzureMobileUserId)) {
+                client.CurrentUser = new MobileServiceUser (Settings.Current.AzureMobileUserId);
                 client.CurrentUser.MobileServiceAuthenticationToken = Settings.Current.AuthToken;
             }
             

@@ -59,9 +59,9 @@ namespace MyTrips.DataStore.Azure.Stores
 
         public virtual async Task<IEnumerable<T>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
-            await InitializeStoreAsync();
+            await InitializeStoreAsync().ConfigureAwait(false);
             if(forceRefresh)
-                await PullLatestAsync();
+                await PullLatestAsync().ConfigureAwait(false);
 
             return await Table.ToEnumerableAsync().ConfigureAwait(false);
         }
@@ -87,7 +87,7 @@ namespace MyTrips.DataStore.Azure.Stores
         {
             await InitializeStoreAsync().ConfigureAwait(false);
             await Table.UpdateAsync(item).ConfigureAwait(false);
-            await SyncAsync();
+            await SyncAsync().ConfigureAwait(false);
             return true;
         }
 
@@ -99,9 +99,9 @@ namespace MyTrips.DataStore.Azure.Stores
                
                 
                 await InitializeStoreAsync().ConfigureAwait(false);
-                await PullLatestAsync();
+                await PullLatestAsync().ConfigureAwait(false);
                 await Table.DeleteAsync(item).ConfigureAwait(false);
-                await SyncAsync();
+                await SyncAsync().ConfigureAwait(false);
                 result = true;
             }
             catch (Exception e)

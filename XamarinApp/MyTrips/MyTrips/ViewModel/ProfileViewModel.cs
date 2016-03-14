@@ -42,7 +42,7 @@ namespace MyTrips.ViewModel
 
                 var users = await StoreManager.UserStore.GetItemsAsync(0, 100, true);
 
-                var currentUser = users.FirstOrDefault(s => s.UserId == Settings.UserSid);
+                var currentUser = users.FirstOrDefault(s => s.UserId == Settings.UserUID);
 
                 if (currentUser == null)
                 {

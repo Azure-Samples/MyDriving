@@ -46,6 +46,16 @@
     <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'XTC|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\XTC</OutputPath>
+    <DefineConstants>XTC</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <AndroidSupportedAbis></AndroidSupportedAbis>
+    <EmbedAssembliesIntoApk></EmbedAssembliesIntoApk>
+    <AndroidFastDeploymentType></AndroidFastDeploymentType>
+    <AssemblyName>MyTrips.Android</AssemblyName>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClientDeviceAndroid, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
