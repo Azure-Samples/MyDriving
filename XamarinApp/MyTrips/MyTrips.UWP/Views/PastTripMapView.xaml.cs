@@ -148,7 +148,7 @@ namespace MyTrips.UWP.Views
                 this.text_time.Text = ViewModel.ElapsedTime ;
                 this.text_miles.Text = ViewModel.Distance;
                 this.text_gallons.Text = ViewModel.FuelConsumption;
-                this.text_temp.Text = ViewModel.Temperature;
+                this.text_temp.Text = ViewModel.EngineLoad;
                 this.text_fuelunits.Text = ViewModel.FuelConsumptionUnits;
                 this.text_distanceunits.Text = ViewModel.DistanceUnits;
             });

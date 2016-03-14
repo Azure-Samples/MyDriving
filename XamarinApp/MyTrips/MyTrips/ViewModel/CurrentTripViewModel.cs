@@ -81,11 +81,11 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref fuelConsumptionUnits, value); }
         }
 
-        string temperature = "N/A";
-        public string Temperature
+        string engineLoad = "N/A";
+        public string EngineLoad
         {
-            get { return temperature; }
-            set { SetProperty(ref temperature, value); }
+            get { return engineLoad; }
+            set { SetProperty(ref engineLoad, value); }
         }
 
 		public CurrentTripViewModel()
@@ -101,7 +101,7 @@ namespace MyTrips.ViewModel
             ElapsedTime = "0s";
             Distance = "0.0";
             FuelConsumption = "N/A";
-            Temperature = "N/A";
+            EngineLoad = "N/A";
             this.obdDataProcessor = new OBDDataProcessor();
             this.obdDataProcessor.OnOBDDeviceDisconnected += ObdDataProcessor_OnOBDDeviceDisconnected;
 		}
@@ -144,6 +144,8 @@ namespace MyTrips.ViewModel
                     
                     return false;
                 }
+
+
 
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
@@ -235,7 +237,7 @@ namespace MyTrips.ViewModel
                 progress?.Show();
 
                 //TODO: use real city here
-                CurrentTrip.MainPhotoUrl = $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{CurrentPosition.Latitude.ToString(CultureInfo.InvariantCulture)},{CurrentPosition.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key=J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
+                CurrentTrip.MainPhotoUrl = $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{CurrentPosition.Latitude.ToString(CultureInfo.InvariantCulture)},{CurrentPosition.Longitude.ToString(CultureInfo.InvariantCulture)}/13?mapSize=500,220&key=J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
 
                 CurrentTrip.Rating = 90;
 
@@ -262,7 +264,7 @@ namespace MyTrips.ViewModel
                 ElapsedTime = "0s";
                 Distance = "0.0";
                 FuelConsumption = "N/A";
-                Temperature = "N/A";
+                EngineLoad = "N/A";
 
                 photos = new List<Photo>();
                 OnPropertyChanged(nameof(CurrentTrip));
@@ -291,7 +293,7 @@ namespace MyTrips.ViewModel
             if (IsBusy || !IsRecording)
                 return false;
 
-            if (CurrentTrip.Points.Count == 0)
+            if (CurrentTrip.Points.Count <= 1)
             {
 
                 if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
@@ -414,14 +416,19 @@ namespace MyTrips.ViewModel
                     Longitude = userLocation.Longitude,
                     Sequence = CurrentTrip.Points.Count,
 				};
+                bool hasEngineLoad = false;
 
                 if (obdData != null)
                 {
-                    double speed = 0, rpm = 0, outside = -1, efr = 0, el = 0, stfb = 0, ltfb = 0, fr = 0, tp = 0, rt = 0, dis = 0, rtp = 0;
-                    string vin = String.Empty;
+
+                    double speed = 0, rpm = 0, efr = 0, el = 0, stfb = 0, ltfb = 0, fr = 0, tp = 0, rt = 0, dis = 0, rtp = 0;
+                    string vin = string.Empty;
 
                     if (obdData.ContainsKey("el"))
+                    {
                         double.TryParse(obdData["el"], out el);
+                        hasEngineLoad = true;
+                    }
                     if (obdData.ContainsKey("stfb"))
                         double.TryParse(obdData["stfb"], out stfb);
                     if (obdData.ContainsKey("ltfb"))
@@ -440,8 +447,6 @@ namespace MyTrips.ViewModel
                         double.TryParse(obdData["spd"], out speed);
                     if(obdData.ContainsKey("rpm"))
                         double.TryParse(obdData["rpm"], out rpm);
-                    if (obdData.ContainsKey("ot") && !string.IsNullOrWhiteSpace(obdData["ot"]))
-                        double.TryParse(obdData["ot"], out outside);
                     if(obdData.ContainsKey("efr"))
                         double.TryParse(obdData["efr"], out efr);
                     if (obdData.ContainsKey("vin"))
@@ -457,9 +462,9 @@ namespace MyTrips.ViewModel
                     point.RelativeThrottlePosition = rtp;
                     point.Speed = speed;
                     point.RPM = rpm;
-                    point.OutsideTemperature = outside;
                     point.EngineFuelRate = efr;
                     point.VIN = vin;
+                    point.HasSimulatedOBDData = vin == "SIMULATOR12345678";
 
                     totalConsumption += point.EngineFuelRate;
                     totalConsumptionPoints++;
@@ -469,6 +474,9 @@ namespace MyTrips.ViewModel
                 {
                     point.HasOBDData = false;
                 }
+
+                if (!CurrentTrip.HasSimulatedOBDData && point.HasSimulatedOBDData)
+                    CurrentTrip.HasSimulatedOBDData = true;
 
                 CurrentTrip.Points.Add(point);
 
@@ -501,8 +509,8 @@ namespace MyTrips.ViewModel
                     FuelConsumption = "N/A";
                 }
 
-                if(point.OutsideTemperature >= 0)
-                    Temperature = point.DisplayTemp;
+                if(hasEngineLoad)
+                    EngineLoad = $"{(int)point.EngineLoad}%";
                 
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
                 DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";

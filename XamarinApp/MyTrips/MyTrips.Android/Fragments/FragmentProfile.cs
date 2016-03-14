@@ -27,7 +27,7 @@ namespace MyTrips.Droid.Fragments
             ratingCircle = view.FindViewById<RatingCircle>(Resource.Id.rating_circle);
             circleImage = view.FindViewById<CircleImageView>(Resource.Id.profile_image);
 
-            ratingCircle.Rating = 86;
+           
 
             viewModel = new ProfileViewModel();
             Square.Picasso.Picasso.With(Activity).Load(Settings.Current.UserProfileUrl).Into(circleImage);
@@ -67,6 +67,7 @@ namespace MyTrips.Droid.Fragments
                 fuelUsed.Text = viewModel.FuelDisplay;
                 accelerations.Text = viewModel.HardAccelerations.ToString();
                 stops.Text = viewModel.HardStops.ToString();
+                ratingCircle.Rating = viewModel.DrivingSkills;
             });
         }
 

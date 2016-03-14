@@ -35,7 +35,11 @@ namespace MyTrips.iOS
 
 			Xamarin.Insights.Initialize(Logger.InsightsKey);
 
-			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+#if XTC
+            Xamarin.Calabash.Start();
+#endif
+
+            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			SQLitePCL.CurrentPlatform.Init();
 			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
 			{

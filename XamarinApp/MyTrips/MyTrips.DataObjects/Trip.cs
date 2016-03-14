@@ -35,6 +35,8 @@ namespace MyTrips.DataObjects
 
         public bool IsComplete { get; set; }
 
+        public bool HasSimulatedOBDData { get; set; }
+
         /// <summary>
         /// Gets or sets the average speed. 
         /// </summary>

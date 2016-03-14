@@ -506,6 +506,7 @@
                                 <segue destination="6Zf-tF-y9k" kind="show" id="7rn-YY-P4y"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="backBarButtonItem" title="Back" id="1542"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>

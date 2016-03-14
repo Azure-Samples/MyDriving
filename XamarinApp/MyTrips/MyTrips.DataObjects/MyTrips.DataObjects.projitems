@@ -11,6 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)BaseDataObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IOTHubData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)POI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)POIType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Trip.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Photo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserProfile.cs" />
