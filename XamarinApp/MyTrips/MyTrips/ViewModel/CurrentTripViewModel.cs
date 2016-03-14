@@ -102,16 +102,10 @@ namespace MyTrips.ViewModel
             FuelConsumption = "N/A";
             Temperature = "N/A";
 
-            this.obdDataProcessor = new OBDDataProcessor();
-            this.obdDataProcessor.OnOBDDeviceConnectionTimout += ObdDataProcessor_OnOBDDeviceConnectionTimout;
-		}
+            obdDataProcessor = new OBDDataProcessor();
+       }
 
-        private async void ObdDataProcessor_OnOBDDeviceConnectionTimout(object sender, EventArgs e)
-        {
-            //TODO: This is throwing an exception when the dialog is displayed because this isn't being executed on main UI thread
-            await this.StopRecordingTrip();
-            await this.SaveRecordingTripAsync();
-        }
+       
 
         public bool NeedSave { get; set; }
 
@@ -126,7 +120,7 @@ namespace MyTrips.ViewModel
 
             try
             {
-                if (this.CurrentPosition == null)
+                if (CurrentPosition == null)
                 {
 
                     if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
@@ -145,8 +139,8 @@ namespace MyTrips.ViewModel
                 }
 
                 //Connect to the OBD device
-                await this.obdDataProcessor.Initialize(this.StoreManager);
-                await this.obdDataProcessor.ConnectToOBDDevice(true);
+                await obdDataProcessor.Initialize(StoreManager);
+                await obdDataProcessor.ConnectToOBDDevice(true);
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
@@ -205,7 +199,6 @@ namespace MyTrips.ViewModel
                 track.Start();
                 progress?.Show();
 
-                //TODO: use real city here
                 CurrentTrip.MainPhotoUrl = $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{CurrentPosition.Latitude.ToString(CultureInfo.InvariantCulture)},{CurrentPosition.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key=J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
 
                 CurrentTrip.Rating = 90;
@@ -218,12 +211,18 @@ namespace MyTrips.ViewModel
                     await StoreManager.PhotoStore.InsertAsync(photo);
                 }
 
-                //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
-                await this.obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
+                try
+                {
+                    //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
+                    await obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
 
-                //Push the trip data packaged with the OBD data to the IOT Hub
-                await this.obdDataProcessor.PushTripDataToIOTHub();
-
+                    //Push the trip data packaged with the OBD data to the IOT Hub
+                    await obdDataProcessor.PushTripDataToIOTHub();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.Report(ex);
+                }
                 CurrentTrip = new Trip();
                 CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
 
@@ -280,7 +279,16 @@ namespace MyTrips.ViewModel
             CurrentTrip.EndTimeStamp = DateTime.UtcNow;
 
             //Stop reading data from the OBD device
-            await this.obdDataProcessor.DisconnectFromOBDDevice();
+            //if polling go ahead and stop.
+            try
+            {
+                obdDataProcessor.StopPollingOBDDevice();
+                await obdDataProcessor.DisconnectFromOBDDevice();
+            }
+            catch(Exception ex)
+            {
+                Logger.Instance.Report(ex);
+            }
 
             TripSummary = new TripSummaryViewModel
             {
@@ -366,11 +374,11 @@ namespace MyTrips.ViewModel
 			}
 		}
 
-        private async Task AddOBDDataToPoint(TripPoint point)
+        async Task AddOBDDataToPoint(TripPoint point)
         {
             //Read data from the OBD device
             point.HasOBDData = false;
-            var obdData = await this.obdDataProcessor.ReadOBDData();
+            var obdData = await obdDataProcessor.ReadOBDData();
 
             if (obdData != null)
             {
@@ -441,7 +449,7 @@ namespace MyTrips.ViewModel
 				};
 
                 //Add OBD data if there is a successful connection to the OBD Device
-                await this.AddOBDDataToPoint(point);
+                await AddOBDDataToPoint(point);
 
                 CurrentTrip.Points.Add(point);
 
@@ -458,9 +466,9 @@ namespace MyTrips.ViewModel
                 if (timeDif.TotalMinutes < 1)
                     ElapsedTime = $"{timeDif.Seconds}s";
                 else if (timeDif.TotalHours < 1)
-                    ElapsedTime = $"{timeDif.Minutes}m";
+                    ElapsedTime = $"{timeDif.Minutes}m {timeDif.Seconds}s";
                 else
-                    ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";
+                    ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m {timeDif.Seconds}s";
 
                 if (totalConsumptionPoints > 0)
                 {
@@ -549,14 +557,5 @@ namespace MyTrips.ViewModel
                 Logger.Instance.Report(ex);
             }
         }
-
-		public void ConnectToOBDDevice()
-		{
-			if (this.obdDataProcessor != null)
-			{
-                //Invoke in background so that caller isn't blocked while trying to connect to OBD device
-                this.obdDataProcessor.ConnectToOBDDevice(false);
-			}
-		}
 	}
 }

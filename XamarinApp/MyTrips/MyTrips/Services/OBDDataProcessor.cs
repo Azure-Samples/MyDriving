@@ -25,7 +25,7 @@ namespace MyTrips.Services
         bool isConnectedToOBD;
         bool isPollingOBDDevice;
 
-        public event EventHandler OnOBDDeviceConnectionTimout;
+        //public event EventHandler OnOBDDeviceConnectionTimout;
 
         //Init must be called each time to connect and reconnect to the OBD device
         public async Task Initialize(IStoreManager storeManager)
@@ -180,8 +180,8 @@ namespace MyTrips.Services
 
             if (!isConnected)
             {
-                var result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync(
-                    "Cancel to use the OBD simulator.", "Unable to connect to OBD device.  Would you like to retry?", "RETRY", "CANCEL");
+                var result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync("Unable to connect to OBD device.  Would you like to attempt to connect to the OBD device again?"
+                    "OBD Connection", "Retry", "Use Simulator");
 
                 if (result)
                 {
@@ -208,7 +208,7 @@ namespace MyTrips.Services
             }
         }
 
-        private void StopPollingOBDDevice()
+        public void StopPollingOBDDevice()
         {
             if (this.isPollingOBDDevice)
             {
@@ -250,7 +250,7 @@ namespace MyTrips.Services
             {
                 //Give up after 3 hours
                 this.StopPollingOBDDevice();
-                this.OnOBDDeviceConnectionTimout(this.obdDevice, new EventArgs());
+                //this.OnOBDDeviceConnectionTimout(this.obdDevice, new EventArgs());
             }
         }
     }
