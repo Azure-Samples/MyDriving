@@ -27,7 +27,7 @@ namespace smarttripsService.Helpers
             {
                 creds = await claimsPrincipal.GetAppServiceIdentityAsync<FacebookCredentials>(request);
             }
-            else if (string.Equals(provider, "microsoft", StringComparison.OrdinalIgnoreCase))
+            else if (string.Equals(provider, "microsoftaccount", StringComparison.OrdinalIgnoreCase))
             {
                 creds = await claimsPrincipal.GetAppServiceIdentityAsync<MicrosoftAccountCredentials>(request);
             }
@@ -40,7 +40,7 @@ namespace smarttripsService.Helpers
                 return string.Empty;
             
 
-            var finalId =  $"{creds.Provider}:{creds.UserClaims.First(c => c.Type == ClaimTypes.NameIdentifier)}";
+            var finalId =  $"{creds.Provider}:{creds.UserClaims.First(c => c.Type == ClaimTypes.NameIdentifier).Value}";
             return finalId;
         }
 

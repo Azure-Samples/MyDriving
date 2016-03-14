@@ -58,13 +58,14 @@ namespace smarttripsService.Controllers
         
             if (curUser == null)
             {
-                context.UserProfiles.Add(new MyTrips.DataObjects.UserProfile
+                curUser = new MyTrips.DataObjects.UserProfile
                 {
                     UserId = userId,
                     ProfilePictureUri = profile,
                     FirstName = first,
                     LastName = last
-                });
+                };
+                context.UserProfiles.Add(curUser);
             }
             else
             {
@@ -73,7 +74,7 @@ namespace smarttripsService.Controllers
                 curUser.ProfilePictureUri = profile;
             }
                 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             
             return curUser;
         }
