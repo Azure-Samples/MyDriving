@@ -12,6 +12,7 @@ using MyTrips.Utils;
 using MyTrips.Utils.Interfaces;
 
 using HockeyApp;
+using Xamarin;
 
 namespace MyTrips.iOS
 {
@@ -34,6 +35,10 @@ namespace MyTrips.iOS
 			ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
 
 			Xamarin.Insights.Initialize(Logger.InsightsKey);
+
+            #if XTC
+            Xamarin.
+            #endif
 
 			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			SQLitePCL.CurrentPlatform.Init();

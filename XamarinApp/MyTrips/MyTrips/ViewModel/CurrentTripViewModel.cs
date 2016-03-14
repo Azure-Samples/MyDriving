@@ -293,7 +293,7 @@ namespace MyTrips.ViewModel
             if (IsBusy || !IsRecording)
                 return false;
 
-            if (CurrentTrip.Points.Count == 0)
+            if (CurrentTrip.Points.Count <= 1)
             {
 
                 if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||

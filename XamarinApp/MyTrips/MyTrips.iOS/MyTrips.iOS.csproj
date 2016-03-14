@@ -66,6 +66,15 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'XTC|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\XTC</OutputPath>
+    <DefineConstants>XTC</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <AssemblyName>MyTrips.iOS</AssemblyName>
+    <MtouchArch>ARMv7</MtouchArch>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Acr.UserDialogs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Acr.UserDialogs.4.3.4\lib\Xamarin.iOS10\Acr.UserDialogs.dll</HintPath>

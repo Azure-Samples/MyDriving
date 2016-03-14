@@ -31,7 +31,7 @@ namespace MyTrips.ViewModel
             }
 
             //TODO: Put this somewhere....
-            ServiceLocator.Instance.Resolve<IStoreManager>().InitializeAsync();
+            //ServiceLocator.Instance.Resolve<IStoreManager>().InitializeAsync();
         }
 
         public Settings Settings
