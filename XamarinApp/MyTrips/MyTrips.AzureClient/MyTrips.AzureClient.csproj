@@ -30,6 +30,13 @@
     <ConsolePause>false</ConsolePause>
     <NoStdLib>false</NoStdLib>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|AnyCPU'">
+    <OutputPath>bin\XTC\</OutputPath>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="DeviceProvisionHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

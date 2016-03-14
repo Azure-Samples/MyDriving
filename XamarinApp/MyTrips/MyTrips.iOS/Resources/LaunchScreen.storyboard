@@ -52,5 +52,26 @@
     </scenes>
     <resources>
         <image name="logo.png" width="286" height="161"/>
+        <image name="login_facebook.png" width="589" height="89"/>
+        <image name="login_microsoft.png" width="589" height="89"/>
+        <image name="login_twitter.png" width="589" height="89"/>
+        <image name="Map/waypoint_a.png" width="24" height="24"/>
+        <image name="Map/waypoint_b.png" width="24" height="24"/>
+        <image name="Map/car_annotation_blue.png" width="32.5" height="32.5"/>
+        <image name="Map/car_annotation_red.png" width="32.5" height="32.5"/>
+        <image name="Map/waypoint_tip.png" width="20.5" height="20.5"/>
+        <image name="scott.png" width="266" height="264"/>
+        <image name="navigation_logo.png" width="179" height="110"/>
+        <image name="camera.png" width="28" height="20"/>
+        <image name="icon_profilePic.png" width="55" height="55"/>
+        <image name="icon_twitter.png" width="24" height="24"/>
+        <image name="tab_Current_selected.png" width="32" height="30"/>
+        <image name="tab_Current.png" width="32" height="30"/>
+        <image name="tab_MyTrips_selected.png" width="32" height="30"/>
+        <image name="tab_myTrips.png" width="32" height="30"/>
+        <image name="tab_Profile_selected.png" width="32" height="30"/>
+        <image name="tab_Profile.png" width="32" height="30"/>
+        <image name="tab_Settings_selected.png" width="32" height="30"/>
+        <image name="tab_Settings.png" width="32" height="30"/>
     </resources>
 </document>

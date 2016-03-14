@@ -64,10 +64,6 @@ namespace MyTrips.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIBarButtonItem takePhotoButton { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIView tripInfoView { get; set; }
 
         [Outlet]
@@ -146,11 +142,6 @@ namespace MyTrips.iOS
             if (startTimeLabel != null) {
                 startTimeLabel.Dispose ();
                 startTimeLabel = null;
-            }
-
-            if (takePhotoButton != null) {
-                takePhotoButton.Dispose ();
-                takePhotoButton = null;
             }
 
             if (tripInfoView != null) {

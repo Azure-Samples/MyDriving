@@ -27,16 +27,16 @@
 
 
         
-        <CheckBoxPreference
+       <!-- <CheckBoxPreference
                 android:key="metric_temp"
                 android:title="Metric Temperature"
-                android:summary="Use Celsius instead of Fahrenheit"/>
+                android:summary="Use Celsius instead of Fahrenheit"/>-->
 
     </PreferenceCategory>
 
 	
 
-    <PreferenceCategory
+    <!--<PreferenceCategory
             android:title="IoT Hub Configuration">
 
         <EditTextPreference
@@ -49,7 +49,7 @@
                 android:title="Hub Setting 2"
                 android:dialogTitle="Hub Setting 2" />
 
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 
     <PreferenceCategory
             android:title="About MyTrips">

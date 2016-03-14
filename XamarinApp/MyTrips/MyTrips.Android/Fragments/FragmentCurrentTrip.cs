@@ -39,7 +39,7 @@ namespace MyTrips.Droid.Fragments
         CurrentTripViewModel viewModel;
         GoogleMap map;
         MapView mapView;
-        TextView distance, distanceUnits, time, temp, consumption, consumptionUnits;
+        TextView distance, distanceUnits, time, load, consumption, consumptionUnits;
         FloatingActionButton fab;
         Marker carMarker;
         Polyline driveLine;
@@ -62,7 +62,7 @@ namespace MyTrips.Droid.Fragments
             distanceUnits = view.FindViewById<TextView>(Resource.Id.text_distance_units);
             consumption = view.FindViewById<TextView>(Resource.Id.text_consumption);
             consumptionUnits = view.FindViewById<TextView>(Resource.Id.text_consumption_units);
-            temp = view.FindViewById<TextView>(Resource.Id.text_temp);
+            load = view.FindViewById<TextView>(Resource.Id.text_load);
             stats = view.FindViewById<LinearLayout>(Resource.Id.stats);
             stats.Visibility = ViewStates.Invisible;
             return view;
@@ -77,8 +77,8 @@ namespace MyTrips.Droid.Fragments
         #region Options Menu & User Actions
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
-            if((viewModel?.IsRecording).GetValueOrDefault())
-                inflater.Inflate(Resource.Menu.menu_current_trip, menu);
+            //if((viewModel?.IsRecording).GetValueOrDefault())
+            //     inflater.Inflate(Resource.Menu.menu_current_trip, menu);
             base.OnCreateOptionsMenu(menu, inflater);
         }
 
@@ -185,7 +185,7 @@ namespace MyTrips.Droid.Fragments
                 time.Text = viewModel.ElapsedTime;
                 consumption.Text = viewModel.FuelConsumption;
                 consumptionUnits.Text = viewModel.FuelConsumptionUnits;
-                temp.Text = viewModel.Temperature;
+                load.Text = viewModel.EngineLoad;
                 distanceUnits.Text = viewModel.DistanceUnits;
                 distance.Text = viewModel.CurrentTrip.TotalDistanceNoUnits;
             });
@@ -329,7 +329,7 @@ namespace MyTrips.Droid.Fragments
                 polyOptions.Add(allPoints.ToArray());
 
                 if (!driveLineColor.HasValue)
-                    driveLineColor = new Color(ContextCompat.GetColor(Activity, Resource.Color.accent));
+                    driveLineColor = new Color(ContextCompat.GetColor(Activity, Resource.Color.primary));
 
                 polyOptions.InvokeColor(driveLineColor.Value);
                 driveLine = map.AddPolyline(polyOptions);

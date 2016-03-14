@@ -90,14 +90,14 @@ namespace MyTrips.ViewModel
 				{
 					var distanceSetting = new Setting { Name = "Distance", PossibleValues = new List<string> { "US/Imperial (miles)", "Metric (km)" }, Value = Settings.Current.MetricDistance ? "Metric (km)" : "US/Imperial (miles)"};
 					var capacitySetting = new Setting { Name = "Capacity", PossibleValues = new List<string> { "US/Imperial (gallons)", "Metric (liters)" }, Value = Settings.Current.MetricUnits ? "Metric (liters)" : "US/Imperial (gallons)"};
-					var temperatureSetting = new Setting { Name = "Temperature", PossibleValues = new List<string> { "Fahrenheit", "Celsius" }, Value = Settings.Current.MetricTemp ? "Celsius" : "Fahrenheit" };
+					//var temperatureSetting = new Setting { Name = "Temperature", PossibleValues = new List<string> { "Fahrenheit", "Celsius" }, Value = Settings.Current.MetricTemp ? "Celsius" : "Fahrenheit" };
 
 					distanceSetting.PropertyChanged += DistanceSetting_PropertyChanged;
 					capacitySetting.PropertyChanged += CapacitySetting_PropertyChanged;
-					temperatureSetting.PropertyChanged += TemperatureSetting_PropertyChanged;
+					//temperatureSetting.PropertyChanged += TemperatureSetting_PropertyChanged;
 					units = new List<Setting>
 					{
-						distanceSetting, capacitySetting, temperatureSetting
+						distanceSetting, capacitySetting
 					};
 
 					var deviceConnectionString = new Setting { Name = "Device connection string", IsTextField = true };
@@ -156,14 +156,14 @@ namespace MyTrips.ViewModel
 			}
 		}
 
-		void TemperatureSetting_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		/*void TemperatureSetting_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "Value")
 			{
 				var setting = (Setting)sender;
 				Settings.Current.MetricUnits = setting.Value == "Celsius";
 			}
-		}
+		}*/
 
 		void DeviceConnectionString_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{

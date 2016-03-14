@@ -42,7 +42,7 @@ namespace MyTrips.ViewModel
 
                 var users = await StoreManager.UserStore.GetItemsAsync(0, 100, true);
 
-                var currentUser = users.FirstOrDefault(s => s.UserId == Settings.UserSid);
+                var currentUser = users.FirstOrDefault(s => s.UserId == Settings.UserUID);
 
                 if (currentUser == null)
                 {
@@ -57,6 +57,11 @@ namespace MyTrips.ViewModel
                     TotalTime = currentUser.TotalTime;
                     TotalTrips = currentUser.TotalTrips;
                     FuelUsed = currentUser.FuelConsumption;
+#if DEBUG
+                    DrivingSkills = 86;
+#else
+                    DrivingSkills = currentUser.Rating;
+#endif
                     OnPropertyChanged("Stats");
                 }
                 //update stats here.
