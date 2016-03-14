@@ -1,0 +1,34 @@
+CREATE TABLE dimVinLookup
+(
+vinNum nvarchar(20) NOT NULL PRIMARY KEY,
+make nvarchar(200),
+model nvarchar(200),
+carYear int,
+carType nvarchar(200)
+)
+
+
+
+CREATE TABLE dimUser
+(
+userId nvarchar(100) NOT NULL PRIMARY KEY,
+vinNum nvarchar(20) FOREIGN KEY REFERENCES dimVinLookup(vinNum)
+)
+
+
+CREATE TABLE factTripData
+(
+userId nvarchar(100) NOT NULL,
+tripId nvarchar(200),
+driverType nvarchar(10),
+avgSpeed float,
+numOfHardAccel int,
+numOfHardBrakes int,
+emissionLevel float,
+wasMILOn bit,
+timeOfTrip time(7),
+cLatitude float,
+cLongitude float,
+PRIMARY KEY (userId, tripId),
+FOREIGN KEY ( userId ) REFERENCES [dimUser] ( userId ) ON UPDATE  NO ACTION  ON DELETE  CASCADE
+)

@@ -26,6 +26,8 @@ namespace MyTrips.ViewModel
         public PastTripsDetailViewModel(Trip trip) : this()
 		{
 			Title = trip.Name;
+            //make sure the points are ordered
+            trip.Points = trip.Points.OrderBy(p => p.Sequence).ToArray();
 			Trip = trip;
 
 		}
@@ -63,7 +65,7 @@ namespace MyTrips.ViewModel
                     FuelConsumption = "N/A";
                 }
 
-                Temperature = position.DisplayTemp;
+                EngineLoad = $"{(int)position.EngineLoad}%";
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
                 DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
 
@@ -129,11 +131,11 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref fuelConsumptionUnits, value); }
         }
 
-        string temperature = "N/A";
-        public string Temperature
+        string engineLoad = "N/A";
+        public string EngineLoad
         {
-            get { return temperature; }
-            set { SetProperty(ref temperature, value); }
+            get { return engineLoad; }
+            set { SetProperty(ref engineLoad, value); }
         }
 
         ICommand  loadTripCommand;

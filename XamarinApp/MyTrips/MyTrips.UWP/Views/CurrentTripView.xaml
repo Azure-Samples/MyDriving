@@ -35,8 +35,8 @@
             </StackPanel>
             <StackPanel Name="Temp" Orientation="Vertical" Height="Auto" Width="90">
 
-                <TextBlock  Name="text_temp" Text="{x:Bind viewModel.Temperature}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="13.333"/>
-                <TextBlock  Text="Temp" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
+                <TextBlock  Name="text_temp" Text="{x:Bind viewModel.EngineLoad}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="13.333"/>
+                <TextBlock  Text="Load" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
 
             </StackPanel>
             

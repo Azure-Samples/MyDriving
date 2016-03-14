@@ -4,8 +4,8 @@ using System.Text;
 
 namespace MyTrips.DataObjects
 {
-    public class IOTHubData : BaseDataObject
-    {
+	public class IOTHubData : BaseDataObject
+    { 
         public string Blob;
     }
 }
