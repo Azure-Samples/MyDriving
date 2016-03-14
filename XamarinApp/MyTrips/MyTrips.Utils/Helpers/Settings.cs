@@ -206,7 +206,7 @@ namespace MyTrips.Utils
             }
         }
 
-        public bool IsLoggedIn => (!string.IsNullOrWhiteSpace(AuthToken) && !string.IsNullOrWhiteSpace(UserId));
+        public bool IsLoggedIn => (!string.IsNullOrWhiteSpace(AuthToken) && !string.IsNullOrWhiteSpace(AzureMobileUserId));
 
         const string LoginAttemptsKey = "login_attempts";
         const int LoginAttemptsDefault = 0;
@@ -261,29 +261,29 @@ namespace MyTrips.Utils
 
         #region User Profile
 
-        const string SidKey = "sid";
-        static readonly string SidDefault = string.Empty;
-        public string UserSid
+        const string UserUIDKey = "user_uid";
+        static readonly string UserUIDDefault = string.Empty;
+        public string UserUID
         {
             get {
-                return AppSettings.GetValueOrDefault<string>(SidKey, SidDefault);
+                return AppSettings.GetValueOrDefault<string>(UserUIDKey, UserUIDDefault);
             }
             set {
-                AppSettings.AddOrUpdateValue<string>(SidKey, value);
+                AppSettings.AddOrUpdateValue<string>(UserUIDKey, value);
             }
         }
 
-        const string UserIdKey = "userid";
-        static readonly string UserIdDefault = string.Empty;
-        public string UserId
+        const string AzureMobileUserIdKey = "user_azure_id";
+        static readonly string AzureMobileUserIdDefault = string.Empty;
+        public string AzureMobileUserId
         {
             get
             {
-                return AppSettings.GetValueOrDefault<string>(UserIdKey, UserIdDefault);
+                return AppSettings.GetValueOrDefault<string>(AzureMobileUserIdKey, AzureMobileUserIdDefault);
             }
             set
             {
-                AppSettings.AddOrUpdateValue<string>(UserIdKey, value);
+                AppSettings.AddOrUpdateValue<string>(AzureMobileUserIdKey, value);
             }
         }
 
@@ -356,8 +356,8 @@ namespace MyTrips.Utils
             UserProfileUrl = string.Empty;
             UserFirstName = string.Empty;
             UserLastName = string.Empty;
-            UserId = string.Empty;
-            UserSid = string.Empty;
+            AzureMobileUserId = string.Empty;
+            UserUID = string.Empty;
             LoginAccount = LoginAccount.None;
         }
         #endregion

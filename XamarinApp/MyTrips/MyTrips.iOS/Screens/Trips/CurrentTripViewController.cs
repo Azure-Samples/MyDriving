@@ -214,7 +214,7 @@ namespace MyTrips.iOS
 				labelThreeValue.Text = CurrentTripViewModel.ElapsedTime;
 				labelTwoValue.Text = CurrentTripViewModel.CurrentTrip.Distance.ToString("F");
 				labelTwoTitle.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CurrentTripViewModel.CurrentTrip.Units.ToLower());
-				labelFourValue.Text = CurrentTripViewModel.Temperature;
+				labelFourValue.Text = CurrentTripViewModel.EngineLoad;
 
 				// If we already haven't starting tracking route yet, start that.
 				if (route == null)
