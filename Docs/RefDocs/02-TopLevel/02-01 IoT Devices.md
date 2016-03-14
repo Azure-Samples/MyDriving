@@ -139,6 +139,8 @@ The main app makes calls to these libraries through the **OBDDevice** class in t
 - **ReadData** enables you to retrieve the current OBD data from the **Dictionary**.
 - **Disconnect** shuts down the polling loop and disconnects from the OBD dongle.
 
+For information about the specific data the myDriving app reads from the OBD device, see section 5.2 "OBD Reference."
+
 ### Device requirements for working with IoT Hub
 
 In this sample, the mobile phone in the car, acting as a field gateway, shares the data from the OBD with the back-end service by sending the data to an IoT Hub endpoint hosted in Azure. The next chapter describes the IoT Hub service and its role in this solution. For now, you can think of IoT Hub as the entry point for data from your devices into the cloud-based solution back end.
