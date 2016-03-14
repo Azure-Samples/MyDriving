@@ -243,12 +243,6 @@ namespace MyTrips.ViewModel
 
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
 
-                foreach (var photo in photos)
-                {
-                    photo.TripId = CurrentTrip.Id;
-                    await StoreManager.PhotoStore.InsertAsync(photo);
-                }
-
                 //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
                 await this.obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
 
@@ -266,7 +260,6 @@ namespace MyTrips.ViewModel
                 FuelConsumption = "N/A";
                 EngineLoad = "N/A";
 
-                photos = new List<Photo>();
                 OnPropertyChanged(nameof(CurrentTrip));
                 OnPropertyChanged("Stats");
                 NeedSave = false;

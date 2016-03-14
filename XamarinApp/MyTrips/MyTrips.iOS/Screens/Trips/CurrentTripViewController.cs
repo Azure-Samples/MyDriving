@@ -96,7 +96,7 @@ namespace MyTrips.iOS
 				route = null;
 				tripMapView.RemoveAnnotations(tripMapView.Annotations);
 
-				if (tripMapView.Overlays != null)
+			    if (tripMapView.Overlays != null && tripMapView.Overlays.Length > 0)
 				{
 					tripMapView.RemoveOverlays(tripMapView.Overlays[0]);
 				}
@@ -175,15 +175,20 @@ namespace MyTrips.iOS
 			}
 			else
 			{
-				await CurrentTripViewModel.StopRecordingTrip();
-				ResetMapViewState();
+				if (await CurrentTripViewModel.StopRecordingTrip ()) {
+					ResetMapViewState();
+					InvokeOnMainThread (delegate {
+						mapDelegate = new TripMapViewDelegate(true);
+						tripMapView.Delegate = mapDelegate;
+					});
 
-				UpdateRecordButton(false);
-				tripInfoView.Alpha = 0;
+					UpdateRecordButton(false);
+					tripInfoView.Alpha = 0;
 
-				var vc = Storyboard.InstantiateViewController("tripSummaryTableViewController") as TripSummaryTableViewController;
-				vc.ViewModel = CurrentTripViewModel;
-				PresentModalViewController(vc, true);
+					var vc = Storyboard.InstantiateViewController("tripSummaryTableViewController") as TripSummaryTableViewController;
+					vc.ViewModel = CurrentTripViewModel;
+					PresentModalViewController(vc, true);
+				}
 			}
 		}
 
