@@ -36,6 +36,9 @@ namespace MyTrips.UITests
 				
 				Thread.Sleep(2000);
 			}
+
+			if (app.Query ("Allow").Any ())
+				app.Tap ("Allow");
 		}
 
 		public void ClearKeychain ()
