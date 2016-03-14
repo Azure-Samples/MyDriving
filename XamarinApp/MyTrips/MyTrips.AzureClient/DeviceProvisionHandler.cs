@@ -15,7 +15,7 @@ namespace MyTrips.AzureClient
     {
         private static DeviceProvisionHandler handler;
 
-        private const string defaultHostName = "smarttrips-dev.azure-devices.net";
+        private const string defaultHostName = "mydriving.azure-devices.net";
 
         private DeviceProvisionHandler()
         {
@@ -57,8 +57,8 @@ namespace MyTrips.AzureClient
             {
                 //Hack for bug #320; hard-coding the AccessKey since we have a provisioned device already that we can re-use
                 //When bug #319 is fixed, we should remove this
-                this.AccessKey = "PZ4daiMJXIFvuHEOiXqperWQUHcq73fAiskFcjqYX84=";
-                this.DeviceId = "TestDeviceNLHNew";
+                this.AccessKey = "gVoYUjtxfRoanBUOND5aDsZaqoLSKdZnWV+zc9hs3zk=";
+                this.DeviceId = "device";
                 /////
 
                 string connectionStr = String.Empty;
