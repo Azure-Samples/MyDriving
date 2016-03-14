@@ -1,20 +1,14 @@
 ﻿using MyTrips.AzureClient;
 using MyTrips.DataObjects;
 using MyTrips.DataStore.Abstractions;
-using MyTrips.DataStore.Mock;
 using MyTrips.Interfaces;
 using MyTrips.Utils;
-using MyTrips.ViewModel;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Reflection;
 
 namespace MyTrips.Services
 {
@@ -22,17 +16,20 @@ namespace MyTrips.Services
     {
         int pushDataAttempts = 0;
         IHubIOT iotHub;
-        IOBDDevice obdDevice;
-        bool canReadData;
-        Stopwatch obdReconnectTimer;
         IStoreManager storeManager;
 
-        public event EventHandler OnOBDDeviceDisconnected;
+        //OBD Device state
+        IOBDDevice obdDevice;
+        Timer obdConnectionTimer;
+        TimeSpan obdEllapsedTime;
+        bool isConnectedToOBD;
+        bool isPollingOBDDevice;
+
+        public event EventHandler OnOBDDeviceConnectionTimout;
 
         //Init must be called each time to connect and reconnect to the OBD device
         public async Task Initialize(IStoreManager storeManager)
         {
-            this.obdReconnectTimer = new Stopwatch();
             this.storeManager = storeManager;
 
             //Get platform specific implemenation of IOTHub and IOBDDevice
@@ -40,7 +37,7 @@ namespace MyTrips.Services
             this.obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
 
             //Call into mobile service to provision the device
- 
+
             var connectionStr = Settings.Current.DeviceConnectionString;
             if (string.IsNullOrEmpty(connectionStr))
             {
@@ -52,31 +49,28 @@ namespace MyTrips.Services
             }
 
             Settings.Current.DeviceConnectionString = connectionStr;
+
             //Initialize the IOT Hub
             this.iotHub.Initialize(connectionStr);
 
             CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
         }
 
-        public Dictionary<String, String> ReadOBDData()
+        public async Task<Dictionary<String, String>> ReadOBDData()
         {
-            Dictionary<String, String> obdData;
-            if (this.canReadData)
+            Dictionary<String, String> obdData = null;
+            if (this.isConnectedToOBD)
             {
+                //Null is returned if connection to the OBD device is dropped
                 obdData = this.obdDevice.ReadData();
 
                 if (obdData == null)
                 {
-                    //Null is returned if connection to the OBD device is dropped
-                    this.canReadData = false;
-                    this.OnOBDDeviceDisconnected(this.obdDevice, new EventArgs());
-                    obdData = new Dictionary<string, string>();
+                    //Invoke in background so that caller isn't blocked while trying to connect to OBD device
+                    this.isConnectedToOBD = false;
+                    this.ConnectToOBDDevice(false); 
                 }
             }
-                else
-                {
-                    obdData = new Dictionary<string, string>();
-                }
 
             return obdData;
         }
@@ -84,7 +78,7 @@ namespace MyTrips.Services
         public async Task AddTripDataPointToBuffer(Trip currentTrip)
         {
             //Note: Each individual trip point is being serialized separately so that it can be sent over as an individual message
-            //This was the requested format by Haishi's team
+            //This is the expected format by the IOT Hub\ML
             foreach (var tripDataPoint in currentTrip.Points)
             {
                 var settings = new JsonSerializerSettings();
@@ -157,20 +151,26 @@ namespace MyTrips.Services
 
         public async Task DisconnectFromOBDDevice()
         {
+            //Stop polling the device in case we're still trying to connect to it
+            this.StopPollingOBDDevice();
+
+            //Disconnect to the device in the case that we did successfull connect to it
             await this.obdDevice.Disconnect();
-            this.canReadData = false;
+
+            this.isConnectedToOBD = false;
         }
 
-        public async Task<bool> ConnectToOBDDevice(bool showConfirmDialog)
+        public async Task ConnectToOBDDevice(bool showConfirmDialog)
         {
             if (showConfirmDialog)
             {
-                return await this.ConnectToOBDDeviceWithConfirmation();
+                //Prompts user with dialog to retry if connection to OBD device fails
+                this.isConnectedToOBD = await this.ConnectToOBDDeviceWithConfirmation();
             }
             else
             {
-                //TODO: Need to silently retry if disconnection occurs when app is running in background
-                return false;
+                //Silently attempts to connect to the OBD device
+                this.StartPollingOBDDevice();
             }
         }
 
@@ -180,80 +180,80 @@ namespace MyTrips.Services
 
             if (!isConnected)
             {
-                var result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync(new Acr.UserDialogs.ConfirmConfig
-                {
-                    OkText = "RETRY",
-                    CancelText = "CANCEL",
-                    Title = "Unable to connect to OBD device.  Would you like to retry?",
-                    Message = "Cancel to use the OBD simulator.",
-                });
+                var result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync(
+                    "Cancel to use the OBD simulator.", "Unable to connect to OBD device.  Would you like to retry?", "RETRY", "CANCEL");
 
                 if (result)
                 {
-                    this.canReadData = await this.ConnectToOBDDeviceWithConfirmation();
+                    //Attempt to connect to OBD device again
+                    isConnected = await this.ConnectToOBDDeviceWithConfirmation();
                 }
                 else
                 {
-                    this.canReadData = await this.obdDevice.Initialize(true);
+                    //Use the OBD simulator
+                    isConnected = await this.obdDevice.Initialize(true);
                 }
             }
-            else
+
+            return isConnected;
+        }
+
+        private void StartPollingOBDDevice()
+        {
+            if (!this.isConnectedToOBD && !this.isPollingOBDDevice)
             {
-                this.canReadData = true;
+                this.isPollingOBDDevice = true;
+                this.obdEllapsedTime = new TimeSpan(0, 0, 0);
+                this.obdConnectionTimer = new Timer(OnTick, 0, 1000, 1000);
             }
-
-            return this.canReadData;
         }
 
-        //TODO: Should be called by mobile app when an app is resumed
-        public void ResetIncrementalConnection()
+        private void StopPollingOBDDevice()
         {
-			if (obdReconnectTimer != null)
-			{
-				obdReconnectTimer.Restart();
-			}
-        }
-    }
-
-    public class CustomContractResolver : DefaultContractResolver
-    {
-        private Dictionary<string, string> PropertyMappings { get; set; }
-
-        private List<string> IgnoreProperties { get; set; }
-
-        public CustomContractResolver()
-        {
-            this.PropertyMappings = new Dictionary<string, string>();
-            this.PropertyMappings.Add("Longitude", "Lon");
-            this.PropertyMappings.Add("Latitude", "Lat");
-            this.PropertyMappings.Add("ShortTermFuelBank", "ShortTermFuelBank1");
-            this.PropertyMappings.Add("LongTermFuelBank", "LongTermFuelBank1");
-            this.PropertyMappings.Add("MassFlowRate", "MAFFlowRate");
-            this.PropertyMappings.Add("RPM", "EngineRPM");
-            this.PropertyMappings.Add("Id", "TripPointId");
-            this.PropertyMappings.Add("DistanceWithMalfunctionLight", "DistancewithMIL");
-
-            this.IgnoreProperties = new List<string>();
-            this.IgnoreProperties.Add("HasOBDData");
-        }
-
-        protected override string ResolvePropertyName(string propertyName)
-        {
-            string resolvedName = null;
-            var resolved = this.PropertyMappings.TryGetValue(propertyName, out resolvedName);
-            return (resolved) ? resolvedName : base.ResolvePropertyName(propertyName);
-        }
-
-        protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
-        {
-            JsonProperty property = base.CreateProperty(member, memberSerialization);
-
-            if (this.IgnoreProperties.Contains(property.PropertyName))
+            if (this.isPollingOBDDevice)
             {
-                property.ShouldSerialize = p => { return false; };
+                this.obdConnectionTimer.Cancel();
+                this.obdConnectionTimer.Dispose();
+                this.isPollingOBDDevice = false;
+                this.obdEllapsedTime = new TimeSpan(0, 0, 0);
             }
+        }
 
-            return property;
+        private async Task TryToConnectToOBDDevice()
+        {
+            if (this.isConnectedToOBD = await this.obdDevice.Initialize())
+            {
+                this.StopPollingOBDDevice();
+            }
+        }
+
+        private async void OnTick(object args)
+        {
+            this.obdEllapsedTime = this.obdEllapsedTime.Add(new TimeSpan(0, 0, 1));
+
+            if (this.obdEllapsedTime.TotalMinutes < 5 && this.obdEllapsedTime.TotalSeconds % 10 == 0)
+            {
+                //Try to connect every 10 seconds if the OBD device disconnected time is 5 mins or less
+                await this.TryToConnectToOBDDevice();
+            }
+            else if (this.obdEllapsedTime.TotalMinutes < 30 && this.obdEllapsedTime.TotalMinutes % 5 == 0)
+            {
+                //Try to connect every 5 minutes if the OBD device disconnected time is 30 mins or less
+                await this.TryToConnectToOBDDevice();
+            }
+            else if (this.obdEllapsedTime.TotalHours < 3 && this.obdEllapsedTime.TotalMinutes % 30 == 0)
+            {
+                //Otherwise, try to connect every 30 minutes
+                await this.TryToConnectToOBDDevice();
+            }
+            else if (this.obdEllapsedTime.TotalHours >= 3)
+            {
+                //Give up after 3 hours
+                this.StopPollingOBDDevice();
+                this.OnOBDDeviceConnectionTimout(this.obdDevice, new EventArgs());
+            }
         }
     }
 }
+
+   

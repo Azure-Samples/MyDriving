@@ -68,7 +68,9 @@ namespace MyTrips.iOS
 			var tabBarController = Window.RootViewController as UITabBarController;
 			var navigationController = tabBarController.ViewControllers[1] as UINavigationController;
 			var currentTripViewController = navigationController.TopViewController as CurrentTripViewController;
-			currentTripViewController.CurrentTripViewModel.ResetObdIncrementalConnection();
+
+            //Attempt to reconnect to OBD device if needed
+			currentTripViewController.CurrentTripViewModel.ConnectToOBDDevice();
 		}
 
 		#region Background Refresh

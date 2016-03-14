@@ -37,7 +37,9 @@
     <Compile Include="Interfaces\IHubIOT.cs" />
     <Compile Include="Interfaces\IOBDDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CustomContractResolver.cs" />
     <Compile Include="Services\OBDDataProcessor.cs" />
+    <Compile Include="Services\Timer.cs" />
     <Compile Include="ViewModel\CurrentTripViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PastTripsViewModel.cs" />
