@@ -13,13 +13,13 @@ namespace MyTrips.UITests
 		}
 
 		[Test]
-		public void AppLaunchesSuccessfully()
+		public void AppLaunchesSuccessfullyTest()
 		{
 			app.Screenshot("App Launch");
 		}
 
 		[Test]
-		public void SkipAuthentication()
+		public void SkipAuthenticationTest()
 		{
 			ClearKeychain ();
 
@@ -30,7 +30,7 @@ namespace MyTrips.UITests
 		}
 
 		[Test]
-		public void LoginWithFacebook()
+		public void LoginWithFacebookTest()
 		{
 			ClearKeychain ();
 

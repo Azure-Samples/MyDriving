@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace MyTrips.UITests
 {
-	//[TestFixture (Platform.iOS)]
+	[TestFixture (Platform.iOS)]
 	public class CurrentTripTests : AbstractSetup
 	{
 		public CurrentTripTests (Platform platform) : base (platform)
@@ -12,7 +12,7 @@ namespace MyTrips.UITests
 		}
 
 		[Test]
-		public void RecordTrip ()
+		public void RecordTripTest ()
 		{
 			new CurrentTripPage ()
 				.NavigateToCurrentTripPage ()

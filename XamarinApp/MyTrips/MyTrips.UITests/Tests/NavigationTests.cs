@@ -12,14 +12,14 @@ namespace MyTrips.UITests
 		}
 
 		[Test]
-		public void NavigateToProfileTab ()
+		public void NavigateToProfileTabTest ()
 		{
 			new ProfilePage ()
 				.NavigateToProfilePage ();
 		}
 
 		[Test]
-		public void NavigateToSettings ()
+		public void NavigateToSettingsTest ()
 		{
 			new ProfilePage ()
 				.NavigateToProfilePage ()
@@ -27,14 +27,14 @@ namespace MyTrips.UITests
 		}
 
 		[Test]
-		public void NavigateToPastTripsTab ()
+		public void NavigateToPastTripsTabTest ()
 		{
 			new PastTripsPage ()
 				.NavigateToPastTripsPage ();
 		}
 
 		[Test]
-		public void NavigateToCurrentTripTab ()
+		public void NavigateToCurrentTripTabTest ()
 		{
 			new CurrentTripPage ()
 				.NavigateToCurrentTripPage ();
