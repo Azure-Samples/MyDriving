@@ -36,9 +36,8 @@ namespace MyTrips.UITests
 			{
 				app = ConfigureApp
 					.iOS
-					// .AppBundle(appPath)
-					// .InstalledApp(ipaBundleId)
-					.StartApp();
+					.AppBundle("../../../MyTrips.iOS/bin/iPhoneSimulator/Debug/MyTripsiOS.app")
+					.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear);
 			}
 
 			return app;
