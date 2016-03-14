@@ -24,10 +24,10 @@ namespace MyTrips.UITests
 			app = AppInitializer.StartApp(platform);
 		}
 
-//		[Test]
-//		public void Repl()
-//		{
-//			app.Repl ();
-//		}
+		[Test]
+		public void Repl()
+		{
+			app.Repl ();
+		}
     }
 }
