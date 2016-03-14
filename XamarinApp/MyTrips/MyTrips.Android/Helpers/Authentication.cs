@@ -17,7 +17,7 @@ namespace MyTrips.Droid.Helpers
                 Settings.Current.LoginAttempts++;
                 var user = await client.LoginAsync(CrossCurrentActivity.Current.Activity, provider);
                 Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
-                Settings.Current.UserId = user?.UserId ?? string.Empty;
+                Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
                 return user;
             }
             catch(Exception e)

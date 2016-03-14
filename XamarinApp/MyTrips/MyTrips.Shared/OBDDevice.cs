@@ -32,5 +32,8 @@ namespace MyTrips.Shared
         {
             return this.obdWrapper.Read();
         }
+
+
+        public bool IsSimulated => false;
     }
 }

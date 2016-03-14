@@ -37,13 +37,6 @@ namespace MyTrips.Droid.Fragments
             refresher.Refresh += (sender, e) => viewModel.LoadPastTripsCommand.Execute(null);
 
 
-            return view;
-        }
-
-        public override void OnActivityCreated(Bundle savedInstanceState)
-        {
-            base.OnActivityCreated(savedInstanceState);
-
             adapter = new TripAdapter(Activity, viewModel);
             adapter.ItemClick += OnItemClick;
             adapter.ItemLongClick += OnItemLongClick;
@@ -54,6 +47,7 @@ namespace MyTrips.Droid.Fragments
             recyclerView.ClearOnScrollListeners();
             recyclerView.AddOnScrollListener(new TripsOnScrollListenerListener(viewModel, layoutManager));
 
+            return view;
         }
 
         class TripsOnScrollListenerListener : RecyclerView.OnScrollListener
@@ -83,16 +77,12 @@ namespace MyTrips.Droid.Fragments
             }
         }
 
-
-
-
-
-        public override void OnStart()
+        public async override void OnStart()
         {
             base.OnStart();
             viewModel.PropertyChanged += ViewModel_PropertyChanged;
             if (viewModel.Trips.Count == 0)
-                viewModel.LoadPastTripsCommand.Execute(null);
+                await viewModel.ExecuteLoadPastTripsCommandAsync();
         }
 
         void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

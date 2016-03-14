@@ -49,7 +49,7 @@ namespace MyTrips.AzureClient
                     clonedRequest = await CloneRequest(request);
 
 
-                    Settings.Current.UserId = user.UserId;
+                    Settings.Current.AzureMobileUserId = user.UserId;
                     Settings.Current.AuthToken = user.MobileServiceAuthenticationToken;
 
                     clonedRequest.Headers.Remove("X-ZUMO-AUTH");

@@ -27,10 +27,10 @@
 
 
         
-        <CheckBoxPreference
+       <!-- <CheckBoxPreference
                 android:key="metric_temp"
                 android:title="Metric Temperature"
-                android:summary="Use Celsius instead of Fahrenheit"/>
+                android:summary="Use Celsius instead of Fahrenheit"/>-->
 
     </PreferenceCategory>
 

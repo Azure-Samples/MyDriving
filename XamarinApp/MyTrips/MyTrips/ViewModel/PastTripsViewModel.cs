@@ -83,7 +83,8 @@ namespace MyTrips.ViewModel
                 IsBusy = true;
                 CanLoadMore = true;
 
-                Trips.ReplaceRange(await StoreManager.TripStore.GetItemsAsync(0, 25, true));
+                var items = await StoreManager.TripStore.GetItemsAsync(0, 25, true);
+                Trips.ReplaceRange(items);
 
                 CanLoadMore = Trips.Count == 25;
             }

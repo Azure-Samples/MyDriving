@@ -105,13 +105,13 @@
                     android:gravity="center_horizontal"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="N/A"
-                    android:id="@+id/text_temp" />
+                    android:id="@+id/text_load" />
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Temp"
+                    android:text="Engine Load"
                     android:textColor="@color/primary" />
             </LinearLayout>
         </LinearLayout>

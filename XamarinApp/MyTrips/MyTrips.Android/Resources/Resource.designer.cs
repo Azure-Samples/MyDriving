@@ -4538,8 +4538,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0a0097
 			public const int text_end_time = 2131361943;
 			
-			// aapt resource value: 0x7f0a0099
-			public const int text_fuel_consumption = 2131361945;
+			// aapt resource value: 0x7f0a0098
+			public const int text_fuel_consumption = 2131361944;
 			
 			// aapt resource value: 0x7f0a009b
 			public const int text_hard_accelerations = 2131361947;
@@ -4547,14 +4547,14 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0a009a
 			public const int text_hard_breaks = 2131361946;
 			
-			// aapt resource value: 0x7f0a0098
-			public const int text_max_speed = 2131361944;
+			// aapt resource value: 0x7f0a0094
+			public const int text_load = 2131361940;
+			
+			// aapt resource value: 0x7f0a0099
+			public const int text_max_speed = 2131361945;
 			
 			// aapt resource value: 0x7f0a0096
 			public const int text_start_time = 2131361942;
-			
-			// aapt resource value: 0x7f0a0094
-			public const int text_temp = 2131361940;
 			
 			// aapt resource value: 0x7f0a0093
 			public const int text_time = 2131361939;

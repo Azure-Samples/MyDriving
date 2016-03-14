@@ -132,8 +132,7 @@ namespace MyTrips.ViewModel
             }
             else
             {
-                var profile = StoreManager.UserStore.GetItemsAsync(0, 100, true);
-                //we should have 1 here!
+                Init();
             }
 
             return true;

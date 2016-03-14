@@ -19,12 +19,14 @@ namespace smarttripsService.Models
 
         public smarttripsContext() : base(connectionStringName)
         {
+
         } 
 
         public DbSet<Trip> Trips { get; set; }
         public DbSet<TripPoint> TripPoints { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<IOTHubData> IOTHubDatas { get; set; }
+        public DbSet<POI> POIs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

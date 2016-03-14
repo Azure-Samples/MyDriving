@@ -20,11 +20,11 @@ namespace MyTrips.DataStore.Azure.Stores
 
         public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
-            var items = await base.GetItemsAsync(skip, take, forceRefresh);
+            var items = await base.GetItemsAsync(skip, take, forceRefresh).ConfigureAwait(false);
             foreach (var item in items)
             {
                 item.Photos = new List<Photo>();
-                var photos = await photoStore.GetTripPhotos(item.Id);
+                var photos = await photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
                 foreach(var photo in photos)
                     item.Photos.Add(photo);
             }
@@ -41,7 +41,7 @@ namespace MyTrips.DataStore.Azure.Stores
             else
                 item.Photos.Clear();
 
-            var photos = await photoStore.GetTripPhotos(item.Id);
+            var photos = await photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
             foreach(var photo in photos)
                 item.Photos.Add(photo);
 
@@ -56,13 +56,15 @@ namespace MyTrips.DataStore.Azure.Stores
             bool result = false;
             try
             {
+                await InitializeStoreAsync().ConfigureAwait(false);
+
                 var t = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client?.GetSyncTable<TripPoint>();
                 foreach (var point in item.Points)
                 {
                     await t.DeleteAsync(point).ConfigureAwait(false);
                 }
 
-                await InitializeStoreAsync().ConfigureAwait(false);
+
                 await PullLatestAsync().ConfigureAwait(false);
                 await Table.DeleteAsync(item).ConfigureAwait(false);
                 await SyncAsync().ConfigureAwait(false);
