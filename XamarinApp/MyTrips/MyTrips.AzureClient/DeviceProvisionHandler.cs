@@ -88,7 +88,7 @@ namespace MyTrips.AzureClient
             else
             {
                 Dictionary<string, string> myParms = new Dictionary<string, string>();
-                myParms.Add("userId", Settings.Current.UserId);
+                myParms.Add("userId", Settings.Current.UserUID);
                 myParms.Add("deviceName", Settings.Current.DeviceId);
 
                 var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client as MobileServiceClient;

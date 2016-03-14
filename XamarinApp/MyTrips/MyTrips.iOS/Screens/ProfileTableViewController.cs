@@ -4,6 +4,7 @@ using UIKit;
 using System;
 using MyTrips.ViewModel;
 using SDWebImage;
+using System.Threading.Tasks;
 
 namespace MyTrips.iOS
 {
@@ -26,18 +27,29 @@ namespace MyTrips.iOS
 			var url = ViewModel.Settings.UserProfileUrl;
 			imgAvatar.SetImage(new NSUrl(url));
 
-			PercentageView.Value = 86;
-
-			// TODO: Bind to actual value when there is one.
-			// PercentageView.Value = ViewModel.DrivingSkills;
-
+			
 			imgAvatar.Layer.CornerRadius = imgAvatar.Frame.Width / 2;
 			imgAvatar.Layer.BorderWidth = 2;
 			imgAvatar.Layer.BorderColor = "15A9FE".ToUIColor().CGColor;
 			imgAvatar.Layer.MasksToBounds = true;
 
-			data = new List<DrivingStatistic>
-			{
+            UpdateUI();
+		}
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+            ViewModel.UpdateProfileAsync().ContinueWith((t) =>
+            {
+                UpdateUI();   
+            }, scheduler: TaskScheduler.FromCurrentSynchronizationContext()); 
+        }
+
+        void UpdateUI()
+        {
+            PercentageView.Value = (ViewModel.DrivingSkills / 100f) * 360f;
+            data = new List<DrivingStatistic>
+            {
                 new DrivingStatistic { Name = "Total Distance", Value = ViewModel.TotalDistanceDisplay},
                 new DrivingStatistic { Name = "Total Duration", Value = ViewModel.TotalTimeDisplay },
                 new DrivingStatistic { Name = "Max Speed", Value = ViewModel.MaxSpeedDisplay },
@@ -46,8 +58,12 @@ namespace MyTrips.iOS
                 new DrivingStatistic { Name = "Hard Accelerations", Value = ViewModel.HardAccelerations.ToString()},
                 new DrivingStatistic { Name = "Total Trips", Value = ViewModel.TotalTrips.ToString()},
 
-			};
-		}
+            };
+
+            TableView.ReloadData();
+        }
+
+
 
 		#region UITableViewSource
 		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
@@ -57,7 +73,7 @@ namespace MyTrips.iOS
 
 		public override nint RowsInSection(UITableView tableView, nint section)
 		{
-			return data.Count;
+            return (data?.Count).GetValueOrDefault();
 		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
