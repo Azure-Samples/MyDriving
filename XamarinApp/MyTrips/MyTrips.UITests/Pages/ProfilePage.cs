@@ -17,9 +17,24 @@ namespace MyTrips.UITests
 			return this;
 		}
 
-		public void NavigateToSettingsPage ()
+		public ProfilePage NavigateToSettingsPage ()
 		{
 			app.Tap (c => c.Class ("UIImageView").Marked ("tab_Settings.png"));
+			app.Screenshot ("Settings Page");
+
+			return this;
+		}
+
+		public ProfilePage NavigateToCapacitySetting ()
+		{
+			// TODO 
+			return this;
+		}
+
+		public ProfilePage NavigateToDistanceSetting ()
+		{
+			// TODO 
+			return this;
 		}
 	}
 }

@@ -4,7 +4,7 @@ using Xamarin.UITest;
 
 namespace MyTrips.UITests
 {
-	//[TestFixture (Platform.iOS)]
+    [TestFixture (Platform.iOS)]
 	public class NavigationTests : AbstractSetup
 	{
 		public NavigationTests (Platform platform) : base (platform)
