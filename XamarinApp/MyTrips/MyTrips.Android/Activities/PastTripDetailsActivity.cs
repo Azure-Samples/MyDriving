@@ -33,7 +33,7 @@ namespace MyTrips.Droid.Activities
         PastTripsDetailViewModel viewModel;
         SupportMapFragment mapFrag;
         TextView startTime, endTime;
-        TextView distance, distanceUnits, time, temp, consumption, consumptionUnits;
+        TextView distance, distanceUnits, time, load, consumption, consumptionUnits;
         string id;
         protected override void OnCreate(Bundle bundle)
         {
@@ -59,7 +59,7 @@ namespace MyTrips.Droid.Activities
             distanceUnits = FindViewById<TextView>(Resource.Id.text_distance_units);
             consumption = FindViewById<TextView>(Resource.Id.text_consumption);
             consumptionUnits = FindViewById<TextView>(Resource.Id.text_consumption_units);
-            temp = FindViewById<TextView>(Resource.Id.text_temp);
+            load = FindViewById<TextView>(Resource.Id.text_load);
 
             mapFrag = (SupportMapFragment) SupportFragmentManager.FindFragmentById(Resource.Id.map);
             mapFrag.GetMapAsync(this);
@@ -86,7 +86,7 @@ namespace MyTrips.Droid.Activities
             time.Text = viewModel.ElapsedTime;
             consumption.Text = viewModel.FuelConsumption;
             consumptionUnits.Text = viewModel.FuelConsumptionUnits;
-            temp.Text = viewModel.Temperature;
+            load.Text = viewModel.EngineLoad;
             distanceUnits.Text = viewModel.DistanceUnits;
             distance.Text = viewModel.Distance;
         }
