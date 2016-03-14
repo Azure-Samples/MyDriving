@@ -33,7 +33,7 @@ namespace smarttripsService.Controllers
             var twitterCredentials = await user.GetAppServiceIdentityAsync<TwitterCredentials>(Request);
 
             string first = string.Empty, last = string.Empty, profile = string.Empty;
-            userId = User.FindSid();
+            userId = await IdentitiyHelper.FindSidAsync(User, Request);
             if (fbCredentials?.UserClaims?.Count() > 0)
             {
                 FillDataFromFacebook(fbCredentials, out first, out last, out profile);
@@ -44,10 +44,6 @@ namespace smarttripsService.Controllers
             }
             else if (twitterCredentials?.UserClaims?.Count() > 0)
             {
-                
-
-                var settings = Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
-
                 FillDataFromTwitter(twitterCredentials, out first, out last, out profile);
             }
             else

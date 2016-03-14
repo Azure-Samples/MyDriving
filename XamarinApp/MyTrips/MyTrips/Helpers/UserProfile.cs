@@ -19,7 +19,7 @@ namespace MyTrips.Helpers
             Settings.Current.UserFirstName = userprof?.FirstName ?? string.Empty;
             Settings.Current.UserLastName = userprof?.LastName ?? string.Empty;
             Settings.Current.UserProfileUrl = userprof?.ProfilePictureUri ?? string.Empty;
-            Settings.Current.UserSid = userprof?.UserId ?? string.Empty;
+            Settings.Current.UserUID = userprof?.UserId ?? string.Empty;
 
             if (string.IsNullOrWhiteSpace(userprof?.ProfilePictureUri))
             {

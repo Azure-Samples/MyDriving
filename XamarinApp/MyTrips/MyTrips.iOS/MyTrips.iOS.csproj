@@ -72,7 +72,7 @@
     <DefineConstants>XTC</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
-    <AssemblyName>MyTrips.iOS</AssemblyName>
+    <AssemblyName>MyTripsiOS</AssemblyName>
     <MtouchArch>ARMv7</MtouchArch>
   </PropertyGroup>
   <ItemGroup>
