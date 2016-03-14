@@ -29,7 +29,7 @@ namespace MyTrips.UITests
 			OnAndroid = app.GetType() == typeof(AndroidApp);
 			OniOS = app.GetType() == typeof(iOSApp);
 
-			if (app.Query("LoginPageIdentifier").Any())
+			if (app.Query("Login with Facebook").Any())
 			{
 				new LoginPage ()
 					.SkipAuthentication ();
