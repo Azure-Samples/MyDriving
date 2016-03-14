@@ -12,7 +12,6 @@ using MyTrips.Utils;
 using MyTrips.Utils.Interfaces;
 
 using HockeyApp;
-using Xamarin;
 
 namespace MyTrips.iOS
 {
@@ -36,11 +35,11 @@ namespace MyTrips.iOS
 
 			Xamarin.Insights.Initialize(Logger.InsightsKey);
 
-            #if XTC
-            Xamarin.
-            #endif
+#if XTC
+            Xamarin.Calabash.Start();
+#endif
 
-			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			SQLitePCL.CurrentPlatform.Init();
 			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
 			{
