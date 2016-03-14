@@ -27,13 +27,12 @@ namespace MyTrips.Droid.Fragments
             ratingCircle = view.FindViewById<RatingCircle>(Resource.Id.rating_circle);
             circleImage = view.FindViewById<CircleImageView>(Resource.Id.profile_image);
 
-            ratingCircle.Rating = 86;
+           
 
-            Activity.Title = Settings.Current.UserFirstName;
             viewModel = new ProfileViewModel();
             Square.Picasso.Picasso.With(Activity).Load(Settings.Current.UserProfileUrl).Into(circleImage);
 
-
+            trips = view.FindViewById<TextView>(Resource.Id.text_trips);
             time = view.FindViewById<TextView>(Resource.Id.text_time);
             distance = view.FindViewById<TextView>(Resource.Id.text_distance);
             distanceUnits = view.FindViewById<TextView>(Resource.Id.text_distance_units);
@@ -60,13 +59,15 @@ namespace MyTrips.Droid.Fragments
         {
             Activity.RunOnUiThread(() =>
             {
+                trips.Text = viewModel.TotalTrips.ToString();
                 time.Text = viewModel.TotalTimeDisplay;
                 distance.Text = viewModel.TotalDistanceDisplayNoUnits;
-                distanceUnits.Text = viewModel.SpeedUnits;
+                distanceUnits.Text = viewModel.DistanceUnits;
                 maxSpeed.Text = viewModel.MaxSpeedDisplay;
                 fuelUsed.Text = viewModel.FuelDisplay;
                 accelerations.Text = viewModel.HardAccelerations.ToString();
                 stops.Text = viewModel.HardStops.ToString();
+                ratingCircle.Rating = viewModel.DrivingSkills;
             });
         }
 

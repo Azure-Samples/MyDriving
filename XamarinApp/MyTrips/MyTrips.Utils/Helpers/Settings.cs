@@ -260,6 +260,19 @@ namespace MyTrips.Utils
         }
 
         #region User Profile
+
+        const string SidKey = "sid";
+        static readonly string SidDefault = string.Empty;
+        public string UserSid
+        {
+            get {
+                return AppSettings.GetValueOrDefault<string>(SidKey, SidDefault);
+            }
+            set {
+                AppSettings.AddOrUpdateValue<string>(SidKey, value);
+            }
+        }
+
         const string UserIdKey = "userid";
         static readonly string UserIdDefault = string.Empty;
         public string UserId
@@ -344,6 +357,7 @@ namespace MyTrips.Utils
             UserFirstName = string.Empty;
             UserLastName = string.Empty;
             UserId = string.Empty;
+            UserSid = string.Empty;
             LoginAccount = LoginAccount.None;
         }
         #endregion

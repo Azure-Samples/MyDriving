@@ -12,10 +12,10 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/keyline_margin"
-        android:background="@color/primary_transparent"
+        android:padding="8dp"
+        android:background="#99FFFFFF"
         android:layout_gravity="top"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
         android:id="@+id/stats">
         <LinearLayout
             android:orientation="vertical"
@@ -27,15 +27,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="0s"
-                android:id="@+id/text_time" />
+                android:text="N/A"
+                android:id="@+id/text_consumption" />
             <TextView
-                android:layout_marginTop="4dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Time" />
+                android:text="Gallons"
+                android:textColor="@color/primary"
+                android:id="@+id/text_consumption_units" />
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
@@ -50,12 +51,12 @@
                 android:text="0.0"
                 android:id="@+id/text_distance" />
             <TextView
-                android:layout_marginTop="4dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Miles"
+                android:textColor="@color/primary"
                 android:id="@+id/text_distance_units" />
         </LinearLayout>
         <LinearLayout
@@ -68,16 +69,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="N/A"
-                android:id="@+id/text_consumption" />
+                android:text="0s"
+                android:id="@+id/text_time" />
             <TextView
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Gallons"
-                android:id="@+id/text_consumption_units" />
+                android:text="Duration"
+                android:textColor="@color/primary" />
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
@@ -92,12 +93,12 @@
                 android:text="N/A"
                 android:id="@+id/text_temp" />
             <TextView
-                android:layout_marginTop="4dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Temp" />
+                android:text="Temp"
+                android:textColor="@color/primary" />
         </LinearLayout>
     </LinearLayout>
 <!--Overlay goes here-->
@@ -109,6 +110,7 @@
         android:src="@drawable/ic_start"
         android:layout_gravity="bottom|center_horizontal"
         app:elevation="4dp"
+        app:backgroundTint="@color/recording_accent"
         app:pressedTranslationZ="8dp"
         android:clickable="true" />
 </FrameLayout>

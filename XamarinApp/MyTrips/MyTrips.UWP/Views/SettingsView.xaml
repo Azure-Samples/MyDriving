@@ -47,8 +47,8 @@
                 </Grid>
                 <Border  Style="{StaticResource SettingsSeparatorLine}" />
 
-                <TextBlock Name="IotHub" Text="IoT Hub Host Url" Style="{StaticResource SettingsSubLabelStyle}"/>
-                <TextBlock  Text="IoT Devices"  Style="{StaticResource SettingsSubLabelStyle}"/>
+                <TextBlock Name="IotHub" Text="IoT Settings" Style="{StaticResource SettingsSubLabelStyle}"/>
+                <TextBlock  Text="IoT Hub Host Url"  Style="{StaticResource SettingsSubLabelStyle}"/>
         <!--        <TextBox Name="IoT" Text="{Binding HostName, Mode=TwoWay}"  BorderBrush="Transparent" BorderThickness="0" Background="Transparent" Foreground="#7BA4C5"/>  -->
                 <TextBlock Name="IoT" Text="{Binding HostName, Mode=OneWay}"  Foreground="#7BA4C5" TextWrapping="Wrap" />
                 <TextBlock  Text="Mobile Client Url"   Style="{StaticResource SettingsSubLabelStyle}"/>

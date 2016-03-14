@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid >
+    <Grid x:Name="MainGrid" Background="{StaticResource MainBackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition />
@@ -17,17 +17,17 @@
             <ColumnDefinition Width="35"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid Background="Black">
+        <Grid Background="Black" x:Name="HamburgerGrid">
             <Button x:Name="HamburgerButton" Width="40" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Background="Transparent" Click="HamburgerButton_Click" VerticalAlignment="Center" Foreground="#adacac"/>
         </Grid>
-        <Grid Grid.Column="1" Background="#161b1f">
+        <Grid Grid.Column="1" Background="#161b1f"  x:Name="TitleGrid">
             <TextBlock x:Name="PageTitle" Margin="10,0,0,0" Foreground="#adacac" 
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"/>
         </Grid>
         <SplitView x:Name="MyTripsSplitView" DisplayMode="Overlay"  IsPaneOpen="False" CompactPaneLength="32" OpenPaneLength="124"   Grid.Row="1" Grid.ColumnSpan="2">
             <SplitView.Pane>
-                <StackPanel Background="Black">
+                <StackPanel Background="Black"  x:Name="SplitViewPanel">
                     <Button x:Name="NewTripButton"  Click="NewTripButton_Click" Style="{StaticResource SplitViewButtonStyle}">
                         <controls:SplitViewButtonContent x:Name="Current" />
                     </Button>

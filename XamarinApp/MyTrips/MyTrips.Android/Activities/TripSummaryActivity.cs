@@ -16,15 +16,16 @@ using MyTrips.Utils;
 using Android.Util;
 using Android.Content.PM;
 using MyTrips.ViewModel;
+using Android.Graphics;
+using Android.Support.V4.Content;
 
 namespace MyTrips.Droid.Activities
 {
-    [Activity(Label = "Summary", Theme="@style/MyTheme.PopupTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]   
+    [Activity(Label = "Trip Summary", Theme="@style/MyTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]   
     public class TripSummaryActivity : BaseActivity
     {
         public static TripSummaryViewModel ViewModel { get; set; }
 
-        RatingCircle ratingCircle;
 
         protected override int LayoutResource
         {
@@ -38,15 +39,11 @@ namespace MyTrips.Droid.Activities
         {
             base.OnCreate(savedInstanceState);
 
-            FindViewById<Button>(Resource.Id.button_close).Click += (sender, e) => Finish();
-
-            var metrics = new DisplayMetrics();
-            WindowManager.DefaultDisplay.GetMetrics(metrics);
-
-            var width = metrics.WidthPixels * .85;
-            var height = metrics.HeightPixels * .75;
-
-            Window.SetLayout((int)width , (int)height);
+            if ((int)Build.VERSION.SdkInt >= 21)
+            {
+                Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.primary_dark)));
+                Window.DecorView.SystemUiVisibility = StatusBarVisibility.Visible;
+            }
 
 
             if (ViewModel == null)
@@ -54,6 +51,11 @@ namespace MyTrips.Droid.Activities
                 Finish();
                 return;
             }
+
+            SupportActionBar.SetDisplayShowHomeEnabled(false);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(false);
+
+            FindViewById<Button>(Resource.Id.button_close).Click += (sender, e) => Finish();
 
             FindViewById<TextView>(Resource.Id.text_time).Text = ViewModel.TotalTimeDisplay;
             FindViewById<TextView>(Resource.Id.text_distance).Text = ViewModel.TotalDistanceDisplay;

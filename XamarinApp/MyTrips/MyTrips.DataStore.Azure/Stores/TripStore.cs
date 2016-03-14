@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MyTrips.Utils;
 using System.Collections.Generic;
 using System.Linq;
+using MyTrips.AzureClient;
 
 namespace MyTrips.DataStore.Azure.Stores
 {
@@ -48,6 +49,31 @@ namespace MyTrips.DataStore.Azure.Stores
             item.Points = item.Points.OrderBy(p => p.Sequence).ToArray();
 
             return item;
+        }
+
+        public override async Task<bool> RemoveAsync(Trip item)
+        {
+            bool result = false;
+            try
+            {
+                var t = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client?.GetSyncTable<TripPoint>();
+                foreach (var point in item.Points)
+                {
+                    await t.DeleteAsync(point).ConfigureAwait(false);
+                }
+
+                await InitializeStoreAsync().ConfigureAwait(false);
+                await PullLatestAsync().ConfigureAwait(false);
+                await Table.DeleteAsync(item).ConfigureAwait(false);
+                await SyncAsync().ConfigureAwait(false);
+                result = true;
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.WriteLine(String.Format("Unable to remove item {0}:{1}", item.Id, e));
+            }
+
+            return result;
         }
     }
 }
