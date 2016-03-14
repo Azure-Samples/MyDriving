@@ -177,6 +177,10 @@ namespace MyTrips.iOS
 			{
 				if (await CurrentTripViewModel.StopRecordingTrip ()) {
 					ResetMapViewState();
+					InvokeOnMainThread (delegate {
+						mapDelegate = new TripMapViewDelegate(true);
+						tripMapView.Delegate = mapDelegate;
+					});
 
 					UpdateRecordButton(false);
 					tripInfoView.Alpha = 0;
