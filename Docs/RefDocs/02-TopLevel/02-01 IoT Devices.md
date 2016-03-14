@@ -211,7 +211,7 @@ The **SendEventBatchAsync** method sends multiple **Microsoft.Azure.Devices.Clie
 The **OBDDataProcessor** class in the **MyTrips (Portable)** project includes the following methods:
 
 - **ReadOBDData** to retrieve the current OBD data from the OBD dongle.
-- **AddTripDataPointToBuffer** to store trip data in a local store on the phone. A trip consists of a collection of data points recorded at set intervals, each of which includes GPS coordinates and OBD data. See below for a complete description of the **Trip** data structure [TODO: this may go into the reference section rather than this chapter].
+- **AddTripDataPointToBuffer** to store trip data in a local store on the phone. A trip consists of a collection of data points recorded at set intervals, each of which includes GPS coordinates and OBD data. See section 4.2 "IoT Hub Reference" for a complete description of the **Trip** data structure.
 - **PushTripDataToIOTHub** to send trip data to IoT Hub using the **SendEvents** method shown previously and to remove the trip data from the local store after it has been sent to IoT Hub.
 
 The **CurrentTripViewModel** class in the **MyTrips (Portable)** project coordinates calling the **ReadOBDData**, **AddTripDataPointToBuffer**, and **PushTripDataToIOTHub** methods in response to events such as a user starting or stopping a trip, or the **Geolocator_PositionChanged** event firing. Note that the **CurrentTripViewModel** class does not call the **PushTripDataToIOTHub** method to send data to IoT Hub until the user of the phone pushes the **Stop Record** button on the **Current Trip** screen.
