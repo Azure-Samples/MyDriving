@@ -14,6 +14,7 @@ namespace MyTrips.DataObjects
         public string ProfilePictureUri { get; set; }
 
         public int Rating {get;set;}
+        public int Ranking { get; set; }
 
         /// <summary>
         /// Gets or sets the total distance. Stored in Miles

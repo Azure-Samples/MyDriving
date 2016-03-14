@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>MyTrips</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.microsoft.build2016</string>
+	<string>com.pierceboggan.mytrips</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -55,8 +55,6 @@
 	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Track your current trip even when MyTrip isn&apos;t running.</string>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleLightContent</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
