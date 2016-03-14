@@ -22,10 +22,10 @@ namespace smarttripsService.Controllers
         // GET tables/UserProfile
         //[Authorize]
         [QueryableExpand("Devices")]
-        public IQueryable<UserProfile> GetAllUsers()
+        public async Task<IQueryable<UserProfile>> GetAllUsers()
         {
             //TODO: remove and add authorize in future
-            var id = IdentitiyHelper.FindSid(this.User);
+            var id = await IdentitiyHelper.FindSidAsync(User,Request);
             if (string.IsNullOrWhiteSpace(id))
                 return Query();
             return Query().Where(s => s.UserId == id);
@@ -50,7 +50,7 @@ namespace smarttripsService.Controllers
        //[Authorize]
         public async Task<IHttpActionResult> PostUser(UserProfile user)
         {
-            var id = IdentitiyHelper.FindSid(this.User);
+            var id = await IdentitiyHelper.FindSidAsync(User, Request);
             user.UserId = id;
             UserProfile current = await InsertAsync(user);
             return CreatedAtRoute("Tables", new { id = current.Id }, current);

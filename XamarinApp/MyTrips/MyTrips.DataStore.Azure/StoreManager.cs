@@ -26,8 +26,8 @@ namespace MyTrips.DataStore.Azure
             //Get our current client, only ever need one
             var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
 
-            if (!string.IsNullOrWhiteSpace (Settings.Current.AuthToken) && !string.IsNullOrWhiteSpace (Settings.Current.UserId)) {
-                client.CurrentUser = new MobileServiceUser (Settings.Current.UserId);
+            if (!string.IsNullOrWhiteSpace (Settings.Current.AuthToken) && !string.IsNullOrWhiteSpace (Settings.Current.AzureMobileUserId)) {
+                client.CurrentUser = new MobileServiceUser (Settings.Current.AzureMobileUserId);
                 client.CurrentUser.MobileServiceAuthenticationToken = Settings.Current.AuthToken;
             }
             
@@ -58,12 +58,15 @@ namespace MyTrips.DataStore.Azure
             return successes.Any(x => !x);//if any were a failure.
         }
 
-        public Task DropEverythingAsync()
+        public async Task DropEverythingAsync()
         {
             Settings.Current.UpdateDatabaseId();
-            TripStore.DropTable();
+            await TripStore.DropTable();
+            await PhotoStore.DropTable();
+            await UserStore.DropTable();
+            await IOTHubStore.DropTable();
             IsInitialized = false;
-            return Task.FromResult(true);
+            await InitializeAsync();
         }
 
         public bool IsInitialized

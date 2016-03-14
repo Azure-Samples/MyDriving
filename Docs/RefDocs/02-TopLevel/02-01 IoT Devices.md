@@ -166,6 +166,8 @@ There are five key considerations in the choice of protocol for the device conne
 
 - **Low resource devices**. The MQTT and HTTP libraries have a smaller footprint than the AMQP libraries. As such, if the device has few resources (for example, less than 1Mb RAM), these protocols might be the only protocol implementation available. However, modern smart phones typically have sufficient RAM to use the AMQPS protocol.
 
+    > Note: The C library that supports the AMQPS protocol is now much more compact than earlier versions.
+
 - **Network traversal**. MQTT uses port 8883. This could cause problems in networks that are closed to non-HTTP protocols. You can use both HTTPS and AMQPS over WebSockets in this scenario. However, this is unlikely to be an issue over the public data network used by the smart phone.
 
 ### How does the phone send data to IoT Hub?
@@ -197,6 +199,8 @@ namespace MyTrips.Shared
 ```
 
 The **CreateFromConnectionString** method uses a connection string to authenticate with IoT Hub. The section *How do I provsion devices?* in the next chapter provides more information about this connection string.
+
+The **blobs** collection of strings in the snippet above contains data that has already been serialized into JSON. See the **AddTripDataPointToBuffer** method in the the **OBDDataProcessor** class for more details.
 
 The **SendEventBatchAsync** method sends multiple **Microsoft.Azure.Devices.Client.Message** messages to IoT Hub. These messages contain OBD and GPS data encoded as JSON. For more information about sending messages to IoT Hub, see [Messaging][lnk-iothubmessaging] in the Azure IoT Hub developer guide.
 
