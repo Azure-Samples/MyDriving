@@ -30,8 +30,6 @@ namespace MyTrips.ViewModel
                 ServiceLocator.Instance.Add<IStoreManager, DataStore.Azure.StoreManager>();
             }
 
-            //TODO: Put this somewhere....
-            //ServiceLocator.Instance.Resolve<IStoreManager>().InitializeAsync();
         }
 
         public Settings Settings
