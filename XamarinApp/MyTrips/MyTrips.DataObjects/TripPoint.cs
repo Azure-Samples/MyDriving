@@ -49,6 +49,7 @@ namespace MyTrips.DataObjects
         public double OutsideTemperature { get; set; }
 
         public double EngineFuelRate { get; set; }
+        public bool IsSimulated { get; set; }
 
         public string VIN { get; set; }
 

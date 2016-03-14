@@ -196,19 +196,23 @@
   <ItemGroup>
     <Compile Include="App_Start\Startup.MobileApp.cs" />
     <Compile Include="Controllers\IOTHubDataController.cs" />
+    <Compile Include="Controllers\POIController.cs" />
     <Compile Include="Controllers\TripController.cs" />
     <Compile Include="Controllers\TripPointController.cs" />
     <Compile Include="Controllers\ProvisionController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
     <Compile Include="Helpers\IdentitiyHelper.cs" />
     <Compile Include="Helpers\QueryableExpandAttribute.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\smarttripsContext.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\PublishProfiles\AssemblyInfo.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -221,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\motzsmarttrips - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\mydriving - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\SmartKar - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\smarttrips - Web Deploy.pubxml" />
   </ItemGroup>
