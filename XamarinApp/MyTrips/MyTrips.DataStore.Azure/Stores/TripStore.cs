@@ -56,13 +56,15 @@ namespace MyTrips.DataStore.Azure.Stores
             bool result = false;
             try
             {
+                await InitializeStoreAsync().ConfigureAwait(false);
+
                 var t = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client?.GetSyncTable<TripPoint>();
                 foreach (var point in item.Points)
                 {
                     await t.DeleteAsync(point).ConfigureAwait(false);
                 }
 
-                await InitializeStoreAsync().ConfigureAwait(false);
+
                 await PullLatestAsync().ConfigureAwait(false);
                 await Table.DeleteAsync(item).ConfigureAwait(false);
                 await SyncAsync().ConfigureAwait(false);
