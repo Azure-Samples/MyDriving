@@ -25,7 +25,7 @@ namespace MyTrips.Services
         bool isConnectedToOBD;
         bool isPollingOBDDevice;
 
-        public event EventHandler OnOBDDeviceConnectionTimout;
+        public event EventHandler OnOBDDeviceConnectionTimeout;
 
         //Init must be called each time to connect and reconnect to the OBD device
         public async Task Initialize(IStoreManager storeManager)
@@ -188,11 +188,6 @@ namespace MyTrips.Services
                     //Attempt to connect to OBD device again
                     isConnected = await this.ConnectToOBDDeviceWithConfirmation();
                 }
-                else
-                {
-                    //Use the OBD simulator
-                    isConnected = await this.obdDevice.Initialize(true);
-                }
             }
 
             return isConnected;
@@ -250,7 +245,7 @@ namespace MyTrips.Services
             {
                 //Give up after 3 hours
                 this.StopPollingOBDDevice();
-                this.OnOBDDeviceConnectionTimout(this.obdDevice, new EventArgs());
+                this.OnOBDDeviceConnectionTimeout(this.obdDevice, new EventArgs());
             }
         }
     }

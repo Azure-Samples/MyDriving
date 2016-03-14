@@ -103,7 +103,7 @@ namespace MyTrips.ViewModel
             Temperature = "N/A";
 
             this.obdDataProcessor = new OBDDataProcessor();
-            this.obdDataProcessor.OnOBDDeviceConnectionTimout += ObdDataProcessor_OnOBDDeviceConnectionTimout;
+            this.obdDataProcessor.OnOBDDeviceConnectionTimeout += ObdDataProcessor_OnOBDDeviceConnectionTimout;
 		}
 
         private async void ObdDataProcessor_OnOBDDeviceConnectionTimout(object sender, EventArgs e)
