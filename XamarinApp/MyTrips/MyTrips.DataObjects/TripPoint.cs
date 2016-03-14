@@ -47,7 +47,6 @@ namespace MyTrips.DataObjects
         public double MassFlowRate { get; set; }
 
         public double EngineFuelRate { get; set; }
-        public bool IsSimulated { get; set; }
 
         public string VIN { get; set; }
 
