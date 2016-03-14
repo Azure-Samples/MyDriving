@@ -24,10 +24,13 @@ namespace MyTrips.UITests
 			app = AppInitializer.StartApp(platform);
 		}
 
-		[Test]
-		public void Repl()
-		{
-			app.Repl ();
-		}
+		// If you would like to play around with the Xamarin.UITest REPL
+		// uncomment out this method, and run this test with the NUnit test runner.
+
+//		[Test]
+//		public void Repl()
+//		{
+//			app.Repl ();
+//		}
     }
 }
