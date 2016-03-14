@@ -101,7 +101,6 @@ namespace MyTrips.ViewModel
             Distance = "0.0";
             FuelConsumption = "N/A";
             Temperature = "N/A";
-
             obdDataProcessor = new OBDDataProcessor();
        }
 
