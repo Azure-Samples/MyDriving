@@ -35,7 +35,6 @@ namespace MyTrips.UWP
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
 
-        public static bool FirstLogin = true; 
 
 
         public App()
@@ -100,6 +99,7 @@ namespace MyTrips.UWP
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
+                Window.Current.Content = new SplitViewShell(rootFrame);
                 rootFrame.Navigate(typeof(LoginView), e.Arguments);
             }
             // Ensure the current window is active
