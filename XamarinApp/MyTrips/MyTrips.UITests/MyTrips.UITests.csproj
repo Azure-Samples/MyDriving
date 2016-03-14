@@ -87,4 +87,12 @@
     <Folder Include="Helpers\" />
     <Folder Include="Tests\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyTrips.iOS\MyTrips.iOS.csproj">
+      <Project>{DE56E591-0655-43D7-A1B9-B3280F78B667}</Project>
+      <Name>MyTrips.iOS</Name>
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
