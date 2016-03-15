@@ -186,6 +186,11 @@ namespace MyTrips.Services
                     //Attempt to connect to OBD device again
                     isConnected = await this.ConnectToOBDDeviceWithConfirmation();
                 }
+                else
+                {
+                    //Use the OBD simulator
+                    isConnected = await this.obdDevice.Initialize(true);
+                }
             }
 
             return isConnected;
@@ -201,7 +206,7 @@ namespace MyTrips.Services
             }
         }
 
-        public void StopPollingOBDDevice()
+        private void StopPollingOBDDevice()
         {
             if (this.isPollingOBDDevice)
             {
