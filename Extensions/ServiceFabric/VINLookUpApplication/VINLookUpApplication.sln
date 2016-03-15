@@ -7,22 +7,54 @@ Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "VINLookUpApplication", "VIN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VINLookupService", "VINLookupService\VINLookupService.csproj", "{59C7BD02-6514-4016-81D8-800B039F2C04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VINParser", "VINParser\VINParser.csproj", "{109E2AC7-5699-4B32-968B-B37C6C8C594E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTHubPartitionMap", "IoTHubPartitionMap\IoTHubPartitionMap.csproj", "{2CBB5065-451D-4D04-AC39-A847BA964238}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTHubPartitionMap.Interfaces", "IoTHubPartitionMap.Interfaces\IoTHubPartitionMap.Interfaces.csproj", "{3A9A9078-BED6-4DEE-82ED-82B287FD2531}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F110657-BB44-40AE-B87D-92B2B32D3F39}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{9F110657-BB44-40AE-B87D-92B2B32D3F39}.Debug|x64.ActiveCfg = Debug|x64
 		{9F110657-BB44-40AE-B87D-92B2B32D3F39}.Debug|x64.Build.0 = Debug|x64
 		{9F110657-BB44-40AE-B87D-92B2B32D3F39}.Debug|x64.Deploy.0 = Debug|x64
+		{9F110657-BB44-40AE-B87D-92B2B32D3F39}.Release|Any CPU.ActiveCfg = Release|x64
 		{9F110657-BB44-40AE-B87D-92B2B32D3F39}.Release|x64.ActiveCfg = Release|x64
 		{9F110657-BB44-40AE-B87D-92B2B32D3F39}.Release|x64.Build.0 = Release|x64
 		{9F110657-BB44-40AE-B87D-92B2B32D3F39}.Release|x64.Deploy.0 = Release|x64
+		{59C7BD02-6514-4016-81D8-800B039F2C04}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{59C7BD02-6514-4016-81D8-800B039F2C04}.Debug|x64.ActiveCfg = Debug|x64
 		{59C7BD02-6514-4016-81D8-800B039F2C04}.Debug|x64.Build.0 = Debug|x64
+		{59C7BD02-6514-4016-81D8-800B039F2C04}.Release|Any CPU.ActiveCfg = Release|x64
 		{59C7BD02-6514-4016-81D8-800B039F2C04}.Release|x64.ActiveCfg = Release|x64
 		{59C7BD02-6514-4016-81D8-800B039F2C04}.Release|x64.Build.0 = Release|x64
+		{109E2AC7-5699-4B32-968B-B37C6C8C594E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{109E2AC7-5699-4B32-968B-B37C6C8C594E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{109E2AC7-5699-4B32-968B-B37C6C8C594E}.Debug|x64.ActiveCfg = Debug|x64
+		{109E2AC7-5699-4B32-968B-B37C6C8C594E}.Debug|x64.Build.0 = Debug|x64
+		{109E2AC7-5699-4B32-968B-B37C6C8C594E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{109E2AC7-5699-4B32-968B-B37C6C8C594E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{109E2AC7-5699-4B32-968B-B37C6C8C594E}.Release|x64.ActiveCfg = Release|Any CPU
+		{109E2AC7-5699-4B32-968B-B37C6C8C594E}.Release|x64.Build.0 = Release|Any CPU
+		{2CBB5065-451D-4D04-AC39-A847BA964238}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{2CBB5065-451D-4D04-AC39-A847BA964238}.Debug|x64.ActiveCfg = Debug|x64
+		{2CBB5065-451D-4D04-AC39-A847BA964238}.Debug|x64.Build.0 = Debug|x64
+		{2CBB5065-451D-4D04-AC39-A847BA964238}.Release|Any CPU.ActiveCfg = Release|x64
+		{2CBB5065-451D-4D04-AC39-A847BA964238}.Release|x64.ActiveCfg = Release|x64
+		{2CBB5065-451D-4D04-AC39-A847BA964238}.Release|x64.Build.0 = Release|x64
+		{3A9A9078-BED6-4DEE-82ED-82B287FD2531}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{3A9A9078-BED6-4DEE-82ED-82B287FD2531}.Debug|x64.ActiveCfg = Debug|x64
+		{3A9A9078-BED6-4DEE-82ED-82B287FD2531}.Debug|x64.Build.0 = Debug|x64
+		{3A9A9078-BED6-4DEE-82ED-82B287FD2531}.Release|Any CPU.ActiveCfg = Release|x64
+		{3A9A9078-BED6-4DEE-82ED-82B287FD2531}.Release|x64.ActiveCfg = Release|x64
+		{3A9A9078-BED6-4DEE-82ED-82B287FD2531}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
