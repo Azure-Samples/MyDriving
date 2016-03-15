@@ -266,7 +266,11 @@ namespace MyTrips.iOS
 			ConfigureWayPointButtons();
 			recordButton.Hidden = true;
 
-			// Configure trip info labels
+			UpdateTripStatistics();
+		}
+
+		void UpdateTripStatistics()
+		{
 			labelOneTitle.Text = "Elapsed Time";
 			labelOneValue.Text = PastTripsDetailViewModel.ElapsedTime;
 			labelTwoTitle.Text = PastTripsDetailViewModel.Settings.MetricDistance ? "Kilometers" : "Miles";
@@ -322,6 +326,8 @@ namespace MyTrips.iOS
 			var value = (int)tripSlider.Value;
 			var coordinate = PastTripsDetailViewModel.Trip.Points[value].ToCoordinate();
 			UpdateCarAnnotationPosition(coordinate);
+
+			UpdateTripStatistics();
 		}
 
 		void PopRecordButtonAnimation()
