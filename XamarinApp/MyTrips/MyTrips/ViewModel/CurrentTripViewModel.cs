@@ -81,11 +81,11 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref fuelConsumptionUnits, value); }
         }
 
-        string temperature = "N/A";
-        public string Temperature
+        string engineLoad = "N/A";
+        public string EngineLoad
         {
-            get { return temperature; }
-            set { SetProperty(ref temperature, value); }
+            get { return engineLoad; }
+            set { SetProperty(ref engineLoad, value); }
         }
 
 		public CurrentTripViewModel()
@@ -100,9 +100,9 @@ namespace MyTrips.ViewModel
             ElapsedTime = "0s";
             Distance = "0.0";
             FuelConsumption = "N/A";
-            Temperature = "N/A";
+            EngineLoad = "N/A";
             obdDataProcessor = new OBDDataProcessor();
-       }
+		}
 
        
 
@@ -140,6 +140,8 @@ namespace MyTrips.ViewModel
                 //Connect to the OBD device
                 await obdDataProcessor.Initialize(StoreManager);
                 await obdDataProcessor.ConnectToOBDDevice(true);
+
+
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
@@ -200,6 +202,7 @@ namespace MyTrips.ViewModel
 
                 CurrentTrip.MainPhotoUrl = $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{CurrentPosition.Latitude.ToString(CultureInfo.InvariantCulture)},{CurrentPosition.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key=J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
 
+
                 CurrentTrip.Rating = 90;
 
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
@@ -231,9 +234,8 @@ namespace MyTrips.ViewModel
                 ElapsedTime = "0s";
                 Distance = "0.0";
                 FuelConsumption = "N/A";
-                Temperature = "N/A";
+                EngineLoad = "N/A";
 
-                photos = new List<Photo>();
                 OnPropertyChanged(nameof(CurrentTrip));
                 OnPropertyChanged("Stats");
                 NeedSave = false;
@@ -260,7 +262,7 @@ namespace MyTrips.ViewModel
             if (IsBusy || !IsRecording)
                 return false;
 
-            if (CurrentTrip.Points.Count == 0)
+            if (CurrentTrip.Points.Count <= 1)
             {
 
                 if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
@@ -421,7 +423,6 @@ namespace MyTrips.ViewModel
                 point.RelativeThrottlePosition = rtp;
                 point.Speed = speed;
                 point.RPM = rpm;
-                point.OutsideTemperature = outside;
                 point.EngineFuelRate = efr;
                 point.VIN = vin;
 
@@ -446,9 +447,14 @@ namespace MyTrips.ViewModel
                     Longitude = userLocation.Longitude,
                     Sequence = CurrentTrip.Points.Count,
 				};
-
+                bool hasEngineLoad = false;
+                
                 //Add OBD data if there is a successful connection to the OBD Device
                 await AddOBDDataToPoint(point);
+
+
+                if (!CurrentTrip.HasSimulatedOBDData && point.HasSimulatedOBDData)
+                    CurrentTrip.HasSimulatedOBDData = true;
 
                 CurrentTrip.Points.Add(point);
 
@@ -481,8 +487,8 @@ namespace MyTrips.ViewModel
                     FuelConsumption = "N/A";
                 }
 
-                if(point.OutsideTemperature >= 0)
-                    Temperature = point.DisplayTemp;
+                if(hasEngineLoad)
+                    EngineLoad = $"{(int)point.EngineLoad}%";
                 
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
                 DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";

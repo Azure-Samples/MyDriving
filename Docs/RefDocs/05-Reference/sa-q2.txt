@@ -1,0 +1,65 @@
+WITH TripPointRaw as 
+(
+SELECT
+    TripId,
+    TripDataPoint.Lat as RawLat,
+    TripDataPoint.Lon as RawLong,
+    TripDataPoint.Speed as spd,
+    TripDataPoint.EngineRPM as rpm,
+    TripDataPoint.EngineLoad as engineLoad,
+    DATEADD(millisecond,- DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),DATEADD(second, 5 - CAST(CEILING(DATEPART(second, TripDataPoint.RecordedTimeStamp)%5) as BIGINT),TripDataPoint.RecordedTimeStamp)) as ts,
+    TripDataPoint.VIN as vin,
+    TripDataPoint.RelativeThrottlePosition as throttle
+FROM
+    CarDeviceData
+WHERE
+    TripId is not null
+    and TripId != ''
+)
+
+SELECT
+    CONCAT(TripId,':',DATENAME(year,ts),'-',DATENAME(month,ts),'-',DATENAME(day,ts),'-',DATENAME(hour,ts),'-',DATENAME(minute,ts),'-',DATENAME(second,ts)) as DocId,
+    TripId,
+    vin,
+    ts,
+    AVG(RawLat) as lat,
+    AVG(RawLong) as lon,
+    AVG(CAST(spd as FLOAT)) as avgSpeed,
+    MAX(CAST(spd as FLOAT)) as maxSpeed,
+    MIN(CAST(spd as FLOAT)) as minSpeed,
+    AVG(CAST(engineLoad as FLOAT)) as avgEngineLoad,
+    MAX(CAST(rpm as FLOAT)) as maxRpm,
+    MAX(CAST(throttle as FLOAT)) as avgThrottle
+INTO DocDBSink
+FROM
+    TripPointRaw
+WHERE
+    ts is not null
+GROUP BY
+    TripId,
+    vin,
+    ts,
+    TumblingWindow(second,5)
+    
+    
+SELECT
+    TripId,
+    vin,
+    ts,
+    AVG(RawLat) as lat,
+    AVG(RawLong) as lon,
+    AVG(CAST(spd as FLOAT)) as avgSpeed,
+    MAX(CAST(spd as FLOAT)) as maxSpeed,
+    MIN(CAST(spd as FLOAT)) as minSpeed,
+    MAX(CAST(rpm as FLOAT)) as maxRpm,
+    MAX(CAST(throttle as FLOAT)) as avgThrottle
+INTO PowerBISink
+FROM
+    TripPointRaw
+WHERE
+    ts is not null
+GROUP BY
+    TripId,
+    vin,
+    ts,
+    TumblingWindow(second,5)

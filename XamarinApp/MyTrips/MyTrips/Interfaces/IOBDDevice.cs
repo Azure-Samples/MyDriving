@@ -13,5 +13,7 @@ namespace MyTrips.Interfaces
         Dictionary<String, String> ReadData();
 
         Task Disconnect();
+
+        bool IsSimulated { get; }
     }
 }

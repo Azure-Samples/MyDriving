@@ -56,11 +56,7 @@ namespace MyTrips.UWP.Views
             this.Frame.NavigationFailed += OnNavigationFailed;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
-            if(App.FirstLogin)
-                Window.Current.Content = new SplitViewShell(this.Frame);
-
             this.Frame.Navigate(typeof(PastTripsMenuView));
-            App.FirstLogin = false;
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
@@ -83,7 +79,7 @@ namespace MyTrips.UWP.Views
 
         private void ShowUserWelcome()
         {
-            if (!string.IsNullOrWhiteSpace(Settings.Current.UserId))
+            if (!string.IsNullOrWhiteSpace(Settings.Current.AzureMobileUserId))
             {
                 LoginButtons.Visibility = Visibility.Collapsed;
                 SkipAuthBtn.Visibility = Visibility.Collapsed;
@@ -96,19 +92,13 @@ namespace MyTrips.UWP.Views
             }
             else  //if no user info to show, go directly to next page
             {
-                if (App.FirstLogin)
-                    Window.Current.Content = new SplitViewShell(this.Frame);
                 this.Frame.Navigate(typeof(PastTripsMenuView));
-                App.FirstLogin = false;
             }
         }
 
         private void Continue_Click(object sender, RoutedEventArgs e)
         {
-            if (App.FirstLogin)
-                Window.Current.Content = new SplitViewShell(this.Frame);
             this.Frame.Navigate(typeof(PastTripsMenuView));
-            App.FirstLogin = false;
         }
 
         private void SetImageSource()

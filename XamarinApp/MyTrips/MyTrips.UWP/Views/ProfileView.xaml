@@ -24,19 +24,13 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
 
-
-                    
-           <!--         <Ellipse Grid.RowSpan="2" Width="110" Height="112" Stroke="#22cc95" StrokeThickness="4" Fill="{StaticResource MainBackgroundColor}">
-                    </Ellipse>
-                    
-                    -->
-
-                    <controls:CirclePercentage Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <controls:CirclePercentage x:Name="CirclePercentage" Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" DataContext="{Binding }"/>
                     <Ellipse Grid.RowSpan="2" Width="100" Height="100">
                         <Ellipse.Fill>
                             <ImageBrush x:Name="ProfileImage" ImageSource="{x:Bind profileViewModel.Settings.UserProfileUrl, Mode=OneWay, Converter={StaticResource ImageSourceConverter}}"/>
                         </Ellipse.Fill>
                     </Ellipse>
+
                     <TextBlock Name="DrivingSkills" Text="{x:Bind profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}% '}"   
                                      Grid.Column="1" FontFamily="SegoeUI" FontSize="32" Foreground="#22cc95" TextWrapping="Wrap"/>
                     <StackPanel Grid.Column="1" Grid.Row="1">
@@ -49,7 +43,7 @@
 
                 <Border Margin="0,10,0,0" />
                 <controls:ProfileViewTabControl x:Name="TotalDistanceTab" DataContext="{Binding TotalDistanceDisplay}" />
-                
+
                 <Border Margin="0,10,0,0" />
                 <controls:ProfileViewTabControl x:Name="TotalTimeTab" DataContext="{Binding TotalTimeDisplay}" />
 

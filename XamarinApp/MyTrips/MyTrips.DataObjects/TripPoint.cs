@@ -46,27 +46,12 @@ namespace MyTrips.DataObjects
 
         public double MassFlowRate { get; set; }
 
-        public double OutsideTemperature { get; set; }
-
         public double EngineFuelRate { get; set; }
 
         public string VIN { get; set; }
 
         public bool HasOBDData { get; set; }
 
-        #if !BACKEND
-        [JsonIgnore]
-        public string DisplayTemp
-        {
-            get 
-            {
-                if (!HasOBDData)
-                    return "N/A";
-                
-                return  Settings.Current.MetricTemp ? (OutsideTemperature.ToString("N1") + "°C") :
-                                                 (((OutsideTemperature * 1.8) + 32).ToString("N1") + "°F");
-            }
-        }
-        #endif
+        public bool HasSimulatedOBDData { get; set; }
     }
 }

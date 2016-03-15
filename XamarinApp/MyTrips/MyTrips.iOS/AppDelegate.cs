@@ -32,7 +32,11 @@ namespace MyTrips.iOS
 
 			Xamarin.Insights.Initialize(Logger.InsightsKey);
 
-			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
+#if XTC
+            Xamarin.Calabash.Start();
+#endif
+
+            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			SQLitePCL.CurrentPlatform.Init();
 			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
 			{
@@ -59,6 +63,10 @@ namespace MyTrips.iOS
 				var tabBarController = Window.RootViewController as UITabBarController;
 				tabBarController.SelectedIndex = 1;
 			}
+
+			#if DEBUG
+			Xamarin.Calabash.Start();
+			#endif
 
 			return true;
 		}
