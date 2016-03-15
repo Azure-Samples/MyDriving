@@ -100,6 +100,26 @@ namespace MyTrips.iOS
 				return 221;
 			}
 		}
+
+		public override bool CanEditRow(UITableView tableView, NSIndexPath indexPath)
+		{
+			return true;
+		}
+
+		public override async void CommitEditingStyle(UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
+		{
+			switch (editingStyle)
+			{
+				case UITableViewCellEditingStyle.Delete:
+					var trip = ViewModel.Trips[indexPath.Row];
+					await ViewModel.ExecuteDeleteTripCommand(trip);
+
+					tableView.DeleteRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.Automatic);
+					break;
+				default:
+					break;
+			}
+		}
 		#endregion
 
 		[Export ("RefreshSource")]

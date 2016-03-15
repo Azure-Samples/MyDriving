@@ -5,7 +5,6 @@ namespace MyTrips.ViewModel
 {
     public class TripSummaryViewModel : ViewModelBase
     {
-
         public string FuelUnits => Settings.MetricUnits ? "L" : "gal.";
 
         public double FuelConverted => Settings.MetricUnits ? FuelUsed / .264172 : FuelUsed;
@@ -70,7 +69,6 @@ namespace MyTrips.ViewModel
                 if (!SetProperty(ref fuelUsed, value))
                     return;
 
-
                 OnPropertyChanged(nameof(FuelUnits));
                 OnPropertyChanged(nameof(FuelDisplay));
                 OnPropertyChanged(nameof(FuelDisplayNoUnits));
@@ -100,7 +98,6 @@ namespace MyTrips.ViewModel
                 if (!SetProperty(ref maxSpeed, value))
                     return;
 
-
                 OnPropertyChanged(nameof(SpeedUnits));
                 OnPropertyChanged(nameof(MaxSpeedConverted));
                 OnPropertyChanged(nameof(MaxSpeedDisplayNoUnits));
@@ -122,6 +119,5 @@ namespace MyTrips.ViewModel
             get { return hardAccelerations; }
             set { SetProperty(ref hardAccelerations, value); }
         }
-
     }
 }
