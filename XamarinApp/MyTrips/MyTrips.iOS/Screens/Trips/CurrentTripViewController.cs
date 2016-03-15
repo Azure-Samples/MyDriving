@@ -330,10 +330,10 @@ namespace MyTrips.iOS
 		void TripSlider_ValueChanged(object sender, EventArgs e)
 		{
 			var value = (int)tripSlider.Value;
-			var coordinate = PastTripsDetailViewModel.Trip.Points[value].ToCoordinate();
-			UpdateCarAnnotationPosition(coordinate);
+			var tripPoint = PastTripsDetailViewModel.Trip.Points[value];
+			UpdateCarAnnotationPosition(tripPoint.ToCoordinate ());
 
-			UpdateTripStatistics(coordinate.ToTripPoint());
+			UpdateTripStatistics(tripPoint);
 		}
 
 		void PopRecordButtonAnimation()
