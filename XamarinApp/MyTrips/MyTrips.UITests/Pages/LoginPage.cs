@@ -32,7 +32,7 @@ namespace MyTrips.UITests
 
 		public void SkipAuthentication()
 		{
-			app.Tap ("Test Cloud (Skip Auth)");
+			app.Tap ("Skip Auth");
 		}
 	}
 }

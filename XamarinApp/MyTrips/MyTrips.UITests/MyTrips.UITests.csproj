@@ -34,6 +34,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -66,6 +67,16 @@
     <Compile Include="Pages\BasePage.cs" />
     <Compile Include="Helpers\AppExtensions.cs" />
     <Compile Include="Pages\LoginPage.cs" />
+    <Compile Include="Pages\TabPage.cs" />
+    <Compile Include="Pages\ProfilePage.cs" />
+    <Compile Include="Pages\CurrentTripPage.cs" />
+    <Compile Include="Pages\PastTripsPage.cs" />
+    <Compile Include="AbstractSetup.cs" />
+    <Compile Include="Tests\LoginTests.cs" />
+    <Compile Include="Tests\NavigationTests.cs" />
+    <Compile Include="Tests\CurrentTripTests.cs" />
+    <Compile Include="Tests\PastTripsTests.cs" />
+    <Compile Include="Tests\SettingsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -74,6 +85,7 @@
   <ItemGroup>
     <Folder Include="Pages\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Tests\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyTrips.iOS\MyTrips.iOS.csproj">
