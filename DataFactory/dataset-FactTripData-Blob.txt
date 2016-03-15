@@ -1,0 +1,94 @@
+{
+    "name": "FactTripData-Blob",
+    "properties": {
+        "structure": [
+            {
+                "name": "TripId",
+                "type": "String"
+            },
+            {
+                "name": "UserId",
+                "type": "String"
+            },
+            {
+                "name": "Name",
+                "type": "String"
+            },
+            {
+                "name": "Lat",
+                "type": "Double"
+            },
+            {
+                "name": "Lon",
+                "type": "Double"
+            },
+            {
+                "name": "AvgSpeed",
+                "type": "Double"
+            },
+            {
+                "name": "AvgEngineRPM",
+                "type": "Double"
+            },
+            {
+                "name": "AvgShortTermFuelBank",
+                "type": "Double"
+            },
+            {
+                "name": "AvgLargeTermFuelBank",
+                "type": "Double"
+            },
+            {
+                "name": "MaxThrottlePosition",
+                "type": "Double"
+            },
+            {
+                "name": "AvgRelativeThrottlePosition",
+                "type": "Double"
+            },
+            {
+                "name": "Runtime",
+                "type": "Timespan"
+            },
+            {
+                "name": "DistancewithMIL",
+                "type": "Double"
+            },
+            {
+                "name": "EngineLoad",
+                "type": "Double"
+            },
+            {
+                "name": "MAFFlowRate",
+                "type": "Double"
+            },
+            {
+                "name": "OutsideTemperature",
+                "type": "Double"
+            },
+            {
+                "name": "EngineFuelRate",
+                "type": "Double"
+            },
+            {
+                "name": "vin",
+                "type": "String"
+            }
+        ],
+        "published": false,
+        "type": "AzureBlob",
+        "linkedServiceName": "HDIMetastoreBlobLinkedService",
+        "typeProperties": {
+            "folderPath": "dailycomputehdicluster/hive/warehouse/factTripData",
+            "format": {
+                "type": "TextFormat",
+                "rowDelimiter": "\n",
+                "columnDelimiter": "|"
+            }
+        },
+        "availability": {
+            "frequency": "Day",
+            "interval": 1
+        }
+    }
+}
