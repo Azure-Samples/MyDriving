@@ -24,6 +24,9 @@ using Windows.UI;
 using MvvmHelpers;
 using System.Collections.Specialized;
 using Windows.UI.Core;
+using Windows.ApplicationModel.ExtendedExecution;
+using Plugin.Geolocator.Abstractions;
+using System.Threading;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -42,6 +45,9 @@ namespace MyTrips.UWP.Views
         private MapPolyline mapPolyline;
 
         private ImageSource recordButtonImage;
+
+        private ExtendedExecutionSession session = null;
+        private Timer periodicTimer;
 
         public IList<BasicGeoposition> Locations { get; set; }
 
@@ -68,6 +74,7 @@ namespace MyTrips.UWP.Views
         public CurrentTripView()
         {
             this.InitializeComponent();
+            BeginExtendedExecution();
             this.viewModel = new CurrentTripViewModel();
             this.Locations = new List<BasicGeoposition>();
             this.MyMap.Loaded += MyMap_Loaded;
@@ -75,6 +82,11 @@ namespace MyTrips.UWP.Views
             recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
             OnPropertyChanged(nameof(RecordButtonImage));
             this.startRecordBtn.Click += StartRecordBtn_Click;
+            viewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
+        }
+        private void Geolocator_PositionChanged(object sender, PositionEventArgs e)
+        {
+            
         }
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
@@ -90,6 +102,7 @@ namespace MyTrips.UWP.Views
             base.OnNavigatedTo(e);
             viewModel.PropertyChanged += OnPropertyChanged;
             await StartTrackingAsync();
+         
         }
 
         void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -135,10 +148,9 @@ namespace MyTrips.UWP.Views
                     // handlers. If none is set, a ReportInterval of 1 second is used
                     // as a default and a position will be returned every 1 second.
                     //
+
+                   // await BeginExtendedExecution(viewModel);
                     startRecordBtn.IsEnabled = true;
-
-                   viewModel.StartTrackingTripCommand.Execute(null);
-
                     break;
 
                 case GeolocationAccessStatus.Denied:
@@ -166,8 +178,74 @@ namespace MyTrips.UWP.Views
             this.MyMap.Loaded -= MyMap_Loaded;
             this.startRecordBtn.Click -= StartRecordBtn_Click;
             viewModel.PropertyChanged -= OnPropertyChanged;
+            viewModel.Geolocator.PositionChanged -= Geolocator_PositionChanged;
+            ClearExtendedExecution();
         }
 
+       
+        private async void BeginExtendedExecution()
+        {
+            ClearExtendedExecution();
+
+            var newSession = new ExtendedExecutionSession();
+            newSession.Reason = ExtendedExecutionReason.LocationTracking;
+            newSession.Description = "Tracking your location";
+            newSession.Revoked += SessionRevoked;
+            ExtendedExecutionResult result = await newSession.RequestExtensionAsync();
+            switch (result)
+            {
+                case ExtendedExecutionResult.Allowed:
+                    //Acr.UserDialogs.UserDialogs.Instance.InfoToast("Extended execution allowed.",
+                    //                      "Extended Execution", 4000);
+
+                    session = newSession;
+                    viewModel.Geolocator.AllowsBackgroundUpdates = true;
+                    viewModel.StartTrackingTripCommand.Execute(null);
+
+                    break;
+
+                default:
+                case ExtendedExecutionResult.Denied:
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to execute app in the background.",
+                      "Background execution denied.", "OK");
+
+                    newSession.Dispose();
+                    break;
+            }
+        }
+
+        private void ClearExtendedExecution()
+        {
+            if (session != null)
+            {
+                session.Revoked -= SessionRevoked;
+                session.Dispose();
+                session = null;
+            }
+        }
+
+        private async void SessionRevoked(object sender, ExtendedExecutionRevokedEventArgs args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                switch (args.Reason)
+                {
+                    case ExtendedExecutionRevokedReason.Resumed:
+                        //Acr.UserDialogs.UserDialogs.Instance.InfoToast("Extended execution revoked due to returning to foreground.",
+                        //                    "App Resumed", 4000);
+                        break;
+
+                    case ExtendedExecutionRevokedReason.SystemPolicy:
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Extended execution revoked due to system policy.",
+                                        "Background Execution revoked.", "OK");
+                        break;
+                }
+                // Once Resumed we need to start the extended execution again.
+                BeginExtendedExecution();
+            });
+        }
+       
+  
         private async void StartRecordBtn_Click(object sender, RoutedEventArgs e)
         {
             if (viewModel == null || viewModel.CurrentPosition == null || viewModel.IsBusy)
