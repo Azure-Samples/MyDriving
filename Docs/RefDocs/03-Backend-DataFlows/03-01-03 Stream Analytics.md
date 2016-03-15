@@ -6,6 +6,14 @@
 
 [Azure Stream Analytics](https://azure.microsoft.com/documentation/articles/stream-analytics-introduction/) performs fast processing of data streaming from anywhere - devices, sensors, and the web. You use a SQL-like language to express real-time data transformations over the incoming data. You can filter, join, aggregate, and transform data. Results are continuously streamed to the sinks you specify. Like other Azure services, it's hugely scaleable, secure and reliable.
 
+Typical applications aggregate and filter data coming in from devices or the web, and might combine it with static data. 
+
+![](./media/sa-42.png)
+
+Streaming architectures contrast sharply with a more traditional approach in which incoming data is loaded immediately into a database, which is then queried by user apps. Updating the database is cumbersome, and it can be minutes before the critical queries can be performed on the uploaded data.
+
+In a streaming solution, the critical queries are processed continuously as they arrive, and passed on to a suitable sink. The inputs and outputs directly connected to Stream Analytics are typically queues, stores or databases, with which other apps and services can work at their own rate. 
+
 
 ## Connecting up Stream Analytics
 
@@ -69,7 +77,14 @@ A more typical query structure separates into selecting the input fields and the
    SELECT speed, rpm,  speed/rpm as gear FROM DATA INTO PBIoutput
 ```
 
-Use the Test feature to run the query over a test file (here's [a sample](https://raw.githubusercontent.com/Azure/azure-stream-analytics/master/Samples/GettingStarted/HelloWorldASA-InputStream.json)). 
+## Testing queries
+
+You don't have to test your queries on continuously streaming data. Instead, the Test feature lets you upload sample data and run on that.
+(Here's [a sample](https://raw.githubusercontent.com/Azure/azure-stream-analytics/master/Samples/GettingStarted/HelloWorldASA-InputStream.json).) 
+
+At present, you have to use the [older version of the Azure portal](https://manage.windowsazure.com) to run the tester. It gives you access to all the same resources and data, but with a different user interface.
+
+![](./media/sa-41.png)
 
 Try these experiments:
 
@@ -167,16 +182,8 @@ In our demo application, we use Stream Analytics to process data received from O
 
 ![](./media/sa-10.png)
 
-Streaming architectures contrast sharply with a more traditional approach in which incoming data is loaded immediately into a database, which is then queried by user apps. Updating the database is cumbersome, and it can be minutes before the critical queries can be performed on the uploaded data.
 
-In a streaming solution, the 'hot path' includes pipeline processing of the critical queries. The results are passed straight on to the output apps. At the same time, they can be stored in a database for later inspection in a more traditional way.
-
-In our demo, Stream Analytics is the key pipeline for the major data paths:
-
-* The hot path that takes raw data from the devices, filters and aggregates it, and then passes it straight on to the mobile app. 
-* The Machine Learning path, which forks the processed data into a Machine Learning resource to look for patterns. 
-* A cold path that moves data into archive storage, where it can be inspected at leisure with the help of Power BI.
-* A real-time analytics path direct to Power BI, through which we can monitor our service continuously.
+In our demo, Stream Analytics jobs provide is the key pipelines for the major data paths.
 
 
 # Azure storage
@@ -204,6 +211,8 @@ In a separate browser window (so that you can copy the key), open your Stream An
 ![](./media/sa-37.png)
 
 You can download the content of the store from the Azure portal, or use one of the many apps and plug-ins that can be found.
+
+# Paths
 
 ## SmartTrip-ASA
 
