@@ -1,4 +1,3 @@
-using Foundation;
 using System;
 using UIKit;
 
@@ -8,9 +7,7 @@ namespace MyTrips.iOS
     {
 		public ViewModel.CurrentTripViewModel ViewModel { get; set; }
 
-		public TripSummaryViewController (IntPtr handle) : base (handle)
-        {
-        }
+		public TripSummaryViewController(IntPtr handle) : base(handle) { }
 
 		public override void ViewDidLoad()
 		{
@@ -38,6 +35,7 @@ namespace MyTrips.iOS
 		async partial void BtnClose_TouchUpInside(UIButton sender)
 		{
 			await DismissViewControllerAsync(true);
+			await ViewModel.SaveRecordingTripAsync();
 		}
 	}
 }

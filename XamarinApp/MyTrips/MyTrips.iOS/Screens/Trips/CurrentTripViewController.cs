@@ -9,6 +9,7 @@ using Foundation;
 using MapKit;
 using UIKit;
 
+using MyTrips.DataObjects;
 using MyTrips.ViewModel;
 
 using Plugin.Permissions;
@@ -257,7 +258,8 @@ namespace MyTrips.iOS
 			tripMapView.DrawRoute(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray());
 
 			// Draw car
-			var carCoordinate = PastTripsDetailViewModel.Trip.Points[coordinateCount / 2].ToCoordinate();
+			var centerCoordinate = PastTripsDetailViewModel.Trip.Points[coordinateCount / 2];
+			var carCoordinate = centerCoordinate.ToCoordinate();
 			currentLocationAnnotation = new CarAnnotation(carCoordinate, UIColor.Blue);
 			tripMapView.AddAnnotation(currentLocationAnnotation);
 
@@ -266,17 +268,21 @@ namespace MyTrips.iOS
 			ConfigureWayPointButtons();
 			recordButton.Hidden = true;
 
-			UpdateTripStatistics();
+			UpdateTripStatistics(centerCoordinate);
 		}
 
-		void UpdateTripStatistics()
+		void UpdateTripStatistics(TripPoint point)
 		{
-			labelOneTitle.Text = "Elapsed Time";
-			labelOneValue.Text = PastTripsDetailViewModel.ElapsedTime;
-			labelTwoTitle.Text = PastTripsDetailViewModel.Settings.MetricDistance ? "Kilometers" : "Miles";
-			labelTwoValue.Text = PastTripsDetailViewModel.DistanceUnits;
-			labelThreeTitle.Text = "Consumption";
-			labelThreeValue.Text = PastTripsDetailViewModel.FuelConsumptionUnits;
+			PastTripsDetailViewModel.CurrentPosition = point;
+			labelOneTitle.Text = PastTripsDetailViewModel.FuelConsumptionUnits;
+			labelOneValue.Text = PastTripsDetailViewModel.FuelConsumption;
+
+			labelTwoTitle.Text = PastTripsDetailViewModel.DistanceUnits;
+			labelTwoValue.Text = PastTripsDetailViewModel.Distance;
+
+			labelThreeTitle.Text = "Elapsed Time";
+			labelThreeValue.Text = PastTripsDetailViewModel.ElapsedTime;
+
 			labelFourTitle.Text = "Engine Load";
 			labelFourValue.Text = PastTripsDetailViewModel.EngineLoad;
 		}
@@ -327,7 +333,7 @@ namespace MyTrips.iOS
 			var coordinate = PastTripsDetailViewModel.Trip.Points[value].ToCoordinate();
 			UpdateCarAnnotationPosition(coordinate);
 
-			UpdateTripStatistics();
+			UpdateTripStatistics(coordinate.ToTripPoint());
 		}
 
 		void PopRecordButtonAnimation()
@@ -362,4 +368,5 @@ namespace MyTrips.iOS
 		#endregion
 	}
 }
+ 
  
