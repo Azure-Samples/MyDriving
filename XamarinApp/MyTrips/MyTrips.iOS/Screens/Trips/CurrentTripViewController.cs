@@ -267,14 +267,14 @@ namespace MyTrips.iOS
 			recordButton.Hidden = true;
 
 			// Configure trip info labels
-			labelOneTitle.Text = "Avg Speed";
-			labelOneValue.Text = PastTripsDetailViewModel.Trip.AverageSpeed.ToString();
+			labelOneTitle.Text = "Elapsed Time";
+			labelOneValue.Text = PastTripsDetailViewModel.ElapsedTime;
 			labelTwoTitle.Text = PastTripsDetailViewModel.Settings.MetricDistance ? "Kilometers" : "Miles";
-			labelTwoValue.Text = PastTripsDetailViewModel.Trip.TotalDistanceNoUnits;
+			labelTwoValue.Text = PastTripsDetailViewModel.DistanceUnits;
 			labelThreeTitle.Text = "Consumption";
-			labelThreeValue.Text = PastTripsDetailViewModel.Trip.FuelUsed.ToString();
-			labelFourTitle.Text = "Hard Stops";
-            labelFourValue.Text = PastTripsDetailViewModel.Trip.HardStops.ToString();
+			labelThreeValue.Text = PastTripsDetailViewModel.FuelConsumptionUnits;
+			labelFourTitle.Text = "Engine Load";
+			labelFourValue.Text = PastTripsDetailViewModel.EngineLoad;
 		}
 
 		void ConfigureSlider()
@@ -356,3 +356,4 @@ namespace MyTrips.iOS
 		#endregion
 	}
 }
+ 
