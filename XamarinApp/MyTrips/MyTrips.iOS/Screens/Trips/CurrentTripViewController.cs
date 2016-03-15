@@ -185,7 +185,7 @@ namespace MyTrips.iOS
 					UpdateRecordButton(false);
 					tripInfoView.Alpha = 0;
 
-					var vc = Storyboard.InstantiateViewController("tripSummaryTableViewController") as TripSummaryTableViewController;
+					var vc = Storyboard.InstantiateViewController("tripSummaryViewController") as TripSummaryViewController;
 					vc.ViewModel = CurrentTripViewModel;
 					PresentModalViewController(vc, true);
 				}
