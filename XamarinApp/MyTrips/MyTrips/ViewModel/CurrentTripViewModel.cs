@@ -375,6 +375,7 @@ namespace MyTrips.ViewModel
 			}
 		}
 
+        bool hasEngineLoad;
         async Task AddOBDDataToPoint(TripPoint point)
         {
             //Read data from the OBD device
@@ -383,11 +384,14 @@ namespace MyTrips.ViewModel
 
             if (obdData != null)
             {
-                double speed = 0, rpm = 0, outside = -1, efr = 0, el = 0, stfb = 0, ltfb = 0, fr = 0, tp = 0, rt = 0, dis = 0, rtp = 0;
-                string vin = String.Empty;
+                double speed = 0, rpm = 0, efr = 0, el = 0, stfb = 0, ltfb = 0, fr = 0, tp = 0, rt = 0, dis = 0, rtp = 0;
+                var vin = String.Empty;
 
-                if (obdData.ContainsKey("el"))
+                if (obdData.ContainsKey("el") && !string.IsNullOrWhiteSpace(obdData["el"]))
+                {
                     double.TryParse(obdData["el"], out el);
+                    hasEngineLoad = true;
+                }
                 if (obdData.ContainsKey("stfb"))
                     double.TryParse(obdData["stfb"], out stfb);
                 if (obdData.ContainsKey("ltfb"))
@@ -406,8 +410,6 @@ namespace MyTrips.ViewModel
                     double.TryParse(obdData["spd"], out speed);
                 if (obdData.ContainsKey("rpm"))
                     double.TryParse(obdData["rpm"], out rpm);
-                if (obdData.ContainsKey("ot") && !string.IsNullOrWhiteSpace(obdData["ot"]))
-                    double.TryParse(obdData["ot"], out outside);
                 if (obdData.ContainsKey("efr"))
                     double.TryParse(obdData["efr"], out efr);
                 if (obdData.ContainsKey("vin"))
@@ -447,8 +449,9 @@ namespace MyTrips.ViewModel
                     Longitude = userLocation.Longitude,
                     Sequence = CurrentTrip.Points.Count,
 				};
-                bool hasEngineLoad = false;
-                
+
+
+                hasEngineLoad = false;
                 //Add OBD data if there is a successful connection to the OBD Device
                 await AddOBDDataToPoint(point);
 
@@ -488,7 +491,7 @@ namespace MyTrips.ViewModel
                 }
 
                 if(hasEngineLoad)
-                    EngineLoad = $"{(int)point.EngineLoad}%";
+                 EngineLoad = $"{(int)point.EngineLoad}%";
                 
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
                 DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
