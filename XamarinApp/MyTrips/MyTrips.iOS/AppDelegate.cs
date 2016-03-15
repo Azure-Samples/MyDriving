@@ -32,10 +32,6 @@ namespace MyTrips.iOS
 
 			Xamarin.Insights.Initialize(Logger.InsightsKey);
 
-#if XTC
-            Xamarin.Calabash.Start();
-#endif
-
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			SQLitePCL.CurrentPlatform.Init();
 			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
@@ -64,9 +60,9 @@ namespace MyTrips.iOS
 				tabBarController.SelectedIndex = 1;
 			}
 
-			#if DEBUG
-			Xamarin.Calabash.Start();
-			#endif
+#if XTC
+            Xamarin.Calabash.Start();
+#endif
 
 			return true;
 		}

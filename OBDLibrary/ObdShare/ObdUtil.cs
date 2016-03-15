@@ -90,6 +90,10 @@ namespace ObdShare
                 }
                 if (ret.Length > 17)
                     ret = ret.Substring(ret.Length - 17);
+
+                //mask last 7 digits
+                ret = ret.Substring(0, 10);
+                ret += "0000000";
                 return ret;
             }
             catch (System.Exception exp)
