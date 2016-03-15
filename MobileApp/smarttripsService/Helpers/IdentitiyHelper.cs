@@ -20,7 +20,12 @@ namespace smarttripsService.Helpers
             if (principal == null)
                 return string.Empty;
 
-            var provider = principal.FindFirst("http://schemas.microsoft.com/identity/claims/identityprovider").Value;
+            var match = principal.FindFirst("http://schemas.microsoft.com/identity/claims/identityprovider");
+            string provider;
+            if (match != null)
+                provider = match.Value;
+            else
+                return string.Empty;
 
             ProviderCredentials creds = null;
             if (string.Equals(provider, "facebook", StringComparison.OrdinalIgnoreCase))

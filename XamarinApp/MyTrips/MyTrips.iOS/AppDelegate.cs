@@ -28,10 +28,7 @@ namespace MyTrips.iOS
 			ServiceLocator.Instance.Add<IAuthentication, Authentication>();
 			ServiceLocator.Instance.Add<ILogger, PlatformLogger>();
 			ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
-
-			//TODO: Need to add #debug compile dir for all offline\mock interfaces
-			//ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
-			ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
+			ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
 			Xamarin.Insights.Initialize(Logger.InsightsKey);
 
@@ -67,6 +64,10 @@ namespace MyTrips.iOS
 				tabBarController.SelectedIndex = 1;
 			}
 
+			#if DEBUG
+			Xamarin.Calabash.Start();
+			#endif
+
 			return true;
 		}
 
@@ -75,7 +76,6 @@ namespace MyTrips.iOS
 			var tabBarController = Window.RootViewController as UITabBarController;
 			var navigationController = tabBarController.ViewControllers[1] as UINavigationController;
 			var currentTripViewController = navigationController.TopViewController as CurrentTripViewController;
-			currentTripViewController.CurrentTripViewModel.ResetObdIncrementalConnection();
 		}
 
 		#region Background Refresh
