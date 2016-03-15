@@ -145,6 +145,9 @@ namespace ObdShare
                         tchar = (char)tint;
                         ret += tchar.ToString();
                     }
+                    //mask last 7 digits
+                    ret = ret.Substring(0, 10);
+                    ret += "0000000";
                     return ret;
             }
             return "ERROR";
