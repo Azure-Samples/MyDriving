@@ -1,0 +1,31 @@
+SELECT
+    TripId,
+    UserId,
+    Name,
+    TripDataPoint.TripPointId as TripPointId,
+    TripDataPoint.Lat as Lat,
+    TripDataPoint.Lon as Lon,
+    TripDataPoint.Speed as Speed,
+    TripDataPoint.RecordedTimeStamp as RecordedTimeStamp,
+    TripDataPoint.Sequence as Sequence,
+    TripDataPoint.EngineRPM as EngineRPM,
+    TripDataPoint.ShortTermFuelBank1 as ShortTermFuelBank,
+    TripDataPoint.LongTermFuelBank1 as LongTermFuelBank,
+    TripDataPoint.ThrottlePosition as ThrottlePosition,
+    TripDataPoint.RelativeThrottlePosition as RelativeThrottlePosition,
+    TripDataPoint.Runtime as Runtime,
+    TripDataPoint.DistancewithMIL as DistancewithMIL,
+    TripDataPoint.EngineLoad as EngineLoad,
+    TripDataPoint.MAFFlowRate as MAFFlowRate,
+    TripDataPoint.OutsideTemperature as OutsideTemperature,
+    TripDataPoint.EngineFuelRate as EngineFuelRate,
+    TripDataPoint.VIN as vin
+INTO
+    BlobSink
+FROM
+    CarDeviceData
+WHERE
+    TripId is not null
+    and UserId is not null
+    and TripId != ''
+    and UserId != ''
