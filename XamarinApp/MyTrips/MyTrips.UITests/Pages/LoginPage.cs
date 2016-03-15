@@ -21,7 +21,7 @@ namespace MyTrips.UITests
 			app.Tap ("Login with Facebook");
 
 			app.Screenshot ("Embedded Facebook Web View");
-			app.EnterText (c => c.Css("INPUT._56bg._4u9z._5ruq"), "test_hvjvpbj_user@tfbnw.net");
+			app.EnterText (c => c.Css("INPUT._56bg._4u9z._5ruq"), "scott_kdnkrdr_guthrie@tfbnw.net");
 			app.EnterText (c => c.Css ("#u_0_1"), "admin1");
 			app.Screenshot ("Entered Facebook Credentials");
 			app.Tap (c => c.Css ("#u_0_5"));
