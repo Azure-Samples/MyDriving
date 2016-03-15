@@ -17,7 +17,6 @@ namespace MyTrips.Helpers
                 isEnabled = true;
         }
 
-
         public bool IsEnabled
         {
             get { return isEnabled; }
