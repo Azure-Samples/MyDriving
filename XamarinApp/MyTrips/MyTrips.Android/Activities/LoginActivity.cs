@@ -10,7 +10,7 @@ using MyTrips.Utils;
 using Android.Support.V4.Content;
 using Android.Graphics;
 
-namespace MyTrips.Droid
+namespace MyTrips.Droid.Activities
 {
     [Activity(Label = "Login", Theme="@style/MyThemeDark", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]            
     public class LoginActivity : BaseActivity
