@@ -27,6 +27,7 @@ namespace MyTrips.iOS
 			ViewModel = new PastTripsViewModel();
 			await ViewModel.ExecuteLoadPastTripsCommandAsync();
 
+            TableView.ReloadData();
 			TableView.TableFooterView = new UIView(new CGRect(0, 0, 0, 0));
 
 			RefreshControl.AddTarget(this, new Selector("RefreshSource"), UIControlEvent.ValueChanged);

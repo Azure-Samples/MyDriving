@@ -28,6 +28,8 @@ namespace MyTrips.Shared
             return await this.obdWrapper.Init(true);
         }
 
+        public bool IsSimulated => true;
+
         public Dictionary<string, string> ReadData()
         {
             return this.obdWrapper.Read();

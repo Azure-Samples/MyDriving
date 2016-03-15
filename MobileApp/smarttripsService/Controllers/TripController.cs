@@ -23,9 +23,9 @@ namespace smarttripsService.Controllers
         // GET tables/Trip
         //[Authorize]
         [QueryableExpand("Points")]
-        public IQueryable<Trip> GetAllTrips()
+        public async Task<IQueryable<Trip>> GetAllTrips()
         {
-            var id = IdentitiyHelper.FindSid(this.User);
+            var id = await IdentitiyHelper.FindSidAsync(User, Request);
             if (string.IsNullOrWhiteSpace(id))
                 return Query();
             return Query().Where(s => s.UserId == id);
@@ -50,7 +50,7 @@ namespace smarttripsService.Controllers
        //[Authorize]
         public async Task<IHttpActionResult> PostTrip(Trip trip)
         {
-            var id = IdentitiyHelper.FindSid(this.User);
+            var id = await IdentitiyHelper.FindSidAsync(User, Request);
             trip.UserId = id;
 
 

@@ -214,15 +214,18 @@ namespace MyTrips.Services
 
         public CustomContractResolver()
         {
-            this.PropertyMappings = new Dictionary<string, string>();
-            this.PropertyMappings.Add("Longitude", "Lon");
-            this.PropertyMappings.Add("Latitude", "Lat");
-            this.PropertyMappings.Add("ShortTermFuelBank", "ShortTermFuelBank1");
-            this.PropertyMappings.Add("LongTermFuelBank", "LongTermFuelBank1");
-            this.PropertyMappings.Add("MassFlowRate", "MAFFlowRate");
-            this.PropertyMappings.Add("RPM", "EngineRPM");
-            this.PropertyMappings.Add("Id", "TripPointId");
-            this.PropertyMappings.Add("DistanceWithMalfunctionLight", "DistancewithMIL");
+            PropertyMappings = new Dictionary<string, string>
+            {
+                ["Longitude"] = "Lon",
+                ["Latitude"] = "Lat",
+                ["ShortTermFuelBank"] = "ShortTermFuelBank1",
+                ["LongTermFuelBank"] = "LongTermFuelBank1",
+                ["MassFlowRate"] = "MAFFlowRate",
+                ["RPM"] = "EngineRPM",
+                ["Id"] = "TripPointId",
+                ["DistanceWithMalfunctionLight"] = "DistancewithMIL",
+                ["HasSimulatedOBDData"] = "IsSimulated",
+            };
 
             this.IgnoreProperties = new List<string>();
             this.IgnoreProperties.Add("HasOBDData");

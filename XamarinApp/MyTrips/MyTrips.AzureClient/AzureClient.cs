@@ -7,7 +7,7 @@ namespace MyTrips.AzureClient
 {
     public class AzureClient : IAzureClient
     {
-        const string defaultMobileServiceUrl = "https://motzsmarttrips.azurewebsites.net";
+        const string defaultMobileServiceUrl = "https://mydriving.azurewebsites.net";
         string mobileServiceUrl;
         IMobileServiceClient client;
         public IMobileServiceClient Client => client ?? (client = CreateClient());
@@ -28,6 +28,11 @@ namespace MyTrips.AzureClient
                 }
             }
             client = new MobileServiceClient(mobileServiceUrl, new AuthHandler());
+            client.SerializerSettings = new MobileServiceJsonSerializerSettings()
+            {
+                ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore,
+                CamelCasePropertyNames = true
+            };
             return client;
         }
 
@@ -42,9 +47,6 @@ namespace MyTrips.AzureClient
         }
   
     }
-
-
-    //Client => client ?? (client = new MobileServiceClient("https://motzsmarttrips.azurewebsites.net", new AuthHandler()));
 }
 
 

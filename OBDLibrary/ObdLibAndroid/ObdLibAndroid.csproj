@@ -39,12 +39,9 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <AndroidSupportedAbis>
-    </AndroidSupportedAbis>
-    <EmbedAssembliesIntoApk>
-    </EmbedAssembliesIntoApk>
-    <AndroidFastDeploymentType>
-    </AndroidFastDeploymentType>
+    <AndroidSupportedAbis></AndroidSupportedAbis>
+    <EmbedAssembliesIntoApk></EmbedAssembliesIntoApk>
+    <AndroidFastDeploymentType></AndroidFastDeploymentType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

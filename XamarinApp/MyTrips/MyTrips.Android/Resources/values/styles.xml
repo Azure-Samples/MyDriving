@@ -14,6 +14,8 @@
         <!-- colorAccent is used as the default value for colorControlActivated
          which is used to tint widgets -->
         <item name="colorAccent">@color/accent</item>
+		
+        <item name="alertDialogTheme">@style/MyDialog</item>
         <!-- You can also set colorControlNormal, colorControlActivated
          colorControlHighlight and colorSwitchThumbNormal. -->
         <!-- Option to hide the drop shadow here
@@ -22,6 +24,10 @@
       <item name="android:windowContentOverlay">@null</item>
     -->
           <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
+    <style name="MyDialog" parent="Base.Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/accent</item>
     </style>
 
     <style name="MyThemeDark.ActionBar" parent="style/Widget.AppCompat.ActionBar.Solid">

@@ -8,7 +8,7 @@ namespace ObdShare
 {
     public class ObdUtil
     {
-		static string outsideTemperature = "0";
+        static string outsideTemperature = "0";
 
         private static int ParseString(string str, int bytes)
         {
@@ -53,7 +53,7 @@ namespace ObdShare
                 case "33":  //BarometricPressure
                     return ParseString(str, 1).ToString();
                 case "45":  //Relative throttle position
-                    return (ParseString(str, 1) * 100 / 255).ToString();  
+                    return (ParseString(str, 1) * 100 / 255).ToString();
                 case "46":  //OutsideTemperature
                     return (ParseString(str, 1) - 40).ToString();
                 case "5E":  //EngineFuelRate
@@ -156,7 +156,7 @@ namespace ObdShare
             ret.Add("0110", "fr");    //MAFFlowRate
             ret.Add("0111", "tp");    //ThrottlePosition 
             ret.Add("011F", "rt");    //Runtime 
-            ret.Add("0121", "dis");    //DistancewithML 
+            ret.Add("0121", "dis");    //DistancewithMIL 
             ret.Add("0145", "rtp");    //RelativeThrottlePosition 
             ret.Add("0146", "ot");    //OutsideTemperature
             ret.Add("015E", "efr");    //EngineFuelRate
@@ -174,9 +174,9 @@ namespace ObdShare
                 case "0107":
                     return (r.Next(0, 200) - 100).ToString();
                 case "010C":
-                    return r.Next(0, 16000).ToString();
+                    return r.Next(0, 2500).ToString();
                 case "010D":
-                    return r.Next(0, 255).ToString();
+                    return r.Next(20, 120).ToString();
                 case "0110":
                     return r.Next(0, 600).ToString();
                 case "0111":
@@ -187,37 +187,42 @@ namespace ObdShare
                     return r.Next(0, 65535).ToString();
                 case "0145":
                     return r.Next(0, 100).ToString();
-				case "0146":
-					return SimulateTemperatureValue(r);
-				case "015E":
-                    return r.Next(0, 3000).ToString();
+                case "0146":
+                    return SimulateTemperatureValue(r);
+                case "015E":
+                    return SimulateEngineFuelRateValue(r);
             }
             return "0";
         }
 
-		static string SimulateTemperatureValue(Random r)
-		{
-			if (outsideTemperature == "0")
-			{
-				outsideTemperature = r.Next(0, 38).ToString();
-			}
-			else
-			{
-				var temperature = Double.Parse(outsideTemperature);
+        static string SimulateTemperatureValue(Random r)
+        {
+            if (outsideTemperature == "0")
+            {
+                outsideTemperature = r.Next(0, 38).ToString();
+            }
+            else
+            {
+                var temperature = Double.Parse(outsideTemperature);
 
-				// Returns variance value between .01 and .05
-				var variance = r.NextDouble() * (0.04) + .01;
+                // Returns variance value between .01 and .05
+                var variance = r.NextDouble() * (0.04) + .01;
 
-				var varyTemperatureDirection = r.Next(0, 2);
-				if (varyTemperatureDirection == 0)
-					temperature += variance;
-				else
-					temperature -= variance;
+                var varyTemperatureDirection = r.Next(0, 2);
+                if (varyTemperatureDirection == 0)
+                    temperature += variance;
+                else
+                    temperature -= variance;
 
-				outsideTemperature = temperature.ToString();
-			}
+                outsideTemperature = temperature.ToString();
+            }
 
-			return outsideTemperature;
-		}
-	}
+            return outsideTemperature;
+        }
+        static string SimulateEngineFuelRateValue(Random r)
+        {
+            var variance = r.NextDouble() * 6 + 8;
+            return variance.ToString();
+        }
+    }
 }

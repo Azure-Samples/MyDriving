@@ -124,7 +124,7 @@ namespace MyTrips.UWP.Views
 
                 //    Todo VJ. Fix Databinding issue to directly update the UI. Currently updating manually.
                 case nameof(viewModel.Distance):
-                case nameof(viewModel.Temperature):
+                case nameof(viewModel.EngineLoad):
                 case nameof(viewModel.FuelConsumption):
                 case nameof(viewModel.ElapsedTime):
                 case nameof(viewModel.DistanceUnits):
@@ -381,7 +381,7 @@ namespace MyTrips.UWP.Views
                 this.text_time.Text = viewModel.ElapsedTime;
                 this.text_miles.Text = viewModel.Distance;
                 this.text_gallons.Text = viewModel.FuelConsumption;
-                this.text_temp.Text = viewModel.Temperature;
+                this.text_temp.Text = viewModel.EngineLoad;
                 this.text_distanceunits.Text = viewModel.DistanceUnits;
                 this.text_fuelunits.Text = viewModel.FuelConsumptionUnits;
             });
