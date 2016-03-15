@@ -141,8 +141,6 @@ namespace MyTrips.ViewModel
                 await obdDataProcessor.Initialize(StoreManager);
                 await obdDataProcessor.ConnectToOBDDevice(true);
 
-
-
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
                 IsRecording = true;
@@ -279,11 +277,9 @@ namespace MyTrips.ViewModel
 
             CurrentTrip.EndTimeStamp = DateTime.UtcNow;
 
-            //Stop reading data from the OBD device
-            //if polling go ahead and stop.
             try
             {
-                obdDataProcessor.StopPollingOBDDevice();
+                //Disconnect from the OBD device; if still trying to connect, stop polling for the device
                 await obdDataProcessor.DisconnectFromOBDDevice();
             }
             catch(Exception ex)
