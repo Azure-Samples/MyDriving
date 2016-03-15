@@ -9,6 +9,7 @@ using Foundation;
 using MapKit;
 using UIKit;
 
+using MyTrips.DataObjects;
 using MyTrips.ViewModel;
 
 using Plugin.Permissions;
@@ -96,7 +97,7 @@ namespace MyTrips.iOS
 				route = null;
 				tripMapView.RemoveAnnotations(tripMapView.Annotations);
 
-				if (tripMapView.Overlays != null)
+			    if (tripMapView.Overlays != null && tripMapView.Overlays.Length > 0)
 				{
 					tripMapView.RemoveOverlays(tripMapView.Overlays[0]);
 				}
@@ -175,15 +176,20 @@ namespace MyTrips.iOS
 			}
 			else
 			{
-				await CurrentTripViewModel.StopRecordingTrip();
-				ResetMapViewState();
+				if (await CurrentTripViewModel.StopRecordingTrip ()) {
+					ResetMapViewState();
+					InvokeOnMainThread (delegate {
+						mapDelegate = new TripMapViewDelegate(true);
+						tripMapView.Delegate = mapDelegate;
+					});
 
-				UpdateRecordButton(false);
-				tripInfoView.Alpha = 0;
+					UpdateRecordButton(false);
+					tripInfoView.Alpha = 0;
 
-				var vc = Storyboard.InstantiateViewController("tripSummaryTableViewController") as TripSummaryTableViewController;
-				vc.ViewModel = CurrentTripViewModel;
-				PresentModalViewController(vc, true);
+					var vc = Storyboard.InstantiateViewController("tripSummaryViewController") as TripSummaryViewController;
+					vc.ViewModel = CurrentTripViewModel;
+					PresentModalViewController(vc, true);
+				}
 			}
 		}
 
@@ -252,7 +258,8 @@ namespace MyTrips.iOS
 			tripMapView.DrawRoute(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray());
 
 			// Draw car
-			var carCoordinate = PastTripsDetailViewModel.Trip.Points[coordinateCount / 2].ToCoordinate();
+			var centerCoordinate = PastTripsDetailViewModel.Trip.Points[coordinateCount / 2];
+			var carCoordinate = centerCoordinate.ToCoordinate();
 			currentLocationAnnotation = new CarAnnotation(carCoordinate, UIColor.Blue);
 			tripMapView.AddAnnotation(currentLocationAnnotation);
 
@@ -261,15 +268,23 @@ namespace MyTrips.iOS
 			ConfigureWayPointButtons();
 			recordButton.Hidden = true;
 
-			// Configure trip info labels
-			labelOneTitle.Text = "Avg Speed";
-			labelOneValue.Text = PastTripsDetailViewModel.Trip.AverageSpeed.ToString();
-			labelTwoTitle.Text = PastTripsDetailViewModel.Settings.MetricDistance ? "Kilometers" : "Miles";
-			labelTwoValue.Text = PastTripsDetailViewModel.Trip.TotalDistanceNoUnits;
-			labelThreeTitle.Text = "Consumption";
-			labelThreeValue.Text = PastTripsDetailViewModel.Trip.FuelUsed.ToString();
-			labelFourTitle.Text = "Hard Stops";
-            labelFourValue.Text = PastTripsDetailViewModel.Trip.HardStops.ToString();
+			UpdateTripStatistics(centerCoordinate);
+		}
+
+		void UpdateTripStatistics(TripPoint point)
+		{
+			PastTripsDetailViewModel.CurrentPosition = point;
+			labelOneTitle.Text = PastTripsDetailViewModel.FuelConsumptionUnits;
+			labelOneValue.Text = PastTripsDetailViewModel.FuelConsumption;
+
+			labelTwoTitle.Text = PastTripsDetailViewModel.DistanceUnits;
+			labelTwoValue.Text = PastTripsDetailViewModel.Distance;
+
+			labelThreeTitle.Text = "Elapsed Time";
+			labelThreeValue.Text = PastTripsDetailViewModel.ElapsedTime;
+
+			labelFourTitle.Text = "Engine Load";
+			labelFourValue.Text = PastTripsDetailViewModel.EngineLoad;
 		}
 
 		void ConfigureSlider()
@@ -315,8 +330,10 @@ namespace MyTrips.iOS
 		void TripSlider_ValueChanged(object sender, EventArgs e)
 		{
 			var value = (int)tripSlider.Value;
-			var coordinate = PastTripsDetailViewModel.Trip.Points[value].ToCoordinate();
-			UpdateCarAnnotationPosition(coordinate);
+			var tripPoint = PastTripsDetailViewModel.Trip.Points[value];
+			UpdateCarAnnotationPosition(tripPoint.ToCoordinate ());
+
+			UpdateTripStatistics(tripPoint);
 		}
 
 		void PopRecordButtonAnimation()
@@ -351,3 +368,5 @@ namespace MyTrips.iOS
 		#endregion
 	}
 }
+ 
+ 

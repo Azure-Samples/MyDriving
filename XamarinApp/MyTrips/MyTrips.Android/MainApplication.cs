@@ -29,10 +29,7 @@ namespace MyTrips.Droid
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
             ServiceLocator.Instance.Add<MyTrips.Utils.Interfaces.ILogger, MyTrips.Shared.PlatformLogger>();
             ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
-
-            //TODO: Need to add #debug compile dir for all offline\mock interfaces
-            //ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
-            ServiceLocator.Instance.Add<IOBDDevice, OBDDeviceSim>();
+            ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
             ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Mock.Stores.IOTHubStore>();
             //ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Azure.Stores.IOTHubStore>();
@@ -55,7 +52,6 @@ namespace MyTrips.Droid
         public void OnActivityPaused(Activity activity) { }
 
         public void OnActivityResumed(Activity activity) => CrossCurrentActivity.Current.Activity = activity;
-
 
         public void OnActivitySaveInstanceState(Activity activity, Bundle outState) {}
 

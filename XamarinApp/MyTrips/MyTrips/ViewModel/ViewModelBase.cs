@@ -7,8 +7,7 @@ using MyTrips.AzureClient;
 namespace MyTrips.ViewModel
 {
     public class ViewModelBase : BaseViewModel
-    {
-        
+    {        
         public static void Init(bool useMock = false)
         {
             ServiceLocator.Instance.Add<IAzureClient, AzureClient.AzureClient>();
@@ -29,7 +28,6 @@ namespace MyTrips.ViewModel
                 ServiceLocator.Instance.Add<IHubIOTStore, DataStore.Azure.Stores.IOTHubStore>();
                 ServiceLocator.Instance.Add<IStoreManager, DataStore.Azure.StoreManager>();
             }
-
         }
 
         public Settings Settings
@@ -39,7 +37,5 @@ namespace MyTrips.ViewModel
 
         IStoreManager storeManager;
         public IStoreManager StoreManager => storeManager ?? (storeManager = ServiceLocator.Instance.Resolve<IStoreManager>()); 
-
     }
-
 }
