@@ -185,7 +185,7 @@ namespace MyTrips.ViewModel
                         Text = CurrentTrip.Name,
                         OkText = "OK",
                         IsCancellable = false,
-                        Title = "Name of trip",
+                        Title = "Name of Trip",
                         Message = String.Empty,
                         Placeholder = String.Empty
                     });
