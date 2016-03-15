@@ -7,7 +7,6 @@ using Xamarin.UITest.Queries;
 
 namespace MyTrips.UITests
 {
-    [TestFixture(Platform.Android)]
     [TestFixture(Platform.iOS)]
     public class Tests
     {
@@ -19,25 +18,19 @@ namespace MyTrips.UITests
             this.platform = platform;
         }
 
-        [SetUp]
-        public void BeforeEachTest()
-        {
-            app = AppInitializer.StartApp(platform);
-        }
+		[SetUp]
+		public void BeforeEachTest()
+		{
+			app = AppInitializer.StartApp(platform);
+		}
 
-        [Test]
-        public void AppLaunches()
-        {
-            app.Screenshot("First screen.");
-        }
+		// If you would like to play around with the Xamarin.UITest REPL
+		// uncomment out this method, and run this test with the NUnit test runner.
 
-        [Test]
-        public void GoToPastTrips()
-        {
-            app.Screenshot("First screen.");
-            app.Tap("Skip Auth");
-            app.Screenshot("Past Trips");
-        }
+//		[Test]
+//		public void Repl()
+//		{
+//			app.Repl ();
+//		}
     }
 }
-

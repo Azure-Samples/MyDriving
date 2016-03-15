@@ -8,7 +8,7 @@ namespace MyTrips.Interfaces
 {
     public interface IOBDDevice
     {
-        Task<bool> Initialize();
+        Task<bool> Initialize(bool simulatorMode = false);
 
         Dictionary<String, String> ReadData();
 

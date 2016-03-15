@@ -13,7 +13,7 @@ namespace MyTrips.DataStore.Mock.Stores
     public class TripStore : BaseStore<Trip>, ITripStore
     {
         bool initialized;
-        List<Trip> Trips {get;set;}
+		List<Trip> Trips {get;set;} = new List<Trip> ();
 
         static Random random;
         IPhotoStore photoStore;

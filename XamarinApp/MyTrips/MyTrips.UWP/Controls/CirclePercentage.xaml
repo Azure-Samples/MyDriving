@@ -11,14 +11,14 @@
 
     <Grid>
 
-        <Path Stroke="#22cc95" StrokeThickness="4" >
+        <Path x:Name="Path" Stroke="#22cc95" StrokeThickness="{x:Bind StrokeThickness}" >
             <Path.Data>
                 <PathGeometry>
                     <PathGeometry.Figures>
-                        <PathFigure StartPoint="54, 2" >
+                        <PathFigure StartPoint="{x:Bind StartPoint}" >
                             <PathFigure.Segments>
 
-                                <ArcSegment Size="54,54" IsLargeArc="True" SweepDirection="Clockwise" Point="12,25" />
+                                <ArcSegment x:Name="Arc" Size="{x:Bind Size}" IsLargeArc="{x:Bind IsLargeArc}" SweepDirection="Clockwise" Point="{x:Bind EndPoint}" />
 
                             </PathFigure.Segments>
                         </PathFigure >
@@ -26,5 +26,8 @@
                 </PathGeometry>
             </Path.Data>
         </Path>
+   <!--  The purpose of rectangle is for the control to center correctly when the arc is smaller than 180 degrees -->
+        <Rectangle Width="{x:Bind TotalSize}" Height="{x:Bind TotalSize}" Stroke="Transparent"/>
+
     </Grid>
 </UserControl>
