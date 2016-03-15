@@ -52,7 +52,7 @@ namespace ObdLibiOS
 
                 return true;
             }
-
+            await Task.Delay(1);
             if (!ConnectSocket())
             {
                 this._socket = null;
