@@ -51,7 +51,7 @@ namespace MyTrips.ViewModel
             get { return elapsedTime; }
             set { SetProperty(ref elapsedTime, value); }
         }
-       
+
         string distance = "0.0";
         public string Distance
         {
@@ -101,7 +101,7 @@ namespace MyTrips.ViewModel
             EngineLoad = "N/A";
             obdDataProcessor = new OBDDataProcessor();
 		}
-       
+
         public bool NeedSave { get; set; }
         public IGeolocator Geolocator => CrossGeolocator.Current;
         public IMedia Media => CrossMedia.Current;
@@ -251,7 +251,23 @@ namespace MyTrips.ViewModel
         {
             if (IsBusy || !IsRecording)
                 return false;
-                
+
+            if (CurrentTrip.Points.Count <= 1)
+            {
+
+                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
+                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS ||
+                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
+                {
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("We need few more points.",
+                                                            "Keep driving!", "OK");
+                    return false;
+                }
+
+               
+            }
+
+
             CurrentTrip.EndTimeStamp = DateTime.UtcNow;
 
             try
@@ -308,8 +324,8 @@ namespace MyTrips.ViewModel
 				}
 				else
 				{
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
-                        "Geolocation Disabled", "OK");
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
+                                                                   "Geolocation Disabled", "OK");
 				}
             }
             catch (Exception ex)
@@ -458,7 +474,7 @@ namespace MyTrips.ViewModel
                 }
 
                 if(hasEngineLoad)
-                    EngineLoad = $"{(int)point.EngineLoad}%";
+                 EngineLoad = $"{(int)point.EngineLoad}%";
                 
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
                 DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
@@ -475,13 +491,13 @@ namespace MyTrips.ViewModel
         async Task ExecuteTakePhotoCommandAsync()
         {
             try 
-            {                
+            {
                 await Media.Initialize();
 
                 if (!Media.IsCameraAvailable || !Media.IsTakePhotoSupported)
                 {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
-                        "Camera Disabled", "OK");
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
+                                                                   "Camera Disabled", "OK");
                     
                     return;
                 }
@@ -522,7 +538,7 @@ namespace MyTrips.ViewModel
                     };
 
                 photos.Add(photoDB);
-                photo.Dispose();                
+                photo.Dispose();
             } 
             catch (Exception ex) 
             {
