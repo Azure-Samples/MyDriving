@@ -35,65 +35,14 @@ namespace MyTrips.ViewModel
         public TripPoint CurrentPosition
         {
             get { return position; }
-            set 
-            {
-                SetProperty(ref position, value); 
-                var timeDif = position.RecordedTimeStamp - Trip.RecordedTimeStamp;
+            set
+			{
+				SetProperty(ref position, value);
+				UpdateTripInformationForPoint();
+			}
+		}
 
-                //track seconds, minutes, then hours
-                if (timeDif.TotalMinutes < 1)
-                    ElapsedTime = $"{timeDif.Seconds}s";
-                else if (timeDif.TotalHours < 1)
-                    ElapsedTime = $"{timeDif.Minutes}m";
-                else
-                    ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";
-
-                var previousPoints = Trip.Points.Where(p => p.RecordedTimeStamp <= position.RecordedTimeStamp).ToArray();
-				var obdPoints = previousPoints.Where(p => p.HasOBDData && p.EngineFuelRate > -1).ToArray();
-                var totalConsumptionPoints = obdPoints.Length;
-                var totalConsumption = obdPoints.Sum(s => s.EngineFuelRate);
-
-                if (totalConsumptionPoints > 0)
-                {
-                    var fuelUsedLiters = (totalConsumption / totalConsumptionPoints) * timeDif.TotalHours;
-                    FuelConsumption = Settings.MetricUnits ? fuelUsedLiters.ToString("N2") : (fuelUsedLiters * .264172).ToString("N2");
-                }
-                else
-                {
-                    FuelConsumption = "N/A";
-                }
-
-                EngineLoad = $"{(int)position.EngineLoad}%";
-                FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
-                DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
-
-                if (previousPoints.Length > 2)
-                {
-                    double totalDistance = 0;
-                    var latPrevious = previousPoints[0].Latitude;
-                    var longPrevious = previousPoints[0].Longitude;
-                    for (int i = 1; i < previousPoints.Length; i++)
-                    {
-                        var current = previousPoints[i];
-
-                        totalDistance += DistanceUtils.CalculateDistance(current.Latitude, current.Longitude, latPrevious, longPrevious);
-
-                        latPrevious = current.Latitude;
-                        longPrevious = current.Longitude;
-                    }
-
-                    Distance = (Settings.Current.MetricDistance ? (totalDistance * 1.60934) : totalDistance).ToString("f");
-                }
-                else
-                {
-                    Distance = "0.0";
-                }
-
-                OnPropertyChanged("Stats");
-            }
-        }
-
-        string elapsedTime = "0s";
+		string elapsedTime = "0s";
         public string ElapsedTime
         {
             get { return elapsedTime; }
@@ -163,6 +112,62 @@ namespace MyTrips.ViewModel
                 IsBusy = false;
             }
         }
+
+		public void UpdateTripInformationForPoint()
+		{
+			var timeDif = position.RecordedTimeStamp - Trip.RecordedTimeStamp;
+
+			//track seconds, minutes, then hours
+			if (timeDif.TotalMinutes < 1)
+				ElapsedTime = $"{timeDif.Seconds}s";
+			else if (timeDif.TotalHours < 1)
+				ElapsedTime = $"{timeDif.Minutes}m";
+			else
+				ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";
+
+			var previousPoints = Trip.Points.Where(p => p.RecordedTimeStamp <= position.RecordedTimeStamp).ToArray();
+			var obdPoints = previousPoints.Where(p => p.HasOBDData && p.EngineFuelRate > -1).ToArray();
+			var totalConsumptionPoints = obdPoints.Length;
+			var totalConsumption = obdPoints.Sum(s => s.EngineFuelRate);
+
+			if (totalConsumptionPoints > 0)
+			{
+				var fuelUsedLiters = (totalConsumption / totalConsumptionPoints) * timeDif.TotalHours;
+				FuelConsumption = Settings.MetricUnits ? fuelUsedLiters.ToString("N2") : (fuelUsedLiters * .264172).ToString("N2");
+			}
+			else
+			{
+				FuelConsumption = "N/A";
+			}
+
+			EngineLoad = $"{(int)position.EngineLoad}%";
+			FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
+			DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
+
+			if (previousPoints.Length > 2)
+			{
+				double totalDistance = 0;
+				var latPrevious = previousPoints[0].Latitude;
+				var longPrevious = previousPoints[0].Longitude;
+				for (int i = 1; i < previousPoints.Length; i++)
+				{
+					var current = previousPoints[i];
+
+					totalDistance += DistanceUtils.CalculateDistance(current.Latitude, current.Longitude, latPrevious, longPrevious);
+
+					latPrevious = current.Latitude;
+					longPrevious = current.Longitude;
+				}
+
+				Distance = (Settings.Current.MetricDistance ? (totalDistance * 1.60934) : totalDistance).ToString("f");
+			}
+			else
+			{
+				Distance = "0.0";
+			}
+
+			OnPropertyChanged("Stats");
+		}
 	}
 }
 
