@@ -34,6 +34,7 @@ namespace MyTrips.Droid
             }
 
             accelerometerManager = new AccelerometerManager(this, this);
+            accelerometerManager.Configure(50, 500); 
         }
 
 
