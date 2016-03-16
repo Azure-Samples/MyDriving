@@ -41,7 +41,7 @@ namespace MyTrips.UWP.Views
 
         private void GoNext(object sender, RoutedEventArgs e)
         {
-            //Settings.Current.FirstRun = false;
+            Settings.Current.FirstRun = false;
             Window.Current.Content = new SplitViewShell(this.Frame);
             this.Frame.Navigate(typeof(LoginView));
         }

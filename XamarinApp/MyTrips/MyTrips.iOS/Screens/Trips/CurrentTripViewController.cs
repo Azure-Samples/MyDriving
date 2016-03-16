@@ -274,6 +274,12 @@ namespace MyTrips.iOS
 			recordButton.Hidden = true;
 
 			UpdateTripStatistics(centerCoordinate);
+			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("RefreshTripUnits"), HandleTripUnitsChanged);
+		}
+
+		void HandleTripUnitsChanged(NSNotification obj)
+		{
+			UpdateTripStatistics(PastTripsDetailViewModel.CurrentPosition);
 		}
 
 		void UpdateTripStatistics(TripPoint point)
