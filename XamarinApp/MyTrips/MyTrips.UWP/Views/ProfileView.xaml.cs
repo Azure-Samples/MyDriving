@@ -1,5 +1,6 @@
 ﻿using MyTrips.ViewModel;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -18,9 +19,6 @@ namespace MyTrips.UWP.Views
             DataContext = profileViewModel;
             this.InitializeComponent();
 
-            //profileViewModel.DrivingSkills = new System.Random().Next(0, 100);
-            profileViewModel.DrivingSkills = 86;
-
             TotalDistanceTab.Title1 = "Total";
             TotalDistanceTab.Title2 = "DISTANCE";
 
@@ -32,10 +30,12 @@ namespace MyTrips.UWP.Views
 
             HardBreaksTab.Title1 = "Hard";
             HardBreaksTab.Title2 = "BREAKS";
+        }
 
-            //TipsTab.Title1 = "TIPS";
-
-
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            await profileViewModel.UpdateProfileAsync();
         }
     }
 }
