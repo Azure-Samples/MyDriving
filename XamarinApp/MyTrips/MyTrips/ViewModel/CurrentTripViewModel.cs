@@ -432,7 +432,8 @@ namespace MyTrips.ViewModel
 
                 hasEngineLoad = false;
 
-                //Add OBD data if there is a successful connection to the OBD Device
+                //Add OBD data
+                point.HasSimulatedOBDData = obdDataProcessor.IsOBDDeviceSimulated;
                 await AddOBDDataToPoint(point);
 
                 if (!CurrentTrip.HasSimulatedOBDData && point.HasSimulatedOBDData)

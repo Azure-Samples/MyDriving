@@ -55,11 +55,6 @@ namespace MyTrips.AzureClient
         {
             get
             {
-                //TODO: Exception still being thrown by backend when provisioning device - following up with Haishi
-                this.AccessKey = "gVoYUjtxfRoanBUOND5aDsZaqoLSKdZnWV+zc9hs3zk=";
-                this.DeviceId = "device";
-                /////
-
                 string connectionStr = String.Empty;
                 if (!String.IsNullOrEmpty(this.AccessKey))
                 {

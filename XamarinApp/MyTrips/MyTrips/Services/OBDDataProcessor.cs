@@ -31,6 +31,8 @@ namespace MyTrips.Services
 
         static OBDDataProcessor obdDataProcessor;
 
+        public bool IsOBDDeviceSimulated { get; set; }
+
         public static OBDDataProcessor GetProcessor()
         {
             if (obdDataProcessor == null)
@@ -53,9 +55,7 @@ namespace MyTrips.Services
             CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 
             //Provision the device with the IOT Hub
-            //TODO: Uncomment when Haishi's team has provision API working
-            //var connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
-            var connectionStr = DeviceProvisionHandler.GetHandler().DeviceConnectionString;
+            var connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
             this.iotHub.Initialize(connectionStr);
 
             //Check right away if there is any trip data left in the buffer that needs to be sent to the IOT Hub - run this thread in the background
@@ -164,7 +164,7 @@ namespace MyTrips.Services
             }
         }
 
-        private async void Current_ConnectivityChanged(object sender, Plugin.Connectivity.Abstractions.ConnectivityChangedEventArgs e)
+        private void Current_ConnectivityChanged(object sender, Plugin.Connectivity.Abstractions.ConnectivityChangedEventArgs e)
         {
             if (e.IsConnected)
             {
@@ -235,6 +235,7 @@ namespace MyTrips.Services
                 {
                     //Use the OBD simulator
                     isConnected = await this.obdDevice.Initialize(true);
+                    this.IsOBDDeviceSimulated = this.obdDevice.IsSimulated;
                 }
             }
 
