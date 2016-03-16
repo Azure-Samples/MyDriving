@@ -1,0 +1,24 @@
+With VINData as 
+(
+SELECT
+    TripId,
+    TripDataPoint.VIN,
+    count(*)
+FROM
+    CarDeviceData
+WHERE
+    TripId is not null AND
+    TripDataPoint.VIN is not null AND
+    TripId != '' AND
+    TripDataPoint.VIN != ''
+GROUP BY 
+    TripId,
+    TripDataPoint.VIN,
+    TUMBLINGWINDOW(hour,1)
+)
+
+SELECT 
+    TripId,
+    VIN
+INTO EHSink
+FROM VINData

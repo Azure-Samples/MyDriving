@@ -7,7 +7,6 @@ using System.Linq;
 using System;
 using MyTrips.DataObjects;
 
-
 namespace MyTrips.ViewModel
 {
     public class ProfileViewModel : ViewModelBase
@@ -93,7 +92,6 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref drivingSkillsPlacementBucket, value); }
         }
 
-
         public string FuelUnits => Settings.MetricUnits ? "L" : "gal.";
 
         public double FuelConverted => Settings.MetricUnits ? FuelUsed / .264172 : FuelUsed;
@@ -101,7 +99,6 @@ namespace MyTrips.ViewModel
         public string FuelDisplayNoUnits => FuelConverted.ToString("F");
 
 		public string FuelDisplay => $"{FuelDisplayNoUnits} {FuelUnits.ToLowerInvariant()}";
-
 
         public string DistanceUnits => Settings.MetricDistance ? "kilometers" : "miles";
 
@@ -118,8 +115,6 @@ namespace MyTrips.ViewModel
         public string MaxSpeedDisplayNoUnits => MaxSpeedConverted.ToString("F");
 
         public string MaxSpeedDisplay => $"{MaxSpeedDisplayNoUnits} {SpeedUnits}";
-
-
 
         public string TotalTimeDisplay
         {
@@ -161,7 +156,6 @@ namespace MyTrips.ViewModel
                 if (!SetProperty(ref fuelUsed, value))
                     return;
 
-
                 OnPropertyChanged(nameof(FuelUnits));
                 OnPropertyChanged(nameof(FuelDisplay));
                 OnPropertyChanged(nameof(FuelDisplayNoUnits));
@@ -191,14 +185,12 @@ namespace MyTrips.ViewModel
                 if (!SetProperty(ref maxSpeed, value))
                     return;
 
-
                 OnPropertyChanged(nameof(SpeedUnits));
                 OnPropertyChanged(nameof(MaxSpeedConverted));
                 OnPropertyChanged(nameof(MaxSpeedDisplayNoUnits));
                 OnPropertyChanged(nameof(MaxSpeedDisplay));
             }
         }
-
 
         long hardStops;
         public long HardStops
@@ -221,13 +213,11 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref totalTrips, value); }
         }
 
-
         async Task UpdatePictureAsync()
         {
             IMobileServiceClient client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
             await Helpers.UserProfileHelper.GetUserProfileAsync(client);
         }
-
 
         DrivingSkillsBucket[] Skills
         {
