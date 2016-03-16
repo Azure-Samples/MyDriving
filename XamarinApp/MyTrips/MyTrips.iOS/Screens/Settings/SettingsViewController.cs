@@ -158,7 +158,10 @@ namespace MyTrips.iOS
 			}
 			else
 			{
-				cell.Value = !String.IsNullOrEmpty(setting.Value) ? cell.Value = setting.Value : cell.Value = "";
+				if (setting.Name != "Mobile client URL" && setting.Name != "Device connection string")
+					cell.Value = !String.IsNullOrEmpty(setting.Value) ? cell.Value = setting.Value : cell.Value = "";
+				else
+					cell.Value = "";
 			}
 
 			cell.Name = setting.Name;

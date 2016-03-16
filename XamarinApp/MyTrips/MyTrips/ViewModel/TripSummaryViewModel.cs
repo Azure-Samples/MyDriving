@@ -21,9 +21,9 @@ namespace MyTrips.ViewModel
 
         public double DistanceConverted => (Settings.Current.MetricDistance ? (TotalDistance * 1.60934) : TotalDistance);
 
-        public string SpeedUnits => Settings.MetricUnits ? "km/h" : "mph";
+		public string SpeedUnits => Settings.MetricDistance ? "km/h" : "mph";
 
-        public double MaxSpeedConverted => Settings.MetricDistance ? MaxSpeed : MaxSpeed * 0.621371;
+		public double MaxSpeedConverted => Settings.MetricDistance ? MaxSpeed : MaxSpeed * 0.621371;
 
         public string MaxSpeedDisplayNoUnits => MaxSpeedConverted.ToString("F");
 

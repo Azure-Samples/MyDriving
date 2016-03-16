@@ -10,7 +10,7 @@ using MyTrips.Utils;
 using Android.Support.V4.Content;
 using Android.Graphics;
 
-namespace MyTrips.Droid
+namespace MyTrips.Droid.Activities
 {
     [Activity(Label = "Login", Theme="@style/MyThemeDark", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]            
     public class LoginActivity : BaseActivity
@@ -53,6 +53,8 @@ namespace MyTrips.Droid
                 Finish();
             };
 
+            //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+            MyTrips.Services.OBDDataProcessor.GetProcessor().Initialize(viewModel.StoreManager);
         }
 
         void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

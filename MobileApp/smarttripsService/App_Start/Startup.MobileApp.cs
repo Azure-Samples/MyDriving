@@ -27,9 +27,9 @@ namespace smarttripsService
                 .ApplyTo(config);
 
             // Use Entity Framework Code First to create database tables based on your DbContext
-            Database.SetInitializer(new smarttripsInitializer());
+            //Database.SetInitializer(new smarttripsInitializer());
             // To prevent Entity Framework from modifying your database schema, use a null database initializer
-            // Database.SetInitializer<smarttripsContext>(null);
+             Database.SetInitializer<smarttripsContext>(null);
 
             MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
 
@@ -49,12 +49,13 @@ namespace smarttripsService
         }
     }
 
-    public class smarttripsInitializer : DropCreateDatabaseAlways<smarttripsContext>
+  /*  public class smarttripsInitializer : DropCreateDatabaseAlways<smarttripsContext>
     {
         public override void InitializeDatabase(smarttripsContext context)
         {
             base.InitializeDatabase(context);
         }
     }
+    */
 }
 

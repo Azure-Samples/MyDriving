@@ -25,6 +25,7 @@ namespace MyTrips.Shared
 
         public async Task<bool> Initialize(bool simulatorMode = false)
         {
+            this.IsSimulated = simulatorMode;
             return await this.obdWrapper.Init(simulatorMode);
         }
 
@@ -33,7 +34,6 @@ namespace MyTrips.Shared
             return this.obdWrapper.Read();
         }
 
-
-        public bool IsSimulated => false;
+        public bool IsSimulated { get; private set; }
     }
 }

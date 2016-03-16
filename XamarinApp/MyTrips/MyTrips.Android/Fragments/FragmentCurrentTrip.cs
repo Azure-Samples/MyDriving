@@ -111,6 +111,10 @@ namespace MyTrips.Droid.Fragments
                 
                 AddEndMarker(viewModel.CurrentPosition.ToLatLng());
                 UpdateCarIcon(false);
+
+				var activity = (BaseActivity)Activity;
+				activity.SupportActionBar.Title = "Current Trip";
+
                 await viewModel.SaveRecordingTripAsync();
             }
             else
@@ -123,6 +127,12 @@ namespace MyTrips.Droid.Fragments
                 UpdateCarIcon(true);
                 UpdateStats();
                 StartFadeAnimation(true);
+
+				if (viewModel.CurrentTrip.HasSimulatedOBDData)
+				{
+					var activity = (BaseActivity)Activity;
+					activity.SupportActionBar.Title = "Current Trip (Sim OBD)";
+				}
             }
         }
         #endregion
@@ -288,6 +298,12 @@ namespace MyTrips.Droid.Fragments
                 mapView.PostDelayed(() => { SetupMap(); }, 500);
                 return;
             }
+
+			if (viewModel.CurrentTrip.HasSimulatedOBDData)
+			{
+				var activity = (BaseActivity)Activity;
+				activity.SupportActionBar.Title = "Current Trip (Sim OBD)";
+			}
 
 
             TripPoint start = null;

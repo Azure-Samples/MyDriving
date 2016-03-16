@@ -51,7 +51,7 @@ namespace MyTrips.ViewModel
             get { return elapsedTime; }
             set { SetProperty(ref elapsedTime, value); }
         }
-       
+
         string distance = "0.0";
         public string Distance
         {
@@ -90,6 +90,7 @@ namespace MyTrips.ViewModel
 		public CurrentTripViewModel()
 		{
             CurrentTrip = new Trip();
+            CurrentTrip.UserId = Settings.Current.UserUID;
             CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
             photos = new List<Photo>();
 
@@ -99,9 +100,9 @@ namespace MyTrips.ViewModel
             Distance = "0.0";
             FuelConsumption = "N/A";
             EngineLoad = "N/A";
-            obdDataProcessor = new OBDDataProcessor();
+            obdDataProcessor = OBDDataProcessor.GetProcessor();
 		}
-       
+
         public bool NeedSave { get; set; }
         public IGeolocator Geolocator => CrossGeolocator.Current;
         public IMedia Media => CrossMedia.Current;
@@ -132,8 +133,9 @@ namespace MyTrips.ViewModel
                 }
 
                 //Connect to the OBD device
-                await obdDataProcessor.Initialize(StoreManager);
                 await obdDataProcessor.ConnectToOBDDevice(true);
+
+				CurrentTrip.HasSimulatedOBDData = obdDataProcessor.IsOBDDeviceSimulated;
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
@@ -203,18 +205,6 @@ namespace MyTrips.ViewModel
                     await StoreManager.PhotoStore.InsertAsync(photo);
                 }
 
-                try
-                {
-                    //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
-                    await obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
-
-                    //Push the trip data packaged with the OBD data to the IOT Hub
-                    await obdDataProcessor.PushTripDataToIOTHub();
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.Report(ex);
-                }
                 CurrentTrip = new Trip();
                 CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
 
@@ -254,16 +244,19 @@ namespace MyTrips.ViewModel
 
             if (CurrentTrip.Points.Count <= 1)
             {
+
                 if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
                         CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS ||
                         CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
                 {
                     Acr.UserDialogs.UserDialogs.Instance.Alert("We need few more points.",
-                        "Keep driving!", "OK");
+                                                            "Keep driving!", "OK");
+                    return false;
                 }
 
-                return false;
+               
             }
+
 
             CurrentTrip.EndTimeStamp = DateTime.UtcNow;
 
@@ -321,8 +314,8 @@ namespace MyTrips.ViewModel
 				}
 				else
 				{
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
-                        "Geolocation Disabled", "OK");
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
+                                                                   "Geolocation Disabled", "OK");
 				}
             }
             catch (Exception ex)
@@ -370,6 +363,8 @@ namespace MyTrips.ViewModel
                 double speed = 0, rpm = 0, efr = 0, el = 0, stfb = 0, ltfb = 0, fr = 0, tp = 0, rt = 0, dis = 0, rtp = 0;
                 var vin = String.Empty;
 
+				var hasEfr = false;
+
                 if (obdData.ContainsKey("el") && !string.IsNullOrWhiteSpace(obdData["el"]))
                 {
                     double.TryParse(obdData["el"], out el);
@@ -393,8 +388,17 @@ namespace MyTrips.ViewModel
                     double.TryParse(obdData["spd"], out speed);
                 if (obdData.ContainsKey("rpm"))
                     double.TryParse(obdData["rpm"], out rpm);
-                if (obdData.ContainsKey("efr"))
-                    double.TryParse(obdData["efr"], out efr);
+				if (obdData.ContainsKey("efr") && !string.IsNullOrWhiteSpace(obdData["efr"]))
+				{
+					if (double.TryParse(obdData["efr"], out efr))
+						hasEfr = true;
+					else
+						efr = -1;
+				}
+				else
+				{
+					efr = -1;
+				}
                 if (obdData.ContainsKey("vin"))
                     vin = obdData["vin"];
 
@@ -411,8 +415,11 @@ namespace MyTrips.ViewModel
                 point.EngineFuelRate = efr;
                 point.VIN = vin;
 
-                totalConsumption += point.EngineFuelRate;
-                totalConsumptionPoints++;
+				if (hasEfr)
+				{
+					totalConsumption += point.EngineFuelRate;
+					totalConsumptionPoints++;
+				}
                 point.HasOBDData = true;
             }
         }
@@ -423,7 +430,7 @@ namespace MyTrips.ViewModel
             if (IsRecording)
 			{
 				var userLocation = e.Position;
-      
+
                 var point = new TripPoint
                 {
                     TripId = CurrentTrip.Id,
@@ -434,13 +441,22 @@ namespace MyTrips.ViewModel
 				};
 
                 hasEngineLoad = false;
-                //Add OBD data if there is a successful connection to the OBD Device
+
+                //Add OBD data
+                point.HasSimulatedOBDData = obdDataProcessor.IsOBDDeviceSimulated;
                 await AddOBDDataToPoint(point);
 
-                if (!CurrentTrip.HasSimulatedOBDData && point.HasSimulatedOBDData)
-                    CurrentTrip.HasSimulatedOBDData = true;
-
                 CurrentTrip.Points.Add(point);
+
+                try
+                {
+                    //Push the trip data packaged with the OBD data to the IOT Hub
+                    obdDataProcessor.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.Report(ex);
+                }
 
                 if (CurrentTrip.Points.Count > 1)
                 {
@@ -471,10 +487,11 @@ namespace MyTrips.ViewModel
                 }
 
                 if(hasEngineLoad)
-                    EngineLoad = $"{(int)point.EngineLoad}%";
+                 EngineLoad = $"{(int)point.EngineLoad}%";
                 
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
                 DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
+
                 OnPropertyChanged("Stats");
 			}
 
@@ -488,13 +505,13 @@ namespace MyTrips.ViewModel
         async Task ExecuteTakePhotoCommandAsync()
         {
             try 
-            {                
+            {
                 await Media.Initialize();
 
                 if (!Media.IsCameraAvailable || !Media.IsTakePhotoSupported)
                 {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
-                        "Camera Disabled", "OK");
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that camera is enabled and permissions are allowed for MyTrips to take photos.",
+                                                                   "Camera Disabled", "OK");
                     
                     return;
                 }
@@ -535,7 +552,7 @@ namespace MyTrips.ViewModel
                     };
 
                 photos.Add(photoDB);
-                photo.Dispose();                
+                photo.Dispose();
             } 
             catch (Exception ex) 
             {
