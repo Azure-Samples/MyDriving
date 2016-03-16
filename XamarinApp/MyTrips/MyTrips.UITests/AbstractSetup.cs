@@ -8,7 +8,7 @@ using Xamarin.UITest.iOS;
 
 namespace MyTrips.UITests
 {
-	// [TestFixture(Platform.Android)]
+	[TestFixture(Platform.Android)]
 	[TestFixture(Platform.iOS)]
 	public abstract class AbstractSetup
 	{
