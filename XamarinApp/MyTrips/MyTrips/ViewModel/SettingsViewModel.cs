@@ -151,15 +151,6 @@ namespace MyTrips.ViewModel
 			}
 		}
 
-		/*void TemperatureSetting_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "Value")
-			{
-				var setting = (Setting)sender;
-				Settings.Current.MetricUnits = setting.Value == "Celsius";
-			}
-		}*/
-
 		void DeviceConnectionString_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == "Value")
