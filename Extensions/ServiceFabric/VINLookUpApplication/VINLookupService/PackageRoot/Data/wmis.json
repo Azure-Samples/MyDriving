@@ -1,0 +1,359 @@
+﻿{
+  "1B": { "Make": "Dodge" },
+  "1C": { "Make": "Chrysler" },
+  "1F": { "Make": "Ford" },
+  "1G": { "Make": "General Motors" },
+  "1G1": {
+    "Make": "General Motors",
+    "Model": "Chevrolet",
+    "CarType": "Passenger"
+  },
+  "1G2": {
+    "Make": "General Motors",
+    "Model": "Pontiac",
+    "CarType": "Passenger"
+  },
+  "1G3": { "Make": "Oldsmobile" },
+  "1GC": {
+    "Make": "General Motors",
+    "Model": "Chevrolet",
+    "CarType": "Truck"
+  },
+  "1GM": { "Make": "Pontiac" },
+  "1H": { "Make": "Honda" },
+  "1J": { "Make": "Jeep" },
+  "1L": { "Make": "Lincoln" },
+  "1M": { "Make": "Mercury" },
+  "1N": { "Make": "Nissan" },
+  "1VW": { "Make": "Volkswagen" },
+  "1YV": { "Make": "Mazda" },
+  "2F": { "Make": "Ford" },
+  "2G": { "Make": "General Motors" },
+  "2G1": { "Make": "Chevrolet" },
+  "2G2": { "Make": "Pontiac" },
+  "2H": { "Make": "Honda" },
+  "2HM": { "Make": "Hyundai" },
+  "2M": { "Make": "Mercury" },
+  "2T": { "Make": "Toyota" },
+  "3F": { "Make": "Ford" },
+  "3G": { "Make": "General Motors" },
+  "3H": { "Make": "Honda" },
+  "3N": { "Make": "Nissan" },
+  "3VW": { "Make": "Volkswagen" },
+  "4F": { "Make": "Mazda" },
+  "4J": { "Make": "Mercedes-Benz" },
+  "4M": { "Make": "Mercury" },
+  "4S": { "Make": "Subaru" },
+  "4T": { "Make": "Toyota" },
+  "4US": { "Make": "BMW" },
+  "55": { "Make": "Mercedes-Benz" },
+  "5F": { "Make": "Honda" },
+  "5L": { "Make": "Lincoln" },
+  "5T": { "Make": "Toyota" },
+  "5X": { "Make": "Hyundai/Kia" },
+  "5YJ": { "Make": "Tesla" },
+  "6F": { "Make": "Ford" },
+  "6G": { "Make": "General Motors" },
+  "6G1": { "Make": "Chevrolet" },
+  "6G2": { "Make": "Pontiac" },
+  "6H": { "Make": "Holden" },
+  "6MM": { "Make": "Mitsubishi" },
+  "6T1": { "Make": "Toyota" },
+  "8AP": { "Make": "Fiat" },
+  "8AT": { "Make": "Iveco" },
+  "93H": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "93W": { "Make": "Fiat Professional" },
+  "93Z": { "Make": "Iveco" },
+  "9BD": { "Make": "Fiat Automóveis" },
+  "9BH": { "Make": "Hyundai" },
+  "9BW": { "Make": "Volkswagen" },
+  "AAV": { "Make": "Volkswagen" },
+  "AFA": { "Make": "Ford" },
+  "CL9": { "Make": "Wallyscar" },
+  "JA": { "Make": "Isuzu" },
+  "JF": { "Make": "Fuji Heavy Industries" },
+  "JH": { "Make": "Honda" },
+  "JMB": { "Make": "Mitsubishi" },
+  "JMZ": { "Make": "Mazda" },
+  "JN": { "Make": "Nissan" },
+  "JS": { "Make": "Suzuki" },
+  "JT": { "Make": "Toyota" },
+  "JY": { "Make": "Yamaha" },
+  "KL": { "Make": "Daewoo/GM Korea" },
+  "KMH": { "Make": "Hyundai" },
+  "KN": { "Make": "Kia" },
+  "KPT": { "Make": "SsangYong" },
+  "NMT": { "Make": "Toyota" },
+  "SAJ": { "Make": "Jaguar" },
+  "SAL": { "Make": "Land Rover" },
+  "SAR": { "Make": "Rover" },
+  "SB1": { "Make": "Toyota" },
+  "SCC": { "Make": "Lotus Cars" },
+  "SCE": { "Make": "DeLorean" },
+  "SHH": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "SJN": { "Make": "Nissan" },
+  "TCC": { "Make": "Micro Compact Car AG (SMART 1998-1999)" },
+  "TMA": { "Make": "Hyundai" },
+  "TMB": { "Make": "Škoda" },
+  "TRU": { "Make": "Audi" },
+  "TSM": { "Make": "Suzuki" },
+  "U5Y": { "Make": "Kia" },
+  "UU": { "Make": "Dacia" },
+  "VA0": { "Make": "ÖAF" },
+  "VF1": { "Make": "Renault" },
+  "VF3": { "Make": "Peugeot" },
+  "VF6": { "Make": "Renault Trucks/Volvo" },
+  "VF7": { "Make": "Citroën" },
+  "VFE": { "Make": "IvecoBus" },
+  "VNK": { "Make": "Toyota" },
+  "VSS": { "Make": "SEAT" },
+  "VV9": { "Make": "Tauro Sport Auto" },
+  "W0L": { "Make": "Opel/Vauxhall" },
+  "W0S": { "Make": "Opel Special Vehicles" },
+  "WAP": { "Make": "Alpina" },
+  "WAU": { "Make": "Audi" },
+  "WBA": { "Make": "BMW" },
+  "WBS": { "Make": "BMW M" },
+  "WDB": { "Make": "Mercedes-Benz" },
+  "WDC": { "Make": "DaimlerChrysler AG/Daimler AG" },
+  "WEB": { "Make": "EvoBus" },
+  "WF0": { "Make": "Ford of Europe" },
+  "WJM": { "Make": "Iveco" },
+  "WJR": { "Make": "Irmscher" },
+  "WKK": { "Make": "Kässbohrer" },
+  "WMA": { "Make": "MAN" },
+  "WME": { "Make": "Smart" },
+  "WMW": { "Make": "Mini" },
+  "WP0": { "Make": "Porsche car" },
+  "WP1": { "Make": "Porsche SUV" },
+  "WUA": { "Make": "Quattro" },
+  "WV1": { "Make": "Volkswagen Commercial Vehicles" },
+  "WV2": { "Make": "Volkswagen Commercial Vehicles" },
+  "WVG": { "Make": "Volkswagen" },
+  "WVW": { "Make": "Volkswagen" },
+  "YK1": { "Make": "Saab" },
+  "YS3": { "Make": "Saab" },
+  "YTN": { "Make": "Saab NEVS" },
+  "YV1": { "Make": "Volvo Cars" },
+  "ZAM": { "Make": "Maserati" },
+  "ZAR": { "Make": "Alfa Romeo" },
+  "ZCF": { "Make": "Iveco" },
+  "ZFA": { "Make": "Fiat Automobiles" },
+  "ZFF": { "Make": "Ferrari" },
+  "ZGA": { "Make": "IvecoBus" },
+  "ZHW": { "Make": "Lamborghini" },
+  "ZLA": { "Make": "Lancia" },
+  "JHF": { "Make": "Honda" },
+  "JHG": { "Make": "Honda" },
+  "JHM": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "JHL": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "SUV"
+  },
+  "JHN": { "Make": "Honda" },
+  "JHZ": { "Make": "Honda" },
+  "JH1": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Truck"
+  },
+  "JH2": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Motorcycle"
+  },
+  "JH4": {
+    "Make": "Honda",
+    "Model": "Acura",
+    "CarType": "Passenger"
+  },
+  "JH5": { "Make": "Honda" },
+  "1HF": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Motorcycle"
+  },
+  "1HG": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "19U": {
+    "Make": "Honda",
+    "Model": "Acura",
+    "CarType": "Passenger"
+  },
+  "478": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "AllTerrain"
+  },
+  "5J6": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "SUV"
+  },
+  "5J7": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Truck"
+  },
+  "5J8": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "SUV"
+  },
+  "5J0": {
+    "Make": "Honda",
+    "Model": "Acura",
+    "CarType": "Truck"
+  },
+  "5KB": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "5KC": {
+    "Make": "Honda",
+    "Model": "Acura",
+    "CarType": "Passenger"
+  },
+  "5FN": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "SUV"
+  },
+  "5FP": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Truck"
+  },
+  "5FR": {
+    "Make": "Honda",
+    "Model": "Acura",
+    "CarType": "SUV"
+  },
+  "5FS": {
+    "Make": "Honda",
+    "Model": "Acura",
+    "CarType": "Truck"
+  },
+  "2HG": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "2HH": {
+    "Make": "Honda",
+    "Model": "Acura",
+    "CarType": "Passenger"
+  },
+  "2HK": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "SUV"
+  },
+  "2HJ": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Truck"
+  },
+  "2HN": {
+    "Make": "Honda",
+    "Model": "Acura",
+    "CarType": "SUV"
+  },
+  "2HU": {
+    "Make": "Honda",
+    "Model": "Acura",
+    "CarType": "Truck"
+  },
+  "SHS": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "SUV"
+  },
+  "3HG": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "3H1": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Motorcycle"
+  },
+  "LUC": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "MAK": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "MHR": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "MLH": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Motorcycle"
+  },
+  "MRH": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "NLA": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "PAD": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "SUV"
+  },
+  "PMH": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Passenger"
+  },
+  "VTM": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Motorcycle"
+  },
+  "YC1": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Motorcycle"
+  },
+  "ZDC": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Motorcycle"
+  },
+  "9C2": {
+    "Make": "Honda",
+    "Model": "Honda",
+    "CarType": "Motorcycle"
+  }
+}

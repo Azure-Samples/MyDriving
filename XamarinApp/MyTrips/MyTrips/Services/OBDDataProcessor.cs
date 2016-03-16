@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MvvmHelpers;
 
 namespace MyTrips.Services
 {
@@ -174,7 +175,20 @@ namespace MyTrips.Services
 
         private async Task<bool> ConnectToOBDDeviceWithConfirmation()
         {
-            bool isConnected = await this.obdDevice.Initialize();
+            var isConnected = false;
+            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Connecting to OBD Device...", maskType: Acr.UserDialogs.MaskType.Clear);
+            try
+            {
+                isConnected = await Task.Run(async () => await obdDevice.Initialize()).WithTimeout(5000);
+            }
+            catch(Exception ex)
+            {
+                Logger.Instance.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                progress.Dispose();
+            }
 
             if (!isConnected)
             {

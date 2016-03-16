@@ -151,6 +151,9 @@
     <Compile Include="Controls\CirclePercentage.xaml.cs">
       <DependentUpon>CirclePercentage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DotsControl.xaml.cs">
+      <DependentUpon>DotsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ProfileViewTabControl.xaml.cs">
       <DependentUpon>ProfileViewTabControl.xaml</DependentUpon>
     </Compile>
@@ -168,6 +171,21 @@
     </Compile>
     <Compile Include="Helpers\Authentication.cs" />
     <Compile Include="Helpers\BitmapImageConverter.cs" />
+    <Compile Include="Views\GetStarted1.xaml.cs">
+      <DependentUpon>GetStarted1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GetStarted2.xaml.cs">
+      <DependentUpon>GetStarted2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GetStarted3.xaml.cs">
+      <DependentUpon>GetStarted3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GetStarted4.xaml.cs">
+      <DependentUpon>GetStarted4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GetStarted5.xaml.cs">
+      <DependentUpon>GetStarted5.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PastTripMapView.xaml.cs">
       <DependentUpon>PastTripMapView.xaml</DependentUpon>
     </Compile>
@@ -205,6 +223,12 @@
     <Content Include="Assets\B.png" />
     <Content Include="Assets\Car Icon_Blue.png" />
     <Content Include="Assets\Car Icon_Red.png" />
+    <Content Include="Assets\GetStarted\background.png" />
+    <Content Include="Assets\GetStarted\SCREEN1.png" />
+    <Content Include="Assets\GetStarted\SCREEN2.png" />
+    <Content Include="Assets\GetStarted\SCREEN3.png" />
+    <Content Include="Assets\GetStarted\SCREEN4.png" />
+    <Content Include="Assets\GetStarted\SCREEN5.png" />
     <Content Include="Assets\ic_launcher144.png" />
     <Content Include="Assets\ic_launcher48.png" />
     <Content Include="Assets\ic_launcher48.scale-200.png" />
@@ -260,6 +284,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\DotsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ProfileViewTabControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -269,6 +297,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CurrentTripView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GetStarted1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GetStarted2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GetStarted3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GetStarted4.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GetStarted5.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -355,6 +403,7 @@
       <Name>SQLite for Universal Windows Platform</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

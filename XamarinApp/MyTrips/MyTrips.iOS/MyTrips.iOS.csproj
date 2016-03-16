@@ -37,10 +37,8 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <CodesignProvision>
-    </CodesignProvision>
-    <CodesignExtraArgs>
-    </CodesignExtraArgs>
+    <CodesignProvision></CodesignProvision>
+    <CodesignExtraArgs></CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -78,19 +76,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|iPhone'">
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;XTC</DefineConstants>
-    <DebugType>full</DebugType>
+    <DebugType></DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\iPhone\Release</OutputPath>
+    <OutputPath>bin\iPhone\XTC</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <CodesignProvision>
-    </CodesignProvision>
-    <CodesignExtraArgs>
-    </CodesignExtraArgs>
+    <CodesignProvision></CodesignProvision>
+    <CodesignExtraArgs></CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|iPhoneSimulator'">
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;XTC</DefineConstants>
@@ -408,10 +404,6 @@
     <Compile Include="Screens\Trips\TripsTableViewController.designer.cs">
       <DependentUpon>TripsTableViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Screens\Trips\TripSummaryTableViewController.cs" />
-    <Compile Include="Screens\Trips\TripSummaryTableViewController.designer.cs">
-      <DependentUpon>TripSummaryTableViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Screens\Settings\SettingsDetailViewController.cs" />
     <Compile Include="Screens\Settings\SettingsDetailViewController.designer.cs">
       <DependentUpon>SettingsDetailViewController.cs</DependentUpon>
@@ -419,6 +411,10 @@
     <Compile Include="Screens\Settings\SettingsViewController.cs" />
     <Compile Include="Screens\Settings\SettingsViewController.designer.cs">
       <DependentUpon>SettingsViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\Trips\TripSummaryViewController.cs" />
+    <Compile Include="Screens\Trips\TripSummaryViewController.designer.cs">
+      <DependentUpon>TripSummaryViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -478,6 +474,9 @@
     <BundleResource Include="Resources\tab_Settings.png" />
     <BundleResource Include="Resources\tab_Settings%402x.png" />
     <BundleResource Include="Resources\tab_Settings%403x.png" />
+    <BundleResource Include="Resources\summary_mapview.png" />
+    <BundleResource Include="Resources\summary_cross.png" />
+    <BundleResource Include="Resources\summary_box.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="btprogresshud">

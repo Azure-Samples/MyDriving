@@ -52,7 +52,6 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref elapsedTime, value); }
         }
 
-       
         string distance = "0.0";
         public string Distance
         {
@@ -91,7 +90,6 @@ namespace MyTrips.ViewModel
 		public CurrentTripViewModel()
 		{
             CurrentTrip = new Trip();
-
             CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
             photos = new List<Photo>();
 
@@ -104,12 +102,8 @@ namespace MyTrips.ViewModel
             obdDataProcessor = new OBDDataProcessor();
 		}
 
-       
-
         public bool NeedSave { get; set; }
-
         public IGeolocator Geolocator => CrossGeolocator.Current;
-
         public IMedia Media => CrossMedia.Current;
 
         public async Task<bool> StartRecordingTrip()
@@ -185,7 +179,7 @@ namespace MyTrips.ViewModel
                         Text = CurrentTrip.Name,
                         OkText = "OK",
                         IsCancellable = false,
-                        Title = "Name of trip",
+                        Title = "Name of Trip",
                         Message = String.Empty,
                         Placeholder = String.Empty
                     });
@@ -199,8 +193,6 @@ namespace MyTrips.ViewModel
                 progress?.Show();
 
                 CurrentTrip.MainPhotoUrl = $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{CurrentPosition.Latitude.ToString(CultureInfo.InvariantCulture)},{CurrentPosition.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key=J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
-
-
                 CurrentTrip.Rating = 90;
 
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
@@ -269,9 +261,10 @@ namespace MyTrips.ViewModel
                 {
                     Acr.UserDialogs.UserDialogs.Instance.Alert("We need few more points.",
                                                             "Keep driving!", "OK");
+                    return false;
                 }
 
-                return false;
+               
             }
 
 
@@ -305,7 +298,6 @@ namespace MyTrips.ViewModel
         ICommand startTrackingTripCommand;
 		public ICommand StartTrackingTripCommand =>
 		    startTrackingTripCommand ?? (startTrackingTripCommand = new RelayCommand(async () => await ExecuteStartTrackingTripCommandAsync())); 
-
 
         public async Task ExecuteStartTrackingTripCommandAsync()
         {
@@ -342,10 +334,8 @@ namespace MyTrips.ViewModel
             }
             finally
             {
-
             }
         }
-
 
         ICommand stopTrackingTripCommand;
 		public ICommand StopTrackingTripCommand =>
@@ -446,11 +436,9 @@ namespace MyTrips.ViewModel
                     Sequence = CurrentTrip.Points.Count,
 				};
 
-
                 hasEngineLoad = false;
                 //Add OBD data if there is a successful connection to the OBD Device
                 await AddOBDDataToPoint(point);
-
 
                 if (!CurrentTrip.HasSimulatedOBDData && point.HasSimulatedOBDData)
                     CurrentTrip.HasSimulatedOBDData = true;
@@ -479,7 +467,6 @@ namespace MyTrips.ViewModel
                     var fuelUsedLiters = (totalConsumption / totalConsumptionPoints) * timeDif.TotalHours;
                     CurrentTrip.FuelUsed = fuelUsedLiters * .264172;
                     FuelConsumption = Settings.MetricUnits ? fuelUsedLiters.ToString("N2") : CurrentTrip.FuelUsed.ToString("N2");
-
                 }
                 else
                 {
@@ -505,7 +492,6 @@ namespace MyTrips.ViewModel
         {
             try 
             {
-                
                 await Media.Initialize();
 
                 if (!Media.IsCameraAvailable || !Media.IsTakePhotoSupported)
@@ -552,9 +538,7 @@ namespace MyTrips.ViewModel
                     };
 
                 photos.Add(photoDB);
-
                 photo.Dispose();
-                
             } 
             catch (Exception ex) 
             {

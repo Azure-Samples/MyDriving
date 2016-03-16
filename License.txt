@@ -1,4 +1,4 @@
-myDriving IOT Starter Kit
+MyDriving IOT Starter Kit
 
 Copyright (c) Microsoft Corporation
 All rights reserved. 
