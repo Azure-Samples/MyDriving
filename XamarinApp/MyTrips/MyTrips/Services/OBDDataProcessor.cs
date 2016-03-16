@@ -26,6 +26,8 @@ namespace MyTrips.Services
         bool isConnectedToOBD;
         bool isPollingOBDDevice;
 
+		public bool IsSimulated { get; set; }
+
         //Init must be called each time to connect and reconnect to the OBD device
         public async Task Initialize(IStoreManager storeManager)
         {
@@ -161,6 +163,7 @@ namespace MyTrips.Services
 
         public async Task ConnectToOBDDevice(bool showConfirmDialog)
         {
+			IsSimulated = false;
             if (showConfirmDialog)
             {
                 //Prompts user with dialog to retry if connection to OBD device fails
@@ -204,6 +207,7 @@ namespace MyTrips.Services
                 {
                     //Use the OBD simulator
                     isConnected = await this.obdDevice.Initialize(true);
+					IsSimulated = true;
                 }
             }
 

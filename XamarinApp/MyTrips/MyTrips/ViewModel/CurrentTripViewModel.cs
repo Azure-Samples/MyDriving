@@ -135,6 +135,8 @@ namespace MyTrips.ViewModel
                 await obdDataProcessor.Initialize(StoreManager);
                 await obdDataProcessor.ConnectToOBDDevice(true);
 
+				CurrentTrip.HasSimulatedOBDData = obdDataProcessor.IsSimulated;
+
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
                 IsRecording = true;
@@ -454,8 +456,7 @@ namespace MyTrips.ViewModel
                 //Add OBD data if there is a successful connection to the OBD Device
                 await AddOBDDataToPoint(point);
 
-                if (!CurrentTrip.HasSimulatedOBDData && point.HasSimulatedOBDData)
-                    CurrentTrip.HasSimulatedOBDData = true;
+                point.HasSimulatedOBDData = CurrentTrip.HasSimulatedOBDData;
 
                 CurrentTrip.Points.Add(point);
 
