@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MvvmHelpers;
 
 namespace MyTrips.Services
 {
@@ -43,6 +44,8 @@ namespace MyTrips.Services
             return obdDataProcessor;
         }
 
+
+        //Init must be called each time to connect and reconnect to the OBD device
         public async Task Initialize(IStoreManager storeManager)
         {
             this.storeManager = storeManager;
@@ -205,7 +208,7 @@ namespace MyTrips.Services
 
         public async Task ConnectToOBDDevice(bool showConfirmDialog)
         {
-            if (showConfirmDialog)
+			if (showConfirmDialog)
             {
                 //Prompts user with dialog to retry if connection to OBD device fails
                 this.isConnectedToOBD = await this.ConnectToOBDDeviceWithConfirmation();
@@ -219,7 +222,20 @@ namespace MyTrips.Services
 
         private async Task<bool> ConnectToOBDDeviceWithConfirmation()
         {
-            bool isConnected = await this.obdDevice.Initialize();
+            var isConnected = false;
+            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Connecting to OBD Device...", maskType: Acr.UserDialogs.MaskType.Clear);
+            try
+            {
+                isConnected = await Task.Run(async () => await obdDevice.Initialize()).WithTimeout(5000);
+            }
+            catch(Exception ex)
+            {
+                Logger.Instance.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                progress.Dispose();
+            }
 
             if (!isConnected)
             {

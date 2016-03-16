@@ -9,6 +9,8 @@ namespace ObdShare
     public class ObdUtil
     {
         static string outsideTemperature = "0";
+        static double distancewithML = 0;
+        static int runtime = 0;
 
         private static int ParseString(string str, int bytes)
         {
@@ -88,6 +90,10 @@ namespace ObdShare
                 }
                 if (ret.Length > 17)
                     ret = ret.Substring(ret.Length - 17);
+
+                //mask last 7 digits
+                ret = ret.Substring(0, 10);
+                ret += "0000000";
                 return ret;
             }
             catch (System.Exception exp)
@@ -139,6 +145,9 @@ namespace ObdShare
                         tchar = (char)tint;
                         ret += tchar.ToString();
                     }
+                    //mask last 7 digits
+                    ret = ret.Substring(0, 10);
+                    ret += "0000000";
                     return ret;
             }
             return "ERROR";
@@ -182,9 +191,11 @@ namespace ObdShare
                 case "0111":
                     return r.Next(0, 100).ToString();
                 case "011F":
-                    return r.Next(0, 65535).ToString();
+                    runtime = runtime + 2;
+                    return runtime.ToString();
                 case "0121":
-                    return r.Next(0, 65535).ToString();
+                    distancewithML = distancewithML + 0.1;
+                    return ((int)distancewithML).ToString();
                 case "0145":
                     return r.Next(0, 100).ToString();
                 case "0146":

@@ -263,6 +263,12 @@ namespace MyTrips.DataStore.Mock.Stores
             Trips.Add(item);
             return true;
         }
+
+        public override Task<bool> RemoveAsync(Trip item)
+        {
+            Trips.Remove(item);
+            return Task.FromResult(true);
+        }
     }
 }
 

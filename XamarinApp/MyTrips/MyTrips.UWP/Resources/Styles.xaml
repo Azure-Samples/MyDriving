@@ -77,4 +77,12 @@
         <Setter Property="Height" Value="32"  />
         <Setter Property="Width" Value="124"  />
     </Style>
+
+
+    <Style x:Key="DotStyle" TargetType="Ellipse">
+        <Setter Property="Fill" Value="Gray" />
+        <Setter Property="Margin" Value="8,8,8,8" />
+        <Setter Property="Height" Value="8"  />
+        <Setter Property="Width" Value="8"  />
+    </Style>
 </ResourceDictionary>
