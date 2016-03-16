@@ -82,6 +82,7 @@ namespace MyTrips.iOS
 					i++;
 				}
 
+				NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshTripUnits", null);
 				NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshSettingsTable", null);
 			}
 		}
