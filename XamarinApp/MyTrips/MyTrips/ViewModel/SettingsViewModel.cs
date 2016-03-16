@@ -47,27 +47,22 @@ namespace MyTrips.ViewModel
         ICommand  logoutCommand;
         public ICommand LogoutCommand =>
             logoutCommand ?? (logoutCommand = new RelayCommand(async () => await ExecuteLogoutCommandAsync())); 
-
        
         public async Task<bool> ExecuteLogoutCommandAsync()
         {
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Logging out...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
             
             try
-            {
-                
+            {                
                  var result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync("Are you sure you want to logout?", "Logout?", "Yes, Logout", "Cancel");
 
                 if (!result)
-                    return false;
-                
-
+                    return false;                
 
                 progress?.Show();
                 await StoreManager.DropEverythingAsync();
 
                 Settings.Logout();
-
             }
             catch (Exception ex)
             {

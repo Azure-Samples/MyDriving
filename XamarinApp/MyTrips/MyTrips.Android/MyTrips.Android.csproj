@@ -295,6 +295,8 @@
     <Compile Include="Fragments\FragmentProfile.cs" />
     <Compile Include="Activities\TripSummaryActivity.cs" />
     <Compile Include="Helpers\AndroidExtensions.cs" />
+    <Compile Include="Fragments\FragmentGettingStarted.cs" />
+    <Compile Include="Activities\GettingStartedActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -400,6 +402,17 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_car.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_end_point.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_start_point.png" />
+    <AndroidResource Include="Resources\layout\fragment_started_1.axml" />
+    <AndroidResource Include="Resources\layout\fragment_started_3.axml" />
+    <AndroidResource Include="Resources\layout\fragment_started_2.axml" />
+    <AndroidResource Include="Resources\layout\fragment_started_4.axml" />
+    <AndroidResource Include="Resources\layout\fragment_started_5.axml" />
+    <AndroidResource Include="Resources\layout\activity_getting_started.axml" />
+    <AndroidResource Include="Resources\drawable-nodpi\screen_1.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\screen_2.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\screen_3.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\screen_4.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\screen_5.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
@@ -448,6 +461,9 @@
   </Target>
   <ItemGroup>
     <AndroidEnvironment Include="environment.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\drawable-nodpi\" />
   </ItemGroup>
   <Import Project="..\MyTrips.Shared\MyTrips.Shared.projitems" Label="Shared" />
 </Project>

@@ -9,7 +9,6 @@ namespace MyTrips.Interfaces
     public interface IHubIOT
     {
         void Initialize(string connectionStr);
-
         Task SendEvents(IEnumerable<String> blobs);
     }
 }

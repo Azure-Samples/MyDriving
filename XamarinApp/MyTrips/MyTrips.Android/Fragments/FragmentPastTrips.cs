@@ -107,8 +107,8 @@ namespace MyTrips.Droid.Fragments
             
             var trip = viewModel.Trips[args.Position];
             var intent = new Intent(Activity, typeof(PastTripDetailsActivity));
-            intent.PutExtra(nameof(trip.Id), trip.Id);
-            intent.PutExtra(nameof(trip.Rating), trip.Rating);
+            intent.PutExtra("Id", trip.Id);
+            intent.PutExtra("Rating", trip.Rating);
             Activity.StartActivity(intent);
         }
 
