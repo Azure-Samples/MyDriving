@@ -269,9 +269,10 @@ namespace MyTrips.ViewModel
                 {
                     Acr.UserDialogs.UserDialogs.Instance.Alert("We need few more points.",
                                                             "Keep driving!", "OK");
+                    return false;
                 }
 
-                return false;
+               
             }
 
 

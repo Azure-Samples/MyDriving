@@ -10,4 +10,9 @@
     <BitmapImage x:Key="ApplicationLogo" UriSource="ms-appx:///Assets/Login/appLogo.png"/>
     <BitmapImage x:Key="ApplicationLogoA" UriSource="ms-appx:///Assets/Login/logo.png"/>
 
+    <BitmapImage x:Key="GetStarted1" UriSource="ms-appx:///Assets/GetStarted/SCREEN1.png"/>
+    <BitmapImage x:Key="GetStarted2" UriSource="ms-appx:///Assets/GetStarted/SCREEN2.png"/>
+    <BitmapImage x:Key="GetStarted3" UriSource="ms-appx:///Assets/GetStarted/SCREEN3.png"/>
+    <BitmapImage x:Key="GetStarted4" UriSource="ms-appx:///Assets/GetStarted/SCREEN4.png"/>
+    <BitmapImage x:Key="GetStarted5" UriSource="ms-appx:///Assets/GetStarted/SCREEN5.png"/>
 </ResourceDictionary>

@@ -30,8 +30,6 @@ namespace MyTrips.UWP.Views
 
             HardBreaksTab.Title1 = "Hard";
             HardBreaksTab.Title2 = "BREAKS";
-
-
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
