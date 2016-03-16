@@ -90,4 +90,3 @@ namespace MyTrips.DataStore.Azure
         #endregion
     }
 }
-

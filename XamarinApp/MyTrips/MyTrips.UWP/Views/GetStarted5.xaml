@@ -14,17 +14,17 @@
         </Grid.Background>
         
         <Image x:Name="getstarted5" Source="{StaticResource GetStarted5}" Grid.Row="0"/>
-        <Grid VerticalAlignment="Bottom" Height="80">
+        <Grid VerticalAlignment="Bottom" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             
             <controls:DotsControl x:Name="Dots" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Grid Grid.Row="1" Background="White" Height="60">
-                <Button x:Name="DoneButton" Click="GoNext" Content="Let's Go!" HorizontalAlignment="Right" VerticalAlignment="Stretch" Background="Transparent" Foreground="#FF3C3D3E" Margin="0,0,20,0"/>
-     <!--           <Button x:Name="RepeatButton" Click="Repeat" Content="Repeat" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Transparent" Foreground="#FF3C3D3E" Margin="20,0,0,0"/> -->
-            </Grid>
+          
+                <Button x:Name="DoneButton" Click="GoNext" Content="Let's Go!" HorizontalAlignment="Stretch" Height="40" Background="White" Foreground="#FF3C3D3E" Grid.Row="1"/>
+   
+          
         </Grid>
     </Grid>
 </Page>

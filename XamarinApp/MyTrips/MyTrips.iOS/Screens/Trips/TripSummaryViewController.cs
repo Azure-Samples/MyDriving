@@ -34,8 +34,8 @@ namespace MyTrips.iOS
 
 		async partial void BtnClose_TouchUpInside(UIButton sender)
 		{
-			await DismissViewControllerAsync(true);
 			await ViewModel.SaveRecordingTripAsync();
+			await DismissViewControllerAsync(true);
 		}
 	}
 }

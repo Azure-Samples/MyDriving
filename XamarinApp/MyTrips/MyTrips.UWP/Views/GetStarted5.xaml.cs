@@ -46,10 +46,6 @@ namespace MyTrips.UWP.Views
             this.Frame.Navigate(typeof(LoginView));
         }
 
-        private void Repeat(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(GetStarted1));
-        }
     }
 }
 

@@ -168,11 +168,15 @@ namespace MyTrips.iOS
 
 			if (!CurrentTripViewModel.IsRecording)
 			{
+				if (!(await CurrentTripViewModel.StartRecordingTrip()))
+				   return;
+
 				UpdateRecordButton(true);
 				ResetTripInfoView();
 				AnimateTripInfoView();
 
-				await CurrentTripViewModel.StartRecordingTrip();
+				if (CurrentTripViewModel.CurrentTrip.HasSimulatedOBDData)
+					NavigationItem.Title = "Current Trip (Sim OBD)";
 			}
 			else
 			{
@@ -185,6 +189,7 @@ namespace MyTrips.iOS
 
 					UpdateRecordButton(false);
 					tripInfoView.Alpha = 0;
+					NavigationItem.Title = "Current Trip";
 
 					var vc = Storyboard.InstantiateViewController("tripSummaryViewController") as TripSummaryViewController;
 					vc.ViewModel = CurrentTripViewModel;

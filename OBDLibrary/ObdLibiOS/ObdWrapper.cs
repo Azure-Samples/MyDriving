@@ -62,7 +62,7 @@ namespace ObdLibiOS
                     foreach (var addrInfo in netInterface.GetIPProperties().UnicastAddresses)
                     {
                         var ipaddr = addrInfo.Address;
-                        if (ipaddr.ToString().StartsWith("192.168"))
+                        if (ipaddr.ToString().StartsWith("192.168.0"))
                         {
                             IsObdReaderAvailable = true;
                             break;
@@ -78,7 +78,6 @@ namespace ObdLibiOS
                 return false;
             }
 
-            await Task.Delay(1);
             if (!ConnectSocket())
             {
                 this._socket = null;
@@ -209,6 +208,7 @@ namespace ObdLibiOS
             {
                 _socket.Connect(_ipEndPoint);
                 _stream = new NetworkStream(_socket);
+                this._connected = true;
             }
             catch (Exception ex)
             {
