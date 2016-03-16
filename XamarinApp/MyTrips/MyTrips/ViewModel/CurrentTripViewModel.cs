@@ -373,6 +373,8 @@ namespace MyTrips.ViewModel
                 double speed = 0, rpm = 0, efr = 0, el = 0, stfb = 0, ltfb = 0, fr = 0, tp = 0, rt = 0, dis = 0, rtp = 0;
                 var vin = String.Empty;
 
+				var hasEfr = false;
+
                 if (obdData.ContainsKey("el") && !string.IsNullOrWhiteSpace(obdData["el"]))
                 {
                     double.TryParse(obdData["el"], out el);
@@ -396,8 +398,17 @@ namespace MyTrips.ViewModel
                     double.TryParse(obdData["spd"], out speed);
                 if (obdData.ContainsKey("rpm"))
                     double.TryParse(obdData["rpm"], out rpm);
-                if (obdData.ContainsKey("efr"))
-                    double.TryParse(obdData["efr"], out efr);
+				if (obdData.ContainsKey("efr") && !string.IsNullOrWhiteSpace(obdData["efr"]))
+				{
+					if (double.TryParse(obdData["efr"], out efr))
+						hasEfr = true;
+					else
+						efr = -1;
+				}
+				else
+				{
+					efr = -1;
+				}
                 if (obdData.ContainsKey("vin"))
                     vin = obdData["vin"];
 
@@ -414,8 +425,11 @@ namespace MyTrips.ViewModel
                 point.EngineFuelRate = efr;
                 point.VIN = vin;
 
-                totalConsumption += point.EngineFuelRate;
-                totalConsumptionPoints++;
+				if (hasEfr)
+				{
+					totalConsumption += point.EngineFuelRate;
+					totalConsumptionPoints++;
+				}
                 point.HasOBDData = true;
             }
         }
