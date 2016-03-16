@@ -90,6 +90,7 @@ namespace MyTrips.ViewModel
 		public CurrentTripViewModel()
 		{
             CurrentTrip = new Trip();
+            CurrentTrip.UserId = Settings.Current.UserUID;
             CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
             photos = new List<Photo>();
 
@@ -437,7 +438,6 @@ namespace MyTrips.ViewModel
                     Latitude = userLocation.Latitude,
                     Longitude = userLocation.Longitude,
                     Sequence = CurrentTrip.Points.Count,
-
 				};
 
                 hasEngineLoad = false;

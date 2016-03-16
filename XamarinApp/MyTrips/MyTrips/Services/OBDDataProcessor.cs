@@ -17,6 +17,7 @@ namespace MyTrips.Services
     public class OBDDataProcessor
     {
         IStoreManager storeManager;
+        bool isInitialized = false;
 
         //IOT Hub state
         IHubIOT iotHub;
@@ -34,6 +35,8 @@ namespace MyTrips.Services
 
         public bool IsOBDDeviceSimulated { get; set; }
 
+        private OBDDataProcessor() { }
+
         public static OBDDataProcessor GetProcessor()
         {
             if (obdDataProcessor == null)
@@ -44,25 +47,29 @@ namespace MyTrips.Services
             return obdDataProcessor;
         }
 
-
         //Init must be called each time to connect and reconnect to the OBD device
         public async Task Initialize(IStoreManager storeManager)
         {
-            this.storeManager = storeManager;
+            //Ensure that initialization is only performed once
+            if (!this.isInitialized)
+            {
+                this.isInitialized = true;
+                this.storeManager = storeManager;
 
-            //Get platform specific implemenation of IOTHub and IOBDDevice
-            this.iotHub = ServiceLocator.Instance.Resolve<IHubIOT>();
-            this.obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
+                //Get platform specific implemenation of IOTHub and IOBDDevice
+                this.iotHub = ServiceLocator.Instance.Resolve<IHubIOT>();
+                this.obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
 
-            //Start listening for connectivity change event so that we know if connection is restablished\dropped when pushing data to the IOT Hub
-            CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
+                //Start listening for connectivity change event so that we know if connection is restablished\dropped when pushing data to the IOT Hub
+                CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 
-            //Provision the device with the IOT Hub
-            var connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
-            this.iotHub.Initialize(connectionStr);
+                //Provision the device with the IOT Hub
+                var connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
+                this.iotHub.Initialize(connectionStr);
 
-            //Check right away if there is any trip data left in the buffer that needs to be sent to the IOT Hub - run this thread in the background
-            this.SendBufferedDataToIOTHub();
+                //Check right away if there is any trip data left in the buffer that needs to be sent to the IOT Hub - run this thread in the background
+                this.SendBufferedDataToIOTHub();
+            }
         }
 
         public async Task SendTripPointToIOTHub(string tripId, string userId, TripPoint tripDataPoint)

@@ -13,7 +13,6 @@ using MyTrips.Utils;
 using Acr.UserDialogs;
 using MvvmHelpers;
 using Plugin.DeviceInfo;
-using MyTrips.Services;
 
 namespace MyTrips.ViewModel
 {
@@ -22,13 +21,6 @@ namespace MyTrips.ViewModel
         public ObservableRangeCollection<Trip> Trips { get; } = new ObservableRangeCollection<Trip>();
 
         ICommand  loadPastTripsCommand;
-
-        public PastTripsViewModel()
-        {
-            //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
-            OBDDataProcessor.GetProcessor().Initialize(this.StoreManager);
-        }
-
 
         public async Task<bool> ExecuteDeleteTripCommand(Trip trip)
         {
