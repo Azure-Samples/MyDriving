@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+   <Section Name="IoTHubPartitionMapActorServiceReplicatorConfig">
+      <Parameter Name="ReplicatorEndpoint" Value="IoTHubPartitionMapActorServiceReplicatorEndpoint" />
+      <Parameter Name="BatchAcknowledgementInterval" Value="0.005" />
+   </Section>
+   <Section Name="IoTHubPartitionMapActorServiceReplicatorSecurityConfig">
+      <Parameter Name="CredentialType" Value="None" />
+   </Section>
+   <Section Name="IoTHubPartitionMapActorServiceLocalStoreConfig">
+      <Parameter Name="MaxAsyncCommitDelayInMilliseconds" Value="100" />
+      <Parameter Name="MaxVerPages" Value="32768" />
+   </Section>
+   <Section Name="ServiceConfigSection">
+      <Parameter Name="EventHubConnectionString" Value="[Event Hub Connection String]" />
+      <Parameter Name="EventHubName" Value="mydriving" />
+      <Parameter Name="SqlConnectionString" Value="[Sql Connection String]" />
+   </Section>
+</Settings>

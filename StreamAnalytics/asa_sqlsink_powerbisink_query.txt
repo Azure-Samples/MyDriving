@@ -1,0 +1,144 @@
+WITH TripPointRaw as 
+(
+SELECT
+    TripId,
+    UserId,
+    TripDataPoint.Lat as RawLat,
+    TripDataPoint.Lon as RawLong,
+    CAST(TripDataPoint.Speed as FLOAT) as spd,
+    CAST(TripDataPoint.EngineRPM as FLOAT) as enginerpm,
+    CAST(TripDataPoint.EngineLoad as FLOAT) as engineLoad,
+    CAST(TripDataPoint.ShortTermFuelBank1 as FLOAT) as shortTermFuelBank,
+    CAST(TripDataPoint.LongTermFuelBank1 as FLOAT) as longTermFuelBank,
+    CAST(TripDataPoint.MAFFlowRate as FLOAT) as flowRate,
+    CAST(TripDataPoint.ThrottlePosition as FLOAT) as throttlePos,
+    CAST(TripDataPoint.Runtime as FLOAT) as runtime,
+    CAST(TripDataPoint.DistanceWithMIL as FLOAT) as distanceWithMIL,
+    CAST(TripDataPoint.RelativeThrottlePosition as FLOAT) as relativeThrottlePos,
+    CAST(TripDataPoint.OutsideTemperature as FLOAT) as outsideTemperature,
+    CAST(TripDataPoint.EngineFuelRate as FLOAT) as engineFuelRate,
+    TripDataPoint.RecordedTimeStamp as actualTS,
+    DATEADD(millisecond,- DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),DATEADD(second, 5 - CAST(CEILING(DATEPART(second, TripDataPoint.RecordedTimeStamp)%5) as BIGINT),TripDataPoint.RecordedTimeStamp)) as ts,
+    DATEDIFF(millisecond, TripDataPoint.RecordedTimeStamp, DATEADD(millisecond,-DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),DATEADD(second, 5 - CAST(CEILING(DATEPART(second, TripDataPoint.RecordedTimeStamp)%5) as BIGINT),TripDataPoint.RecordedTimeStamp))) as tsDiff,
+    TripDataPoint.VIN as vin,
+    TripDataPoint.RelativeThrottlePosition as throttle
+FROM
+    CarDeviceData TIMESTAMP by TripDataPoint.RecordedTimeStamp
+WHERE
+    TripId is not null
+    and TripId != ''
+    and UserId is not null
+    and UserId != ''
+),
+TripPointAgg as 
+(
+SELECT 
+    TripId,
+    UserId,
+    vin,
+    ts,
+    AVG(RawLat) as lat,
+    AVG(RawLong) as lon,
+    MIN(tsDiff) as lastRecTime,
+    MAX(tsDiff) as firstRecTime,
+    MIN(spd) as minSpeed,
+    MAX(spd) as maxSpeed,
+    AVG(spd) as avgSpeed,
+    AVG(engineLoad) as avgEngineLoad,
+    AVG(shortTermFuelBank) as avgShortTermFuelBank,
+    AVG(longTermFuelBank) as avgLongTermFuelBank,
+    MAX(enginerpm) as maxEngineRpm,
+    AVG(flowRate) as avgFlowRate,
+    AVG(throttlePos) as avgThrottlePos,
+    MAX(runtime) as maxRuntime,
+    MAX(distanceWithMIL) as maxDistanceWithMIL,
+    AVG(relativeThrottlePos) as avgRelativeThrottlePos,
+    AVG(outsideTemperature) as avgOutsideTemperature,
+    AVG(engineFuelRate) as avgEngineFuelRate
+FROM
+    TripPointRaw
+WHERE
+    ts is not null
+GROUP BY
+    TripId,
+    UserId,
+    vin,
+    ts,
+    TumblingWindow(second,5)    
+),
+RoughDrivingStats as 
+(
+SELECT
+    t1.TripId,
+    t1.UserId,
+    t1.lat,
+    t1.lon,
+    CASE
+        WHEN t3.spd - t2.spd > 50 THEN 2
+        WHEN t2.spd - t3.spd > 60 OR t1.maxSpeed - t1.minSpeed > 70 OR t1.maxSpeed - t1.avgSpeed > t1.avgSpeed - t1.minSpeed + 0.10*(t1.maxSpeed - t1.minSpeed) THEN 1
+        ELSE 0
+    END as POIType,
+    t1.ts,
+    t1.avgSpeed,
+    t1.minSpeed,
+    t1.maxSpeed,
+    t1.avgEngineLoad,
+    t1.avgShortTermFuelBank,
+    t1.avgLongTermFuelBank,
+    t1.maxEngineRpm,
+    t1.avgFlowRate,
+    t1.avgThrottlePos,
+    t1.maxRuntime,
+    t1.maxDistanceWithMIL,
+    t1.avgRelativeThrottlePos,
+    t1.avgOutsideTemperature,
+    t1.avgEngineFuelRate,
+    t3.spd as firstSpeed,
+    t2.spd as lastSpeed
+FROM TripPointAgg t1
+JOIN TripPointRaw t2
+ON t1.TripId = t2.TripId and 
+t1.vin = t2.vin and 
+t1.ts = t2.ts and
+t1.lastRecTime = t2.tsDiff and
+DATEDIFF(minute,t1,t2) BETWEEN 0 and 0
+JOIN TripPointRaw t3
+ON t1.TripId = t3.TripId and 
+t1.vin = t3.vin and 
+t1.ts = t3.ts and
+t1.firstRecTime = t3.tsDiff and
+DATEDIFF(minute,t1,t3) BETWEEN 0 and 0
+)
+
+SELECT
+    TripId,
+    lat as Latitude,
+    lon as Longitude,
+    POIType,
+    ts as RecordedTimeStamp
+INTO SQLSink
+FROM RoughDrivingStats
+WHERE POIType > 0
+
+
+SELECT
+    TripId,
+    UserId,
+    avgEngineLoad as EngineLoad,
+    avgShortTermFuelBank as ShortTermFuelBank1,
+    avgLongTermFuelBank as LongTermFuelBank1,
+    maxEngineRpm as EngineRPM,
+    avgSpeed as Speed,
+    avgFlowRate as MAFFlowRate,
+    avgThrottlePos as ThrottlePosition,
+    maxRuntime as Runtime,
+    maxDistanceWithMIL as DistancewithMIL,
+    avgRelativeThrottlePos as RelativeThrottlePosition,
+    avgOutsideTemperature as OutsideTemperature,
+    avgEngineFuelRate as EngineFuelRate,
+    lat,
+    lon,
+    ts as RecordedTimeStamp,
+    POIType
+INTO PowerBISink
+FROM RoughDrivingStats

@@ -5,7 +5,7 @@ using Android.OS;
 using Android.Support.V7.App;
 using MyTrips.Utils;
 
-namespace MyTrips.Droid
+namespace MyTrips.Droid.Activities
 {
     [Activity(Label = "My Trips", Theme="@style/SplashTheme", MainLauncher=true)]    
     public class SplashActivity : AppCompatActivity
@@ -15,10 +15,25 @@ namespace MyTrips.Droid
             base.OnCreate(savedInstanceState);
 
             Intent newIntent = null;
-            if(Settings.Current.IsLoggedIn)
+            if (Settings.Current.IsLoggedIn)
                 newIntent = new Intent(this, typeof(MainActivity));
+            else if (Settings.Current.FirstRun)
+            {
+#if XTC
+                newIntent = new Intent(this, typeof(LoginActivity));
+
+#else
+                newIntent = new Intent(this, typeof(GettingStartedActivity));
+
+#endif
+
+#if !DEBUG
+                Settings.Current.FirstRun = false;
+#endif
+            }
             else
                 newIntent = new Intent(this, typeof(LoginActivity));
+
 
             newIntent.AddFlags(ActivityFlags.ClearTop);
             newIntent.AddFlags(ActivityFlags.SingleTop);
