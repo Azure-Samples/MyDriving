@@ -208,6 +208,7 @@ namespace MyTrips.Services
 
         public async Task ConnectToOBDDevice(bool showConfirmDialog)
         {
+            IsOBDDeviceSimulated = false;
 			if (showConfirmDialog)
             {
                 //Prompts user with dialog to retry if connection to OBD device fails
