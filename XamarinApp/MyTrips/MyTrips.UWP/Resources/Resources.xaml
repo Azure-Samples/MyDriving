@@ -15,4 +15,5 @@
     <BitmapImage x:Key="GetStarted3" UriSource="ms-appx:///Assets/GetStarted/SCREEN3.png"/>
     <BitmapImage x:Key="GetStarted4" UriSource="ms-appx:///Assets/GetStarted/SCREEN4.png"/>
     <BitmapImage x:Key="GetStarted5" UriSource="ms-appx:///Assets/GetStarted/SCREEN5.png"/>
+    <BitmapImage x:Key="Background" UriSource="ms-appx:///Assets/GetStarted/background.png"/>
 </ResourceDictionary>
