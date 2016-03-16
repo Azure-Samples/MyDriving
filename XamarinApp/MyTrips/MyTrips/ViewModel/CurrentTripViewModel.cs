@@ -52,7 +52,6 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref elapsedTime, value); }
         }
 
-       
         string distance = "0.0";
         public string Distance
         {
@@ -91,7 +90,7 @@ namespace MyTrips.ViewModel
 		public CurrentTripViewModel()
 		{
             CurrentTrip = new Trip();
-
+            CurrentTrip.UserId = Settings.Current.UserUID;
             CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
             photos = new List<Photo>();
 
@@ -101,15 +100,11 @@ namespace MyTrips.ViewModel
             Distance = "0.0";
             FuelConsumption = "N/A";
             EngineLoad = "N/A";
-            obdDataProcessor = new OBDDataProcessor();
+            obdDataProcessor = OBDDataProcessor.GetProcessor();
 		}
 
-       
-
         public bool NeedSave { get; set; }
-
         public IGeolocator Geolocator => CrossGeolocator.Current;
-
         public IMedia Media => CrossMedia.Current;
 
         public async Task<bool> StartRecordingTrip()
@@ -138,8 +133,9 @@ namespace MyTrips.ViewModel
                 }
 
                 //Connect to the OBD device
-                await obdDataProcessor.Initialize(StoreManager);
                 await obdDataProcessor.ConnectToOBDDevice(true);
+
+				CurrentTrip.HasSimulatedOBDData = obdDataProcessor.IsOBDDeviceSimulated;
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
@@ -185,7 +181,7 @@ namespace MyTrips.ViewModel
                         Text = CurrentTrip.Name,
                         OkText = "OK",
                         IsCancellable = false,
-                        Title = "Name of trip",
+                        Title = "Name of Trip",
                         Message = String.Empty,
                         Placeholder = String.Empty
                     });
@@ -199,8 +195,6 @@ namespace MyTrips.ViewModel
                 progress?.Show();
 
                 CurrentTrip.MainPhotoUrl = $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{CurrentPosition.Latitude.ToString(CultureInfo.InvariantCulture)},{CurrentPosition.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key=J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
-
-
                 CurrentTrip.Rating = 90;
 
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
@@ -211,18 +205,6 @@ namespace MyTrips.ViewModel
                     await StoreManager.PhotoStore.InsertAsync(photo);
                 }
 
-                try
-                {
-                    //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
-                    await obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
-
-                    //Push the trip data packaged with the OBD data to the IOT Hub
-                    await obdDataProcessor.PushTripDataToIOTHub();
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.Report(ex);
-                }
                 CurrentTrip = new Trip();
                 CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
 
@@ -269,9 +251,10 @@ namespace MyTrips.ViewModel
                 {
                     Acr.UserDialogs.UserDialogs.Instance.Alert("We need few more points.",
                                                             "Keep driving!", "OK");
+                    return false;
                 }
 
-                return false;
+               
             }
 
 
@@ -305,7 +288,6 @@ namespace MyTrips.ViewModel
         ICommand startTrackingTripCommand;
 		public ICommand StartTrackingTripCommand =>
 		    startTrackingTripCommand ?? (startTrackingTripCommand = new RelayCommand(async () => await ExecuteStartTrackingTripCommandAsync())); 
-
 
         public async Task ExecuteStartTrackingTripCommandAsync()
         {
@@ -342,10 +324,8 @@ namespace MyTrips.ViewModel
             }
             finally
             {
-
             }
         }
-
 
         ICommand stopTrackingTripCommand;
 		public ICommand StopTrackingTripCommand =>
@@ -383,6 +363,8 @@ namespace MyTrips.ViewModel
                 double speed = 0, rpm = 0, efr = 0, el = 0, stfb = 0, ltfb = 0, fr = 0, tp = 0, rt = 0, dis = 0, rtp = 0;
                 var vin = String.Empty;
 
+				var hasEfr = false;
+
                 if (obdData.ContainsKey("el") && !string.IsNullOrWhiteSpace(obdData["el"]))
                 {
                     double.TryParse(obdData["el"], out el);
@@ -406,8 +388,17 @@ namespace MyTrips.ViewModel
                     double.TryParse(obdData["spd"], out speed);
                 if (obdData.ContainsKey("rpm"))
                     double.TryParse(obdData["rpm"], out rpm);
-                if (obdData.ContainsKey("efr"))
-                    double.TryParse(obdData["efr"], out efr);
+				if (obdData.ContainsKey("efr") && !string.IsNullOrWhiteSpace(obdData["efr"]))
+				{
+					if (double.TryParse(obdData["efr"], out efr))
+						hasEfr = true;
+					else
+						efr = -1;
+				}
+				else
+				{
+					efr = -1;
+				}
                 if (obdData.ContainsKey("vin"))
                     vin = obdData["vin"];
 
@@ -424,8 +415,11 @@ namespace MyTrips.ViewModel
                 point.EngineFuelRate = efr;
                 point.VIN = vin;
 
-                totalConsumption += point.EngineFuelRate;
-                totalConsumptionPoints++;
+				if (hasEfr)
+				{
+					totalConsumption += point.EngineFuelRate;
+					totalConsumptionPoints++;
+				}
                 point.HasOBDData = true;
             }
         }
@@ -436,7 +430,7 @@ namespace MyTrips.ViewModel
             if (IsRecording)
 			{
 				var userLocation = e.Position;
-      
+
                 var point = new TripPoint
                 {
                     TripId = CurrentTrip.Id,
@@ -446,16 +440,23 @@ namespace MyTrips.ViewModel
                     Sequence = CurrentTrip.Points.Count,
 				};
 
-
                 hasEngineLoad = false;
-                //Add OBD data if there is a successful connection to the OBD Device
+
+                //Add OBD data
+                point.HasSimulatedOBDData = obdDataProcessor.IsOBDDeviceSimulated;
                 await AddOBDDataToPoint(point);
 
-
-                if (!CurrentTrip.HasSimulatedOBDData && point.HasSimulatedOBDData)
-                    CurrentTrip.HasSimulatedOBDData = true;
-
                 CurrentTrip.Points.Add(point);
+
+                try
+                {
+                    //Push the trip data packaged with the OBD data to the IOT Hub
+                    obdDataProcessor.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.Report(ex);
+                }
 
                 if (CurrentTrip.Points.Count > 1)
                 {
@@ -479,7 +480,6 @@ namespace MyTrips.ViewModel
                     var fuelUsedLiters = (totalConsumption / totalConsumptionPoints) * timeDif.TotalHours;
                     CurrentTrip.FuelUsed = fuelUsedLiters * .264172;
                     FuelConsumption = Settings.MetricUnits ? fuelUsedLiters.ToString("N2") : CurrentTrip.FuelUsed.ToString("N2");
-
                 }
                 else
                 {
@@ -491,6 +491,7 @@ namespace MyTrips.ViewModel
                 
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
                 DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
+
                 OnPropertyChanged("Stats");
 			}
 
@@ -505,7 +506,6 @@ namespace MyTrips.ViewModel
         {
             try 
             {
-                
                 await Media.Initialize();
 
                 if (!Media.IsCameraAvailable || !Media.IsTakePhotoSupported)
@@ -552,9 +552,7 @@ namespace MyTrips.ViewModel
                     };
 
                 photos.Add(photoDB);
-
                 photo.Dispose();
-                
             } 
             catch (Exception ex) 
             {

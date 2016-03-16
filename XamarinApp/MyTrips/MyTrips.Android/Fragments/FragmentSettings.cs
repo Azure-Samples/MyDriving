@@ -4,6 +4,7 @@ using Android.Content;
 using Android.Views;
 using Android.App;
 using MyTrips.ViewModel;
+using MyTrips.Droid.Activities;
 
 namespace MyTrips.Droid.Fragments
 {

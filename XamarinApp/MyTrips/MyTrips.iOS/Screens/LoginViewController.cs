@@ -25,7 +25,10 @@ namespace MyTrips.iOS
 
 			btnSkipAuth.Layer.CornerRadius = 4;
 			btnSkipAuth.Layer.MasksToBounds = true;
-		}
+
+            //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+            Services.OBDDataProcessor.GetProcessor().Initialize(viewModel.StoreManager);
+        }
 
 		public override void ViewDidAppear(bool animated)
 		{

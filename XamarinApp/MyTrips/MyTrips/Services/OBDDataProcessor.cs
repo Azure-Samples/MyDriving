@@ -8,15 +8,21 @@ using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using MvvmHelpers;
 
 namespace MyTrips.Services
 {
     public class OBDDataProcessor
     {
-        int pushDataAttempts = 0;
-        IHubIOT iotHub;
         IStoreManager storeManager;
+        bool isInitialized = false;
+
+        //IOT Hub state
+        IHubIOT iotHub;
+        bool isSendingBufferData;
+        object sendDataLock = new object();
 
         //OBD Device state
         IOBDDevice obdDevice;
@@ -25,33 +31,156 @@ namespace MyTrips.Services
         bool isConnectedToOBD;
         bool isPollingOBDDevice;
 
+        static OBDDataProcessor obdDataProcessor;
+
+        public bool IsOBDDeviceSimulated { get; set; }
+
+        private OBDDataProcessor() { }
+
+        public static OBDDataProcessor GetProcessor()
+        {
+            if (obdDataProcessor == null)
+            {
+                obdDataProcessor = new OBDDataProcessor();
+            }
+
+            return obdDataProcessor;
+        }
+
         //Init must be called each time to connect and reconnect to the OBD device
         public async Task Initialize(IStoreManager storeManager)
         {
-            this.storeManager = storeManager;
-
-            //Get platform specific implemenation of IOTHub and IOBDDevice
-            this.iotHub = ServiceLocator.Instance.Resolve<IHubIOT>();
-            this.obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
-
-            //Call into mobile service to provision the device
-
-            var connectionStr = Settings.Current.DeviceConnectionString;
-            if (string.IsNullOrEmpty(connectionStr))
+            //Ensure that initialization is only performed once
+            if (!this.isInitialized)
             {
-                //connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
+                this.isInitialized = true;
+                this.storeManager = storeManager;
 
-                //Hack for bug #320
-                connectionStr = DeviceProvisionHandler.GetHandler().DeviceConnectionString;
-                //When bug #319 is fixed, we should remove this and uncomment the above line
+                //Get platform specific implemenation of IOTHub and IOBDDevice
+                this.iotHub = ServiceLocator.Instance.Resolve<IHubIOT>();
+                this.obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
+
+                //Start listening for connectivity change event so that we know if connection is restablished\dropped when pushing data to the IOT Hub
+                CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
+
+                //Provision the device with the IOT Hub
+                var connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
+                this.iotHub.Initialize(connectionStr);
+
+                //Check right away if there is any trip data left in the buffer that needs to be sent to the IOT Hub - run this thread in the background
+                this.SendBufferedDataToIOTHub();
+            }
+        }
+
+        public async Task SendTripPointToIOTHub(string tripId, string userId, TripPoint tripDataPoint)
+        {
+            //Note: Each individual trip point is being serialized separately so that it can be sent over as an individual message
+            //This is the expected format by the IOT Hub\ML
+            var settings = new JsonSerializerSettings();
+            settings.ContractResolver = new CustomContractResolver();
+            var tripDataPointBlob = JsonConvert.SerializeObject(tripDataPoint, settings);
+
+            var tripBlob = JsonConvert.SerializeObject(
+                new
+                {
+                    TripId = tripId,
+                    UserId = userId
+                });
+
+            tripBlob = tripBlob.TrimEnd('}');
+            string packagedBlob = String.Format("{0},\"TripDataPoint\":{1}}}", tripBlob, tripDataPointBlob);
+
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                //If there is no network connection, save in buffer and try again
+                Logger.Instance.WriteLine("Unable to push data to IOT Hub - no network connection.");
+                await this.AddTripPointToBuffer(packagedBlob);
+                return;
             }
 
-            Settings.Current.DeviceConnectionString = connectionStr;
+            try
+            {
+                await this.iotHub.SendEvent(packagedBlob);
+            }
+            catch (Exception e)
+            {
+                //An exception will be thrown if the data isn't received by the IOT Hub; store data in buffer and try again
+                Logger.Instance.WriteLine("Unable to send data to IOT Hub: " + e.Message);
+                this.AddTripPointToBuffer(packagedBlob);
+            }
+        }
 
-            //Initialize the IOT Hub
-            this.iotHub.Initialize(connectionStr);
+        private async Task AddTripPointToBuffer(string tripDataPointBlob)
+        {
+            IOTHubData iotHubData = new IOTHubData();
+            iotHubData.Blob = tripDataPointBlob;
 
-            CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
+            await this.storeManager.IOTHubStore.InsertAsync(iotHubData);
+
+            //Try to sending buffered data to the IOT Hub in the background
+            this.SendBufferedDataToIOTHub();
+        }
+
+        /*
+        This task loops through the buffered data and attempts to resend it to the IOT Hub until the entire buffer is empty.
+        There are 3 places in this app where this task gets kicked off:
+            (1) The first attempt that we make to send a trip point to the IOT Hub, if this fails, we add the trip point to the buffer and immediately call this task to retry
+                sending buffered data to the IOT Hub. 
+            (2) When network connectivity changes from being disconnected to connected, we kick this task off since it is highly likely that there may be data in the buffer
+                since data cannot be sent to the IOT Hub when there is no connection.
+            (3) When we first launch the app we kick this task off to see if there is any data remaining in the buffer from previous times that the app may have been run.
+        */
+        private async Task SendBufferedDataToIOTHub()
+        {
+            //Make sure that this thread can't be kicked off concurrently
+            lock (sendDataLock)
+            {
+                if (this.isSendingBufferData)
+                {
+                    return;
+                }
+                else
+                {
+                    this.isSendingBufferData = true;
+                }
+            }
+
+            var iotHubDataBlobs = new List<IOTHubData>(await this.storeManager.IOTHubStore.GetItemsAsync());
+
+            while (CrossConnectivity.Current.IsConnected && iotHubDataBlobs.Count() > 0)
+            { 
+                try
+                {
+                    //Once all the data is pushed to the IOT Hub, delete it from the buffer
+                    //Note: This could still be pushing a bunch of data at once, but running in the background should make the performance impact of this unnoticable
+                    await this.iotHub.SendEvent(iotHubDataBlobs[0].Blob);
+                    await this.storeManager.IOTHubStore.RemoveAsync(iotHubDataBlobs[0]);
+                }
+                catch (Exception e)
+                {
+                    //An exception will be thrown if the data isn't received by the IOT Hub - wait a few seconds and try again
+                    Logger.Instance.WriteLine("Unable to send buffered data to IOT Hub: " + e.Message);
+                    await Task.Delay(3000);
+                }
+                finally
+                {
+                    iotHubDataBlobs = new List<IOTHubData>(await this.storeManager.IOTHubStore.GetItemsAsync());
+                }
+            }
+
+            lock (sendDataLock)
+            {
+                this.isSendingBufferData = false;
+            }
+        }
+
+        private void Current_ConnectivityChanged(object sender, Plugin.Connectivity.Abstractions.ConnectivityChangedEventArgs e)
+        {
+            if (e.IsConnected)
+            {
+                //If connection is re-established, then kick of background thread to push buffered data to IOT Hub
+                this.SendBufferedDataToIOTHub();
+            }
         }
 
         public async Task<Dictionary<String, String>> ReadOBDData()
@@ -66,85 +195,11 @@ namespace MyTrips.Services
                 {
                     //Invoke in background so that caller isn't blocked while trying to connect to OBD device
                     this.isConnectedToOBD = false;
-                    this.ConnectToOBDDevice(false); 
+                    this.ConnectToOBDDevice(false);
                 }
             }
 
             return obdData;
-        }
-
-        public async Task AddTripDataPointToBuffer(Trip currentTrip)
-        {
-            //Note: Each individual trip point is being serialized separately so that it can be sent over as an individual message
-            //This is the expected format by the IOT Hub\ML
-            foreach (var tripDataPoint in currentTrip.Points)
-            {
-                var settings = new JsonSerializerSettings();
-                settings.ContractResolver = new CustomContractResolver();
-                var tripDataPointBlob = JsonConvert.SerializeObject(tripDataPoint, settings);
-
-                var tripBlob = JsonConvert.SerializeObject(
-                    new
-                    {
-                        TripId = currentTrip.Id,
-                        Name = currentTrip.Name,
-                        UserId = currentTrip.UserId
-                    });
-
-                tripBlob = tripBlob.TrimEnd('}');
-                var packagedBlob = String.Format("{0},\"TripDataPoint\":{1}}}", tripBlob, tripDataPointBlob);
-
-                IOTHubData iotHubData = new IOTHubData();
-                iotHubData.Blob = packagedBlob;
-                await this.storeManager.IOTHubStore.InsertAsync(iotHubData);
-            }
-        }
-
-        private async void Current_ConnectivityChanged(object sender, Plugin.Connectivity.Abstractions.ConnectivityChangedEventArgs e)
-        {
-            if (e.IsConnected)
-            {
-                await this.PushTripDataToIOTHub();
-            }
-        }
-
-        public async Task PushTripDataToIOTHub()
-        {
-            pushDataAttempts++;
-            var iotHubDataBlobs = await this.storeManager.IOTHubStore.GetItemsAsync();
-
-            //Stop pushing data if the buffer is empty (which means all data has been successfully pushed)
-            //Or, we've had more than 50 failed attempts
-            if (iotHubDataBlobs.Count() <= 0 || pushDataAttempts > 50)
-            {
-                pushDataAttempts = 0;
-                return;
-            }
-
-            if (CrossConnectivity.Current.IsConnected)
-            {
-                try
-                {
-                    //Once the trip is pushed to the IOT Hub, delete it from the local store
-                    await this.iotHub.SendEvents(iotHubDataBlobs.Select(i => i.Blob));
-                    await this.storeManager.IOTHubStore.RemoveItemsAsync(iotHubDataBlobs);
-                }
-                catch (Exception ex)
-                {
-                    //An exception will be thrown if the data isn't received by the IOT Hub
-                    await Task.Delay(1000);
-                    Logger.Instance.Report(ex);
-                }
-            }
-            else
-            {
-                //If there is no network connection, then stop trying to push data entirely
-                //Instead, we'll wait to try to push data again when the ConnectivityChanged event is raised with successful network connection
-                return;
-            }
-
-            //If any data wasn't received by the IOT Hub, there may still be data in the local store - try again
-            await this.PushTripDataToIOTHub();
         }
 
         public async Task DisconnectFromOBDDevice()
@@ -160,7 +215,8 @@ namespace MyTrips.Services
 
         public async Task ConnectToOBDDevice(bool showConfirmDialog)
         {
-            if (showConfirmDialog)
+            IsOBDDeviceSimulated = false;
+			if (showConfirmDialog)
             {
                 //Prompts user with dialog to retry if connection to OBD device fails
                 this.isConnectedToOBD = await this.ConnectToOBDDeviceWithConfirmation();
@@ -174,7 +230,20 @@ namespace MyTrips.Services
 
         private async Task<bool> ConnectToOBDDeviceWithConfirmation()
         {
-            bool isConnected = await this.obdDevice.Initialize();
+            var isConnected = false;
+            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Connecting to OBD Device...", maskType: Acr.UserDialogs.MaskType.Clear);
+            try
+            {
+                isConnected = await Task.Run(async () => await obdDevice.Initialize()).WithTimeout(5000);
+            }
+            catch(Exception ex)
+            {
+                Logger.Instance.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                progress.Dispose();
+            }
 
             if (!isConnected)
             {
@@ -190,6 +259,7 @@ namespace MyTrips.Services
                 {
                     //Use the OBD simulator
                     isConnected = await this.obdDevice.Initialize(true);
+                    this.IsOBDDeviceSimulated = this.obdDevice.IsSimulated;
                 }
             }
 

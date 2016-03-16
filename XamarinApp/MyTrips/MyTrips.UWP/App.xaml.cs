@@ -1,27 +1,14 @@
-﻿using MyTrips.Utils;
+﻿using MyTrips.Interfaces;
+using MyTrips.Shared;
+using MyTrips.Utils;
 using MyTrips.UWP.Helpers;
+using MyTrips.UWP.Views;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.WindowsAzure.MobileServices;
-using MyTrips.UWP.Views;
-using MyTrips.Shared;
-using MyTrips.Interfaces;
-using MyTrips.DataStore.Abstractions;
-using MyTrips.DataObjects;
 
 namespace MyTrips.UWP
 {
@@ -96,8 +83,16 @@ namespace MyTrips.UWP
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                Window.Current.Content = new SplitViewShell(rootFrame);
-                rootFrame.Navigate(typeof(LoginView), e.Arguments);
+
+                if (Settings.Current.FirstRun)
+                {
+                    rootFrame.Navigate(typeof(GetStarted1), e.Arguments);
+                }
+                else
+                {
+                    Window.Current.Content = new SplitViewShell(rootFrame);
+                    rootFrame.Navigate(typeof(LoginView), e.Arguments);
+                }
             }
             // Ensure the current window is active
             Window.Current.Activate();

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.IO;
+using System.Net.NetworkInformation;
 
 namespace ObdLibiOS
 {
@@ -52,7 +53,31 @@ namespace ObdLibiOS
 
                 return true;
             }
-            await Task.Delay(1);
+            bool IsObdReaderAvailable = false;
+            foreach (var netInterface in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (netInterface.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 
+                    || netInterface.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                {
+                    foreach (var addrInfo in netInterface.GetIPProperties().UnicastAddresses)
+                    {
+                        var ipaddr = addrInfo.Address;
+                        if (ipaddr.ToString().StartsWith("192.168.0"))
+                        {
+                            IsObdReaderAvailable = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!IsObdReaderAvailable)
+            {
+                this._socket = null;
+                this._running = false;
+                this._connected = false;
+                return false;
+            }
+
             if (!ConnectSocket())
             {
                 this._socket = null;
@@ -183,6 +208,7 @@ namespace ObdLibiOS
             {
                 _socket.Connect(_ipEndPoint);
                 _stream = new NetworkStream(_socket);
+                this._connected = true;
             }
             catch (Exception ex)
             {

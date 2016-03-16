@@ -79,6 +79,7 @@ namespace ObdLibAndroid
             try
             {
                 await _bluetoothSocket.ConnectAsync();
+                _connected = true;
             }
             catch (Java.IO.IOException e)
             {

@@ -22,25 +22,19 @@ namespace MyTrips.ViewModel
 
         ICommand  loadPastTripsCommand;
 
-
-
         public async Task<bool> ExecuteDeleteTripCommand(Trip trip)
         {
             if (IsBusy)
                 return false;
 
-
             var progress = UserDialogs.Instance.Loading("Deleting Trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
 
             try
             {
-
                 var result = await UserDialogs.Instance.ConfirmAsync($"Are you sure you want to delete trip: {trip.Name}?", "Delete trip?", "Delete", "Cancel");
 
                 if (!result)
                     return false;
-
-
 
                 progress?.Show();
 
@@ -48,7 +42,6 @@ namespace MyTrips.ViewModel
 
                 Trips.Remove(trip);
                 Settings.Logout();
-
             }
             catch (Exception ex)
             {
@@ -75,8 +68,7 @@ namespace MyTrips.ViewModel
 
 			IProgressDialog progressDialog = null;
 			
-			progressDialog = UserDialogs.Instance.Loading("Loading trips...", maskType: MaskType.Clear);
-			   
+			progressDialog = UserDialogs.Instance.Loading("Loading trips...", maskType: MaskType.Clear);			   
 
             try 
             {
@@ -132,6 +124,5 @@ namespace MyTrips.ViewModel
                 progress?.Dispose();
             }
         }
-
     }
 }
