@@ -34,7 +34,8 @@
             android:drawableStart="@drawable/ic_facebook"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:theme="@style/FacebookButton" />
+            android:theme="@style/FacebookButton"
+            android:contentDescription="LoginWithFacebook" />
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -45,7 +46,8 @@
             android:drawableStart="@drawable/ic_twitter"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:theme="@style/TwitterButton" />
+            android:theme="@style/TwitterButton"
+            android:contentDescription="LoginWithTwitter" />
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -56,14 +58,16 @@
             android:drawableStart="@drawable/ic_windows"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:theme="@style/MicrosoftButton" />
+            android:theme="@style/MicrosoftButton"
+            android:contentDescription="LoginWithMicrosoft" />
         <Button
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="Skip Auth"
             android:id="@+id/button_skip"
             android:paddingLeft="24dp"
-            android:paddingRight="24dp" />
+            android:paddingRight="24dp"
+            android:contentDescription="SkipAuthentication" />
     </LinearLayout>
     <Space
         android:layout_width="match_parent"

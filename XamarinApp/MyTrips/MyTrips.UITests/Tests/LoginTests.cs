@@ -5,17 +5,11 @@ using Xamarin.UITest;
 
 namespace MyTrips.UITests
 {
-	[TestFixture (Platform.iOS)]
 	public class LoginTests : AbstractSetup
 	{
 		public LoginTests (Platform platform) : base (platform)
 		{
-		}
-
-		[Test]
-		public void AppLaunchesSuccessfullyTest()
-		{
-			app.Screenshot("App Launch");
+			
 		}
 
 		[Test]
@@ -25,8 +19,6 @@ namespace MyTrips.UITests
 
 			new LoginPage ()
 				.SkipAuthentication ();
-
-			app.Screenshot ("Authentication Skipped");
 		}
 
 		[Test]
@@ -36,8 +28,6 @@ namespace MyTrips.UITests
 
 			new LoginPage ()
 				.LoginWithFacebook ();
-
-			app.Screenshot ("Facebook Authentication Succeeded");
 		}
 	}
 }

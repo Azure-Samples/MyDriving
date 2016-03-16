@@ -60,7 +60,7 @@ namespace MyTrips.iOS
 				tabBarController.SelectedIndex = 1;
 			}
 
-#if XTC
+#if ENABLE_TEST_CLOUD
             Xamarin.Calabash.Start();
 #endif
 
