@@ -137,7 +137,7 @@ namespace ObdLibiOS
             {
                 string s;
                 if (this._simulatormode)
-                    s = "SIMULATOR12345678";
+                    s = "SIMULATORIPHONE12";
                 else
                     s = await GetVIN();
                 lock (_lock)

@@ -148,7 +148,7 @@ namespace ObdLibUWP
             {
                 string s;
                 if (this._simulatormode)
-                    s = "SIMULATOR12345678";
+                    s = "SIMULATORWINPHONE";
                 else
                     s = await GetVIN();
                 lock (_lock)
