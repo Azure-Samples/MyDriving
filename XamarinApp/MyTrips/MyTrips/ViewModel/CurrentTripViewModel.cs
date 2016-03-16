@@ -51,7 +51,6 @@ namespace MyTrips.ViewModel
             get { return elapsedTime; }
             set { SetProperty(ref elapsedTime, value); }
         }
-
        
         string distance = "0.0";
         public string Distance
@@ -101,10 +100,8 @@ namespace MyTrips.ViewModel
             Distance = "0.0";
             FuelConsumption = "N/A";
             EngineLoad = "N/A";
-            obdDataProcessor = new OBDDataProcessor();
+            obdDataProcessor = OBDDataProcessor.GetProcessor();
 		}
-
-       
 
         public bool NeedSave { get; set; }
 
@@ -138,7 +135,6 @@ namespace MyTrips.ViewModel
                 }
 
                 //Connect to the OBD device
-                await obdDataProcessor.Initialize(StoreManager);
                 await obdDataProcessor.ConnectToOBDDevice(true);
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
@@ -211,18 +207,6 @@ namespace MyTrips.ViewModel
                     await StoreManager.PhotoStore.InsertAsync(photo);
                 }
 
-                try
-                {
-                    //Store the packaged trip and OBD data locally before attempting to send to the IOT Hub
-                    await obdDataProcessor.AddTripDataPointToBuffer(CurrentTrip);
-
-                    //Push the trip data packaged with the OBD data to the IOT Hub
-                    await obdDataProcessor.PushTripDataToIOTHub();
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.Report(ex);
-                }
                 CurrentTrip = new Trip();
                 CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
 
@@ -436,7 +420,7 @@ namespace MyTrips.ViewModel
             if (IsRecording)
 			{
 				var userLocation = e.Position;
-      
+
                 var point = new TripPoint
                 {
                     TripId = CurrentTrip.Id,
@@ -444,18 +428,27 @@ namespace MyTrips.ViewModel
                     Latitude = userLocation.Latitude,
                     Longitude = userLocation.Longitude,
                     Sequence = CurrentTrip.Points.Count,
-				};
-
+                };
 
                 hasEngineLoad = false;
+
                 //Add OBD data if there is a successful connection to the OBD Device
                 await AddOBDDataToPoint(point);
-
 
                 if (!CurrentTrip.HasSimulatedOBDData && point.HasSimulatedOBDData)
                     CurrentTrip.HasSimulatedOBDData = true;
 
                 CurrentTrip.Points.Add(point);
+
+                try
+                {
+                    //Push the trip data packaged with the OBD data to the IOT Hub
+                    obdDataProcessor.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.Report(ex);
+                }
 
                 if (CurrentTrip.Points.Count > 1)
                 {
@@ -491,6 +484,7 @@ namespace MyTrips.ViewModel
                 
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
                 DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
+
                 OnPropertyChanged("Stats");
 			}
 

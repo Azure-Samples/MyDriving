@@ -22,5 +22,11 @@ namespace MyTrips.Shared
             List<Microsoft.Azure.Devices.Client.Message> messages = blobs.Select(b => new Microsoft.Azure.Devices.Client.Message(System.Text.Encoding.ASCII.GetBytes(b))).ToList();
             await this.deviceClient.SendEventBatchAsync(messages);
         }
+
+        public async Task SendEvent(string blob)
+        {
+            var message = new Message(Encoding.ASCII.GetBytes(blob));
+            await this.deviceClient.SendEventAsync(message);
+        }
     }
 }

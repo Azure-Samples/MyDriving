@@ -55,8 +55,7 @@ namespace MyTrips.AzureClient
         {
             get
             {
-                //Hack for bug #320; hard-coding the AccessKey since we have a provisioned device already that we can re-use
-                //When bug #319 is fixed, we should remove this
+                //TODO: Exception still being thrown by backend when provisioning device - following up with Haishi
                 this.AccessKey = "gVoYUjtxfRoanBUOND5aDsZaqoLSKdZnWV+zc9hs3zk=";
                 this.DeviceId = "device";
                 /////
@@ -100,7 +99,7 @@ namespace MyTrips.AzureClient
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.WriteLine("Unable to provision device with IOT Hub: " + e);
+                    Logger.Instance.WriteLine("Unable to provision device with IOT Hub: " + e.Message);
                 }
 
                 Settings.Current.DeviceConnectionString = this.DeviceConnectionString;
