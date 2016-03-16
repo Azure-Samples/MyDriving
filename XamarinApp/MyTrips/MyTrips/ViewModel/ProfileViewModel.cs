@@ -56,6 +56,7 @@ namespace MyTrips.ViewModel
                     TotalTime = currentUser.TotalTime;
                     TotalTrips = currentUser.TotalTrips;
                     FuelUsed = currentUser.FuelConsumption;
+					MaxSpeed = currentUser.MaxSpeed;
 #if DEBUG
                     DrivingSkills = 86;
 #else
@@ -108,7 +109,7 @@ namespace MyTrips.ViewModel
 
         public double DistanceConverted => (Settings.Current.MetricDistance ? (TotalDistance * 1.60934) : TotalDistance);
 
-        public string SpeedUnits => Settings.MetricUnits ? "km/h" : "mph";
+		public string SpeedUnits => Settings.MetricDistance ? "km/h" : "mph";
 
         public double MaxSpeedConverted => Settings.MetricDistance ? MaxSpeed : MaxSpeed * 0.621371;
 
