@@ -19,12 +19,9 @@ namespace MyTrips.ViewModel
         {
             client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
             authentication = ServiceLocator.Instance.Resolve<IAuthentication>();
-
-
         }
 
         public UserProfile UserProfile { get; set; }
-
 
         bool isLoggedIn;
         public bool IsLoggedIn
@@ -50,14 +47,12 @@ namespace MyTrips.ViewModel
             if(client == null || IsBusy)
                 return;
             
-
             Settings.LoginAccount = LoginAccount.Twitter;
             var track = Logger.Instance.TrackTime("LoginTwitter");
             track.Start();
             IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.Twitter);
             track.Stop();
         }
-
 
         ICommand  loginMicrosoftCommand;
         public ICommand LoginMicrosoftCommand =>
@@ -93,18 +88,20 @@ namespace MyTrips.ViewModel
         async Task<bool> LoginAsync(MobileServiceAuthenticationProvider provider)
         {
             if (!Plugin.Connectivity.CrossConnectivity.Current.IsConnected)
-            {
-                
+            {                
                 Acr.UserDialogs.UserDialogs.Instance.Alert("Ensure you have internet connection to login.",
-                                                            "No Connection", "OK");
+                    "No Connection", "OK");
                 
                 return false;
             }
+
             MobileServiceUser user = null;
+
             try
             {
                 authentication.ClearCookies();
                 user = await authentication.LoginAsync(client, provider);
+
                 if (user != null)
                 {
                     IsBusy = true;
@@ -119,7 +116,6 @@ namespace MyTrips.ViewModel
             {
                 IsBusy = false;
             }
-
 
             if (user == null || UserProfile == null)
             {

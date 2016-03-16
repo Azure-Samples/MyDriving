@@ -53,5 +53,4 @@ namespace MyTrips.Services
             return property;
         }
     }
-
 }

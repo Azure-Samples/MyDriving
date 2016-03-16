@@ -29,7 +29,6 @@ namespace MyTrips.ViewModel
             //make sure the points are ordered
             trip.Points = trip.Points.OrderBy(p => p.Sequence).ToArray();
 			Trip = trip;
-
 		}
 
         TripPoint position;
@@ -50,7 +49,7 @@ namespace MyTrips.ViewModel
                     ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";
 
                 var previousPoints = Trip.Points.Where(p => p.RecordedTimeStamp <= position.RecordedTimeStamp).ToArray();
-                var obdPoints = previousPoints.Where(p => p.HasOBDData).ToArray();
+				var obdPoints = previousPoints.Where(p => p.HasOBDData && p.EngineFuelRate > -1).ToArray();
                 var totalConsumptionPoints = obdPoints.Length;
                 var totalConsumption = obdPoints.Sum(s => s.EngineFuelRate);
 
@@ -58,7 +57,6 @@ namespace MyTrips.ViewModel
                 {
                     var fuelUsedLiters = (totalConsumption / totalConsumptionPoints) * timeDif.TotalHours;
                     FuelConsumption = Settings.MetricUnits ? fuelUsedLiters.ToString("N2") : (fuelUsedLiters * .264172).ToString("N2");
-
                 }
                 else
                 {
@@ -101,7 +99,6 @@ namespace MyTrips.ViewModel
             get { return elapsedTime; }
             set { SetProperty(ref elapsedTime, value); }
         }
-
 
         string distance = "0.0";
         public string Distance

@@ -22,7 +22,7 @@ namespace smarttripsService.Controllers
             DomainManager = new EntityDomainManager<POI>(_dbContext, Request);
         }
         
-        public IQueryable<POI> GetALlPOIs(string tripId)
+        public IQueryable<POI> GetAllPOIs(string tripId)
         {
             return Query().Where(p => p.TripId == tripId);
         }        

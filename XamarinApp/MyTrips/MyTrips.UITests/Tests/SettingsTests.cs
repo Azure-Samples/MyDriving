@@ -4,7 +4,6 @@ using NUnit.Framework;
 
 namespace MyTrips.UITests
 {
-	[TestFixture (Platform.iOS)]
 	public class SettingsTests : AbstractSetup
 	{
 		public SettingsTests (Platform platform) : base (platform)

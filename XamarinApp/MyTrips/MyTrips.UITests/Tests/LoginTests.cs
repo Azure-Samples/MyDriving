@@ -5,7 +5,6 @@ using Xamarin.UITest;
 
 namespace MyTrips.UITests
 {
-	[TestFixture (Platform.iOS)]
 	public class LoginTests : AbstractSetup
 	{
 		public LoginTests (Platform platform) : base (platform)

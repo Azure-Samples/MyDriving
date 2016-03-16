@@ -53,7 +53,6 @@ namespace MyTrips.Droid
 
         public void OnActivityResumed(Activity activity) => CrossCurrentActivity.Current.Activity = activity;
 
-
         public void OnActivitySaveInstanceState(Activity activity, Bundle outState) {}
 
         public void OnActivityStarted(Activity activity)
