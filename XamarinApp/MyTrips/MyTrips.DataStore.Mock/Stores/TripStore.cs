@@ -27,6 +27,7 @@ namespace MyTrips.DataStore.Mock.Stores
             pt.RecordedTimeStamp = timestamp;
             pt.EngineLoad = random.Next(25, 75);
             pt.EngineFuelRate = random.Next(19, 25);
+			pt.Speed = random.Next(30, 60);
             pt.HasOBDData = true;
             trip.Points.Add(pt);
         }
@@ -203,8 +204,11 @@ namespace MyTrips.DataStore.Mock.Stores
                 {
                     pt.EngineLoad = random.Next(25, 75);
                     pt.EngineFuelRate = random.Next(19, 25);
-                    pt.HasOBDData = true;
+					pt.Speed = random.Next(30, 60);
+					pt.HasOBDData = true;
                 }
+
+				trip6.Points[0].Speed = 0.0;
             }
             catch (Exception ex)
             {
