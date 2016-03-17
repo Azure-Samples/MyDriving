@@ -52,9 +52,6 @@ namespace MyTrips.Droid.Activities
                 StartActivity(intent);
                 Finish();
             };
-
-            //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
-            MyTrips.Services.OBDDataProcessor.GetProcessor().Initialize(viewModel.StoreManager);
         }
 
         void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

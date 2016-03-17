@@ -35,7 +35,7 @@ namespace MyTrips.ViewModel
             get { return Settings.Current; }
         }
 
-        IStoreManager storeManager;
-        public IStoreManager StoreManager => storeManager ?? (storeManager = ServiceLocator.Instance.Resolve<IStoreManager>()); 
+        static IStoreManager storeManager;
+        public static IStoreManager StoreManager => storeManager ?? (storeManager = ServiceLocator.Instance.Resolve<IStoreManager>()); 
     }
 }
