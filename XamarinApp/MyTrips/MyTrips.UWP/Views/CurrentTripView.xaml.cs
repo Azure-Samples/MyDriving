@@ -175,13 +175,10 @@ namespace MyTrips.UWP.Views
             switch (accessStatus)
             {
                 case GeolocationAccessStatus.Allowed:
-                    // You should set MovementThreshold for distance-based tracking
-                    // or ReportInterval for periodic-based tracking before adding event
-                    // handlers. If none is set, a ReportInterval of 1 second is used
-                    // as a default and a position will be returned every 1 second.
-                    //
-
-                   // await BeginExtendedExecution(viewModel);
+                    // Need to Get the position to Get the map to focus on current position. 
+                    var position = await viewModel.Geolocator.GetPositionAsync();
+                    var basicPosition = new BasicGeoposition() { Latitude = position.Latitude, Longitude = position.Longitude };
+                    UpdateMap_PositionChanged(basicPosition);
                     startRecordBtn.IsEnabled = true;
                     break;
 
