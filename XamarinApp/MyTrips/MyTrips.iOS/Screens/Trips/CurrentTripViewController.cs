@@ -153,6 +153,9 @@ namespace MyTrips.iOS
 					alertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Cancel, null));
 
 					PresentViewController(alertController, true, null);
+
+					tripMapView.Camera.CenterCoordinate = new CLLocationCoordinate2D(47.6204, -122.3491);
+					tripMapView.Camera.Altitude = 2500;
 				});
 			}
 		}
