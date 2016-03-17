@@ -27,7 +27,6 @@ namespace MyTrips.iOS
 
 			ServiceLocator.Instance.Add<IAuthentication, Authentication>();
 			ServiceLocator.Instance.Add<ILogger, PlatformLogger>();
-			ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
 			ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
 			Xamarin.Insights.Initialize(Logger.InsightsKey);

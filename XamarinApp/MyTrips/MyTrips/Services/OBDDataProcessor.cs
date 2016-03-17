@@ -47,7 +47,6 @@ namespace MyTrips.Services
             return obdDataProcessor;
         }
 
-        //Init must be called each time to connect and reconnect to the OBD device
         public async Task Initialize(IStoreManager storeManager)
         {
             //Ensure that initialization is only performed once
@@ -56,8 +55,7 @@ namespace MyTrips.Services
                 this.isInitialized = true;
                 this.storeManager = storeManager;
 
-                //Get platform specific implemenation of IOTHub and IOBDDevice
-                this.iotHub = ServiceLocator.Instance.Resolve<IHubIOT>();
+                //Get platform specific implementation of IOBDDevice
                 this.obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
 
                 //Start listening for connectivity change event so that we know if connection is restablished\dropped when pushing data to the IOT Hub
