@@ -387,5 +387,3 @@ namespace MyTrips.iOS
 		#endregion
 	}
 }
- 
- 
