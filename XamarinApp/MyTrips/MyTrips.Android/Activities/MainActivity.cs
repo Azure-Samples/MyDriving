@@ -56,14 +56,15 @@ namespace MyTrips.Droid
             if (Intent.GetBooleanExtra("tracking", false))
             {
                 ListItemClicked(Resource.Id.menu_current_trip);
+                SupportActionBar.Title = "Current Trip";
                 return;
             }
 
             //if first time you will want to go ahead and click first item.
             if (bundle == null)
             {
-                ListItemClicked(Resource.Id.menu_past_trips);
-                SupportActionBar.Title = "Past Trips";
+                ListItemClicked(Resource.Id.menu_current_trip);
+                SupportActionBar.Title = "Current Trip";
             }
 
         }
@@ -113,6 +114,7 @@ namespace MyTrips.Droid
                     fragment = FragmentSettings.NewInstance();
                     break;
             }
+
 
             SupportFragmentManager.BeginTransaction()
                 .Replace(Resource.Id.content_frame, fragment)
