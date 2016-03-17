@@ -35,6 +35,7 @@ namespace MyTrips.ViewModel
             Init(true);
             Settings.UserFirstName = "Scott";
             Settings.UserLastName = "Gu";
+            Settings.UserUID = "1";
             Settings.UserProfileUrl = "http://refractored.com/images/Scott.png";
         }
 

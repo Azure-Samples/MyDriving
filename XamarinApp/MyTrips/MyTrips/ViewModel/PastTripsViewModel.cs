@@ -27,7 +27,7 @@ namespace MyTrips.ViewModel
             if (IsBusy)
                 return false;
 
-            var progress = UserDialogs.Instance.Loading("Deleting Trip...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
+            var progress = UserDialogs.Instance.Loading("Deleting Trip...", show: false, maskType: MaskType.Clear);
 
             try
             {
@@ -52,6 +52,7 @@ namespace MyTrips.ViewModel
                 progress?.Dispose();
             }
 
+           
             return true;
         }
 
@@ -91,6 +92,13 @@ namespace MyTrips.ViewModel
 
 				progressDialog?.Dispose();
             }
+
+            if (Trips.Count == 0)
+            {
+                UserDialogs.Instance.Alert("Looks like you don't have any trips recorded yet, feel free to start one up.",
+                   "No Past Trips", "OK");
+            }
+
         }
 
         ICommand  loadMorePastTripsCommand;
@@ -104,7 +112,7 @@ namespace MyTrips.ViewModel
 
             var track = Logger.Instance.TrackTime("LoadMoreTrips");
             track.Start();
-            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading more trips...", maskType: Acr.UserDialogs.MaskType.Clear);
+            var progress = UserDialogs.Instance.Loading("Loading more trips...", maskType: MaskType.Clear);
             
             try
             {

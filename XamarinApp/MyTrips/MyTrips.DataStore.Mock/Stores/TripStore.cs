@@ -25,6 +25,9 @@ namespace MyTrips.DataStore.Mock.Stores
             pt.Latitude = lat;
             pt.Longitude = lng;
             pt.RecordedTimeStamp = timestamp;
+            pt.EngineLoad = random.Next(25, 75);
+            pt.EngineFuelRate = random.Next(19, 25);
+            pt.HasOBDData = true;
             trip.Points.Add(pt);
         }
 
@@ -195,6 +198,13 @@ namespace MyTrips.DataStore.Mock.Stores
                 trip6 = JsonConvert.DeserializeObject<Trip>(json);
                 trip6.Photos = new List<Photo>();
                 trip6.MainPhotoUrl = "http://www.livingwilderness.com/seattle/space-needle-fog.jpg";
+
+                foreach (var pt in trip6.Points)
+                {
+                    pt.EngineLoad = random.Next(25, 75);
+                    pt.EngineFuelRate = random.Next(19, 25);
+                    pt.HasOBDData = true;
+                }
             }
             catch (Exception ex)
             {
