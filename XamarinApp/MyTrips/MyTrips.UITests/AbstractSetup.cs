@@ -37,12 +37,18 @@ namespace MyTrips.UITests
 				Thread.Sleep(2000);
 			}
 
-			if (app.Query ("Allow").Any ())
-				app.Tap ("Allow");
+            if (OniOS)
+            {
+                if (app.Query("Allow").Any())
+                    app.Tap ("Allow");
+            }
 		}
 
 		public void ClearKeychain ()
 		{
+            if (OnAndroid)
+                return;
+            
 			if (!app.Query ("LoginWithFacebook").Any ()) {
 				app.TestServer.Post("/keychain", new object());
 				app = ConfigureApp.iOS.StartApp();

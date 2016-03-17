@@ -61,10 +61,17 @@ namespace MyTrips.Droid
         public void OnActivityStarted(Activity activity)
         {
             CrossCurrentActivity.Current.Activity = activity;
+            #if !XTC
             HockeyApp.Tracking.StartUsage(activity);
+            #endif
         }
 
-        public void OnActivityStopped(Activity activity) => HockeyApp.Tracking.StopUsage(activity);
+        public void OnActivityStopped(Activity activity)
+        {
+            #if !XTC
+            HockeyApp.Tracking.StopUsage(activity);
+            #end
+        }
 
     }
 }
