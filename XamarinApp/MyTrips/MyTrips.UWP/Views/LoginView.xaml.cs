@@ -57,7 +57,7 @@ namespace MyTrips.UWP.Views
             this.Frame.NavigationFailed += OnNavigationFailed;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
-            this.Frame.Navigate(typeof(PastTripsMenuView));
+            this.Frame.Navigate(typeof(CurrentTripView));
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
@@ -93,13 +93,13 @@ namespace MyTrips.UWP.Views
             }
             else  //if no user info to show, go directly to next page
             {
-                this.Frame.Navigate(typeof(PastTripsMenuView));
+                this.Frame.Navigate(typeof(CurrentTripView));
             }
         }
 
         private void Continue_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(PastTripsMenuView));
+            this.Frame.Navigate(typeof(CurrentTripView));
         }
 
         private void SetImageSource()
