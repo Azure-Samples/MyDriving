@@ -9,11 +9,7 @@ namespace MyTrips.UITests
         string SliderId;
         string PageId;
         public PastTripsPage()
-            : base(c => c.Marked("Trips"), c =>
-            {
-                c.Marked("Past Trips");
-            })
-		{
+        {
             if (OniOS)
             {
                 SliderId = "UISlider";

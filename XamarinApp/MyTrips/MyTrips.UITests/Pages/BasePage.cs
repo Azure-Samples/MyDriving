@@ -5,6 +5,8 @@ using Xamarin.UITest.Queries;
 using Xamarin.UITest.Android;
 using Xamarin.UITest.iOS;
 
+using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
+using System.Linq;
 namespace MyTrips.UITests
 {
 	public class BasePage

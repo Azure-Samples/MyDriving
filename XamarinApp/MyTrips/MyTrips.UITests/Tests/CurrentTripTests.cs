@@ -13,12 +13,12 @@ namespace MyTrips.UITests
 		[Test]
 		public void RecordTripTest ()
 		{
-			new CurrentTripPage ()
-				.NavigateToCurrentTripPage ()
-				.StartRecordingTrip ()
-				.StopRecordingTrip ()
-				.EnterTripName ()
-				.DismissTripSummary ();
+            new CurrentTripPage()
+                .NavigateToCurrentTripPage()
+                .StartRecordingTrip()
+                .StopRecordingTrip();
+				//.DismissTripSummary ()
+                //.EnterTripName();
 		}
 	}
 }
