@@ -2,16 +2,6 @@
 <PreferenceScreen  
 		xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-            android:title="Account">
-
-        <Preference
-				
-				android:key="logout"
-                android:title="Logout" />
-
-    </PreferenceCategory>
-
 	<PreferenceCategory
             android:title="Perferences">
 
@@ -25,12 +15,7 @@
                 android:title="Metric Units"
 			    android:summary="Use Liters instead of Gallons"/>
 
-
-        
-       <!-- <CheckBoxPreference
-                android:key="metric_temp"
-                android:title="Metric Temperature"
-                android:summary="Use Celsius instead of Fahrenheit"/>-->
+               
 
     </PreferenceCategory>
 

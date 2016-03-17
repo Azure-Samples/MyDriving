@@ -314,7 +314,6 @@
     </AndroidResource>
     <AndroidResource Include="Resources\layout\fragment_past_trips.axml" />
     <AndroidResource Include="Resources\layout\item_trip.axml" />
-    <AndroidResource Include="Resources\layout\item_recommended_route.axml" />
     <AndroidResource Include="Resources\layout\fragment_profile.axml" />
     <AndroidResource Include="Resources\layout\activity_login.axml" />
     <AndroidResource Include="Resources\layout\activity_main.axml" />
