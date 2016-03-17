@@ -160,6 +160,14 @@ namespace MyTrips.iOS
 	
 		async void RecordButton_TouchUpInside(object sender, EventArgs e)
 		{
+			if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
+			{
+				Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
+														   "Geolocation Disabled", "OK");
+				
+				return;
+			}
+			
 			var position = await CurrentTripViewModel.Geolocator.GetPositionAsync();
 			var coordinate = position.ToCoordinate();
 
