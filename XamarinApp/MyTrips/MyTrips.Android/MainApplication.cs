@@ -70,7 +70,7 @@ namespace MyTrips.Droid
         {
             #if !XTC
             HockeyApp.Tracking.StopUsage(activity);
-            #end
+            #endif
         }
 
     }
