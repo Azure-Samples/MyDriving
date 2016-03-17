@@ -250,7 +250,6 @@ namespace MyTrips.iOS
 			mapDelegate = new TripMapViewDelegate(false);
 			tripMapView.Delegate = mapDelegate;
 			tripMapView.ShowsUserLocation = false;
-			tripMapView.SetVisibleMapRect(MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray()).BoundingMapRect, new UIEdgeInsets(25, 25, 25, 25), false);
 
 			// Draw endpoints
 			var startEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Points[0].ToCoordinate(), "A");
@@ -263,9 +262,8 @@ namespace MyTrips.iOS
 			tripMapView.DrawRoute(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray());
 
 			// Draw car
-			var centerCoordinate = PastTripsDetailViewModel.Trip.Points[coordinateCount / 2];
-			var carCoordinate = centerCoordinate.ToCoordinate();
-			currentLocationAnnotation = new CarAnnotation(carCoordinate, UIColor.Blue);
+			var carCoordinate = PastTripsDetailViewModel.Trip.Points[0];
+			currentLocationAnnotation = new CarAnnotation(carCoordinate.ToCoordinate (), UIColor.Blue);
 			tripMapView.AddAnnotation(currentLocationAnnotation);
 
 			// Configure slider area
@@ -273,7 +271,9 @@ namespace MyTrips.iOS
 			ConfigureWayPointButtons();
 			recordButton.Hidden = true;
 
-			UpdateTripStatistics(centerCoordinate);
+			tripMapView.SetVisibleMapRect(MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray()).BoundingMapRect, new UIEdgeInsets(25, 25, 25, 25), false);
+
+			UpdateTripStatistics(carCoordinate);
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("RefreshTripUnits"), HandleTripUnitsChanged);
 		}
 
@@ -303,10 +303,9 @@ namespace MyTrips.iOS
 			sliderView.Hidden = false;
 			tripSlider.Hidden = false;
 
-			var dataPoints = PastTripsDetailViewModel.Trip.Points.Count - 1;
 			tripSlider.MinValue = 0;
-			tripSlider.MaxValue = dataPoints;
-			tripSlider.Value = PastTripsDetailViewModel.Trip.Points.Count / 2;
+			tripSlider.MaxValue = PastTripsDetailViewModel.Trip.Points.Count - 1;
+			tripSlider.Value = 0;
 
 			tripSlider.ValueChanged += TripSlider_ValueChanged;
 		}
