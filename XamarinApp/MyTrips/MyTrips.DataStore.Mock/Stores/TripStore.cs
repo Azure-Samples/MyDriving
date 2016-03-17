@@ -208,7 +208,7 @@ namespace MyTrips.DataStore.Mock.Stores
 					pt.HasOBDData = true;
                 }
 
-				trip6.Points[0].Speed = 0;
+				trip6.Points[0].Speed = 0.0;
             }
             catch (Exception ex)
             {
