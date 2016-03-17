@@ -148,7 +148,7 @@ namespace MyTrips.Services
             var iotHubDataBlobs = new List<IOTHubData>(await this.storeManager.IOTHubStore.GetItemsAsync());
 
             while (CrossConnectivity.Current.IsConnected && iotHubDataBlobs.Count() > 0)
-            { 
+            {
                 try
                 {
                     //Once all the data is pushed to the IOT Hub, delete it from the buffer
@@ -216,7 +216,7 @@ namespace MyTrips.Services
         public async Task ConnectToOBDDevice(bool showConfirmDialog)
         {
             IsOBDDeviceSimulated = false;
-			if (showConfirmDialog)
+            if (showConfirmDialog)
             {
                 //Prompts user with dialog to retry if connection to OBD device fails
                 this.isConnectedToOBD = await this.ConnectToOBDDeviceWithConfirmation();
@@ -232,13 +232,12 @@ namespace MyTrips.Services
         {
             var isConnected = false;
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Connecting to OBD Device...", maskType: Acr.UserDialogs.MaskType.Clear);
-            if (this.obdDevice == null)
-                this.obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
+              
             try
             {
                 isConnected = await Task.Run(async () => await obdDevice.Initialize()).WithTimeout(5000);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Instance.WriteLine(ex.ToString());
             }
@@ -325,4 +324,3 @@ namespace MyTrips.Services
     }
 }
 
-   
