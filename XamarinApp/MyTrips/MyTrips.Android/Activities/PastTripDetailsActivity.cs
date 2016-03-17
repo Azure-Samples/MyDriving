@@ -107,10 +107,10 @@ namespace MyTrips.Droid.Activities
             seekBar.ProgressChanged += SeekBar_ProgressChanged;
 
             var logicalDensity = Resources.DisplayMetrics.Density;
-            var thicknessCar = (int)Math.Ceiling(24 * logicalDensity + .5f);
+            var thicknessCar = (int)Math.Ceiling(26 * logicalDensity + .5f);
             var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
 
-            var b = ContextCompat.GetDrawable(this, Resource.Drawable.ic_car) as BitmapDrawable;
+            var b = ContextCompat.GetDrawable(this, Resource.Drawable.ic_car_blue) as BitmapDrawable;
             var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessCar, thicknessCar, false);
 
             var car = new MarkerOptions();
@@ -139,7 +139,7 @@ namespace MyTrips.Droid.Activities
             var points = viewModel.Trip.Points.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
             var rectOptions = new PolylineOptions();
             rectOptions.Add(points);
-            rectOptions.InvokeColor(ContextCompat.GetColor(this, Resource.Color.primary));
+            rectOptions.InvokeColor(ContextCompat.GetColor(this, Resource.Color.primary_dark));
             map.AddPolyline(rectOptions);
 
 

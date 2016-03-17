@@ -2816,32 +2816,32 @@ namespace MyTrips.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f080075
-			public const int abc_background_cache_hint_selector_material_dark = 2131230837;
-			
 			// aapt resource value: 0x7f080076
-			public const int abc_background_cache_hint_selector_material_light = 2131230838;
+			public const int abc_background_cache_hint_selector_material_dark = 2131230838;
 			
 			// aapt resource value: 0x7f080077
-			public const int abc_color_highlight_material = 2131230839;
+			public const int abc_background_cache_hint_selector_material_light = 2131230839;
+			
+			// aapt resource value: 0x7f080078
+			public const int abc_color_highlight_material = 2131230840;
 			
 			// aapt resource value: 0x7f080015
 			public const int abc_input_method_navigation_guard = 2131230741;
 			
-			// aapt resource value: 0x7f080078
-			public const int abc_primary_text_disable_only_material_dark = 2131230840;
-			
 			// aapt resource value: 0x7f080079
-			public const int abc_primary_text_disable_only_material_light = 2131230841;
+			public const int abc_primary_text_disable_only_material_dark = 2131230841;
 			
 			// aapt resource value: 0x7f08007a
-			public const int abc_primary_text_material_dark = 2131230842;
+			public const int abc_primary_text_disable_only_material_light = 2131230842;
 			
 			// aapt resource value: 0x7f08007b
-			public const int abc_primary_text_material_light = 2131230843;
+			public const int abc_primary_text_material_dark = 2131230843;
 			
 			// aapt resource value: 0x7f08007c
-			public const int abc_search_url_text = 2131230844;
+			public const int abc_primary_text_material_light = 2131230844;
+			
+			// aapt resource value: 0x7f08007d
+			public const int abc_search_url_text = 2131230845;
 			
 			// aapt resource value: 0x7f080016
 			public const int abc_search_url_text_normal = 2131230742;
@@ -2852,11 +2852,11 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f080018
 			public const int abc_search_url_text_selected = 2131230744;
 			
-			// aapt resource value: 0x7f08007d
-			public const int abc_secondary_text_material_dark = 2131230845;
-			
 			// aapt resource value: 0x7f08007e
-			public const int abc_secondary_text_material_light = 2131230846;
+			public const int abc_secondary_text_material_dark = 2131230846;
+			
+			// aapt resource value: 0x7f08007f
+			public const int abc_secondary_text_material_light = 2131230847;
 			
 			// aapt resource value: 0x7f080067
 			public const int accent = 2131230823;
@@ -2918,8 +2918,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f08005e
 			public const int button_background_selected = 2131230814;
 			
-			// aapt resource value: 0x7f080072
-			public const int button_facebook = 2131230834;
+			// aapt resource value: 0x7f080073
+			public const int button_facebook = 2131230835;
 			
 			// aapt resource value: 0x7f080025
 			public const int button_material_dark = 2131230757;
@@ -2927,11 +2927,11 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f080026
 			public const int button_material_light = 2131230758;
 			
-			// aapt resource value: 0x7f080074
-			public const int button_microsoft = 2131230836;
+			// aapt resource value: 0x7f080075
+			public const int button_microsoft = 2131230837;
 			
-			// aapt resource value: 0x7f080073
-			public const int button_twitter = 2131230835;
+			// aapt resource value: 0x7f080074
+			public const int button_twitter = 2131230836;
 			
 			// aapt resource value: 0x7f080011
 			public const int cardview_dark_background = 2131230737;
@@ -2948,8 +2948,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f080008
 			public const int common_action_bar_splitter = 2131230728;
 			
-			// aapt resource value: 0x7f08007f
-			public const int common_google_signin_btn_text_dark = 2131230847;
+			// aapt resource value: 0x7f080080
+			public const int common_google_signin_btn_text_dark = 2131230848;
 			
 			// aapt resource value: 0x7f080009
 			public const int common_google_signin_btn_text_dark_default = 2131230729;
@@ -2963,8 +2963,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f08000a
 			public const int common_google_signin_btn_text_dark_pressed = 2131230730;
 			
-			// aapt resource value: 0x7f080080
-			public const int common_google_signin_btn_text_light = 2131230848;
+			// aapt resource value: 0x7f080081
+			public const int common_google_signin_btn_text_light = 2131230849;
 			
 			// aapt resource value: 0x7f08000d
 			public const int common_google_signin_btn_text_light_default = 2131230733;
@@ -2978,8 +2978,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f08000e
 			public const int common_google_signin_btn_text_light_pressed = 2131230734;
 			
-			// aapt resource value: 0x7f080081
-			public const int common_plus_signin_btn_text_dark = 2131230849;
+			// aapt resource value: 0x7f080082
+			public const int common_plus_signin_btn_text_dark = 2131230850;
 			
 			// aapt resource value: 0x7f080000
 			public const int common_plus_signin_btn_text_dark_default = 2131230720;
@@ -2993,8 +2993,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f080001
 			public const int common_plus_signin_btn_text_dark_pressed = 2131230721;
 			
-			// aapt resource value: 0x7f080082
-			public const int common_plus_signin_btn_text_light = 2131230850;
+			// aapt resource value: 0x7f080083
+			public const int common_plus_signin_btn_text_light = 2131230851;
 			
 			// aapt resource value: 0x7f080004
 			public const int common_plus_signin_btn_text_light_default = 2131230724;
@@ -3179,17 +3179,20 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f080071
 			public const int stat_accent = 2131230833;
 			
+			// aapt resource value: 0x7f080072
+			public const int stat_display = 2131230834;
+			
 			// aapt resource value: 0x7f08004b
 			public const int switch_thumb_disabled_material_dark = 2131230795;
 			
 			// aapt resource value: 0x7f08004c
 			public const int switch_thumb_disabled_material_light = 2131230796;
 			
-			// aapt resource value: 0x7f080083
-			public const int switch_thumb_material_dark = 2131230851;
-			
 			// aapt resource value: 0x7f080084
-			public const int switch_thumb_material_light = 2131230852;
+			public const int switch_thumb_material_dark = 2131230852;
+			
+			// aapt resource value: 0x7f080085
+			public const int switch_thumb_material_light = 2131230853;
 			
 			// aapt resource value: 0x7f08004d
 			public const int switch_thumb_normal_material_dark = 2131230797;
@@ -3920,88 +3923,94 @@ namespace MyTrips.Droid
 			public const int ic_camera = 2130837619;
 			
 			// aapt resource value: 0x7f020074
-			public const int ic_car = 2130837620;
+			public const int ic_car_blue = 2130837620;
 			
 			// aapt resource value: 0x7f020075
-			public const int ic_end_point = 2130837621;
+			public const int ic_car_red = 2130837621;
 			
 			// aapt resource value: 0x7f020076
-			public const int ic_errorstatus = 2130837622;
+			public const int ic_close = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int ic_facebook = 2130837623;
+			public const int ic_end_point = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int ic_launcher = 2130837624;
+			public const int ic_errorstatus = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int ic_menu = 2130837625;
+			public const int ic_facebook = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int ic_notification = 2130837626;
+			public const int ic_launcher = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int ic_start = 2130837627;
+			public const int ic_menu = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int ic_start_point = 2130837628;
+			public const int ic_notification = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int ic_stop = 2130837629;
+			public const int ic_start = 2130837629;
 			
 			// aapt resource value: 0x7f02007e
-			public const int ic_successstatus = 2130837630;
+			public const int ic_start_point = 2130837630;
 			
 			// aapt resource value: 0x7f02007f
-			public const int ic_twitter = 2130837631;
+			public const int ic_stop = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int ic_windows = 2130837632;
+			public const int ic_successstatus = 2130837632;
 			
 			// aapt resource value: 0x7f020081
-			public const int logo = 2130837633;
+			public const int ic_twitter = 2130837633;
 			
 			// aapt resource value: 0x7f020082
-			public const int menu_current_trip = 2130837634;
+			public const int ic_windows = 2130837634;
 			
 			// aapt resource value: 0x7f020083
-			public const int menu_past_trips = 2130837635;
+			public const int logo = 2130837635;
 			
 			// aapt resource value: 0x7f020084
-			public const int menu_profile = 2130837636;
+			public const int menu_current_trip = 2130837636;
 			
 			// aapt resource value: 0x7f020085
-			public const int menu_settings = 2130837637;
+			public const int menu_past_trips = 2130837637;
 			
 			// aapt resource value: 0x7f020086
-			public const int navigation_header = 2130837638;
+			public const int menu_profile = 2130837638;
 			
 			// aapt resource value: 0x7f020087
-			public const int navigation_logo = 2130837639;
-			
-			// aapt resource value: 0x7f02008f
-			public const int notification_template_icon_bg = 2130837647;
+			public const int menu_settings = 2130837639;
 			
 			// aapt resource value: 0x7f020088
-			public const int roundedbg = 2130837640;
+			public const int navigation_header = 2130837640;
 			
 			// aapt resource value: 0x7f020089
-			public const int roundedbgdark = 2130837641;
+			public const int navigation_logo = 2130837641;
+			
+			// aapt resource value: 0x7f020091
+			public const int notification_template_icon_bg = 2130837649;
 			
 			// aapt resource value: 0x7f02008a
-			public const int screen_1 = 2130837642;
+			public const int roundedbg = 2130837642;
 			
 			// aapt resource value: 0x7f02008b
-			public const int screen_2 = 2130837643;
+			public const int roundedbgdark = 2130837643;
 			
 			// aapt resource value: 0x7f02008c
-			public const int screen_3 = 2130837644;
+			public const int screen_1 = 2130837644;
 			
 			// aapt resource value: 0x7f02008d
-			public const int screen_4 = 2130837645;
+			public const int screen_2 = 2130837645;
 			
 			// aapt resource value: 0x7f02008e
-			public const int screen_5 = 2130837646;
+			public const int screen_3 = 2130837646;
+			
+			// aapt resource value: 0x7f02008f
+			public const int screen_4 = 2130837647;
+			
+			// aapt resource value: 0x7f020090
+			public const int screen_5 = 2130837648;
 			
 			static Drawable()
 			{
@@ -4094,8 +4103,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0a007c
 			public const int button_attachment = 2131361916;
 			
-			// aapt resource value: 0x7f0a009e
-			public const int button_close = 2131361950;
+			// aapt resource value: 0x7f0a00b6
+			public const int button_close = 2131361974;
 			
 			// aapt resource value: 0x7f0a0087
 			public const int button_facebook = 2131361927;
@@ -4337,17 +4346,20 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0a00c0
 			public const int media_actions = 2131361984;
 			
-			// aapt resource value: 0x7f0a00d4
-			public const int menu_current_trip = 2131362004;
-			
 			// aapt resource value: 0x7f0a00d3
-			public const int menu_past_trips = 2131362003;
+			public const int menu_close = 2131362003;
 			
 			// aapt resource value: 0x7f0a00d5
-			public const int menu_profile = 2131362005;
+			public const int menu_current_trip = 2131362005;
+			
+			// aapt resource value: 0x7f0a00d4
+			public const int menu_past_trips = 2131362004;
 			
 			// aapt resource value: 0x7f0a00d6
-			public const int menu_settings = 2131362006;
+			public const int menu_profile = 2131362006;
+			
+			// aapt resource value: 0x7f0a00d7
+			public const int menu_settings = 2131362007;
 			
 			// aapt resource value: 0x7f0a00d2
 			public const int menu_take_photo = 2131362002;
@@ -4385,8 +4397,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0a0051
 			public const int parentPanel = 2131361873;
 			
-			// aapt resource value: 0x7f0a00b6
-			public const int photo = 2131361974;
+			// aapt resource value: 0x7f0a00b7
+			public const int photo = 2131361975;
 			
 			// aapt resource value: 0x7f0a0034
 			public const int pin = 2131361844;
@@ -4547,8 +4559,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0a0092
 			public const int text_consumption_units = 2131361938;
 			
-			// aapt resource value: 0x7f0a00b8
-			public const int text_date = 2131361976;
+			// aapt resource value: 0x7f0a009a
+			public const int text_date = 2131361946;
 			
 			// aapt resource value: 0x7f0a0093
 			public const int text_distance = 2131361939;
@@ -4559,14 +4571,14 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0a0099
 			public const int text_end_time = 2131361945;
 			
-			// aapt resource value: 0x7f0a009a
-			public const int text_fuel_consumption = 2131361946;
+			// aapt resource value: 0x7f0a009c
+			public const int text_fuel_consumption = 2131361948;
+			
+			// aapt resource value: 0x7f0a009e
+			public const int text_hard_accelerations = 2131361950;
 			
 			// aapt resource value: 0x7f0a009d
-			public const int text_hard_accelerations = 2131361949;
-			
-			// aapt resource value: 0x7f0a009c
-			public const int text_hard_breaks = 2131361948;
+			public const int text_hard_breaks = 2131361949;
 			
 			// aapt resource value: 0x7f0a0096
 			public const int text_load = 2131361942;
@@ -4592,8 +4604,8 @@ namespace MyTrips.Droid
 			// aapt resource value: 0x7f0a0095
 			public const int text_time = 2131361941;
 			
-			// aapt resource value: 0x7f0a00b7
-			public const int text_title = 2131361975;
+			// aapt resource value: 0x7f0a00b8
+			public const int text_title = 2131361976;
 			
 			// aapt resource value: 0x7f0a00b5
 			public const int text_trips = 2131361973;
@@ -4977,7 +4989,10 @@ namespace MyTrips.Droid
 			public const int menu_current_trip = 2131558400;
 			
 			// aapt resource value: 0x7f0d0001
-			public const int nav_menu = 2131558401;
+			public const int menu_summary = 2131558401;
+			
+			// aapt resource value: 0x7f0d0002
+			public const int nav_menu = 2131558402;
 			
 			static Menu()
 			{

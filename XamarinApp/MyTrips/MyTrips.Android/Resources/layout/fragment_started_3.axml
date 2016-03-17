@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/primary_dark">
     <ImageView
-        android:src="@drawable/screen_1"
+        android:src="@drawable/screen_3"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

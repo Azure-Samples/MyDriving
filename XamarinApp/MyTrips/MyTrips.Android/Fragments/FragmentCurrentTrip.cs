@@ -221,7 +221,7 @@ namespace MyTrips.Droid.Fragments
             Activity?.RunOnUiThread(() =>
             {
                 var logicalDensity = Resources.DisplayMetrics.Density;
-                var thicknessPoints = (int)Math.Ceiling(24 * logicalDensity + .5f);
+                var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
 
                 var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_start_point) as BitmapDrawable;
                 var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
@@ -239,7 +239,7 @@ namespace MyTrips.Droid.Fragments
             Activity?.RunOnUiThread(() =>
             {
                 var logicalDensity = Resources.DisplayMetrics.Density;
-                var thicknessPoints = (int)Math.Ceiling(24 * logicalDensity + .5f);
+                var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
                 var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_end_point) as BitmapDrawable;
                 var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
 
@@ -269,9 +269,9 @@ namespace MyTrips.Droid.Fragments
             Activity?.RunOnUiThread(() =>
             {
                 var logicalDensity = Resources.DisplayMetrics.Density;
-                var thicknessCar = (int)Math.Ceiling(24 * logicalDensity + .5f);
-                //var b = ContextCompat.GetDrawable(Activity, recording ? Resource.Drawable.ic_car_red : Resource.Drawable.ic_car_blue) as BitmapDrawable;
-                var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_car) as BitmapDrawable;
+                var thicknessCar = (int)Math.Ceiling(26 * logicalDensity + .5f);
+                var b = ContextCompat.GetDrawable(Activity, recording ? Resource.Drawable.ic_car_red : Resource.Drawable.ic_car_blue) as BitmapDrawable;
+                //var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_car) as BitmapDrawable;
 
                 var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessCar, thicknessCar, false);
 
@@ -345,7 +345,7 @@ namespace MyTrips.Droid.Fragments
                 polyOptions.Add(allPoints.ToArray());
 
                 if (!driveLineColor.HasValue)
-                    driveLineColor = new Color(ContextCompat.GetColor(Activity, Resource.Color.primary));
+                    driveLineColor = new Color(ContextCompat.GetColor(Activity, Resource.Color.recording_accent));
 
                 polyOptions.InvokeColor(driveLineColor.Value);
                 driveLine = map.AddPolyline(polyOptions);

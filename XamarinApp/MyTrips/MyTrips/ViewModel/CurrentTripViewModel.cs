@@ -277,7 +277,8 @@ namespace MyTrips.ViewModel
                 FuelUsed = CurrentTrip.FuelUsed,
                 MaxSpeed = CurrentTrip.Points.Max(s => s.Speed),
                 HardStops = CurrentTrip.HardStops,
-                HardAccelerations = CurrentTrip.HardAccelerations
+                HardAccelerations = CurrentTrip.HardAccelerations,
+                Date = DateTime.UtcNow
             };
 
             IsRecording = false;

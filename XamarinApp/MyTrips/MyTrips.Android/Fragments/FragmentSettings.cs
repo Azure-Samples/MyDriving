@@ -25,6 +25,7 @@ namespace MyTrips.Droid.Fragments
             base.OnCreate(savedInstanceState);
 
             FindPreference("url_privacy").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.PrivacyPolicyUrl);
+            FindPreference("url_copyright").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.PrivacyPolicyUrl);
             FindPreference("url_xamarin").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.XamarinUrl);
             FindPreference("url_terms").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.TermsOfUseUrl);
             FindPreference("url_open_notice").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.OpenSourceNoticeUrl);

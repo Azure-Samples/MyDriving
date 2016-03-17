@@ -388,21 +388,6 @@
     <AndroidResource Include="Resources\layout\fragment_current_trip.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_car.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\ic_end_point.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\ic_start_point.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_end_point.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_start_point.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_car.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_car.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_end_point.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_start_point.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_car.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_end_point.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_start_point.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_car.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_end_point.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_start_point.png" />
     <AndroidResource Include="Resources\layout\fragment_started_1.axml" />
     <AndroidResource Include="Resources\layout\fragment_started_3.axml" />
     <AndroidResource Include="Resources\layout\fragment_started_2.axml" />
@@ -414,6 +399,16 @@
     <AndroidResource Include="Resources\drawable-nodpi\screen_3.png" />
     <AndroidResource Include="Resources\drawable-nodpi\screen_4.png" />
     <AndroidResource Include="Resources\drawable-nodpi\screen_5.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_close.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_close.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_close.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_close.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_close.png" />
+    <AndroidResource Include="Resources\menu\menu_summary.xml" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_end_point.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_car_blue.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_car_red.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\ic_start_point.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
