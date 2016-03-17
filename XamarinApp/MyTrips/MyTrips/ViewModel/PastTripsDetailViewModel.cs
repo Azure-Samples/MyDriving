@@ -170,4 +170,3 @@ namespace MyTrips.ViewModel
 		}
 	}
 }
-
