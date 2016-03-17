@@ -36,31 +36,7 @@ namespace MyTrips.UITests
 			app.Screenshot ("Changed Capacity Setting");
 		}
 
-		[Test]
-		public void ChangeDeviceConnectionString ()
-		{
-			new ProfilePage ()
-				.NavigateToProfilePage ()
-				.NavigateToSettingsPage ()
-				.NavigateToDeviceConnectionSetting ()
-				.SetDeviceConnectionSetting ()
-				.NavigateFromSettingsDetailPage ();
-
-			app.Screenshot ("Changed Device Connection String Setting");
-		}
-
-		[Test]
-		public void ChangeMobileServiceUrl ()
-		{
-			new ProfilePage ()
-				.NavigateToProfilePage ()
-				.NavigateToSettingsPage ()
-				.NavigateToMobileClientUrlSetting ()
-				.SetMobileClientUrlSetting ()
-				.NavigateFromSettingsDetailPage ();
-
-			app.Screenshot ("Changed Mobile Service Url Setting");
-		}
+		
 
 		[Test]
 		public void Logout ()

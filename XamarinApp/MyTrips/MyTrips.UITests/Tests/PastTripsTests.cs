@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace MyTrips.UITests
 {
+    [TestFixture(Platform.Android)]
 	public class PastTripsTests : AbstractSetup
 	{
 		public PastTripsTests (Platform platform) : base (platform)
