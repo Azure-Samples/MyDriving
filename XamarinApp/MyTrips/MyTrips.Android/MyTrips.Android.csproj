@@ -381,10 +381,7 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_notification.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_notification.png" />
-    <AndroidResource Include="Resources\drawable\navigation_header.png" />
     <AndroidResource Include="Resources\layout\activity_trip_summary.axml" />
-    <AndroidResource Include="Resources\drawable\navigation_logo.png" />
-    <AndroidResource Include="Resources\drawable\logo.png" />
     <AndroidResource Include="Resources\layout\fragment_current_trip.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
@@ -409,6 +406,10 @@
     <AndroidResource Include="Resources\drawable-nodpi\ic_car_blue.png" />
     <AndroidResource Include="Resources\drawable-nodpi\ic_car_red.png" />
     <AndroidResource Include="Resources\drawable-nodpi\ic_start_point.png" />
+    <AndroidResource Include="Resources\drawable\navigation_logo.png" />
+    <AndroidResource Include="Resources\drawable\logo.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\background_started.png" />
+    <AndroidResource Include="Resources\drawable\navigation_header.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
