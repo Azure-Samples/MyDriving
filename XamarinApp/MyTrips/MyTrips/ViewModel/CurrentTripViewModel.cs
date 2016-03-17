@@ -402,6 +402,7 @@ namespace MyTrips.ViewModel
 				{
                     if (!double.TryParse(obdData["efr"], out efr))
                         efr = -255;
+				}
 				else
 				{
 					efr = -255;
