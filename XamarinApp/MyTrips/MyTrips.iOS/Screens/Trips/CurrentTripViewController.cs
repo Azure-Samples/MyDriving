@@ -298,8 +298,8 @@ namespace MyTrips.iOS
 		void UpdateTripStatistics(TripPoint point)
 		{
 			PastTripsDetailViewModel.CurrentPosition = point;
-			labelOneTitle.Text = PastTripsDetailViewModel.FuelConsumptionUnits;
-			labelOneValue.Text = PastTripsDetailViewModel.FuelConsumption;
+			labelOneTitle.Text = PastTripsDetailViewModel.SpeedUnits;
+			labelOneValue.Text = PastTripsDetailViewModel.Speed;
 
 			labelTwoTitle.Text = PastTripsDetailViewModel.DistanceUnits;
 			labelTwoValue.Text = PastTripsDetailViewModel.Distance;
@@ -307,8 +307,8 @@ namespace MyTrips.iOS
 			labelThreeTitle.Text = "Elapsed Time";
 			labelThreeValue.Text = PastTripsDetailViewModel.ElapsedTime;
 
-			labelFourTitle.Text = "Engine Load";
-			labelFourValue.Text = PastTripsDetailViewModel.EngineLoad;
+			labelFourTitle.Text = "Speed";
+			labelFourValue.Text = PastTripsDetailViewModel.Speed;
 		}
 
 		void ConfigureSlider()
