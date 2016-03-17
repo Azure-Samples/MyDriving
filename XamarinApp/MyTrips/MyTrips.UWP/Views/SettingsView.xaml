@@ -65,10 +65,6 @@
                 <Button Name="XamarinButton" Content="Built in C# with Xamarin"  Click="XamarinButton_Click" Style="{StaticResource SettingsAboutButtonStyle}"></Button>
                 <Button  Content="Copyright 2016 Microsoft" Style="{StaticResource SettingsAboutButtonStyle}" ></Button>
 
-                <Border  Style="{StaticResource SettingsSeparatorLine}" />
-                <TextBlock Name="AccountLabel" Text="Account" Style="{StaticResource SettingsSubLabelStyle}"/>
-                <Button Name="LogoutButton" Content="Log Out"  Margin="0,5,20,5" Click="Logout_Click" Opacity=".5"></Button>
-              
             </StackPanel>
         </ScrollViewer>
       

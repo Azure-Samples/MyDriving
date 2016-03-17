@@ -34,22 +34,7 @@ namespace MyTrips.iOS
 			// Wire up table source
 			settingsTableView.Source = new SettingsDataSource(ViewModel, keys);
 
-			btnLogout.TouchUpInside += async delegate {
-				await ViewModel.ExecuteLogoutCommandAsync();
-
-				InvokeOnMainThread(() =>
-				{
-					var appDelegate = (AppDelegate) UIApplication.SharedApplication.Delegate;
-					var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("loginViewController"); // Storyboard.InstantiateViewController("loginViewController");
-					appDelegate.Window.RootViewController = viewController;
-
-					Acr.UserDialogs.UserDialogs.Instance.ShowSuccess("Successfully logged out");
-				});
-			};
-
-			btnLogout.Layer.CornerRadius = 4;
-			btnLogout.Layer.MasksToBounds = true;
-
+            btnLogout.Hidden = true;
 
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString ("RefreshSettingsTable"), HandleReloadTableNotification); 
 		}
@@ -158,10 +143,8 @@ namespace MyTrips.iOS
 			}
 			else
 			{
-				if (setting.Name != "Mobile client URL" && setting.Name != "Device connection string")
-					cell.Value = !String.IsNullOrEmpty(setting.Value) ? cell.Value = setting.Value : cell.Value = "";
-				else
-					cell.Value = "";
+				cell.Value = !String.IsNullOrEmpty(setting.Value) ? cell.Value = setting.Value : cell.Value = "";
+				
 			}
 
 			cell.Name = setting.Name;
