@@ -873,9 +873,9 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="0LG-Ur-CIB"/>
                                         </constraints>
-                                        <color key="minimumTrackTintColor" red="0.08235294118" green="0.66274509800000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="minimumTrackTintColor" colorSpace="calibratedRGB" red="0.082352941176470587" green="0.6588235294117647" blue="1" alpha="1"/>
                                         <color key="maximumTrackTintColor" red="0.36113083959999998" green="0.36113083959999998" blue="0.36113083959999998" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="thumbTintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="thumbTintColor" colorSpace="calibratedRGB" red="0.18431372549019609" green="0.64313725490196083" blue="0.99215686274509807" alpha="1"/>
                                     </slider>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:52am" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIa-7g-1wt">
                                         <rect key="frame" x="437" y="47" width="120" height="21"/>
