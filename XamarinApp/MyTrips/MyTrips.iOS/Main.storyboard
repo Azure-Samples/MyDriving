@@ -34,7 +34,7 @@
         <scene sceneID="192">
             <objects>
                 <navigationController definesPresentationContext="YES" id="193" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Trips" image="tab_myTrips.png" selectedImage="tab_MyTrips_selected.png" id="245"/>
+                    <tabBarItem key="tabBarItem" title="Past Trips" image="tab_myTrips.png" selectedImage="tab_MyTrips_selected.png" id="245"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="196">
                         <rect key="frame" x="0.0" y="20" width="600" height="44"/>
@@ -231,7 +231,7 @@
                             <outlet property="delegate" destination="6jy-8W-wUe" id="Sx4-3u-vpv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Trips" id="jye-GE-rQI"/>
+                    <navigationItem key="navigationItem" title="Past Trips" id="jye-GE-rQI"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="1138">
