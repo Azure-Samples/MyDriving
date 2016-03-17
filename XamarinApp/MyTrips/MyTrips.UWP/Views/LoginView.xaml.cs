@@ -23,9 +23,6 @@ namespace MyTrips.UWP.Views
         {
             this.InitializeComponent();
             DataContext = viewModel = new LoginViewModel();
-
-            //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
-            Services.OBDDataProcessor.GetProcessor().Initialize(this.viewModel.StoreManager);
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
