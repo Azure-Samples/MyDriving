@@ -19,7 +19,8 @@ namespace MyTrips.ViewModel
     public class PastTripsViewModel : ViewModelBase
     {
         public ObservableRangeCollection<Trip> Trips { get; } = new ObservableRangeCollection<Trip>();
-        ICommand loadPastTripsCommand;
+
+        ICommand  loadPastTripsCommand;
 
         public async Task<bool> ExecuteDeleteTripCommand(Trip trip)
         {

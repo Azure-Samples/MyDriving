@@ -95,8 +95,8 @@ namespace MyTrips.ViewModel
 						distanceSetting, capacitySetting
 					};
 
-					var deviceConnectionString = new Setting { Name = "Device connection string", IsTextField = true };
-					var mobileClientUrl = new Setting { Name = "Mobile client URL", IsTextField = true };
+					var deviceConnectionString = new Setting { Name = "Device connection string", Value = Settings.Current.DeviceConnectionString, IsTextField = true };
+					var mobileClientUrl = new Setting { Name = "Mobile client URL", Value = Settings.Current.MobileClientUrl, IsTextField = true };
 
 					deviceConnectionString.PropertyChanged += DeviceConnectionString_PropertyChanged;
 					mobileClientUrl.PropertyChanged += MobileClientUrl_PropertyChanged;
@@ -150,15 +150,6 @@ namespace MyTrips.ViewModel
 				Settings.Current.MetricUnits = setting.Value == "Metric (liters)";
 			}
 		}
-
-		/*void TemperatureSetting_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "Value")
-			{
-				var setting = (Setting)sender;
-				Settings.Current.MetricUnits = setting.Value == "Celsius";
-			}
-		}*/
 
 		void DeviceConnectionString_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{

@@ -127,7 +127,7 @@ namespace ObdLibAndroid
             string s;
             if (this._simulatormode)
             {
-                s = "SIMULATOR12345678";
+                s = "SIMULATORANDROID1";
                 ret.Add("vin", s);
                 foreach (var cmd in _PIDs.Keys)
                 {

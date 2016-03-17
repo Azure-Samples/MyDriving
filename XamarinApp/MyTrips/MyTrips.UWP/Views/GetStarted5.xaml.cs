@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using MyTrips.Utils;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -41,7 +42,7 @@ namespace MyTrips.UWP.Views
 
         private void GoNext(object sender, RoutedEventArgs e)
         {
-            //Settings.Current.FirstRun = false;
+            Settings.Current.FirstRun = false;
             Window.Current.Content = new SplitViewShell(this.Frame);
             this.Frame.Navigate(typeof(LoginView));
         }
