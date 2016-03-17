@@ -232,7 +232,12 @@ namespace MyTrips.Services
         {
             var isConnected = false;
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Connecting to OBD Device...", maskType: Acr.UserDialogs.MaskType.Clear);
-              
+
+            if (this.obdDevice == null)
+            {
+                this.obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
+            }
+
             try
             {
                 isConnected = await Task.Run(async () => await obdDevice.Initialize()).WithTimeout(5000);
