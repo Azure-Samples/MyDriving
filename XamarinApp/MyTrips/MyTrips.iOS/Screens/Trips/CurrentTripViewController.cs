@@ -60,8 +60,8 @@ namespace MyTrips.iOS
 			// Setup record button
 			recordButton.Layer.CornerRadius = recordButton.Frame.Width / 2;
 			recordButton.Layer.MasksToBounds = true;
-			recordButton.Layer.BorderColor = "5C5C5C".ToUIColor().CGColor;
-			recordButton.Layer.BorderWidth = 1;
+			recordButton.Layer.BorderColor = UIColor.White.CGColor;
+			recordButton.Layer.BorderWidth = 0;
 			recordButton.TouchUpInside += RecordButton_TouchUpInside;
 
 			// Hide slider
