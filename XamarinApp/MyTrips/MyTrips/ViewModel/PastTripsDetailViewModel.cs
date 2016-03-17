@@ -150,7 +150,7 @@ namespace MyTrips.ViewModel
 			FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
 			DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
 			Speed = position.Speed.ToString();
-			SpeedUnits = Settings.MetricDistance ? "KMH" : "MPH";
+			SpeedUnits = Settings.MetricDistance ? "Kmh" : "Mph";
 
 			if (previousPoints.Length > 2)
 			{
