@@ -298,8 +298,8 @@ namespace MyTrips.iOS
 		void UpdateTripStatistics(TripPoint point)
 		{
 			PastTripsDetailViewModel.CurrentPosition = point;
-			labelOneTitle.Text = PastTripsDetailViewModel.DistanceUnits;
-			labelOneValue.Text = PastTripsDetailViewModel.Distance;
+			labelOneTitle.Text = PastTripsDetailViewModel.FuelConsumptionUnits;
+			labelOneValue.Text = PastTripsDetailViewModel.FuelConsumption;
 
 			labelTwoTitle.Text = PastTripsDetailViewModel.DistanceUnits;
 			labelTwoValue.Text = PastTripsDetailViewModel.Distance;
