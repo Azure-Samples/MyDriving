@@ -133,7 +133,7 @@ namespace MyTrips.ViewModel
 				ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";
 
 			var previousPoints = Trip.Points.Where(p => p.RecordedTimeStamp <= position.RecordedTimeStamp).ToArray();
-			var obdPoints = previousPoints.Where(p => p.HasOBDData && p.EngineFuelRate > -1).ToArray();
+			var obdPoints = previousPoints.Where(p => p.HasOBDData && p.MassFlowRate > -1).ToArray();
 			var totalConsumptionPoints = obdPoints.Length;
 			var totalConsumption = obdPoints.Sum(s => s.MassFlowRate);
 
