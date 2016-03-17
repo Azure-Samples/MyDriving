@@ -1,4 +1,5 @@
 ﻿using MyTrips.ViewModel;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -35,7 +36,38 @@ namespace MyTrips.UWP.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            // Enable back button behavior
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
+
             await profileViewModel.UpdateProfileAsync();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested -= SystemNavigationManager_BackRequested;
+
+        }
+
+        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = TryGoBack();
+            }
+        }
+
+        private bool TryGoBack()
+        {
+            bool navigated = false;
+            if (this.Frame.CanGoBack)
+            {
+                this.Frame.GoBack();
+                navigated = true;
+            }
+            return navigated;
         }
     }
 }

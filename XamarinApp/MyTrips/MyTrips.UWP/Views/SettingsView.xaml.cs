@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MyTrips.ViewModel;
 using MyTrips.Utils;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,6 +33,39 @@ namespace MyTrips.UWP.Views
             settingsViewModel = new SettingsViewModel();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            // Enable back button behavior
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested -= SystemNavigationManager_BackRequested;
+        }
+
+        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = TryGoBack();
+            }
+        }
+
+        private bool TryGoBack()
+        {
+            bool navigated = false;
+            if (this.Frame.CanGoBack)
+            {
+                this.Frame.GoBack();
+                navigated = true;
+            }
+            return navigated;
+        }
 
         public void PrivacyPolicyButton_Click(object sender, RoutedEventArgs e)
         {
