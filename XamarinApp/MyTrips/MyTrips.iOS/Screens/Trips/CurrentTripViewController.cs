@@ -42,10 +42,16 @@ namespace MyTrips.iOS
 				ConfigurePastTripUserInterface();
 		}
 
-		public override void ViewDidAppear(bool animated)
+		public override async void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
 			PopRecordButtonAnimation();
+
+			await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
+			{
+				// If we don't have permission from the user, prompt a dialog requesting permission.
+				await PromptPermissionsChangeDialog();
+			});
 		}
 
 		#region Current Trip User Interface Logic
@@ -73,16 +79,8 @@ namespace MyTrips.iOS
 			tripInfoView.Alpha = 0;
 			ResetTripInfoView();
 
-			// Setup view model
 			CurrentTripViewModel = new CurrentTripViewModel();
 			CurrentTripViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
-
-			// Start tracking user location, pending permission from user.
-			await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
-			{
-				// If we don't have permission from the user, prompt a dialog requesting permission.
-				await PromptPermissionsChangeDialog();
-			});
 		}
 
 		void AnimateTripInfoView()
@@ -155,7 +153,7 @@ namespace MyTrips.iOS
 					PresentViewController(alertController, true, null);
 
 					tripMapView.Camera.CenterCoordinate = new CLLocationCoordinate2D(47.6204, -122.3491);
-					tripMapView.Camera.Altitude = 2500;
+					tripMapView.Camera.Altitude = 5000;
 				});
 			}
 		}
