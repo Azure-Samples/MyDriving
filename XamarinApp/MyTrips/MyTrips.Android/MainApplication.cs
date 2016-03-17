@@ -34,7 +34,10 @@ namespace MyTrips.Droid
             ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Mock.Stores.IOTHubStore>();
             //ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Azure.Stores.IOTHubStore>();
 
+            #if !XTC
             Xamarin.Insights.Initialize(Logger.InsightsKey, this);
+            #endif
+
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             UserDialogs.Init(() => CrossCurrentActivity.Current.Activity);
         }

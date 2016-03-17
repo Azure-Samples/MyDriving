@@ -30,10 +30,14 @@ namespace MyTrips.iOS
 			ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
 			ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
+            #if !XTC
 			Xamarin.Insights.Initialize(Logger.InsightsKey);
+            #endif
 
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			SQLitePCL.CurrentPlatform.Init();
+
+            #if !XTC
 			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
 			{
 				Setup.EnableCustomCrashReporting(() =>
@@ -48,6 +52,7 @@ namespace MyTrips.iOS
 							Setup.ThrowExceptionAsNative(e.Exception);
 					});
 			}
+            #endif
 
 			if (!Settings.Current.IsLoggedIn)
 			{
@@ -60,7 +65,7 @@ namespace MyTrips.iOS
 				tabBarController.SelectedIndex = 1;
 			}
 
-#if ENABLE_TEST_CLOUD
+#if XTC
             Xamarin.Calabash.Start();
 #endif
 

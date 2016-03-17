@@ -13,7 +13,8 @@ namespace MyTrips.UITests
 		[Test]
 		public void PullToRefreshTest ()
 		{
-			new PastTripsPage ()
+            new PastTripsPage()
+                .NavigateToPastTripsPage()
 				.PullToRefresh ();
 		}
 
@@ -21,6 +22,7 @@ namespace MyTrips.UITests
 		public void NavigateToDetailsTest ()
 		{
 			new PastTripsPage ()
+                .NavigateToPastTripsPage()
 				.NavigateToPastTripsDetail ();
 		}
 
@@ -28,6 +30,7 @@ namespace MyTrips.UITests
 		public void MoveTripSliderTest ()
 		{
 			new PastTripsPage ()
+                .NavigateToPastTripsPage()
 				.NavigateToPastTripsDetail ()
 				.MoveTripSlider ();
 		}
@@ -36,6 +39,7 @@ namespace MyTrips.UITests
 		public void ClickTripSliderEndpointsTest ()
 		{
 			new PastTripsPage ()
+                .NavigateToPastTripsPage()
 				.NavigateToPastTripsDetail ()
 				.ClickTripSliderEndpoints ();
 		}
