@@ -47,11 +47,14 @@ namespace MyTrips.iOS
 			base.ViewDidAppear(animated);
 			PopRecordButtonAnimation();
 
-			await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
+			if (CurrentTripViewModel != null)
 			{
-				// If we don't have permission from the user, prompt a dialog requesting permission.
-				await PromptPermissionsChangeDialog();
-			});
+				await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
+				{
+					// If we don't have permission from the user, prompt a dialog requesting permission.
+					await PromptPermissionsChangeDialog();
+				});	
+			}
 		}
 
 		#region Current Trip User Interface Logic
@@ -278,6 +281,7 @@ namespace MyTrips.iOS
 			// Configure slider area
 			ConfigureSlider();
 			ConfigureWayPointButtons();
+			ConfigurePoiAnnotations();
 			recordButton.Hidden = true;
 
 			tripMapView.SetVisibleMapRect(MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray()).BoundingMapRect, new UIEdgeInsets(25, 25, 25, 25), false);
@@ -294,8 +298,8 @@ namespace MyTrips.iOS
 		void UpdateTripStatistics(TripPoint point)
 		{
 			PastTripsDetailViewModel.CurrentPosition = point;
-			labelOneTitle.Text = PastTripsDetailViewModel.FuelConsumptionUnits;
-			labelOneValue.Text = PastTripsDetailViewModel.FuelConsumption;
+			labelOneTitle.Text = PastTripsDetailViewModel.DistanceUnits;
+			labelOneValue.Text = PastTripsDetailViewModel.Distance;
 
 			labelTwoTitle.Text = PastTripsDetailViewModel.DistanceUnits;
 			labelTwoValue.Text = PastTripsDetailViewModel.Distance;
@@ -303,8 +307,8 @@ namespace MyTrips.iOS
 			labelThreeTitle.Text = "Elapsed Time";
 			labelThreeValue.Text = PastTripsDetailViewModel.ElapsedTime;
 
-			labelFourTitle.Text = "Engine Load";
-			labelFourValue.Text = PastTripsDetailViewModel.EngineLoad;
+			labelFourTitle.Text = PastTripsDetailViewModel.SpeedUnits;
+			labelFourValue.Text = PastTripsDetailViewModel.Speed;
 		}
 
 		void ConfigureSlider()
@@ -344,6 +348,20 @@ namespace MyTrips.iOS
 				tripSlider.Value = tripSlider.MaxValue;
 				TripSlider_ValueChanged(this, null);
 			};
+		}
+
+		void ConfigurePoiAnnotations()
+		{
+			var centerPoint = PastTripsDetailViewModel.Trip.Points[PastTripsDetailViewModel.Trip.Points.Count / 2];
+			var pointOfInterest = new POI
+			{
+				Latitude = centerPoint.Latitude,
+				Longitude = centerPoint.Longitude,
+				POIType = POIType.HardBrake
+			};
+
+			var poiAnnotation = new PoiAnnotation(pointOfInterest, centerPoint.ToCoordinate());
+			tripMapView.AddAnnotation(poiAnnotation);
 		}
 
 		void TripSlider_ValueChanged(object sender, EventArgs e)

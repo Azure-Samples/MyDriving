@@ -77,12 +77,19 @@ namespace MyTrips.ViewModel
             set { SetProperty(ref fuelConsumptionUnits, value); }
         }
 
-        string engineLoad = "N/A";
-        public string EngineLoad
-        {
-            get { return engineLoad; }
-            set { SetProperty(ref engineLoad, value); }
-        }
+		string speed = "0.0";
+		public string Speed
+		{
+			get { return speed; }
+			set { SetProperty(ref speed, value); }
+		}
+
+		string speedUnits = "MPH";
+		public string SpeedUnits
+		{
+			get { return speedUnits; }
+			set { SetProperty(ref speedUnits, value); }
+		}
 
         ICommand  loadTripCommand;
         public ICommand LoadTripCommand =>
@@ -140,9 +147,10 @@ namespace MyTrips.ViewModel
 				FuelConsumption = "N/A";
 			}
 
-			EngineLoad = $"{(int)position.EngineLoad}%";
 			FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
 			DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
+			Speed = position.Speed.ToString();
+			SpeedUnits = Settings.MetricDistance ? "Kmh" : "Mph";
 
 			if (previousPoints.Length > 2)
 			{
@@ -170,4 +178,3 @@ namespace MyTrips.ViewModel
 		}
 	}
 }
-
