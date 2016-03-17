@@ -91,11 +91,5 @@ namespace MyTrips.UWP.Views
         {
             settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.XamarinUrl);
         }
-
-        public async void Logout_Click(object sender, RoutedEventArgs e)
-        {
-            if(await settingsViewModel.ExecuteLogoutCommandAsync())
-                this.Frame.Navigate(typeof(LoginView));
-        }
     }
 }

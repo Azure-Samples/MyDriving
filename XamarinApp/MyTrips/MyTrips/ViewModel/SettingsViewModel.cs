@@ -48,32 +48,9 @@ namespace MyTrips.ViewModel
         public ICommand LogoutCommand =>
             logoutCommand ?? (logoutCommand = new RelayCommand(async () => await ExecuteLogoutCommandAsync())); 
        
-        public async Task<bool> ExecuteLogoutCommandAsync()
+        public Task<bool> ExecuteLogoutCommandAsync()
         {
-            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Logging out...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-            
-            try
-            {                
-                 var result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync("Are you sure you want to logout?", "Logout?", "Yes, Logout", "Cancel");
-
-                if (!result)
-                    return false;                
-
-                progress?.Show();
-                await StoreManager.DropEverythingAsync();
-
-                Settings.Logout();
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Report(ex);
-            }
-            finally
-            {
-                progress?.Dispose();
-            }
-
-            return true;
+            return Task.FromResult(true);
         }
 
 		private Dictionary<string, List<Setting>> settingsData;
@@ -94,18 +71,7 @@ namespace MyTrips.ViewModel
 					{
 						distanceSetting, capacitySetting
 					};
-
-					var deviceConnectionString = new Setting { Name = "Device connection string", Value = Settings.Current.DeviceConnectionString, IsTextField = true };
-					var mobileClientUrl = new Setting { Name = "Mobile client URL", Value = Settings.Current.MobileClientUrl, IsTextField = true };
-
-					deviceConnectionString.PropertyChanged += DeviceConnectionString_PropertyChanged;
-					mobileClientUrl.PropertyChanged += MobileClientUrl_PropertyChanged;
-
-					ioTHub = new List<Setting>
-					{
-						deviceConnectionString, mobileClientUrl
-					};
-
+				
 					permissions = new List<Setting>
 					{
 						new Setting { Name = "Change MyTrips Permissions", IsButton = true, ButtonUrl = "Permissions" }
@@ -123,7 +89,6 @@ namespace MyTrips.ViewModel
 					settingsData = new Dictionary<string, List<Setting>>
 					{
 						{ "Units", units },
-						{ "IoT Hub", ioTHub },
 						{ "Permissions", permissions},
 						{ "About", about }
 					};
@@ -151,22 +116,6 @@ namespace MyTrips.ViewModel
 			}
 		}
 
-		void DeviceConnectionString_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "Value")
-			{
-				var setting = (Setting)sender;
-				Settings.Current.DeviceConnectionString = setting.Value;
-			}
-		}
-
-		void MobileClientUrl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "Value")
-			{
-				var setting = (Setting)sender;
-				Settings.Current.MobileClientUrl = setting.Value;
-			}
-		}
+		
 	}
 }

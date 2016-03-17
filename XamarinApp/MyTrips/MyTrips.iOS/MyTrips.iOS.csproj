@@ -432,6 +432,7 @@
     <Compile Include="Screens\Trips\TripSummaryViewController.designer.cs">
       <DependentUpon>TripSummaryViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Annotations\PoiAnnotation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -493,6 +494,7 @@
     <BundleResource Include="Resources\summary_mapview.png" />
     <BundleResource Include="Resources\summary_cross.png" />
     <BundleResource Include="Resources\summary_box.png" />
+    <BundleResource Include="Resources\Map\tip_annotation%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="btprogresshud">

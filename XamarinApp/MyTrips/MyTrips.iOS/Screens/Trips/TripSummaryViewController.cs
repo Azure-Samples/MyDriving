@@ -22,7 +22,7 @@ namespace MyTrips.iOS
 			lblFuelConsumed.Alpha = 0;
 		}
 
-		public override void ViewDidAppear(bool animated)
+		public override async void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
 
@@ -30,11 +30,12 @@ namespace MyTrips.iOS
 			lblDuration.FadeIn(0.4, 0.2f);
 			lblTopSpeed.FadeIn(0.4, 0.3f);
 			lblFuelConsumed.FadeIn(0.4, 0.4f);
+
+			await ViewModel.SaveRecordingTripAsync();
 		}
 
 		async partial void BtnClose_TouchUpInside(UIButton sender)
 		{
-			await ViewModel.SaveRecordingTripAsync();
 			await DismissViewControllerAsync(true);
 		}
 	}

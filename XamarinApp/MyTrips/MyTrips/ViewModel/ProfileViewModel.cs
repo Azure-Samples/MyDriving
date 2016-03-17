@@ -46,6 +46,7 @@ namespace MyTrips.ViewModel
                 if (currentUser == null)
                 {
                     error = true;
+
                 }
                 else
                 {
@@ -58,9 +59,8 @@ namespace MyTrips.ViewModel
                     FuelUsed = currentUser.FuelConsumption;
 					MaxSpeed = currentUser.MaxSpeed;
 #if DEBUG
-                    DrivingSkills = 86;
-#else
-                    DrivingSkills = currentUser.Rating;
+                    if(currentUser.Rating == 0)
+                        DrivingSkills = 86;
 #endif
                     OnPropertyChanged("Stats");
                 }
@@ -75,11 +75,6 @@ namespace MyTrips.ViewModel
             {
                 progress?.Dispose();
                 IsBusy = false;
-            }
-
-            if (error)
-            {
-                //display dialog
             }
 
             return !error;
@@ -230,18 +225,18 @@ namespace MyTrips.ViewModel
             // to do find specifications for colors/desription 
             Skills = new DrivingSkillsBucket[drivingSkillsBuckets]
             {
-                new DrivingSkillsBucket()   {  betterThan=0,  description="Very bad",  color=SkillsColor.Red },
-                new DrivingSkillsBucket()   {   betterThan=25,    description="Poor",   color=SkillsColor.Orange },
-                new DrivingSkillsBucket()   {   betterThan=50,    description="Good",   color=SkillsColor.Yellow },
-                new DrivingSkillsBucket()   {   betterThan=75,    description="Great!",   color=SkillsColor.Green }
+                new DrivingSkillsBucket()   {  BetterThan = 0, Description="Poor",  Color=SkillsColor.Red },
+                new DrivingSkillsBucket()   {  BetterThan = 45, Description="Average",   Color=SkillsColor.Orange },
+                new DrivingSkillsBucket()   {  BetterThan = 75, Description="Great!",   Color=SkillsColor.Yellow },
+                new DrivingSkillsBucket()   {  BetterThan = 90, Description="Amazing!",   Color=SkillsColor.Green }
             };
         }
 
-        void UpdatePlacementBucket(int drivingSkills)
+        void UpdatePlacementBucket(int skills)
         {
             for (int i = drivingSkillsBuckets - 1; i >= 0; i--)
             {
-                if (drivingSkills > Skills[i].betterThan)
+                if (skills > Skills[i].BetterThan)
                 {
                     DrivingSkillsPlacementBucket = Skills[i];
                     return;
@@ -252,9 +247,9 @@ namespace MyTrips.ViewModel
 
     public struct DrivingSkillsBucket
     {
-        public int betterThan;  //percent
-        public string description;
-        public SkillsColor color;
+        public int BetterThan { get; set; }
+        public string Description { get; set; }
+        public SkillsColor Color { get; set; }
     }
 
     public enum SkillsColor

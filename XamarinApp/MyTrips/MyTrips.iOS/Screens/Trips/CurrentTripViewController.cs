@@ -42,10 +42,19 @@ namespace MyTrips.iOS
 				ConfigurePastTripUserInterface();
 		}
 
-		public override void ViewDidAppear(bool animated)
+		public override async void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
 			PopRecordButtonAnimation();
+
+			if (CurrentTripViewModel != null)
+			{
+				await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
+				{
+					// If we don't have permission from the user, prompt a dialog requesting permission.
+					await PromptPermissionsChangeDialog();
+				});	
+			}
 		}
 
 		#region Current Trip User Interface Logic
@@ -60,8 +69,8 @@ namespace MyTrips.iOS
 			// Setup record button
 			recordButton.Layer.CornerRadius = recordButton.Frame.Width / 2;
 			recordButton.Layer.MasksToBounds = true;
-			recordButton.Layer.BorderColor = "5C5C5C".ToUIColor().CGColor;
-			recordButton.Layer.BorderWidth = 1;
+			recordButton.Layer.BorderColor = UIColor.White.CGColor;
+			recordButton.Layer.BorderWidth = 0;
 			recordButton.TouchUpInside += RecordButton_TouchUpInside;
 
 			// Hide slider
@@ -73,16 +82,8 @@ namespace MyTrips.iOS
 			tripInfoView.Alpha = 0;
 			ResetTripInfoView();
 
-			// Setup view model
 			CurrentTripViewModel = new CurrentTripViewModel();
 			CurrentTripViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
-
-			// Start tracking user location, pending permission from user.
-			await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
-			{
-				// If we don't have permission from the user, prompt a dialog requesting permission.
-				await PromptPermissionsChangeDialog();
-			});
 		}
 
 		void AnimateTripInfoView()
@@ -153,12 +154,23 @@ namespace MyTrips.iOS
 					alertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Cancel, null));
 
 					PresentViewController(alertController, true, null);
+
+					tripMapView.Camera.CenterCoordinate = new CLLocationCoordinate2D(47.6204, -122.3491);
+					tripMapView.Camera.Altitude = 5000;
 				});
 			}
 		}
 	
 		async void RecordButton_TouchUpInside(object sender, EventArgs e)
 		{
+			if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
+			{
+				Acr.UserDialogs.UserDialogs.Instance.Alert("Please ensure that geolocation is enabled and permissions are allowed for MyTrips to start a recording.",
+														   "Geolocation Disabled", "OK");
+				
+				return;
+			}
+			
 			var position = await CurrentTripViewModel.Geolocator.GetPositionAsync();
 			var coordinate = position.ToCoordinate();
 
@@ -250,7 +262,6 @@ namespace MyTrips.iOS
 			mapDelegate = new TripMapViewDelegate(false);
 			tripMapView.Delegate = mapDelegate;
 			tripMapView.ShowsUserLocation = false;
-			tripMapView.SetVisibleMapRect(MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray()).BoundingMapRect, new UIEdgeInsets(25, 25, 25, 25), false);
 
 			// Draw endpoints
 			var startEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Points[0].ToCoordinate(), "A");
@@ -263,17 +274,19 @@ namespace MyTrips.iOS
 			tripMapView.DrawRoute(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray());
 
 			// Draw car
-			var centerCoordinate = PastTripsDetailViewModel.Trip.Points[coordinateCount / 2];
-			var carCoordinate = centerCoordinate.ToCoordinate();
-			currentLocationAnnotation = new CarAnnotation(carCoordinate, UIColor.Blue);
+			var carCoordinate = PastTripsDetailViewModel.Trip.Points[0];
+			currentLocationAnnotation = new CarAnnotation(carCoordinate.ToCoordinate (), UIColor.Blue);
 			tripMapView.AddAnnotation(currentLocationAnnotation);
 
 			// Configure slider area
 			ConfigureSlider();
 			ConfigureWayPointButtons();
+			ConfigurePoiAnnotations();
 			recordButton.Hidden = true;
 
-			UpdateTripStatistics(centerCoordinate);
+			tripMapView.SetVisibleMapRect(MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray()).BoundingMapRect, new UIEdgeInsets(25, 25, 25, 25), false);
+
+			UpdateTripStatistics(carCoordinate);
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("RefreshTripUnits"), HandleTripUnitsChanged);
 		}
 
@@ -294,8 +307,8 @@ namespace MyTrips.iOS
 			labelThreeTitle.Text = "Elapsed Time";
 			labelThreeValue.Text = PastTripsDetailViewModel.ElapsedTime;
 
-			labelFourTitle.Text = "Engine Load";
-			labelFourValue.Text = PastTripsDetailViewModel.EngineLoad;
+			labelFourTitle.Text = PastTripsDetailViewModel.SpeedUnits;
+			labelFourValue.Text = PastTripsDetailViewModel.Speed;
 		}
 
 		void ConfigureSlider()
@@ -303,10 +316,9 @@ namespace MyTrips.iOS
 			sliderView.Hidden = false;
 			tripSlider.Hidden = false;
 
-			var dataPoints = PastTripsDetailViewModel.Trip.Points.Count - 1;
 			tripSlider.MinValue = 0;
-			tripSlider.MaxValue = dataPoints;
-			tripSlider.Value = PastTripsDetailViewModel.Trip.Points.Count / 2;
+			tripSlider.MaxValue = PastTripsDetailViewModel.Trip.Points.Count - 1;
+			tripSlider.Value = 0;
 
 			tripSlider.ValueChanged += TripSlider_ValueChanged;
 		}
@@ -336,6 +348,20 @@ namespace MyTrips.iOS
 				tripSlider.Value = tripSlider.MaxValue;
 				TripSlider_ValueChanged(this, null);
 			};
+		}
+
+		void ConfigurePoiAnnotations()
+		{
+			var centerPoint = PastTripsDetailViewModel.Trip.Points[PastTripsDetailViewModel.Trip.Points.Count / 2];
+			var pointOfInterest = new POI
+			{
+				Latitude = centerPoint.Latitude,
+				Longitude = centerPoint.Longitude,
+				POIType = POIType.HardBrake
+			};
+
+			var poiAnnotation = new PoiAnnotation(pointOfInterest, centerPoint.ToCoordinate());
+			tripMapView.AddAnnotation(poiAnnotation);
 		}
 
 		void TripSlider_ValueChanged(object sender, EventArgs e)
@@ -379,5 +405,3 @@ namespace MyTrips.iOS
 		#endregion
 	}
 }
- 
- 
