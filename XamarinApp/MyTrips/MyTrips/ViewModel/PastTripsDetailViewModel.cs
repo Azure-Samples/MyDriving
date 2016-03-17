@@ -135,11 +135,11 @@ namespace MyTrips.ViewModel
 			var previousPoints = Trip.Points.Where(p => p.RecordedTimeStamp <= position.RecordedTimeStamp).ToArray();
 			var obdPoints = previousPoints.Where(p => p.HasOBDData && p.EngineFuelRate > -1).ToArray();
 			var totalConsumptionPoints = obdPoints.Length;
-			var totalConsumption = obdPoints.Sum(s => s.EngineFuelRate);
+			var totalConsumption = obdPoints.Sum(s => s.MassFlowRate);
 
 			if (totalConsumptionPoints > 0)
 			{
-				var fuelUsedLiters = (totalConsumption / totalConsumptionPoints) * timeDif.TotalHours;
+				var fuelUsedLiters = (totalConsumption / totalConsumptionPoints) * timeDif.TotalHours * 0.3047247;
 				FuelConsumption = Settings.MetricUnits ? fuelUsedLiters.ToString("N2") : (fuelUsedLiters * .264172).ToString("N2");
 			}
 			else
