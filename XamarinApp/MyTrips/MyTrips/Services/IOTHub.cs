@@ -19,13 +19,13 @@ namespace MyTrips.Shared
 
         public async Task SendEvents(IEnumerable<String> blobs)
         {
-            List<Microsoft.Azure.Devices.Client.Message> messages = blobs.Select(b => new Microsoft.Azure.Devices.Client.Message(System.Text.Encoding.ASCII.GetBytes(b))).ToList();
+            List<Microsoft.Azure.Devices.Client.Message> messages = blobs.Select(b => new Microsoft.Azure.Devices.Client.Message(UTF8Encoding.Unicode.GetBytes(b))).ToList();
             await this.deviceClient.SendEventBatchAsync(messages);
         }
 
         public async Task SendEvent(string blob)
         {
-            var message = new Message(Encoding.ASCII.GetBytes(blob));
+            var message = new Message(UTF8Encoding.Unicode.GetBytes(blob));
             await this.deviceClient.SendEventAsync(message);
         }
     }

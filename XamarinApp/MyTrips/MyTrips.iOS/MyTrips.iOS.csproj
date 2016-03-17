@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -37,8 +37,10 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <CodesignProvision></CodesignProvision>
-    <CodesignExtraArgs></CodesignExtraArgs>
+    <CodesignProvision>
+    </CodesignProvision>
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -76,7 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|iPhone'">
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;XTC</DefineConstants>
-    <DebugType></DebugType>
+    <DebugType>
+    </DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\XTC</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -85,8 +88,10 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <CodesignProvision></CodesignProvision>
-    <CodesignExtraArgs></CodesignExtraArgs>
+    <CodesignProvision>
+    </CodesignProvision>
+    <CodesignExtraArgs>
+    </CodesignExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|iPhoneSimulator'">
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;XTC</DefineConstants>
@@ -103,9 +108,6 @@
     <Reference Include="Calabash">
       <HintPath>..\..\packages\Xamarin.TestCloud.Agent.0.18.2\lib\Xamarin.iOS10\Calabash.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="ClientDeviceiOS">
-      <HintPath>ClientDeviceiOS.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -426,7 +428,6 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
-  <ItemGroup />
   <ItemGroup>
     <BundleResource Include="Resources\login_facebook.png" />
     <BundleResource Include="Resources\login_microsoft.png" />
