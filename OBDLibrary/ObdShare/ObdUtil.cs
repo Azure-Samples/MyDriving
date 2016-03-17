@@ -20,7 +20,7 @@ namespace ObdShare
         {
             string str = input.Replace("\r", "").Replace("\n", "").Replace(" ", "").Replace(">", "").Trim();
             if (!str.StartsWith("41") || str.Length < 6)
-                return str;
+                return "-255";
             string pid = str.Substring(2, 2);
             //int result;
             //var ret = int.TryParse(str.Substring(4), NumberStyles.HexNumber, CultureInfo.InvariantCulture.NumberFormat, out result);
