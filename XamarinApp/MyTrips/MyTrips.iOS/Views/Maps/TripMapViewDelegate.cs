@@ -67,11 +67,11 @@ namespace MyTrips.iOS
 
 				if (((PoiAnnotation)annotation).Description == "Hard Acceleration")
 				{
-					annotationView.Image = UIImage.FromBundle(Images.WaypointAnnotationA);
+					annotationView.Image = UIImage.FromBundle(Images.TipAnnotation);
 				}
 				else
 				{
-					annotationView.Image = UIImage.FromBundle(Images.WaypointAnnotationB);
+					annotationView.Image = UIImage.FromBundle(Images.TipAnnotation);
 				}
 
 				annotationView.CanShowCallout = false;

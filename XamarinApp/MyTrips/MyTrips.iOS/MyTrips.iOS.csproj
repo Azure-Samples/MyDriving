@@ -494,6 +494,7 @@
     <BundleResource Include="Resources\summary_mapview.png" />
     <BundleResource Include="Resources\summary_cross.png" />
     <BundleResource Include="Resources\summary_box.png" />
+    <BundleResource Include="Resources\Map\tip_annotation%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="btprogresshud">
