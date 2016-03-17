@@ -53,7 +53,38 @@ namespace MyTrips.UWP.Views
             this.ViewModel = e.Parameter as TripSummaryViewModel;
             DataContext = this;
             UpdateSummary();
-          //  DrawPath();
+            // Enable back button behavior
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
+
+            //  DrawPath();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested -= SystemNavigationManager_BackRequested;
+
+        }
+
+        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = TryGoBack();
+            }
+        }
+
+        private bool TryGoBack()
+        {
+            bool navigated = false;
+            if (this.Frame.CanGoBack)
+            {
+                this.Frame.GoBack();
+                navigated = true;
+            }
+            return navigated;
         }
 
         private async void UpdateSummary()

@@ -82,16 +82,11 @@ namespace MyTrips.UWP.Views
             recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
             OnPropertyChanged(nameof(RecordButtonImage));
             this.startRecordBtn.Click += StartRecordBtn_Click;
-            viewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
         }
-        private void Geolocator_PositionChanged(object sender, PositionEventArgs e)
-        {
-            
-        }
-
+  
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
-            this.MyMap.ZoomLevel = 17;
+            this.MyMap.ZoomLevel = 16;
             this.CarIcon = new MapIcon();
             this.mapPolyline = new MapPolyline();
             MyMap.MapElements.Clear();
@@ -102,7 +97,44 @@ namespace MyTrips.UWP.Views
             base.OnNavigatedTo(e);
             viewModel.PropertyChanged += OnPropertyChanged;
             await StartTrackingAsync();
-         
+            UpdateStats();
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            //Ideally, we should stop tracking only if we aren't recording
+            viewModel.StopTrackingTripCommand.Execute(null);
+            Locations?.Clear();
+            Locations = null;
+            MyMap.MapElements.Clear();
+            this.MyMap.Loaded -= MyMap_Loaded;
+            this.startRecordBtn.Click -= StartRecordBtn_Click;
+            viewModel.PropertyChanged -= OnPropertyChanged;
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested -= SystemNavigationManager_BackRequested;
+            ClearExtendedExecution();
+        }
+
+        private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = TryGoBack();
+            }
+        }
+
+        private bool TryGoBack()
+        {
+            bool navigated = false;
+            if (this.Frame.CanGoBack)
+            {
+                this.Frame.GoBack();
+                navigated = true;
+            }
+            return navigated;
         }
 
         void OnPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -166,21 +198,6 @@ namespace MyTrips.UWP.Views
             }
         }
 
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-            //Ideally, we should stop tracking only if we aren't recording
-            viewModel.StopTrackingTripCommand.Execute(null);
-            Locations?.Clear();
-            Locations = null;
-            MyMap.MapElements.Clear();
-            this.MyMap.Loaded -= MyMap_Loaded;
-            this.startRecordBtn.Click -= StartRecordBtn_Click;
-            viewModel.PropertyChanged -= OnPropertyChanged;
-            viewModel.Geolocator.PositionChanged -= Geolocator_PositionChanged;
-            ClearExtendedExecution();
-        }
 
        
         private async void BeginExtendedExecution()
