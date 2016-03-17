@@ -109,13 +109,14 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="N/A"
                     android:textColor="@color/stat_display"
-                    android:id="@+id/text_load" />
+                    android:id="@+id/text_speed" />
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Engine Load"
+                    android:text="mph"
+                    android:id="@+id/text_speed_units"
                     android:textColor="@color/primary_dark" />
             </LinearLayout>
         </LinearLayout>

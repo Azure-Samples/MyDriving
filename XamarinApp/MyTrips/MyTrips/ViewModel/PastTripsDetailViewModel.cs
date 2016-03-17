@@ -84,7 +84,7 @@ namespace MyTrips.ViewModel
 			set { SetProperty(ref speed, value); }
 		}
 
-		string speedUnits = "MPH";
+		string speedUnits = "Mph";
 		public string SpeedUnits
 		{
 			get { return speedUnits; }
