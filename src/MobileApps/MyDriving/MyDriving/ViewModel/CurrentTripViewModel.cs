@@ -242,20 +242,8 @@ namespace MyDriving.ViewModel
             if (IsBusy || !IsRecording)
                 return false;
 
-            if (CurrentTrip.Points.Count <= 1)
-            {
-
-                if (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.Android ||
-                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS ||
-                        CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
-                {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("We need few more points.",
-                                                            "Keep driving!", "OK");
-                    return false;
-                }
-
-               
-            }
+        
+            //always will have 1 point, so we can stop.
 
 
             CurrentTrip.EndTimeStamp = DateTime.UtcNow;
