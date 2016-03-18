@@ -1,38 +1,31 @@
-﻿using MyDriving.DataObjects;
-using MyDriving.ViewModel;
-using System;
-using System.Collections.Generic;
-using Windows.Devices.Geolocation;
-using Windows.UI;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Maps;
-using Windows.UI.Xaml.Navigation;
-using MyDriving.UWP;
-using Windows.UI.Core;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 
+using System;
+using Windows.UI.Core;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+using MyDriving.ViewModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace MyDriving.UWP.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class TripSummaryView : Page
     {
-        public  TripSummaryViewModel ViewModel { get; set; }
-
-        private List<BasicGeoposition> Locations = new List<BasicGeoposition>();
         public TripSummaryView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             ViewModel = new TripSummaryViewModel();
 
             DataContext = this;
 
             TotalDistanceTab.Title1 = "Total";
             TotalDistanceTab.Title2 = "DISTANCE";
-            
+
 
             TotalTimeTab.Title1 = "Total";
             TotalTimeTab.Title2 = "TIME";
@@ -46,11 +39,13 @@ namespace MyDriving.UWP.Views
             TipsTab.Title1 = "TIPS";
         }
 
+        public TripSummaryViewModel ViewModel { get; set; }
+
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            this.ViewModel = e.Parameter as TripSummaryViewModel;
+            ViewModel = e.Parameter as TripSummaryViewModel;
             DataContext = this;
             UpdateSummary();
             // Enable back button behavior
@@ -65,7 +60,6 @@ namespace MyDriving.UWP.Views
             base.OnNavigatedFrom(e);
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested -= SystemNavigationManager_BackRequested;
-
         }
 
         private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
@@ -79,9 +73,9 @@ namespace MyDriving.UWP.Views
         private bool TryGoBack()
         {
             bool navigated = false;
-            if (this.Frame.CanGoBack)
+            if (Frame.CanGoBack)
             {
-                this.Frame.GoBack();
+                Frame.GoBack();
                 navigated = true;
             }
             return navigated;
@@ -92,12 +86,9 @@ namespace MyDriving.UWP.Views
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 //TotalDistanceTab.SetValue( ViewModel.TotalDistance);
-
-
             });
         }
 
-        //private void DrawPath()
         //{
         //    MapPolyline mapPolyLine = new MapPolyline();
 
@@ -106,7 +97,10 @@ namespace MyDriving.UWP.Views
 
         //    foreach (var trail in this.viewModel.Trip.Points)
         //    {
+
         //        var basicGeoPosion = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
+
+        //private void DrawPath()
         //        Locations.Add(basicGeoPosion);
         //    }
         //    mapPolyLine.Path = new Geopath(Locations);
@@ -163,5 +157,4 @@ namespace MyDriving.UWP.Views
         //    MyMap.MapElements.Add(mapPolyLine);
         //}
     }
-
 }
