@@ -56,6 +56,12 @@
                 <Border Margin="0,10,0,0" />
                 <controls:ProfileViewTabControl x:Name="HardBreaksTab" DataContext="{Binding HardStops,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
 
+                <Border Margin="0,10,0,0" />
+                <controls:ProfileViewTabControl x:Name="HardAccelTab" DataContext="{Binding HardAccelerations,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
+
+                <Border Margin="0,10,0,0" />
+                <controls:ProfileViewTabControl x:Name="TotalTripsTab" DataContext="{Binding TotalTrips}" />
+
                 <!-- we no longer have tips
                 <Border Margin="0,10,0,0" />
                 <controls:ProfileViewTabControl x:Name="TipsTab" DataContext="{Binding Tips.Count,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  tips'}" />
