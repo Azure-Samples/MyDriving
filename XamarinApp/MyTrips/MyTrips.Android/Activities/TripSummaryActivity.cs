@@ -55,9 +55,10 @@ namespace MyTrips.Droid.Activities
             SupportActionBar.SetDisplayShowHomeEnabled(false);
             SupportActionBar.SetDisplayHomeAsUpEnabled(false);
 
-            FindViewById<Button>(Resource.Id.button_close).Click += (sender, e) => Finish();
 
+            var date = ViewModel.Date.ToLocalTime();
             FindViewById<TextView>(Resource.Id.text_time).Text = ViewModel.TotalTimeDisplay;
+            FindViewById<TextView>(Resource.Id.text_date).Text = date.ToString("M") + " " + date.ToString("t");
             FindViewById<TextView>(Resource.Id.text_distance).Text = ViewModel.TotalDistanceDisplay;
             FindViewById<TextView>(Resource.Id.text_max_speed).Text = ViewModel.MaxSpeedDisplay;
             FindViewById<TextView>(Resource.Id.text_fuel_consumption).Text = ViewModel.FuelDisplay;
@@ -65,6 +66,23 @@ namespace MyTrips.Droid.Activities
             FindViewById<TextView>(Resource.Id.text_hard_breaks).Text = ViewModel.HardStops.ToString();
 
             ViewModel = null;
+        }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.menu_summary, menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Resource.Id.menu_close:
+                    Finish();
+                    break;
+            }
+            return base.OnOptionsItemSelected(item);
         }
     }
 }

@@ -65,6 +65,9 @@ namespace MyTrips.UWP
                 ServiceLocator.Instance.Add<MyTrips.Utils.Interfaces.ILogger, MyTrips.Shared.PlatformLogger>();
                 ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
+                //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+                Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
+
                 Xamarin.Insights.Initialize(Logger.InsightsKey);
 
                 rootFrame.NavigationFailed += OnNavigationFailed;

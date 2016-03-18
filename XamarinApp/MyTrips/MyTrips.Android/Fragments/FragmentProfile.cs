@@ -37,7 +37,6 @@ namespace MyTrips.Droid.Fragments
             trips = view.FindViewById<TextView>(Resource.Id.text_trips);
             time = view.FindViewById<TextView>(Resource.Id.text_time);
             distance = view.FindViewById<TextView>(Resource.Id.text_distance);
-            distanceUnits = view.FindViewById<TextView>(Resource.Id.text_distance_units);
             maxSpeed = view.FindViewById<TextView>(Resource.Id.text_max_speed);
             fuelUsed = view.FindViewById<TextView>(Resource.Id.text_fuel_consumption);
             accelerations = view.FindViewById<TextView>(Resource.Id.text_hard_accelerations);
@@ -69,8 +68,7 @@ namespace MyTrips.Droid.Fragments
             {
                 trips.Text = viewModel.TotalTrips.ToString();
                 time.Text = viewModel.TotalTimeDisplay;
-                distance.Text = viewModel.TotalDistanceDisplayNoUnits;
-                distanceUnits.Text = viewModel.DistanceUnits;
+                distance.Text = viewModel.TotalDistanceDisplay;
                 maxSpeed.Text = viewModel.MaxSpeedDisplay;
                 fuelUsed.Text = viewModel.FuelDisplay;
                 accelerations.Text = viewModel.HardAccelerations.ToString();

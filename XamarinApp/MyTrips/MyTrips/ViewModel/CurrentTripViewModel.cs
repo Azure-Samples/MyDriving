@@ -277,7 +277,8 @@ namespace MyTrips.ViewModel
                 FuelUsed = CurrentTrip.FuelUsed,
                 MaxSpeed = CurrentTrip.Points.Max(s => s.Speed),
                 HardStops = CurrentTrip.HardStops,
-                HardAccelerations = CurrentTrip.HardAccelerations
+                HardAccelerations = CurrentTrip.HardAccelerations,
+                Date = DateTime.UtcNow
             };
 
             IsRecording = false;
@@ -310,7 +311,7 @@ namespace MyTrips.ViewModel
 
                     Geolocator.PositionChanged += Geolocator_PositionChanged;
                     //every second, 5 meters
-                    await Geolocator.StartListeningAsync(1000, 5);
+                    await Geolocator.StartListeningAsync(1000, 0);
 				}
 				else
 				{
@@ -360,7 +361,8 @@ namespace MyTrips.ViewModel
 
             if (obdData != null)
             {
-                double speed = 0, rpm = 0, efr = 0, el = 0, stfb = 0, ltfb = 0, fr = 0, tp = 0, rt = 0, dis = 0, rtp = 0;
+                double speed = -255, rpm = -255, efr = -255, el = -255, stfb = -255, 
+                    ltfb = -255, fr = -255, tp = -255, rt = -255, dis = -255, rtp = -255;
                 var vin = String.Empty;
 
 				var hasEfr = false;
@@ -368,14 +370,23 @@ namespace MyTrips.ViewModel
                 if (obdData.ContainsKey("el") && !string.IsNullOrWhiteSpace(obdData["el"]))
                 {
                     double.TryParse(obdData["el"], out el);
-                    hasEngineLoad = true;
+                    if (el != -255)
+                        hasEngineLoad = true;
+                    else
+                        hasEngineLoad = false;
                 }
                 if (obdData.ContainsKey("stfb"))
                     double.TryParse(obdData["stfb"], out stfb);
                 if (obdData.ContainsKey("ltfb"))
                     double.TryParse(obdData["ltfb"], out ltfb);
                 if (obdData.ContainsKey("fr"))
+                {
                     double.TryParse(obdData["fr"], out fr);
+                    if (fr != -255)
+                        hasEfr = true;
+                    else
+                        hasEfr = false;
+                }
                 if (obdData.ContainsKey("tp"))
                     double.TryParse(obdData["tp"], out tp);
                 if (obdData.ContainsKey("rt"))
@@ -390,14 +401,12 @@ namespace MyTrips.ViewModel
                     double.TryParse(obdData["rpm"], out rpm);
 				if (obdData.ContainsKey("efr") && !string.IsNullOrWhiteSpace(obdData["efr"]))
 				{
-					if (double.TryParse(obdData["efr"], out efr))
-						hasEfr = true;
-					else
-						efr = -1;
+                    if (!double.TryParse(obdData["efr"], out efr))
+                        efr = -255;
 				}
 				else
 				{
-					efr = -1;
+					efr = -255;
 				}
                 if (obdData.ContainsKey("vin"))
                     vin = obdData["vin"];
@@ -417,7 +426,7 @@ namespace MyTrips.ViewModel
 
 				if (hasEfr)
 				{
-					totalConsumption += point.EngineFuelRate;
+					totalConsumption += point.MassFlowRate * 0.3047247;
 					totalConsumptionPoints++;
 				}
                 point.HasOBDData = true;

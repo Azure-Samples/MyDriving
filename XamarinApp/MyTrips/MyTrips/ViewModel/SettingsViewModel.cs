@@ -17,12 +17,11 @@ namespace MyTrips.ViewModel
         //Use Settings.DeviceConnectionString
         public string PrivacyPolicyUrl => "http://microsoft.com";
         public string TermsOfUseUrl => "http://microsoft.com";
-        public string OpenSourceNoticeUrl =>"http://microsoft.com";
-        public string SourceOnGitHubUrl => "http://microsoft.com";
+        public string OpenSourceNoticeUrl =>"https://github.com/Azure-Samples/MyDriving/tree/master/MobileApp/Licenses";
+        public string SourceOnGitHubUrl => "https://github.com/Azure-Samples/MyDriving";
         public string XamarinUrl => "http://xamarin.com";
 
 		List<Setting> units;
-		List<Setting> ioTHub;
 		List<Setting> permissions;
 		List<Setting> about;
 
@@ -82,7 +81,8 @@ namespace MyTrips.ViewModel
 						new Setting { Name = "Copyright Microsoft 2016", IsButton = true, ButtonUrl = PrivacyPolicyUrl },
 						new Setting { Name = "Terms of Use", IsButton = true, ButtonUrl = TermsOfUseUrl },
 						new Setting { Name = "Privacy Policy", IsButton = true, ButtonUrl = PrivacyPolicyUrl },
-						new Setting { Name = "Open Source", IsButton = true, ButtonUrl = OpenSourceNoticeUrl },
+						new Setting { Name = "Open Source Notice", IsButton = true, ButtonUrl = OpenSourceNoticeUrl },
+                        new Setting { Name = "Open Source on GitHub", IsButton = true, ButtonUrl = SourceOnGitHubUrl },
 						new Setting { Name = "Built in C# with Xamarin", IsButton = true, ButtonUrl = XamarinUrl },
 					};
 

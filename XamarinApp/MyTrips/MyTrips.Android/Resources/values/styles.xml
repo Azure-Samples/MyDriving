@@ -113,8 +113,8 @@
 	 <style name="MicrosoftButton" parent="@android:style/Widget.Button">
         <item name="colorButtonNormal">@color/button_microsoft</item>
     </style>
-	<style name="ClearButton" parent="@android:style/Widget.Button">
-    <item name="colorButtonNormal">@color/primary</item>
-</style>
-	
+	<style name="PrimaryButton" parent="@android:style/Widget.Button">
+        <item name="colorButtonNormal">@color/primary</item>
+    </style>
+    	
 </resources>

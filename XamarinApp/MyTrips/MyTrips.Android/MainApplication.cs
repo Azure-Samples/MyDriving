@@ -31,8 +31,8 @@ namespace MyTrips.Droid
             ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
             ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
-            ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Mock.Stores.IOTHubStore>();
-            //ServiceLocator.Instance.Add<IHubIOTStore, MyTrips.DataStore.Azure.Stores.IOTHubStore>();
+            //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+            MyTrips.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
 
             Xamarin.Insights.Initialize(Logger.InsightsKey, this);
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();

@@ -1,0 +1,80 @@
+The Fontspring Desktop Font End User License Agreement
+Version 1.6.0 - March 13, 2014
+
+By downloading and/or installing font software (“Font”) offered by Fontspring or its distributors, you (“Licensee”) agree to be bound by the following terms and conditions of this End User Licensing Agreement (“EULA”):
+
+1. Right Granted
+Fontspring grants Licensee a perpetual, worldwide, non-exclusive and non-transferrable license to:
+a. Use the Font to create graphics for display on any surface including computer screens, television screens, paper, t-shirts or any other surface where the image will be a fixed size.
+
+b. Licensee may embed or link the Font in accordance with the rules described in Section 4 “Embedding and Linking” of this EULA.
+
+2. Requirements and Restrictions
+a. Products
+Licensee may not use the Font to create alphabet or letterform products for resale where the product consists of individual letterforms, including rubber stamps, die-cut products, stencil products, or adhesive sticker alphabet products where the likeness of the Font can be reproduced and the end-user of said products can create their own typesetting. An extended license may be available for an additional fee.
+
+Licensee may create typographic products using the Font if the product consists of commonly recognized words or phrases. For example: a rubber stamp that has the words "Thank You" or a sticker that says "Great!"
+
+b. Dingbats and Illustrations
+Licensee may NOT use illustrations or images in the Font OTHER THAN letterforms, numbers, punctuation marks, diacritics, etc., in a manner where the illustration or image becomes the primary aspect of a product for resale. For example, a dingbat image in the font can not be the sole design element on a coffee cup, t-shirt, greeting card, etc., intended for resale. An extended license may be available for an additional fee.
+
+c. Users
+The Font may be simultaneously used by no more than the number of users specified in the Receipt. A "user" is a single person or single machine, at the discretion of the Licensee. All users must belong to the same company or household purchasing the font except for temporary use by third parties as described in Section 3 “Provision to Third Parties” of this EULA.
+
+3. Provision to Third Parties 
+Licensee may temporarily provide the Font to a graphic designer, printer, agent or independent contractor who is working on behalf of the Licensee, ONLY IF the developer, agent or independent contractor (1) agrees in writing to use the Font exclusively for Licensee’s work, according to the terms of this EULA, and (2) retains no copies of the Font upon completion of the work.
+
+Licensee may not otherwise distribute the Font to third parties or make the Font publicly accessible except by embedding or linking in accordance with this EULA.
+
+4. Embedding and Linking
+a. Document Embedding (including PDF, Microsoft Word® & Microsoft Powerpoint®)
+   	1. Documents embedding the Font and sent to third parties, must be read-only by those recipients.
+   	2. Documents embedding the Font and created for in-house use or sent to third parties working on behalf of the Licensee as described in Section 3 “Provision to Third Parties” may be editable.
+
+b. Flash and Silverlight Embedding
+Licensee may embed the Font into Flash or Silverlight with the following restrictions:
+   	1. The Font must be subset to include only the glyphs necessary for displaying the work.
+   	2. The text rendered in the Font must not be manipulatable by an end user.
+   	3. All care must be taken to prevent unauthorized users from accessing the Font.
+
+c. @font-face Cascading Style Sheet ("CSS") Linking
+Licensee may not link the Font to web sites using the @font-face selector in CSS. An extended license may be available for an additional fee.
+
+5. Term
+This EULA grants a perpetual license for the rights set forth in Paragraph 1 unless and until the EULA terminates under Paragraph 8.  Fontspring will not charge additional fees post purchase, annually or otherwise.
+
+6. Other Usage
+Licenses for @font-face embedding, computer applications and games, installable interactive books, software, mobile applications and games, Ebooks and Epubs, product creation websites, website template distribution, website templates, and other uses not allowed by this EULA may be available for an additional fee. Contact Fontspring at support@fontspring.com for more information.
+
+7. Modifications
+Licensee may import and alter the bezier outlines of the Font in a drawing program.
+
+Licensee may not modify the Font or create derivative works based on the Font without prior written consent from Fontspring or the owning foundry EXCEPT THAT Licensee may generate files necessary for embedding or linking in accordance with this EULA.
+
+8. Copyright
+The Font is protected by copyright law.   The Foundry is the sole, exclusive owner of all intellectual property rights, including rights under copyright and trademark law.  Licensee agrees not to use the Font in any manner that infringes the intellectual property rights of the Foundry or violates the terms of this EULA.  Licensee will be held legally responsible, and indemnifies Fontspring, for any infringements on the foundry's rights caused by failure to abide by the terms of this EULA.
+
+9. Termination
+This EULA is effective until terminated. If Licensee fails to comply with any term of this EULA, Fontspring may terminate the EULA with 30 days notice. This EULA will terminate automatically 30 days after the issuance of such notice.
+
+10. Disclaimer and Limited Warranty
+Fontspring warrants the Product to be free from defects in materials and workmanship under normal use for a period of twenty one (21) days from the date of delivery as shown on Receipt. Fontspring's entire liability, and Licensee’s exclusive remedy, for a defective product shall be, at Fontspring's election, either (1) return of purchase price or (2) replacement of any such product that is returned to Fontspring with a copy of the Receipt. Fontspring shall have no responsibility to replace the product or refund the purchase price if failure results from accident, abuse or misapplication, or if any product is lost or damaged due to theft, fire, or negligence. Any replacement product will be warranted for twenty one (21) days. This warranty gives Licensee specific legal rights. Licensee may have other rights, which vary from state to state.
+
+EXCEPT AS EXPRESSLY PROVIDED ABOVE, THE PRODUCT, IS PROVIDED “AS IS”. FONTSPRING MAKES NO WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+The entire risk as to the quality and performance of the Product rests upon Licensee. Neither Fontspring nor the Foundry warrants that the functions contained in the Product will meet Licensee’s requirements or that the operation of the software will be uninterrupted or error free.
+
+FONTSPRING SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, CONSEQUENTIAL, OR INCIDENTAL DAMAGES (INCLUDING DAMAGES FROM LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, AND THE LIKE) ARISING OUT OF THE USE OF OR INABILITY TO USE THE PRODUCT EVEN IF Fontspring OR THE FOUNDRY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+Because some states do not allow the exclusion or limitation of liability for consequential or incidental damages, the above limitation may not apply to Licensee.
+
+11. Governing Law
+This EULA is governed by the laws of the United States of America and the State of Delaware.
+
+12.  Entire Agreement
+This EULA, in conjunction with the receipt (“Receipt”) that accompanies each Font licensed from Fontspring or its distributors, constitutes the entire agreement between Fontspring and Licensee.
+
+13.  Modification
+The Parties may modify or amend this EULA in writing.
+
+14. Waiver. The waiver of one breach or default hereunder shall not constitute the waiver of any subsequent breach or default.

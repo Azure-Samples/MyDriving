@@ -13,6 +13,7 @@
         android:layout_height="128dp"
         android:layout_width="128dp"
         android:layout_gravity="center"
+        android:layout_marginTop="24dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/navigation_logo" />
+        android:src="@drawable/logo" />
 </FrameLayout>
