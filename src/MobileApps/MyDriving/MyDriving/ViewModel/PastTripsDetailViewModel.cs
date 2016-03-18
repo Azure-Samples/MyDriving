@@ -155,7 +155,7 @@ namespace MyDriving.ViewModel
 
             if (currentSpeed != null)
             {
-                Speed = currentSpeed.ToString();
+                Speed = currentSpeed.Speed.ToString();
             }
 
             SpeedUnits = Settings.MetricDistance ? "Kmh" : "Mph";
