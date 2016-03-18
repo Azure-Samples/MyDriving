@@ -1,0 +1,74 @@
+﻿<Page
+    x:Class="MyDriving.UWP.Views.LoginView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyDriving.UWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+     x:Name="Login">
+
+    <Grid Name="LoginGrid" >
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="{StaticResource Background}" />
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <Image x:Name="ProfileImage" HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="70" Height="70"  Grid.Row ="0" Visibility="Collapsed"/>
+        <TextBlock x:Name="WelcomeText" HorizontalAlignment="Center"  VerticalAlignment="Top" Visibility="Collapsed"  Grid.Row="1"  Margin="0,10,0,10"/>
+      
+       <Image x:Name="AppLogo" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Source="{StaticResource ApplicationLogo}" Stretch="Uniform" Margin="80,0,80,0" MaxWidth="300"/>
+     
+  
+        <StackPanel x:Name="LoginButtons" VerticalAlignment="Center" Grid.Row="1" Visibility="Visible" Margin="50,0,50,0">
+
+            <Button x:Name="FaceBookButtonLogin" Command="{Binding LoginFacebookCommand}"   Style="{StaticResource LoginButtonStyle}" 
+                    Background="{StaticResource FacebookLoginButtonColor}"  Height="40" MaxWidth="300">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
+                    <Image Source="{StaticResource FacebookLogo}" HorizontalAlignment="Left" Height="24" Width="24"/>
+                    <TextBlock Text="Login with Facebook"  Style="{StaticResource LoginButtonTextStyle}" />
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="TwitterButtonLogin" Style="{StaticResource LoginButtonStyle}"  Command="{Binding LoginTwitterCommand}"
+                    Background="{StaticResource TwitterLoginButtonColor}"  >
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
+                    <Image Source="{StaticResource TwitterLogo}" HorizontalAlignment="Left" Height="24" Width="24"/>
+                    <TextBlock Text="Login with Twitter"  Style="{StaticResource LoginButtonTextStyle}" />
+                </StackPanel>           
+            </Button>
+
+            <Button x:Name="MSAButtonLogin"   Style="{StaticResource LoginButtonStyle}"  Command="{Binding LoginMicrosoftCommand}"
+                    Background="{StaticResource MSALoginButtonColor}"  >
+               
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
+                    <Image Name="MSAImage"  Source="{StaticResource MicrosoftLogo}" HorizontalAlignment="Left" Height="24" Width="24"/>
+                    <TextBlock Text="Login with Microsoft"  Style="{StaticResource LoginButtonTextStyle}" />
+                </StackPanel>
+
+            </Button>
+
+            <Button x:Name="SkipAuthBtn"   Style="{StaticResource LoginButtonStyle}"  Click="SkipAuthBtn_Click" 
+                    Background="Gray" HorizontalContentAlignment="Center" >
+
+                <StackPanel  Margin="40,0,0,0">
+               
+                    <TextBlock Text="Skip Authentication"  Style="{StaticResource LoginButtonTextStyle2}" />
+                </StackPanel>
+
+            </Button>
+        </StackPanel>
+
+        <Button x:Name="ContinueButton" HorizontalAlignment="Center" Margin="0,10,0,0"  Content="Continue"  Click="Continue_Click" Grid.Row="2" VerticalAlignment="Top" Visibility="Collapsed" />
+
+    </Grid>
+
+  
+</Page>
