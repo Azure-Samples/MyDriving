@@ -28,9 +28,7 @@ namespace MyDriving.ViewModel
         List<Photo> photos;
         OBDDataProcessor obdDataProcessor;
 
-        double totalConsumption = 0;
-        double totalConsumptionPoints = 0;
-
+        double fuelConsumptionRate = 0;
         bool isRecording;
 		public bool IsRecording
         {
@@ -93,7 +91,7 @@ namespace MyDriving.ViewModel
             CurrentTrip.UserId = Settings.Current.UserUID;
             CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
             photos = new List<Photo>();
-
+            fuelConsumptionRate = 0;
             FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
             DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
             ElapsedTime = "0s";
@@ -207,10 +205,7 @@ namespace MyDriving.ViewModel
 
                 CurrentTrip = new Trip();
                 CurrentTrip.Points = new ObservableRangeCollection<TripPoint>();
-
-                totalConsumption = 0;
-                totalConsumptionPoints = 0;
-
+                
                 ElapsedTime = "0s";
                 Distance = "0.0";
                 FuelConsumption = "N/A";
@@ -371,7 +366,10 @@ namespace MyDriving.ViewModel
                 {
                     double.TryParse(obdData["fr"], out fr);
                     if (fr != -255)
+                    {
                         hasEfr = true;
+                        fuelConsumptionRate = fr;
+                    }
                     else
                         hasEfr = false;
                 }
@@ -414,12 +412,7 @@ namespace MyDriving.ViewModel
 
                 foreach (var kvp in obdData)
                     Logger.Instance.WriteLine($"{kvp.Key} {kvp.Value}");
-
-				if (hasEfr)
-				{
-					totalConsumption += point.MassFlowRate * 0.3047247;
-					totalConsumptionPoints++;
-				}
+                
                 point.HasOBDData = true;
             }
         }
@@ -463,6 +456,16 @@ namespace MyDriving.ViewModel
                     var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];
                     CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude, userLocation.Longitude, previous.Latitude, previous.Longitude);
                     Distance = CurrentTrip.TotalDistanceNoUnits;
+
+                    //calculate gas usage
+                    var timeDif1 = point.RecordedTimeStamp - previous.RecordedTimeStamp;
+                    CurrentTrip.FuelUsed += fuelConsumptionRate * 0.00002236413 * timeDif1.Seconds;
+                    FuelConsumption = Settings.MetricUnits ? (CurrentTrip.FuelUsed * 3.7854).ToString("N2") : CurrentTrip.FuelUsed.ToString("N2");
+                }
+                else
+                {
+                    CurrentTrip.FuelUsed = 0;
+                    FuelConsumption = "N/A";
                 }
 
                 var timeDif = point.RecordedTimeStamp - CurrentTrip.RecordedTimeStamp;
@@ -474,18 +477,7 @@ namespace MyDriving.ViewModel
                     ElapsedTime = $"{timeDif.Minutes}m {timeDif.Seconds}s";
                 else
                     ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m {timeDif.Seconds}s";
-
-                if (totalConsumptionPoints > 0)
-                {
-                    var fuelUsedLiters = (totalConsumption / totalConsumptionPoints) * timeDif.TotalHours;
-                    CurrentTrip.FuelUsed = fuelUsedLiters * .264172;
-                    FuelConsumption = Settings.MetricUnits ? fuelUsedLiters.ToString("N2") : CurrentTrip.FuelUsed.ToString("N2");
-                }
-                else
-                {
-                    FuelConsumption = "N/A";
-                }
-
+                
                 if(hasEngineLoad)
                  EngineLoad = $"{(int)point.EngineLoad}%";
                 
