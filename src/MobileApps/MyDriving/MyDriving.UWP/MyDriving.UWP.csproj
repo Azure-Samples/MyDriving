@@ -142,6 +142,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="Assets\Fonts\CorbertRegular\Corbert-Regular.otf" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +224,7 @@
     <Content Include="Assets\B.png" />
     <Content Include="Assets\Car Icon_Blue.png" />
     <Content Include="Assets\Car Icon_Red.png" />
+    <Content Include="Assets\Fonts\CorbertRegular\Desktop EULA 1.6.txt" />
     <Content Include="Assets\GetStarted\background.png" />
     <Content Include="Assets\GetStarted\SCREEN1.png" />
     <Content Include="Assets\GetStarted\SCREEN2.png" />

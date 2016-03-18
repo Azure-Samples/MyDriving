@@ -20,11 +20,11 @@
 
 
         <Image x:Name="ProfileImage" HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="70" Height="70"  Grid.Row ="0" Visibility="Collapsed"/>
-        <TextBlock x:Name="WelcomeText" HorizontalAlignment="Center"  VerticalAlignment="Top" Visibility="Collapsed"  Grid.Row="1"  Margin="0,10,0,10"/>
+        <TextBlock x:Name="WelcomeText" HorizontalAlignment="Center"  VerticalAlignment="Top" Visibility="Collapsed"  Grid.Row="1"  Margin="0,10,0,10" />
       
        <Image x:Name="AppLogo" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Source="{StaticResource ApplicationLogo}" Stretch="Uniform" Margin="80,0,80,0" MaxWidth="300"/>
-     
-  
+     <!-- textblock is overlapped on the image -->
+        <TextBlock x:Name="LogoText" HorizontalAlignment="Center"  VerticalAlignment="Bottom"   Text="MyDriving" Foreground="White" FontFamily="Assets/Fonts/CorbertRegular/Corbert-regular.otf#Corbert" FontSize="24" />
         <StackPanel x:Name="LoginButtons" VerticalAlignment="Center" Grid.Row="1" Visibility="Visible" Margin="50,0,50,0">
 
             <Button x:Name="FaceBookButtonLogin" Command="{Binding LoginFacebookCommand}"   Style="{StaticResource LoginButtonStyle}" 
