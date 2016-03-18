@@ -134,7 +134,6 @@ namespace ObdLibUWP
                 }
                 if (this._socket != null)
                 {
-                    await this._socket.CancelIOAsync();
                     _socket.Dispose();
                     _socket = null;
                 }
