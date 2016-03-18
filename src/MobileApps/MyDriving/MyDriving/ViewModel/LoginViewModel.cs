@@ -50,9 +50,9 @@ namespace MyDriving.ViewModel
             
             Settings.LoginAccount = LoginAccount.Twitter;
             var track = Logger.Instance.TrackTime("LoginTwitter");
-            track.Start();
+            track?.Start();
             IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.Twitter);
-            track.Stop();
+            track?.Stop();
         }
 
         ICommand  loginMicrosoftCommand;
@@ -66,9 +66,9 @@ namespace MyDriving.ViewModel
             
             Settings.LoginAccount = LoginAccount.Microsoft;
             var track = Logger.Instance.TrackTime("LoginMicrosoft");
-            track.Start();
+            track?.Start();
             IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.MicrosoftAccount);
-            track.Stop();
+            track?.Stop();
         }
 
         ICommand  loginFacebookCommand;
@@ -81,9 +81,9 @@ namespace MyDriving.ViewModel
                 return;
             Settings.LoginAccount = LoginAccount.Facebook;
             var track = Logger.Instance.TrackTime("LoginFacebook");
-            track.Start();
+            track?.Start();
             IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.Facebook);
-            track.Stop();
+            track?.Stop();
         }
 
         async Task<bool> LoginAsync(MobileServiceAuthenticationProvider provider)

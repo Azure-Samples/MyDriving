@@ -41,10 +41,8 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Distribution</CodesignKey>
-    <CodesignProvision>
-    </CodesignProvision>
-    <CodesignExtraArgs>
-    </CodesignExtraArgs>
+    <CodesignProvision></CodesignProvision>
+    <CodesignExtraArgs></CodesignExtraArgs>
     <BuildIpa>true</BuildIpa>
     <CodesignResourceRules />
   </PropertyGroup>
@@ -89,8 +87,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|iPhone'">
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;XTC</DefineConstants>
-    <DebugType>
-    </DebugType>
+    <DebugType></DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\XTC</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -99,10 +96,8 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Distribution</CodesignKey>
-    <CodesignProvision>
-    </CodesignProvision>
-    <CodesignExtraArgs>
-    </CodesignExtraArgs>
+    <CodesignProvision></CodesignProvision>
+    <CodesignExtraArgs></CodesignExtraArgs>
     <CodesignResourceRules />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|iPhoneSimulator'">
