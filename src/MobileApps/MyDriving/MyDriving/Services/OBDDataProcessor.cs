@@ -265,8 +265,15 @@ namespace MyDriving.Services
                 else
                 {
                     //Use the OBD simulator
-                    isConnected = await this.obdDevice.Initialize(true);
-                    this.IsOBDDeviceSimulated = this.obdDevice.IsSimulated;
+                    try
+                    {
+                        isConnected = await Task.Run(async () => await obdDevice.Initialize(true)).WithTimeout(5000);
+                    }
+                    catch (Exception ex)
+                    {
+
+                        this.IsOBDDeviceSimulated = this.obdDevice.IsSimulated;
+                    }
                 }
             }
 
@@ -296,9 +303,20 @@ namespace MyDriving.Services
 
         private async Task TryToConnectToOBDDevice()
         {
-            if (this.isConnectedToOBD = await this.obdDevice.Initialize())
+            try
             {
-                this.StopPollingOBDDevice();
+                if (obdDevice == null)
+                    return;
+
+                isConnectedToOBD = await Task.Run(async () => await obdDevice.Initialize()).WithTimeout(5000);
+                if (isConnectedToOBD)
+                {
+                    StopPollingOBDDevice();
+                }
+            }
+            catch (Exception)
+            {
+               
             }
         }
 

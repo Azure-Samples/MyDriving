@@ -65,19 +65,20 @@ namespace ObdLibAndroid
             //    StartActivityForResult(enableIntent, 2);
             //    // Otherwise, setup the chat session
             //}
-            var ba = _bluetoothAdapter.BondedDevices;
-            foreach (var bd in ba)
-            {
-                if (bd.Name.ToLower().Contains("obd"))
-                    _bluetoothDevice = bd;
-            }
-            if (_bluetoothDevice == null)
-            {
-                return false;
-            }
-            _bluetoothSocket = _bluetoothDevice.CreateRfcommSocketToServiceRecord(SPP_UUID);
             try
             {
+                var ba = _bluetoothAdapter.BondedDevices;
+                foreach (var bd in ba)
+                {
+                    if (bd.Name.ToLower().Contains("obd"))
+                        _bluetoothDevice = bd;
+                }
+                if (_bluetoothDevice == null)
+                {
+                    return false;
+                }
+                _bluetoothSocket = _bluetoothDevice.CreateRfcommSocketToServiceRecord(SPP_UUID);
+
                 await _bluetoothSocket.ConnectAsync();
                 _connected = true;
             }
@@ -92,8 +93,14 @@ namespace ObdLibAndroid
                 catch (Java.IO.IOException e2)
                 {
                 }
+                catch (Exception ex3)
+                {
+                }
 
                 return false;
+            }
+            catch (Exception ex4)
+            {
             }
             if (this._connected)
             {
