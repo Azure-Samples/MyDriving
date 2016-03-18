@@ -1,10 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
-using System;
-using Xamarin.UITest;
-using NUnit.Framework;
-
 namespace MyDriving.UITests
 {
     public class PastTripsPage : BasePage
@@ -35,27 +31,27 @@ namespace MyDriving.UITests
 
         public PastTripsPage PullToRefresh()
         {
-            var coords = app.Query("TableView")[0].Rect;
-            app.DragCoordinates(coords.CenterX, 0, coords.CenterX, coords.Y);
+            var coords = App.Query("TableView")[0].Rect;
+            App.DragCoordinates(coords.CenterX, 0, coords.CenterX, coords.Y);
 
             return this;
         }
 
         public PastTripsPage NavigateToPastTripsDetail()
         {
-            app.Tap(x => x.Marked("James@ToVivace"));
-            app.Screenshot("Past Trips Detail");
+            App.Tap(x => x.Marked("James@ToVivace"));
+            App.Screenshot("Past Trips Detail");
 
             return this;
         }
 
         public PastTripsPage MoveTripSlider()
         {
-            app.SetSliderValue(c => c.Class(SliderId), 25);
-            app.Screenshot("Trip Slider at 25%");
+            App.SetSliderValue(c => c.Class(SliderId), 25);
+            App.Screenshot("Trip Slider at 25%");
 
-            app.SetSliderValue(c => c.Class(SliderId), 75);
-            app.Screenshot("Trip Slider at 75%");
+            App.SetSliderValue(c => c.Class(SliderId), 75);
+            App.Screenshot("Trip Slider at 75%");
 
             return this;
         }
@@ -64,11 +60,11 @@ namespace MyDriving.UITests
         {
             if (OniOS)
             {
-                app.Tap(x => x.Text("A"));
-                app.Screenshot("Tapped A Endpoint");
+                App.Tap(x => x.Text("A"));
+                App.Screenshot("Tapped A Endpoint");
 
-                app.Tap(x => x.Text("B"));
-                app.Screenshot("Tapped B Endpoint");
+                App.Tap(x => x.Text("B"));
+                App.Screenshot("Tapped B Endpoint");
             }
 
             return this;

@@ -14,7 +14,7 @@ namespace MyDriving.UITests
 {
     public class BasePage
     {
-        protected readonly IApp app;
+        protected readonly IApp App;
         protected readonly bool OnAndroid;
         protected readonly bool OniOS;
 
@@ -22,10 +22,10 @@ namespace MyDriving.UITests
 
         protected BasePage()
         {
-            app = AppInitializer.App;
+            App = AppInitializer.App;
 
-            OnAndroid = app.GetType() == typeof (AndroidApp);
-            OniOS = app.GetType() == typeof (iOSApp);
+            OnAndroid = App.GetType() == typeof (AndroidApp);
+            OniOS = App.GetType() == typeof (iOSApp);
 
             InitializeCommonQueries();
         }
@@ -40,7 +40,7 @@ namespace MyDriving.UITests
 
             AssertOnPage(TimeSpan.FromSeconds(30));
 
-            app.Screenshot("On " + GetType().Name);
+            App.Screenshot("On " + GetType().Name);
         }
 
         protected BasePage(string androidTrait, string iOSTrait)
@@ -60,9 +60,9 @@ namespace MyDriving.UITests
             var message = "Unable to verify on page: " + GetType().Name;
 
             if (timeout == null)
-                Assert.IsNotEmpty(app.Query(Trait), message);
+                Assert.IsNotEmpty(App.Query(Trait), message);
             else
-                Assert.DoesNotThrow(() => app.WaitForElement(Trait, timeout: timeout), message);
+                Assert.DoesNotThrow(() => App.WaitForElement(Trait, timeout: timeout), message);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace MyDriving.UITests
             timeout = timeout ?? TimeSpan.FromSeconds(2);
             var message = "Unable to verify *not* on page: " + GetType().Name;
 
-            Assert.DoesNotThrow(() => app.WaitForNoElement(Trait, timeout: timeout), message);
+            Assert.DoesNotThrow(() => App.WaitForNoElement(Trait, timeout: timeout), message);
         }
 
 
@@ -85,18 +85,18 @@ namespace MyDriving.UITests
         {
             if (OnAndroid)
             {
-                if (app.Query(Hamburger).Any())
-                    app.Tap(Hamburger);
+                if (App.Query(_hamburger).Any())
+                    App.Tap(_hamburger);
 
-                app.Screenshot("Navigation Menu Open");
+                App.Screenshot("Navigation Menu Open");
                 int count = 0;
-                while (!app.Query(tabName).Any() && count < 3)
+                while (!App.Query(tabName).Any() && count < 3)
                 {
-                    app.ScrollDown(x => x.Class("NavigationMenuView"));
+                    App.ScrollDown(x => x.Class("NavigationMenuView"));
                     count++;
                 }
             }
-            app.Tap(Tab(tabName));
+            App.Tap(_tab(tabName));
         }
 
         #region CommonPageActions
@@ -104,20 +104,20 @@ namespace MyDriving.UITests
         // Use this region to define functionality that is common across many or all pages in your app.
         // Eg tapping the back button of a page or selecting the tabs of a tab bar
 
-        Query Hamburger;
-        Func<string, Query> Tab;
+        Query _hamburger;
+        Func<string, Query> _tab;
 
         void InitializeCommonQueries()
         {
             if (OnAndroid)
             {
-                Hamburger = x => x.Class("ImageButton").Marked("OK");
-                Tab = name => x => x.Class("NavigationMenuItemView").Text(name);
+                _hamburger = x => x.Class("ImageButton").Marked("OK");
+                _tab = name => x => x.Class("NavigationMenuItemView").Text(name);
             }
 
             if (OniOS)
             {
-                Tab = name => x => x.Class("UITabBarButtonLabel").Text(name);
+                _tab = name => x => x.Class("UITabBarButtonLabel").Text(name);
             }
         }
 

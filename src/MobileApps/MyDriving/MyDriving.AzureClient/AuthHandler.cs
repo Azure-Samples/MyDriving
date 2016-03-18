@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net;
@@ -6,19 +9,19 @@ using Microsoft.WindowsAzure.MobileServices;
 using System.Threading;
 using MyDriving.Utils;
 using System.Text;
-using MyDriving.AzureClient;
 
 namespace MyDriving.AzureClient
 {
     class AuthHandler : DelegatingHandler
     {
-        
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+            CancellationToken cancellationToken)
         {
             var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client as MobileServiceClient;
             if (client == null)
             {
-                throw new InvalidOperationException("Make sure to set the ServiceLocator has an instance of IAzureClient");
+                throw new InvalidOperationException(
+                    "Make sure to set the ServiceLocator has an instance of IAzureClient");
             }
 
             // Cloning the request, in case we need to send it again
@@ -95,4 +98,3 @@ namespace MyDriving.AzureClient
         }
     }
 }
-
