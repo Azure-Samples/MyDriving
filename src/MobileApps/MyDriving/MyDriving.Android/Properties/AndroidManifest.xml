@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.microsoft.mydriving" android:versionCode="1" android:versionName="1.0.0" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="23" />
+	<application android:theme="@style/MyTheme" android:label="MyDriving" android:icon="@drawable/ic_launcher">
+		<activity android:name="net.hockeyapp.android.UpdateActivity" />
+		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBV35qO2UwecYbthByA87H4Fbkqa5Fpbrk" />
+	</application>
+</manifest>

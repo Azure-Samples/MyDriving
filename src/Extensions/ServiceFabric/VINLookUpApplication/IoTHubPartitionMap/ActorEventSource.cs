@@ -1,11 +1,11 @@
-﻿using Microsoft.ServiceFabric.Actors;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Fabric;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.ServiceFabric.Actors;
 
 namespace IoTHubPartitionMap
 {
@@ -22,19 +22,24 @@ namespace IoTHubPartitionMap
         }
 
         // Instance constructor is private to enforce singleton semantics
-        private ActorEventSource() : base() { }
+        private ActorEventSource()
+        {
+        }
 
         #region Keywords
+
         // Event keywords can be used to categorize events. 
         // Each keyword is a bit flag. A single event can be associated with multiple keywords (via EventAttribute.Keywords property).
         // Keywords must be defined as a public class named 'Keywords' inside EventSource that uses them.
         public static class Keywords
         {
-            public const EventKeywords HostInitialization = (EventKeywords)0x1L;
+            public const EventKeywords HostInitialization = (EventKeywords) 0x1L;
         }
+
         #endregion
 
         #region Events
+
         // Define an instance method for each event you want to record and apply an [Event] attribute to it.
         // The method name is the name of the event.
         // Pass any parameters you want to record with the event (only primitive integer types, DateTime, Guid & string are allowed).
@@ -46,7 +51,7 @@ namespace IoTHubPartitionMap
         [NonEvent]
         public void Message(string message, params object[] args)
         {
-            if (this.IsEnabled())
+            if (IsEnabled())
             {
                 string finalMessage = string.Format(message, args);
                 Message(finalMessage);
@@ -54,10 +59,11 @@ namespace IoTHubPartitionMap
         }
 
         private const int MessageEventId = 1;
+
         [Event(MessageEventId, Level = EventLevel.Informational, Message = "{0}")]
         public void Message(string message)
         {
-            if (this.IsEnabled())
+            if (IsEnabled())
             {
                 WriteEvent(MessageEventId, message);
             }
@@ -66,7 +72,7 @@ namespace IoTHubPartitionMap
         [NonEvent]
         public void ActorMessage(StatelessActor actor, string message, params object[] args)
         {
-            if (this.IsEnabled())
+            if (IsEnabled())
             {
                 string finalMessage = string.Format(message, args);
                 ActorMessage(
@@ -86,7 +92,7 @@ namespace IoTHubPartitionMap
         [NonEvent]
         public void ActorMessage(StatefulActorBase actor, string message, params object[] args)
         {
-            if (this.IsEnabled())
+            if (IsEnabled())
             {
                 string finalMessage = string.Format(message, args);
                 ActorMessage(
@@ -107,6 +113,7 @@ namespace IoTHubPartitionMap
         // This results in more efficient parameter handling, but requires explicit allocation of EventData structure and unsafe code.
         // To enable this code path, define UNSAFE conditional compilation symbol and turn on unsafe code support in project properties.
         private const int ActorMessageEventId = 2;
+
         [Event(ActorMessageEventId, Level = EventLevel.Informational, Message = "{9}")]
         private
 #if UNSAFE
@@ -126,17 +133,17 @@ namespace IoTHubPartitionMap
         {
 #if !UNSAFE
             WriteEvent(
-                    ActorMessageEventId,
-                    actorType,
-                    actorId,
-                    applicationTypeName,
-                    applicationName,
-                    serviceTypeName,
-                    serviceName,
-                    partitionId,
-                    replicaOrInstanceId,
-                    nodeName,
-                    message);
+                ActorMessageEventId,
+                actorType,
+                actorId,
+                applicationTypeName,
+                applicationName,
+                serviceTypeName,
+                serviceName,
+                partitionId,
+                replicaOrInstanceId,
+                nodeName,
+                message);
 #else
                 const int numArgs = 10;
                 fixed (char* pActorType = actorType, pActorId = actorId, pApplicationTypeName = applicationTypeName, pApplicationName = applicationName, pServiceTypeName = serviceTypeName, pServiceName = serviceName, pNodeName = nodeName, pMessage = message)
@@ -159,14 +166,18 @@ namespace IoTHubPartitionMap
         }
 
         private const int ActorHostInitializationFailedEventId = 3;
-        [Event(ActorHostInitializationFailedEventId, Level = EventLevel.Error, Message = "Actor host initialization failed", Keywords = Keywords.HostInitialization)]
+
+        [Event(ActorHostInitializationFailedEventId, Level = EventLevel.Error,
+            Message = "Actor host initialization failed", Keywords = Keywords.HostInitialization)]
         public void ActorHostInitializationFailed(string exception)
         {
             WriteEvent(ActorHostInitializationFailedEventId, exception);
         }
+
         #endregion
 
         #region Private Methods
+
 #if UNSAFE
             private int SizeInBytes(string s)
             {
@@ -180,6 +191,7 @@ namespace IoTHubPartitionMap
                 }
             }
 #endif
+
         #endregion
     }
 }

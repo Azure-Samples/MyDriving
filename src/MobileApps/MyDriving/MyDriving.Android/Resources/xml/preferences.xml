@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen  
+		xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory
+            android:title="Units">
+
+        <CheckBoxPreference
+                android:key="metric_distance"
+                android:title="Metric Distance"
+			    android:summary="Use Kilometers instead of Miles"/>
+		
+		<CheckBoxPreference
+                android:key="metric_units"
+                android:title="Metric Units"
+			    android:summary="Use Liters instead of Gallons"/>
+
+
+    </PreferenceCategory>
+
+	
+
+    <PreferenceCategory
+            android:title="About MyDriving">
+
+        <Preference
+				android:key="url_copyright"
+                android:title="Copyright 2016 Microsoft"/>
+
+	    <Preference
+			android:key="url_terms"
+            android:title="Terms of Use"/>
+
+
+        <Preference
+            android:key="url_privacy"
+              android:title="Privacy Policy"/>
+		
+		 <Preference
+                android:title="Open Source Notice"
+                android:key="url_open_notice"/>
+
+        <Preference
+               android:title="Open Source on GitHub"
+                android:key="url_github"/>
+                
+			
+		 <Preference
+           android:title="Built in C# with Xamarin"
+           android:key="url_xamarin"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>
