@@ -1,99 +1,105 @@
-using Foundation;
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using MyDriving.Utils;
 using MyDriving.ViewModel;
 using System;
-using System.CodeDom.Compiler;
 using System.Threading.Tasks;
 using UIKit;
 
 namespace MyDriving.iOS
 {
-	partial class LoginViewController : UIViewController
-	{
-        LoginViewModel viewModel;
-        bool didAnimate;
-		public LoginViewController(IntPtr handle) : base(handle) { }
+    partial class LoginViewController : UIViewController
+    {
+        bool _didAnimate;
+        LoginViewModel _viewModel;
 
-		public override void ViewDidLoad()
-		{
-            viewModel = new LoginViewModel();
-			//Prepare buttons for fade in animation.
-			btnFacebook.Alpha = 0;
-			btnTwitter.Alpha = 0;
-			btnMicrosoft.Alpha = 0;
-			btnSkipAuth.Alpha = 0;
+        public LoginViewController(IntPtr handle) : base(handle)
+        {
+        }
 
-			btnSkipAuth.Layer.CornerRadius = 4;
-			btnSkipAuth.Layer.MasksToBounds = true;
+        public override void ViewDidLoad()
+        {
+            _viewModel = new LoginViewModel();
+            //Prepare buttons for fade in animation.
+            btnFacebook.Alpha = 0;
+            btnTwitter.Alpha = 0;
+            btnMicrosoft.Alpha = 0;
+            btnSkipAuth.Alpha = 0;
 
-            #if RELEASE
+            btnSkipAuth.Layer.CornerRadius = 4;
+            btnSkipAuth.Layer.MasksToBounds = true;
+
+#if RELEASE
             btnSkipAuth.Hidden = true;
             #endif
         }
 
-		public override void ViewDidAppear(bool animated)
-		{
-			base.ViewDidAppear(animated);
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
 
-            if (didAnimate)
+            if (_didAnimate)
                 return;
 
-            didAnimate = true;
-			btnFacebook.FadeIn(0.3, 0.3f);
-			btnTwitter.FadeIn(0.3, 0.5f);
-			btnMicrosoft.FadeIn(0.3, 0.7f);
-			btnSkipAuth.FadeIn(0.3, 0.9f);
-		}
+            _didAnimate = true;
+            btnFacebook.FadeIn(0.3, 0.3f);
+            btnTwitter.FadeIn(0.3, 0.5f);
+            btnMicrosoft.FadeIn(0.3, 0.7f);
+            btnSkipAuth.FadeIn(0.3, 0.9f);
+        }
 
-		async partial void BtnFacebook_TouchUpInside(UIButton sender)
-		{
+        async partial void BtnFacebook_TouchUpInside(UIButton sender)
+        {
             await LoginAsync(LoginAccount.Facebook);
         }
 
-		async partial void BtnTwitter_TouchUpInside(UIButton sender)
-		{
+        async partial void BtnTwitter_TouchUpInside(UIButton sender)
+        {
             await LoginAsync(LoginAccount.Twitter);
         }
 
-		async partial void BtnMicrosoft_TouchUpInside(UIButton sender)
-		{
+        async partial void BtnMicrosoft_TouchUpInside(UIButton sender)
+        {
             await LoginAsync(LoginAccount.Microsoft);
-		}
+        }
 
-		async Task LoginAsync(LoginAccount account)
+        async Task LoginAsync(LoginAccount account)
         {
             switch (account)
             {
                 case LoginAccount.Facebook:
-					await viewModel.ExecuteLoginFacebookCommandAsync();
+                    await _viewModel.ExecuteLoginFacebookCommandAsync();
                     break;
                 case LoginAccount.Microsoft:
-					await viewModel.ExecuteLoginMicrosoftCommandAsync();
+                    await _viewModel.ExecuteLoginMicrosoftCommandAsync();
                     break;
                 case LoginAccount.Twitter:
-					await viewModel.ExecuteLoginTwitterCommandAsync();
+                    await _viewModel.ExecuteLoginTwitterCommandAsync();
                     break;
             }
 
-			if (viewModel.IsLoggedIn)
-				NavigateToTabs();
+            if (_viewModel.IsLoggedIn)
+                NavigateToTabs();
         }
 
-		partial void BtnSkipAuth_TouchUpInside(UIButton sender)
-		{
-			viewModel.InitFakeUser();
-			NavigateToTabs();
-		}
+        partial void BtnSkipAuth_TouchUpInside(UIButton sender)
+        {
+            _viewModel.InitFakeUser();
+            NavigateToTabs();
+        }
 
-		void NavigateToTabs()
-		{
-			InvokeOnMainThread(() =>
-			{
-				var app = (AppDelegate)UIApplication.SharedApplication.Delegate;
-				var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as UITabBarController;
-				viewController.SelectedIndex = 1;
-				app.Window.RootViewController = viewController;
-			});
-		}
-	}
+        void NavigateToTabs()
+        {
+            InvokeOnMainThread(() =>
+            {
+                var app = (AppDelegate) UIApplication.SharedApplication.Delegate;
+                var viewController =
+                    UIStoryboard.FromName("Main", null).InstantiateViewController("tabBarController") as
+                        UITabBarController;
+                viewController.SelectedIndex = 1;
+                app.Window.RootViewController = viewController;
+            });
+        }
+    }
 }
