@@ -9,6 +9,7 @@ namespace MyDriving.UITests
     public class PastTripsPage : BasePage
     {
         readonly Query RefreshView;
+        readonly Func<string, Query> PastTripCell;
 
         public PastTripsPage()
             : base (x => x.Marked("Past Trips"), x => x.Class("UINavigationItemView").Marked("Past Trips"))
@@ -16,6 +17,7 @@ namespace MyDriving.UITests
             if (OniOS)
             {
                 RefreshView = x => x.Class("UITableView");
+                PastTripCell = (arg) => x => x.Marked(arg).Parent().Class("TripTableViewCellWithImage");
             }
             if (OnAndroid)
             {
@@ -39,11 +41,18 @@ namespace MyDriving.UITests
 
         public void NavigateToPastTripsDetail (string title)
 		{
-            app.ScrollDownTo(title);
-            app.Screenshot("Scrolled down to past trip: " + title);
-            app.Tap(title);
-
-			app.Screenshot ("Past Trips Detail");
+            if (OnAndroid)
+            {
+                app.ScrollDownTo(title);
+                app.Screenshot("Selecting past trip: " + title);
+                app.Tap(title);
+            }
+            if (OniOS)
+            {
+                app.ScrollDownTo(PastTripCell(title));
+                app.Screenshot("Selecting past trip: " + title);
+                app.Tap(PastTripCell(title));
+            }
 		}
 	}
 }

@@ -10,6 +10,10 @@ namespace MyDriving.UITests
 
         public void Login()
         {
+            app.WaitForElement(c => c.Css("INPUT._56bg._4u9z._5ruq")
+                               , timeout:TimeSpan.FromSeconds(20)
+                               , timeoutMessage:"Facebook login UI not displayed");
+            
             app.EnterText(c => c.Css("INPUT._56bg._4u9z._5ruq"), "scott_kdnkrdr_guthrie@tfbnw.net");
             app.DismissKeyboard();
             app.EnterText(c => c.Css("#u_0_1"), "admin1");

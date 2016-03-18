@@ -41,7 +41,6 @@ namespace MyDriving.UITests
                 app.Tap(x => x.Text("B"));
                 app.Screenshot("Tapped B Endpoint");
             }
-            //TODO: See if this can do anything on android
 
             return this;
         }

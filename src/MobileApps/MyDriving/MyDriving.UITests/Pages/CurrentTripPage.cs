@@ -51,6 +51,7 @@ namespace MyDriving.UITests
 		{
 			System.Threading.Thread.Sleep (2500);
             app.Tap (RecordingButton);
+            app.Screenshot("Stopped recording trip");
 
 			return this;
 		}

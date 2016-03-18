@@ -7,12 +7,14 @@ namespace MyDriving.UITests
     public class SettingsPage : BasePage
     {
         readonly Func<string, Query> CheckBox;
+        readonly Query SettingsTab;
 
         public SettingsPage()
             : base ("Settings", "Settings")
         {
             if (OniOS)
-            { 
+            {
+                SettingsTab = x => x.Class("UINavigationItemButtonView").Marked("Settings");
             }
             if (OnAndroid)
             { 
@@ -31,7 +33,9 @@ namespace MyDriving.UITests
             { 
                 app.Tap("Distance");
                 app.Tap("Metric (km)");
-                app.Tap(x => x.Class("UINavigationItemButtonView").Marked("Settings"));
+                app.Screenshot("Using Metric Distances");
+
+                app.Tap(SettingsTab);
             }
 
             return this;
@@ -48,7 +52,9 @@ namespace MyDriving.UITests
             {
                 app.Tap("Capacity");
                 app.Tap("Metric (liters)");
-                app.Tap(x => x.Class("UINavigationItemButtonView").Marked("Settings"));
+                app.Screenshot("Using Metric Capacity");
+
+                app.Tap(SettingsTab);
             }
 
             return this;

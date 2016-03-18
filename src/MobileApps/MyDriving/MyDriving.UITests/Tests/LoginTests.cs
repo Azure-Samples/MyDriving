@@ -9,7 +9,6 @@ namespace MyDriving.UITests
 	{
 		public LoginTests (Platform platform) : base (platform)
 		{
-			
 		}
 
 		[Test]

@@ -10,7 +10,7 @@ namespace MyDriving.UITests
     public class AppInitializer
     {
 		//const string apkPath = "../../../com.xamarin.samples.taskydroid-Signed.apk";
-		const string appPath = "../../../MyDriving.iOS/bin/iPhoneSimulator/Debug/MyDrivingiOS.app";
+		const string appPath = "../../../MyDriving.iOS/bin/iPhoneSimulator/Release/MyDrivingiOS.app";
         public static string apkPath;
 
 		private static IApp app;
@@ -46,9 +46,9 @@ namespace MyDriving.UITests
 			{
 				app = ConfigureApp
 					.iOS
-					//.AppBundle(appPath)
-                    .InstalledApp("com.microsoft.mydriving")
-                    .DeviceIdentifier("eacaf802667db5ec7b7db84002382c2761e9186d")
+					.AppBundle(appPath)
+                    //.InstalledApp("com.microsoft.mydriving")
+                    .DeviceIdentifier("12E1403A-9101-4760-A2E4-115E32B38DF2")
 					.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear);
 			}
 

@@ -28,29 +28,6 @@ namespace MyDriving.UITests
             }
 		}
 
-		public ProfilePage SetDeviceConnectionSetting ()
-		{
-			app.EnterText(x => x.Class("UITextField"), "http://build2016.azurewebsites.net");
-			app.Screenshot ("Set Device Connection String Setting");
-
-			return this;
-		}
-
-		public ProfilePage NavigateToMobileClientUrlSetting ()
-		{
-			app.Tap ("Mobile client URL");
-
-			return this;
-		}
-
-		public ProfilePage SetMobileClientUrlSetting ()
-		{
-			app.EnterText(x => x.Class("UITextField"), "http://build2016.azurewebsites.net");
-			app.Screenshot ("Set Mobile Client Url Setting");
-
-			return this;
-		}
-
         public ProfilePage CheckFuelMetric(bool metric)
         {
             app.ScrollDownTo(FuelConsumptionField);

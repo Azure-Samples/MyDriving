@@ -25,7 +25,7 @@ namespace MyDriving.UITests
 		{
             new CurrentTripPage()
                 .NavigateTo("Past Trips");
-            
+
 			new PastTripsPage ()
 				.NavigateToPastTripsDetail ("James@ToVivace");
 
