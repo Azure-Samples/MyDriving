@@ -1,24 +1,27 @@
-﻿using MyDriving.ViewModel;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-
+using MyDriving.ViewModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace MyDriving.UWP.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class ProfileView : Page
     {
-        ProfileViewModel profileViewModel;
+        readonly ProfileViewModel _profileViewModel;
+
         public ProfileView()
-        {      
-            profileViewModel = new ProfileViewModel();
-            DataContext = profileViewModel;
-            this.InitializeComponent();
+        {
+            _profileViewModel = new ProfileViewModel();
+            DataContext = _profileViewModel;
+            InitializeComponent();
 
             TotalDistanceTab.Title1 = "Total";
             TotalDistanceTab.Title2 = "DISTANCE";
@@ -49,7 +52,7 @@ namespace MyDriving.UWP.Views
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
 
-            await profileViewModel.UpdateProfileAsync();
+            await _profileViewModel.UpdateProfileAsync();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -57,7 +60,6 @@ namespace MyDriving.UWP.Views
             base.OnNavigatedFrom(e);
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested -= SystemNavigationManager_BackRequested;
-
         }
 
         private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
@@ -71,9 +73,9 @@ namespace MyDriving.UWP.Views
         private bool TryGoBack()
         {
             bool navigated = false;
-            if (this.Frame.CanGoBack)
+            if (Frame.CanGoBack)
             {
-                this.Frame.GoBack();
+                Frame.GoBack();
                 navigated = true;
             }
             return navigated;
