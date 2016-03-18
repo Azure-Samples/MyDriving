@@ -22,18 +22,45 @@ namespace MyDriving.UITests
 
         public SettingsPage SetDistanceSetting()
         {
-            app.Tap(CheckBox("Metric Distance"));
-            app.Screenshot("Using Metric Distances");
+            if (OnAndroid)
+            {
+                app.Tap(CheckBox("Metric Distance"));
+                app.Screenshot("Using Metric Distances");
+            }
+            if (OniOS)
+            { 
+                app.Tap("Distance");
+                app.Tap("Metric (km)");
+                app.Tap(x => x.Class("UINavigationItemButtonView").Marked("Settings"));
+            }
 
             return this;
         }
 
         public SettingsPage SetCapacitySetting()
         {
-            app.Tap(CheckBox("Metric Units"));
-            app.Screenshot("Using Metric Capacity");
+            if (OnAndroid)
+            {
+                app.Tap(CheckBox("Metric Units"));
+                app.Screenshot("Using Metric Capacity");
+            }
+            if (OniOS)
+            {
+                app.Tap("Capacity");
+                app.Tap("Metric (liters)");
+                app.Tap(x => x.Class("UINavigationItemButtonView").Marked("Settings"));
+            }
 
             return this;
+        }
+
+        new public void NavigateTo(string marked)
+        {
+            if (OnAndroid)
+                base.NavigateTo(marked);
+            
+            if (OniOS)
+                app.Tap("Back");
         }
     }
 }

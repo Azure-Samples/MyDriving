@@ -31,9 +31,10 @@ namespace MyDriving.UITests
 		{
             app.Tap (RecordingButton);
 
+            System.Threading.Thread.Sleep(2500);
+
             if (!app.Query(UseSimulatorButton).Any())
             {
-                System.Threading.Thread.Sleep(2500);
                 app.Tap(RecordingButton);
             }
 

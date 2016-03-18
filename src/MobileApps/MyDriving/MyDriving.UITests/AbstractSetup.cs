@@ -8,8 +8,8 @@ using Xamarin.UITest.iOS;
 
 namespace MyDriving.UITests
 {
-    [TestFixture(Platform.Android)]
-    //[TestFixture(Platform.iOS)]
+    //[TestFixture(Platform.Android)]
+    [TestFixture(Platform.iOS)]
 	public abstract class AbstractSetup
 	{
 		protected IApp app;
@@ -57,7 +57,7 @@ namespace MyDriving.UITests
                 if (!app.Query("LoginWithFacebook").Any())
                 {
                     app.TestServer.Post("/keychain", new object());
-                    app = ConfigureApp.iOS.StartApp();
+                    app = ConfigureApp.iOS.InstalledApp("com.microsoft.mydriving").StartApp();
     			}
             }
 		}

@@ -13,8 +13,19 @@ namespace MyDriving.UITests
 		[Test]
 		public void ChangeDistanceUnits ()
 		{
-            new CurrentTripPage()
-                .NavigateTo("Settings");
+            if (OnAndroid)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Settings");
+            }
+            if (OniOS)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Profile");
+
+                new ProfilePage()
+                    .NavigateToSettings();
+            }
 
             new SettingsPage()
                 .SetDistanceSetting()
@@ -27,8 +38,19 @@ namespace MyDriving.UITests
 		[Test]
 		public void ChangeCapacityUnits ()
 		{
-            new CurrentTripPage()
-                .NavigateTo("Settings");
+            if (OnAndroid)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Settings");
+            }
+            if (OniOS)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Profile");
+
+                new ProfilePage()
+                    .NavigateToSettings();
+            }
 
             new SettingsPage()
                 .SetCapacitySetting()
@@ -36,28 +58,6 @@ namespace MyDriving.UITests
 
             new ProfilePage()
                 .CheckFuelMetric(true);
-		}
-
-		[Test]
-		public void Logout ()
-		{
-            ClearKeychain();
-
-            new LoginPage()
-                .LoginWithFacebook();
-
-            new FacebookLoginPage()
-                .Login();
-
-            new CurrentTripPage()
-                .NavigateTo("Settings");
-
-			//new ProfilePage ()
-			//	.NavigateToProfilePage ()
-			//	.NavigateToSettingsPage ()
-			//	.Logout ();
-
-			app.Screenshot ("Logged out");
 		}
 	}
 }

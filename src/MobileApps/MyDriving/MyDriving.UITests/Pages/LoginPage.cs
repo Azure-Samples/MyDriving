@@ -13,17 +13,19 @@ namespace MyDriving.UITests
 	public class LoginPage : BasePage
 	{
         string LoginWithFacebookButton;
-        string SkipAuthenticationButton = "button_skip";
+        string SkipAuthenticationButton;
 
 		public LoginPage ()
 			: base (c => c.Marked ("button_twitter"), c => c.Marked ("LoginWithTwitter"))
 		{
 			if (OnAndroid) {
                 LoginWithFacebookButton = "button_facebook";
+                SkipAuthenticationButton = "button_skip";
 			} 
 
 			if (OniOS) {
                 LoginWithFacebookButton = "LoginWithFacebook";
+                SkipAuthenticationButton = "Skip Auth";
 			}
 		}
 

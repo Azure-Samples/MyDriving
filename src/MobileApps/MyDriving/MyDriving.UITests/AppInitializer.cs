@@ -46,7 +46,9 @@ namespace MyDriving.UITests
 			{
 				app = ConfigureApp
 					.iOS
-					.AppBundle(appPath)
+					//.AppBundle(appPath)
+                    .InstalledApp("com.microsoft.mydriving")
+                    .DeviceIdentifier("eacaf802667db5ec7b7db84002382c2761e9186d")
 					.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear);
 			}
 

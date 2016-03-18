@@ -23,8 +23,20 @@ namespace MyDriving.UITests
 		[Test]
 		public void NavigateToSettingsTest ()
 		{
-            new CurrentTripPage()
-                .NavigateTo("Settings");
+            if (OnAndroid)
+            { 
+                new CurrentTripPage()
+                    .NavigateTo("Settings");
+            }
+
+            if (OniOS)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Profile");
+
+                new ProfilePage()
+                    .NavigateToSettings();
+            }
 
             new SettingsPage()
                 .AssertOnPage();
@@ -38,7 +50,6 @@ namespace MyDriving.UITests
 
             new PastTripsPage()
                 .AssertOnPage();
-
 		}
 
 		[Test]

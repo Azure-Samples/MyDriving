@@ -10,9 +10,10 @@ namespace MyDriving.UITests
 	{
         readonly Query FuelConsumptionField;
         readonly Query DistanceField;
+        readonly Query SettingsTab;
 
 		public ProfilePage ()
-            : base ("profile_image", "ios_trait")
+            : base (x => x.Marked("profile_image"), x => x.Raw("* {text CONTAINS 'Driving Skills: '}"))
 		{
             if (OnAndroid)
             { 
@@ -20,7 +21,10 @@ namespace MyDriving.UITests
                 DistanceField = x => x.Id("text_distance");
             }
             if (OniOS)
-            { 
+            {
+                SettingsTab = x => x.Id("tab_Settings.png");
+                FuelConsumptionField = x => x.Class("ProfileStatCell").Descendant().Marked("Fuel Consumption").Sibling();
+                DistanceField = x => x.Class("ProfileStatCell").Descendant().Marked("Total Distance").Sibling();
             }
 		}
 
@@ -43,15 +47,6 @@ namespace MyDriving.UITests
 		{
 			app.EnterText(x => x.Class("UITextField"), "http://build2016.azurewebsites.net");
 			app.Screenshot ("Set Mobile Client Url Setting");
-
-			return this;
-		}
-			
-		public ProfilePage Logout ()
-		{
-			app.ScrollDownTo("Log Out");
-			app.Tap(x => x.Marked("Log Out"));
-			app.Tap(x => x.Marked("Yes, Logout"));
 
 			return this;
 		}
@@ -78,6 +73,15 @@ namespace MyDriving.UITests
             StringAssert.Contains(expectedUnits, distanceText, message: "Couldnt verify distance units");
 
             return this;
+        }
+
+        public void NavigateToSettings()
+        {
+            if (OnAndroid)
+                return;
+
+            app.Tap(SettingsTab);
+            app.Screenshot("Tapped Settings Tab");
         }
 	}
 }

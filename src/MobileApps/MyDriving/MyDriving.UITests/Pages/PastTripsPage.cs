@@ -11,11 +11,11 @@ namespace MyDriving.UITests
         readonly Query RefreshView;
 
         public PastTripsPage()
-            : base ("Past Trips", "ios_trait")
+            : base (x => x.Marked("Past Trips"), x => x.Class("UINavigationItemView").Marked("Past Trips"))
         {
             if (OniOS)
             {
-                RefreshView = x => x.Class("TableView");
+                RefreshView = x => x.Class("UITableView");
             }
             if (OnAndroid)
             {
@@ -28,7 +28,7 @@ namespace MyDriving.UITests
             app.WaitForElement(RefreshView);
             var coords = app.Query(RefreshView)[0].Rect;
             if (OniOS)
-    			app.DragCoordinates(coords.CenterX, 0, coords.CenterX, coords.Y);
+    			app.DragCoordinates(coords.CenterX, coords.Y + 75, coords.CenterX, coords.CenterY);
             if (OnAndroid)
                 app.DragCoordinates(coords.CenterX, coords.Y, coords.CenterX, coords.CenterY);
             

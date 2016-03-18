@@ -8,7 +8,7 @@ namespace MyDriving.UITests
         readonly Query TripProgressSlider;
 
         public PastTripDetailPage()
-            : base("stats", "ios")
+            : base(x => x.Marked("stats"), x => x.Class("UISlider"))
         {
             if (OniOS)
             { 
@@ -22,22 +22,12 @@ namespace MyDriving.UITests
 
         public PastTripDetailPage MoveTripSlider()
         {
-            if (OniOS)
-            {
-                app.SetSliderValue(TripProgressSlider, 25);
-                app.Screenshot("Trip Slider at 25%");
+            app.SetSliderValue(TripProgressSlider, 250);
+            app.Screenshot("Trip Slider at 25%");
 
-                app.SetSliderValue(TripProgressSlider, 75);
-                app.Screenshot("Trip Slider at 75%");
-            }
-            if (OnAndroid)
-            {
-                app.SetSliderValue(TripProgressSlider, 250);
-                app.Screenshot("Trip Slider at 25%");
+            app.SetSliderValue(TripProgressSlider, 750);
+            app.Screenshot("Trip Slider at 75%");
 
-                app.SetSliderValue(TripProgressSlider, 750);
-                app.Screenshot("Trip Slider at 75%");
-            }
             return this;
         }
 
