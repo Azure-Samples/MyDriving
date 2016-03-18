@@ -10,9 +10,10 @@
         android:src="@drawable/navigation_header"
         android:scaleType="centerCrop" />
     <ImageView
-        android:layout_height="128dp"
-        android:layout_width="128dp"
+        android:layout_height="196dp"
+        android:layout_width="196dp"
         android:layout_gravity="center"
+        android:layout_marginTop="24dp"
         android:scaleType="fitCenter"
         android:src="@drawable/navigation_logo" />
 </FrameLayout>
