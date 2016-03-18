@@ -70,10 +70,9 @@ namespace MyDriving.UWP.Views
             }
         }
 
-        public CurrentTripView()
+        public  CurrentTripView()
         {
             this.InitializeComponent();
-            BeginExtendedExecution();
             this.viewModel = new CurrentTripViewModel();
             this.Locations = new List<BasicGeoposition>();
             this.MyMap.Loaded += MyMap_Loaded;
@@ -81,8 +80,10 @@ namespace MyDriving.UWP.Views
             recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
             OnPropertyChanged(nameof(RecordButtonImage));
             this.startRecordBtn.Click += StartRecordBtn_Click;
+            BeginExtendedExecution();
+
         }
-  
+
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
             this.MyMap.ZoomLevel = 16;
@@ -196,7 +197,7 @@ namespace MyDriving.UWP.Views
 
 
        
-        private async void BeginExtendedExecution()
+        private async Task BeginExtendedExecution()
         {
             ClearExtendedExecution();
 
@@ -239,7 +240,7 @@ namespace MyDriving.UWP.Views
 
         private async void SessionRevoked(object sender, ExtendedExecutionRevokedEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 switch (args.Reason)
                 {
@@ -254,7 +255,7 @@ namespace MyDriving.UWP.Views
                         break;
                 }
                 // Once Resumed we need to start the extended execution again.
-                BeginExtendedExecution();
+                await BeginExtendedExecution();
             });
         }
        

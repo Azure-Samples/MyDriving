@@ -136,7 +136,7 @@ namespace MyDriving.UWP.Views
                 MapIcon mapStartIcon = new MapIcon();
                 mapStartIcon.Location = new Geopoint(this.Locations.First());
                 mapStartIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-                mapStartIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_start_point.png"));
+                mapStartIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/A.png"));
                 mapStartIcon.ZIndex = 1;
                 mapStartIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
 
@@ -146,14 +146,29 @@ namespace MyDriving.UWP.Views
                 MapIcon mapEndIcon = new MapIcon();
                 mapEndIcon.Location = new Geopoint(this.Locations.Last());
                 mapEndIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-                mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png"));
+                mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/B.png"));
                 mapEndIcon.ZIndex = 1;
                 mapEndIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
                 MyMap.MapElements.Add(mapEndIcon);
 
                 // Draw the Car 
                 DrawCarOnMap(this.Locations.First());
+
+               // DrawPoiOnMap();
             });
+
+        }
+
+        private void DrawPoiOnMap()
+        {
+            // Foreach POI point. Put it on Maps. 
+            MapIcon mapEndIcon = new MapIcon();
+            mapEndIcon.Location = new Geopoint(this.Locations.First());
+            mapEndIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
+            mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png"));
+            mapEndIcon.ZIndex = 1;
+            mapEndIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+            MyMap.MapElements.Add(mapEndIcon);
 
         }
 
