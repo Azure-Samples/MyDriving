@@ -24,25 +24,26 @@
                                     <constraint firstAttribute="height" constant="24" id="X8v-42-h6i"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
-                                <color key="textColor" red="0.67058825489999996" green="0.66274511810000003" blue="0.67450982329999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" colorSpace="calibratedWhite" white="1" alpha="1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="3">
-                                <rect key="frame" x="0.0" y="240" width="600" height="120"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="splash-screen1240x600.png" translatesAutoresizingMaskIntoConstraints="NO" id="3">
+                                <rect key="frame" x="1" y="160" width="600" height="262"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="iMt-ue-7t9"/>
+                                    <constraint id="18" firstAttribute="height" constant="262"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="3" firstAttribute="centerY" secondItem="yd7-JS-zBw" secondAttribute="centerY" id="0YF-1N-PZi"/>
                             <constraint firstItem="9ZL-r4-8FZ" firstAttribute="top" secondItem="Zme-Ra-AUK" secondAttribute="bottom" constant="8" id="7tc-NZ-DN3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Zme-Ra-AUK" secondAttribute="trailing" constant="8" id="ARX-3p-IR7"/>
                             <constraint firstItem="Zme-Ra-AUK" firstAttribute="leading" secondItem="yd7-JS-zBw" secondAttribute="leadingMargin" constant="8" id="QEe-vy-rbf"/>
-                            <constraint firstAttribute="trailing" secondItem="3" secondAttribute="trailing" id="S4F-l9-lmC"/>
-                            <constraint firstItem="3" firstAttribute="leading" secondItem="yd7-JS-zBw" secondAttribute="leading" id="gfS-aj-tcI"/>
+                            <constraint id="19" firstItem="yd7-JS-zBw" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" constant="-1"/>
+                            <constraint id="20" firstItem="3" firstAttribute="top" secondItem="yd7-JS-zBw" secondAttribute="top" constant="160"/>
+                            <constraint id="22" firstItem="3" firstAttribute="trailing" secondItem="yd7-JS-zBw" secondAttribute="trailing" constant="1"/>
+                            <constraint id="23" firstItem="3" firstAttribute="leading" secondItem="yd7-JS-zBw" secondAttribute="leading" constant="1"/>
                         </constraints>
+                        <color key="backgroundColor" colorSpace="calibratedRGB" red="0" green="0.52941176470588236" blue="0.82352941176470584" alpha="1"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XAI-xm-WK6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -73,5 +74,11 @@
         <image name="tab_Profile.png" width="32" height="30"/>
         <image name="tab_Settings_selected.png" width="32" height="30"/>
         <image name="tab_Settings.png" width="32" height="30"/>
+        <image name="summary_mapview.png" width="1680" height="1448"/>
+        <image name="summary_cross.png" width="32" height="32"/>
+        <image name="summary_box.png" width="694" height="561"/>
+        <image name="Map/tip_annotation.png" width="20.5" height="20.5"/>
+        <image name="splash-screen1240x600.png" width="1240" height="600"/>
+        <image name="Logo300x300.png" width="300" height="300"/>
     </resources>
 </document>

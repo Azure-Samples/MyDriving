@@ -494,6 +494,8 @@
     <BundleResource Include="Resources\summary_cross.png" />
     <BundleResource Include="Resources\summary_box.png" />
     <BundleResource Include="Resources\Map\tip_annotation%402x.png" />
+    <BundleResource Include="Resources\splash-screen1240x600.png" />
+    <BundleResource Include="Resources\Logo300x300.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="btprogresshud">
