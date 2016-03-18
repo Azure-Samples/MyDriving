@@ -1,102 +1,102 @@
-﻿using System;
-using Xamarin.UITest;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 
 namespace MyDriving.UITests
 {
-	public class ProfilePage : BasePage
-	{
-		public ProfilePage ()
-		{
-			app.Screenshot ("Profile Page");
-		}
+    public class ProfilePage : BasePage
+    {
+        public ProfilePage()
+        {
+            App.Screenshot("Profile Page");
+        }
 
-		public ProfilePage NavigateToProfilePage ()
-		{
-			app.Tap ("Profile");
+        public ProfilePage NavigateToProfilePage()
+        {
+            App.Tap("Profile");
 
-			return this;
-		}
+            return this;
+        }
 
-		public ProfilePage NavigateToSettingsPage ()
-		{
+        public ProfilePage NavigateToSettingsPage()
+        {
             NavigateTo("Settings");
-			return this;
-		}
+            return this;
+        }
 
-		public ProfilePage NavigateFromSettingsDetailPage ()
-		{
-			app.Tap ("Settings");
+        public ProfilePage NavigateFromSettingsDetailPage()
+        {
+            App.Tap("Settings");
 
-			return this;
-		}
+            return this;
+        }
 
-		public ProfilePage SetDistanceSetting ()
-		{
-			app.Tap ("Metric (km)");
-			app.Screenshot ("Set Distance Setting");
+        public ProfilePage SetDistanceSetting()
+        {
+            App.Tap("Metric (km)");
+            App.Screenshot("Set Distance Setting");
 
-			return this;
-		}
+            return this;
+        }
 
-		public ProfilePage SetCapacitySetting ()
-		{
-			app.Tap ("Metric (liters)");
-			app.Screenshot ("Set Capacity Setting");
+        public ProfilePage SetCapacitySetting()
+        {
+            App.Tap("Metric (liters)");
+            App.Screenshot("Set Capacity Setting");
 
-			return this;
-		}
+            return this;
+        }
 
-		public ProfilePage NavigateToDistanceSetting ()
-		{
-			app.Tap ("Distance");
+        public ProfilePage NavigateToDistanceSetting()
+        {
+            App.Tap("Distance");
 
-			return this;
-		}
+            return this;
+        }
 
-		public ProfilePage NavigateToCapacitySetting ()
-		{
-			app.Tap ("Capacity");
+        public ProfilePage NavigateToCapacitySetting()
+        {
+            App.Tap("Capacity");
 
-			return this;
-		}
+            return this;
+        }
 
-		public ProfilePage NavigateToDeviceConnectionSetting ()
-		{
-			app.Tap ("Device connection string");
+        public ProfilePage NavigateToDeviceConnectionSetting()
+        {
+            App.Tap("Device connection string");
 
-			return this;
-		}
+            return this;
+        }
 
-		public ProfilePage SetDeviceConnectionSetting ()
-		{
-			app.EnterText(x => x.Class("UITextField"), "http://build2016.azurewebsites.net");
-			app.Screenshot ("Set Device Connection String Setting");
+        public ProfilePage SetDeviceConnectionSetting()
+        {
+            App.EnterText(x => x.Class("UITextField"), "http://build2016.azurewebsites.net");
+            App.Screenshot("Set Device Connection String Setting");
 
-			return this;
-		}
+            return this;
+        }
 
-		public ProfilePage NavigateToMobileClientUrlSetting ()
-		{
-			app.Tap ("Mobile client URL");
+        public ProfilePage NavigateToMobileClientUrlSetting()
+        {
+            App.Tap("Mobile client URL");
 
-			return this;
-		}
+            return this;
+        }
 
-		public ProfilePage SetMobileClientUrlSetting ()
-		{
-			app.EnterText(x => x.Class("UITextField"), "http://build2016.azurewebsites.net");
-			app.Screenshot ("Set Mobile Client Url Setting");
+        public ProfilePage SetMobileClientUrlSetting()
+        {
+            App.EnterText(x => x.Class("UITextField"), "http://build2016.azurewebsites.net");
+            App.Screenshot("Set Mobile Client Url Setting");
 
-			return this;
-		}
-			
-		public ProfilePage Logout ()
-		{
-			app.ScrollDownTo("Log Out");
-			app.Tap(x => x.Marked("Log Out"));
-			app.Tap(x => x.Marked("Yes, Logout"));
+            return this;
+        }
 
-			return this;
-		}
-	}
+        public ProfilePage Logout()
+        {
+            App.ScrollDownTo("Log Out");
+            App.Tap(x => x.Marked("Log Out"));
+            App.Tap(x => x.Marked("Yes, Logout"));
+
+            return this;
+        }
+    }
 }

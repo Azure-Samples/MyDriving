@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
-using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -18,7 +17,7 @@ namespace MyDriving.Model
 
     public class BingImage
     {
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string Title { get; set; }
         public string MediaUrl { get; set; }
         public string SourceUrl { get; set; }

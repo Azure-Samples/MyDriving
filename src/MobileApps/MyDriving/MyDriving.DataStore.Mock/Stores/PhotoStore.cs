@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using MyDriving.DataObjects;
 using MyDriving.DataStore.Abstractions;
 using System.Threading.Tasks;
@@ -9,11 +11,13 @@ namespace MyDriving.DataStore.Mock.Stores
 {
     public class PhotoStore : BaseStore<Photo>, IPhotoStore
     {
-        List<Photo> photos;
+        readonly List<Photo> photos;
+
         public PhotoStore()
         {
             photos = new List<Photo>();
         }
+
         public override Task<bool> PullLatestAsync()
         {
             return Task.FromResult(true);
@@ -35,7 +39,5 @@ namespace MyDriving.DataStore.Mock.Stores
             photos.Add(item);
             return Task.FromResult(true);
         }
-
     }
 }
-

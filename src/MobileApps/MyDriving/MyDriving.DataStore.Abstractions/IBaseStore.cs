@@ -1,13 +1,14 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MyDriving.DataStore.Abstractions
 {
     public interface IBaseStore<T>
     {
+        string Identifier { get; }
         Task InitializeStoreAsync();
         Task<IEnumerable<T>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false);
         Task<T> GetItemAsync(string id);
@@ -18,7 +19,5 @@ namespace MyDriving.DataStore.Abstractions
         Task<bool> SyncAsync();
         Task<bool> PullLatestAsync();
         Task<bool> DropTable();
-
-        string Identifier { get; }
     }
 }

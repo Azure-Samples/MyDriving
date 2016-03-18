@@ -1,21 +1,23 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Globalization;
 
 namespace ObdShare
 {
     public class ObdUtil
     {
-        static string outsideTemperature = "0";
-        static double distancewithML = 0;
-        static int runtime = 0;
+        static string _outsideTemperature = "0";
+        static double _distancewithMl;
+        static int _runtime;
 
         private static int ParseString(string str, int bytes)
         {
-            return int.Parse(str.Substring(4, bytes * 2), NumberStyles.HexNumber);
+            return int.Parse(str.Substring(4, bytes*2), NumberStyles.HexNumber);
         }
+
         public static string ParseObd01Msg(string input)
         {
             string str = input.Replace("\r", "").Replace("\n", "").Replace(" ", "").Replace(">", "").Trim();
@@ -28,42 +30,43 @@ namespace ObdShare
             //    return "ERROR";
             switch (pid)
             {
-                case "04":  //EngineLoad
-                    return (ParseString(str, 1) * 100 / 255).ToString();
-                case "06":  //ShortTermFuelBank1
-                    return ((ParseString(str, 1) - 128) * 100 / 128).ToString();
-                case "07":  //LongTermFuelBank1
-                    return ((ParseString(str, 1) - 128) * 100 / 128).ToString();
-                case "0C":  //RPM
-                    return (ParseString(str, 2) / 4).ToString();
-                case "0D":  //Speed
+                case "04": //EngineLoad
+                    return (ParseString(str, 1)*100/255).ToString();
+                case "06": //ShortTermFuelBank1
+                    return ((ParseString(str, 1) - 128)*100/128).ToString();
+                case "07": //LongTermFuelBank1
+                    return ((ParseString(str, 1) - 128)*100/128).ToString();
+                case "0C": //RPM
+                    return (ParseString(str, 2)/4).ToString();
+                case "0D": //Speed
                     return ParseString(str, 1).ToString();
-                case "0F":   //InsideTemperature
+                case "0F": //InsideTemperature
                     return (ParseString(str, 1) - 40).ToString();
-                case "10":  //MAF air flow rate
-                    return (ParseString(str, 2) / 100).ToString();
-                case "11":  //Throttle position
-                    return (ParseString(str, 1) * 100 / 255).ToString();
-                case "1F":  //Runtime 
+                case "10": //MAF air flow rate
+                    return (ParseString(str, 2)/100).ToString();
+                case "11": //Throttle position
+                    return (ParseString(str, 1)*100/255).ToString();
+                case "1F": //Runtime 
                     return ParseString(str, 2).ToString();
-                case "21":  //DistancewithML  
+                case "21": //DistancewithML  
                     return ParseString(str, 2).ToString();
-                case "2C":  //Commanded EGR
-                    return (ParseString(str, 1) * 100 / 255).ToString();
-                case "2D":  //EGR Error
-                    return ((ParseString(str, 1) - 128) * 100 / 128).ToString();
-                case "33":  //BarometricPressure
+                case "2C": //Commanded EGR
+                    return (ParseString(str, 1)*100/255).ToString();
+                case "2D": //EGR Error
+                    return ((ParseString(str, 1) - 128)*100/128).ToString();
+                case "33": //BarometricPressure
                     return ParseString(str, 1).ToString();
-                case "45":  //Relative throttle position
-                    return (ParseString(str, 1) * 100 / 255).ToString();
-                case "46":  //OutsideTemperature
+                case "45": //Relative throttle position
+                    return (ParseString(str, 1)*100/255).ToString();
+                case "46": //OutsideTemperature
                     return (ParseString(str, 1) - 40).ToString();
-                case "5E":  //EngineFuelRate
-                    return (ParseString(str, 2) / 20).ToString();
+                case "5E": //EngineFuelRate
+                    return (ParseString(str, 2)/20).ToString();
             }
             return "ERROR";
         }
-        public static string ParseVINMsg(string result)  //VIN
+
+        public static string ParseVINMsg(string result) //VIN
         {
             try
             {
@@ -86,7 +89,7 @@ namespace ObdShare
                 string ret = "";
                 foreach (var s in items)
                 {
-                    ret += (char)int.Parse(s, NumberStyles.HexNumber);
+                    ret += (char) int.Parse(s, NumberStyles.HexNumber);
                 }
                 if (ret.Length > 17)
                     ret = ret.Substring(ret.Length - 17);
@@ -96,12 +99,13 @@ namespace ObdShare
                 ret += "0000000";
                 return ret;
             }
-            catch (System.Exception exp)
+            catch (Exception exp)
             {
                 return exp.Message;
             }
         }
-        public static string ParseLongVIN(string result)  //VIN
+
+        public static string ParseLongVIN(string result) //VIN
         {
             if (result.Contains("STOPPED"))
                 return result;
@@ -117,32 +121,32 @@ namespace ObdShare
             char tchar;
             switch (items[1])
             {
-                case "02":  //VIN
-                    tint = int.Parse(items[6], System.Globalization.NumberStyles.HexNumber);
-                    tchar = (char)tint;
+                case "02": //VIN
+                    tint = int.Parse(items[6], NumberStyles.HexNumber);
+                    tchar = (char) tint;
                     ret += tchar.ToString();
                     for (int i = 10; i < 14; i++)
                     {
-                        tint = int.Parse(items[i], System.Globalization.NumberStyles.HexNumber);
-                        tchar = (char)tint;
+                        tint = int.Parse(items[i], NumberStyles.HexNumber);
+                        tchar = (char) tint;
                         ret += tchar.ToString();
                     }
                     for (int i = 17; i < 21; i++)
                     {
-                        tint = int.Parse(items[i], System.Globalization.NumberStyles.HexNumber);
-                        tchar = (char)tint;
+                        tint = int.Parse(items[i], NumberStyles.HexNumber);
+                        tchar = (char) tint;
                         ret += tchar.ToString();
                     }
                     for (int i = 24; i < 28; i++)
                     {
-                        tint = int.Parse(items[i], System.Globalization.NumberStyles.HexNumber);
-                        tchar = (char)tint;
+                        tint = int.Parse(items[i], NumberStyles.HexNumber);
+                        tchar = (char) tint;
                         ret += tchar.ToString();
                     }
                     for (int i = 31; i < 35; i++)
                     {
-                        tint = int.Parse(items[i], System.Globalization.NumberStyles.HexNumber);
-                        tchar = (char)tint;
+                        tint = int.Parse(items[i], NumberStyles.HexNumber);
+                        tchar = (char) tint;
                         ret += tchar.ToString();
                     }
                     //mask last 7 digits
@@ -152,28 +156,44 @@ namespace ObdShare
             }
             return "ERROR";
         }
+
         public static Dictionary<string, string> GetPIDs()
         {
             //return PIDs we want to collect
             //the structure is <cmd, key>
-            var ret = new Dictionary<string, string>();
-            ret.Add("0104", "el");    //EngineLoad 
-            ret.Add("0106", "stfb");    //ShortTermFuelBank1 
-            ret.Add("0107", "ltfb");    //LongTermFuelBank1 
-            ret.Add("010C", "rpm");    //EngineRPM 
-            ret.Add("010D", "spd");    //Speed 
-            ret.Add("0110", "fr");    //MAFFlowRate
-            ret.Add("0111", "tp");    //ThrottlePosition 
-            ret.Add("011F", "rt");    //Runtime 
-            ret.Add("0121", "dis");    //DistancewithMIL 
-            ret.Add("0145", "rtp");    //RelativeThrottlePosition 
-            ret.Add("0146", "ot");    //OutsideTemperature
-            ret.Add("015E", "efr");    //EngineFuelRate
+            var ret = new Dictionary<string, string>
+            {
+                {"0104", "el"},
+                {"0106", "stfb"},
+                {"0107", "ltfb"},
+                {"010C", "rpm"},
+                {"010D", "spd"},
+                {"0110", "fr"},
+                {"0111", "tp"},
+                {"011F", "rt"},
+                {"0121", "dis"},
+                {"0145", "rtp"},
+                {"0146", "ot"},
+                {"015E", "efr"}
+            };
+            //EngineLoad 
+            //ShortTermFuelBank1 
+            //LongTermFuelBank1 
+            //EngineRPM 
+            //Speed 
+            //MAFFlowRate
+            //ThrottlePosition 
+            //Runtime 
+            //DistancewithMIL 
+            //RelativeThrottlePosition 
+            //OutsideTemperature
+            //EngineFuelRate
             return ret;
         }
+
         public static string GetEmulatorValue(string cmd)
         {
-            var r = new System.Random();
+            var r = new Random();
             switch (cmd)
             {
                 case "0104":
@@ -191,11 +211,11 @@ namespace ObdShare
                 case "0111":
                     return r.Next(0, 100).ToString();
                 case "011F":
-                    runtime = runtime + 2;
-                    return runtime.ToString();
+                    _runtime = _runtime + 2;
+                    return _runtime.ToString();
                 case "0121":
-                    distancewithML = distancewithML + 0.1;
-                    return ((int)distancewithML).ToString();
+                    _distancewithMl = _distancewithMl + 0.1;
+                    return ((int) _distancewithMl).ToString();
                 case "0145":
                     return r.Next(0, 100).ToString();
                 case "0146":
@@ -208,16 +228,16 @@ namespace ObdShare
 
         static string SimulateTemperatureValue(Random r)
         {
-            if (outsideTemperature == "0")
+            if (_outsideTemperature == "0")
             {
-                outsideTemperature = r.Next(0, 38).ToString();
+                _outsideTemperature = r.Next(0, 38).ToString();
             }
             else
             {
-                var temperature = Double.Parse(outsideTemperature);
+                var temperature = Double.Parse(_outsideTemperature);
 
                 // Returns variance value between .01 and .05
-                var variance = r.NextDouble() * (0.04) + .01;
+                var variance = r.NextDouble()*(0.04) + .01;
 
                 var varyTemperatureDirection = r.Next(0, 2);
                 if (varyTemperatureDirection == 0)
@@ -225,14 +245,15 @@ namespace ObdShare
                 else
                     temperature -= variance;
 
-                outsideTemperature = temperature.ToString();
+                _outsideTemperature = temperature.ToString();
             }
 
-            return outsideTemperature;
+            return _outsideTemperature;
         }
+
         static string SimulateEngineFuelRateValue(Random r)
         {
-            var variance = r.NextDouble() * 6 + 8;
+            var variance = r.NextDouble()*6 + 8;
             return variance.ToString();
         }
     }

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="IBaseStore.cs" />
     <Compile Include="IHubIOTStore.cs" />
+    <Compile Include="IPOIStore.cs" />
     <Compile Include="ITripStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IStoreManager.cs" />
