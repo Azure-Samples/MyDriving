@@ -1,0 +1,71 @@
+﻿<Page
+    x:Class="MyDriving.UWP.Views.CurrentTripView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyDriving.UWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
+     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+     x:Name="CURRENT">
+
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        
+        <StackPanel x:Name="HeaderPanel" Orientation="Horizontal" VerticalAlignment="Top" Height="Auto" Canvas.ZIndex="2" Background="#111111" >
+            
+            <StackPanel Name="Gallons" Orientation="Vertical" Height="Auto" Width="90">
+
+                <TextBlock  Name="text_fuel" Text="{x:Bind viewModel.FuelConsumption}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
+                <TextBlock  Name="text_fuelunits" Text="{x:Bind viewModel.FuelConsumptionUnits}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
+
+            </StackPanel>
+
+            <StackPanel Name="Distance" Orientation="Vertical" Height="Auto" Width="90">
+
+                <TextBlock  Name="text_distance" Text="{x:Bind viewModel.Distance}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
+                <TextBlock  Name="text_distanceunits" Text="{x:Bind viewModel.DistanceUnits}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
+
+            </StackPanel>
+
+            <StackPanel Name="Duration" Orientation="Vertical" Height="Auto" Width="90">
+
+                <TextBlock  Name="text_time" Text="{x:Bind viewModel.ElapsedTime}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
+                <TextBlock  Text="Duration" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
+
+            </StackPanel>
+           
+            <StackPanel Name="EngineLoad" Orientation="Vertical" Height="Auto" Width="90">
+
+                <TextBlock  Name="text_engineload" Text="{x:Bind viewModel.EngineLoad}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
+                <TextBlock  Text="Engine Load" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
+
+            </StackPanel>
+            
+
+        </StackPanel>
+        <Maps:MapControl
+           x:Name="MyMap" 
+            MapServiceToken="JCV6QKnfQrP6Be6UuefM~6L1fUqScbKx0MP5UBI4pRw~AjMaYd80GWWDlLjZ06u2r3SHjFKy74e3P6ggHUKk1HFJsGpH19At3an_CG98AgNc"
+            ZoomInteractionMode="GestureAndControl"
+            Canvas.ZIndex="0"
+            LandmarksVisible="True"
+            IsRightTapEnabled="true"
+           />
+        <Rectangle HorizontalAlignment="Stretch" Height="90" VerticalAlignment="Bottom" Fill="#FF8B7C7C" Opacity="0.4"  />
+        <Button x:Name="startRecordBtn"  Width="50" Height="50"  HorizontalAlignment="Center" VerticalAlignment="Bottom"  Canvas.ZIndex="4" Margin="0,16">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Ellipse Name="Elipse1" Stroke="White" Canvas.ZIndex="5"  StrokeThickness="3" >
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding RecordButtonImage}" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</Page>

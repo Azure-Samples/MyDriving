@@ -1,0 +1,57 @@
+﻿<Page
+    x:Class="MyDriving.UWP.Views.SplitViewShell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyDriving.UWP"
+      xmlns:controls="using:MyDriving.UWP.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="MainGrid" Background="{StaticResource MainBackgroundColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid Background="Black" x:Name="HamburgerGrid">
+            <Button x:Name="HamburgerButton" Width="40" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Background="Transparent" Click="HamburgerButton_Click" VerticalAlignment="Center" Foreground="#adacac"/>
+        </Grid>
+        <Grid Grid.Column="1" Background="#161b1f"  x:Name="TitleGrid">
+            <TextBlock x:Name="PageTitle" Margin="10,0,0,0" Foreground="#adacac" 
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"/>
+        </Grid>
+        <SplitView x:Name="MyDrivingSplitView" DisplayMode="Overlay"  IsPaneOpen="False" CompactPaneLength="32" OpenPaneLength="124"   Grid.Row="1" Grid.ColumnSpan="2">
+            <SplitView.Pane>
+                <StackPanel Background="Black"  x:Name="SplitViewPanel">
+                    <Button x:Name="NewTripButton"  Click="NewTripButton_Click" Style="{StaticResource SplitViewButtonStyle}">
+                        <controls:SplitViewButtonContent x:Name="Current" />
+                    </Button>
+
+                    <Button x:Name="TripsButton" Click="TripsButton_Click" Style="{StaticResource SplitViewButtonStyle}">
+                        <controls:SplitViewButtonContent x:Name="PastTrips" />
+                    </Button>
+
+                    <Button x:Name="ProfileButton" Click="ProfileButton_Click" Style="{StaticResource SplitViewButtonStyle}">
+                        <controls:SplitViewButtonContent x:Name="Profile" />
+                    </Button>
+
+                    <Button x:Name="SettingsButton" Click="SettingsButton_Click" Style="{StaticResource SplitViewButtonStyle}">
+                        <controls:SplitViewButtonContent x:Name="Settings" />
+                    </Button>
+
+                 <!-- 
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="TripSummaryButton" FontFamily="Segoe MDL2 Assets" Content="&#xE734;" Background="Transparent" Click="TripSummaryButton_Click"/>
+                        <TextBlock Text="Debug/TripSummary" VerticalAlignment="Center" />
+                    </StackPanel>
+                   -->
+                </StackPanel>
+            </SplitView.Pane>
+        </SplitView>
+    </Grid>
+</Page>

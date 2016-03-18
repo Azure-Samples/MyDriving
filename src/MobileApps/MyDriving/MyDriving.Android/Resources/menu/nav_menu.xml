@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_past_trips"
+		    android:icon="@drawable/menu_past_trips"
+            android:title="Past Trips" />
+        <item
+            android:id="@+id/menu_current_trip"
+            android:icon="@drawable/menu_current_trip"
+            android:title="Current Trip" />
+        <item
+            android:id="@+id/menu_profile"
+            android:icon="@drawable/menu_profile"
+            android:title="Profile" />
+        <item
+            android:id="@+id/menu_settings"
+            android:icon="@drawable/menu_settings"
+            android:title="Settings" />
+    </group>
+
+</menu>

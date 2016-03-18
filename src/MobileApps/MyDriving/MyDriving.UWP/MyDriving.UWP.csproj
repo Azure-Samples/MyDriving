@@ -1,0 +1,445 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{219EDCA6-56BB-4EBD-AE46-C691F0AED767}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyDriving.UWP</RootNamespace>
+    <AssemblyName>MyDriving.UWP</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>MyDriving.UWP_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <SkipValidatePackageReferences>true</SkipValidatePackageReferences>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|x86'">
+    <OutputPath>bin\x86\XTC\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|ARM'">
+    <OutputPath>bin\ARM\XTC\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|x64'">
+    <OutputPath>bin\x64\XTC\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|AnyCPU'">
+    <OutputPath>bin\XTC\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CirclePercentage.xaml.cs">
+      <DependentUpon>CirclePercentage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DotsControl.xaml.cs">
+      <DependentUpon>DotsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ProfileViewTabControl.xaml.cs">
+      <DependentUpon>ProfileViewTabControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SplitViewButtonContent.xaml.cs">
+      <DependentUpon>SplitViewButtonContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\DistanceConverter.cs" />
+    <Compile Include="Converters\ImageSourceConverter.cs" />
+    <Compile Include="Converters\NotConverter.cs" />
+    <Compile Include="Converters\SpeedConverter.cs" />
+    <Compile Include="Converters\StringFormatConverter.cs" />
+    <Compile Include="Converters\TimeConverter.cs" />
+    <Compile Include="Views\CurrentTripView.xaml.cs">
+      <DependentUpon>CurrentTripView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\Authentication.cs" />
+    <Compile Include="Helpers\BitmapImageConverter.cs" />
+    <Compile Include="Views\GetStarted1.xaml.cs">
+      <DependentUpon>GetStarted1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GetStarted2.xaml.cs">
+      <DependentUpon>GetStarted2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GetStarted3.xaml.cs">
+      <DependentUpon>GetStarted3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GetStarted4.xaml.cs">
+      <DependentUpon>GetStarted4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GetStarted5.xaml.cs">
+      <DependentUpon>GetStarted5.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PastTripMapView.xaml.cs">
+      <DependentUpon>PastTripMapView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProfileView.xaml.cs">
+      <DependentUpon>ProfileView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecommendedRoutes.xaml.cs">
+      <DependentUpon>RecommendedRoutes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SplitViewShell.xaml.cs">
+      <DependentUpon>SplitViewShell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PastTripsMenuView.xaml.cs">
+      <DependentUpon>PastTripsMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TripSummaryView.xaml.cs">
+      <DependentUpon>TripSummaryView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="MyDriving.UWP_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\A.png" />
+    <Content Include="Assets\B.png" />
+    <Content Include="Assets\Car Icon_Blue.png" />
+    <Content Include="Assets\Car Icon_Red.png" />
+    <Content Include="Assets\GetStarted\background.png" />
+    <Content Include="Assets\GetStarted\SCREEN1.png" />
+    <Content Include="Assets\GetStarted\SCREEN2.png" />
+    <Content Include="Assets\GetStarted\SCREEN3.png" />
+    <Content Include="Assets\GetStarted\SCREEN4.png" />
+    <Content Include="Assets\GetStarted\SCREEN5.png" />
+    <Content Include="Assets\ic_launcher144.png" />
+    <Content Include="Assets\ic_launcher48.png" />
+    <Content Include="Assets\ic_launcher48.scale-200.png" />
+    <Content Include="Assets\ic_launcher48.targetsize-48.png" />
+    <Content Include="Assets\ic_start.png" />
+    <Content Include="Assets\ic_stop.png" />
+    <Content Include="Assets\Login\appLogo.png" />
+    <Content Include="Assets\Login\facebook.png" />
+    <Content Include="Assets\ic_start_point.png" />
+    <Content Include="Assets\ic_end_point.png" />
+    <Content Include="Assets\ic_car_blue.png" />
+    <Content Include="Assets\ic_car_red.png" />
+    <Content Include="Assets\Login\logo.png" />
+    <Content Include="Assets\Login\Microsoft.png" />
+    <Content Include="Assets\Login\twitter.png" />
+    <Content Include="Assets\logo%403x.png" />
+    <Content Include="Assets\mappin.png" />
+    <Content Include="Assets\Smarttriplogo.png" />
+    <Content Include="Assets\SplitView\default_Current.png" />
+    <Content Include="Assets\SplitView\default_logout.png" />
+    <Content Include="Assets\SplitView\default_pastTrips.png" />
+    <Content Include="Assets\SplitView\default_profile.png" />
+    <Content Include="Assets\SplitView\default_settings.png" />
+    <Content Include="Assets\SplitView\Current.png" />
+    <Content Include="Assets\SplitView\logout.png" />
+    <Content Include="Assets\SplitView\pastTrips.png" />
+    <Content Include="Assets\SplitView\profile.png" />
+    <Content Include="Assets\SplitView\settings.png" />
+    <Content Include="Assets\SplitView\selected_Current.png" />
+    <Content Include="Assets\SplitView\selected_logout.png" />
+    <Content Include="Assets\SplitView\selected_pastTrips.png" />
+    <Content Include="Assets\SplitView\selected_profile.png" />
+    <Content Include="Assets\SplitView\selected_settings.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\StartRecord.png" />
+    <Content Include="Assets\StopRecord.png" />
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\car_annotation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Controls\CirclePercentage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\DotsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ProfileViewTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SplitViewButtonContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CurrentTripView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GetStarted1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GetStarted2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GetStarted3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GetStarted4.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GetStarted5.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PastTripMapView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ProfileView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecommendedRoutes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SplitViewShell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\PastTripsMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TripSummaryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\OBDLibrary\ObdLibUWP\ObdLibUWP.csproj">
+      <Project>{812692d4-c638-4fd1-aea7-407824b134a6}</Project>
+      <Name>ObdLibUWP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDriving.AzureClient\MyDriving.AzureClient.csproj">
+      <Project>{29b6b823-6639-4942-9723-0075bbef7c69}</Project>
+      <Name>MyDriving.AzureClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDriving.DataStore.Abstractions\MyDriving.DataStore.Abstractions.csproj">
+      <Project>{649300ce-70ea-4606-983f-f4476fdd6c7e}</Project>
+      <Name>MyDriving.DataStore.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDriving.DataStore.Azure\MyDriving.DataStore.Azure.csproj">
+      <Project>{e05fb3d8-372d-4fd3-84f3-1e908e3861b6}</Project>
+      <Name>MyDriving.DataStore.Azure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDriving.DataStore.Mock\MyDriving.DataStore.Mock.csproj">
+      <Project>{42f3d3df-b854-4a5b-9c94-f3d823116ad5}</Project>
+      <Name>MyDriving.DataStore.Mock</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDriving.Utils\MyDriving.Utils.csproj">
+      <Project>{cef8cb82-b2bf-42d0-998c-8c50a4ca7ae6}</Project>
+      <Name>MyDriving.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDriving\MyDriving.csproj">
+      <Project>{a68cccda-e4a5-4128-920f-ac00ecb9e3e6}</Project>
+      <Name>MyDriving</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="SQLite.UWP.2015, Version=3.11.1">
+      <Name>SQLite for Universal Windows Platform</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="..\MyDriving.Shared\MyDriving.Shared.projitems" Label="Shared" />
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

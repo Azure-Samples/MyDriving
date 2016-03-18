@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="login_facebook">Login with Facebook</string>
+    <string name="login_twitter">Login with Twitter</string>
+    <string name="login_microsoft">Login with Microsoft</string>
+    
+</resources>
