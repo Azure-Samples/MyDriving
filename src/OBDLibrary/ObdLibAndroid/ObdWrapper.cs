@@ -294,7 +294,14 @@ namespace ObdLibAndroid
             }
             if (_bluetoothSocket != null)
             {
-                _bluetoothSocket.Close();
+                try
+                {
+                    _bluetoothSocket.Close();
+                }
+                catch (System.Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                }
                 _bluetoothSocket = null;
             }
         }
