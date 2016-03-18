@@ -1,6 +1,7 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System.Reflection;
 using Android.App;
 
 // Information about this assembly is defined by the following attributes. 
