@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
-using System;
 using Xamarin.UITest;
 using NUnit.Framework;
 
@@ -23,7 +22,7 @@ namespace MyDriving.UITests
                 .SetCapacitySetting()
                 .NavigateFromSettingsDetailPage();
 
-            app.Screenshot("Changed Capacity Setting");
+            App.Screenshot("Changed Capacity Setting");
         }
 
         [Test]
@@ -36,7 +35,7 @@ namespace MyDriving.UITests
                 .SetDistanceSetting()
                 .NavigateFromSettingsDetailPage();
 
-            app.Screenshot("Changed Distance Setting");
+            App.Screenshot("Changed Distance Setting");
         }
 
 
@@ -48,7 +47,7 @@ namespace MyDriving.UITests
                 .NavigateToSettingsPage()
                 .Logout();
 
-            app.Screenshot("Logged out");
+            App.Screenshot("Logged out");
         }
     }
 }

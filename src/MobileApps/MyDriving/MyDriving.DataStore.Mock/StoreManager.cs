@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using MyDriving.DataStore.Abstractions;
 using MyDriving.Utils;
 using System.Threading.Tasks;
@@ -26,19 +28,20 @@ namespace MyDriving.DataStore.Mock
 
         public bool IsInitialized => true;
 
-        ITripStore tripStore;
-        public ITripStore TripStore => tripStore ?? (tripStore = ServiceLocator.Instance.Resolve<ITripStore>());
+        ITripStore _tripStore;
+        public ITripStore TripStore => _tripStore ?? (_tripStore = ServiceLocator.Instance.Resolve<ITripStore>());
 
-        IPhotoStore photoStore;
-        public IPhotoStore PhotoStore => photoStore ?? (photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
+        IPhotoStore _photoStore;
+        public IPhotoStore PhotoStore => _photoStore ?? (_photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
 
-        IUserStore userStore;
-        public IUserStore UserStore => userStore ?? (userStore = ServiceLocator.Instance.Resolve<IUserStore>());
+        IUserStore _userStore;
+        public IUserStore UserStore => _userStore ?? (_userStore = ServiceLocator.Instance.Resolve<IUserStore>());
 
-        IHubIOTStore iotHubStore;
-        public IHubIOTStore IOTHubStore => iotHubStore ?? (iotHubStore = ServiceLocator.Instance.Resolve<IHubIOTStore>());
+        IHubIOTStore _iotHubStore;
+
+        public IHubIOTStore IOTHubStore
+            => _iotHubStore ?? (_iotHubStore = ServiceLocator.Instance.Resolve<IHubIOTStore>());
 
         #endregion
     }
 }
-
