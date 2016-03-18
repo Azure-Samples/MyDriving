@@ -79,20 +79,23 @@ namespace MyDriving.UWP.Views
 
         private void ShowUserWelcome()
         {
-            if (!string.IsNullOrWhiteSpace(Settings.Current.AzureMobileUserId))
-            {
-                LoginButtons.Visibility = Visibility.Collapsed;
-                AppLogo.Visibility = Visibility.Collapsed;
-                WelcomeText.Text = "Welcome " + Settings.Current.UserFirstName + "!";
-                WelcomeText.Visibility = Visibility.Visible;
-                SetImageSource();
-                ProfileImage.Visibility = Visibility.Visible;
-                ContinueButton.Visibility = Visibility.Visible;
-            }
-            else //if no user info to show, go directly to next page
-            {
-                Frame.Navigate(typeof (CurrentTripView));
-            }
+            Frame.Navigate(typeof(CurrentTripView));
+            /*         if (!string.IsNullOrWhiteSpace(Settings.Current.AzureMobileUserId))
+                     {
+                         AppLogo.Visibility = Visibility.Collapsed;
+                         LoginButtons.Visibility = Visibility.Collapsed;
+                         AppLogo.Visibility = Visibility.Collapsed;
+                         WelcomeText.Text = "Welcome " + Settings.Current.UserFirstName + "!";
+                         WelcomeText.Visibility = Visibility.Visible;
+                         SetImageSource();
+                         ProfileImage.Visibility = Visibility.Visible;
+                         ContinueButton.Visibility = Visibility.Visible;
+                     }
+                     else //if no user info to show, go directly to next page
+                     {
+                         Frame.Navigate(typeof (CurrentTripView));
+                     }
+                     */
         }
 
         private void Continue_Click(object sender, RoutedEventArgs e)
