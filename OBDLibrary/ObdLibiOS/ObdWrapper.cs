@@ -14,7 +14,7 @@ namespace ObdLibiOS
     {
         const uint BufSize = 1024;
         const int Interval = 100;
-        const string DefValue = "";
+        const string DefValue = "-255";
         private bool _connected = true;
         private Dictionary<string, string> _data = null;
         private Object _lock = new Object();
