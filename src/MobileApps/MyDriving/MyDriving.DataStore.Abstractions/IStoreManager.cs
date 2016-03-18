@@ -15,5 +15,6 @@ namespace MyDriving.DataStore.Abstractions
         IPOIStore POIStore { get; }
         Task<bool> SyncAllAsync(bool syncUserSpecific);
         Task DropEverythingAsync();
+        Task InitializeAsync();
     }
 }

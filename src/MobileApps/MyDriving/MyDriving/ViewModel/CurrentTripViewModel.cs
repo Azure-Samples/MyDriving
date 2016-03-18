@@ -281,14 +281,17 @@ namespace MyDriving.ViewModel
             }
 
             var poiList = (List<POI>)await StoreManager.POIStore.GetItemsAsync();
+            CurrentTrip.HardStops = poiList.Where(p => p.POIType == POIType.HardBrake).Count();
+            CurrentTrip.HardAccelerations = poiList.Where(p => p.POIType == POIType.HardAcceleration).Count();
+
             TripSummary = new TripSummaryViewModel
             {
                 TotalTime = (CurrentTrip.EndTimeStamp - CurrentTrip.RecordedTimeStamp).TotalSeconds,
                 TotalDistance = CurrentTrip.Distance,
                 FuelUsed = CurrentTrip.FuelUsed,
                 MaxSpeed = CurrentTrip.Points.Max(s => s.Speed),
-                HardStops = poiList.Where(p => p.POIType == POIType.HardBrake).Count(),
-                HardAccelerations = poiList.Where(p => p.POIType == POIType.HardAcceleration).Count(),
+                HardStops = CurrentTrip.HardStops,
+                HardAccelerations = CurrentTrip.HardAccelerations,
                 Date = DateTime.UtcNow
             };
 

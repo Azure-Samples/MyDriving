@@ -11,20 +11,6 @@ namespace MyDriving.DataStore.Mock.Stores
 {
     public class POIStore : BaseStore<POI>, IPOIStore
     {
-        List<POI> poiList;
-
-        public POIStore()
-        {
-            this.poiList = new List<POI>();
-
-            Random r = new Random();
-            for (int i = 0; i < 25; i++)
-            {
-                POI p = AddMockPOI(r);
-                poiList.Add(p);
-            }
-        }
-
         public override Task<bool> PullLatestAsync()
         {
             return Task.FromResult(true);
@@ -37,7 +23,23 @@ namespace MyDriving.DataStore.Mock.Stores
 
         public override Task<IEnumerable<POI>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
-            return Task.FromResult(this.poiList.AsEnumerable());
+            var poiList = this.GenRandomPOI();
+            return Task.FromResult(poiList.AsEnumerable());
+        }
+
+        private List<POI> GenRandomPOI()
+        {
+            var poiList = new List<POI>();
+
+            Random r = new Random();
+            int numPoints = r.Next(1, 25);
+            for (int i = 0; i < numPoints; i++)
+            {
+                POI p = AddMockPOI(r);
+                poiList.Add(p);
+            }
+
+            return poiList;
         }
 
         private POI AddMockPOI(Random r)
