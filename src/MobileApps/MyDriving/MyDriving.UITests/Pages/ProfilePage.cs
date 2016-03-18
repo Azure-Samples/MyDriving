@@ -6,45 +6,29 @@ namespace MyDriving.UITests
 	public class ProfilePage : BasePage
 	{
 		public ProfilePage ()
+            : base ("profile_image", "ios_trait")
 		{
-			app.Screenshot ("Profile Page");
 		}
 
-		public ProfilePage NavigateToProfilePage ()
-		{
-			app.Tap ("Profile");
+		//public ProfilePage NavigateToProfilePage ()
+		//{
+		//	app.Tap ("Profile");
 
-			return this;
-		}
+		//	return this;
+		//}
 
-		public ProfilePage NavigateToSettingsPage ()
-		{
-            NavigateTo("Settings");
-			return this;
-		}
+		//public ProfilePage NavigateToSettingsPage ()
+		//{
+  //          NavigateTo("Settings");
+		//	return this;
+		//}
 
-		public ProfilePage NavigateFromSettingsDetailPage ()
-		{
-			app.Tap ("Settings");
+		//public ProfilePage NavigateFromSettingsDetailPage ()
+		//{
+		//	app.Tap ("Settings");
 
-			return this;
-		}
-
-		public ProfilePage SetDistanceSetting ()
-		{
-			app.Tap ("Metric (km)");
-			app.Screenshot ("Set Distance Setting");
-
-			return this;
-		}
-
-		public ProfilePage SetCapacitySetting ()
-		{
-			app.Tap ("Metric (liters)");
-			app.Screenshot ("Set Capacity Setting");
-
-			return this;
-		}
+		//	return this;
+		//}
 
 		public ProfilePage NavigateToDistanceSetting ()
 		{

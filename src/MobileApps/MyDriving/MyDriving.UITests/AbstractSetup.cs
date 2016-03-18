@@ -47,12 +47,19 @@ namespace MyDriving.UITests
 		public void ClearKeychain ()
 		{
             if (OnAndroid)
+            {
+                app = ConfigureApp.Android.ApkFile(AppInitializer.apkPath).StartApp();
                 return;
-            
-			if (!app.Query ("LoginWithFacebook").Any ()) {
-				app.TestServer.Post("/keychain", new object());
-				app = ConfigureApp.iOS.StartApp();
-			}
+            }
+
+            else
+            {
+                if (!app.Query("LoginWithFacebook").Any())
+                {
+                    app.TestServer.Post("/keychain", new object());
+                    app = ConfigureApp.iOS.StartApp();
+    			}
+            }
 		}
 	}
 }

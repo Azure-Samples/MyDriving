@@ -49,7 +49,7 @@ namespace MyDriving.UITests
 		/// Verifies that the trait is still present. Defaults to no wait.
 		/// </summary>
 		/// <param name="timeout">Time to wait before the assertion fails</param>
-		protected void AssertOnPage(TimeSpan? timeout = default(TimeSpan?))
+        public void AssertOnPage(TimeSpan? timeout = default(TimeSpan?))
 		{
 			if (Trait == null)
 				throw new NullReferenceException("Trait not set");
@@ -108,8 +108,8 @@ namespace MyDriving.UITests
         {
             if (OnAndroid)
             {
-                Hamburger = x => x.Class("ImageButton").Marked("OK");
-                Tab = name => x => x.Class("NavigationMenuItemView").Text(name);
+                Hamburger = x => x.Marked("Navigate up");
+                Tab = name => x => x.Id("design_menu_item_text").Text(name);
             }
 
             if (OniOS)

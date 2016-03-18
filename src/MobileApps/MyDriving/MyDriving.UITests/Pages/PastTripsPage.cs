@@ -9,13 +9,14 @@ namespace MyDriving.UITests
         string SliderId;
         string PageId;
         public PastTripsPage()
+            : base ("android_trait", "ios_trait")
         {
             if (OniOS)
             {
                 SliderId = "UISlider";
                 PageId = "Trips";
             }
-            else
+            else if (OnAndroid)
             {
                 SliderId = "SeekBar";
                 PageId = "Past Trips";

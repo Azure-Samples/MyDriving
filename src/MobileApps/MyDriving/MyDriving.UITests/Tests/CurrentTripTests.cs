@@ -18,6 +18,8 @@ namespace MyDriving.UITests
                 .StartRecordingTrip()
                 .StopRecordingTrip()
                 .SaveTrip("Test Cloud Test Drive");
+
+            //TODO: verify trip saved
 		}
 	}
 }

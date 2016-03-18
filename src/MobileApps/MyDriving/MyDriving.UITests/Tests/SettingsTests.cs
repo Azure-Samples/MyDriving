@@ -13,12 +13,19 @@ namespace MyDriving.UITests
 		[Test]
 		public void ChangeDistanceUnits ()
 		{
-			new ProfilePage ()
-				.NavigateToProfilePage ()
-				.NavigateToSettingsPage ()
-				.NavigateToDistanceSetting ()
-				.SetDistanceSetting ()
-				.NavigateFromSettingsDetailPage ();
+            new CurrentTripPage()
+                .NavigateTo("Settings");
+
+            new SettingsPage()
+                .SetDistanceSetting()
+                .NavigateTo("Profile");
+
+			//new ProfilePage ()
+			//	.NavigateToProfilePage ()
+			//	.NavigateToSettingsPage ()
+			//	.NavigateToDistanceSetting ()
+			//	.SetDistanceSetting ()
+			//	.NavigateFromSettingsDetailPage ();
 
 			app.Screenshot ("Changed Distance Setting");
 		}
@@ -26,12 +33,19 @@ namespace MyDriving.UITests
 		[Test]
 		public void ChangeCapacityUnits ()
 		{
-			new ProfilePage ()
-				.NavigateToProfilePage ()
-				.NavigateToSettingsPage ()
-				.NavigateToCapacitySetting ()
-				.SetCapacitySetting ()
-				.NavigateFromSettingsDetailPage ();
+            new CurrentTripPage()
+                .NavigateTo("Settings");
+
+            new SettingsPage()
+                .SetCapacitySetting()
+                .NavigateTo("Profile");
+
+			//new ProfilePage ()
+			//	.NavigateToProfilePage ()
+			//	.NavigateToSettingsPage ()
+			//	.NavigateToCapacitySetting ()
+			//	.SetCapacitySetting ()
+			//	.NavigateFromSettingsDetailPage ();
 
 			app.Screenshot ("Changed Capacity Setting");
 		}
@@ -41,10 +55,13 @@ namespace MyDriving.UITests
 		[Test]
 		public void Logout ()
 		{
-			new ProfilePage ()
-				.NavigateToProfilePage ()
-				.NavigateToSettingsPage ()
-				.Logout ();
+            new CurrentTripPage()
+                .NavigateTo("Settings");
+
+			//new ProfilePage ()
+			//	.NavigateToProfilePage ()
+			//	.NavigateToSettingsPage ()
+			//	.Logout ();
 
 			app.Screenshot ("Logged out");
 		}

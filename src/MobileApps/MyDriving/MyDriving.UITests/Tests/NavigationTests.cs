@@ -13,23 +13,32 @@ namespace MyDriving.UITests
 		[Test]
 		public void NavigateToProfileTabTest ()
 		{
-			new ProfilePage ()
-				.NavigateToProfilePage ();
+            new CurrentTripPage()
+                .NavigateTo("Profile");
+
+            new ProfilePage()
+                .AssertOnPage();
 		}
 
 		[Test]
 		public void NavigateToSettingsTest ()
 		{
-			new ProfilePage ()
-				.NavigateToProfilePage ()
-				.NavigateToSettingsPage ();
+            new CurrentTripPage()
+                .NavigateTo("Settings");
+
+            new SettingsPage()
+                .AssertOnPage();
 		}
 
 		[Test]
 		public void NavigateToPastTripsTabTest ()
 		{
-			new PastTripsPage ()
-				.NavigateToPastTripsPage ();
+            new CurrentTripPage()
+                .NavigateTo("Past Trips");
+
+            new PastTripsPage()
+                .AssertOnPage();
+
 		}
 
 		[Test]
