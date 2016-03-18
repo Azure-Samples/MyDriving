@@ -36,7 +36,7 @@ namespace MyDriving.UWP.Views
             FuelConsumptionTab.Title2 = "used";
 
             HardBreaksTab.Title1 = "Hard";
-            HardBreaksTab.Title2 = "BREAKS";
+            HardBreaksTab.Title2 = "STOPS";
 
             HardAccelTab.Title1 = "Hard";
             HardAccelTab.Title2 = "ACCEL";

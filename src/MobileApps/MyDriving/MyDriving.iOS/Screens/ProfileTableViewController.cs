@@ -58,7 +58,7 @@ namespace MyDriving.iOS
                 new DrivingStatistic {Name = "Total Duration", Value = ViewModel.TotalTimeDisplay},
                 new DrivingStatistic {Name = "Max Speed", Value = ViewModel.MaxSpeedDisplay},
                 new DrivingStatistic {Name = "Fuel Consumption", Value = ViewModel.FuelDisplay},
-                new DrivingStatistic {Name = "Hard Breaks", Value = ViewModel.HardStops.ToString()},
+                new DrivingStatistic {Name = "Hard Stops", Value = ViewModel.HardStops.ToString()},
                 new DrivingStatistic {Name = "Hard Accelerations", Value = ViewModel.HardAccelerations.ToString()},
                 new DrivingStatistic {Name = "Total Trips", Value = ViewModel.TotalTrips.ToString()},
             };
