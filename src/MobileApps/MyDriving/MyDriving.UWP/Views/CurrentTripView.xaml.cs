@@ -62,7 +62,8 @@ namespace MyDriving.UWP.Views
         public void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
+        }
+             
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
@@ -231,7 +232,7 @@ namespace MyDriving.UWP.Views
 
         private async void SessionRevoked(object sender, ExtendedExecutionRevokedEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 switch (args.Reason)
                 {
@@ -246,7 +247,7 @@ namespace MyDriving.UWP.Views
                         break;
                 }
                 // Once Resumed we need to start the extended execution again.
-                BeginExtendedExecution();
+                await BeginExtendedExecution();
             });
         }
        
