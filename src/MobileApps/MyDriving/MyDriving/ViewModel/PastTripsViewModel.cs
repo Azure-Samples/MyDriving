@@ -65,7 +65,7 @@ namespace MyDriving.ViewModel
                 return;
 
             var track = Logger.Instance.TrackTime("LoadTrips");
-            track.Start();
+            track?.Start();
 
 			IProgressDialog progressDialog = null;
 			
@@ -87,7 +87,7 @@ namespace MyDriving.ViewModel
             } 
             finally 
             {
-                track.Stop();
+                track?.Stop();
                 IsBusy = false;
 
 				progressDialog?.Dispose();
@@ -111,7 +111,7 @@ namespace MyDriving.ViewModel
                 return;
 
             var track = Logger.Instance.TrackTime("LoadMoreTrips");
-            track.Start();
+            track?.Start();
             var progress = UserDialogs.Instance.Loading("Loading more trips...", maskType: MaskType.Clear);
             
             try
@@ -127,7 +127,7 @@ namespace MyDriving.ViewModel
             } 
             finally 
             {
-                track.Stop();
+                track?.Stop();
                 IsBusy = false;
                 progress?.Dispose();
             }
