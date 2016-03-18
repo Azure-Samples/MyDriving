@@ -73,75 +73,7 @@ namespace MyTrips.DataStore.Mock.Stores
             AddTripDetails(trip1, 24, 47.738992, -122.185225, startTime.AddMinutes(timeIncrement++));
             AddTripDetails(trip1, 25, 47.738988, -122.185227, startTime.AddMinutes(timeIncrement++));
 
-            var trip2 = new Trip();
-            trip2.UserId = "Cindy";
-            trip2.Name = trip2.UserId + " - Seattle";
-            trip2.Distance = 22;
 
-            startTime = DateTime.UtcNow.AddDays(-2.0);
-            trip2.RecordedTimeStamp = startTime;
-            trip2.EndTimeStamp = startTime;
-            timeIncrement = 1;
-            AddTripDetails(trip2, 1, 47.738928, -122.185165, startTime);
-            AddTripDetails(trip2, 2, 47.738929, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip2, 3, 47.738930, -122.185167, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip2, 4, 47.738928, -122.185167, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip2, 5, 47.738926, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip2, 6, 47.738923, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip2, 7, 47.738924, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip2, 8, 47.738924, -122.185168, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip2, 9, 47.738925, -122.185168, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip2, 10, 47.738926, -122.185167, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip2, 11, 47.738927, -122.185167, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip2, 12, 47.738928, -122.185166, startTime.AddMinutes(timeIncrement++));
-
-            Trip trip3 = new Trip();
-            trip3.UserId = "Hashi";
-            trip3.Name = trip3.UserId + " - Portland";
-            trip3.Distance = 173;
-
-            startTime = DateTime.UtcNow.AddDays(-10.0);
-            trip3.RecordedTimeStamp = startTime;
-            trip3.EndTimeStamp = startTime;
-            timeIncrement = 1;
-            AddTripDetails(trip3, 2, 47.738929, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 3, 47.738930, -122.185167, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 4, 47.738928, -122.185167, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 5, 47.738926, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 6, 47.738923, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 7, 47.738924, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 8, 47.738924, -122.185168, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 9, 47.738925, -122.185168, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 10, 47.738926, -122.185167, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 11, 47.738927, -122.185167, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 12, 47.738928, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 13, 47.738929, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 14, 47.738929, -122.185167, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 15, 47.738939, -122.185169, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 16, 47.738915, -122.185122, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 17, 47.738377, -122.185458, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 18, 47.738578, -122.185435, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 19, 47.738579, -122.185436, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip3, 20, 47.739069, -122.185258, startTime.AddMinutes(timeIncrement++));
-
-            Trip trip4 = new Trip();
-            trip4.UserId = "Scott";
-            trip4.Name = trip3.UserId + " - Bellevue";
-            trip4.Distance = 22;
-
-            startTime = DateTime.UtcNow.AddMonths(-3);
-            trip4.RecordedTimeStamp = startTime;
-            trip4.EndTimeStamp = startTime;
-            timeIncrement = 1;
-            AddTripDetails(trip4, 2, 47.738929, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip4, 3, 47.738930, -122.185167, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip4, 4, 47.738928, -122.185167, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip4, 5, 47.738926, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip4, 6, 47.738923, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip4, 7, 47.738924, -122.185166, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip4, 8, 47.738924, -122.185168, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip4, 9, 47.738925, -122.185168, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip4, 10, 47.738926, -122.185167, startTime.AddMinutes(timeIncrement++));
 
             Trip trip5 = new Trip();
             trip5.UserId = "Amanda";
@@ -201,8 +133,6 @@ namespace MyTrips.DataStore.Mock.Stores
                 trip6 = JsonConvert.DeserializeObject<Trip>(json);
                 trip6.Photos = new List<Photo>();
                 trip6.MainPhotoUrl = "http://www.livingwilderness.com/seattle/space-needle-fog.jpg";
-                trip6.RecordedTimeStamp = DateTime.UtcNow.AddHours(-1);
-                trip6.EndTimeStamp = DateTime.UtcNow;
                 foreach (var pt in trip6.Points)
                 {
                     pt.EngineLoad = random.Next(25, 75);
@@ -222,7 +152,7 @@ namespace MyTrips.DataStore.Mock.Stores
 
             var items = new List<Trip>
             { 
-                trip1, trip2, trip3, trip4, trip5, trip6
+                trip1, trip5, trip6
             };
 
 
