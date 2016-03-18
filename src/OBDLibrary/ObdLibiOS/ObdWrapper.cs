@@ -170,13 +170,11 @@ namespace ObdLibiOS
                 _running = false;
                 if (_stream != null)
                 {
-                    _stream.Dispose();
                     _stream.Close();
                     _stream = null;
                 }
                 if (_socket != null)
                 {
-                    _socket.Shutdown(SocketShutdown.Both);
                     _socket.Close();
                     _socket = null;
                 }
