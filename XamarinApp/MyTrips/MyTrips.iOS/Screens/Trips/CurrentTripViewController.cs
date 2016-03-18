@@ -170,13 +170,6 @@ namespace MyTrips.iOS
 				
 				return;
 			}
-			
-			var position = await CurrentTripViewModel.Geolocator.GetPositionAsync();
-			var coordinate = position.ToCoordinate();
-
-			var endpoint = !CurrentTripViewModel.IsRecording ? "A" : "B";
-			var annotation = new WaypointAnnotation(coordinate, endpoint);
-			tripMapView.AddAnnotation(annotation);
 
 			if (!CurrentTripViewModel.IsRecording)
 			{
@@ -189,6 +182,10 @@ namespace MyTrips.iOS
 
 				if (CurrentTripViewModel.CurrentTrip.HasSimulatedOBDData)
 					NavigationItem.Title = "Current Trip (Sim OBD)";
+
+				var endpoint = "A";
+				var annotation = new WaypointAnnotation(CurrentTripViewModel.CurrentPosition.ToCoordinate(), endpoint);
+				tripMapView.AddAnnotation(annotation);
 			}
 			else
 			{
@@ -405,3 +402,4 @@ namespace MyTrips.iOS
 		#endregion
 	}
 }
+ 
