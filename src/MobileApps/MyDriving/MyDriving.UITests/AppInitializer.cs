@@ -9,7 +9,6 @@ namespace MyDriving.UITests
 {
     public class AppInitializer
     {
-		//const string apkPath = "../../../com.xamarin.samples.taskydroid-Signed.apk";
 		const string appPath = "../../../MyDriving.iOS/bin/iPhoneSimulator/Release/MyDrivingiOS.app";
         public static string apkPath;
 
@@ -33,22 +32,19 @@ namespace MyDriving.UITests
 				string dir = fi.Directory.Parent.Parent.Parent.FullName;
 
 				// PathToAPK is a property or an instance variable in the test class
-				var PathToAPK = Path.Combine(dir, "MyDriving.Android", "bin", "XTC", "com.microsoft.mydriving-Signed.apk");
-
-                apkPath = PathToAPK;
+				apkPath = Path.Combine(dir, "MyDriving.Android", "bin", "XTC", "com.microsoft.mydriving-Signed.apk");
 
 				app = ConfigureApp
 					.Android
-					.ApkFile(PathToAPK)
+                    .ApkFile(apkPath)
                     .StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear);
 			}
 			else
 			{
 				app = ConfigureApp
 					.iOS
-					.AppBundle(appPath)
-                    //.InstalledApp("com.microsoft.mydriving")
-                    .DeviceIdentifier("12E1403A-9101-4760-A2E4-115E32B38DF2")
+					//.AppBundle(appPath)
+                    .InstalledApp("com.microsoft.mydriving")
 					.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear);
 			}
 

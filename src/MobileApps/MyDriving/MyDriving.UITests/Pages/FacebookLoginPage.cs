@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+
 namespace MyDriving.UITests
 {
     public class FacebookLoginPage : BasePage
@@ -22,6 +24,14 @@ namespace MyDriving.UITests
             app.Screenshot("Entered Facebook Credentials");
 
             app.Tap(c => c.Css("#u_0_5"));
+
+            try
+            {
+                app.WaitForElement("Do you want the browser to remember this password?", timeout: TimeSpan.FromSeconds(5));
+                app.Tap("Not now");
+            }
+            catch { }
+                
         }
     }
 }
