@@ -200,7 +200,7 @@ namespace MyDriving.iOS
 					tripInfoView.Alpha = 0;
 					NavigationItem.Title = "Current Trip";
 
-                    await ViewModel.SaveRecordingTripAsync();
+					await CurrentTripViewModel.SaveRecordingTripAsync();
 
 					var vc = Storyboard.InstantiateViewController("tripSummaryViewController") as TripSummaryViewController;
 					vc.ViewModel = CurrentTripViewModel;
