@@ -285,9 +285,16 @@ namespace ObdLibiOS
             }
             if (_socket != null)
             {
+                try
+                {
                 _socket.Shutdown(SocketShutdown.Both);
                 _socket.Close();
                 _socket = null;
+                }
+                catch (System.Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                }
             }
         }
     }
