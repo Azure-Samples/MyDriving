@@ -160,13 +160,14 @@ namespace MyDriving.UWP.Views
             {
                 case GeolocationAccessStatus.Allowed:
                     // Need to Get the position to Get the map to focus on current position. 
-                    var position = await ViewModel.Geolocator.GetPositionAsync();
+                   /* var position = await ViewModel.Geolocator.GetPositionAsync();
                     var basicPosition = new BasicGeoposition()
                     {
                         Latitude = position.Latitude,
                         Longitude = position.Longitude
                     };
                     UpdateMap_PositionChanged(basicPosition);
+                    */
                     startRecordBtn.IsEnabled = true;
                     break;
 
