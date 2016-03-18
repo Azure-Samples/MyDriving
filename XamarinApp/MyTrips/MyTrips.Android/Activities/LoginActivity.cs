@@ -52,6 +52,8 @@ namespace MyTrips.Droid.Activities
                 StartActivity(intent);
                 Finish();
             };
+            var typeface = Typeface.CreateFromAsset(Assets, "fonts/Corbert-Regular.otf");
+            FindViewById<TextView>(Resource.Id.text_app_name).Typeface = typeface;
         }
 
         void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

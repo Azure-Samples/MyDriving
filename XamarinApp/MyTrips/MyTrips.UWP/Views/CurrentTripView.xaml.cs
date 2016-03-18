@@ -47,8 +47,7 @@ namespace MyTrips.UWP.Views
         private ImageSource recordButtonImage;
 
         private ExtendedExecutionSession session = null;
-        private Timer periodicTimer;
-
+    
         public IList<BasicGeoposition> Locations { get; set; }
 
 
@@ -175,13 +174,10 @@ namespace MyTrips.UWP.Views
             switch (accessStatus)
             {
                 case GeolocationAccessStatus.Allowed:
-                    // You should set MovementThreshold for distance-based tracking
-                    // or ReportInterval for periodic-based tracking before adding event
-                    // handlers. If none is set, a ReportInterval of 1 second is used
-                    // as a default and a position will be returned every 1 second.
-                    //
-
-                   // await BeginExtendedExecution(viewModel);
+                    // Need to Get the position to Get the map to focus on current position. 
+                    var position = await viewModel.Geolocator.GetPositionAsync();
+                    var basicPosition = new BasicGeoposition() { Latitude = position.Latitude, Longitude = position.Longitude };
+                    UpdateMap_PositionChanged(basicPosition);
                     startRecordBtn.IsEnabled = true;
                     break;
 
@@ -395,12 +391,12 @@ namespace MyTrips.UWP.Views
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                this.text_time.Text = viewModel.ElapsedTime;
-                this.text_miles.Text = viewModel.Distance;
-                this.text_gallons.Text = viewModel.FuelConsumption;
-                this.text_temp.Text = viewModel.EngineLoad;
-                this.text_distanceunits.Text = viewModel.DistanceUnits;
+                this.text_fuel.Text = viewModel.FuelConsumption;
                 this.text_fuelunits.Text = viewModel.FuelConsumptionUnits;
+                this.text_distance.Text = viewModel.Distance;
+                this.text_distanceunits.Text = viewModel.DistanceUnits;
+                this.text_time.Text = viewModel.ElapsedTime;
+                this.text_engineload.Text = viewModel.EngineLoad;
             });
         }
 

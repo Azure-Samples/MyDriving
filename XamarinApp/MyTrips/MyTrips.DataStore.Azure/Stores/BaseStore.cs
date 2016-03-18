@@ -60,8 +60,10 @@ namespace MyTrips.DataStore.Azure.Stores
         public virtual async Task<IEnumerable<T>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
             await InitializeStoreAsync().ConfigureAwait(false);
-            if(forceRefresh)
-                await PullLatestAsync().ConfigureAwait(false);
+            if (forceRefresh)
+            {
+                await SyncAsync().ConfigureAwait(false);
+            }
 
             return await Table.ToEnumerableAsync().ConfigureAwait(false);
         }
