@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -21,7 +24,7 @@ namespace MyDrivingService.Controllers
         // GET tables/IOTHubData
         public IQueryable<IOTHubData> GetAllIOTHubData()
         {
-            return Query(); 
+            return Query();
         }
 
         // GET tables/IOTHubData/<id>
@@ -33,20 +36,20 @@ namespace MyDrivingService.Controllers
         // PATCH tables/IOTHubData/<id>
         public Task<IOTHubData> PatchIOTHubData(string id, Delta<IOTHubData> patch)
         {
-             return UpdateAsync(id, patch);
+            return UpdateAsync(id, patch);
         }
 
         // POST tables/IOTHubData
         public async Task<IHttpActionResult> PostIOTHubData(IOTHubData item)
         {
             IOTHubData current = await InsertAsync(item);
-            return CreatedAtRoute("Tables", new { id = current.Id }, current);
+            return CreatedAtRoute("Tables", new {id = current.Id}, current);
         }
 
         // DELETE tables/IOTHubData/<id>
         public Task DeleteIOTHubData(string id)
         {
-             return DeleteAsync(id);
+            return DeleteAsync(id);
         }
     }
 }
