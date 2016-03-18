@@ -24,6 +24,8 @@ namespace MyDriving.UITests
             if (OniOS)
             { 
                 RecordingButton = x => x.Class("UIButton");
+                SaveTripButton = x => x.Marked("OK");
+                TripTitleField = x => x.Class("UITextField");
             }
 		}
 
@@ -58,6 +60,7 @@ namespace MyDriving.UITests
             app.ClearText (TripTitleField);
             app.EnterText (TripTitleField, title);
 			app.DismissKeyboard ();
+
 			app.Screenshot ("Trip title entered");
 
             app.Tap(SaveTripButton);
