@@ -41,6 +41,7 @@ namespace MyTrips.UWP.Views
             this.InitializeComponent();
             this.ViewModel = new PastTripsDetailViewModel();
             this.Locations = new List<BasicGeoposition>();
+            DataContext = this;
         }
 
         PastTripsDetailViewModel ViewModel;
@@ -103,12 +104,17 @@ namespace MyTrips.UWP.Views
 
             this.positionSlider.Minimum = 0;
             this.positionSlider.IsThumbToolTipEnabled = false;
+
+            this.text_starttime.Text = ViewModel.Trip.StartTimeDisplay;
+            this.text_endtime.Text = ViewModel.Trip.EndTimeDisplay;
+        
         }
 
         private async void DrawPath()
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                
                 MapPolyline mapPolyLine = new MapPolyline();
 
                 Locations = this.TripPoints.Select(s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }).ToList<BasicGeoposition>();
@@ -183,11 +189,13 @@ namespace MyTrips.UWP.Views
             {
                 // TODO: Need to fix data binding and remove this code. 
                 this.text_time.Text = ViewModel.ElapsedTime;
-                this.text_miles.Text = ViewModel.Distance;
-                this.text_gallons.Text = ViewModel.FuelConsumption;
-                this.text_temp.Text = ViewModel.EngineLoad;
+                this.text_distance.Text = ViewModel.Distance;
+                this.text_fuel.Text = ViewModel.FuelConsumption;
                 this.text_fuelunits.Text = ViewModel.FuelConsumptionUnits;
+                this.text_speed.Text = ViewModel.Speed;
+                this.text_speedunits.Text = ViewModel.SpeedUnits;
                 this.text_distanceunits.Text = ViewModel.DistanceUnits;
+                
             });
 
         }
