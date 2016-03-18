@@ -1,4 +1,6 @@
-﻿
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -7,23 +9,23 @@ using MyDriving.Utils;
 
 namespace MyDriving.Droid.Activities
 {
-    [Activity(Label = "MyDriving", Theme="@style/SplashTheme", MainLauncher=true)]    
+    [Activity(Label = "MyDriving", Theme = "@style/SplashTheme", MainLauncher = true)]
     public class SplashActivity : AppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            Intent newIntent = null;
+            Intent newIntent;
             if (Settings.Current.IsLoggedIn)
-                newIntent = new Intent(this, typeof(MainActivity));
+                newIntent = new Intent(this, typeof (MainActivity));
             else if (Settings.Current.FirstRun)
             {
 #if XTC
                 newIntent = new Intent(this, typeof(LoginActivity));
 
 #else
-                newIntent = new Intent(this, typeof(GettingStartedActivity));
+                newIntent = new Intent(this, typeof (GettingStartedActivity));
 
 #endif
 
@@ -32,7 +34,7 @@ namespace MyDriving.Droid.Activities
 #endif
             }
             else
-                newIntent = new Intent(this, typeof(LoginActivity));
+                newIntent = new Intent(this, typeof (LoginActivity));
 
 
             newIntent.AddFlags(ActivityFlags.ClearTop);
@@ -42,4 +44,3 @@ namespace MyDriving.Droid.Activities
         }
     }
 }
-

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Views;
@@ -7,90 +10,61 @@ using Android.Widget;
 using MyDriving.ViewModel;
 using System;
 using MyDriving.Droid.Activities;
-using MyDriving.Droid.Controls;
 using Android.Content;
-
 
 
 namespace MyDriving.Droid.Fragments
 {
     public class FragmentPastTrips : Fragment
     {
+        TripAdapter _adapter;
+        LinearLayoutManager _layoutManager;
 
-        public static FragmentPastTrips NewInstance() => new FragmentPastTrips { Arguments = new Bundle() };
+        RecyclerView _recyclerView;
+        SwipeRefreshLayout _refresher;
+        PastTripsViewModel _viewModel;
 
-        RecyclerView recyclerView;
-        SwipeRefreshLayout refresher;
-        TripAdapter adapter;
-        PastTripsViewModel viewModel;
-        LinearLayoutManager layoutManager;
+        public static FragmentPastTrips NewInstance() => new FragmentPastTrips {Arguments = new Bundle()};
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
             var view = inflater.Inflate(Resource.Layout.fragment_past_trips, null);
 
-            viewModel = new PastTripsViewModel();
+            _viewModel = new PastTripsViewModel();
 
-            recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
-            refresher = view.FindViewById<SwipeRefreshLayout>(Resource.Id.refresher);
+            _recyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
+            _refresher = view.FindViewById<SwipeRefreshLayout>(Resource.Id.refresher);
 
-            refresher.Refresh += (sender, e) => viewModel.LoadPastTripsCommand.Execute(null);
+            _refresher.Refresh += (sender, e) => _viewModel.LoadPastTripsCommand.Execute(null);
 
 
-            adapter = new TripAdapter(Activity, viewModel);
-            adapter.ItemClick += OnItemClick;
-            adapter.ItemLongClick += OnItemLongClick;
-            layoutManager = new LinearLayoutManager(Activity);
-            layoutManager.Orientation = LinearLayoutManager.Vertical;
-            recyclerView.SetLayoutManager(layoutManager);
-            recyclerView.SetAdapter(adapter);
-            recyclerView.ClearOnScrollListeners();
-            recyclerView.AddOnScrollListener(new TripsOnScrollListenerListener(viewModel, layoutManager));
+            _adapter = new TripAdapter(Activity, _viewModel);
+            _adapter.ItemClick += OnItemClick;
+            _adapter.ItemLongClick += OnItemLongClick;
+            _layoutManager = new LinearLayoutManager(Activity) {Orientation = LinearLayoutManager.Vertical};
+            _recyclerView.SetLayoutManager(_layoutManager);
+            _recyclerView.SetAdapter(_adapter);
+            _recyclerView.ClearOnScrollListeners();
+            _recyclerView.AddOnScrollListener(new TripsOnScrollListenerListener(_viewModel, _layoutManager));
 
             return view;
         }
 
-        class TripsOnScrollListenerListener : RecyclerView.OnScrollListener
-        {
-            PastTripsViewModel viewModel;
-            LinearLayoutManager layoutManager;
-            public TripsOnScrollListenerListener(PastTripsViewModel viewModel, LinearLayoutManager layoutManager)
-            {
-                this.layoutManager = layoutManager;
-                this.viewModel = viewModel;
-            }
-
-            public override void OnScrolled(RecyclerView recyclerView, int dx, int dy)
-            {
-                base.OnScrolled(recyclerView, dx, dy);
-                if (viewModel.IsBusy || viewModel.Trips.Count == 0 || !viewModel.CanLoadMore)
-                    return;
-
-                var lastVisiblePosition = layoutManager.FindLastCompletelyVisibleItemPosition();
-                if (lastVisiblePosition == RecyclerView.NoPosition)
-                    return;
-
-                //if we are at the bottom and can load more.
-                if (lastVisiblePosition == viewModel.Trips.Count - 1)
-                    viewModel.LoadMorePastTripCommand.Execute(null);
-                
-            }
-        }
-
-        public async override void OnStart()
+        public override async void OnStart()
         {
             base.OnStart();
-            viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            if (viewModel.Trips.Count == 0)
-                await viewModel.ExecuteLoadPastTripsCommandAsync();
+            _viewModel.PropertyChanged += ViewModel_PropertyChanged;
+            if (_viewModel.Trips.Count == 0)
+                await _viewModel.ExecuteLoadPastTripsCommandAsync();
         }
 
         void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
-                case nameof(viewModel.IsBusy):
-                    refresher.Refreshing = viewModel.IsBusy;
+                case nameof(_viewModel.IsBusy):
+                    _refresher.Refreshing = _viewModel.IsBusy;
                     break;
             }
         }
@@ -98,15 +72,13 @@ namespace MyDriving.Droid.Fragments
         public override void OnStop()
         {
             base.OnStop();
-            viewModel.PropertyChanged -= ViewModel_PropertyChanged;
+            _viewModel.PropertyChanged -= ViewModel_PropertyChanged;
         }
 
         void OnItemClick(object sender, TripClickEventArgs args)
         {
-            
-            
-            var trip = viewModel.Trips[args.Position];
-            var intent = new Intent(Activity, typeof(PastTripDetailsActivity));
+            var trip = _viewModel.Trips[args.Position];
+            var intent = new Intent(Activity, typeof (PastTripDetailsActivity));
             intent.PutExtra("Id", trip.Id);
             intent.PutExtra("Rating", trip.Rating);
             Activity.StartActivity(intent);
@@ -114,29 +86,59 @@ namespace MyDriving.Droid.Fragments
 
         async void OnItemLongClick(object sender, TripClickEventArgs args)
         {
-            var trip = viewModel.Trips[args.Position];
-            await viewModel.ExecuteDeleteTripCommand(trip);
+            var trip = _viewModel.Trips[args.Position];
+            await _viewModel.ExecuteDeleteTripCommand(trip);
+        }
+
+        class TripsOnScrollListenerListener : RecyclerView.OnScrollListener
+        {
+            readonly LinearLayoutManager _layoutManager;
+            readonly PastTripsViewModel _viewModel;
+
+            public TripsOnScrollListenerListener(PastTripsViewModel viewModel, LinearLayoutManager layoutManager)
+            {
+                _layoutManager = layoutManager;
+                _viewModel = viewModel;
+            }
+
+            public override void OnScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
+                base.OnScrolled(recyclerView, dx, dy);
+                if (_viewModel.IsBusy || _viewModel.Trips.Count == 0 || !_viewModel.CanLoadMore)
+                    return;
+
+                var lastVisiblePosition = _layoutManager.FindLastCompletelyVisibleItemPosition();
+                if (lastVisiblePosition == RecyclerView.NoPosition)
+                    return;
+
+                //if we are at the bottom and can load more.
+                if (lastVisiblePosition == _viewModel.Trips.Count - 1)
+                    _viewModel.LoadMorePastTripCommand.Execute(null);
+            }
         }
     }
 
 
     public class TripViewHolder : RecyclerView.ViewHolder
     {
-        public TextView Title { get; set; }
-        public TextView Date { get; set; }
-        public TextView Distance { get; set; }
-        public ImageView Photo { get; set; }
-
-        public TripViewHolder(View itemView, Action<TripClickEventArgs> listener, Action<TripClickEventArgs> listenerLong) : base(itemView)
+        public TripViewHolder(View itemView, Action<TripClickEventArgs> listener,
+            Action<TripClickEventArgs> listenerLong) : base(itemView)
         {
             itemView.LongClickable = true;
             Title = itemView.FindViewById<TextView>(Resource.Id.text_title);
             Distance = itemView.FindViewById<TextView>(Resource.Id.text_distance);
             Date = itemView.FindViewById<TextView>(Resource.Id.text_date);
             Photo = itemView.FindViewById<ImageView>(Resource.Id.photo);
-            itemView.Click += (sender, e) => listener(new TripClickEventArgs { View = sender as View, Position = AdapterPosition });
-            itemView.LongClick += (sender, e) => listenerLong(new TripClickEventArgs { View = sender as View, Position = AdapterPosition });
+            itemView.Click +=
+                (sender, e) => listener(new TripClickEventArgs {View = sender as View, Position = AdapterPosition});
+            itemView.LongClick +=
+                (sender, e) => listenerLong(new TripClickEventArgs {View = sender as View, Position = AdapterPosition});
         }
+
+        public TextView Title { get; set; }
+        public TextView Date { get; set; }
+        public TextView Distance { get; set; }
+        public ImageView Photo { get; set; }
     }
 
     public class TripClickEventArgs : EventArgs
@@ -147,27 +149,26 @@ namespace MyDriving.Droid.Fragments
 
     public class TripAdapter : RecyclerView.Adapter
     {
-        
-        public event EventHandler<TripClickEventArgs> ItemClick;
-        public event EventHandler<TripClickEventArgs> ItemLongClick;
-        PastTripsViewModel viewModel;
-        Android.App.Activity activity;
+        readonly Android.App.Activity _activity;
+        readonly PastTripsViewModel _viewModel;
+
         public TripAdapter(Android.App.Activity activity, PastTripsViewModel viewModel)
         {
-            this.activity = activity;
-            this.viewModel = viewModel;
+            _activity = activity;
+            _viewModel = viewModel;
 
-            this.viewModel.Trips.CollectionChanged += (sender, e) =>
-            {
-                this.activity.RunOnUiThread(() => 
-                {
-                    NotifyDataSetChanged();
-                });
-            };
+            _viewModel.Trips.CollectionChanged +=
+                (sender, e) => { _activity.RunOnUiThread(NotifyDataSetChanged); };
         }
 
+        public override int ItemCount => _viewModel.Trips.Count;
+
+        public event EventHandler<TripClickEventArgs> ItemClick;
+        public event EventHandler<TripClickEventArgs> ItemLongClick;
+
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) =>
-            new TripViewHolder(LayoutInflater.From(parent.Context).Inflate(Resource.Layout.item_trip, parent, false), OnClick, OnClickLong);
+            new TripViewHolder(LayoutInflater.From(parent.Context).Inflate(Resource.Layout.item_trip, parent, false),
+                OnClick, OnClickLong);
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
@@ -175,36 +176,32 @@ namespace MyDriving.Droid.Fragments
             if (vh == null)
                 return;
 
-            var trip = viewModel.Trips[position];
+            var trip = _viewModel.Trips[position];
             vh.Title.Text = trip.Name;
             vh.Distance.Text = trip.TotalDistance;
             vh.Date.Text = trip.TimeAgo;
-            vh.Photo.Visibility = (trip?.Photos?.Count).GetValueOrDefault() > 0 || !string.IsNullOrWhiteSpace(trip.MainPhotoUrl) ? ViewStates.Visible : ViewStates.Gone;
+            vh.Photo.Visibility = (trip?.Photos?.Count).GetValueOrDefault() > 0 ||
+                                  !string.IsNullOrWhiteSpace(trip.MainPhotoUrl)
+                ? ViewStates.Visible
+                : ViewStates.Gone;
 
             if (vh.Photo.Visibility == ViewStates.Visible)
             {
                 if ((trip?.Photos?.Count).GetValueOrDefault() > 0)
-                    Square.Picasso.Picasso.With(activity).Load($"file://{trip.Photos[0].PhotoUrl}").Into(vh.Photo);
+                    Square.Picasso.Picasso.With(_activity).Load($"file://{trip.Photos[0].PhotoUrl}").Into(vh.Photo);
                 else
-                    Square.Picasso.Picasso.With(activity).Load(trip.MainPhotoUrl).Into(vh.Photo);
+                    Square.Picasso.Picasso.With(_activity).Load(trip.MainPhotoUrl).Into(vh.Photo);
             }
-
         }
-
-        public override int ItemCount => viewModel.Trips.Count;
 
         void OnClick(TripClickEventArgs args)
         {
-            if (ItemClick != null)
-                ItemClick(this, args);
+            ItemClick?.Invoke(this, args);
         }
 
         void OnClickLong(TripClickEventArgs args)
         {
-            if (ItemLongClick != null)
-                ItemLongClick(this, args);
+            ItemLongClick?.Invoke(this, args);
         }
     }
-
-
 }
