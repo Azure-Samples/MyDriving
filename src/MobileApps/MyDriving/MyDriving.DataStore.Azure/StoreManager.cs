@@ -87,6 +87,9 @@ namespace MyDriving.DataStore.Azure
         IHubIOTStore iotHubStore;
         public IHubIOTStore IOTHubStore => iotHubStore ?? (iotHubStore = ServiceLocator.Instance.Resolve<IHubIOTStore>());
 
+        IPOIStore poiStore;
+        public IPOIStore POIStore => poiStore ?? (poiStore = ServiceLocator.Instance.Resolve<IPOIStore>());
+
         #endregion
     }
 }

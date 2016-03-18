@@ -270,14 +270,15 @@ namespace MyDriving.ViewModel
                 Logger.Instance.Report(ex);
             }
 
+            var poiList = (List<POI>)await StoreManager.POIStore.GetItemsAsync();
             TripSummary = new TripSummaryViewModel
             {
                 TotalTime = (CurrentTrip.EndTimeStamp - CurrentTrip.RecordedTimeStamp).TotalSeconds,
                 TotalDistance = CurrentTrip.Distance,
                 FuelUsed = CurrentTrip.FuelUsed,
                 MaxSpeed = CurrentTrip.Points.Max(s => s.Speed),
-                HardStops = CurrentTrip.HardStops,
-                HardAccelerations = CurrentTrip.HardAccelerations,
+                HardStops = poiList.Where(p => p.POIType == POIType.HardBrake).Count(),
+                HardAccelerations = poiList.Where(p => p.POIType == POIType.HardAcceleration).Count(),
                 Date = DateTime.UtcNow
             };
 

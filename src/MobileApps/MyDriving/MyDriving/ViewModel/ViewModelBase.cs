@@ -27,6 +27,11 @@ namespace MyDriving.ViewModel
                 ServiceLocator.Instance.Add<IUserStore, DataStore.Azure.Stores.UserStore>();
                 ServiceLocator.Instance.Add<IHubIOTStore, DataStore.Azure.Stores.IOTHubStore>();
                 ServiceLocator.Instance.Add<IStoreManager, DataStore.Azure.StoreManager>();
+
+                //TODO: Always use the mock POI store until the ML service is available where we can switch to the real one
+                //When real ML service is available, uncomment the azure based store and remove mock
+                //ServiceLocator.Instance.Add<IPOIStore, DataStore.Azure.Stores.POIStore>();
+                ServiceLocator.Instance.Add<IPOIStore, DataStore.Mock.Stores.POIStore>();
             }
         }
 
