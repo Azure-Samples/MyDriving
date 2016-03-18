@@ -11,7 +11,7 @@ namespace MyTrips.iOS
 			UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
 
 			//NavigationBar
-			UINavigationBar.Appearance.BarTintColor = UIColor.FromRGB((nfloat)0.196, (nfloat)0.655, (nfloat)0.925);
+			UINavigationBar.Appearance.BarTintColor = "0087D2".ToUIColor();
 			UINavigationBar.Appearance.TintColor = UIColor.White;
 
 			UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes
@@ -28,6 +28,8 @@ namespace MyTrips.iOS
 			}, UIControlState.Normal);
 
 			//TabBar
+			// [[UITabBar appearance] setTintColor:[UIColor redColor]];
+			UITabBar.Appearance.TintColor = "0087D2".ToUIColor();
 			UITabBarItem.Appearance.SetTitleTextAttributes(new UITextAttributes{ Font = UIFont.FromName("Avenir-Book", 10f) }, UIControlState.Normal);
 		}
 	}
