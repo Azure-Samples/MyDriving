@@ -1,32 +1,35 @@
-﻿using Microsoft.Azure.Devices.Client;
-using MyDriving.Interfaces;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Azure.Devices.Client;
+using MyDriving.Interfaces;
 
 namespace MyDriving.Shared
 {
     public class IOTHub : IHubIOT
     {
-        private DeviceClient deviceClient;
+        private DeviceClient _deviceClient;
 
         public void Initialize(string connectionStr)
         {
-            this.deviceClient = DeviceClient.CreateFromConnectionString(connectionStr);
+            _deviceClient = DeviceClient.CreateFromConnectionString(connectionStr);
         }
 
         public async Task SendEvents(IEnumerable<String> blobs)
         {
-            List<Microsoft.Azure.Devices.Client.Message> messages = blobs.Select(b => new Microsoft.Azure.Devices.Client.Message(System.Text.Encoding.ASCII.GetBytes(b))).ToList();
-            await this.deviceClient.SendEventBatchAsync(messages);
+            List<Message> messages = blobs.Select(b => new Message(Encoding.ASCII.GetBytes(b))).ToList();
+            await _deviceClient.SendEventBatchAsync(messages);
         }
 
         public async Task SendEvent(string blob)
         {
             var message = new Message(Encoding.ASCII.GetBytes(blob));
-            await this.deviceClient.SendEventAsync(message);
+            await _deviceClient.SendEventAsync(message);
         }
     }
 }

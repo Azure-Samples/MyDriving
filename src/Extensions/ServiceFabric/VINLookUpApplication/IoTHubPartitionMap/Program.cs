@@ -1,5 +1,7 @@
-﻿using System;
-using System.Diagnostics;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using System.Fabric;
 using System.Threading;
 using Microsoft.ServiceFabric.Actors;
@@ -9,7 +11,7 @@ namespace IoTHubPartitionMap
     internal static class Program
     {
         /// <summary>
-        /// This is the entry point of the service host process.
+        ///     This is the entry point of the service host process.
         /// </summary>
         private static void Main()
         {
@@ -24,7 +26,8 @@ namespace IoTHubPartitionMap
                     // For more information, see http://aka.ms/servicefabricactorsplatform
                     fabricRuntime.RegisterActor<IoTHubPartitionMap>();
 
-                    Thread.Sleep(Timeout.Infinite);  // Prevents this host process from terminating to keep the service host process running.
+                    Thread.Sleep(Timeout.Infinite);
+                        // Prevents this host process from terminating to keep the service host process running.
                 }
             }
             catch (Exception e)

@@ -134,7 +134,6 @@ namespace ObdLibUWP
                 }
                 if (this._socket != null)
                 {
-                    await this._socket.CancelIOAsync();
                     _socket.Dispose();
                     _socket = null;
                 }
@@ -368,8 +367,15 @@ namespace ObdLibUWP
             }
             if (this._socket != null)
             {
-                await this._socket.CancelIOAsync();
-                _socket.Dispose();
+                try
+                {
+                    await this._socket.CancelIOAsync();
+                    _socket.Dispose();
+                }
+                catch (System.Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                }
                 _socket = null;
             }
         }

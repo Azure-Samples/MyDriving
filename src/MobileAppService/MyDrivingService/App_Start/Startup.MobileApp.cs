@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using System.Configuration;
 using System.Data.Entity;
 using System.Web.Http;
 using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Authentication;
 using Microsoft.Azure.Mobile.Server.Config;
-using MyDriving.DataObjects;
 using MyDrivingService.Models;
 using Owin;
-using Microsoft.Azure.Mobile.Server.Tables;
 
 namespace MyDrivingService
 {
@@ -29,7 +28,7 @@ namespace MyDrivingService
             // Use Entity Framework Code First to create database tables based on your DbContext
             //Database.SetInitializer(new MyDrivingInitializer());
             // To prevent Entity Framework from modifying your database schema, use a null database initializer
-             Database.SetInitializer<MyDrivingContext>(null);
+            Database.SetInitializer<MyDrivingContext>(null);
 
             MobileAppSettingsDictionary settings = config.GetMobileAppSettingsProvider().GetMobileAppSettings();
 
@@ -40,8 +39,8 @@ namespace MyDrivingService
                 app.UseAppServiceAuthentication(new AppServiceAuthenticationOptions
                 {
                     SigningKey = ConfigurationManager.AppSettings["SigningKey"],
-                    ValidAudiences = new[] { ConfigurationManager.AppSettings["ValidAudience"] },
-                    ValidIssuers = new[] { ConfigurationManager.AppSettings["ValidIssuer"] },
+                    ValidAudiences = new[] {ConfigurationManager.AppSettings["ValidAudience"]},
+                    ValidIssuers = new[] {ConfigurationManager.AppSettings["ValidIssuer"]},
                     TokenHandler = config.GetAppServiceTokenHandler()
                 });
             }
@@ -49,7 +48,7 @@ namespace MyDrivingService
         }
     }
 
-  /*  public class MyDrivingInitializer : DropCreateDatabaseAlways<MyDrivingContext>
+    /*  public class MyDrivingInitializer : DropCreateDatabaseAlways<MyDrivingContext>
     {
         public override void InitializeDatabase(MyDrivingContext context)
         {
@@ -58,4 +57,3 @@ namespace MyDrivingService
     }
     */
 }
-

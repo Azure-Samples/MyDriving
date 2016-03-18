@@ -108,6 +108,24 @@ namespace MyDriving.ViewModel
 
                 Trip = await StoreManager.TripStore.GetItemAsync(id);
                 Title = Trip.Name;
+                for (int i = 0; i < Trip.Points.Count; i++)
+                {
+                    var point = Trip.Points[i];
+                    if (point.MassFlowRate == -255)
+                    {
+                        if (i == 0)
+                            point.MassFlowRate = 0;
+                        else
+                            point.MassFlowRate = Trip.Points[i - 1].MassFlowRate;
+                    }
+                    if (point.Speed == -255)
+                    {
+                        if (i == 0)
+                            point.Speed = 0;
+                        else
+                            point.Speed = Trip.Points[i - 1].Speed;
+                    }
+                }
             }
             catch (Exception ex) 
             {
@@ -150,11 +168,15 @@ namespace MyDriving.ViewModel
 
 			FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
 			DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
-            if (position.Speed >= 0)
+
+            var currentSpeed = previousPoints.LastOrDefault(s => s.Speed >= 0);
+
+            if (currentSpeed != null)
             {
-                Speed = position.Speed.ToString();
-                SpeedUnits = Settings.MetricDistance ? "Kmh" : "Mph";
+                Speed = (Settings.Current.MetricDistance ? currentSpeed.Speed : currentSpeed.Speed / 1.60934).ToString("f");
             }
+
+            SpeedUnits = Settings.MetricDistance ? "Kmh" : "Mph";
 
 			if (previousPoints.Length > 2)
 			{

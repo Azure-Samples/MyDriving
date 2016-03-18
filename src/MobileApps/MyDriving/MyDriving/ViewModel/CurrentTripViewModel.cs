@@ -191,7 +191,7 @@ namespace MyDriving.ViewModel
                 {
                     CurrentTrip.Name = name;
                 }
-                track.Start();
+                track?.Start();
                 progress?.Show();
 
                 CurrentTrip.MainPhotoUrl = $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{CurrentPosition.Latitude.ToString(CultureInfo.InvariantCulture)},{CurrentPosition.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key=J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
@@ -227,7 +227,7 @@ namespace MyDriving.ViewModel
             }
             finally
             {
-                track.Stop();
+                track?.Stop();
                 IsBusy = false;
                 progress?.Dispose();
             }

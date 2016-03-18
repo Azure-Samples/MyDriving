@@ -1,35 +1,28 @@
-﻿using MyDriving.DataObjects;
-using MyDriving.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Windows.UI.Core;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MyDriving.DataObjects;
+using MyDriving.ViewModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace MyDriving.UWP.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class PastTripsMenuView : Page
     {
         public PastTripsMenuView()
         {
-            this.InitializeComponent();
-            this.ViewModel = new PastTripsViewModel();
+            InitializeComponent();
+            ViewModel = new PastTripsViewModel();
         }
+
+        public PastTripsViewModel ViewModel { get; set; }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -39,7 +32,7 @@ namespace MyDriving.UWP.Views
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
 
-            await this.ViewModel.ExecuteLoadPastTripsCommandAsync();
+            await ViewModel.ExecuteLoadPastTripsCommandAsync();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -60,22 +53,18 @@ namespace MyDriving.UWP.Views
         private bool TryGoBack()
         {
             bool navigated = false;
-            if (this.Frame.CanGoBack)
+            if (Frame.CanGoBack)
             {
-                this.Frame.GoBack();
+                Frame.GoBack();
                 navigated = true;
             }
             return navigated;
         }
 
-        public PastTripsViewModel ViewModel { get; set; }
-
         private async void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
-            var trip = (Trip)e.AddedItems[0];
-            this.Frame.Navigate(typeof(PastTripMapView),trip); // PastTripMapView does not exist
+            var trip = (Trip) e.AddedItems[0];
+            Frame.Navigate(typeof (PastTripMapView), trip); // PastTripMapView does not exist
         }
-
     }
 }

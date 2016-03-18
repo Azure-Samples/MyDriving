@@ -1,8 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VINParser
 {
@@ -10,6 +9,6 @@ namespace VINParser
     {
         public int StartDigit { get; set; }
         public int MaxLength { get; set; }
-        public Dictionary<string,CarInfo> Map { get; set; }
+        public Dictionary<string, CarInfo> Map { get; set; }
     }
 }

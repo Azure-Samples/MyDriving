@@ -1,4 +1,7 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -6,15 +9,16 @@ using Windows.UI.Xaml.Input;
 namespace MyDriving.UWP.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class GetStarted2 : Page
     {
-        private double StartX;
         private double EndX;
+        private double StartX;
+
         public GetStarted2()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Dots.SelectCircle(2);
 
             ManipulationMode = ManipulationModes.TranslateX;
@@ -32,10 +36,10 @@ namespace MyDriving.UWP.Views
         void Manipulation_Completed(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             EndX = e.Position.X;
-            if (EndX < StartX)  //forward
-                this.Frame.Navigate(typeof(GetStarted3));
+            if (EndX < StartX) //forward
+                Frame.Navigate(typeof (GetStarted3));
             else if (EndX > StartX) //back
-                this.Frame.Navigate(typeof(GetStarted1));
+                Frame.Navigate(typeof (GetStarted1));
             e.Handled = true;
         }
     }
