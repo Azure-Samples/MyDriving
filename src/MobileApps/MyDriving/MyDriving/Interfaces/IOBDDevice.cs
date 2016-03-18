@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +11,9 @@ namespace MyDriving.Interfaces
 {
     public interface IOBDDevice
     {
+        bool IsSimulated { get; }
         Task<bool> Initialize(bool simulatorMode = false);
         Dictionary<String, String> ReadData();
         Task Disconnect();
-
-        bool IsSimulated { get; }
     }
 }

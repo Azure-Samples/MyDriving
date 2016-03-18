@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -11,10 +14,6 @@ namespace MyDriving.Services
 {
     public class CustomContractResolver : DefaultContractResolver
     {
-        private Dictionary<string, string> PropertyMappings { get; set; }
-
-        private List<string> IgnoreProperties { get; set; }
-
         public CustomContractResolver()
         {
             PropertyMappings = new Dictionary<string, string>
@@ -30,14 +29,18 @@ namespace MyDriving.Services
                 ["HasSimulatedOBDData"] = "IsSimulated",
             };
 
-            this.IgnoreProperties = new List<string>();
-            this.IgnoreProperties.Add("HasOBDData");
+            IgnoreProperties = new List<string>();
+            IgnoreProperties.Add("HasOBDData");
         }
+
+        private Dictionary<string, string> PropertyMappings { get; set; }
+
+        private List<string> IgnoreProperties { get; set; }
 
         protected override string ResolvePropertyName(string propertyName)
         {
             string resolvedName = null;
-            var resolved = this.PropertyMappings.TryGetValue(propertyName, out resolvedName);
+            var resolved = PropertyMappings.TryGetValue(propertyName, out resolvedName);
             return (resolved) ? resolvedName : base.ResolvePropertyName(propertyName);
         }
 
@@ -45,7 +48,7 @@ namespace MyDriving.Services
         {
             JsonProperty property = base.CreateProperty(member, memberSerialization);
 
-            if (this.IgnoreProperties.Contains(property.PropertyName))
+            if (IgnoreProperties.Contains(property.PropertyName))
             {
                 property.ShouldSerialize = p => { return false; };
             }

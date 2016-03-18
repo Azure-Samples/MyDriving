@@ -1,13 +1,28 @@
-﻿using MyDriving.Utils;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using MyDriving.Utils;
 using System;
 
 namespace MyDriving.ViewModel
 {
     public class TripSummaryViewModel : ViewModelBase
     {
+        double fuelUsed;
+
+        long hardAccelerations;
+
+
+        long hardStops;
+
+        double maxSpeed;
+
+        double totalDistance;
+
+        double totalTime;
         public string FuelUnits => Settings.MetricUnits ? "L" : "gal.";
 
-        public double FuelConverted => Settings.MetricUnits ? FuelUsed / .264172 : FuelUsed;
+        public double FuelConverted => Settings.MetricUnits ? FuelUsed/.264172 : FuelUsed;
 
         public string FuelDisplayNoUnits => FuelConverted.ToString("F");
 
@@ -19,11 +34,11 @@ namespace MyDriving.ViewModel
 
         public string TotalDistanceDisplay => $"{TotalDistanceDisplayNoUnits} {DistanceUnits}";
 
-        public double DistanceConverted => (Settings.Current.MetricDistance ? (TotalDistance * 1.60934) : TotalDistance);
+        public double DistanceConverted => (Settings.Current.MetricDistance ? (TotalDistance*1.60934) : TotalDistance);
 
-		public string SpeedUnits => Settings.MetricDistance ? "km/h" : "mph";
+        public string SpeedUnits => Settings.MetricDistance ? "km/h" : "mph";
 
-		public double MaxSpeedConverted => Settings.MetricDistance ? MaxSpeed : MaxSpeed * 0.621371;
+        public double MaxSpeedConverted => Settings.MetricDistance ? MaxSpeed : MaxSpeed*0.621371;
 
         public string MaxSpeedDisplayNoUnits => MaxSpeedConverted.ToString("F");
 
@@ -33,7 +48,7 @@ namespace MyDriving.ViewModel
 
         public string TotalTimeDisplay
         {
-            get 
+            get
             {
                 var time = TimeSpan.FromSeconds(TotalTime);
                 if (time.TotalMinutes < 1)
@@ -42,15 +57,14 @@ namespace MyDriving.ViewModel
                 if (time.TotalHours < 1)
                     return $"{time.Minutes}m {time.Seconds}s";
 
-                return $"{(int)time.TotalHours}h {time.Minutes}m {time.Seconds}s";
+                return $"{(int) time.TotalHours}h {time.Minutes}m {time.Seconds}s";
             }
         }
 
-        double totalDistance;
         public double TotalDistance
         {
             get { return totalDistance; }
-            set 
+            set
             {
                 if (!SetProperty(ref totalDistance, value))
                     return;
@@ -62,11 +76,10 @@ namespace MyDriving.ViewModel
             }
         }
 
-        double fuelUsed;
         public double FuelUsed
         {
             get { return fuelUsed; }
-            set 
+            set
             {
                 if (!SetProperty(ref fuelUsed, value))
                     return;
@@ -78,11 +91,10 @@ namespace MyDriving.ViewModel
             }
         }
 
-        double totalTime;
         public double TotalTime
         {
             get { return totalTime; }
-            set 
+            set
             {
                 if (!SetProperty(ref totalTime, value))
                     return;
@@ -91,11 +103,10 @@ namespace MyDriving.ViewModel
             }
         }
 
-        double maxSpeed;
         public double MaxSpeed
         {
             get { return maxSpeed; }
-            set 
+            set
             {
                 if (!SetProperty(ref maxSpeed, value))
                     return;
@@ -107,15 +118,12 @@ namespace MyDriving.ViewModel
             }
         }
 
-
-        long hardStops;
         public long HardStops
         {
             get { return hardStops; }
             set { SetProperty(ref hardStops, value); }
         }
 
-        long hardAccelerations;
         public long HardAccelerations
         {
             get { return hardAccelerations; }
