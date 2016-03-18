@@ -737,7 +737,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Consumption" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mz9-7G-uze" fixedFrame="YES">
                                                         <rect key="frame" x="0.0" y="30.5" width="150" height="19.5"/>
                                                         <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                        <color key="textColor" red="0.08235294118" green="0.66274509800000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" colorSpace="calibratedRGB" red="0" green="0.52941176470588236" blue="0.82352941176470584" alpha="1"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
@@ -754,7 +754,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distance" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kxR-IG-ADX" fixedFrame="YES">
                                                         <rect key="frame" x="0.0" y="30.5" width="150" height="19.5"/>
                                                         <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                        <color key="textColor" red="0.08235294118" green="0.66274509800000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" colorSpace="calibratedRGB" red="0" green="0.52941176470588236" blue="0.82352941176470584" alpha="1"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
@@ -771,7 +771,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Duration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zOd-sv-rgi" fixedFrame="YES">
                                                         <rect key="frame" x="0.0" y="30.5" width="150" height="19.5"/>
                                                         <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                        <color key="textColor" red="0.08235294118" green="0.66274509800000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" colorSpace="calibratedRGB" red="0" green="0.52941176470588236" blue="0.82352941176470584" alpha="1"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
@@ -788,7 +788,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" tag="125" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Engine Load" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ela-Vw-BNa" fixedFrame="YES">
                                                         <rect key="frame" x="0.0" y="30.5" width="150" height="19.5"/>
                                                         <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                        <color key="textColor" red="0.08235294118" green="0.66274509800000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" colorSpace="calibratedRGB" red="0" green="0.52941176470588236" blue="0.82352941176470584" alpha="1"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
