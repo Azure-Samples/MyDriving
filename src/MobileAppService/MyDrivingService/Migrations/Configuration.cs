@@ -1,12 +1,12 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System.Data.Entity.Migrations;
+using Microsoft.Azure.Mobile.Server.Tables;
+
 namespace MyDrivingService.Migrations
 {
-    using Microsoft.Azure.Mobile.Server.Tables;
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<MyDrivingService.Models.MyDrivingContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Models.MyDrivingContext>
     {
         public Configuration()
         {
@@ -14,7 +14,7 @@ namespace MyDrivingService.Migrations
             SetSqlGenerator("System.Data.SqlClient", new EntityTableSqlGenerator());
         }
 
-        protected override void Seed(MyDrivingService.Models.MyDrivingContext context)
+        protected override void Seed(Models.MyDrivingContext context)
         {
             //  This method will be called after migrating to the latest version.
 

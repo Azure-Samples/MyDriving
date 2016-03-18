@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using System.Collections.Generic;
 
 #if !BACKEND
@@ -28,7 +31,7 @@ namespace MyDriving.DataObjects
         public DateTime EndTimeStamp { get; set; }
 
         /// <summary>
-        /// Gets or sets the rating. 0 - 100
+        ///     Gets or sets the rating. 0 - 100
         /// </summary>
         /// <value>The rating.</value>
         public int Rating { get; set; }
@@ -38,13 +41,13 @@ namespace MyDriving.DataObjects
         public bool HasSimulatedOBDData { get; set; }
 
         /// <summary>
-        /// Gets or sets the average speed. 
+        ///     Gets or sets the average speed.
         /// </summary>
         /// <value>The average speed.</value>
         public double AverageSpeed { get; set; }
 
         /// <summary>
-        /// Gets or sets the fuel used. Stored in Gallons
+        ///     Gets or sets the fuel used. Stored in Gallons
         /// </summary>
         /// <value>The fuel used.</value>
         public double FuelUsed { get; set; }
@@ -55,9 +58,9 @@ namespace MyDriving.DataObjects
 
         public string MainPhotoUrl { get; set; }
 
-        #if BACKEND
-        public double Distance { get; set; } 
-        #else
+#if BACKEND
+        public double Distance { get; set; }
+#else
         double distance;
         /// <summary>
         /// Gets or sets the total distance in miles.

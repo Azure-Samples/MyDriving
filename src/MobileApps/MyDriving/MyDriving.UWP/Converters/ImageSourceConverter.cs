@@ -1,8 +1,9 @@
-﻿using System;
-using Windows.Storage.Streams;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
-using MyDriving.Utils;
 
 namespace MyDriving.UWP.Converters
 {
@@ -17,15 +18,14 @@ namespace MyDriving.UWP.Converters
                 return null;
 
             string url = value as string;
-            if(!string.IsNullOrEmpty(url))
+            if (!string.IsNullOrEmpty(url))
             {
                 try
                 {
                     return new BitmapImage(new Uri(url));
                 }
-                catch(Exception)
+                catch (Exception)
                 {
-                    
                 }
             }
             return null;
@@ -36,5 +36,4 @@ namespace MyDriving.UWP.Converters
             throw new NotImplementedException();
         }
     }
-
 }
