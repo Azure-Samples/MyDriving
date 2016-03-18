@@ -62,21 +62,8 @@ namespace MyDriving.UWP.Views
         public void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
-
-        public  CurrentTripView()
-        {
-            this.InitializeComponent();
-            this.viewModel = new CurrentTripViewModel();
-            this.Locations = new List<BasicGeoposition>();
-            this.MyMap.Loaded += MyMap_Loaded;
-            this.DataContext = this;
-            recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
-            OnPropertyChanged(nameof(RecordButtonImage));
-            this.startRecordBtn.Click += StartRecordBtn_Click;
-            BeginExtendedExecution();
-
         }
+             
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
