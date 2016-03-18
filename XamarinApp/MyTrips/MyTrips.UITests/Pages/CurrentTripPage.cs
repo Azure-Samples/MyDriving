@@ -22,6 +22,8 @@ namespace MyTrips.UITests
 			app.Tap (c => c.Class ("UIButton"));
 			app.Screenshot ("Started recording trip");
 
+            app.Tap("Use Simulator");
+
 			return this;
 		}
 

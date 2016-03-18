@@ -5,6 +5,8 @@ using Xamarin.UITest.Queries;
 using Xamarin.UITest.Android;
 using Xamarin.UITest.iOS;
 
+using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
+using System.Linq;
 namespace MyTrips.UITests
 {
 	public class BasePage
@@ -75,19 +77,45 @@ namespace MyTrips.UITests
 			Assert.DoesNotThrow(() => app.WaitForNoElement(Trait, timeout: timeout), message);
 		}
 
-		#region CommonPageActions
 
-		// Use this region to define functionality that is common across many or all pages in your app.
-		// Eg tapping the back button of a page or selecting the tabs of a tab bar
+        public void NavigateTo(string tabName)
+        {
+            if (OnAndroid)
+            {
+                if (app.Query(Hamburger).Any())
+                    app.Tap(Hamburger);
 
-		void InitializeCommonQueries()
-		{
-			if (OnAndroid)
-			{
-			}
-			if (OniOS)
-			{
-			}
+                app.Screenshot("Navigation Menu Open");
+                int count = 0;
+                while (!app.Query(tabName).Any() && count < 3)
+                {
+                    app.ScrollDown(x => x.Class("NavigationMenuView"));
+                    count++;
+                }
+            }
+            app.Tap(Tab(tabName));
+        }
+
+        #region CommonPageActions
+
+        // Use this region to define functionality that is common across many or all pages in your app.
+        // Eg tapping the back button of a page or selecting the tabs of a tab bar
+
+        Query Hamburger;
+        Func<string, Query> Tab;
+
+        void InitializeCommonQueries()
+        {
+            if (OnAndroid)
+            {
+                Hamburger = x => x.Class("ImageButton").Marked("OK");
+                Tab = name => x => x.Class("NavigationMenuItemView").Text(name);
+            }
+
+            if (OniOS)
+            {
+                Tab = name => x => x.Class("UITabBarButtonLabel").Text(name);
+            }
 		}
 
 		#endregion

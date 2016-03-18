@@ -34,7 +34,10 @@ namespace MyTrips.Droid
             //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
             MyTrips.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
 
+            #if !XTC
             Xamarin.Insights.Initialize(Logger.InsightsKey, this);
+            #endif
+
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             UserDialogs.Init(() => CrossCurrentActivity.Current.Activity);
         }
@@ -58,10 +61,17 @@ namespace MyTrips.Droid
         public void OnActivityStarted(Activity activity)
         {
             CrossCurrentActivity.Current.Activity = activity;
+            #if !XTC
             HockeyApp.Tracking.StartUsage(activity);
+            #endif
         }
 
-        public void OnActivityStopped(Activity activity) => HockeyApp.Tracking.StopUsage(activity);
+        public void OnActivityStopped(Activity activity)
+        {
+            #if !XTC
+            HockeyApp.Tracking.StopUsage(activity);
+            #endif
+        }
 
     }
 }

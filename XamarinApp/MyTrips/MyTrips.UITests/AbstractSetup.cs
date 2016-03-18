@@ -8,7 +8,7 @@ using Xamarin.UITest.iOS;
 
 namespace MyTrips.UITests
 {
-	[TestFixture(Platform.Android)]
+	
 	[TestFixture(Platform.iOS)]
 	public abstract class AbstractSetup
 	{
@@ -37,14 +37,22 @@ namespace MyTrips.UITests
 				Thread.Sleep(2000);
 			}
 
-			if (app.Query ("Allow").Any ())
-				app.Tap ("Allow");
+            if (OniOS)
+            {
+                if (app.Query("Allow").Any())
+                    app.Tap ("Allow");
+            }
 		}
 
 		public void ClearKeychain ()
 		{
-			app.TestServer.Post("/keychain", new object());
-			app = ConfigureApp.iOS.StartApp();
+            if (OnAndroid)
+                return;
+            
+			if (!app.Query ("LoginWithFacebook").Any ()) {
+				app.TestServer.Post("/keychain", new object());
+				app = ConfigureApp.iOS.StartApp();
+			}
 		}
 	}
 }

@@ -10,29 +10,39 @@ namespace MyTrips.UITests
 {
 	public class LoginPage : BasePage
 	{
-		// Page Name
-		public LoginPage ()//  : base ("", "LoginViewController")
+		string LoginWithFacebookItem = "LoginWithFacebook";
+		string SkipAuthenticationItem = "SkipAuthentication";
+
+		public LoginPage ()
+			: base (c => c.Marked ("LoginWithTwitter"), c => c.Marked ("LoginWithTwitter"))
 		{
-			app.Screenshot ("Social Login Page");
+			if (OnAndroid) {
+
+			} 
+
+			if (OniOS) {
+
+			}
 		}
 
 		public void LoginWithFacebook()
 		{
-			app.Tap ("Login with Facebook");
+			app.Tap (LoginWithFacebookItem);
 
 			app.Screenshot ("Embedded Facebook Web View");
-			app.EnterText (c => c.Css("INPUT._56bg._4u9z._5ruq"), "test_hvjvpbj_user@tfbnw.net");
+			app.EnterText (c => c.Css("INPUT._56bg._4u9z._5ruq"), "scott_kdnkrdr_guthrie@tfbnw.net");
 			app.EnterText (c => c.Css ("#u_0_1"), "admin1");
 			app.Screenshot ("Entered Facebook Credentials");
 			app.Tap (c => c.Css ("#u_0_5"));
 
 			app.WaitForElement (c => c.Marked ("Current Trip"));
-			app.Screenshot ("Completed Facebook Login");
+			app.Screenshot ("Facebook Authentication Succeeded");
 		}
 
 		public void SkipAuthentication()
 		{
-			app.Tap ("Skip Auth");
+			app.Tap (SkipAuthenticationItem);
+			app.Screenshot ("Authentication Skipped");
 		}
 	}
 }

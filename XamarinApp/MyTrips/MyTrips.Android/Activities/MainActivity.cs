@@ -28,7 +28,9 @@ namespace MyTrips.Droid
         {
             base.OnCreate(bundle);
 
+            #if !XTC
             InitializeHockeyApp();
+            #endif
             drawerLayout = this.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
 
             //Set hamburger items menu

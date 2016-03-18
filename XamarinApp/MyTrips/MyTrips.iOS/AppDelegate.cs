@@ -29,14 +29,18 @@ namespace MyTrips.iOS
 			ServiceLocator.Instance.Add<ILogger, PlatformLogger>();
 			ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
 			ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
-
+            
+            #if !XTC
+			Xamarin.Insights.Initialize(Logger.InsightsKey);
+            #endif
             //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
             Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
 
-            Xamarin.Insights.Initialize(Logger.InsightsKey);
 
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 			SQLitePCL.CurrentPlatform.Init();
+
+            #if !XTC
 			if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
 			{
 				Setup.EnableCustomCrashReporting(() =>
@@ -51,6 +55,7 @@ namespace MyTrips.iOS
 							Setup.ThrowExceptionAsNative(e.Exception);
 					});
 			}
+            #endif
 
 			if (!Settings.Current.IsLoggedIn)
 			{

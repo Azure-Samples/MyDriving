@@ -4,16 +4,29 @@ using NUnit.Framework;
 
 namespace MyTrips.UITests
 {
-	public class PastTripsPage : BasePage
-	{
-		public PastTripsPage ()
-		{
-			app.Screenshot ("Past Trips Page");
+    public class PastTripsPage : BasePage
+    {
+        string SliderId;
+        string PageId;
+        public PastTripsPage()
+        {
+            if (OniOS)
+            {
+                SliderId = "UISlider";
+                PageId = "Trips";
+            }
+            else
+            {
+                SliderId = "SeekBar";
+                PageId = "Past Trips";
+            }
+
+			
 		}
 
 		public PastTripsPage NavigateToPastTripsPage ()
 		{
-			app.Tap ("Trips");
+            NavigateTo(PageId);
 
 			return this;
 		}
@@ -36,10 +49,10 @@ namespace MyTrips.UITests
 
 		public PastTripsPage MoveTripSlider ()
 		{
-			app.SetSliderValue (c => c.Class ("UISlider"), 25);
+			app.SetSliderValue (c => c.Class (SliderId), 25);
 			app.Screenshot ("Trip Slider at 25%");
 
-			app.SetSliderValue (c => c.Class ("UISlider"), 75);
+			app.SetSliderValue (c => c.Class (SliderId), 75);
 			app.Screenshot ("Trip Slider at 75%");
 
 			return this;
@@ -47,11 +60,14 @@ namespace MyTrips.UITests
 
 		public PastTripsPage ClickTripSliderEndpoints ()
 		{
-			app.Tap(x => x.Text("A"));
-			app.Screenshot ("Tapped A Endpoint");
+            if (OniOS)
+            {
+                app.Tap(x => x.Text("A"));
+                app.Screenshot("Tapped A Endpoint");
 
-			app.Tap(x => x.Text("B"));
-			app.Screenshot ("Tapped B Endpoint");
+                app.Tap(x => x.Text("B"));
+                app.Screenshot ("Tapped B Endpoint");
+            }
 
 			return this;
 		}
