@@ -12,7 +12,6 @@ namespace MyTrips.iOS
 {
     public partial class TripsTableViewController : UITableViewController
     {
-		const string TRIP_CELL_IDENTIFIER = "TRIP_CELL_IDENTIFIER";
 		const string TRIP_CELL_WITHIMAGE_IDENTIFIER = "TRIP_CELL_WITHIMAGE_IDENTIFIER";
 		const string PAST_TRIP_SEGUE_IDENTIFIER = "pastTripSegue";
 
@@ -54,51 +53,24 @@ namespace MyTrips.iOS
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
+			var cell = tableView.DequeueReusableCell(TRIP_CELL_WITHIMAGE_IDENTIFIER) as TripTableViewCellWithImage;
+
+			if (cell == null)
+			{
+				cell = new TripTableViewCellWithImage(new NSString(TRIP_CELL_WITHIMAGE_IDENTIFIER));
+			}
+
 			var trip = ViewModel.Trips[indexPath.Row];
-
-			if (String.IsNullOrEmpty(trip.MainPhotoUrl))
-			{
-				var cell = tableView.DequeueReusableCell(TRIP_CELL_IDENTIFIER) as TripTableViewCell;
-
-				if (cell == null)
-				{
-					cell = new TripTableViewCell(new NSString(TRIP_CELL_IDENTIFIER));
-				}
-
-				cell.LocationName = trip.Name;
-				cell.TimeAgo = trip.TimeAgo;
-				cell.Distance = trip.TotalDistance;
-
-				return cell;
-			}
-			else
-			{
-				var cell = tableView.DequeueReusableCell(TRIP_CELL_WITHIMAGE_IDENTIFIER) as TripTableViewCellWithImage;
-
-				if (cell == null)
-				{
-					cell = new TripTableViewCellWithImage(new NSString(TRIP_CELL_WITHIMAGE_IDENTIFIER));
-				}
-
-				cell.DisplayImage.SetImage(new NSUrl(trip.MainPhotoUrl));
-				cell.LocationName = trip.Name;
-				cell.TimeAgo = trip.TimeAgo;
-				cell.Distance = trip.TotalDistance;
-				return cell;
-			}
+			cell.DisplayImage.SetImage(new NSUrl(trip.MainPhotoUrl));
+			cell.LocationName = trip.Name;
+			cell.TimeAgo = trip.TimeAgo;
+			cell.Distance = trip.TotalDistance;
+			return cell;
 		}
 
 		public override nfloat GetHeightForRow (UITableView tableView, NSIndexPath indexPath)
 		{
-			var mainPhotoUrl = ViewModel.Trips[indexPath.Row].MainPhotoUrl;
-			if (string.IsNullOrEmpty(mainPhotoUrl))
-			{
-				return 60;
-			}
-			else
-			{
-				return 221;
-			}
+			return 221;
 		}
 
 		public override bool CanEditRow(UITableView tableView, NSIndexPath indexPath)

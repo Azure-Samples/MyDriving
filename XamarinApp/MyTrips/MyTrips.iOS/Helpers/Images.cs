@@ -9,4 +9,3 @@
 		public const string TipAnnotation = "Map/tip_annotation.png";
 	}
 }
-

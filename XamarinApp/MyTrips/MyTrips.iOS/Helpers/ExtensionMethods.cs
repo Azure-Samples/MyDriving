@@ -73,11 +73,6 @@ namespace MyTrips.iOS
 		#endregion
 
 		#region Coordinates
-		public static TripPoint ToTripPoint(this CLLocationCoordinate2D coordinate)
-		{
-			return new TripPoint { Latitude = coordinate.Latitude, Longitude = coordinate.Longitude };
-		}
-
 		public static CLLocationCoordinate2D ToCoordinate(this Position position)
 		{
 			return new CLLocationCoordinate2D(position.Latitude, position.Longitude);

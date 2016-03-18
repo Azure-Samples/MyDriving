@@ -208,7 +208,8 @@ namespace MyTrips.Services
             this.StopPollingOBDDevice();
 
             //Disconnect to the device in the case that we did successfull connect to it
-            await this.obdDevice.Disconnect();
+			if (!IsOBDDeviceSimulated)
+            	await this.obdDevice.Disconnect();
 
             this.isConnectedToOBD = false;
         }
