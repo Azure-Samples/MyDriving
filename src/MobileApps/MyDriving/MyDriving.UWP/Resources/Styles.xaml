@@ -27,21 +27,24 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
-    
+
+    <Style x:Key="LoginButtonTextStyle2" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="SegoeUI" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
 
     <Style x:Key="SettingsSeparatorLine" TargetType="Border">
         <Setter  Property="BorderBrush" Value="Gray" />
         <Setter Property="BorderThickness" Value="0,0.5,0,0" />
-        <Setter Property="Margin" Value="0,5,0,5"/>
+        <Setter Property="Margin" Value="0,10,0,10"/>
     </Style>
 
     <Style x:Key="SettingsLabelStyle" TargetType="TextBlock">
-        <Setter Property="Margin" Value="15,5,0,5" />
-        <Setter Property="Foreground" Value="#7BA4C5" />
-    </Style>
-
-    <Style x:Key="SettingsSubLabelStyle" TargetType="TextBlock">
         <Setter Property="Margin" Value="0,5,0,5" />
+      <Setter Property="FontFamily" Value="Segoe UI Light"/>
+        <Setter Property="FontSize" Value="20" />
     </Style>
 
     <Style x:Key="ProfileTabStyle" TargetType="TextBlock">

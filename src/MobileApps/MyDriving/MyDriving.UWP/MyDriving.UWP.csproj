@@ -241,10 +241,15 @@
     <Content Include="Assets\ic_end_point.png" />
     <Content Include="Assets\ic_car_blue.png" />
     <Content Include="Assets\ic_car_red.png" />
-    <Content Include="Assets\Login\logo.png" />
     <Content Include="Assets\Login\Microsoft.png" />
     <Content Include="Assets\Login\twitter.png" />
     <Content Include="Assets\logo%403x.png" />
+    <Content Include="Assets\Logos\512x512.png" />
+    <Content Include="Assets\Logos\Logo150x150.png" />
+    <Content Include="Assets\Logos\Logo24x24.png" />
+    <Content Include="Assets\Logos\Logo300x300.png" />
+    <Content Include="Assets\Logos\Logo88x88.png" />
+    <Content Include="Assets\Logos\SplashScreen.png" />
     <Content Include="Assets\mappin.png" />
     <Content Include="Assets\Smarttriplogo.png" />
     <Content Include="Assets\SplitView\default_Current.png" />

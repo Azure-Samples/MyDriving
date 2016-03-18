@@ -8,7 +8,10 @@
     mc:Ignorable="d"
      x:Name="Login">
 
-    <Grid Name="LoginGrid" Background="{StaticResource MainBackgroundColor}" >
+    <Grid Name="LoginGrid" >
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="{StaticResource Background}" />
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -19,7 +22,7 @@
         <Image x:Name="ProfileImage" HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="70" Height="70"  Grid.Row ="0" Visibility="Collapsed"/>
         <TextBlock x:Name="WelcomeText" HorizontalAlignment="Center"  VerticalAlignment="Top" Visibility="Collapsed"  Grid.Row="1"  Margin="0,10,0,10"/>
       
-       <Image x:Name="AppLogo" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Source="{StaticResource ApplicationLogoA}" Stretch="Uniform" Margin="80,0,80,0" MaxWidth="300"/>
+       <Image x:Name="AppLogo" HorizontalAlignment="Center" VerticalAlignment="Bottom"  Source="{StaticResource ApplicationLogo}" Stretch="Uniform" Margin="80,0,80,0" MaxWidth="300"/>
      
   
         <StackPanel x:Name="LoginButtons" VerticalAlignment="Center" Grid.Row="1" Visibility="Visible" Margin="50,0,50,0">
@@ -51,14 +54,20 @@
                 </StackPanel>
 
             </Button>
+
+            <Button x:Name="SkipAuthBtn"   Style="{StaticResource LoginButtonStyle}"  Click="SkipAuthBtn_Click" 
+                    Background="Gray" HorizontalContentAlignment="Center" >
+
+                <StackPanel  Margin="40,0,0,0">
+               
+                    <TextBlock Text="Skip Authentication"  Style="{StaticResource LoginButtonTextStyle2}" />
+                </StackPanel>
+
+            </Button>
         </StackPanel>
 
         <Button x:Name="ContinueButton" HorizontalAlignment="Center" Margin="0,10,0,0"  Content="Continue"  Click="Continue_Click" Grid.Row="2" VerticalAlignment="Top" Visibility="Collapsed" />
-        <!--This button is temporary - intended only to make it easier to debug\test app-->
-        <Button x:Name="SkipAuthBtn" HorizontalAlignment="Center" Margin="0,10,0,0"  Content="Skip Auth"  Click="SkipAuthBtn_Click" Grid.Row="2" VerticalAlignment="Top"/>
 
-     
-      
     </Grid>
 
   

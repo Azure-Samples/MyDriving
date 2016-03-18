@@ -11,7 +11,7 @@
 
     <Grid>
 
-        <Path x:Name="Path" Stroke="#22cc95" StrokeThickness="{x:Bind StrokeThickness}" >
+        <Path x:Name="Path" Stroke="{StaticResource BrandColor}" StrokeThickness="{x:Bind StrokeThickness}" >
             <Path.Data>
                 <PathGeometry>
                     <PathGeometry.Figures>
