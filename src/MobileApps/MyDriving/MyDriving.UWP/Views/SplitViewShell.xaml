@@ -17,10 +17,10 @@
             <ColumnDefinition Width="35"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid Background="Black" x:Name="HamburgerGrid">
+        <Grid Background="#0087d2" x:Name="HamburgerGrid">
             <Button x:Name="HamburgerButton" Width="40" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Background="Transparent" Click="HamburgerButton_Click" VerticalAlignment="Center" Foreground="#adacac"/>
         </Grid>
-        <Grid Grid.Column="1" Background="#161b1f"  x:Name="TitleGrid">
+        <Grid Grid.Column="1" Background="#0087d2"  x:Name="TitleGrid">
             <TextBlock x:Name="PageTitle" Margin="10,0,0,0" Foreground="#adacac" 
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"/>
