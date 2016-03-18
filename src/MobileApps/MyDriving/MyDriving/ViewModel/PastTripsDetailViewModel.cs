@@ -2,39 +2,34 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MyDriving.Helpers;
 using MyDriving.Utils;
-using MvvmHelpers;
 using MyDriving.DataObjects;
-using System.Collections.ObjectModel;
-using Plugin.DeviceInfo;
 
 namespace MyDriving.ViewModel
 {
     public class PastTripsDetailViewModel : ViewModelBase
     {
-        string distance = "0.0";
+        string _distance = "0.0";
 
-        string distanceUnits = "miles";
+        string _distanceUnits = "miles";
 
-        string elapsedTime = "0s";
+        string _elapsedTime = "0s";
 
-        string fuelConsumption = "N/A";
+        string _fuelConsumption = "N/A";
 
-        string fuelConsumptionUnits = "gal";
+        string _fuelConsumptionUnits = "gal";
 
-        ICommand loadTripCommand;
+        ICommand _loadTripCommand;
 
-        TripPoint position;
+        TripPoint _position;
 
-        string speed = "0.0";
+        string _speed = "0.0";
 
-        string speedUnits = "Mph";
+        string _speedUnits = "Mph";
 
         public PastTripsDetailViewModel()
         {
@@ -54,59 +49,59 @@ namespace MyDriving.ViewModel
 
         public TripPoint CurrentPosition
         {
-            get { return position; }
+            get { return _position; }
             set
             {
-                SetProperty(ref position, value);
+                SetProperty(ref _position, value);
                 UpdateTripInformationForPoint();
             }
         }
 
         public string ElapsedTime
         {
-            get { return elapsedTime; }
-            set { SetProperty(ref elapsedTime, value); }
+            get { return _elapsedTime; }
+            set { SetProperty(ref _elapsedTime, value); }
         }
 
         public string Distance
         {
-            get { return distance; }
-            set { SetProperty(ref distance, value); }
+            get { return _distance; }
+            set { SetProperty(ref _distance, value); }
         }
 
         public string DistanceUnits
         {
-            get { return distanceUnits; }
-            set { SetProperty(ref distanceUnits, value); }
+            get { return _distanceUnits; }
+            set { SetProperty(ref _distanceUnits, value); }
         }
 
         public string FuelConsumption
         {
-            get { return fuelConsumption; }
-            set { SetProperty(ref fuelConsumption, value); }
+            get { return _fuelConsumption; }
+            set { SetProperty(ref _fuelConsumption, value); }
         }
 
         public string FuelConsumptionUnits
         {
-            get { return fuelConsumptionUnits; }
-            set { SetProperty(ref fuelConsumptionUnits, value); }
+            get { return _fuelConsumptionUnits; }
+            set { SetProperty(ref _fuelConsumptionUnits, value); }
         }
 
         public string Speed
         {
-            get { return speed; }
-            set { SetProperty(ref speed, value); }
+            get { return _speed; }
+            set { SetProperty(ref _speed, value); }
         }
 
         public string SpeedUnits
         {
-            get { return speedUnits; }
-            set { SetProperty(ref speedUnits, value); }
+            get { return _speedUnits; }
+            set { SetProperty(ref _speedUnits, value); }
         }
 
         public ICommand LoadTripCommand =>
-            loadTripCommand ??
-            (loadTripCommand = new RelayCommand<string>(async (id) => await ExecuteLoadTripCommandAsync(id)));
+            _loadTripCommand ??
+            (_loadTripCommand = new RelayCommand<string>(async id => await ExecuteLoadTripCommandAsync(id)));
 
         public async Task ExecuteLoadTripCommandAsync(string id)
         {
@@ -127,17 +122,11 @@ namespace MyDriving.ViewModel
                     var point = Trip.Points[i];
                     if (point.MassFlowRate == -255)
                     {
-                        if (i == 0)
-                            point.MassFlowRate = 0;
-                        else
-                            point.MassFlowRate = Trip.Points[i - 1].MassFlowRate;
+                        point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
                     }
                     if (point.Speed == -255)
                     {
-                        if (i == 0)
-                            point.Speed = 0;
-                        else
-                            point.Speed = Trip.Points[i - 1].Speed;
+                        point.Speed = i == 0 ? 0 : Trip.Points[i - 1].Speed;
                     }
                 }
             }
@@ -154,7 +143,7 @@ namespace MyDriving.ViewModel
 
         public void UpdateTripInformationForPoint()
         {
-            var timeDif = position.RecordedTimeStamp - Trip.RecordedTimeStamp;
+            var timeDif = _position.RecordedTimeStamp - Trip.RecordedTimeStamp;
 
             //track seconds, minutes, then hours
             if (timeDif.TotalMinutes < 1)
@@ -164,7 +153,7 @@ namespace MyDriving.ViewModel
             else
                 ElapsedTime = $"{(int) timeDif.TotalHours}h {timeDif.Minutes}m";
 
-            var previousPoints = Trip.Points.Where(p => p.RecordedTimeStamp <= position.RecordedTimeStamp).ToArray();
+            var previousPoints = Trip.Points.Where(p => p.RecordedTimeStamp <= _position.RecordedTimeStamp).ToArray();
             var obdPoints = previousPoints.Where(p => p.HasOBDData && p.MassFlowRate > -1).ToArray();
 
             var totalConsumptionPoints = obdPoints.Length;

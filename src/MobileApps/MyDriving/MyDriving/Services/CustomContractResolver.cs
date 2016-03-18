@@ -3,12 +3,8 @@
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyDriving.Services
 {
@@ -29,19 +25,18 @@ namespace MyDriving.Services
                 ["HasSimulatedOBDData"] = "IsSimulated",
             };
 
-            IgnoreProperties = new List<string>();
-            IgnoreProperties.Add("HasOBDData");
+            IgnoreProperties = new List<string> {"HasOBDData"};
         }
 
-        private Dictionary<string, string> PropertyMappings { get; set; }
+        private Dictionary<string, string> PropertyMappings { get; }
 
-        private List<string> IgnoreProperties { get; set; }
+        private List<string> IgnoreProperties { get; }
 
         protected override string ResolvePropertyName(string propertyName)
         {
-            string resolvedName = null;
+            string resolvedName;
             var resolved = PropertyMappings.TryGetValue(propertyName, out resolvedName);
-            return (resolved) ? resolvedName : base.ResolvePropertyName(propertyName);
+            return resolved ? resolvedName : base.ResolvePropertyName(propertyName);
         }
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
@@ -50,7 +45,7 @@ namespace MyDriving.Services
 
             if (IgnoreProperties.Contains(property.PropertyName))
             {
-                property.ShouldSerialize = p => { return false; };
+                property.ShouldSerialize = p => false;
             }
 
             return property;

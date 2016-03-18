@@ -10,15 +10,12 @@ namespace MyDriving.ViewModel
 {
     public class ViewModelBase : BaseViewModel
     {
-        static IStoreManager storeManager;
+        static IStoreManager _storeManager;
 
-        public Settings Settings
-        {
-            get { return Settings.Current; }
-        }
+        public Settings Settings => Settings.Current;
 
         public static IStoreManager StoreManager
-            => storeManager ?? (storeManager = ServiceLocator.Instance.Resolve<IStoreManager>());
+            => _storeManager ?? (_storeManager = ServiceLocator.Instance.Resolve<IStoreManager>());
 
         public static void Init(bool useMock = false)
         {

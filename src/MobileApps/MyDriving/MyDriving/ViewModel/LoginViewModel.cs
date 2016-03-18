@@ -8,7 +8,6 @@ using MyDriving.Helpers;
 using MyDriving.Interfaces;
 using MyDriving.DataObjects;
 using Microsoft.WindowsAzure.MobileServices;
-using MyDriving.DataStore.Abstractions;
 using MyDriving.AzureClient;
 using System;
 
@@ -16,42 +15,42 @@ namespace MyDriving.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        IAuthentication authentication;
-        private IMobileServiceClient client;
+        readonly IAuthentication _authentication;
+        private readonly IMobileServiceClient _client;
 
-        bool isLoggedIn;
+        bool _isLoggedIn;
 
-        ICommand loginFacebookCommand;
+        ICommand _loginFacebookCommand;
 
-        ICommand loginMicrosoftCommand;
+        ICommand _loginMicrosoftCommand;
 
-        ICommand loginTwitterCommand;
+        ICommand _loginTwitterCommand;
 
         public LoginViewModel()
         {
-            client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
-            authentication = ServiceLocator.Instance.Resolve<IAuthentication>();
+            _client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
+            _authentication = ServiceLocator.Instance.Resolve<IAuthentication>();
         }
 
         public UserProfile UserProfile { get; set; }
 
         public bool IsLoggedIn
         {
-            get { return isLoggedIn; }
-            set { SetProperty(ref isLoggedIn, value); }
+            get { return _isLoggedIn; }
+            set { SetProperty(ref _isLoggedIn, value); }
         }
 
         public ICommand LoginTwitterCommand =>
-            loginTwitterCommand ??
-            (loginTwitterCommand = new RelayCommand(async () => await ExecuteLoginTwitterCommandAsync()));
+            _loginTwitterCommand ??
+            (_loginTwitterCommand = new RelayCommand(async () => await ExecuteLoginTwitterCommandAsync()));
 
         public ICommand LoginMicrosoftCommand =>
-            loginMicrosoftCommand ??
-            (loginMicrosoftCommand = new RelayCommand(async () => await ExecuteLoginMicrosoftCommandAsync()));
+            _loginMicrosoftCommand ??
+            (_loginMicrosoftCommand = new RelayCommand(async () => await ExecuteLoginMicrosoftCommandAsync()));
 
         public ICommand LoginFacebookCommand =>
-            loginFacebookCommand ??
-            (loginFacebookCommand = new RelayCommand(async () => await ExecuteLoginFacebookCommandAsync()));
+            _loginFacebookCommand ??
+            (_loginFacebookCommand = new RelayCommand(async () => await ExecuteLoginFacebookCommandAsync()));
 
         public void InitFakeUser()
         {
@@ -64,7 +63,7 @@ namespace MyDriving.ViewModel
 
         public async Task ExecuteLoginTwitterCommandAsync()
         {
-            if (client == null || IsBusy)
+            if (_client == null || IsBusy)
                 return;
 
             Settings.LoginAccount = LoginAccount.Twitter;
@@ -76,7 +75,7 @@ namespace MyDriving.ViewModel
 
         public async Task ExecuteLoginMicrosoftCommandAsync()
         {
-            if (client == null || IsBusy)
+            if (_client == null || IsBusy)
                 return;
 
             Settings.LoginAccount = LoginAccount.Microsoft;
@@ -88,7 +87,7 @@ namespace MyDriving.ViewModel
 
         public async Task ExecuteLoginFacebookCommandAsync()
         {
-            if (client == null || IsBusy)
+            if (_client == null || IsBusy)
                 return;
             Settings.LoginAccount = LoginAccount.Facebook;
             var track = Logger.Instance.TrackTime("LoginFacebook");
@@ -111,13 +110,13 @@ namespace MyDriving.ViewModel
 
             try
             {
-                authentication.ClearCookies();
-                user = await authentication.LoginAsync(client, provider);
+                _authentication.ClearCookies();
+                user = await _authentication.LoginAsync(_client, provider);
 
                 if (user != null)
                 {
                     IsBusy = true;
-                    UserProfile = await UserProfileHelper.GetUserProfileAsync(client);
+                    UserProfile = await UserProfileHelper.GetUserProfileAsync(_client);
                 }
             }
             catch (Exception ex)

@@ -2,37 +2,35 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using Microsoft.WindowsAzure.MobileServices;
-using MvvmHelpers;
 using MyDriving.AzureClient;
 using MyDriving.Utils;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
-using MyDriving.DataObjects;
 
 namespace MyDriving.ViewModel
 {
     public class ProfileViewModel : ViewModelBase
     {
-        const int drivingSkillsBuckets = 4;
-        int drivingSkills; //percentage
+        const int DrivingSkillsBuckets = 4;
+        int _drivingSkills; //percentage
 
 
-        DrivingSkillsBucket drivingSkillsPlacementBucket;
+        DrivingSkillsBucket _drivingSkillsPlacementBucket;
 
-        double fuelUsed;
+        double _fuelUsed;
 
-        long hardAccelerations;
+        long _hardAccelerations;
 
-        long hardStops;
+        long _hardStops;
 
-        double maxSpeed;
+        double _maxSpeed;
 
-        double totalDistance;
+        double _totalDistance;
 
-        double totalTime;
+        double _totalTime;
 
-        long totalTrips;
+        long _totalTrips;
 
         public ProfileViewModel()
         {
@@ -41,18 +39,18 @@ namespace MyDriving.ViewModel
 
         public int DrivingSkills
         {
-            get { return drivingSkills; }
+            get { return _drivingSkills; }
             set
             {
-                SetProperty(ref drivingSkills, value);
-                UpdatePlacementBucket(drivingSkills);
+                SetProperty(ref _drivingSkills, value);
+                UpdatePlacementBucket(_drivingSkills);
             }
         }
 
         public DrivingSkillsBucket DrivingSkillsPlacementBucket
         {
-            get { return drivingSkillsPlacementBucket; }
-            set { SetProperty(ref drivingSkillsPlacementBucket, value); }
+            get { return _drivingSkillsPlacementBucket; }
+            set { SetProperty(ref _drivingSkillsPlacementBucket, value); }
         }
 
         public string FuelUnits => Settings.MetricUnits ? "L" : "gal.";
@@ -96,10 +94,10 @@ namespace MyDriving.ViewModel
 
         public double TotalDistance
         {
-            get { return totalDistance; }
+            get { return _totalDistance; }
             set
             {
-                if (!SetProperty(ref totalDistance, value))
+                if (!SetProperty(ref _totalDistance, value))
                     return;
 
                 OnPropertyChanged(nameof(DistanceUnits));
@@ -111,10 +109,10 @@ namespace MyDriving.ViewModel
 
         public double FuelUsed
         {
-            get { return fuelUsed; }
+            get { return _fuelUsed; }
             set
             {
-                if (!SetProperty(ref fuelUsed, value))
+                if (!SetProperty(ref _fuelUsed, value))
                     return;
 
                 OnPropertyChanged(nameof(FuelUnits));
@@ -126,10 +124,10 @@ namespace MyDriving.ViewModel
 
         public double TotalTime
         {
-            get { return totalTime; }
+            get { return _totalTime; }
             set
             {
-                if (!SetProperty(ref totalTime, value))
+                if (!SetProperty(ref _totalTime, value))
                     return;
 
                 OnPropertyChanged(nameof(TotalTimeDisplay));
@@ -138,10 +136,10 @@ namespace MyDriving.ViewModel
 
         public double MaxSpeed
         {
-            get { return maxSpeed; }
+            get { return _maxSpeed; }
             set
             {
-                if (!SetProperty(ref maxSpeed, value))
+                if (!SetProperty(ref _maxSpeed, value))
                     return;
 
                 OnPropertyChanged(nameof(SpeedUnits));
@@ -153,20 +151,20 @@ namespace MyDriving.ViewModel
 
         public long HardStops
         {
-            get { return hardStops; }
-            set { SetProperty(ref hardStops, value); }
+            get { return _hardStops; }
+            set { SetProperty(ref _hardStops, value); }
         }
 
         public long HardAccelerations
         {
-            get { return hardAccelerations; }
-            set { SetProperty(ref hardAccelerations, value); }
+            get { return _hardAccelerations; }
+            set { SetProperty(ref _hardAccelerations, value); }
         }
 
         public long TotalTrips
         {
-            get { return totalTrips; }
-            set { SetProperty(ref totalTrips, value); }
+            get { return _totalTrips; }
+            set { SetProperty(ref _totalTrips, value); }
         }
 
         DrivingSkillsBucket[] Skills { get; set; }
@@ -232,7 +230,7 @@ namespace MyDriving.ViewModel
         void InitializeDrivingSkills()
         {
             // to do find specifications for colors/desription 
-            Skills = new DrivingSkillsBucket[drivingSkillsBuckets]
+            Skills = new[]
             {
                 new DrivingSkillsBucket() {BetterThan = 0, Description = "Poor"},
                 new DrivingSkillsBucket() {BetterThan = 45, Description = "Average"},
@@ -243,7 +241,7 @@ namespace MyDriving.ViewModel
 
         void UpdatePlacementBucket(int skills)
         {
-            for (int i = drivingSkillsBuckets - 1; i >= 0; i--)
+            for (int i = DrivingSkillsBuckets - 1; i >= 0; i--)
             {
                 if (skills > Skills[i].BetterThan)
                 {
