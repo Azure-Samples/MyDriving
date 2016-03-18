@@ -284,6 +284,7 @@ namespace MyDriving.iOS
 			recordButton.Hidden = true;
 
 			tripMapView.SetVisibleMapRect(MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray()).BoundingMapRect, new UIEdgeInsets(25, 25, 25, 25), false);
+			tripMapView.CenterCoordinate = carCoordinate.ToCoordinate();
 
 			UpdateTripStatistics(carCoordinate);
 			NSNotificationCenter.DefaultCenter.AddObserver(new NSString("RefreshTripUnits"), HandleTripUnitsChanged);
