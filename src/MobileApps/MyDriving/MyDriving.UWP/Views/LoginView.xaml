@@ -8,7 +8,10 @@
     mc:Ignorable="d"
      x:Name="Login">
 
-    <Grid Name="LoginGrid" Background="{StaticResource MainBackgroundColor}" >
+    <Grid Name="LoginGrid" >
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="{StaticResource Background}" />
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>

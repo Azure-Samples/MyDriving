@@ -8,7 +8,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="MainGrid" Background="{StaticResource MainBackgroundColor}">
+    <Grid x:Name="MainGrid" >
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="{StaticResource Background}" />
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition />
