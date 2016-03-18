@@ -1,4 +1,7 @@
-﻿using Android.Content;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using Android.Content;
 using Android.Graphics;
 using Android.Runtime;
 using Android.Util;
@@ -12,57 +15,47 @@ namespace MyDriving.Droid.Controls
 {
     public class RatingCircle : View
     {
-        Context context;
+        Bitmap _bitmap;
+        Canvas _canvas;
+
+        RectF _circleOuterBounds, _circleInnerBounds;
+
+        Paint _circlePaint, _eraserPaint;
+        Context _context;
+        float _currentRating;
+        float _rating;
+
+        ValueAnimator _timerAnimator;
+
         public RatingCircle(IntPtr handle, JniHandleOwnership transfer)
             : base(handle, transfer)
         {
         }
 
-        public RatingCircle (Context context)
-            : this (context, null)
+        public RatingCircle(Context context)
+            : this(context, null)
         {
         }
 
-        public RatingCircle (Context context, IAttributeSet attrs)
-            : base (context, attrs)
+        public RatingCircle(Context context, IAttributeSet attrs)
+            : base(context, attrs)
         {
-            Init (context, attrs);
+            Init(context, attrs);
         }
 
-        public RatingCircle (Context context, IAttributeSet attrs, int defStyle)
-            : base (context, attrs, defStyle)
+        public RatingCircle(Context context, IAttributeSet attrs, int defStyle)
+            : base(context, attrs, defStyle)
         {
-            Init (context, attrs);
+            Init(context, attrs);
         }
 
-        Paint circlePaint, eraserPaint;
-        void Init(Context context, IAttributeSet attributeSet)
-        {
-            SetBackgroundColor(Color.Transparent);
-            this.context = context;
-            circlePaint = new Paint
-            {
-                Color = new Color(ContextCompat.GetColor(context, Resource.Color.accent)),
-                AntiAlias = true
-            };
-
-            eraserPaint = new Paint
-            {
-                AntiAlias = true,
-                Color = Color.Transparent,
-
-            };
-            eraserPaint.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.Clear));
-        }
-        float rating = 0;
-        float currentRating = 0;
         public float Rating
         {
-            get { return rating; }
-            set 
+            get { return _rating; }
+            set
             {
-                rating = value;
-                currentRating = 0;
+                _rating = value;
+                _currentRating = 0;
                 if (PlayAnimation)
                     Start(1);
                 else
@@ -72,35 +65,49 @@ namespace MyDriving.Droid.Controls
 
         public bool PlayAnimation { get; set; } = true;
 
-        Bitmap bitmap;
-        Canvas canvas;
+        void Init(Context context, IAttributeSet attributeSet)
+        {
+            SetBackgroundColor(Color.Transparent);
+            _context = context;
+            _circlePaint = new Paint
+            {
+                Color = new Color(ContextCompat.GetColor(context, Resource.Color.accent)),
+                AntiAlias = true
+            };
+
+            _eraserPaint = new Paint
+            {
+                AntiAlias = true,
+                Color = Color.Transparent,
+            };
+            _eraserPaint.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.Clear));
+        }
+
         protected override void OnSizeChanged(int w, int h, int oldw, int oldh)
         {
             if (w != oldw || h != oldh)
             {
-                bitmap = Bitmap.CreateBitmap(w, h, Bitmap.Config.Argb8888);
-                bitmap.EraseColor(Color.Transparent);
-                canvas = new Canvas(bitmap);
+                _bitmap = Bitmap.CreateBitmap(w, h, Bitmap.Config.Argb8888);
+                _bitmap.EraseColor(Color.Transparent);
+                _canvas = new Canvas(_bitmap);
             }
             base.OnSizeChanged(w, h, oldw, oldh);
             UpdateBounds();
         }
 
-        RectF circleOuterBounds, circleInnerBounds;
         void UpdateBounds()
         {
-            var logicalDensity = context.Resources.DisplayMetrics.Density;
-            var thickness = (int)Math.Ceiling(4 * logicalDensity + .5f);
+            var logicalDensity = _context.Resources.DisplayMetrics.Density;
+            var thickness = (int) Math.Ceiling(4*logicalDensity + .5f);
 
-            circleOuterBounds = new RectF(0, 0, Width, Height);
-            circleInnerBounds = new RectF(
-                circleOuterBounds.Left + thickness,
-                circleOuterBounds.Top + thickness,
-                circleOuterBounds.Right - thickness,
-                circleOuterBounds.Bottom - thickness);
+            _circleOuterBounds = new RectF(0, 0, Width, Height);
+            _circleInnerBounds = new RectF(
+                _circleOuterBounds.Left + thickness,
+                _circleOuterBounds.Top + thickness,
+                _circleOuterBounds.Right - thickness,
+                _circleOuterBounds.Bottom - thickness);
 
             Invalidate();
-
         }
 
         //make a perfect square
@@ -112,34 +119,31 @@ namespace MyDriving.Droid.Controls
 
         protected override void OnDraw(Canvas canvas)
         {
-            this.canvas.DrawColor(Color.Transparent, PorterDuff.Mode.Clear);
+            _canvas.DrawColor(Color.Transparent, PorterDuff.Mode.Clear);
 
 
-
-            var sweepAngle = PlayAnimation ? (currentRating / 100f) * 360 : (Rating / 100f) * 360;
+            var sweepAngle = PlayAnimation ? (_currentRating/100f)*360 : (Rating/100f)*360;
             if (sweepAngle > 0f)
             {
-                this.canvas.DrawArc(circleOuterBounds, 270, sweepAngle, true, circlePaint);
-                this.canvas.DrawOval(circleInnerBounds, eraserPaint);
+                _canvas.DrawArc(_circleOuterBounds, 270, sweepAngle, true, _circlePaint);
+                _canvas.DrawOval(_circleInnerBounds, _eraserPaint);
             }
 
 
-            canvas.DrawBitmap(bitmap, 0, 0, null);
+            canvas.DrawBitmap(_bitmap, 0, 0, null);
         }
 
-        ValueAnimator timerAnimator;
         void Start(long secs)
         {
-            timerAnimator = ValueAnimator.OfFloat(0f, Rating);
-            timerAnimator.SetDuration(Java.Util.Concurrent.TimeUnit.Seconds.ToMillis(secs));
-            timerAnimator.SetInterpolator(new AccelerateInterpolator());
-            timerAnimator.Update += (sender, e) =>
+            _timerAnimator = ValueAnimator.OfFloat(0f, Rating);
+            _timerAnimator.SetDuration(Java.Util.Concurrent.TimeUnit.Seconds.ToMillis(secs));
+            _timerAnimator.SetInterpolator(new AccelerateInterpolator());
+            _timerAnimator.Update += (sender, e) =>
             {
-                currentRating = (float)e.Animation.AnimatedValue;
+                _currentRating = (float) e.Animation.AnimatedValue;
                 Invalidate();
             };
-            timerAnimator.Start();
+            _timerAnimator.Start();
         }
     }
 }
-

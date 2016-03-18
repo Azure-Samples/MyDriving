@@ -53,7 +53,7 @@
 
         <Rectangle HorizontalAlignment="Stretch" Height="90" VerticalAlignment="Bottom" Fill="#FF8B7C7C" Opacity="0.4"  />
         <StackPanel x:Name="FooterPanel" Orientation="Horizontal" VerticalAlignment="Bottom"  HorizontalAlignment="Center">
-            <Image Source="ms-appx:///Assets/ic_start_point.png"  AutomationProperties.Name="Start Point"  Stretch="None" VerticalAlignment="Center"
+            <Image Source="ms-appx:///Assets/A.png"  AutomationProperties.Name="Start Point"  Stretch="None" VerticalAlignment="Center"
                    HorizontalAlignment="Left" Margin="20,0,10,16" Canvas.ZIndex="3"/>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,16" >
                 <Slider Name="positionSlider" HorizontalAlignment="Stretch" VerticalAlignment="Center"  ValueChanged="positionSlider_ValueChanged" Canvas.ZIndex="2"  Width="200" RequestedTheme="Light" Foreground="#FF4444E2" Height="30" />
@@ -62,7 +62,7 @@
                     <TextBlock  x:Name="text_endtime"  HorizontalAlignment="Right" Foreground="Black" Margin="50,0,0,0" FontSize="13"/>
                 </StackPanel>
                 </StackPanel>
-            <Image Source="ms-appx:///Assets/ic_end_point.png" Canvas.ZIndex="3" AutomationProperties.Name="End Point" Stretch="None" Margin="10,0,20,16" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <Image Source="ms-appx:///Assets/B.png" Canvas.ZIndex="3" AutomationProperties.Name="End Point" Stretch="None" Margin="10,0,20,16" VerticalAlignment="Center" HorizontalAlignment="Right"/>
         </StackPanel>
     </Grid>
 </Page>

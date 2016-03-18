@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -16,4 +19,3 @@ namespace MyDriving.Interfaces
         public double Longitude { get; set; }
     }
 }
-
