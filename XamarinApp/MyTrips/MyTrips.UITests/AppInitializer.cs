@@ -32,7 +32,7 @@ namespace MyTrips.UITests
 				string dir = fi.Directory.Parent.Parent.Parent.FullName;
 
 				// PathToAPK is a property or an instance variable in the test class
-				var PathToAPK = Path.Combine(dir, "MyTrips.Android", "bin", "Release", "com.microsoft.mytrips.apk");
+				var PathToAPK = Path.Combine(dir, "MyTrips.Android", "bin", "XTC", "com.microsoft.mytrips-Signed.apk");
 
 				Console.WriteLine (PathToAPK);
 

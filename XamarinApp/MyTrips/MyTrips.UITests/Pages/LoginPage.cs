@@ -11,10 +11,10 @@ namespace MyTrips.UITests
 	public class LoginPage : BasePage
 	{
 		string LoginWithFacebookItem = "LoginWithFacebook";
-		string SkipAuthenticationItem = "SkipAuthentication";
+		string SkipAuthenticationItem = "button_skip";
 
 		public LoginPage ()
-			: base (c => c.Marked ("LoginWithTwitter"), c => c.Marked ("LoginWithTwitter"))
+			: base (c => c.Marked ("button_twitter"), c => c.Marked ("LoginWithTwitter"))
 		{
 			if (OnAndroid) {
 
