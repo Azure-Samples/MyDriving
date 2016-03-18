@@ -27,6 +27,7 @@ namespace MyDriving.UITests
 
             try
             {
+                //some OS opt for saving passwords from webviews. This catches that case
                 app.WaitForElement("Do you want the browser to remember this password?", timeout: TimeSpan.FromSeconds(5));
                 app.Tap("Not now");
             }
