@@ -3,9 +3,7 @@
 
 using System;
 using System.IO;
-using System.Linq;
 using Xamarin.UITest;
-using Xamarin.UITest.Queries;
 using System.Reflection;
 
 namespace MyDriving.UITests
@@ -13,7 +11,7 @@ namespace MyDriving.UITests
     public class AppInitializer
     {
         //const string apkPath = "../../../com.xamarin.samples.taskydroid-Signed.apk";
-        const string appPath = "../../../MyDriving.iOS/bin/iPhoneSimulator/Debug/MyDrivingiOS.app";
+        const string AppPath = "../../../MyDriving.iOS/bin/iPhoneSimulator/Debug/MyDrivingiOS.app";
 
         private static IApp app;
 
@@ -50,7 +48,7 @@ namespace MyDriving.UITests
             {
                 app = ConfigureApp
                     .iOS
-                    .AppBundle(appPath)
+                    .AppBundle(AppPath)
                     .StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear);
             }
 
