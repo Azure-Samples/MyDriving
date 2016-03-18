@@ -134,6 +134,7 @@ namespace MyTrips.ViewModel
 
 			var previousPoints = Trip.Points.Where(p => p.RecordedTimeStamp <= position.RecordedTimeStamp).ToArray();
             var obdPoints = previousPoints.Where(p => p.HasOBDData && p.MassFlowRate > -1).ToArray();
+
 			var totalConsumptionPoints = obdPoints.Length;
 			var totalConsumption = obdPoints.Sum(s => s.MassFlowRate);
 
