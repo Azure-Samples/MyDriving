@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>bd4403c0-6cd5-4030-b1a3-7ad98b9b80ca</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MyDriving.DataObjects</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BaseDataObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IOTHubData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)POI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)POIType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Trip.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Photo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserProfile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TripPoint.cs" />
+  </ItemGroup>
+</Project>
