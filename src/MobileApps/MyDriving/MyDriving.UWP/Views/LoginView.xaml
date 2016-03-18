@@ -55,6 +55,7 @@
 
             </Button>
 
+            <!--
             <Button x:Name="SkipAuthBtn"   Style="{StaticResource LoginButtonStyle}"  Click="SkipAuthBtn_Click" 
                     Background="Gray" HorizontalContentAlignment="Center" >
 
@@ -64,6 +65,7 @@
                 </StackPanel>
 
             </Button>
+            -->
         </StackPanel>
 
         <Button x:Name="ContinueButton" HorizontalAlignment="Center" Margin="0,10,0,0"  Content="Continue"  Click="Continue_Click" Grid.Row="2" VerticalAlignment="Top" Visibility="Collapsed" />

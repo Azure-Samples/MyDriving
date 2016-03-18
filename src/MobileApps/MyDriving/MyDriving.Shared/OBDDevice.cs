@@ -10,6 +10,7 @@ using ObdLibUWP;
 
 #elif __ANDROID__
 using ObdLibAndroid;
+
 #elif __IOS__
 using ObdLibiOS;
 #endif

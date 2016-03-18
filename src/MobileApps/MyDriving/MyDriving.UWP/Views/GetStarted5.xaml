@@ -22,7 +22,7 @@
             
             <controls:DotsControl x:Name="Dots" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
           
-                <Button x:Name="DoneButton" Click="GoNext" Content="Let's Go!" HorizontalAlignment="Stretch" Height="40" Background="White" Foreground="#FF3C3D3E" Grid.Row="1"/>
+                <Button x:Name="DoneButton" Click="GoNext" Content="Let's Go!" HorizontalAlignment="Stretch" Height="40" Background="{StaticResource BrandColor}"  Grid.Row="1"/>
    
           
         </Grid>
