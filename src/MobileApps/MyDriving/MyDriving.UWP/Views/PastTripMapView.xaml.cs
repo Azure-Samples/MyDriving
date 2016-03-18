@@ -62,7 +62,7 @@ namespace MyDriving.UWP.Views
             }
             // Enable the back button navigation
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-            systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
+            systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested; 
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -153,8 +153,21 @@ namespace MyDriving.UWP.Views
                 MyMap.MapElements.Add(mapEndIcon);
 
                 // Draw the Car 
-                DrawCarOnMap(Locations.First());
+                DrawCarOnMap(this.Locations.First());
             });
+        }
+
+        private void DrawPoiOnMap()
+        {
+            // Foreach POI point. Put it on Maps. 
+            MapIcon mapEndIcon = new MapIcon();
+            mapEndIcon.Location = new Geopoint(this.Locations.First());
+            mapEndIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
+            mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png"));
+            mapEndIcon.ZIndex = 1;
+            mapEndIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+            MyMap.MapElements.Add(mapEndIcon);
+
         }
 
         private void DrawCarOnMap(BasicGeoposition basicGeoposition)

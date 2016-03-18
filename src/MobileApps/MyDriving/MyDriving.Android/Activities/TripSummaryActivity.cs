@@ -1,19 +1,10 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using MyDriving.Droid.Controls;
-using Refractored.Controls;
-using MyDriving.Utils;
-using Android.Util;
 using Android.Content.PM;
 using MyDriving.ViewModel;
 using Android.Graphics;
@@ -21,25 +12,21 @@ using Android.Support.V4.Content;
 
 namespace MyDriving.Droid.Activities
 {
-    [Activity(Label = "Trip Summary", Theme="@style/MyTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]   
+    [Activity(Label = "Trip Summary", Theme = "@style/MyTheme",
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+        ScreenOrientation = ScreenOrientation.Portrait)]
     public class TripSummaryActivity : BaseActivity
     {
         public static TripSummaryViewModel ViewModel { get; set; }
 
 
-        protected override int LayoutResource
-        {
-            get
-            {
-                return Resource.Layout.activity_trip_summary;
-            }
-        }
+        protected override int LayoutResource => Resource.Layout.activity_trip_summary;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            if ((int)Build.VERSION.SdkInt >= 21)
+            if ((int) Build.VERSION.SdkInt >= 21)
             {
                 Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.primary_dark)));
                 Window.DecorView.SystemUiVisibility = StatusBarVisibility.Visible;
@@ -86,4 +73,3 @@ namespace MyDriving.Droid.Activities
         }
     }
 }
-
