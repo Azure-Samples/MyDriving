@@ -1,4 +1,7 @@
-﻿using Windows.UI.Xaml;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using MyDriving.Utils;
@@ -8,21 +11,21 @@ using MyDriving.Utils;
 namespace MyDriving.UWP.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class GetStarted5 : Page
     {
-        private double StartX;
         private double EndX;
+        private double StartX;
+
         public GetStarted5()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Dots.SelectCircle(5);
 
             ManipulationMode = ManipulationModes.TranslateX;
             ManipulationStarted += Manipulation_Started;
             ManipulationCompleted += Manipulation_Completed;
-
         }
 
 
@@ -36,17 +39,15 @@ namespace MyDriving.UWP.Views
         {
             EndX = e.Position.X;
             if (EndX > StartX) //back
-                this.Frame.Navigate(typeof(GetStarted4));
+                Frame.Navigate(typeof (GetStarted4));
             e.Handled = true;
         }
 
         private void GoNext(object sender, RoutedEventArgs e)
         {
             Settings.Current.FirstRun = false;
-            Window.Current.Content = new SplitViewShell(this.Frame);
-            this.Frame.Navigate(typeof(LoginView));
+            Window.Current.Content = new SplitViewShell(Frame);
+            Frame.Navigate(typeof (LoginView));
         }
-
     }
 }
-

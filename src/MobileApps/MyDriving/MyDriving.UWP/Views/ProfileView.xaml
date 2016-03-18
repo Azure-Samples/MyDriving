@@ -15,28 +15,28 @@
 
                 <Grid >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <controls:CirclePercentage x:Name="CirclePercentage" Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" DataContext="{Binding }"/>
                     <Ellipse Grid.RowSpan="2" Width="100" Height="100">
                         <Ellipse.Fill>
-                            <ImageBrush x:Name="ProfileImage" ImageSource="{x:Bind profileViewModel.Settings.UserProfileUrl, Mode=OneWay, Converter={StaticResource ImageSourceConverter}}"/>
+                            <ImageBrush x:Name="ProfileImage" ImageSource="{x:Bind _profileViewModel.Settings.UserProfileUrl, Mode=OneWay, Converter={StaticResource ImageSourceConverter}}"/>
                         </Ellipse.Fill>
                     </Ellipse>
 
-                    <TextBlock Name="DrivingSkills" Text="{x:Bind profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}% '}"   
+                    <TextBlock Name="DrivingSkills" Text="{x:Bind _profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}% '}"   
                                      Grid.Column="1" FontFamily="SegoeUI" FontSize="32" Foreground="{StaticResource BrandColor}" TextWrapping="Wrap"/>
                     <StackPanel Grid.Column="1" Grid.Row="1">
-                        <TextBlock Name="DrivingSkillsMessage2" Text="{x:Bind profileViewModel.DrivingSkillsPlacementBucket.Description,  Converter={StaticResource StringFormatConverter}, ConverterParameter='Driving skills: {0}', Mode=OneWay}"   
+                        <TextBlock Name="DrivingSkillsMessage2" Text="{x:Bind _profileViewModel.DrivingSkillsPlacementBucket.Description,  Converter={StaticResource StringFormatConverter}, ConverterParameter='Driving skills: {0}', Mode=OneWay}"   
                                     FontFamily="SegoeUI-Light" FontSize="16" Foreground="White" TextWrapping="Wrap" />
-                        <TextBlock Name="DrivingSkillsMessage" Text="{x:Bind profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Better than {0}% of americans'}" 
+                        <TextBlock Name="DrivingSkillsMessage" Text="{x:Bind _profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Better than {0}% of americans'}" 
                                     FontFamily="SegoeUI-Semilight" FontSize="11"  Foreground="#b1b2b1" TextWrapping="Wrap" />
                     </StackPanel>
                 </Grid>

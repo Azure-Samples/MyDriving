@@ -8,7 +8,5 @@
     mc:Ignorable="d"
     x:Name="ROUTES">
 
-    <Grid Background="#162129">
- 
-    </Grid>
+    <Grid Background="#162129" />
 </Page>
