@@ -73,54 +73,36 @@ namespace MyDriving.Analysis
         {
             public string Name = "";
             public List<string> ProjectFiles = new List<string>();
-            public List<FileInfo> CodeFiles = new List<FileInfo>();
+            public readonly List<FileInfo> CodeFiles = new List<FileInfo>();
             public override string ToString()
             {
                 return Name;
             }
 
-            public int UniqueLinesOfCode
-            {
-                get
-                {
-                    return (from f in CodeFiles
-                            where f.Solutions.Count == 1
-                            select f.LinesOfCode).Sum();
-                }
-            }
+            public int UniqueLinesOfCode => (from f in CodeFiles
+                where f.Solutions.Count == 1
+                select f.LinesOfCode).Sum();
 
-            public int SharedLinesOfCode
-            {
-                get
-                {
-                    return (from f in CodeFiles
-                            where f.Solutions.Count > 1
-                            select f.LinesOfCode).Sum();
-                }
-            }
+            public int SharedLinesOfCode => (from f in CodeFiles
+                where f.Solutions.Count > 1
+                select f.LinesOfCode).Sum();
 
-            public int TotalLinesOfCode
-            {
-                get
-                {
-                    return (from f in CodeFiles
-                            select f.LinesOfCode).Sum();
-                }
-            }
+            public int TotalLinesOfCode => (from f in CodeFiles
+                select f.LinesOfCode).Sum();
         }
 
         class FileInfo
         {
             public string Path = "";
-            public List<Solution> Solutions = new List<Solution>();
-            public int LinesOfCode = 0;
+            public readonly List<Solution> Solutions = new List<Solution>();
+            public int LinesOfCode;
             public override string ToString()
             {
                 return Path;
             }
         }
 
-        Dictionary<string, FileInfo> _files = new Dictionary<string, FileInfo>();
+        readonly Dictionary<string, FileInfo> _files = new Dictionary<string, FileInfo>();
 
         void AddRef(string path, Solution sln)
         {
@@ -149,10 +131,9 @@ namespace MyDriving.Analysis
                 foreach (var projectFile in sln.ProjectFiles)
                 {
                     var dir = Path.GetDirectoryName(projectFile);
-                    var projectName = Path.GetFileNameWithoutExtension(projectFile);
                     var doc = XDocument.Load(projectFile);
                     var q = from x in doc.Descendants()
-                                         let e = x as XElement
+                                         let e = x
                                              where e != null
                                              where e.Name.LocalName == "Compile"
                                              where e.Attributes().Any(a => a.Name.LocalName == "Include")
