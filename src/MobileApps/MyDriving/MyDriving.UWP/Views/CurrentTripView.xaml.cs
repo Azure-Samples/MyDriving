@@ -30,7 +30,7 @@ namespace MyDriving.UWP.Views
     public sealed partial class CurrentTripView : Page, INotifyPropertyChanged
     {
         private MapIcon _carIcon;
-
+       
         private MapPolyline _mapPolyline;
 
         private ImageSource _recordButtonImage;
@@ -50,7 +50,7 @@ namespace MyDriving.UWP.Views
             OnPropertyChanged(nameof(RecordButtonImage));
             startRecordBtn.Click += StartRecordBtn_Click;
         }
-
+    
         public IList<BasicGeoposition> Locations { get; set; }
 
         public ImageSource RecordButtonImage => _recordButtonImage;
@@ -62,7 +62,7 @@ namespace MyDriving.UWP.Views
         public void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+            }
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
@@ -173,7 +173,7 @@ namespace MyDriving.UWP.Views
                 case GeolocationAccessStatus.Denied:
                     Acr.UserDialogs.UserDialogs.Instance.Alert(
                         "Please ensure that geolocation is enabled and permissions are allowed for MyDriving to start a recording.",
-                        "Geolcoation Disabled", "OK");
+                                                "Geolcoation Disabled", "OK");
                     startRecordBtn.IsEnabled = false;
                     break;
 
@@ -185,7 +185,8 @@ namespace MyDriving.UWP.Views
         }
 
 
-        private async void BeginExtendedExecution()
+       
+        private async Task BeginExtendedExecution()
         {
             ClearExtendedExecution();
 
@@ -210,7 +211,7 @@ namespace MyDriving.UWP.Views
 
                 default:
                     Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to execute app in the background.",
-                        "Background execution denied.", "OK");
+                      "Background execution denied.", "OK");
 
                     newSession.Dispose();
                     break;
@@ -240,15 +241,15 @@ namespace MyDriving.UWP.Views
 
                     case ExtendedExecutionRevokedReason.SystemPolicy:
                         Acr.UserDialogs.UserDialogs.Instance.Alert("Extended execution revoked due to system policy.",
-                            "Background Execution revoked.", "OK");
+                                        "Background Execution revoked.", "OK");
                         break;
                 }
                 // Once Resumed we need to start the extended execution again.
                 BeginExtendedExecution();
             });
         }
-
-
+       
+  
         private async void StartRecordBtn_Click(object sender, RoutedEventArgs e)
         {
             if (ViewModel?.CurrentPosition == null || ViewModel.IsBusy)
@@ -276,9 +277,9 @@ namespace MyDriving.UWP.Views
                 var recordedTripSummary = ViewModel.TripSummary;
                 await ViewModel.SaveRecordingTripAsync();
                 // Launch Trip Summary Page. 
-
+               
                 Frame.Navigate(typeof (TripSummaryView), recordedTripSummary);
-            }
+        }
             else
             {
                 if (!await ViewModel.StartRecordingTrip())
@@ -297,7 +298,7 @@ namespace MyDriving.UWP.Views
         {
             if (ViewModel.IsBusy)
                 return;
-
+ 
             // To update the carIcon first find it and remove it from the MapElements
             await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
@@ -352,7 +353,7 @@ namespace MyDriving.UWP.Views
                     ZIndex = 3,
                     CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
                 };
-                //   MyMap.Center = mapStartIcon.Location;
+               //   MyMap.Center = mapStartIcon.Location;
                 MyMap.MapElements.Add(mapStartIcon);
             });
         }
@@ -377,12 +378,12 @@ namespace MyDriving.UWP.Views
                 MyMap.MapElements.Add(_mapPolyline);
             });
         }
-
+ 
         private async void UpdateMapView(BasicGeoposition basicGeoposition)
         {
             var geoPoint = new Geopoint(basicGeoposition);
             if (!ViewModel.IsBusy)
-            {
+                {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { MyMap.Center = geoPoint; });
                 await MyMap.TrySetViewAsync(geoPoint);
             }
@@ -404,13 +405,13 @@ namespace MyDriving.UWP.Views
 
         private void ResetTrip()
         {
-            // MyMap.MapElements.Clear();
+           // MyMap.MapElements.Clear();
             Locations?.Clear();
             Locations = null;
             UpdateStats();
         }
 
-
+   
         private async void AddEndMarker(BasicGeoposition basicGeoposition)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>

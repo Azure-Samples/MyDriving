@@ -82,7 +82,6 @@ namespace MyDriving.UWP.Views
             if (!string.IsNullOrWhiteSpace(Settings.Current.AzureMobileUserId))
             {
                 LoginButtons.Visibility = Visibility.Collapsed;
-                SkipAuthBtn.Visibility = Visibility.Collapsed;
                 AppLogo.Visibility = Visibility.Collapsed;
                 WelcomeText.Text = "Welcome " + Settings.Current.UserFirstName + "!";
                 WelcomeText.Visibility = Visibility.Visible;
