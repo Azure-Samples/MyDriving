@@ -26,16 +26,16 @@ namespace MyDriving.UITests
         {
             if (OnAndroid)
             {
-                app.Tap(CheckBox("Metric Distance"));
-                app.Screenshot("Using Metric Distances");
+                App.Tap(CheckBox("Metric Distance"));
+                App.Screenshot("Using Metric Distances");
             }
             if (OniOS)
             { 
-                app.Tap("Distance");
-                app.Tap("Metric (km)");
-                app.Screenshot("Using Metric Distances");
+                App.Tap("Distance");
+                App.Tap("Metric (km)");
+                App.Screenshot("Using Metric Distances");
 
-                app.Tap(SettingsTab);
+                App.Tap(SettingsTab);
             }
 
             return this;
@@ -45,16 +45,16 @@ namespace MyDriving.UITests
         {
             if (OnAndroid)
             {
-                app.Tap(CheckBox("Metric Units"));
-                app.Screenshot("Using Metric Capacity");
+                App.Tap(CheckBox("Metric Units"));
+                App.Screenshot("Using Metric Capacity");
             }
             if (OniOS)
             {
-                app.Tap("Capacity");
-                app.Tap("Metric (liters)");
-                app.Screenshot("Using Metric Capacity");
+                App.Tap("Capacity");
+                App.Tap("Metric (liters)");
+                App.Screenshot("Using Metric Capacity");
 
-                app.Tap(SettingsTab);
+                App.Tap(SettingsTab);
             }
 
             return this;
@@ -66,7 +66,7 @@ namespace MyDriving.UITests
                 base.NavigateTo(marked);
             
             if (OniOS)
-                app.Tap("Back");
+                App.Tap("Back");
         }
     }
 }

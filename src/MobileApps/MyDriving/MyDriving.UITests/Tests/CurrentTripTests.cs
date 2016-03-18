@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Xamarin.UITest;
 using NUnit.Framework;
 
@@ -10,9 +12,9 @@ namespace MyDriving.UITests
 		{
 		}
 
-		[Test]
-		public void RecordTripTest ()
-		{
+        [Test]
+        public void RecordTripTest()
+        {
             new CurrentTripPage()
                 .NavigateTo("Current Trip");
 
@@ -26,4 +28,3 @@ namespace MyDriving.UITests
 		}
 	}
 }
-

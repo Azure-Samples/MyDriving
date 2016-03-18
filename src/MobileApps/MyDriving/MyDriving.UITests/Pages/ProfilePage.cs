@@ -1,3 +1,6 @@
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 ﻿using System;
 using NUnit.Framework;
 using Xamarin.UITest;
@@ -30,9 +33,9 @@ namespace MyDriving.UITests
 
         public ProfilePage CheckFuelMetric(bool metric)
         {
-            app.ScrollDownTo(FuelConsumptionField);
-            var fuelText = app.Query(FuelConsumptionField)[0].Text;
-            app.Screenshot("Verifying fuel units correct");
+            App.ScrollDownTo(FuelConsumptionField);
+            var fuelText = App.Query(FuelConsumptionField)[0].Text;
+            App.Screenshot("Verifying fuel units correct");
 
             var expectedUnits = metric ? "l" : "gal";
             StringAssert.Contains(expectedUnits, fuelText, message:"Couldnt verify fuel units");
@@ -42,9 +45,9 @@ namespace MyDriving.UITests
 
         public ProfilePage CheckDistanceMetric(bool metric)
         {
-            app.ScrollDownTo(DistanceField);
-            var distanceText = app.Query(DistanceField)[0].Text;
-            app.Screenshot("Verifying distance units correct");
+            App.ScrollDownTo(DistanceField);
+            var distanceText = App.Query(DistanceField)[0].Text;
+            App.Screenshot("Verifying distance units correct");
 
             var expectedUnits = metric ? "km" : "miles";
             StringAssert.Contains(expectedUnits, distanceText, message: "Couldnt verify distance units");
@@ -57,8 +60,8 @@ namespace MyDriving.UITests
             if (OnAndroid)
                 return;
 
-            app.Tap(SettingsTab);
-            app.Screenshot("Tapped Settings Tab");
+            App.Tap(SettingsTab);
+            App.Screenshot("Tapped Settings Tab");
         }
 	}
 }

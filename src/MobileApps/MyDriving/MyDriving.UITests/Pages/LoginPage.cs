@@ -1,10 +1,5 @@
-﻿using System;
-using System.Linq;
-
-using NUnit.Framework;
-
-using Xamarin.UITest;
-using Xamarin.UITest.Queries;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
 
@@ -31,14 +26,14 @@ namespace MyDriving.UITests
 
 		public void LoginWithFacebook()
 		{
-			app.Tap (LoginWithFacebookButton);
-            app.Screenshot("Selecting Facebook Login");
+			App.Tap (LoginWithFacebookButton);
+            App.Screenshot("Selecting Facebook Login");
 		}
 
 		public void SkipAuthentication()
 		{
-			app.Tap (SkipAuthenticationButton);
-			app.Screenshot ("Authentication Skipped");
+			App.Tap (SkipAuthenticationButton);
+			App.Screenshot ("Authentication Skipped");
 		}
 	}
 }

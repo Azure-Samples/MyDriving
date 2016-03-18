@@ -1,7 +1,7 @@
-﻿using System;
-using Xamarin.UITest;
-using NUnit.Framework;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 
+using System;
 using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
 
 namespace MyDriving.UITests
@@ -27,32 +27,46 @@ namespace MyDriving.UITests
 
 		public PastTripsPage PullToRefresh ()
 		{
-            app.WaitForElement(RefreshView);
-            var coords = app.Query(RefreshView)[0].Rect;
+            App.WaitForElement(RefreshView);
+            var coords = App.Query(RefreshView)[0].Rect;
             if (OniOS)
-    			app.DragCoordinates(coords.CenterX, coords.Y + 75, coords.CenterX, coords.CenterY);
+    			App.DragCoordinates(coords.CenterX, coords.Y + 75, coords.CenterX, coords.CenterY);
             if (OnAndroid)
-                app.DragCoordinates(coords.CenterX, coords.Y, coords.CenterX, coords.CenterY);
+                App.DragCoordinates(coords.CenterX, coords.Y, coords.CenterX, coords.CenterY);
             
-            app.Screenshot("Pulled view to refresh");
+            App.Screenshot("Pulled view to refresh");
 
-			return this;
-		}
+            return this;
+        }
 
         public void NavigateToPastTripsDetail (string title)
 		{
             if (OnAndroid)
             {
-                app.ScrollDownTo(title);
-                app.Screenshot("Selecting past trip: " + title);
-                app.Tap(title);
+                App.ScrollDownTo(title);
+                App.Screenshot("Selecting past trip: " + title);
+                App.Tap(title);
             }
             if (OniOS)
             {
-                app.ScrollDownTo(PastTripCell(title));
-                app.Screenshot("Selecting past trip: " + title);
-                app.Tap(PastTripCell(title));
+                App.ScrollDownTo(PastTripCell(title));
+                App.Screenshot("Selecting past trip: " + title);
+                App.Tap(PastTripCell(title));
             }
 		}
-	}
+
+        public PastTripsPage ClickTripSliderEndpoints()
+        {
+            if (OniOS)
+            {
+                App.Tap(x => x.Text("A"));
+                App.Screenshot("Tapped A Endpoint");
+
+                App.Tap(x => x.Text("B"));
+                App.Screenshot("Tapped B Endpoint");
+            }
+
+            return this;
+        }
+    }
 }

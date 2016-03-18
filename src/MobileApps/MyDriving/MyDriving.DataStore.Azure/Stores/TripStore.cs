@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using MyDriving.DataObjects;
 using MyDriving.DataStore.Abstractions;
 using System.Threading.Tasks;
@@ -11,21 +14,24 @@ namespace MyDriving.DataStore.Azure.Stores
 {
     public class TripStore : BaseStore<Trip>, ITripStore
     {
-        public override string Identifier => "Trip";
-        IPhotoStore photoStore;
+        readonly IPhotoStore _photoStore;
+
         public TripStore()
         {
-            photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>();
+            _photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>();
         }
 
-        public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
+        public override string Identifier => "Trip";
+
+        public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100,
+            bool forceRefresh = false)
         {
             var items = await base.GetItemsAsync(skip, take, forceRefresh).ConfigureAwait(false);
             foreach (var item in items)
             {
                 item.Photos = new List<Photo>();
-                var photos = await photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
-                foreach(var photo in photos)
+                var photos = await _photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
+                foreach (var photo in photos)
                     item.Photos.Add(photo);
             }
 
@@ -41,8 +47,8 @@ namespace MyDriving.DataStore.Azure.Stores
             else
                 item.Photos.Clear();
 
-            var photos = await photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
-            foreach(var photo in photos)
+            var photos = await _photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
+            foreach (var photo in photos)
                 item.Photos.Add(photo);
 
 
@@ -72,11 +78,10 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             catch (Exception e)
             {
-                Logger.Instance.WriteLine(String.Format("Unable to remove item {0}:{1}", item.Id, e));
+                Logger.Instance.WriteLine($"Unable to remove item {item.Id}:{e}");
             }
 
             return result;
         }
     }
 }
-
