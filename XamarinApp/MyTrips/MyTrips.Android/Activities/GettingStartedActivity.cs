@@ -31,7 +31,7 @@ namespace MyTrips.Droid.Activities
 
             if ((int)Build.VERSION.SdkInt >= 21)
             {
-                Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.primary)));
+                Window.SetStatusBarColor(new Color(ContextCompat.GetColor(this, Resource.Color.primary_dark)));
                 Window.DecorView.SystemUiVisibility = StatusBarVisibility.Visible;
             }
 

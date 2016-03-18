@@ -18,7 +18,9 @@ namespace MyTrips.Droid.Fragments
         public static FragmentProfile NewInstance() => new FragmentProfile { Arguments = new Bundle() };
         ProfileViewModel viewModel;
 
-        TextView distance, maxSpeed, time, stops, accelerations, trips, fuelUsed, distanceUnits;
+        LinearLayout profileAll;
+
+        TextView distance, maxSpeed, time, stops, accelerations, trips, fuelUsed, distanceUnits, profileRating, profileGreat, profileBetter;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
@@ -35,11 +37,16 @@ namespace MyTrips.Droid.Fragments
             trips = view.FindViewById<TextView>(Resource.Id.text_trips);
             time = view.FindViewById<TextView>(Resource.Id.text_time);
             distance = view.FindViewById<TextView>(Resource.Id.text_distance);
-            distanceUnits = view.FindViewById<TextView>(Resource.Id.text_distance_units);
             maxSpeed = view.FindViewById<TextView>(Resource.Id.text_max_speed);
             fuelUsed = view.FindViewById<TextView>(Resource.Id.text_fuel_consumption);
             accelerations = view.FindViewById<TextView>(Resource.Id.text_hard_accelerations);
             stops = view.FindViewById<TextView>(Resource.Id.text_hard_breaks);
+            profileAll = view.FindViewById<LinearLayout>(Resource.Id.text_profile_all);
+
+            profileGreat = view.FindViewById<TextView>(Resource.Id.text_profile_great);
+            profileBetter = view.FindViewById<TextView>(Resource.Id.text_profile_better);
+            profileRating = view.FindViewById<TextView>(Resource.Id.text_profile_rating);
+            profileAll.Visibility = ViewStates.Invisible;
             UpdateUI();
             return view;
         }
@@ -61,13 +68,19 @@ namespace MyTrips.Droid.Fragments
             {
                 trips.Text = viewModel.TotalTrips.ToString();
                 time.Text = viewModel.TotalTimeDisplay;
-                distance.Text = viewModel.TotalDistanceDisplayNoUnits;
-                distanceUnits.Text = viewModel.DistanceUnits;
+                distance.Text = viewModel.TotalDistanceDisplay;
                 maxSpeed.Text = viewModel.MaxSpeedDisplay;
                 fuelUsed.Text = viewModel.FuelDisplay;
                 accelerations.Text = viewModel.HardAccelerations.ToString();
                 stops.Text = viewModel.HardStops.ToString();
                 ratingCircle.Rating = viewModel.DrivingSkills;
+
+                profileGreat.Text = $"Driving Skills: {viewModel.DrivingSkillsPlacementBucket.Description}";
+                profileBetter.Text = $"Better than {viewModel.DrivingSkills.ToString()}% of drivers";
+                profileRating.Text = $"{viewModel.DrivingSkills.ToString()}%";
+
+
+                profileAll.Visibility = ViewStates.Visible;
             });
         }
 

@@ -2,18 +2,8 @@
 <PreferenceScreen  
 		xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-            android:title="Account">
-
-        <Preference
-				
-				android:key="logout"
-                android:title="Logout" />
-
-    </PreferenceCategory>
-
 	<PreferenceCategory
-            android:title="Perferences">
+            android:title="Units">
 
         <CheckBoxPreference
                 android:key="metric_distance"
@@ -26,45 +16,25 @@
 			    android:summary="Use Liters instead of Gallons"/>
 
 
-        
-       <!-- <CheckBoxPreference
-                android:key="metric_temp"
-                android:title="Metric Temperature"
-                android:summary="Use Celsius instead of Fahrenheit"/>-->
-
     </PreferenceCategory>
 
 	
-
-    <!--<PreferenceCategory
-            android:title="IoT Hub Configuration">
-
-        <EditTextPreference
-                android:key="hub_setting_1"
-                android:title="Hub Setting 1"
-                android:dialogTitle="Hub Setting 1" />
-		
-       <EditTextPreference
-                android:key="hub_setting_2"
-                android:title="Hub Setting 2"
-                android:dialogTitle="Hub Setting 2" />
-
-    </PreferenceCategory>-->
 
     <PreferenceCategory
             android:title="About MyTrips">
 
         <Preference
-                android:title="Copyright 2016"
-                android:summary="Microsoft"/>
-
-        <Preference
-            android:key="url_privacy"
-              android:title="Privacy Policy"/>
+				android:key="url_copyright"
+                android:title="Copyright 2016 Microsoft"/>
 
 	    <Preference
 			android:key="url_terms"
             android:title="Terms of Use"/>
+
+
+        <Preference
+            android:key="url_privacy"
+              android:title="Privacy Policy"/>
 		
 		 <Preference
                 android:title="Open Source Notice"

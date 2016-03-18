@@ -12,31 +12,34 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+        
         <StackPanel x:Name="HeaderPanel" Orientation="Horizontal" VerticalAlignment="Top" Height="Auto" Canvas.ZIndex="2" Background="#111111" >
-            <StackPanel Name="MPG" Orientation="Vertical" Height="Auto" Width="90">
-
-                <TextBlock  Name="text_time" Text="{x:Bind viewModel.ElapsedTime}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="13.333"/>
-                <TextBlock  Text="Time" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
-
-            </StackPanel>
-
             
-            <StackPanel Name="Miles" Orientation="Vertical" Height="Auto" Width="90">
-
-                <TextBlock  Name="text_miles" Text="{Binding viewModel.Distance}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="13.333"/>
-                <TextBlock  Name="text_distanceunits" Text="{Binding viewModel.DistanceUnits}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
-
-            </StackPanel>
             <StackPanel Name="Gallons" Orientation="Vertical" Height="Auto" Width="90">
 
-                <TextBlock  Name="text_gallons" Text="{x:Bind viewModel.FuelConsumption}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="13.333"/>
-                <TextBlock  Name="text_fuelunits" Text="{x:Bind viewModel.FuelConsumptionUnits}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
+                <TextBlock  Name="text_fuel" Text="{x:Bind viewModel.FuelConsumption}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
+                <TextBlock  Name="text_fuelunits" Text="{x:Bind viewModel.FuelConsumptionUnits}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
 
             </StackPanel>
-            <StackPanel Name="Temp" Orientation="Vertical" Height="Auto" Width="90">
 
-                <TextBlock  Name="text_temp" Text="{x:Bind viewModel.EngineLoad}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="13.333"/>
-                <TextBlock  Text="Load" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
+            <StackPanel Name="Distance" Orientation="Vertical" Height="Auto" Width="90">
+
+                <TextBlock  Name="text_distance" Text="{x:Bind viewModel.Distance}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
+                <TextBlock  Name="text_distanceunits" Text="{x:Bind viewModel.DistanceUnits}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
+
+            </StackPanel>
+
+            <StackPanel Name="Duration" Orientation="Vertical" Height="Auto" Width="90">
+
+                <TextBlock  Name="text_time" Text="{x:Bind viewModel.ElapsedTime}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
+                <TextBlock  Text="Duration" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
+
+            </StackPanel>
+           
+            <StackPanel Name="EngineLoad" Orientation="Vertical" Height="Auto" Width="90">
+
+                <TextBlock  Name="text_engineload" Text="{x:Bind viewModel.EngineLoad}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
+                <TextBlock  Text="Engine Load" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
 
             </StackPanel>
             

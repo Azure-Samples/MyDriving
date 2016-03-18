@@ -23,19 +23,9 @@ namespace MyTrips.Droid.Fragments
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            var logout = FindPreference("logout");
-            logout.PreferenceClick += async (sender, e) =>
-            {
-                if (!(await viewModel.ExecuteLogoutCommandAsync()))
-                    return;
-                //Logged out!
-                var intent = new Intent(Activity, typeof(LoginActivity));
-                intent.AddFlags(ActivityFlags.ClearTop);
-                Activity.StartActivity(intent);
-                Activity.Finish();
-            };
 
             FindPreference("url_privacy").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.PrivacyPolicyUrl);
+            FindPreference("url_copyright").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.PrivacyPolicyUrl);
             FindPreference("url_xamarin").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.XamarinUrl);
             FindPreference("url_terms").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.TermsOfUseUrl);
             FindPreference("url_open_notice").PreferenceClick += (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.OpenSourceNoticeUrl);

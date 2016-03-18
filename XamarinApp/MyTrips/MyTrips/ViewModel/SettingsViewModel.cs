@@ -17,12 +17,11 @@ namespace MyTrips.ViewModel
         //Use Settings.DeviceConnectionString
         public string PrivacyPolicyUrl => "http://microsoft.com";
         public string TermsOfUseUrl => "http://microsoft.com";
-        public string OpenSourceNoticeUrl =>"http://microsoft.com";
-        public string SourceOnGitHubUrl => "http://microsoft.com";
+        public string OpenSourceNoticeUrl =>"https://github.com/Azure-Samples/MyDriving/tree/master/MobileApp/Licenses";
+        public string SourceOnGitHubUrl => "https://github.com/Azure-Samples/MyDriving";
         public string XamarinUrl => "http://xamarin.com";
 
 		List<Setting> units;
-		List<Setting> ioTHub;
 		List<Setting> permissions;
 		List<Setting> about;
 
@@ -48,32 +47,9 @@ namespace MyTrips.ViewModel
         public ICommand LogoutCommand =>
             logoutCommand ?? (logoutCommand = new RelayCommand(async () => await ExecuteLogoutCommandAsync())); 
        
-        public async Task<bool> ExecuteLogoutCommandAsync()
+        public Task<bool> ExecuteLogoutCommandAsync()
         {
-            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Logging out...", show: false, maskType: Acr.UserDialogs.MaskType.Clear);
-            
-            try
-            {                
-                 var result = await Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync("Are you sure you want to logout?", "Logout?", "Yes, Logout", "Cancel");
-
-                if (!result)
-                    return false;                
-
-                progress?.Show();
-                await StoreManager.DropEverythingAsync();
-
-                Settings.Logout();
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Report(ex);
-            }
-            finally
-            {
-                progress?.Dispose();
-            }
-
-            return true;
+            return Task.FromResult(true);
         }
 
 		private Dictionary<string, List<Setting>> settingsData;
@@ -94,18 +70,7 @@ namespace MyTrips.ViewModel
 					{
 						distanceSetting, capacitySetting
 					};
-
-					var deviceConnectionString = new Setting { Name = "Device connection string", Value = Settings.Current.DeviceConnectionString, IsTextField = true };
-					var mobileClientUrl = new Setting { Name = "Mobile client URL", Value = Settings.Current.MobileClientUrl, IsTextField = true };
-
-					deviceConnectionString.PropertyChanged += DeviceConnectionString_PropertyChanged;
-					mobileClientUrl.PropertyChanged += MobileClientUrl_PropertyChanged;
-
-					ioTHub = new List<Setting>
-					{
-						deviceConnectionString, mobileClientUrl
-					};
-
+				
 					permissions = new List<Setting>
 					{
 						new Setting { Name = "Change MyTrips Permissions", IsButton = true, ButtonUrl = "Permissions" }
@@ -116,14 +81,14 @@ namespace MyTrips.ViewModel
 						new Setting { Name = "Copyright Microsoft 2016", IsButton = true, ButtonUrl = PrivacyPolicyUrl },
 						new Setting { Name = "Terms of Use", IsButton = true, ButtonUrl = TermsOfUseUrl },
 						new Setting { Name = "Privacy Policy", IsButton = true, ButtonUrl = PrivacyPolicyUrl },
-						new Setting { Name = "Open Source", IsButton = true, ButtonUrl = OpenSourceNoticeUrl },
+						new Setting { Name = "Open Source Notice", IsButton = true, ButtonUrl = OpenSourceNoticeUrl },
+                        new Setting { Name = "Open Source on GitHub", IsButton = true, ButtonUrl = SourceOnGitHubUrl },
 						new Setting { Name = "Built in C# with Xamarin", IsButton = true, ButtonUrl = XamarinUrl },
 					};
 
 					settingsData = new Dictionary<string, List<Setting>>
 					{
 						{ "Units", units },
-						{ "IoT Hub", ioTHub },
 						{ "Permissions", permissions},
 						{ "About", about }
 					};
@@ -151,22 +116,6 @@ namespace MyTrips.ViewModel
 			}
 		}
 
-		void DeviceConnectionString_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "Value")
-			{
-				var setting = (Setting)sender;
-				Settings.Current.DeviceConnectionString = setting.Value;
-			}
-		}
-
-		void MobileClientUrl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "Value")
-			{
-				var setting = (Setting)sender;
-				Settings.Current.MobileClientUrl = setting.Value;
-			}
-		}
+		
 	}
 }

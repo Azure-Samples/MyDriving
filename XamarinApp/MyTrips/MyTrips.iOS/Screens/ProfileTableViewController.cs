@@ -27,7 +27,6 @@ namespace MyTrips.iOS
 			var url = ViewModel.Settings.UserProfileUrl;
 			imgAvatar.SetImage(new NSUrl(url));
 
-			
 			imgAvatar.Layer.CornerRadius = imgAvatar.Frame.Width / 2;
 			imgAvatar.Layer.BorderWidth = 2;
 			imgAvatar.Layer.BorderColor = "15A9FE".ToUIColor().CGColor;
@@ -47,6 +46,8 @@ namespace MyTrips.iOS
 
         void UpdateUI()
         {
+			lblDrivingSkills.Text = $"Driving Skills: {ViewModel.DrivingSkillsPlacementBucket.Description}";
+			lblBetterThan.Text = $"Better than {ViewModel.DrivingSkills}% of Americans";
             PercentageView.Value = (ViewModel.DrivingSkills / 100f) * 360f;
             data = new List<DrivingStatistic>
             {
@@ -57,13 +58,10 @@ namespace MyTrips.iOS
                 new DrivingStatistic { Name = "Hard Breaks", Value = ViewModel.HardStops.ToString()},
                 new DrivingStatistic { Name = "Hard Accelerations", Value = ViewModel.HardAccelerations.ToString()},
                 new DrivingStatistic { Name = "Total Trips", Value = ViewModel.TotalTrips.ToString()},
-
             };
 
             TableView.ReloadData();
         }
-
-
 
 		#region UITableViewSource
 		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)

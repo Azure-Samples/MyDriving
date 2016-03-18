@@ -33,7 +33,7 @@ namespace MyTrips.Droid.Activities
         PastTripsDetailViewModel viewModel;
         SupportMapFragment mapFrag;
         TextView startTime, endTime;
-        TextView distance, distanceUnits, time, load, consumption, consumptionUnits;
+        TextView distance, distanceUnits, time, speed, speedUnits, consumption, consumptionUnits;
         string id;
         protected override void OnCreate(Bundle bundle)
         {
@@ -59,7 +59,8 @@ namespace MyTrips.Droid.Activities
             distanceUnits = FindViewById<TextView>(Resource.Id.text_distance_units);
             consumption = FindViewById<TextView>(Resource.Id.text_consumption);
             consumptionUnits = FindViewById<TextView>(Resource.Id.text_consumption_units);
-            load = FindViewById<TextView>(Resource.Id.text_load);
+            speed = FindViewById<TextView>(Resource.Id.text_speed);
+            speedUnits = FindViewById<TextView>(Resource.Id.text_speed_units);
 
             mapFrag = (SupportMapFragment) SupportFragmentManager.FindFragmentById(Resource.Id.map);
             mapFrag.GetMapAsync(this);
@@ -86,9 +87,11 @@ namespace MyTrips.Droid.Activities
             time.Text = viewModel.ElapsedTime;
             consumption.Text = viewModel.FuelConsumption;
             consumptionUnits.Text = viewModel.FuelConsumptionUnits;
-            load.Text = viewModel.EngineLoad;
+            speed.Text = viewModel.Speed;
+            speedUnits.Text = viewModel.SpeedUnits;
             distanceUnits.Text = viewModel.DistanceUnits;
             distance.Text = viewModel.Distance;
+
         }
 
         Marker carMarker;
@@ -107,10 +110,10 @@ namespace MyTrips.Droid.Activities
             seekBar.ProgressChanged += SeekBar_ProgressChanged;
 
             var logicalDensity = Resources.DisplayMetrics.Density;
-            var thicknessCar = (int)Math.Ceiling(24 * logicalDensity + .5f);
+            var thicknessCar = (int)Math.Ceiling(26 * logicalDensity + .5f);
             var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
 
-            var b = ContextCompat.GetDrawable(this, Resource.Drawable.ic_car) as BitmapDrawable;
+            var b = ContextCompat.GetDrawable(this, Resource.Drawable.ic_car_blue) as BitmapDrawable;
             var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessCar, thicknessCar, false);
 
             var car = new MarkerOptions();
@@ -139,7 +142,7 @@ namespace MyTrips.Droid.Activities
             var points = viewModel.Trip.Points.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
             var rectOptions = new PolylineOptions();
             rectOptions.Add(points);
-            rectOptions.InvokeColor(ContextCompat.GetColor(this, Resource.Color.primary));
+            rectOptions.InvokeColor(ContextCompat.GetColor(this, Resource.Color.primary_dark));
             map.AddPolyline(rectOptions);
 
 

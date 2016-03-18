@@ -13,7 +13,7 @@ namespace ObdLibAndroid
     public class ObdWrapper
     {
         const int Interval = 100;
-        const string DefValue = "";
+        const string DefValue = "-255";
         private BluetoothAdapter _bluetoothAdapter = null;
         private BluetoothDevice _bluetoothDevice = null;
         private BluetoothSocket _bluetoothSocket = null;

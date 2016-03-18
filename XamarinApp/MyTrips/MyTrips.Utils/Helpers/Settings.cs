@@ -117,36 +117,7 @@ namespace MyTrips.Utils
             }
         }
 
-        const string MobileClientUrlKey = "mobile_client_url";
-        static readonly string MobileClientUrlDefault = string.Empty;
-
-        public string MobileClientUrl
-        {
-            get { return AppSettings.GetValueOrDefault<string>(MobileClientUrlKey, MobileClientUrlDefault); }
-            set
-            {
-                if (AppSettings.AddOrUpdateValue<string>(MobileClientUrlKey, value))
-                {
-                    //if MobileClientUrl changes, user must login again
-                    Logout();
-                    OnPropertyChanged();
-                }
-            }
-        }
-            
-
-        const string PushNotificationsEnabledKey = "push_enabled";
-        static readonly bool PushNotificationsEnabledDefault = false;
-
-        public bool PushNotificationsEnabled
-        {
-            get { return AppSettings.GetValueOrDefault<bool>(PushNotificationsEnabledKey, PushNotificationsEnabledDefault); }
-            set
-            {
-                if (AppSettings.AddOrUpdateValue<bool>(PushNotificationsEnabledKey, value))
-                    OnPropertyChanged();
-            }
-        }
+     
 
         const string MetricDistanceKey = "metric_distance";
         static readonly bool MetricDistanceDefault = false;
@@ -175,18 +146,7 @@ namespace MyTrips.Utils
             }
         }
 
-        const string MetricTempKey = "metric_temp";
-        static readonly bool MetricTempDefault = false;
 
-        public bool MetricTemp
-        {
-            get { return AppSettings.GetValueOrDefault<bool>(MetricTempKey, MetricTempDefault); }
-            set
-            {
-                if (AppSettings.AddOrUpdateValue<bool>(MetricTempKey, value))
-                    OnPropertyChanged();
-            }
-        }
 
 
         const string FirstRunKey = "first_run";

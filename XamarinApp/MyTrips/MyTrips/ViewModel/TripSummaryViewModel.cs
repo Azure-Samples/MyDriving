@@ -29,6 +29,8 @@ namespace MyTrips.ViewModel
 
         public string MaxSpeedDisplay => $"{MaxSpeedDisplayNoUnits} {SpeedUnits}";
 
+        public DateTime Date { get; set; }
+
         public string TotalTimeDisplay
         {
             get 
