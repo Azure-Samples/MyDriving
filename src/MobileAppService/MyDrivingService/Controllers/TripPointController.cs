@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -6,39 +9,34 @@ using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using MyDriving.DataObjects;
 using MyDrivingService.Models;
-using System;
-using System.Collections.Generic;
 
 namespace MyDrivingService.Controllers
 {
     public class TripPointController : TableController<TripPoint>
     {
-        private MyDrivingContext _dbContext;
-
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
             MyDrivingContext context = new MyDrivingContext();
-            this._dbContext = context;
             DomainManager = new EntityDomainManager<TripPoint>(context, Request);
         }
 
         // GET tables/TripPoint
-       //[Authorize]
+        //[Authorize]
         public IQueryable<TripPoint> GetAllTripPoints()
         {
             return Query();
         }
 
         // GET tables/TripPoint/<id>
-       //[Authorize]
+        //[Authorize]
         public SingleResult<TripPoint> GetTripPoint(string id)
         {
             return Lookup(id);
         }
 
         // PATCH tables/TripPoint/<id>
-       //[Authorize]
+        //[Authorize]
         public Task<TripPoint> PatchTripPoint(string id, Delta<TripPoint> patch)
         {
             return UpdateAsync(id, patch);
@@ -70,13 +68,13 @@ namespace MyDrivingService.Controllers
         }*/
 
         // DELETE tables/TripPoint/<id>
-       //[Authorize]
+        //[Authorize]
         public Task DeleteTripPoint(string id)
         {
             return DeleteAsync(id);
         }
 
-        private int getMaxSequence(string tripId)
+        private int GetMaxSequence(string tripId)
         {
             var tripPoints = Query();
             return tripPoints.Where(point => point.TripId == tripId).Max(point => point.Sequence);
