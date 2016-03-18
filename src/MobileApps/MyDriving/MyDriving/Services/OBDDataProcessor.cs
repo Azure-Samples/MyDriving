@@ -296,9 +296,20 @@ namespace MyDriving.Services
 
         private async Task TryToConnectToOBDDevice()
         {
-            if (this.isConnectedToOBD = await this.obdDevice.Initialize())
+            try
             {
-                this.StopPollingOBDDevice();
+                if (obdDevice == null)
+                    return;
+
+                isConnectedToOBD = await Task.Run(async () => await obdDevice.Initialize()).WithTimeout(5000);
+                if (isConnectedToOBD)
+                {
+                    StopPollingOBDDevice();
+                }
+            }
+            catch (Exception)
+            {
+               
             }
         }
 
