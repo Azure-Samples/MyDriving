@@ -380,7 +380,6 @@
     <Compile Include="Views\Maps\TripMapView.designer.cs">
       <DependentUpon>TripMapView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\Colors.cs" />
     <Compile Include="CustomControls\TripSlider.cs" />
     <Compile Include="Screens\ProfileTableViewController.cs" />
     <Compile Include="Screens\ProfileTableViewController.designer.cs">

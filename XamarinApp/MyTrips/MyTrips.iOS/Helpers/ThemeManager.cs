@@ -11,7 +11,7 @@ namespace MyTrips.iOS
 			UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
 
 			//NavigationBar
-			UINavigationBar.Appearance.BarTintColor = Colors.BLUE;
+			UINavigationBar.Appearance.BarTintColor = UIColor.FromRGB((nfloat)0.196, (nfloat)0.655, (nfloat)0.925);
 			UINavigationBar.Appearance.TintColor = UIColor.White;
 
 			UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes
