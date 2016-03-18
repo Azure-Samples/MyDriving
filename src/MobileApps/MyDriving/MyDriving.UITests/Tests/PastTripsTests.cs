@@ -1,48 +1,51 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using Xamarin.UITest;
 using NUnit.Framework;
 
 namespace MyDriving.UITests
 {
     [TestFixture(Platform.Android)]
-	public class PastTripsTests : AbstractSetup
-	{
-		public PastTripsTests (Platform platform) : base (platform)
-		{
-		}
+    public class PastTripsTests : AbstractSetup
+    {
+        public PastTripsTests(Platform platform) : base(platform)
+        {
+        }
 
-		[Test]
-		public void PullToRefreshTest ()
-		{
+        [Test]
+        public void ClickTripSliderEndpointsTest()
+        {
             new PastTripsPage()
                 .NavigateToPastTripsPage()
-				.PullToRefresh ();
-		}
+                .NavigateToPastTripsDetail()
+                .ClickTripSliderEndpoints();
+        }
 
-		[Test]
-		public void NavigateToDetailsTest ()
-		{
-			new PastTripsPage ()
+        [Test]
+        public void MoveTripSliderTest()
+        {
+            new PastTripsPage()
                 .NavigateToPastTripsPage()
-				.NavigateToPastTripsDetail ();
-		}
+                .NavigateToPastTripsDetail()
+                .MoveTripSlider();
+        }
 
-		[Test]
-		public void MoveTripSliderTest ()
-		{
-			new PastTripsPage ()
+        [Test]
+        public void NavigateToDetailsTest()
+        {
+            new PastTripsPage()
                 .NavigateToPastTripsPage()
-				.NavigateToPastTripsDetail ()
-				.MoveTripSlider ();
-		}
+                .NavigateToPastTripsDetail();
+        }
 
-		[Test]
-		public void ClickTripSliderEndpointsTest ()
-		{
-			new PastTripsPage ()
+        [Test]
+        public void PullToRefreshTest()
+        {
+            new PastTripsPage()
                 .NavigateToPastTripsPage()
-				.NavigateToPastTripsDetail ()
-				.ClickTripSliderEndpoints ();
-		}
-	}
+                .PullToRefresh();
+        }
+    }
 }
