@@ -8,18 +8,18 @@ namespace MyDriving.ViewModel
 {
     public class TripSummaryViewModel : ViewModelBase
     {
-        double fuelUsed;
+        double _fuelUsed;
 
-        long hardAccelerations;
+        long _hardAccelerations;
 
 
-        long hardStops;
+        long _hardStops;
 
-        double maxSpeed;
+        double _maxSpeed;
 
-        double totalDistance;
+        double _totalDistance;
 
-        double totalTime;
+        double _totalTime;
         public string FuelUnits => Settings.MetricUnits ? "L" : "gal.";
 
         public double FuelConverted => Settings.MetricUnits ? FuelUsed/.264172 : FuelUsed;
@@ -63,10 +63,10 @@ namespace MyDriving.ViewModel
 
         public double TotalDistance
         {
-            get { return totalDistance; }
+            get { return _totalDistance; }
             set
             {
-                if (!SetProperty(ref totalDistance, value))
+                if (!SetProperty(ref _totalDistance, value))
                     return;
 
                 OnPropertyChanged(nameof(DistanceUnits));
@@ -78,10 +78,10 @@ namespace MyDriving.ViewModel
 
         public double FuelUsed
         {
-            get { return fuelUsed; }
+            get { return _fuelUsed; }
             set
             {
-                if (!SetProperty(ref fuelUsed, value))
+                if (!SetProperty(ref _fuelUsed, value))
                     return;
 
                 OnPropertyChanged(nameof(FuelUnits));
@@ -93,10 +93,10 @@ namespace MyDriving.ViewModel
 
         public double TotalTime
         {
-            get { return totalTime; }
+            get { return _totalTime; }
             set
             {
-                if (!SetProperty(ref totalTime, value))
+                if (!SetProperty(ref _totalTime, value))
                     return;
 
                 OnPropertyChanged(nameof(TotalTimeDisplay));
@@ -105,10 +105,10 @@ namespace MyDriving.ViewModel
 
         public double MaxSpeed
         {
-            get { return maxSpeed; }
+            get { return _maxSpeed; }
             set
             {
-                if (!SetProperty(ref maxSpeed, value))
+                if (!SetProperty(ref _maxSpeed, value))
                     return;
 
                 OnPropertyChanged(nameof(SpeedUnits));
@@ -120,14 +120,14 @@ namespace MyDriving.ViewModel
 
         public long HardStops
         {
-            get { return hardStops; }
-            set { SetProperty(ref hardStops, value); }
+            get { return _hardStops; }
+            set { SetProperty(ref _hardStops, value); }
         }
 
         public long HardAccelerations
         {
-            get { return hardAccelerations; }
-            set { SetProperty(ref hardAccelerations, value); }
+            get { return _hardAccelerations; }
+            set { SetProperty(ref _hardAccelerations, value); }
         }
     }
 }
