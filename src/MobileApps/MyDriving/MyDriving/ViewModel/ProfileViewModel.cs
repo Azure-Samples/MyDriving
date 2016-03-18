@@ -96,7 +96,7 @@ namespace MyDriving.ViewModel
 
 		public string FuelDisplay => $"{FuelDisplayNoUnits} {FuelUnits.ToLowerInvariant()}";
 
-        public string DistanceUnits => Settings.MetricDistance ? "kilometers" : "miles";
+        public string DistanceUnits => Settings.MetricDistance ? "km" : "miles";
 
         public string TotalDistanceDisplayNoUnits => DistanceConverted.ToString("F");
 
