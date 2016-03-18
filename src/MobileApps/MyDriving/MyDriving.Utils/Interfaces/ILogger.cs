@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections;
@@ -8,15 +11,18 @@ namespace MyDriving.Utils.Interfaces
     public enum Severity
     {
         /// <summary>
-        /// Warning Severity
+        ///     Warning Severity
         /// </summary>
         Warning,
+
         /// <summary>
-        /// Error Severity, you are not expected to call this from client side code unless you have disabled unhandled exception handling.
+        ///     Error Severity, you are not expected to call this from client side code unless you have disabled unhandled
+        ///     exception handling.
         /// </summary>
         Error,
+
         /// <summary>
-        /// Critical Severity
+        ///     Critical Severity
         /// </summary>
         Critical
     }
@@ -39,9 +45,8 @@ namespace MyDriving.Utils.Interfaces
 
     public interface ITrackHandle
     {
+        IDictionary<string, string> Data { get; }
         void Start();
         void Stop();
-        IDictionary<string, string> Data { get; }
     }
 }
-
