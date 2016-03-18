@@ -51,7 +51,7 @@
     <OutputPath>bin\XTC</OutputPath>
     <DefineConstants>XTC</DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
+    <AndroidSupportedAbis>armeabi-v7a;x86;armeabi;arm64-v8a;x86_64</AndroidSupportedAbis>
     <EmbedAssembliesIntoApk></EmbedAssembliesIntoApk>
     <AndroidFastDeploymentType></AndroidFastDeploymentType>
     <AssemblyName>MyDriving.Android</AssemblyName>
