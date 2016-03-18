@@ -26,11 +26,20 @@ namespace MyDriving.UWP.Views
             TotalTimeTab.Title1 = "Total";
             TotalTimeTab.Title2 = "TIME";
 
-            AvgSpeedTab.Title1 = "Avg";
-            AvgSpeedTab.Title2 = "SPEED";
+            MaxSpeedTab.Title1 = "Max";
+            MaxSpeedTab.Title2 = "SPEED";
+
+            FuelConsumptionTab.Title1 = "FUEL";
+            FuelConsumptionTab.Title2 = "used";
 
             HardBreaksTab.Title1 = "Hard";
             HardBreaksTab.Title2 = "BREAKS";
+
+            HardAccelTab.Title1 = "Hard";
+            HardAccelTab.Title2 = "ACCEL";
+
+            TotalTripsTab.Title1 = "Total";
+            TotalTripsTab.Title2 = "TRIPS";
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

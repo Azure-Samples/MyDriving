@@ -8,7 +8,6 @@
     <BitmapImage x:Key="TwitterLogo" UriSource="ms-appx:///Assets/Login/twitter.png"/>
     <BitmapImage x:Key="MicrosoftLogo" UriSource="ms-appx:///Assets/Login/Microsoft.png"/>
     <BitmapImage x:Key="ApplicationLogo" UriSource="ms-appx:///Assets/Login/appLogo.png"/>
-    <BitmapImage x:Key="ApplicationLogoA" UriSource="ms-appx:///Assets/Login/logo.png"/>
 
     <BitmapImage x:Key="GetStarted1" UriSource="ms-appx:///Assets/GetStarted/SCREEN1.png"/>
     <BitmapImage x:Key="GetStarted2" UriSource="ms-appx:///Assets/GetStarted/SCREEN2.png"/>
