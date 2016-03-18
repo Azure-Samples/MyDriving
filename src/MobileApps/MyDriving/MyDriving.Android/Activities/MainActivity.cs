@@ -1,10 +1,12 @@
-﻿using Android.App;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
-
 using MyDriving.Droid.Fragments;
 using Android.Support.V4.View;
 using Android.Support.Design.Widget;
@@ -15,12 +17,17 @@ using System.Threading.Tasks;
 
 namespace MyDriving.Droid
 {
-    [Activity(Label = "MyDriving", Icon = "@drawable/ic_launcher", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "MyDriving", Icon = "@drawable/ic_launcher",
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+        ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : BaseActivity
     {
+        DrawerLayout _drawerLayout;
+        NavigationView _navigationView;
 
-        DrawerLayout drawerLayout;
-        NavigationView navigationView;
+        int _oldPosition = -1;
+
+        bool _shouldClose;
 
         protected override int LayoutResource => Resource.Layout.activity_main;
 
@@ -28,31 +35,30 @@ namespace MyDriving.Droid
         {
             base.OnCreate(bundle);
 
-            #if !XTC
+#if !XTC
             InitializeHockeyApp();
-            #endif
-            drawerLayout = this.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+#endif
+            _drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
 
             //Set hamburger items menu
             SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.ic_menu);
 
             //setup navigation view
-            navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            _navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
 
             //handle navigation
-            navigationView.NavigationItemSelected += (sender, e) =>
+            _navigationView.NavigationItemSelected += (sender, e) =>
             {
                 e.MenuItem.SetChecked(true);
 
                 ListItemClicked(e.MenuItem.ItemId);
 
 
-                if (e.MenuItem.ItemId == Resource.Id.menu_profile)
-                    SupportActionBar.Title = Settings.Current.UserFirstName;
-                else
-                    SupportActionBar.Title = e.MenuItem.TitleFormatted.ToString();
+                SupportActionBar.Title = e.MenuItem.ItemId == Resource.Id.menu_profile
+                    ? Settings.Current.UserFirstName
+                    : e.MenuItem.TitleFormatted.ToString();
 
-                drawerLayout.CloseDrawers();
+                _drawerLayout.CloseDrawers();
             };
 
             if (Intent.GetBooleanExtra("tracking", false))
@@ -68,7 +74,6 @@ namespace MyDriving.Droid
                 ListItemClicked(Resource.Id.menu_current_trip);
                 SupportActionBar.Title = "Current Trip";
             }
-
         }
 
         void InitializeHockeyApp()
@@ -82,23 +87,22 @@ namespace MyDriving.Droid
             HockeyApp.TraceWriter.Initialize();
 
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
-                {
-                    HockeyApp.TraceWriter.WriteTrace(args.Exception);
-                    args.Handled = true;
-                };
-            AppDomain.CurrentDomain.UnhandledException += (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.ExceptionObject);
+            {
+                HockeyApp.TraceWriter.WriteTrace(args.Exception);
+                args.Handled = true;
+            };
+            AppDomain.CurrentDomain.UnhandledException +=
+                (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.ExceptionObject);
             TaskScheduler.UnobservedTaskException += (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
-
         }
 
-        int oldPosition = -1;
         void ListItemClicked(int itemId)
         {
             //this way we don't load twice, but you might want to modify this a bit.
-            if (itemId == oldPosition)
+            if (itemId == _oldPosition)
                 return;
-            shouldClose = false;
-            oldPosition = itemId;
+            _shouldClose = false;
+            _oldPosition = itemId;
 
             Android.Support.V4.App.Fragment fragment = null;
             switch (itemId)
@@ -122,7 +126,7 @@ namespace MyDriving.Droid
                 .Replace(Resource.Id.content_frame, fragment)
                 .Commit();
 
-            navigationView.SetCheckedItem(itemId);
+            _navigationView.SetCheckedItem(itemId);
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -130,7 +134,7 @@ namespace MyDriving.Droid
             switch (item.ItemId)
             {
                 case Android.Resource.Id.Home:
-                    drawerLayout.OpenDrawer(GravityCompat.Start);
+                    _drawerLayout.OpenDrawer(GravityCompat.Start);
                     return true;
             }
             return base.OnOptionsItemSelected(item);
@@ -139,30 +143,25 @@ namespace MyDriving.Droid
         protected override void OnStart()
         {
             base.OnStart();
-            shouldClose = false;
+            _shouldClose = false;
         }
 
-        bool shouldClose;
         public override void OnBackPressed()
         {
-
-            if (drawerLayout.IsDrawerOpen((int)GravityFlags.Start))
+            if (_drawerLayout.IsDrawerOpen((int) GravityFlags.Start))
             {
-                drawerLayout.CloseDrawer(GravityCompat.Start);
+                _drawerLayout.CloseDrawer(GravityCompat.Start);
             }
             else
             {
-                if (!shouldClose)
+                if (!_shouldClose)
                 {
                     Toast.MakeText(this, "Press back again to exit.", ToastLength.Short).Show();
-                    shouldClose = true;
+                    _shouldClose = true;
                     return;
                 }
                 base.OnBackPressed();
             }
         }
-
     }
 }
-
-

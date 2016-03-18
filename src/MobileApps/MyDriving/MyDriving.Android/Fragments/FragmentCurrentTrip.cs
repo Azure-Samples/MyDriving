@@ -1,6 +1,7 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Android.OS;
-using Android.App;
-using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Views;
 using Android.Widget;
@@ -10,16 +11,13 @@ using MvvmHelpers;
 using MyDriving.DataObjects;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
-using System.Linq;
 using System;
-
 using Android.Graphics;
 using Android.Graphics.Drawables;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System.Threading.Tasks;
 using MyDriving.Droid.Activities;
-using MyDriving.Droid.Controls;
 using MyDriving.Utils;
 using MyDriving.Droid.Helpers;
 using Android.Support.Design.Widget;
@@ -33,137 +31,81 @@ namespace MyDriving.Droid.Fragments
 {
     public class FragmentCurrentTrip : Android.Support.V4.App.Fragment, IOnMapReadyCallback
     {
-        public static FragmentCurrentTrip NewInstance() => new FragmentCurrentTrip { Arguments = new Bundle() };
+        List<LatLng> _allPoints;
+        Marker _carMarker;
+        TextView _distance, _distanceUnits, _time, _load, _consumption, _consumptionUnits;
+        Polyline _driveLine;
+        Color? _driveLineColor;
+        FloatingActionButton _fab;
+        GoogleMap _map;
+        MapView _mapView;
+        bool _setZoom = true;
+        LinearLayout _stats;
 
-        ObservableRangeCollection<TripPoint> trailPointList;
-        CurrentTripViewModel viewModel;
-        GoogleMap map;
-        MapView mapView;
-        TextView distance, distanceUnits, time, load, consumption, consumptionUnits;
-        FloatingActionButton fab;
-        Marker carMarker;
-        Polyline driveLine;
-        Color? driveLineColor = null;
-        bool setZoom = true;
-        List<LatLng> allPoints;
-        LinearLayout stats;
+        ObservableRangeCollection<TripPoint> _trailPointList;
+        CurrentTripViewModel _viewModel;
+
+        public void OnMapReady(GoogleMap googleMap)
+        {
+            _map = googleMap;
+            if (_viewModel != null)
+                SetupMap();
+        }
+
+        public static FragmentCurrentTrip NewInstance() => new FragmentCurrentTrip {Arguments = new Bundle()};
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
             HasOptionsMenu = true;
             var view = inflater.Inflate(Resource.Layout.fragment_current_trip, null);
 
-            mapView = view.FindViewById<MapView>(Resource.Id.map);
-            mapView.OnCreate(savedInstanceState);
+            _mapView = view.FindViewById<MapView>(Resource.Id.map);
+            _mapView.OnCreate(savedInstanceState);
 
-            fab = view.FindViewById<FloatingActionButton>(Resource.Id.fab);
-            time = view.FindViewById<TextView>(Resource.Id.text_time);
-            distance = view.FindViewById<TextView>(Resource.Id.text_distance);
-            distanceUnits = view.FindViewById<TextView>(Resource.Id.text_distance_units);
-            consumption = view.FindViewById<TextView>(Resource.Id.text_consumption);
-            consumptionUnits = view.FindViewById<TextView>(Resource.Id.text_consumption_units);
-            load = view.FindViewById<TextView>(Resource.Id.text_load);
-            stats = view.FindViewById<LinearLayout>(Resource.Id.stats);
-            stats.Visibility = ViewStates.Invisible;
+            _fab = view.FindViewById<FloatingActionButton>(Resource.Id.fab);
+            _time = view.FindViewById<TextView>(Resource.Id.text_time);
+            _distance = view.FindViewById<TextView>(Resource.Id.text_distance);
+            _distanceUnits = view.FindViewById<TextView>(Resource.Id.text_distance_units);
+            _consumption = view.FindViewById<TextView>(Resource.Id.text_consumption);
+            _consumptionUnits = view.FindViewById<TextView>(Resource.Id.text_consumption_units);
+            _load = view.FindViewById<TextView>(Resource.Id.text_load);
+            _stats = view.FindViewById<LinearLayout>(Resource.Id.stats);
+            _stats.Visibility = ViewStates.Invisible;
             return view;
         }
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-            mapView.GetMapAsync(this);
+            _mapView.GetMapAsync(this);
             base.OnActivityCreated(savedInstanceState);
         }
-
-        #region Options Menu & User Actions
-        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
-        {
-            //if((viewModel?.IsRecording).GetValueOrDefault())
-            //     inflater.Inflate(Resource.Menu.menu_current_trip, menu);
-            base.OnCreateOptionsMenu(menu, inflater);
-        }
-
-        public override bool OnOptionsItemSelected(IMenuItem item)
-        {
-            switch (item.ItemId)
-            {
-                case Resource.Id.menu_take_photo:
-                    if (!(viewModel?.IsBusy).GetValueOrDefault())
-                        viewModel?.TakePhotoCommand.Execute(null);
-                    break;
-            }
-            return base.OnOptionsItemSelected(item);
-        }
-
-        async void OnRecordButtonClick(object sender, EventArgs e)
-        {
-            if (viewModel == null || viewModel.CurrentPosition == null || viewModel.IsBusy)
-                return;
-
-            if (viewModel.NeedSave)
-            {
-                await viewModel.SaveRecordingTripAsync();
-            }
-
-            if (viewModel.IsRecording)
-            {
-                if (!(await viewModel.StopRecordingTrip()))
-                    return;
-                
-                AddEndMarker(viewModel.CurrentPosition.ToLatLng());
-                UpdateCarIcon(false);
-
-				var activity = (BaseActivity)Activity;
-				activity.SupportActionBar.Title = "Current Trip";
-
-                await viewModel.SaveRecordingTripAsync();
-            }
-            else
-            {
-                if (!(await viewModel.StartRecordingTrip()))
-                    return;
-                AddStartMarker(viewModel.CurrentPosition.ToLatLng());
-
-                Activity.SupportInvalidateOptionsMenu();
-                UpdateCarIcon(true);
-                UpdateStats();
-                StartFadeAnimation(true);
-
-				if (viewModel.CurrentTrip.HasSimulatedOBDData)
-				{
-					var activity = (BaseActivity)Activity;
-					activity.SupportActionBar.Title = "Current Trip (Sim OBD)";
-				}
-            }
-        }
-        #endregion
 
 
         void StartFadeAnimation(bool fadeIn)
         {
             //handle first run
-            if (!viewModel.IsRecording && stats.Visibility == ViewStates.Invisible)
+            if (!_viewModel.IsRecording && _stats.Visibility == ViewStates.Invisible)
                 return;
-            
+
             var start = fadeIn ? 0f : 1f;
             var end = fadeIn ? 1f : 0f;
-            stats.Alpha = fadeIn ? 0f : 1f;
-            stats.Visibility = ViewStates.Visible;
+            _stats.Alpha = fadeIn ? 0f : 1f;
+            _stats.Visibility = ViewStates.Visible;
 
 
             var timerAnimator = ValueAnimator.OfFloat(start, end);
             timerAnimator.SetDuration(Java.Util.Concurrent.TimeUnit.Seconds.ToMillis(1));
             timerAnimator.SetInterpolator(new AccelerateInterpolator());
-            timerAnimator.Update += (sender, e) =>
-            {
-                Activity.RunOnUiThread(() => stats.Alpha = (float)e.Animation.AnimatedValue);
-            };
+            timerAnimator.Update +=
+                (sender, e) => { Activity.RunOnUiThread(() => _stats.Alpha = (float) e.Animation.AnimatedValue); };
             timerAnimator.Start();
         }
 
         void OnLocationServiceConnected(object sender, ServiceConnectedEventArgs e)
         {
-            viewModel = GeolocationHelper.Current.LocationService.ViewModel;
-            viewModel.PropertyChanged += OnPropertyChanged;
+            _viewModel = GeolocationHelper.Current.LocationService.ViewModel;
+            _viewModel.PropertyChanged += OnPropertyChanged;
             ResetTrip();
         }
 
@@ -171,15 +113,15 @@ namespace MyDriving.Droid.Fragments
         {
             switch (e.PropertyName)
             {
-                case nameof(viewModel.CurrentPosition):
-                    var latlng = viewModel.CurrentPosition.ToLatLng();
+                case nameof(_viewModel.CurrentPosition):
+                    var latlng = _viewModel.CurrentPosition.ToLatLng();
                     UpdateCar(latlng);
                     UpdateCamera(latlng);
                     break;
-                case nameof(viewModel.CurrentTrip):
-                    TripSummaryActivity.ViewModel = viewModel.TripSummary;
+                case nameof(_viewModel.CurrentTrip):
+                    TripSummaryActivity.ViewModel = _viewModel.TripSummary;
                     ResetTrip();
-                    StartActivity(new Android.Content.Intent(Activity, typeof(TripSummaryActivity)));
+                    StartActivity(new Android.Content.Intent(Activity, typeof (TripSummaryActivity)));
                     break;
                 case "Stats":
                     UpdateStats();
@@ -191,27 +133,26 @@ namespace MyDriving.Droid.Fragments
         {
             Activity?.RunOnUiThread(() =>
             {
-                
-                time.Text = viewModel.ElapsedTime;
-                consumption.Text = viewModel.FuelConsumption;
-                consumptionUnits.Text = viewModel.FuelConsumptionUnits;
-                load.Text = viewModel.EngineLoad;
-                distanceUnits.Text = viewModel.DistanceUnits;
-                distance.Text = viewModel.CurrentTrip.TotalDistanceNoUnits;
+                _time.Text = _viewModel.ElapsedTime;
+                _consumption.Text = _viewModel.FuelConsumption;
+                _consumptionUnits.Text = _viewModel.FuelConsumptionUnits;
+                _load.Text = _viewModel.EngineLoad;
+                _distanceUnits.Text = _viewModel.DistanceUnits;
+                _distance.Text = _viewModel.CurrentTrip.TotalDistanceNoUnits;
             });
         }
 
         void ResetTrip()
         {
-            trailPointList = viewModel.CurrentTrip.Points as ObservableRangeCollection<TripPoint>;
-            trailPointList.CollectionChanged += OnTrailUpdated;
-            carMarker = null;
-            map?.Clear();
-            allPoints?.Clear();
-            allPoints = null;
+            _trailPointList = _viewModel.CurrentTrip.Points as ObservableRangeCollection<TripPoint>;
+            _trailPointList.CollectionChanged += OnTrailUpdated;
+            _carMarker = null;
+            _map?.Clear();
+            _allPoints?.Clear();
+            _allPoints = null;
             SetupMap();
             UpdateStats();
-            StartFadeAnimation(viewModel.IsRecording);
+            StartFadeAnimation(_viewModel.IsRecording);
             Activity.SupportInvalidateOptionsMenu();
         }
 
@@ -221,7 +162,7 @@ namespace MyDriving.Droid.Fragments
             Activity?.RunOnUiThread(() =>
             {
                 var logicalDensity = Resources.DisplayMetrics.Density;
-                var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
+                var thicknessPoints = (int) Math.Ceiling(20*logicalDensity + .5f);
 
                 var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_start_point) as BitmapDrawable;
                 var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
@@ -230,7 +171,7 @@ namespace MyDriving.Droid.Fragments
                 startMarker.SetPosition(start);
                 startMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
                 startMarker.Anchor(.5f, .5f);
-                map.AddMarker(startMarker);
+                _map.AddMarker(startMarker);
             });
         }
 
@@ -239,7 +180,7 @@ namespace MyDriving.Droid.Fragments
             Activity?.RunOnUiThread(() =>
             {
                 var logicalDensity = Resources.DisplayMetrics.Density;
-                var thicknessPoints = (int)Math.Ceiling(20 * logicalDensity + .5f);
+                var thicknessPoints = (int) Math.Ceiling(20*logicalDensity + .5f);
                 var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_end_point) as BitmapDrawable;
                 var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
 
@@ -248,7 +189,7 @@ namespace MyDriving.Droid.Fragments
                 endMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
                 endMarker.Anchor(.5f, .5f);
 
-                map.AddMarker(endMarker);
+                _map.AddMarker(endMarker);
             });
         }
 
@@ -256,8 +197,8 @@ namespace MyDriving.Droid.Fragments
         {
             Activity?.RunOnUiThread(() =>
             {
-                var item = viewModel.CurrentTrip.Points[viewModel.CurrentTrip.Points.Count - 1];
-                if (carMarker != null)
+                var item = _viewModel.CurrentTrip.Points[_viewModel.CurrentTrip.Points.Count - 1];
+                if (_carMarker != null)
                     UpdateMap(item);
                 else
                     SetupMap();
@@ -269,86 +210,81 @@ namespace MyDriving.Droid.Fragments
             Activity?.RunOnUiThread(() =>
             {
                 var logicalDensity = Resources.DisplayMetrics.Density;
-                var thicknessCar = (int)Math.Ceiling(26 * logicalDensity + .5f);
-                var b = ContextCompat.GetDrawable(Activity, recording ? Resource.Drawable.ic_car_red : Resource.Drawable.ic_car_blue) as BitmapDrawable;
+                var thicknessCar = (int) Math.Ceiling(26*logicalDensity + .5f);
+                var b =
+                    ContextCompat.GetDrawable(Activity,
+                        recording ? Resource.Drawable.ic_car_red : Resource.Drawable.ic_car_blue) as BitmapDrawable;
                 //var b = ContextCompat.GetDrawable(Activity, Resource.Drawable.ic_car) as BitmapDrawable;
 
                 var finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessCar, thicknessCar, false);
 
-                carMarker?.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
+                _carMarker?.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
 
-                fab.SetImageResource(recording ? Resource.Drawable.ic_stop : Resource.Drawable.ic_start);
+                _fab.SetImageResource(recording ? Resource.Drawable.ic_stop : Resource.Drawable.ic_start);
             });
-        }
-
-        public void OnMapReady(GoogleMap googleMap)
-        {
-            map = googleMap;
-            if (viewModel != null)
-                SetupMap();
         }
 
         void SetupMap()
         {
-            if (map == null)
+            if (_map == null)
                 return;
 
-            if (mapView.Width == 0)
+            if (_mapView.Width == 0)
             {
-                mapView.PostDelayed(() => { SetupMap(); }, 500);
+                _mapView.PostDelayed(SetupMap, 500);
                 return;
             }
 
-			if (viewModel.CurrentTrip.HasSimulatedOBDData)
-			{
-				var activity = (BaseActivity)Activity;
-				activity.SupportActionBar.Title = "Current Trip (Sim OBD)";
-			}
+            if (_viewModel.CurrentTrip.HasSimulatedOBDData)
+            {
+                var activity = (BaseActivity) Activity;
+                activity.SupportActionBar.Title = "Current Trip (Sim OBD)";
+            }
 
 
             TripPoint start = null;
-            if (viewModel.CurrentTrip.Points.Count != 0)
-                start = viewModel.CurrentTrip.Points[0];
+            if (_viewModel.CurrentTrip.Points.Count != 0)
+                start = _viewModel.CurrentTrip.Points[0];
 
             UpdateMap(start, false);
 
             if (start != null)
             {
-                UpdateCamera(carMarker.Position);
+                UpdateCamera(_carMarker.Position);
                 AddStartMarker(start.ToLatLng());
             }
         }
 
         void UpdateMap(TripPoint point, bool updateCamera = true)
         {
-            if (map == null)
+            if (_map == null)
                 return;
             //Get trail position or current potion to move car
-            var latlng = point == null ? 
-                (viewModel?.CurrentPosition == null ?  null : viewModel.CurrentPosition.ToLatLng())
+            var latlng = point == null
+                ? _viewModel?.CurrentPosition?.ToLatLng()
                 : point.ToLatLng();
             Activity?.RunOnUiThread(() =>
             {
                 UpdateCar(latlng);
-                driveLine?.Remove();
+                _driveLine?.Remove();
                 var polyOptions = new PolylineOptions();
 
-                if (allPoints == null)
+                if (_allPoints == null)
                 {
-                    allPoints = viewModel.CurrentTrip.Points.ToLatLngs();
+                    _allPoints = _viewModel.CurrentTrip.Points.ToLatLngs();
                 }
                 else if (point != null)
                 {
-                    allPoints.Add(point.ToLatLng());
+                    _allPoints.Add(point.ToLatLng());
                 }
 
-                polyOptions.Add(allPoints.ToArray());
+                polyOptions.Add(_allPoints.ToArray());
 
-                if (!driveLineColor.HasValue)
-                    driveLineColor = new Color(ContextCompat.GetColor(Activity, Resource.Color.recording_accent));
+                if (!_driveLineColor.HasValue)
+                    _driveLineColor = new Color(ContextCompat.GetColor(Activity, Resource.Color.recording_accent));
 
-                polyOptions.InvokeColor(driveLineColor.Value);
-                driveLine = map.AddPolyline(polyOptions);
+                polyOptions.InvokeColor(_driveLineColor.Value);
+                _driveLine = _map.AddPolyline(polyOptions);
                 if (updateCamera)
                     UpdateCamera(latlng);
             });
@@ -356,40 +292,39 @@ namespace MyDriving.Droid.Fragments
 
         void UpdateCar(LatLng latlng)
         {
-            if (latlng == null || map == null)
+            if (latlng == null || _map == null)
                 return;
             Activity?.RunOnUiThread(() =>
             {
-                if (carMarker == null)
+                if (_carMarker == null)
                 {
                     var car = new MarkerOptions();
                     car.SetPosition(latlng);
                     car.Anchor(.5f, .5f);
-                    carMarker = map.AddMarker(car);
-                    UpdateCarIcon(viewModel.IsRecording);
+                    _carMarker = _map.AddMarker(car);
+                    UpdateCarIcon(_viewModel.IsRecording);
                     return;
                 }
-                carMarker.Position = latlng;
+                _carMarker.Position = latlng;
             });
         }
 
         void UpdateCamera(LatLng latlng)
         {
-            if (map == null)
+            if (_map == null)
                 return;
             Activity?.RunOnUiThread(() =>
             {
-                if (setZoom)
+                if (_setZoom)
                 {
-                    map.MoveCamera(CameraUpdateFactory.NewLatLngZoom(latlng, 14));
-                    setZoom = false;
+                    _map.MoveCamera(CameraUpdateFactory.NewLatLngZoom(latlng, 14));
+                    _setZoom = false;
                 }
                 else
                 {
-                    map.MoveCamera(CameraUpdateFactory.NewLatLng(latlng));
+                    _map.MoveCamera(CameraUpdateFactory.NewLatLng(latlng));
                 }
             });
-
         }
 
         public override void OnStop()
@@ -397,14 +332,14 @@ namespace MyDriving.Droid.Fragments
             base.OnStop();
 
             GeolocationHelper.Current.LocationServiceConnected -= OnLocationServiceConnected;
-            if (viewModel != null)
-                viewModel.PropertyChanged -= OnPropertyChanged;
-            if (trailPointList != null)
-                trailPointList.CollectionChanged -= OnTrailUpdated;
-            if (fab != null)
-                fab.Click -= OnRecordButtonClick;
+            if (_viewModel != null)
+                _viewModel.PropertyChanged -= OnPropertyChanged;
+            if (_trailPointList != null)
+                _trailPointList.CollectionChanged -= OnTrailUpdated;
+            if (_fab != null)
+                _fab.Click -= OnRecordButtonClick;
             //If we are recording then don't stop the background service
-            if ((viewModel?.IsRecording).GetValueOrDefault())
+            if ((_viewModel?.IsRecording).GetValueOrDefault())
                 return;
 
             GeolocationHelper.Current.LocationService.StopLocationUpdates();
@@ -417,8 +352,8 @@ namespace MyDriving.Droid.Fragments
 
             GeolocationHelper.Current.LocationServiceConnected += OnLocationServiceConnected;
 
-            if (fab != null)
-                fab.Click += OnRecordButtonClick;
+            if (_fab != null)
+                _fab.Click += OnRecordButtonClick;
             await StartLocationService();
         }
 
@@ -429,60 +364,126 @@ namespace MyDriving.Droid.Fragments
                 var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
                 if (status != PermissionStatus.Granted)
                 {
-                    var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Location });
+                    var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
                     status = results[Permission.Location];
                 }
 
                 if (status == PermissionStatus.Granted)
                 {
-
-                    if ((viewModel == null || !viewModel.IsRecording) && !GeolocationHelper.Current.IsRunning)
+                    if ((_viewModel == null || !_viewModel.IsRecording) && !GeolocationHelper.Current.IsRunning)
                         await GeolocationHelper.StartLocationService();
                     else
                         OnLocationServiceConnected(null, null);
                 }
                 else if (status != PermissionStatus.Unknown)
                 {
-                    Toast.MakeText(Activity, "Location permission is not granted, can't track location", ToastLength.Long);
+                    Toast.MakeText(Activity, "Location permission is not granted, can't track location",
+                        ToastLength.Long);
                 }
             }
             catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
             }
-
         }
 
+        #region Options Menu & User Actions
+
+        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+        {
+            //if((viewModel?.IsRecording).GetValueOrDefault())
+            //     inflater.Inflate(Resource.Menu.menu_current_trip, menu);
+            base.OnCreateOptionsMenu(menu, inflater);
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Resource.Id.menu_take_photo:
+                    if (!(_viewModel?.IsBusy).GetValueOrDefault())
+                        _viewModel?.TakePhotoCommand.Execute(null);
+                    break;
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
+        async void OnRecordButtonClick(object sender, EventArgs e)
+        {
+            if (_viewModel?.CurrentPosition == null || _viewModel.IsBusy)
+                return;
+
+            if (_viewModel.NeedSave)
+            {
+                await _viewModel.SaveRecordingTripAsync();
+            }
+
+            if (_viewModel.IsRecording)
+            {
+                if (!await _viewModel.StopRecordingTrip())
+                    return;
+
+                AddEndMarker(_viewModel.CurrentPosition.ToLatLng());
+                UpdateCarIcon(false);
+
+                var activity = (BaseActivity) Activity;
+                activity.SupportActionBar.Title = "Current Trip";
+
+                await _viewModel.SaveRecordingTripAsync();
+            }
+            else
+            {
+                if (!await _viewModel.StartRecordingTrip())
+                    return;
+                AddStartMarker(_viewModel.CurrentPosition.ToLatLng());
+
+                Activity.SupportInvalidateOptionsMenu();
+                UpdateCarIcon(true);
+                UpdateStats();
+                StartFadeAnimation(true);
+
+                if (_viewModel.CurrentTrip.HasSimulatedOBDData)
+                {
+                    var activity = (BaseActivity) Activity;
+                    activity.SupportActionBar.Title = "Current Trip (Sim OBD)";
+                }
+            }
+        }
+
+        #endregion
+
         #region MapView Lifecycle Events
+
         public override void OnResume()
         {
             base.OnResume();
-            mapView?.OnResume();
+            _mapView?.OnResume();
         }
 
         public override void OnPause()
         {
             base.OnPause();
-            mapView?.OnPause();
+            _mapView?.OnPause();
         }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
-            mapView?.OnDestroy();
+            _mapView?.OnDestroy();
         }
 
         public override void OnSaveInstanceState(Bundle outState)
         {
             base.OnSaveInstanceState(outState);
-            mapView?.OnSaveInstanceState(outState);
+            _mapView?.OnSaveInstanceState(outState);
         }
 
         public override void OnLowMemory()
         {
             base.OnLowMemory();
-            mapView?.OnLowMemory();
+            _mapView?.OnLowMemory();
         }
+
         #endregion
     }
 }
