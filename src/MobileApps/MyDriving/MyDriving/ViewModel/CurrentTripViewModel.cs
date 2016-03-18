@@ -447,6 +447,18 @@ namespace MyDriving.ViewModel
                     Latitude = userLocation.Latitude,
                     Longitude = userLocation.Longitude,
                     Sequence = CurrentTrip.Points.Count,
+                    Speed = -255,
+                    RPM = -255,
+                    ShortTermFuelBank = -255,
+                    LongTermFuelBank = -255,
+                    ThrottlePosition = -255,
+                    RelativeThrottlePosition = -255,
+                    Runtime = -255,
+                    DistanceWithMalfunctionLight = -255,
+                    EngineLoad = -255,
+                    MassFlowRate = -255,
+                    EngineFuelRate = -255,
+                    VIN = "-255"
                 };
 
                 _hasEngineLoad = false;
