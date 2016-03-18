@@ -6,6 +6,8 @@ using NUnit.Framework;
 using Xamarin.UITest;
 using Xamarin.UITest.Queries;
 
+using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
+
 namespace MyDriving.UITests
 {
 	public class LoginPage : BasePage
@@ -28,15 +30,7 @@ namespace MyDriving.UITests
 		public void LoginWithFacebook()
 		{
 			app.Tap (LoginWithFacebookButton);
-
-			app.Screenshot ("Embedded Facebook Web View");
-			app.EnterText (c => c.Css("INPUT._56bg._4u9z._5ruq"), "scott_kdnkrdr_guthrie@tfbnw.net");
-			app.EnterText (c => c.Css ("#u_0_1"), "admin1");
-			app.Screenshot ("Entered Facebook Credentials");
-			app.Tap (c => c.Css ("#u_0_5"));
-
-			app.WaitForElement (c => c.Marked ("Current Trip"));
-			app.Screenshot ("Facebook Authentication Succeeded");
+            app.Screenshot("Selecting Facebook Login");
 		}
 
 		public void SkipAuthentication()

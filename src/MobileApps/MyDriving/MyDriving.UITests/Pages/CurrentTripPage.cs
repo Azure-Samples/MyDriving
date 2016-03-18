@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Xamarin.UITest;
 using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
 
@@ -26,19 +27,19 @@ namespace MyDriving.UITests
             }
 		}
 
-		public CurrentTripPage NavigateToCurrentTripPage ()
-		{
-			app.Tap ("Current Trip");
-
-			return this;
-		}
-
 		public CurrentTripPage StartRecordingTrip ()
 		{
             app.Tap (RecordingButton);
-			app.Screenshot ("Started recording trip");
+
+            if (!app.Query(UseSimulatorButton).Any())
+            {
+                System.Threading.Thread.Sleep(2500);
+                app.Tap(RecordingButton);
+            }
 
             app.Tap(UseSimulatorButton);
+
+            app.Screenshot ("Started recording trip");
 
 			return this;
 		}

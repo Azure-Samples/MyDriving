@@ -19,6 +19,9 @@ namespace MyDriving.UITests
 
 			new LoginPage ()
 				.SkipAuthentication ();
+
+            new CurrentTripPage()
+                .AssertOnPage();
 		}
 
 		[Test]
@@ -28,6 +31,12 @@ namespace MyDriving.UITests
 
 			new LoginPage ()
 				.LoginWithFacebook ();
+
+            new FacebookLoginPage()
+                .Login();
+
+            new CurrentTripPage()
+                .AssertOnPage();
 		}
 	}
 }

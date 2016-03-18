@@ -44,8 +44,11 @@ namespace MyDriving.UITests
 		[Test]
 		public void NavigateToCurrentTripTabTest ()
 		{
-			new CurrentTripPage ()
-				.NavigateToCurrentTripPage ();
+            new CurrentTripPage()
+                .NavigateTo("Current Trip");
+
+            new CurrentTripPage()
+                .AssertOnPage();
 		}
 	}
 }

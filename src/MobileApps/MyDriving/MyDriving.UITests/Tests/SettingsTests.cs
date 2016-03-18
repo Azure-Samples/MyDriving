@@ -20,14 +20,8 @@ namespace MyDriving.UITests
                 .SetDistanceSetting()
                 .NavigateTo("Profile");
 
-			//new ProfilePage ()
-			//	.NavigateToProfilePage ()
-			//	.NavigateToSettingsPage ()
-			//	.NavigateToDistanceSetting ()
-			//	.SetDistanceSetting ()
-			//	.NavigateFromSettingsDetailPage ();
-
-			app.Screenshot ("Changed Distance Setting");
+            new ProfilePage()
+                .CheckDistanceMetric(true);
 		}
 
 		[Test]
@@ -40,21 +34,21 @@ namespace MyDriving.UITests
                 .SetCapacitySetting()
                 .NavigateTo("Profile");
 
-			//new ProfilePage ()
-			//	.NavigateToProfilePage ()
-			//	.NavigateToSettingsPage ()
-			//	.NavigateToCapacitySetting ()
-			//	.SetCapacitySetting ()
-			//	.NavigateFromSettingsDetailPage ();
-
-			app.Screenshot ("Changed Capacity Setting");
+            new ProfilePage()
+                .CheckFuelMetric(true);
 		}
-
-		
 
 		[Test]
 		public void Logout ()
 		{
+            ClearKeychain();
+
+            new LoginPage()
+                .LoginWithFacebook();
+
+            new FacebookLoginPage()
+                .Login();
+
             new CurrentTripPage()
                 .NavigateTo("Settings");
 

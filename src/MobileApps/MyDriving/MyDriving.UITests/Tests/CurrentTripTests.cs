@@ -14,12 +14,15 @@ namespace MyDriving.UITests
 		public void RecordTripTest ()
 		{
             new CurrentTripPage()
-                .NavigateToCurrentTripPage()
+                .NavigateTo("Current Trip");
+
+            new CurrentTripPage()
                 .StartRecordingTrip()
                 .StopRecordingTrip()
                 .SaveTrip("Test Cloud Test Drive");
 
-            //TODO: verify trip saved
+            new TripSummaryPage()
+                .AssertOnPage();
 		}
 	}
 }

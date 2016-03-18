@@ -2,75 +2,48 @@
 using Xamarin.UITest;
 using NUnit.Framework;
 
+using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
+
 namespace MyDriving.UITests
 {
     public class PastTripsPage : BasePage
     {
-        string SliderId;
-        string PageId;
+        readonly Query RefreshView;
+
         public PastTripsPage()
-            : base ("android_trait", "ios_trait")
+            : base ("Past Trips", "ios_trait")
         {
             if (OniOS)
             {
-                SliderId = "UISlider";
-                PageId = "Trips";
+                RefreshView = x => x.Class("TableView");
             }
-            else if (OnAndroid)
+            if (OnAndroid)
             {
-                SliderId = "SeekBar";
-                PageId = "Past Trips";
+                RefreshView = x => x.Id("content_frame");
             }
-
-			
-		}
-
-		public PastTripsPage NavigateToPastTripsPage ()
-		{
-            NavigateTo(PageId);
-
-			return this;
 		}
 
 		public PastTripsPage PullToRefresh ()
 		{
-			var coords = app.Query("TableView")[0].Rect;
-			app.DragCoordinates(coords.CenterX, 0, coords.CenterX, coords.Y);
-
-			return this;
-		}
-
-		public PastTripsPage NavigateToPastTripsDetail ()
-		{
-			app.Tap(x => x.Marked("James@ToVivace"));
-			app.Screenshot ("Past Trips Detail");
-
-			return this;
-		}
-
-		public PastTripsPage MoveTripSlider ()
-		{
-			app.SetSliderValue (c => c.Class (SliderId), 25);
-			app.Screenshot ("Trip Slider at 25%");
-
-			app.SetSliderValue (c => c.Class (SliderId), 75);
-			app.Screenshot ("Trip Slider at 75%");
-
-			return this;
-		}
-
-		public PastTripsPage ClickTripSliderEndpoints ()
-		{
+            app.WaitForElement(RefreshView);
+            var coords = app.Query(RefreshView)[0].Rect;
             if (OniOS)
-            {
-                app.Tap(x => x.Text("A"));
-                app.Screenshot("Tapped A Endpoint");
-
-                app.Tap(x => x.Text("B"));
-                app.Screenshot ("Tapped B Endpoint");
-            }
+    			app.DragCoordinates(coords.CenterX, 0, coords.CenterX, coords.Y);
+            if (OnAndroid)
+                app.DragCoordinates(coords.CenterX, coords.Y, coords.CenterX, coords.CenterY);
+            
+            app.Screenshot("Pulled view to refresh");
 
 			return this;
+		}
+
+        public void NavigateToPastTripsDetail (string title)
+		{
+            app.ScrollDownTo(title);
+            app.Screenshot("Scrolled down to past trip: " + title);
+            app.Tap(title);
+
+			app.Screenshot ("Past Trips Detail");
 		}
 	}
 }
