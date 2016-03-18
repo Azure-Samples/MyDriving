@@ -30,8 +30,6 @@ namespace MyDriving.iOS
 			lblDuration.FadeIn(0.4, 0.2f);
 			lblTopSpeed.FadeIn(0.4, 0.3f);
 			lblFuelConsumed.FadeIn(0.4, 0.4f);
-
-			await ViewModel.SaveRecordingTripAsync();
 		}
 
 		async partial void BtnClose_TouchUpInside(UIButton sender)

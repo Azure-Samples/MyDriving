@@ -424,6 +424,9 @@ namespace MyDriving.ViewModel
                 point.EngineFuelRate = efr;
                 point.VIN = vin;
 
+                foreach (var kvp in obdData)
+                    Logger.Instance.WriteLine($"{kvp.Key} {kvp.Value}");
+
 				if (hasEfr)
 				{
 					totalConsumption += point.MassFlowRate * 0.3047247;
