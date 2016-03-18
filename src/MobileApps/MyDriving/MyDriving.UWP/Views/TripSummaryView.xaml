@@ -10,6 +10,7 @@
     x:Name="SUMMARY">
 
     <Grid Background="{StaticResource MainBackgroundColor2}">
+        <Button VerticalAlignment="Top" HorizontalAlignment="Right" Height="64" Width="64"></Button>
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <StackPanel>
                 <StackPanel Margin="24,4,24,4">
