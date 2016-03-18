@@ -53,6 +53,9 @@ namespace MyTrips.Droid.Activities
                 Finish();
             };
 
+            var typeface = Typeface.CreateFromAsset(Assets, "fonts/Corbert-Regular.otf");
+            FindViewById<TextView>(Resource.Id.text_app_name).Typeface = typeface;
+
             //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
             MyTrips.Services.OBDDataProcessor.GetProcessor().Initialize(viewModel.StoreManager);
         }

@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_gravity="center|bottom"
             android:scaleType="fitCenter"
-            android:src="@drawable/navigation_logo"
+            android:src="@drawable/logo"
             android:paddingLeft="96dp"
             android:paddingRight="96dp"
             android:layout_marginBottom="-48dp"
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:id="@+id/text_date"
+            android:id="@+id/text_app_name"
             android:layout_marginTop="16dp"
             android:text="MyDriving"
             android:textSize="24sp" />
