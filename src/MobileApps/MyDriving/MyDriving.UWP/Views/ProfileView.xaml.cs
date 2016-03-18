@@ -26,8 +26,11 @@ namespace MyDriving.UWP.Views
             TotalTimeTab.Title1 = "Total";
             TotalTimeTab.Title2 = "TIME";
 
-            AvgSpeedTab.Title1 = "Avg";
-            AvgSpeedTab.Title2 = "SPEED";
+            MaxSpeedTab.Title1 = "Max";
+            MaxSpeedTab.Title2 = "SPEED";
+
+            FuelConsumptionTab.Title1 = "Fuel";
+            FuelConsumptionTab.Title2 = "USED";
 
             HardBreaksTab.Title1 = "Hard";
             HardBreaksTab.Title2 = "BREAKS";

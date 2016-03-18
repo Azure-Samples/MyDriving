@@ -225,10 +225,10 @@ namespace MyDriving.ViewModel
             // to do find specifications for colors/desription 
             Skills = new DrivingSkillsBucket[drivingSkillsBuckets]
             {
-                new DrivingSkillsBucket()   {  BetterThan = 0, Description="Poor",  Color=SkillsColor.Red },
-                new DrivingSkillsBucket()   {  BetterThan = 45, Description="Average",   Color=SkillsColor.Orange },
-                new DrivingSkillsBucket()   {  BetterThan = 75, Description="Great!",   Color=SkillsColor.Yellow },
-                new DrivingSkillsBucket()   {  BetterThan = 90, Description="Amazing!",   Color=SkillsColor.Green }
+                new DrivingSkillsBucket()   {  BetterThan = 0, Description="Poor"},
+                new DrivingSkillsBucket()   {  BetterThan = 45, Description="Average" },
+                new DrivingSkillsBucket()   {  BetterThan = 75, Description="Great!"},
+                new DrivingSkillsBucket()   {  BetterThan = 90, Description="Amazing!"}
             };
         }
 
@@ -249,14 +249,7 @@ namespace MyDriving.ViewModel
     {
         public int BetterThan { get; set; }
         public string Description { get; set; }
-        public SkillsColor Color { get; set; }
     }
 
-    public enum SkillsColor
-    {
-        Red = 0,
-        Orange,
-        Yellow,
-        Green
-    }
+  
 }
