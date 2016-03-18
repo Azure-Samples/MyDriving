@@ -2,10 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MyDriving.DataObjects;
@@ -13,24 +9,23 @@ using MyDriving.Helpers;
 using MyDriving.Utils;
 using Acr.UserDialogs;
 using MvvmHelpers;
-using Plugin.DeviceInfo;
 
 namespace MyDriving.ViewModel
 {
     public class PastTripsViewModel : ViewModelBase
     {
-        ICommand loadMorePastTripsCommand;
+        ICommand _loadMorePastTripsCommand;
 
-        ICommand loadPastTripsCommand;
+        ICommand _loadPastTripsCommand;
         public ObservableRangeCollection<Trip> Trips { get; } = new ObservableRangeCollection<Trip>();
 
         public ICommand LoadPastTripsCommand =>
-            loadPastTripsCommand ??
-            (loadPastTripsCommand = new RelayCommand(async () => await ExecuteLoadPastTripsCommandAsync()));
+            _loadPastTripsCommand ??
+            (_loadPastTripsCommand = new RelayCommand(async () => await ExecuteLoadPastTripsCommandAsync()));
 
         public ICommand LoadMorePastTripCommand =>
-            loadMorePastTripsCommand ??
-            (loadMorePastTripsCommand = new RelayCommand(async () => await ExecuteLoadMorePastTripsCommandAsync()));
+            _loadMorePastTripsCommand ??
+            (_loadMorePastTripsCommand = new RelayCommand(async () => await ExecuteLoadMorePastTripsCommandAsync()));
 
         public async Task<bool> ExecuteDeleteTripCommand(Trip trip)
         {
@@ -77,9 +72,7 @@ namespace MyDriving.ViewModel
             var track = Logger.Instance.TrackTime("LoadTrips");
             track?.Start();
 
-            IProgressDialog progressDialog = null;
-
-            progressDialog = UserDialogs.Instance.Loading("Loading trips...", maskType: MaskType.Clear);
+            var progressDialog = UserDialogs.Instance.Loading("Loading trips...", maskType: MaskType.Clear);
 
             try
             {

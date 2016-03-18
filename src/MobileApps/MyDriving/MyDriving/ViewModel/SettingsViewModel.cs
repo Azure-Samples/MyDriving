@@ -1,32 +1,28 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MyDriving.Helpers;
 using MyDriving.Model;
 using MyDriving.Utils;
-using Plugin.DeviceInfo;
 using Plugin.Share;
 
 namespace MyDriving.ViewModel
 {
     public class SettingsViewModel : ViewModelBase
     {
-        List<Setting> about;
+        List<Setting> _about;
 
-        ICommand logoutCommand;
+        ICommand _logoutCommand;
 
-        ICommand openBrowserCommand;
-        List<Setting> permissions;
+        ICommand _openBrowserCommand;
+        List<Setting> _permissions;
 
-        private Dictionary<string, List<Setting>> settingsData;
+        private Dictionary<string, List<Setting>> _settingsData;
 
-        List<Setting> units;
+        List<Setting> _units;
         //Use Settings.DeviceConnectionString
         public string PrivacyPolicyUrl => "http://microsoft.com";
         public string TermsOfUseUrl => "http://microsoft.com";
@@ -38,17 +34,17 @@ namespace MyDriving.ViewModel
         public string XamarinUrl => "http://xamarin.com";
 
         public ICommand OpenBrowserCommand =>
-            openBrowserCommand ??
-            (openBrowserCommand = new RelayCommand<string>(async (url) => await ExecuteOpenBrowserCommandAsync(url)));
+            _openBrowserCommand ??
+            (_openBrowserCommand = new RelayCommand<string>(async url => await ExecuteOpenBrowserCommandAsync(url)));
 
         public ICommand LogoutCommand =>
-            logoutCommand ?? (logoutCommand = new RelayCommand(async () => await ExecuteLogoutCommandAsync()));
+            _logoutCommand ?? (_logoutCommand = new RelayCommand(async () => await ExecuteLogoutCommandAsync()));
 
         public Dictionary<string, List<Setting>> SettingsData
         {
             get
             {
-                if (settingsData == null)
+                if (_settingsData == null)
                 {
                     var distanceSetting = new Setting
                     {
@@ -67,18 +63,18 @@ namespace MyDriving.ViewModel
                     distanceSetting.PropertyChanged += DistanceSetting_PropertyChanged;
                     capacitySetting.PropertyChanged += CapacitySetting_PropertyChanged;
                     //temperatureSetting.PropertyChanged += TemperatureSetting_PropertyChanged;
-                    units = new List<Setting>
+                    _units = new List<Setting>
                     {
                         distanceSetting,
                         capacitySetting
                     };
 
-                    permissions = new List<Setting>
+                    _permissions = new List<Setting>
                     {
                         new Setting {Name = "Change MyDriving Permissions", IsButton = true, ButtonUrl = "Permissions"}
                     };
 
-                    about = new List<Setting>
+                    _about = new List<Setting>
                     {
                         new Setting {Name = "Copyright Microsoft 2016", IsButton = true, ButtonUrl = PrivacyPolicyUrl},
                         new Setting {Name = "Terms of Use", IsButton = true, ButtonUrl = TermsOfUseUrl},
@@ -88,15 +84,15 @@ namespace MyDriving.ViewModel
                         new Setting {Name = "Built in C# with Xamarin", IsButton = true, ButtonUrl = XamarinUrl},
                     };
 
-                    settingsData = new Dictionary<string, List<Setting>>
+                    _settingsData = new Dictionary<string, List<Setting>>
                     {
-                        {"Units", units},
-                        {"Permissions", permissions},
-                        {"About", about}
+                        {"Units", _units},
+                        {"Permissions", _permissions},
+                        {"About", _about}
                     };
                 }
 
-                return settingsData;
+                return _settingsData;
             }
         }
 
