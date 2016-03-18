@@ -273,6 +273,7 @@ namespace MyDriving.Services
                     {
 
                         this.IsOBDDeviceSimulated = this.obdDevice.IsSimulated;
+                    }
                 }
             }
 
