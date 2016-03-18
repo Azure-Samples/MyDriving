@@ -108,6 +108,24 @@ namespace MyDriving.ViewModel
 
                 Trip = await StoreManager.TripStore.GetItemAsync(id);
                 Title = Trip.Name;
+                for (int i = 0; i < Trip.Points.Count; i++)
+                {
+                    var point = Trip.Points[i];
+                    if (point.MassFlowRate == -255)
+                    {
+                        if (i == 0)
+                            point.MassFlowRate = 0;
+                        else
+                            point.MassFlowRate = Trip.Points[i - 1].MassFlowRate;
+                    }
+                    if (point.Speed == -255)
+                    {
+                        if (i == 0)
+                            point.Speed = 0;
+                        else
+                            point.Speed = Trip.Points[i - 1].Speed;
+                    }
+                }
             }
             catch (Exception ex) 
             {
