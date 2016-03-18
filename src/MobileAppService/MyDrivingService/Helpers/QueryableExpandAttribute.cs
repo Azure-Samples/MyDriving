@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using System.Linq;
-using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
@@ -13,7 +14,7 @@ namespace MyDrivingService.Helpers
 
         public QueryableExpandAttribute(string expand)
         {
-            this.AlwaysExpand = expand;
+            AlwaysExpand = expand;
         }
 
         public string AlwaysExpand { get; set; }
@@ -33,19 +34,21 @@ namespace MyDrivingService.Helpers
                 if (segment.StartsWith(ODataExpandOption, StringComparison.Ordinal))
                 {
                     foundExpand = true;
-                    parts[i] += "," + this.AlwaysExpand;
+                    parts[i] += "," + AlwaysExpand;
                     break;
                 }
             }
 
             if (!foundExpand)
             {
-                parts.Add(ODataExpandOption + this.AlwaysExpand);
+                parts.Add(ODataExpandOption + AlwaysExpand);
             }
 
-            var modifiedRequestUri = new UriBuilder(request.RequestUri);
-            modifiedRequestUri.Query = string.Join("&",
-                                        parts.Where(p => p.Length > 0));
+            var modifiedRequestUri = new UriBuilder(request.RequestUri)
+            {
+                Query = string.Join("&",
+                    parts.Where(p => p.Length > 0))
+            };
             request.RequestUri = modifiedRequestUri.Uri;
 
             base.OnActionExecuting(actionContext);

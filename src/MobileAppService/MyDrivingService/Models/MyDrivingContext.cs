@@ -1,4 +1,7 @@
-﻿using System.Data.Entity;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using Microsoft.Azure.Mobile.Server.Tables;
@@ -15,12 +18,11 @@ namespace MyDrivingService.Models
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
 
-        private const string connectionStringName = "Name=MS_TableConnectionString";
+        private const string ConnectionStringName = "Name=MS_TableConnectionString";
 
-        public MyDrivingContext() : base(connectionStringName)
+        public MyDrivingContext() : base(ConnectionStringName)
         {
-
-        } 
+        }
 
         public DbSet<Trip> Trips { get; set; }
         public DbSet<TripPoint> TripPoints { get; set; }
@@ -33,7 +35,6 @@ namespace MyDrivingService.Models
             modelBuilder.Conventions.Add(
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
-        }        
+        }
     }
-
 }

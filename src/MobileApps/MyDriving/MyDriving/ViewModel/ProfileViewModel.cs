@@ -58,7 +58,7 @@ namespace MyDriving.ViewModel
                     TotalTrips = currentUser.TotalTrips;
                     FuelUsed = currentUser.FuelConsumption;
 					MaxSpeed = currentUser.MaxSpeed;
-#if DEBUG
+#if DEBUG || XTC
                     if(currentUser.Rating == 0)
                         DrivingSkills = 86;
 #endif

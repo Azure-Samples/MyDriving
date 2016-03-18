@@ -150,11 +150,15 @@ namespace MyDriving.ViewModel
 
 			FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
 			DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
-            if (position.Speed >= 0)
+
+            var currentSpeed = previousPoints.LastOrDefault(s => s.Speed >= 0);
+
+            if (currentSpeed != null)
             {
-                Speed = position.Speed.ToString();
-                SpeedUnits = Settings.MetricDistance ? "Kmh" : "Mph";
+                Speed = currentSpeed.Speed.ToString();
             }
+
+            SpeedUnits = Settings.MetricDistance ? "Kmh" : "Mph";
 
 			if (previousPoints.Length > 2)
 			{
