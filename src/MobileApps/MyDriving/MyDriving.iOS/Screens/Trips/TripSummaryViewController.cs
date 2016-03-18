@@ -17,9 +17,9 @@ namespace MyDriving.iOS
         public override void ViewDidLoad()
         {
             lblDateTime.Text = $"{DateTime.Now.ToString("M")}  {DateTime.Now.ToString("t")}";
-            lblDistance.Text = $"{ViewModel.Distance} {ViewModel.DistanceUnits.ToLower()}";
-            lblDuration.Text = ViewModel.ElapsedTime;
-            lblFuelConsumed.Text = $"{ViewModel.FuelConsumption} {ViewModel.FuelConsumptionUnits.ToLower()}";
+            lblDistance.Text = ViewModel.TripSummary.TotalDistanceDisplay;
+            lblDuration.Text = ViewModel.TripSummary.TotalTimeDisplay;
+            lblFuelConsumed.Text = ViewModel.TripSummary.FuelDisplay;
 
             lblDistance.Alpha = 0;
             lblDuration.Alpha = 0;
