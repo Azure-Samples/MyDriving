@@ -196,7 +196,7 @@ namespace MyDriving.UWP.Views
 
 
        
-        private async void BeginExtendedExecution()
+        private async Task BeginExtendedExecution()
         {
             ClearExtendedExecution();
 
