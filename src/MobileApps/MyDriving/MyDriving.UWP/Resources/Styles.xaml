@@ -27,7 +27,13 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
-    
+
+    <Style x:Key="LoginButtonTextStyle2" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="SegoeUI" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
 
     <Style x:Key="SettingsSeparatorLine" TargetType="Border">
         <Setter  Property="BorderBrush" Value="Gray" />
