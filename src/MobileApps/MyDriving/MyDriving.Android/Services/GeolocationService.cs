@@ -48,9 +48,9 @@ namespace MyDriving.Droid.Services
             var notification = builder.SetContentIntent(pendingIntent)
                 .SetSmallIcon(Resource.Drawable.ic_notification)
                 .SetAutoCancel(false)
-                .SetTicker("MyDriving in foreground")
+                .SetTicker("MyDriving is recording.")
                 .SetContentTitle("MyDriving")
-                .SetContentText("MyDriving is running in the foreground")
+                .SetContentText("MyDriving is recording your current trip.")
                 .Build();
 
 
