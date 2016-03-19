@@ -33,13 +33,13 @@ namespace MyDriving.UWP.Views
             MaxSpeedTab.Title2 = "SPEED";
 
             FuelConsumptionTab.Title1 = "FUEL";
-            FuelConsumptionTab.Title2 = "used";
+            FuelConsumptionTab.Title2 = "consumption";
 
             HardBreaksTab.Title1 = "Hard";
-            HardBreaksTab.Title2 = "BREAKS";
+            HardBreaksTab.Title2 = "STOPS";
 
             HardAccelTab.Title1 = "Hard";
-            HardAccelTab.Title2 = "ACCEL";
+            HardAccelTab.Title2 = "ACCELERATIONS";
 
             TotalTripsTab.Title1 = "Total";
             TotalTripsTab.Title2 = "TRIPS";

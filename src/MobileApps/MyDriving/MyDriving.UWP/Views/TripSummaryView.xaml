@@ -13,7 +13,9 @@
 
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
             <StackPanel>
-
+                <Button x:Name="Close" VerticalAlignment="Top" HorizontalAlignment="Right" Height="40" Width="40" Click="ButtonClick_CloseView" Background="Transparent">
+                    <Image Source="{StaticResource Close}"  Height="32" Width="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
                 <StackPanel Margin="24,4,24,4">
 
                     <StackPanel>
@@ -41,21 +43,10 @@
                 </StackPanel>
 
 
-                <!--<Maps:MapControl
-           x:Name="MyMap" 
-            MapServiceToken="JCV6QKnfQrP6Be6UuefM~6L1fUqScbKx0MP5UBI4pRw~AjMaYd80GWWDlLjZ06u2r3SHjFKy74e3P6ggHUKk1HFJsGpH19At3an_CG98AgNc"
-            ZoomInteractionMode="Disabled"
-   
-            LandmarksVisible="False"
-            IsRightTapEnabled="False"
-                    Height="150"
-           />-->
             </StackPanel>
         </ScrollViewer>
 
-        <Button x:Name="Close" VerticalAlignment="Top" HorizontalAlignment="Right" Height="40" Width="40" Click="ButtonClick_CloseView" Background="Transparent">
-            <Image Source="{StaticResource Close}"  Height="32" Width="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </Button>
+     
 
     </Grid>
 </Page>
