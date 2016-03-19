@@ -45,6 +45,18 @@ namespace MyDriving.ViewModel
             //make sure the points are ordered
             trip.Points = trip.Points.OrderBy(p => p.Sequence).ToArray();
             Trip = trip;
+            for (int i = 0; i < Trip.Points.Count; i++)
+            {
+                var point = Trip.Points[i];
+                if (point.MassFlowRate == -255)
+                {
+                    point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
+                }
+                if (point.Speed == -255)
+                {
+                    point.Speed = i == 0 ? 0 : Trip.Points[i - 1].Speed;
+                }
+            }
         }
 
         public Trip Trip { get; set; }
@@ -120,6 +132,7 @@ namespace MyDriving.ViewModel
                 IsBusy = true;
 
                 Trip = await StoreManager.TripStore.GetItemAsync(id);
+
                 Title = Trip.Name;
                 for (int i = 0; i < Trip.Points.Count; i++)
                 {
@@ -144,6 +157,7 @@ namespace MyDriving.ViewModel
                     if (centerPoint != null)
                         POIs.Add(new POI { Latitude = centerPoint.Latitude, Longitude = centerPoint.Longitude, POIType = POIType.HardBrake, Timestamp = centerPoint.RecordedTimeStamp, TripId = Trip.Id });
                 }
+                Title = Trip.Name;    
             }
             catch (Exception ex)
             {
@@ -171,20 +185,22 @@ namespace MyDriving.ViewModel
             var previousPoints = Trip.Points.Where(p => p.RecordedTimeStamp <= _position.RecordedTimeStamp).ToArray();
             var obdPoints = previousPoints.Where(p => p.HasOBDData && p.MassFlowRate > -1).ToArray();
 
-            var totalConsumptionPoints = obdPoints.Length;
-            var totalConsumption = obdPoints.Sum(s => s.MassFlowRate);
-
-            if (totalConsumptionPoints > 0)
+            if (previousPoints.Length > 1)
             {
-                var fuelUsedLiters = (totalConsumption/totalConsumptionPoints)*timeDif.TotalHours*0.3047247;
+                double fuelUsedLiters = 0;
+                for (int i = 1; i < previousPoints.Length; i++)
+                {
+                    var timeDif1 = previousPoints[i].RecordedTimeStamp - previousPoints[i - 1].RecordedTimeStamp;
+                    fuelUsedLiters += previousPoints[i].MassFlowRate * 0.00002236413 * timeDif1.Seconds;
+                }
                 FuelConsumption = Settings.MetricUnits
                     ? fuelUsedLiters.ToString("N2")
-                    : (fuelUsedLiters*.264172).ToString("N2");
+                    : (fuelUsedLiters * .264172).ToString("N2");
             }
             else
             {
                 FuelConsumption = "N/A";
-            }
+            }            
 
             FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
             DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
