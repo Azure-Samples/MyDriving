@@ -46,6 +46,7 @@
     <Compile Include="StoreManager.cs" />
     <Compile Include="Stores\BaseStore.cs" />
     <Compile Include="Stores\IOTHubStore.cs" />
+    <Compile Include="Stores\POIStore.cs" />
     <Compile Include="Stores\TripStore.cs" />
     <Compile Include="Stores\PhotoStore.cs" />
     <Compile Include="Stores\UserStore.cs" />

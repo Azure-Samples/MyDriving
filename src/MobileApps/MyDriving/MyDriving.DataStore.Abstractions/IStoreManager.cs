@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 
 namespace MyDriving.DataStore.Abstractions
 {
-    public interface IStoreManager
+    public interface IStoreManager 
     {
         bool IsInitialized { get; }
         ITripStore TripStore { get; }
         IPhotoStore PhotoStore { get; }
         IUserStore UserStore { get; }
         IHubIOTStore IOTHubStore { get; }
-        Task InitializeAsync();
+        IPOIStore POIStore { get; }
         Task<bool> SyncAllAsync(bool syncUserSpecific);
         Task DropEverythingAsync();
+        Task InitializeAsync();
     }
 }

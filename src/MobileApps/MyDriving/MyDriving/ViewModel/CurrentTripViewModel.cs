@@ -280,6 +280,10 @@ namespace MyDriving.ViewModel
                 Logger.Instance.Report(ex);
             }
 
+            var poiList = (List<POI>)await StoreManager.POIStore.GetItemsAsync();
+            CurrentTrip.HardStops = poiList.Where(p => p.POIType == POIType.HardBrake).Count();
+            CurrentTrip.HardAccelerations = poiList.Where(p => p.POIType == POIType.HardAcceleration).Count();
+
             TripSummary = new TripSummaryViewModel
             {
                 TotalTime = (CurrentTrip.EndTimeStamp - CurrentTrip.RecordedTimeStamp).TotalSeconds,
@@ -447,6 +451,18 @@ namespace MyDriving.ViewModel
                     Latitude = userLocation.Latitude,
                     Longitude = userLocation.Longitude,
                     Sequence = CurrentTrip.Points.Count,
+                    Speed = -255,
+                    RPM = -255,
+                    ShortTermFuelBank = -255,
+                    LongTermFuelBank = -255,
+                    ThrottlePosition = -255,
+                    RelativeThrottlePosition = -255,
+                    Runtime = -255,
+                    DistanceWithMalfunctionLight = -255,
+                    EngineLoad = -255,
+                    MassFlowRate = -255,
+                    EngineFuelRate = -255,
+                    VIN = "-255"
                 };
 
                 _hasEngineLoad = false;
