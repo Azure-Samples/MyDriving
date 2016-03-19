@@ -11,6 +11,10 @@ namespace MyDriving.UWP.Helpers
 {
     public class Authentication : IAuthentication
     {
+        public void ClearCookies()
+        {
+        }
+
         public async Task<MobileServiceUser> LoginAsync(IMobileServiceClient client,
             MobileServiceAuthenticationProvider provider)
         {
@@ -30,10 +34,6 @@ namespace MyDriving.UWP.Helpers
             }
 
             return null;
-        }
-
-        public void ClearCookies()
-        {
         }
     }
 }
