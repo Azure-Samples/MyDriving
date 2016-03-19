@@ -87,6 +87,11 @@ namespace MyDriving.iOS
             return new CLLocationCoordinate2D(point.Latitude, point.Longitude);
         }
 
+        public static CLLocationCoordinate2D ToCoordinate(this POI point)
+        {
+            return new CLLocationCoordinate2D(point.Latitude, point.Longitude);
+        }
+
         public static CLLocationCoordinate2D[] ToCoordinateArray(this IList<TripPoint> points)
         {
             var count = points.Count;

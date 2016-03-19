@@ -39,7 +39,7 @@ namespace MyDriving.iOS
             if (PastTripsDetailViewModel == null)
                 await ConfigureCurrentTripUserInterface();
             else
-                ConfigurePastTripUserInterface();
+                await ConfigurePastTripUserInterface();
         }
 
         public override async void ViewDidAppear(bool animated)
@@ -263,11 +263,12 @@ namespace MyDriving.iOS
 
         #region Past Trip User Interface Logic
 
-        void ConfigurePastTripUserInterface()
+        async Task ConfigurePastTripUserInterface()
         {
             NavigationItem.Title = PastTripsDetailViewModel.Title;
             var coordinateCount = PastTripsDetailViewModel.Trip.Points.Count;
 
+            await PastTripsDetailViewModel.ExecuteLoadTripCommandAsync(PastTripsDetailViewModel.Trip.Id);
             // Setup map
             _mapDelegate = new TripMapViewDelegate(false);
             tripMapView.Delegate = _mapDelegate;
@@ -366,16 +367,12 @@ namespace MyDriving.iOS
 
         void ConfigurePoiAnnotations()
         {
-            var centerPoint = PastTripsDetailViewModel.Trip.Points[PastTripsDetailViewModel.Trip.Points.Count/2];
-            var pointOfInterest = new POI
-            {
-                Latitude = centerPoint.Latitude,
-                Longitude = centerPoint.Longitude,
-                POIType = POIType.HardBrake
-            };
 
-            var poiAnnotation = new PoiAnnotation(pointOfInterest, centerPoint.ToCoordinate());
-            tripMapView.AddAnnotation(poiAnnotation);
+            foreach (var poi in PastTripsDetailViewModel.POIs)
+            {
+                var poiAnnotation = new PoiAnnotation(poi, poi.ToCoordinate());
+                tripMapView.AddAnnotation(poiAnnotation);
+            }
         }
 
         void TripSlider_ValueChanged(object sender, EventArgs e)

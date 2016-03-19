@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -52,8 +52,10 @@
     <DefineConstants>XTC</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <AndroidSupportedAbis>armeabi-v7a;x86;armeabi;arm64-v8a;x86_64</AndroidSupportedAbis>
-    <EmbedAssembliesIntoApk></EmbedAssembliesIntoApk>
-    <AndroidFastDeploymentType></AndroidFastDeploymentType>
+    <EmbedAssembliesIntoApk>
+    </EmbedAssembliesIntoApk>
+    <AndroidFastDeploymentType>
+    </AndroidFastDeploymentType>
     <AssemblyName>MyDriving.Android</AssemblyName>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
@@ -460,12 +462,12 @@
   <ItemGroup>
     <AndroidEnvironment Include="environment.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\drawable-nodpi\" />
-    <Folder Include="Assets\fonts\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\Corbert-Regular.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-nodpi\ic_tip.png" />
   </ItemGroup>
   <Import Project="..\MyDriving.Shared\MyDriving.Shared.projitems" Label="Shared" />
 </Project>

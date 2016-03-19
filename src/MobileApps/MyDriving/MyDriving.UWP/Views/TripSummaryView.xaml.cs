@@ -34,7 +34,7 @@ namespace MyDriving.UWP.Views
             AvgSpeedTab.Title2 = "SPEED";
 
             HardBreaksTab.Title1 = "Hard";
-            HardBreaksTab.Title2 = "BREAKS";
+            HardBreaksTab.Title2 = "STOPS";
 
             TipsTab.Title1 = "TIPS";
         }
