@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
@@ -10,6 +13,8 @@ namespace MyDriving.Droid
 {
     public abstract class BaseActivity : AppCompatActivity, IAccelerometerListener
     {
+        AccelerometerManager accelerometerManager;
+        bool canShowFeedback;
         public Toolbar Toolbar { get; set; }
         protected abstract int LayoutResource { get; }
 
@@ -18,7 +23,18 @@ namespace MyDriving.Droid
             set { Toolbar.SetNavigationIcon(value); }
         }
 
-        AccelerometerManager accelerometerManager;
+        public void OnAccelerationChanged(float x, float y, float z)
+        {
+        }
+
+        public void OnShake(float force)
+        {
+            if (!canShowFeedback)
+                return;
+            canShowFeedback = false;
+            HockeyApp.FeedbackManager.ShowFeedbackActivity(this);
+        }
+
         protected override void OnCreate(Bundle bundle)
         {
             InitActivityTransitions();
@@ -30,31 +46,16 @@ namespace MyDriving.Droid
                 SetSupportActionBar(Toolbar);
                 SupportActionBar.SetDisplayHomeAsUpEnabled(true);
                 SupportActionBar.SetHomeButtonEnabled(true);
-
             }
 
             accelerometerManager = new AccelerometerManager(this, this);
-            accelerometerManager.Configure(50, 500); 
+            accelerometerManager.Configure(50, 500);
         }
-
 
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-
-        public void OnAccelerationChanged(float x, float y, float z)
-        {
-
-        }
-        bool canShowFeedback;
-        public void OnShake(float force)
-        {
-            if (!canShowFeedback)
-                return;
-            canShowFeedback = false;
-            HockeyApp.FeedbackManager.ShowFeedbackActivity(this);
         }
 
 
@@ -64,14 +65,13 @@ namespace MyDriving.Droid
             canShowFeedback = true;
             if (accelerometerManager.IsSupported)
                 accelerometerManager.StartListening();
-            
         }
 
-        void InitActivityTransitions() 
+        void InitActivityTransitions()
         {
-            if ((int)Build.VERSION.SdkInt >= 21) 
+            if ((int) Build.VERSION.SdkInt >= 21)
             {
-               var transition = new Android.Transitions.Slide();
+                var transition = new Slide();
                 transition.ExcludeTarget(Android.Resource.Id.StatusBarBackground, true);
                 Window.EnterTransition = transition;
                 Window.ReturnTransition = transition;
@@ -81,7 +81,6 @@ namespace MyDriving.Droid
                 Window.SharedElementReturnTransition = new ChangeBounds();
                 Window.AllowEnterTransitionOverlap = true;
                 Window.AllowReturnTransitionOverlap = true;
-
             }
         }
 
@@ -98,7 +97,5 @@ namespace MyDriving.Droid
             if (accelerometerManager.IsListening)
                 accelerometerManager.StopListening();
         }
-
-       
     }
 }

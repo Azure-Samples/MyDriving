@@ -1,20 +1,21 @@
-﻿using MyDriving.DataObjects;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using MyDriving.DataObjects;
 using MyDriving.DataStore.Abstractions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MyDriving.DataStore.Mock.Stores
 {
     public class IOTHubStore : BaseStore<IOTHubData>, IHubIOTStore
     {
-        List<IOTHubData> iotHubData;
+        readonly List<IOTHubData> iotHubData;
 
         public IOTHubStore()
         {
-            this.iotHubData = new List<IOTHubData>();
+            iotHubData = new List<IOTHubData>();
         }
 
         public override Task<bool> PullLatestAsync()
@@ -27,27 +28,28 @@ namespace MyDriving.DataStore.Mock.Stores
             return Task.FromResult(true);
         }
 
-        public override Task<IEnumerable<IOTHubData>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
+        public override Task<IEnumerable<IOTHubData>> GetItemsAsync(int skip = 0, int take = 100,
+            bool forceRefresh = false)
         {
-            return Task.FromResult(this.iotHubData.AsEnumerable());
+            return Task.FromResult(iotHubData.AsEnumerable());
         }
 
         public override Task<bool> InsertAsync(IOTHubData item)
         {
-            this.iotHubData.Add(item);
+            iotHubData.Add(item);
             return Task.FromResult(true);
         }
 
         public override Task<bool> RemoveAsync(IOTHubData item)
         {
-            var dataItem = this.iotHubData.Where(i => i.Id == item.Id).First();
-            this.iotHubData.Remove(dataItem);
+            var dataItem = iotHubData.First(i => i.Id == item.Id);
+            iotHubData.Remove(dataItem);
             return Task.FromResult(true);
         }
 
         public override Task<bool> RemoveItemsAsync(IEnumerable<IOTHubData> items)
         {
-            ((List<IOTHubData>)items).Clear();
+            ((List<IOTHubData>) items).Clear();
             return Task.FromResult(true);
         }
     }

@@ -1,21 +1,20 @@
-﻿using Microsoft.WindowsAzure.MobileServices;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using Microsoft.WindowsAzure.MobileServices;
 using MyDriving.Utils;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MyDriving.AzureClient
 {
     public class DeviceProvisionHandler
     {
-        private static DeviceProvisionHandler handler;
-
-        private const string defaultHostName = "mydriving.azure-devices.net";
+        private const string DefaultHostName = "mydriving.azure-devices.net";
+        private static DeviceProvisionHandler _handler;
 
         private DeviceProvisionHandler()
         {
@@ -32,33 +31,25 @@ namespace MyDriving.AzureClient
                 HostName = Settings.Current.HostName;
             else
             {
-                HostName = defaultHostName;
+                HostName = DefaultHostName;
                 Settings.Current.HostName = HostName;
             }
         }
-        public string DeviceId
-        {
-            get; private set;
-        }
 
-        public string HostName
-        {
-            get; private set;
-        }
+        public string DeviceId { get; private set; }
 
-        public string AccessKey
-        {
-            get; private set;
-        }
+        public string HostName { get; private set; }
+
+        public string AccessKey { get; private set; }
 
         public string DeviceConnectionString
         {
             get
             {
                 string connectionStr = String.Empty;
-                if (!String.IsNullOrEmpty(this.AccessKey))
+                if (!String.IsNullOrEmpty(AccessKey))
                 {
-                    connectionStr = String.Format("HostName={0};DeviceId={1};SharedAccessKey={2}", this.HostName, this.DeviceId, this.AccessKey);
+                    connectionStr = $"HostName={HostName};DeviceId={DeviceId};SharedAccessKey={AccessKey}";
                 }
 
                 return connectionStr;
@@ -67,12 +58,7 @@ namespace MyDriving.AzureClient
 
         public static DeviceProvisionHandler GetHandler()
         {
-            if (handler == null)
-            {
-                handler = new DeviceProvisionHandler();
-            }
-
-            return handler;
+            return _handler ?? (_handler = new DeviceProvisionHandler());
         }
 
         public async Task<string> ProvisionDevice()
@@ -90,14 +76,14 @@ namespace MyDriving.AzureClient
                 try
                 {
                     var response = await client.InvokeApiAsync("provision", null, HttpMethod.Post, myParms);
-                    this.AccessKey = response.Value<string>();
+                    AccessKey = response.Value<string>();
                 }
                 catch (Exception e)
                 {
                     Logger.Instance.WriteLine("Unable to provision device with IOT Hub: " + e.Message);
                 }
 
-                Settings.Current.DeviceConnectionString = this.DeviceConnectionString;
+                Settings.Current.DeviceConnectionString = DeviceConnectionString;
                 return Settings.Current.DeviceConnectionString;
             }
         }

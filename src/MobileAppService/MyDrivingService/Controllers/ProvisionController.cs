@@ -1,13 +1,16 @@
-﻿using System.Web.Http;
-using Microsoft.Azure.Mobile.Server;
-using Microsoft.Azure.Mobile.Server.Config;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Http;
 using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Common.Exceptions;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+using Microsoft.Azure.Mobile.Server;
+using Microsoft.Azure.Mobile.Server.Config;
 using MyDrivingService.Models;
-using System.Linq;
-using System;
 
 namespace MyDrivingService.Controllers
 {
@@ -20,7 +23,7 @@ namespace MyDrivingService.Controllers
 
         // GET api/Provision
         [HttpGet]
-       //[Authorize]
+        //[Authorize]
         public async Task<IEnumerable<Device>> Get()
         {
             EnsureRegistryManagerInitialized();
@@ -29,23 +32,22 @@ namespace MyDrivingService.Controllers
 
         // POST api/Provision
         [HttpPost]
-       //[Authorize]
+        //[Authorize]
         public async Task<IHttpActionResult> Post(string userId, string deviceName)
         {
             Device device;
             EnsureRegistryManagerInitialized();
-            MobileAppSettingsDictionary settings = this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
+            MobileAppSettingsDictionary settings = Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
 
-            var existingDevices = await GetDevices();
+            await GetDevices();
             int maxDevices = int.Parse(settings["MaxDevices"]);
             MyDrivingContext context = new MyDrivingContext();
-            var curUser = context.UserProfiles.Where(user => user.UserId == userId).FirstOrDefault();
-
-            if (curUser == null)
+            var curUser = context.UserProfiles.FirstOrDefault(user => user.UserId == userId) ??
+                          context.UserProfiles.Add(new MyDriving.DataObjects.UserProfile
             {
-                curUser = context.UserProfiles.Add(new MyDriving.DataObjects.UserProfile { Id = Guid.NewGuid().ToString(), UserId = userId });
-                //return BadRequest("User has not authenticated with mobile app yet.");
-            }
+                Id = Guid.NewGuid().ToString(),
+                UserId = userId
+            });
 
             if (curUser.Devices == null)
             {
@@ -56,11 +58,11 @@ namespace MyDrivingService.Controllers
             {
                 return BadRequest("You already have more than the maximum number of devices");
             }
-            
+
             try
             {
                 device = await registryManager.AddDeviceAsync(new Device(deviceName));
-                curUser.Devices.Add(new MyDriving.DataObjects.Device { Name = deviceName });
+                curUser.Devices.Add(new MyDriving.DataObjects.Device {Name = deviceName});
                 await context.SaveChangesAsync();
             }
             catch (DeviceAlreadyExistsException)
@@ -78,8 +80,9 @@ namespace MyDrivingService.Controllers
                 {
                     if (registryManager == null)
                     {
-                        var settings = this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
-                        string iotHubconnectionString = settings["IoTHubConnectionString"]; //ConfigurationManager.AppSettings["IoTHubConnectionString"];
+                        var settings = Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
+                        string iotHubconnectionString = settings["IoTHubConnectionString"];
+                            //ConfigurationManager.AppSettings["IoTHubConnectionString"];
                         registryManager = RegistryManager.CreateFromConnectionString(iotHubconnectionString);
                     }
                 }
@@ -88,7 +91,7 @@ namespace MyDrivingService.Controllers
 
         private async Task<IEnumerable<Device>> GetDevices()
         {
-            MobileAppSettingsDictionary settings = this.Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
+            MobileAppSettingsDictionary settings = Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
             int maxDevices = int.Parse(settings["MaxDevices"]);
 
             return await registryManager.GetDevicesAsync(maxDevices);

@@ -1,10 +1,12 @@
-﻿using MvvmHelpers;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using System;
-using System.Collections.Generic;
-using System.Text;
+using MvvmHelpers;
 
 #if BACKEND
 using Microsoft.Azure.Mobile.Server;
+
 #endif
 
 namespace MyDriving.DataObjects
@@ -13,10 +15,11 @@ namespace MyDriving.DataObjects
     {
         string Id { get; set; }
     }
+
 #if BACKEND
     public class BaseDataObject : EntityData, IBaseDataObject
     {
-        public BaseDataObject ()
+        public BaseDataObject()
         {
             Id = Guid.NewGuid().ToString();
         }
@@ -28,9 +31,8 @@ namespace MyDriving.DataObjects
         {
             Id = Guid.NewGuid().ToString();
         }
-        
+
         public string Id { get; set; }
-        
     }
 #endif
 }

@@ -1,102 +1,67 @@
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 ﻿using System;
+using NUnit.Framework;
 using Xamarin.UITest;
+
+using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
 
 namespace MyDriving.UITests
 {
 	public class ProfilePage : BasePage
 	{
+        readonly Query FuelConsumptionField;
+        readonly Query DistanceField;
+        readonly Query SettingsTab;
+
 		public ProfilePage ()
+            : base (x => x.Marked("profile_image"), x => x.Raw("* {text CONTAINS 'Driving Skills: '}"))
 		{
-			app.Screenshot ("Profile Page");
+            if (OnAndroid)
+            { 
+                FuelConsumptionField = x => x.Id("text_fuel_consumption");
+                DistanceField = x => x.Id("text_distance");
+            }
+            if (OniOS)
+            {
+                SettingsTab = x => x.Id("tab_Settings.png");
+                FuelConsumptionField = x => x.Class("ProfileStatCell").Descendant().Marked("Fuel Consumption").Sibling();
+                DistanceField = x => x.Class("ProfileStatCell").Descendant().Marked("Total Distance").Sibling();
+            }
 		}
 
-		public ProfilePage NavigateToProfilePage ()
-		{
-			app.Tap ("Profile");
+        public ProfilePage CheckFuelMetric(bool metric)
+        {
+            App.ScrollDownTo(FuelConsumptionField);
+            var fuelText = App.Query(FuelConsumptionField)[0].Text;
+            App.Screenshot("Verifying fuel units correct");
 
-			return this;
-		}
+            var expectedUnits = metric ? "l" : "gal";
+            StringAssert.Contains(expectedUnits, fuelText, message:"Couldnt verify fuel units");
 
-		public ProfilePage NavigateToSettingsPage ()
-		{
-            NavigateTo("Settings");
-			return this;
-		}
+            return this;
+        }
 
-		public ProfilePage NavigateFromSettingsDetailPage ()
-		{
-			app.Tap ("Settings");
+        public ProfilePage CheckDistanceMetric(bool metric)
+        {
+            App.ScrollDownTo(DistanceField);
+            var distanceText = App.Query(DistanceField)[0].Text;
+            App.Screenshot("Verifying distance units correct");
 
-			return this;
-		}
+            var expectedUnits = metric ? "km" : "miles";
+            StringAssert.Contains(expectedUnits, distanceText, message: "Couldnt verify distance units");
 
-		public ProfilePage SetDistanceSetting ()
-		{
-			app.Tap ("Metric (km)");
-			app.Screenshot ("Set Distance Setting");
+            return this;
+        }
 
-			return this;
-		}
+        public void NavigateToSettings()
+        {
+            if (OnAndroid)
+                return;
 
-		public ProfilePage SetCapacitySetting ()
-		{
-			app.Tap ("Metric (liters)");
-			app.Screenshot ("Set Capacity Setting");
-
-			return this;
-		}
-
-		public ProfilePage NavigateToDistanceSetting ()
-		{
-			app.Tap ("Distance");
-
-			return this;
-		}
-
-		public ProfilePage NavigateToCapacitySetting ()
-		{
-			app.Tap ("Capacity");
-
-			return this;
-		}
-
-		public ProfilePage NavigateToDeviceConnectionSetting ()
-		{
-			app.Tap ("Device connection string");
-
-			return this;
-		}
-
-		public ProfilePage SetDeviceConnectionSetting ()
-		{
-			app.EnterText(x => x.Class("UITextField"), "http://build2016.azurewebsites.net");
-			app.Screenshot ("Set Device Connection String Setting");
-
-			return this;
-		}
-
-		public ProfilePage NavigateToMobileClientUrlSetting ()
-		{
-			app.Tap ("Mobile client URL");
-
-			return this;
-		}
-
-		public ProfilePage SetMobileClientUrlSetting ()
-		{
-			app.EnterText(x => x.Class("UITextField"), "http://build2016.azurewebsites.net");
-			app.Screenshot ("Set Mobile Client Url Setting");
-
-			return this;
-		}
-			
-		public ProfilePage Logout ()
-		{
-			app.ScrollDownTo("Log Out");
-			app.Tap(x => x.Marked("Log Out"));
-			app.Tap(x => x.Marked("Yes, Logout"));
-
-			return this;
-		}
+            App.Tap(SettingsTab);
+            App.Screenshot("Tapped Settings Tab");
+        }
 	}
 }

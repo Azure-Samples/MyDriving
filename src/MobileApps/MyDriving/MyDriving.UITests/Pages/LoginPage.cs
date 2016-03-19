@@ -1,48 +1,39 @@
-﻿using System;
-using System.Linq;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 
-using NUnit.Framework;
-
-using Xamarin.UITest;
-using Xamarin.UITest.Queries;
+using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
 
 namespace MyDriving.UITests
 {
 	public class LoginPage : BasePage
 	{
-		string LoginWithFacebookItem = "LoginWithFacebook";
-		string SkipAuthenticationItem = "SkipAuthentication";
+        string LoginWithFacebookButton;
+        string SkipAuthenticationButton;
 
 		public LoginPage ()
-			: base (c => c.Marked ("LoginWithTwitter"), c => c.Marked ("LoginWithTwitter"))
+			: base (c => c.Marked ("button_twitter"), c => c.Marked ("LoginWithTwitter"))
 		{
 			if (OnAndroid) {
-
+                LoginWithFacebookButton = "button_facebook";
+                SkipAuthenticationButton = "button_skip";
 			} 
 
 			if (OniOS) {
-
+                LoginWithFacebookButton = "LoginWithFacebook";
+                SkipAuthenticationButton = "Skip Auth";
 			}
 		}
 
 		public void LoginWithFacebook()
 		{
-			app.Tap (LoginWithFacebookItem);
-
-			app.Screenshot ("Embedded Facebook Web View");
-			app.EnterText (c => c.Css("INPUT._56bg._4u9z._5ruq"), "scott_kdnkrdr_guthrie@tfbnw.net");
-			app.EnterText (c => c.Css ("#u_0_1"), "admin1");
-			app.Screenshot ("Entered Facebook Credentials");
-			app.Tap (c => c.Css ("#u_0_5"));
-
-			app.WaitForElement (c => c.Marked ("Current Trip"));
-			app.Screenshot ("Facebook Authentication Succeeded");
+			App.Tap (LoginWithFacebookButton);
+            App.Screenshot("Selecting Facebook Login");
 		}
 
 		public void SkipAuthentication()
 		{
-			app.Tap (SkipAuthenticationItem);
-			app.Screenshot ("Authentication Skipped");
+			App.Tap (SkipAuthenticationButton);
+			App.Screenshot ("Authentication Skipped");
 		}
 	}
 }

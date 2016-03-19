@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using System;
 using Foundation;
 using UIKit;
@@ -6,125 +9,126 @@ using MyDriving.ViewModel;
 
 namespace MyDriving.iOS
 {
-	public partial class SettingsDetailViewController : UIViewController
-	{
-		public string SettingKey { get; set; }
-		public SettingsViewModel ViewModel;
-		public Setting Setting { get; set; }
+    public partial class SettingsDetailViewController : UIViewController
+    {
+        public SettingsViewModel ViewModel;
 
-		public SettingsDetailViewController(IntPtr handle) : base(handle) { }
+        public SettingsDetailViewController(IntPtr handle) : base(handle)
+        {
+        }
 
-		public override void ViewDidLoad()
-		{
-			base.ViewDidLoad();
+        public string SettingKey { get; set; }
+        public Setting Setting { get; set; }
 
-			NavigationItem.Title = Setting.Name;
-			settingsDetailTableView.Source = new SettingsDetailTableViewSource(SettingKey, Setting);
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
 
-			NSNotificationCenter.DefaultCenter.AddObserver(new NSString ("SettingTextFieldChanged"), HandleSettingChangedNotification); 
-		}
+            NavigationItem.Title = Setting.Name;
+            settingsDetailTableView.Source = new SettingsDetailTableViewSource(SettingKey, Setting);
 
-		void HandleSettingChangedNotification(NSNotification obj)
-		{
-			var dict = (NSDictionary) obj.Object;
-			var row = dict.ObjectForKey(new NSString("Row")) as NSString;
-			var section = dict.ObjectForKey(new NSString("Section")) as NSString;
-			var value = dict.ObjectForKey(new NSString("Value")) as NSString;
+            NSNotificationCenter.DefaultCenter.AddObserver(new NSString("SettingTextFieldChanged"),
+                HandleSettingChangedNotification);
+        }
 
-			ViewModel.SettingsData[section.ToString ()][Int32.Parse(row.ToString ())].Value = value.ToString();
-		}
-	}
+        void HandleSettingChangedNotification(NSNotification obj)
+        {
+            var dict = (NSDictionary) obj.Object;
+            var row = dict.ObjectForKey(new NSString("Row")) as NSString;
+            var section = dict.ObjectForKey(new NSString("Section")) as NSString;
+            var value = dict.ObjectForKey(new NSString("Value")) as NSString;
 
-	public class SettingsDetailTableViewSource : UITableViewSource
-	{
-		Setting setting;
-		string key;
+            ViewModel.SettingsData[section.ToString()][Int32.Parse(row.ToString())].Value = value.ToString();
+        }
+    }
 
-		public SettingsDetailTableViewSource(string key, Setting setting)
-		{
-			this.setting = setting;
-			this.key = key;
-		}
+    public class SettingsDetailTableViewSource : UITableViewSource
+    {
+        readonly string key;
+        readonly Setting setting;
 
-		public override string TitleForHeader(UITableView tableView, nint section)
-		{
-			return setting.Name;
-		}
+        public SettingsDetailTableViewSource(string key, Setting setting)
+        {
+            this.setting = setting;
+            this.key = key;
+        }
 
-		public override void WillDisplayHeaderView(UITableView tableView, UIView headerView, nint section)
-		{
-			var header = headerView as UITableViewHeaderFooterView;
-			header.TextLabel.TextColor = "5C5C5C".ToUIColor();
-			header.TextLabel.Font = UIFont.FromName("AvenirNext-Medium", 16);
-			header.TextLabel.Text = TitleForHeader(tableView, section);
-		}
+        public override string TitleForHeader(UITableView tableView, nint section)
+        {
+            return setting.Name;
+        }
 
-		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-		{
-			if (!setting.IsButton)
-			{
-				setting.Value = setting.PossibleValues[indexPath.Row];
+        public override void WillDisplayHeaderView(UITableView tableView, UIView headerView, nint section)
+        {
+            var header = headerView as UITableViewHeaderFooterView;
+            header.TextLabel.TextColor = "5C5C5C".ToUIColor();
+            header.TextLabel.Font = UIFont.FromName("AvenirNext-Medium", 16);
+            header.TextLabel.Text = TitleForHeader(tableView, section);
+        }
 
-				var cells = tableView.VisibleCells;
-				int i = 0;
-				foreach (var cell in cells)
-				{
-					var value = setting.PossibleValues[i];
-					if (setting.Value != value)
-					{
-						cell.Accessory = UITableViewCellAccessory.None;
-					}
-					else
-					{
-						cell.Accessory = UITableViewCellAccessory.Checkmark;
-					}
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (!setting.IsButton)
+            {
+                setting.Value = setting.PossibleValues[indexPath.Row];
 
-					i++;
-				}
+                var cells = tableView.VisibleCells;
+                int i = 0;
+                foreach (var cell in cells)
+                {
+                    var value = setting.PossibleValues[i];
+                    cell.Accessory = setting.Value != value
+                        ? UITableViewCellAccessory.None
+                        : UITableViewCellAccessory.Checkmark;
 
-				NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshTripUnits", null);
-				NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshSettingsTable", null);
-			}
-		}
+                    i++;
+                }
 
-		public override nint RowsInSection(UITableView tableview, nint section)
-		{
-			if (!setting.IsTextField)
-				return setting.PossibleValues.Count;
-			else
-				return 1;
-		}
+                NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshTripUnits", null);
+                NSNotificationCenter.DefaultCenter.PostNotificationName("RefreshSettingsTable", null);
+            }
+        }
 
-		public override nint NumberOfSections(UITableView tableView)
-		{
-			return 1;
-		}
+        public override nint RowsInSection(UITableView tableview, nint section)
+        {
+            if (!setting.IsTextField)
+                return setting.PossibleValues.Count;
+            else
+                return 1;
+        }
 
-		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-		{
-			if (!setting.IsTextField)
-			{
-				var cell = tableView.DequeueReusableCell("SETTING__DETAIL_VALUE_CELL") as SettingDetailTableViewCell;
+        public override nint NumberOfSections(UITableView tableView)
+        {
+            return 1;
+        }
 
-				cell.Name = setting.PossibleValues[indexPath.Row];
-				cell.Accessory = UITableViewCellAccessory.None;
+        public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (!setting.IsTextField)
+            {
+                var cell = tableView.DequeueReusableCell("SETTING__DETAIL_VALUE_CELL") as SettingDetailTableViewCell;
 
-				if (cell.Name == setting.Value)
-					cell.Accessory = UITableViewCellAccessory.Checkmark;
+                cell.Name = setting.PossibleValues[indexPath.Row];
+                cell.Accessory = UITableViewCellAccessory.None;
 
-				return cell;
-			}
-			else 
-			{
-				var cell = tableView.DequeueReusableCell("SETTING_DETAIL_TEXTFIELD_CELL") as SettingDetailTextFieldTableViewCell;
+                if (cell.Name == setting.Value)
+                    cell.Accessory = UITableViewCellAccessory.Checkmark;
 
-				cell.Row = indexPath.Row.ToString ();
-				cell.Section = key;
+                return cell;
+            }
+            else
+            {
+                var cell =
+                    tableView.DequeueReusableCell("SETTING_DETAIL_TEXTFIELD_CELL") as
+                        SettingDetailTextFieldTableViewCell;
 
-				cell.Value = setting.Value != null ? setting.Value : string.Empty;
+                cell.Row = indexPath.Row.ToString();
+                cell.Section = key;
 
-				return cell;
-			}
-		}
-	}	
+                cell.Value = setting.Value ?? string.Empty;
+
+                return cell;
+            }
+        }
+    }
 }

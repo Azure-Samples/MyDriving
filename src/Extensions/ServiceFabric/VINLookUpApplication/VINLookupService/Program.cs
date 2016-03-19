@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using System.Diagnostics;
 using System.Fabric;
 using System.Threading;
@@ -8,7 +11,7 @@ namespace VINLookupService
     internal static class Program
     {
         /// <summary>
-        /// This is the entry point of the service host process.
+        ///     This is the entry point of the service host process.
         /// </summary>
         private static void Main()
         {
@@ -21,11 +24,13 @@ namespace VINLookupService
                     // RegisterServiceType maps a service type name to a .NET class.
                     // When Service Fabric creates an instance of this service type,
                     // an instance of the class is created in this host process.
-                    fabricRuntime.RegisterServiceType("VINLookupServiceType", typeof(VINLookupService));
+                    fabricRuntime.RegisterServiceType("VINLookupServiceType", typeof (VINLookupService));
 
-                    ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(VINLookupService).Name);
+                    ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id,
+                        typeof (VINLookupService).Name);
 
-                    Thread.Sleep(Timeout.Infinite);  // Prevents this host process from terminating so services keeps running.
+                    Thread.Sleep(Timeout.Infinite);
+                        // Prevents this host process from terminating so services keeps running.
                 }
             }
             catch (Exception e)

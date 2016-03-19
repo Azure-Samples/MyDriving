@@ -1,13 +1,13 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyDriving.Utils
 {
     /// <summary>
-    /// Simple ServiceLocator implementation.
+    ///     Simple ServiceLocator implementation.
     /// </summary>
     public sealed class ServiceLocator
     {
@@ -15,37 +15,34 @@ namespace MyDriving.Utils
         readonly Dictionary<Type, Lazy<object>> registeredServices = new Dictionary<Type, Lazy<object>>();
 
         /// <summary>
-        /// Singleton instance for default service locator
+        ///     Singleton instance for default service locator
         /// </summary>
-        public static ServiceLocator Instance
-        {
-            get { return instance.Value; }
-        }
+        public static ServiceLocator Instance => instance.Value;
 
         /// <summary>
-        /// Add a new contract + service implementation
+        ///     Add a new contract + service implementation
         /// </summary>
         /// <typeparam name="TContract">Contract type</typeparam>
         /// <typeparam name="TService">Service type</typeparam>
         public void Add<TContract, TService>() where TService : new()
         {
-            this.registeredServices[typeof(TContract)] =
-                new Lazy<object>(() => Activator.CreateInstance(typeof(TService)));
+            registeredServices[typeof (TContract)] =
+                new Lazy<object>(() => Activator.CreateInstance(typeof (TService)));
         }
 
         /// <summary>
-        /// This resolves a service type and returns the implementation. Note that this
-        /// assumes the key used to register the object is of the appropriate type or
-        /// this method will throw an InvalidCastException!
+        ///     This resolves a service type and returns the implementation. Note that this
+        ///     assumes the key used to register the object is of the appropriate type or
+        ///     this method will throw an InvalidCastException!
         /// </summary>
         /// <typeparam name="T">Type to resolve</typeparam>
         /// <returns>Implementation</returns>
         public T Resolve<T>() where T : class
         {
             Lazy<object> service;
-            if (registeredServices.TryGetValue(typeof(T), out service))
+            if (registeredServices.TryGetValue(typeof (T), out service))
             {
-                return (T)service.Value;
+                return (T) service.Value;
             }
 
             return null;

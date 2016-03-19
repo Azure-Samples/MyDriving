@@ -2,7 +2,6 @@
     x:Class="MyDriving.UWP.Views.GetStarted5"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MyDriving.UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:MyDriving.UWP.Controls"
@@ -13,7 +12,7 @@
             <ImageBrush Stretch="Fill" ImageSource="{StaticResource Background}" />
         </Grid.Background>
         
-        <Image x:Name="getstarted5" Source="{StaticResource GetStarted5}" Grid.Row="0"/>
+        <Image x:Name="Getstarted5" Source="{StaticResource GetStarted5}" Grid.Row="0"/>
         <Grid VerticalAlignment="Bottom" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -22,7 +21,7 @@
             
             <controls:DotsControl x:Name="Dots" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
           
-                <Button x:Name="DoneButton" Click="GoNext" Content="Let's Go!" HorizontalAlignment="Stretch" Height="40" Background="White" Foreground="#FF3C3D3E" Grid.Row="1"/>
+                <Button x:Name="DoneButton" Click="GoNext" Content="Let's Go!" HorizontalAlignment="Stretch" Height="40" Background="{StaticResource BrandColor}"  Grid.Row="1"/>
    
           
         </Grid>

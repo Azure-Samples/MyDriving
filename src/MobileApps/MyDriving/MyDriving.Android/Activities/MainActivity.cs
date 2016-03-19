@@ -1,10 +1,12 @@
-﻿using Android.App;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
-
 using MyDriving.Droid.Fragments;
 using Android.Support.V4.View;
 using Android.Support.Design.Widget;
@@ -15,12 +17,17 @@ using System.Threading.Tasks;
 
 namespace MyDriving.Droid
 {
-    [Activity(Label = "MyDriving", Icon = "@drawable/ic_launcher", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "MyDriving", Icon = "@drawable/ic_launcher",
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+        ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : BaseActivity
     {
-
         DrawerLayout drawerLayout;
         NavigationView navigationView;
+
+        int oldPosition = -1;
+
+        bool shouldClose;
 
         protected override int LayoutResource => Resource.Layout.activity_main;
 
@@ -28,10 +35,10 @@ namespace MyDriving.Droid
         {
             base.OnCreate(bundle);
 
-            #if !XTC
+#if !XTC
             InitializeHockeyApp();
-            #endif
-            drawerLayout = this.FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+#endif
+            drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
 
             //Set hamburger items menu
             SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.ic_menu);
@@ -47,10 +54,9 @@ namespace MyDriving.Droid
                 ListItemClicked(e.MenuItem.ItemId);
 
 
-                if (e.MenuItem.ItemId == Resource.Id.menu_profile)
-                    SupportActionBar.Title = Settings.Current.UserFirstName;
-                else
-                    SupportActionBar.Title = e.MenuItem.TitleFormatted.ToString();
+                SupportActionBar.Title = e.MenuItem.ItemId == Resource.Id.menu_profile
+                    ? Settings.Current.UserFirstName
+                    : e.MenuItem.TitleFormatted.ToString();
 
                 drawerLayout.CloseDrawers();
             };
@@ -68,7 +74,6 @@ namespace MyDriving.Droid
                 ListItemClicked(Resource.Id.menu_current_trip);
                 SupportActionBar.Title = "Current Trip";
             }
-
         }
 
         void InitializeHockeyApp()
@@ -82,16 +87,15 @@ namespace MyDriving.Droid
             HockeyApp.TraceWriter.Initialize();
 
             AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
-                {
-                    HockeyApp.TraceWriter.WriteTrace(args.Exception);
-                    args.Handled = true;
-                };
-            AppDomain.CurrentDomain.UnhandledException += (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.ExceptionObject);
+            {
+                HockeyApp.TraceWriter.WriteTrace(args.Exception);
+                args.Handled = true;
+            };
+            AppDomain.CurrentDomain.UnhandledException +=
+                (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.ExceptionObject);
             TaskScheduler.UnobservedTaskException += (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
-
         }
 
-        int oldPosition = -1;
         void ListItemClicked(int itemId)
         {
             //this way we don't load twice, but you might want to modify this a bit.
@@ -142,11 +146,9 @@ namespace MyDriving.Droid
             shouldClose = false;
         }
 
-        bool shouldClose;
         public override void OnBackPressed()
         {
-
-            if (drawerLayout.IsDrawerOpen((int)GravityFlags.Start))
+            if (drawerLayout.IsDrawerOpen((int) GravityFlags.Start))
             {
                 drawerLayout.CloseDrawer(GravityCompat.Start);
             }
@@ -161,8 +163,5 @@ namespace MyDriving.Droid
                 base.OnBackPressed();
             }
         }
-
     }
 }
-
-

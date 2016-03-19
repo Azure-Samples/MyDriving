@@ -1,12 +1,15 @@
-﻿using System.Linq;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using MyDriving.DataObjects;
-using MyDrivingService.Models;
 using MyDrivingService.Helpers;
+using MyDrivingService.Models;
 
 namespace MyDrivingService.Controllers
 {
@@ -25,7 +28,7 @@ namespace MyDrivingService.Controllers
         public async Task<IQueryable<UserProfile>> GetAllUsers()
         {
             //TODO: remove and add authorize in future
-            var id = await IdentitiyHelper.FindSidAsync(User,Request);
+            var id = await IdentitiyHelper.FindSidAsync(User, Request);
             if (string.IsNullOrWhiteSpace(id))
                 return Query();
             return Query().Where(s => s.UserId == id);
@@ -47,17 +50,17 @@ namespace MyDrivingService.Controllers
         }
 
         // POST tables/UserProfile
-       //[Authorize]
+        //[Authorize]
         public async Task<IHttpActionResult> PostUser(UserProfile user)
         {
             var id = await IdentitiyHelper.FindSidAsync(User, Request);
             user.UserId = id;
             UserProfile current = await InsertAsync(user);
-            return CreatedAtRoute("Tables", new { id = current.Id }, current);
+            return CreatedAtRoute("Tables", new {id = current.Id}, current);
         }
 
         // DELETE tables/UserProfile/<id>
-       //[Authorize]
+        //[Authorize]
         public Task DeleteUser(string id)
         {
             return DeleteAsync(id);

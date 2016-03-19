@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
@@ -9,8 +8,7 @@
     <RootNamespace>MyDriving.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>MyDrivingiOS</AssemblyName>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <NuGetPackageImportStamp></NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,10 +39,8 @@
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Distribution</CodesignKey>
-    <CodesignProvision>
-    </CodesignProvision>
-    <CodesignExtraArgs>
-    </CodesignExtraArgs>
+    <CodesignProvision></CodesignProvision>
+    <CodesignExtraArgs></CodesignExtraArgs>
     <BuildIpa>true</BuildIpa>
     <CodesignResourceRules />
   </PropertyGroup>
@@ -89,8 +85,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|iPhone'">
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;XTC</DefineConstants>
-    <DebugType>
-    </DebugType>
+    <DebugType></DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\XTC</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -98,12 +93,11 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
-    <CodesignKey>iPhone Distribution</CodesignKey>
-    <CodesignProvision>
-    </CodesignProvision>
-    <CodesignExtraArgs>
-    </CodesignExtraArgs>
-    <CodesignResourceRules />
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignProvision></CodesignProvision>
+    <CodesignExtraArgs></CodesignExtraArgs>
+    <CodesignResourceRules></CodesignResourceRules>
+    <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'XTC|iPhoneSimulator'">
     <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;XTC</DefineConstants>
@@ -291,36 +285,6 @@
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json">
       <InProject>false</InProject>
     </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-60%402x.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-60%403x.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-76.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-76%402x.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small%402x.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small%403x.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small-40.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small-40%402x.png">
-      <InProject>false</InProject>
-    </ImageAsset>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-Small-40%403x.png">
-      <InProject>false</InProject>
-    </ImageAsset>
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Contents.json">
       <InProject>false</InProject>
     </ImageAsset>
@@ -339,10 +303,15 @@
     <ImageAsset Include="Resources\Images.xcassets\LaunchImage.launchimage\Default-Portrait%402x.png">
       <InProject>false</InProject>
     </ImageAsset>
-  </ItemGroup>
-  <ItemGroup>
-    <ITunesArtwork Include="Resources\ITunesArtwork" />
-    <ITunesArtwork Include="Resources\ITunesArtwork%402x" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-29.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-58.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-87.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-80.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-120.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-57.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-114.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-1202.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Icon-180.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -355,8 +324,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Helpers\ThemeManager.cs" />
     <Compile Include="Helpers\ExtensionMethods.cs" />
     <Compile Include="Screens\TabBarController.cs" />
@@ -496,6 +465,7 @@
     <BundleResource Include="Resources\Map\tip_annotation%402x.png" />
     <BundleResource Include="Resources\splash-screen1240x600.png" />
     <BundleResource Include="Resources\Logo300x300.png" />
+    <BundleResource Include="Resources\background_started.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="btprogresshud">

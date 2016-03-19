@@ -1,35 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using MyDriving.ViewModel;
-using MyDriving.Utils;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Navigation;
+using MyDriving.Utils;
+using MyDriving.ViewModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace MyDriving.UWP.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SettingsView : Page
+    public sealed partial class SettingsView
     {
-        SettingsViewModel settingsViewModel;
+        readonly SettingsViewModel settingsViewModel;
+
         public SettingsView()
         {
-            this.InitializeComponent();
-            DataContext = Utils.Settings.Current;
+            InitializeComponent();
+            DataContext = Settings.Current;
             settingsViewModel = new SettingsViewModel();
         }
 
@@ -59,9 +51,9 @@ namespace MyDriving.UWP.Views
         private bool TryGoBack()
         {
             bool navigated = false;
-            if (this.Frame.CanGoBack)
+            if (Frame.CanGoBack)
             {
-                this.Frame.GoBack();
+                Frame.GoBack();
                 navigated = true;
             }
             return navigated;

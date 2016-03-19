@@ -1,16 +1,17 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using System.IO;
-using System.Linq;
 using Xamarin.UITest;
-using Xamarin.UITest.Queries;
 using System.Reflection;
 
 namespace MyDriving.UITests
 {
     public class AppInitializer
     {
-		//const string apkPath = "../../../com.xamarin.samples.taskydroid-Signed.apk";
-		const string appPath = "../../../MyDriving.iOS/bin/iPhoneSimulator/Debug/MyDrivingiOS.app";
+		const string appPath = "../../../MyDriving.iOS/bin/iPhoneSimulator/Release/MyDrivingiOS.app";
+        public static string apkPath;
 
 		private static IApp app;
 		public static IApp App
@@ -32,20 +33,19 @@ namespace MyDriving.UITests
 				string dir = fi.Directory.Parent.Parent.Parent.FullName;
 
 				// PathToAPK is a property or an instance variable in the test class
-				var PathToAPK = Path.Combine(dir, "MyDriving.Android", "bin", "Release", "com.microsoft.MyDriving.apk");
-
-				Console.WriteLine (PathToAPK);
+				apkPath = Path.Combine(dir, "MyDriving.Android", "bin", "XTC", "com.microsoft.mydriving-Signed.apk");
 
 				app = ConfigureApp
 					.Android
-					.ApkFile(PathToAPK)
-					.StartApp();
+                    .ApkFile(apkPath)
+                    .StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear);
 			}
 			else
 			{
 				app = ConfigureApp
 					.iOS
-					.AppBundle(appPath)
+					//.AppBundle(appPath)
+                    .InstalledApp("com.microsoft.mydriving")
 					.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear);
 			}
 

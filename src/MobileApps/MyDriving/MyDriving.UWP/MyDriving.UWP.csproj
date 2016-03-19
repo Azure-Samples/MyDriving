@@ -142,6 +142,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="Assets\close64x64.png" />
+    <Content Include="Assets\Fonts\CorbertRegular\Corbert-Regular.otf" />
+    <None Include="MyDriving.UWP_TemporaryKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -216,13 +219,13 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="MyDriving.UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\A.png" />
     <Content Include="Assets\B.png" />
     <Content Include="Assets\Car Icon_Blue.png" />
     <Content Include="Assets\Car Icon_Red.png" />
+    <Content Include="Assets\Fonts\CorbertRegular\Desktop EULA 1.6.txt" />
     <Content Include="Assets\GetStarted\background.png" />
     <Content Include="Assets\GetStarted\SCREEN1.png" />
     <Content Include="Assets\GetStarted\SCREEN2.png" />
@@ -241,10 +244,15 @@
     <Content Include="Assets\ic_end_point.png" />
     <Content Include="Assets\ic_car_blue.png" />
     <Content Include="Assets\ic_car_red.png" />
-    <Content Include="Assets\Login\logo.png" />
     <Content Include="Assets\Login\Microsoft.png" />
     <Content Include="Assets\Login\twitter.png" />
     <Content Include="Assets\logo%403x.png" />
+    <Content Include="Assets\Logos\512x512.png" />
+    <Content Include="Assets\Logos\Logo150x150.png" />
+    <Content Include="Assets\Logos\Logo24x24.png" />
+    <Content Include="Assets\Logos\Logo300x300.png" />
+    <Content Include="Assets\Logos\Logo88x88.png" />
+    <Content Include="Assets\Logos\SplashScreen.png" />
     <Content Include="Assets\mappin.png" />
     <Content Include="Assets\Smarttriplogo.png" />
     <Content Include="Assets\SplitView\default_Current.png" />
