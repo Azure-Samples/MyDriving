@@ -78,13 +78,6 @@ namespace MyDriving.iOS
             return true;
         }
 
-        public override void WillEnterForeground(UIApplication application)
-        {
-            var tabBarController = Window.RootViewController as UITabBarController;
-            var navigationController = tabBarController.ViewControllers[1] as UINavigationController;
-            var currentTripViewController = navigationController.TopViewController as CurrentTripViewController;
-        }
-
         #region Background Refresh
 
         private const double MinimumBackgroundFetchInterval = 900;
@@ -97,25 +90,33 @@ namespace MyDriving.iOS
         public override async void PerformFetch(UIApplication application,
             Action<UIBackgroundFetchResult> completionHandler)
         {
-            var downloadSuccessful = false;
             try
             {
-                var manager = ServiceLocator.Instance.Resolve<IStoreManager>() as DataStore.Azure.StoreManager;
-                if (manager != null)
+                var downloadSuccessful = false;
+                try
                 {
-                    await manager.SyncAllAsync(true);
-                    downloadSuccessful = true;
+                    var manager = ServiceLocator.Instance.Resolve<IStoreManager>() as DataStore.Azure.StoreManager;
+                    if (manager != null)
+                    {
+                        await manager.SyncAllAsync(true);
+                        downloadSuccessful = true;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    Logger.Instance.Report(ex);
+                }
+
+                if (downloadSuccessful)
+                    completionHandler(UIBackgroundFetchResult.NewData);
+                else
+                    completionHandler(UIBackgroundFetchResult.Failed);
             }
             catch (Exception ex)
             {
-                Logger.Instance.Report(ex);
-            }
 
-            if (downloadSuccessful)
-                completionHandler(UIBackgroundFetchResult.NewData);
-            else
                 completionHandler(UIBackgroundFetchResult.Failed);
+            }
         }
 
         #endregion

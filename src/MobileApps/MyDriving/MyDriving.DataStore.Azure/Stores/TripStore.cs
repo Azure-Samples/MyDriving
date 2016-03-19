@@ -26,7 +26,14 @@ namespace MyDriving.DataStore.Azure.Stores
         public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100,
             bool forceRefresh = false)
         {
-            var items = await base.GetItemsAsync(skip, take, forceRefresh).ConfigureAwait(false);
+            await InitializeStoreAsync().ConfigureAwait(false);
+            if (forceRefresh)
+            {
+                await SyncAsync().ConfigureAwait(false);
+            }
+
+            var items = await Table.Skip(skip).Take(take).OrderByDescending(s => s.RecordedTimeStamp).ToEnumerableAsync().ConfigureAwait(false);
+
             foreach (var item in items)
             {
                 item.Photos = new List<Photo>();
@@ -35,7 +42,7 @@ namespace MyDriving.DataStore.Azure.Stores
                     item.Photos.Add(photo);
             }
 
-            return items.OrderByDescending(s => s.RecordedTimeStamp);
+            return items;
         }
 
         public override async Task<Trip> GetItemAsync(string id)
