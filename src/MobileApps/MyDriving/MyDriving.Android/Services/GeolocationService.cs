@@ -25,14 +25,14 @@ namespace MyDriving.Droid.Services
     [Service]
     public class GeolocationService : Service
     {
-        IBinder _binder;
+        IBinder binder;
 
         public CurrentTripViewModel ViewModel { get; private set; }
 
         public override IBinder OnBind(Intent intent)
         {
-            _binder = new GeolocationServiceBinder(this);
-            return _binder;
+            binder = new GeolocationServiceBinder(this);
+            return binder;
         }
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)

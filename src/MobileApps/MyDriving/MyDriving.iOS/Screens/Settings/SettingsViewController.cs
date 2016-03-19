@@ -12,7 +12,7 @@ namespace MyDriving.iOS
 {
     partial class SettingsViewController : UIViewController
     {
-        string[] _keys;
+        string[] keys;
 
         public SettingsViewController(IntPtr handle) : base(handle)
         {
@@ -27,16 +27,16 @@ namespace MyDriving.iOS
             // Wire up view model
             ViewModel = new SettingsViewModel();
 
-            _keys = new string[ViewModel.SettingsData.Count];
+            keys = new string[ViewModel.SettingsData.Count];
             int i = 0;
             foreach (var grouping in ViewModel.SettingsData)
             {
-                _keys[i] = grouping.Key;
+                keys[i] = grouping.Key;
                 i++;
             }
 
             // Wire up table source
-            settingsTableView.Source = new SettingsDataSource(ViewModel, _keys);
+            settingsTableView.Source = new SettingsDataSource(ViewModel, keys);
 
             btnLogout.Hidden = true;
 
@@ -62,13 +62,13 @@ namespace MyDriving.iOS
                 var row = cell.Row;
                 var section = cell.Section;
 
-                var setting = ViewModel.SettingsData[_keys[section]][row];
+                var setting = ViewModel.SettingsData[keys[section]][row];
 
                 settingsTableView.DeselectRow(settingsTableView.IndexPathForSelectedRow, true);
 
                 controller.Setting = setting;
                 controller.ViewModel = ViewModel;
-                controller.SettingKey = _keys[cell.Section];
+                controller.SettingKey = keys[cell.Section];
             }
         }
 
@@ -80,17 +80,17 @@ namespace MyDriving.iOS
 
     public class SettingsDataSource : UITableViewSource
     {
-        readonly Dictionary<string, List<Setting>> _data;
+        readonly Dictionary<string, List<Setting>> data;
 
-        readonly string[] _keys;
-        readonly SettingsViewModel _viewModel;
+        readonly string[] keys;
+        readonly SettingsViewModel viewModel;
 
         public SettingsDataSource(SettingsViewModel viewModel, string[] keys)
         {
-            _viewModel = viewModel;
-            _data = viewModel.SettingsData;
+            this.viewModel = viewModel;
+            data = viewModel.SettingsData;
 
-            _keys = keys;
+            this.keys = keys;
         }
 
         public override void WillDisplayHeaderView(UITableView tableView, UIView headerView, nint section)
@@ -103,12 +103,12 @@ namespace MyDriving.iOS
 
         public override async void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            var setting = _data[_keys[indexPath.Section]][indexPath.Row];
+            var setting = data[keys[indexPath.Section]][indexPath.Row];
             if (setting.IsButton)
             {
                 if (setting.ButtonUrl != "Permissions")
                 {
-                    await _viewModel.ExecuteOpenBrowserCommandAsync(setting.ButtonUrl);
+                    await viewModel.ExecuteOpenBrowserCommandAsync(setting.ButtonUrl);
                 }
                 else
                 {
@@ -120,24 +120,24 @@ namespace MyDriving.iOS
 
         public override nint NumberOfSections(UITableView tableView)
         {
-            return _keys.Length;
+            return keys.Length;
         }
 
         public override string TitleForHeader(UITableView tableView, nint section)
         {
-            return _keys[section];
+            return keys[section];
         }
 
         public override nint RowsInSection(UITableView tableView, nint section)
         {
-            return _data[_keys[section]].Count;
+            return data[keys[section]].Count;
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell("SETTING_VALUE_CELL") as SettingTableViewCell;
 
-            var setting = _data[_keys[indexPath.Section]][indexPath.Row];
+            var setting = data[keys[indexPath.Section]][indexPath.Row];
             if (setting.IsButton)
             {
                 cell.Accessory = UITableViewCellAccessory.None;

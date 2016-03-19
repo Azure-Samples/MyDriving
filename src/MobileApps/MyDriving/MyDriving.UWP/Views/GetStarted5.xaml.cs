@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using MyDriving.Utils;
 
@@ -13,10 +12,10 @@ namespace MyDriving.UWP.Views
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class GetStarted5 : Page
+    public sealed partial class GetStarted5
     {
-        private double EndX;
-        private double StartX;
+        private double endX;
+        private double startX;
 
         public GetStarted5()
         {
@@ -31,14 +30,14 @@ namespace MyDriving.UWP.Views
 
         void Manipulation_Started(object sender, ManipulationStartedRoutedEventArgs e)
         {
-            StartX = e.Position.X;
+            startX = e.Position.X;
             e.Handled = true;
         }
 
         void Manipulation_Completed(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            EndX = e.Position.X;
-            if (EndX > StartX) //back
+            endX = e.Position.X;
+            if (endX > startX) //back
                 Frame.Navigate(typeof (GetStarted4));
             e.Handled = true;
         }

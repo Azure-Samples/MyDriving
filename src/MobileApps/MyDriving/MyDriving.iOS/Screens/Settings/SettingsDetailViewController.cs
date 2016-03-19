@@ -44,18 +44,18 @@ namespace MyDriving.iOS
 
     public class SettingsDetailTableViewSource : UITableViewSource
     {
-        readonly string _key;
-        readonly Setting _setting;
+        readonly string key;
+        readonly Setting setting;
 
         public SettingsDetailTableViewSource(string key, Setting setting)
         {
-            _setting = setting;
-            _key = key;
+            this.setting = setting;
+            this.key = key;
         }
 
         public override string TitleForHeader(UITableView tableView, nint section)
         {
-            return _setting.Name;
+            return setting.Name;
         }
 
         public override void WillDisplayHeaderView(UITableView tableView, UIView headerView, nint section)
@@ -68,16 +68,16 @@ namespace MyDriving.iOS
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            if (!_setting.IsButton)
+            if (!setting.IsButton)
             {
-                _setting.Value = _setting.PossibleValues[indexPath.Row];
+                setting.Value = setting.PossibleValues[indexPath.Row];
 
                 var cells = tableView.VisibleCells;
                 int i = 0;
                 foreach (var cell in cells)
                 {
-                    var value = _setting.PossibleValues[i];
-                    cell.Accessory = _setting.Value != value
+                    var value = setting.PossibleValues[i];
+                    cell.Accessory = setting.Value != value
                         ? UITableViewCellAccessory.None
                         : UITableViewCellAccessory.Checkmark;
 
@@ -91,8 +91,8 @@ namespace MyDriving.iOS
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            if (!_setting.IsTextField)
-                return _setting.PossibleValues.Count;
+            if (!setting.IsTextField)
+                return setting.PossibleValues.Count;
             else
                 return 1;
         }
@@ -104,14 +104,14 @@ namespace MyDriving.iOS
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            if (!_setting.IsTextField)
+            if (!setting.IsTextField)
             {
                 var cell = tableView.DequeueReusableCell("SETTING__DETAIL_VALUE_CELL") as SettingDetailTableViewCell;
 
-                cell.Name = _setting.PossibleValues[indexPath.Row];
+                cell.Name = setting.PossibleValues[indexPath.Row];
                 cell.Accessory = UITableViewCellAccessory.None;
 
-                if (cell.Name == _setting.Value)
+                if (cell.Name == setting.Value)
                     cell.Accessory = UITableViewCellAccessory.Checkmark;
 
                 return cell;
@@ -123,9 +123,9 @@ namespace MyDriving.iOS
                         SettingDetailTextFieldTableViewCell;
 
                 cell.Row = indexPath.Row.ToString();
-                cell.Section = _key;
+                cell.Section = key;
 
-                cell.Value = _setting.Value ?? string.Empty;
+                cell.Value = setting.Value ?? string.Empty;
 
                 return cell;
             }
