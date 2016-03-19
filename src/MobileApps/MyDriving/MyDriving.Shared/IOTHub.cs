@@ -17,17 +17,26 @@ namespace MyDriving.Shared
 
         public void Initialize(string connectionStr)
         {
+            if (string.IsNullOrWhiteSpace(connectionStr))
+                return;
+
             deviceClient = DeviceClient.CreateFromConnectionString(connectionStr);
         }
 
         public async Task SendEvents(IEnumerable<String> blobs)
         {
+            if (deviceClient == null)
+                return;
+
             List<Message> messages = blobs.Select(b => new Message(Encoding.ASCII.GetBytes(b))).ToList();
             await deviceClient.SendEventBatchAsync(messages);
         }
 
         public async Task SendEvent(string blob)
         {
+            if (deviceClient == null)
+                return;
+
             var message = new Message(Encoding.ASCII.GetBytes(blob));
             await deviceClient.SendEventAsync(message);
         }

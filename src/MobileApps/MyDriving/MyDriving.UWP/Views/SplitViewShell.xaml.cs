@@ -60,7 +60,7 @@ namespace MyDriving.UWP.Views
         {
             SelectControl(PastTrips);
             MyDrivingSplitView.IsPaneOpen = false;
-            PageTitle.Text = "PAST TRIPS";
+            PageTitle.Text = "Past Trips";
             ((Frame) MyDrivingSplitView.Content).Navigate(typeof (PastTripsMenuView));
         }
 
@@ -68,7 +68,7 @@ namespace MyDriving.UWP.Views
         {
             SelectControl(Profile);
             MyDrivingSplitView.IsPaneOpen = false;
-            PageTitle.Text = "PROFILE";
+            PageTitle.Text = "Profile";
             ((Frame) MyDrivingSplitView.Content).Navigate(typeof (ProfileView));
         }
 
@@ -76,7 +76,7 @@ namespace MyDriving.UWP.Views
         {
             SelectControl(Settings);
             MyDrivingSplitView.IsPaneOpen = false;
-            PageTitle.Text = "SETTINGS";
+            PageTitle.Text = "Settings";
             ((Frame) MyDrivingSplitView.Content).Navigate(typeof (SettingsView));
         }
 
@@ -84,7 +84,7 @@ namespace MyDriving.UWP.Views
         {
             SelectControl(Current);
             MyDrivingSplitView.IsPaneOpen = false;
-            PageTitle.Text = "CURRENT TRIP";
+            PageTitle.Text = "Current Trip";
             ((Frame) MyDrivingSplitView.Content).Navigate(typeof (CurrentTripView));
         }
 

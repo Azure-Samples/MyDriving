@@ -41,14 +41,19 @@ namespace MyDriving.UWP.Views
 
         public List<TripPoint> TripPoints { get; set; }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             var trip = e.Parameter as Trip;
             base.OnNavigatedTo(e);
+            viewModel.Trip = trip;
+
             MyMap.Loaded += MyMap_Loaded;
             MyMap.MapElements.Clear();
-            viewModel.Trip = trip;
+            await viewModel.ExecuteLoadTripCommandAsync(trip.Id);
             DrawPath();
+
+            foreach (var poi in viewModel.POIs)
+                DrawPoiOnMap(poi);
 
             // Currently Points are all jumbled. We need to investigate why this is happening.
             // As a workaround I am sorting the points based on timestamp.  
@@ -59,6 +64,13 @@ namespace MyDriving.UWP.Views
                 viewModel.CurrentPosition = TripPoints[0];
                 UpdateStats();
             }
+
+
+            if (mapLoaded)
+                InitialSetup();
+            
+
+
             // Enable the back button navigation
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
@@ -90,8 +102,13 @@ namespace MyDriving.UWP.Views
             return navigated;
         }
 
-        private void MyMap_Loaded(object sender, RoutedEventArgs e)
+        bool initialized;
+        void InitialSetup()
         {
+            if (initialized)
+                return;
+
+            initialized = true;
             MyMap.ZoomLevel = 16;
             if (viewModel.Trip.Points.Count > 0)
                 PositionSlider.Maximum = TripPoints.Count - 1;
@@ -103,6 +120,14 @@ namespace MyDriving.UWP.Views
 
             TextStarttime.Text = viewModel.Trip.StartTimeDisplay;
             TextEndtime.Text = viewModel.Trip.EndTimeDisplay;
+        }
+
+        bool mapLoaded;
+        private void MyMap_Loaded(object sender, RoutedEventArgs e)
+        {
+            mapLoaded = true;
+            if (!initialized && TripPoints != null)
+                InitialSetup();
         }
 
         private async void DrawPath()
@@ -119,7 +144,7 @@ namespace MyDriving.UWP.Views
 
                 mapPolyLine.ZIndex = 1;
                 mapPolyLine.Visible = true;
-                mapPolyLine.StrokeColor = Colors.Red;
+                mapPolyLine.StrokeColor = new Color { A = 255, R = 0, G = 94, B = 147 };
                 mapPolyLine.StrokeThickness = 4;
 
                 // Starting off with the first point as center
@@ -156,18 +181,18 @@ namespace MyDriving.UWP.Views
             });
         }
 
-        private void DrawPoiOnMap()
+        private void DrawPoiOnMap(POI poi)
         {
             // Foreach POI point. Put it on Maps. 
-            MapIcon mapEndIcon = new MapIcon
+            var poiIcon = new MapIcon
             {
-                Location = new Geopoint(Locations.First()),
+                Location = new Geopoint(new BasicGeoposition { Latitude = poi.Latitude, Longitude = poi.Longitude }),
                 NormalizedAnchorPoint = new Point(0.5, 0.5),
-                Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png")),
+                Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_tip.png")),
                 ZIndex = 1,
                 CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
             };
-            MyMap.MapElements.Add(mapEndIcon);
+            MyMap.MapElements.Add(poiIcon);
         }
 
         private void DrawCarOnMap(BasicGeoposition basicGeoposition)
@@ -176,7 +201,7 @@ namespace MyDriving.UWP.Views
             {
                 Location = new Geopoint(basicGeoposition),
                 NormalizedAnchorPoint = new Point(0.5, 0.5),
-                Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_car_red.png")),
+                Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_car_blue.png")),
                 ZIndex = 2,
                 CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
             };
