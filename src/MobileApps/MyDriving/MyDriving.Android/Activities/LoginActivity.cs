@@ -19,7 +19,7 @@ namespace MyDriving.Droid.Activities
         ScreenOrientation = ScreenOrientation.Portrait)]
     public class LoginActivity : BaseActivity
     {
-        LoginViewModel _viewModel;
+        LoginViewModel viewModel;
 
         protected override int LayoutResource => Resource.Layout.activity_login;
 
@@ -33,8 +33,8 @@ namespace MyDriving.Droid.Activities
                 Window.DecorView.SystemUiVisibility = StatusBarVisibility.Visible;
             }
 
-            _viewModel = new LoginViewModel();
-            _viewModel.PropertyChanged += ViewModel_PropertyChanged;
+            viewModel = new LoginViewModel();
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
             var twitter = FindViewById<Button>(Resource.Id.button_twitter);
             var microsoft = FindViewById<Button>(Resource.Id.button_microsoft);
             var facebook = FindViewById<Button>(Resource.Id.button_facebook);
@@ -45,7 +45,7 @@ namespace MyDriving.Droid.Activities
 
             FindViewById<Button>(Resource.Id.button_skip).Click += (sender, e) =>
             {
-                _viewModel.InitFakeUser();
+                viewModel.InitFakeUser();
                 var intent = new Intent(this, typeof (MainActivity));
                 intent.AddFlags(ActivityFlags.ClearTop);
                 StartActivity(intent);
@@ -61,7 +61,7 @@ namespace MyDriving.Droid.Activities
 
         void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (!_viewModel.IsLoggedIn)
+            if (!viewModel.IsLoggedIn)
                 return;
 
             var intent = new Intent(this, typeof (MainActivity));
@@ -76,13 +76,13 @@ namespace MyDriving.Droid.Activities
             switch (account)
             {
                 case LoginAccount.Facebook:
-                    _viewModel.LoginFacebookCommand.Execute(null);
+                    viewModel.LoginFacebookCommand.Execute(null);
                     break;
                 case LoginAccount.Microsoft:
-                    _viewModel.LoginMicrosoftCommand.Execute(null);
+                    viewModel.LoginMicrosoftCommand.Execute(null);
                     break;
                 case LoginAccount.Twitter:
-                    _viewModel.LoginTwitterCommand.Execute(null);
+                    viewModel.LoginTwitterCommand.Execute(null);
                     break;
             }
         }

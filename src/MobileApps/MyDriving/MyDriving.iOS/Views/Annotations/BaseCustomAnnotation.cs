@@ -8,13 +8,13 @@ namespace MyDriving.iOS
 {
     public class BaseCustomAnnotation : MKAnnotation
     {
-        readonly CLLocationCoordinate2D _coordinate;
+        readonly CLLocationCoordinate2D coordinate;
 
         public BaseCustomAnnotation(CLLocationCoordinate2D annotationLocation)
         {
-            _coordinate = annotationLocation;
+            coordinate = annotationLocation;
         }
 
-        public override CLLocationCoordinate2D Coordinate => _coordinate;
+        public override CLLocationCoordinate2D Coordinate => coordinate;
     }
 }
