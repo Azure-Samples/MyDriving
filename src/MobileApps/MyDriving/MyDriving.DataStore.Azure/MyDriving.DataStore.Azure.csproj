@@ -52,6 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stores\BaseStore.cs" />
     <Compile Include="Stores\IOTHubStore.cs" />
+    <Compile Include="Stores\POIStore.cs" />
     <Compile Include="Stores\TripStore.cs" />
     <Compile Include="StoreManager.cs" />
     <Compile Include="Stores\PhotoStore.cs" />

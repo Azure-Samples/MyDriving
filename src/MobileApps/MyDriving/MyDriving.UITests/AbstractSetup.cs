@@ -10,23 +10,34 @@ using Xamarin.UITest.iOS;
 
 namespace MyDriving.UITests
 {
+    [TestFixture(Platform.Android)]
     [TestFixture(Platform.iOS)]
-    public abstract class AbstractSetup
-    {
-        [SetUp]
-        public virtual void BeforeEachTest()
-        {
-            App = AppInitializer.StartApp(Platform);
-            OnAndroid = App.GetType() == typeof (AndroidApp);
-            OniOS = App.GetType() == typeof (iOSApp);
+	public abstract class AbstractSetup
+	{
+        protected IApp App;
+		protected Platform platform;
+		protected bool OnAndroid;
+		protected bool OniOS;
 
-            if (App.Query("Login with Facebook").Any())
-            {
-                new LoginPage()
-                    .SkipAuthentication();
+		public AbstractSetup(Platform platform)
+		{
+			this.platform = platform;
+		}
 
-                Thread.Sleep(2000);
-            }
+		[SetUp]
+		public virtual void BeforeEachTest()
+		{
+			App = AppInitializer.StartApp(platform);
+			OnAndroid = App.GetType() == typeof(AndroidApp);
+			OniOS = App.GetType() == typeof(iOSApp);
+
+			if (App.Query("Login with Facebook").Any())
+			{
+				new LoginPage ()
+					.SkipAuthentication ();
+				
+				Thread.Sleep(2000);
+			}
 
             if (OniOS)
             {
@@ -35,26 +46,22 @@ namespace MyDriving.UITests
             }
         }
 
-        protected IApp App;
-        protected Platform Platform;
-        protected bool OnAndroid;
-        protected bool OniOS;
-
-        public AbstractSetup(Platform platform)
-        {
-            Platform = platform;
-        }
-
         public void ClearKeychain()
         {
             if (OnAndroid)
-                return;
-
-            if (!App.Query("LoginWithFacebook").Any())
             {
-                App.TestServer.Post("/keychain", new object());
-                App = ConfigureApp.iOS.StartApp();
+                App = ConfigureApp.Android.ApkFile(AppInitializer.apkPath).StartApp();
+                return;
             }
-        }
-    }
+
+            else
+            {
+                if (!App.Query("LoginWithFacebook").Any())
+                {
+                    App.TestServer.Post("/keychain", new object());
+                    App = ConfigureApp.iOS.InstalledApp("com.microsoft.mydriving").StartApp();
+    			}
+            }
+		}
+	}
 }

@@ -280,6 +280,10 @@ namespace MyDriving.ViewModel
                 Logger.Instance.Report(ex);
             }
 
+            var poiList = (List<POI>)await StoreManager.POIStore.GetItemsAsync();
+            CurrentTrip.HardStops = poiList.Where(p => p.POIType == POIType.HardBrake).Count();
+            CurrentTrip.HardAccelerations = poiList.Where(p => p.POIType == POIType.HardAcceleration).Count();
+
             TripSummary = new TripSummaryViewModel
             {
                 TotalTime = (CurrentTrip.EndTimeStamp - CurrentTrip.RecordedTimeStamp).TotalSeconds,

@@ -372,7 +372,7 @@
                                             <rect key="frame" x="123" y="73" width="130" height="130"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="scott.png" translatesAutoresizingMaskIntoConstraints="NO" id="7RK-DN-Fwd">
-                                                    <rect key="frame" x="0.0" y="0.0" width="114" height="116"/>
+                                                    <rect key="frame" x="8" y="6" width="114" height="116"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" red="0.08235294118" green="0.66274509800000003" blue="0.99607843139999996" alpha="1" colorSpace="calibratedRGB"/>
