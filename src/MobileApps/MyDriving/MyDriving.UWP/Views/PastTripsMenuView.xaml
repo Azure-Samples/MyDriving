@@ -24,7 +24,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:Trip">
                             <StackPanel>
-                                <Image x:Name="Image" Source="{x:Bind MainPhotoUrl}" HorizontalAlignment="Stretch" />
+                                <Image x:Name="Image" Source="{x:Bind MainPhotoUrl}" HorizontalAlignment="Stretch" MaxHeight="175" Stretch="UniformToFill" />
                                 <TextBlock Text="{x:Bind Name}" Margin="0,5,0,0"/>
                                 <Grid  Margin="0" HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
