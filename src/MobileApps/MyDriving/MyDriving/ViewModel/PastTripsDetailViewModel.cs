@@ -8,6 +8,7 @@ using System.Windows.Input;
 using MyDriving.Helpers;
 using MyDriving.Utils;
 using MyDriving.DataObjects;
+using System.Collections.Generic;
 
 namespace MyDriving.ViewModel
 {
@@ -31,6 +32,7 @@ namespace MyDriving.ViewModel
 
         string _speedUnits = "Mph";
 
+
         public PastTripsDetailViewModel()
         {
             FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
@@ -46,6 +48,8 @@ namespace MyDriving.ViewModel
         }
 
         public Trip Trip { get; set; }
+
+        public List<POI> POIs { get; } = new List<POI>();
 
         public TripPoint CurrentPosition
         {
@@ -128,6 +132,17 @@ namespace MyDriving.ViewModel
                     {
                         point.Speed = i == 0 ? 0 : Trip.Points[i - 1].Speed;
                     }
+                }
+
+
+                POIs.AddRange(await StoreManager.POIStore.GetItemsAsync(Trip.Id));
+
+                //TODO: This should be removed for final version
+                if (POIs.Count == 0)
+                {
+                    var centerPoint = Trip.Points[Trip.Points.Count / 2];
+                    if (centerPoint != null)
+                        POIs.Add(new POI { Latitude = centerPoint.Latitude, Longitude = centerPoint.Longitude, POIType = POIType.HardBrake, Timestamp = centerPoint.RecordedTimeStamp, TripId = Trip.Id });
                 }
             }
             catch (Exception ex)
