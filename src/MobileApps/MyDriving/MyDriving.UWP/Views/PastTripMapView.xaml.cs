@@ -45,10 +45,10 @@ namespace MyDriving.UWP.Views
         {
             var trip = e.Parameter as Trip;
             base.OnNavigatedTo(e);
-            MyMap.Loaded += MyMap_Loaded;
-            MyMap.MapElements.Clear();
             viewModel.Trip = trip;
 
+            MyMap.Loaded += MyMap_Loaded;
+            MyMap.MapElements.Clear();
             await viewModel.ExecuteLoadTripCommandAsync(trip.Id);
             DrawPath();
 
@@ -64,6 +64,13 @@ namespace MyDriving.UWP.Views
                 viewModel.CurrentPosition = TripPoints[0];
                 UpdateStats();
             }
+
+
+            if (mapLoaded)
+                InitialSetup();
+            
+
+
             // Enable the back button navigation
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
@@ -95,8 +102,13 @@ namespace MyDriving.UWP.Views
             return navigated;
         }
 
-        private void MyMap_Loaded(object sender, RoutedEventArgs e)
+        bool initialized;
+        void InitialSetup()
         {
+            if (initialized)
+                return;
+
+            initialized = true;
             MyMap.ZoomLevel = 16;
             if (viewModel.Trip.Points.Count > 0)
                 PositionSlider.Maximum = TripPoints.Count - 1;
@@ -108,6 +120,14 @@ namespace MyDriving.UWP.Views
 
             TextStarttime.Text = viewModel.Trip.StartTimeDisplay;
             TextEndtime.Text = viewModel.Trip.EndTimeDisplay;
+        }
+
+        bool mapLoaded;
+        private void MyMap_Loaded(object sender, RoutedEventArgs e)
+        {
+            mapLoaded = true;
+            if (!initialized && TripPoints != null)
+                InitialSetup();
         }
 
         private async void DrawPath()
