@@ -20,14 +20,16 @@ namespace MyDriving.iOS
             lblDistance.Text = ViewModel.TripSummary.TotalDistanceDisplay;
             lblDuration.Text = ViewModel.TripSummary.TotalTimeDisplay;
             lblFuelConsumed.Text = ViewModel.TripSummary.FuelDisplay;
+            lblTopSpeed.Text = ViewModel.TripSummary.MaxSpeedDisplay;
 
             lblDistance.Alpha = 0;
             lblDuration.Alpha = 0;
             lblTopSpeed.Alpha = 0;
             lblFuelConsumed.Alpha = 0;
+            lblTopSpeed.Alpha = 0;
         }
 
-        public override async void ViewDidAppear(bool animated)
+        public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
 
@@ -35,6 +37,7 @@ namespace MyDriving.iOS
             lblDuration.FadeIn(0.4, 0.2f);
             lblTopSpeed.FadeIn(0.4, 0.3f);
             lblFuelConsumed.FadeIn(0.4, 0.4f);
+            lblTopSpeed.FadeIn(0.4, 0.5f);
         }
 
         async partial void BtnClose_TouchUpInside(UIButton sender)
