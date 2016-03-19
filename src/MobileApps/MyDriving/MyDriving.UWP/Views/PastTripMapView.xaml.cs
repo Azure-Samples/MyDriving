@@ -25,14 +25,14 @@ namespace MyDriving.UWP.Views
     /// </summary>
     public sealed partial class PastTripMapView
     {
-        readonly PastTripsDetailViewModel _viewModel;
+        readonly PastTripsDetailViewModel viewModel;
 
         public Trip SelectedTrip;
 
         public PastTripMapView()
         {
             InitializeComponent();
-            _viewModel = new PastTripsDetailViewModel();
+            viewModel = new PastTripsDetailViewModel();
             Locations = new List<BasicGeoposition>();
             DataContext = this;
         }
@@ -47,16 +47,16 @@ namespace MyDriving.UWP.Views
             base.OnNavigatedTo(e);
             MyMap.Loaded += MyMap_Loaded;
             MyMap.MapElements.Clear();
-            _viewModel.Trip = trip;
+            viewModel.Trip = trip;
             DrawPath();
 
             // Currently Points are all jumbled. We need to investigate why this is happening.
             // As a workaround I am sorting the points based on timestamp.  
-            TripPoints = _viewModel.Trip.Points.OrderBy(p => p.RecordedTimeStamp).ToList();
+            TripPoints = viewModel.Trip.Points.OrderBy(p => p.RecordedTimeStamp).ToList();
 
             if (TripPoints.Any())
             {
-                _viewModel.CurrentPosition = TripPoints[0];
+                viewModel.CurrentPosition = TripPoints[0];
                 UpdateStats();
             }
             // Enable the back button navigation
@@ -93,7 +93,7 @@ namespace MyDriving.UWP.Views
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
             MyMap.ZoomLevel = 16;
-            if (_viewModel.Trip.Points.Count > 0)
+            if (viewModel.Trip.Points.Count > 0)
                 PositionSlider.Maximum = TripPoints.Count - 1;
             else
                 PositionSlider.Maximum = 0;
@@ -101,8 +101,8 @@ namespace MyDriving.UWP.Views
             PositionSlider.Minimum = 0;
             PositionSlider.IsThumbToolTipEnabled = false;
 
-            TextStarttime.Text = _viewModel.Trip.StartTimeDisplay;
-            TextEndtime.Text = _viewModel.Trip.EndTimeDisplay;
+            TextStarttime.Text = viewModel.Trip.StartTimeDisplay;
+            TextEndtime.Text = viewModel.Trip.EndTimeDisplay;
         }
 
         private async void DrawPath()
@@ -152,19 +152,21 @@ namespace MyDriving.UWP.Views
                 MyMap.MapElements.Add(mapEndIcon);
 
                 // Draw the Car 
-                DrawCarOnMap(this.Locations.First());
+                DrawCarOnMap(Locations.First());
             });
         }
 
         private void DrawPoiOnMap()
         {
             // Foreach POI point. Put it on Maps. 
-            MapIcon mapEndIcon = new MapIcon();
-            mapEndIcon.Location = new Geopoint(this.Locations.First());
-            mapEndIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-            mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png"));
-            mapEndIcon.ZIndex = 1;
-            mapEndIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
+            MapIcon mapEndIcon = new MapIcon
+            {
+                Location = new Geopoint(Locations.First()),
+                NormalizedAnchorPoint = new Point(0.5, 0.5),
+                Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png")),
+                ZIndex = 1,
+                CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
+            };
             MyMap.MapElements.Add(mapEndIcon);
 
         }
@@ -187,7 +189,7 @@ namespace MyDriving.UWP.Views
 
         private async void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            _viewModel.CurrentPosition = TripPoints[(int) e.NewValue];
+            viewModel.CurrentPosition = TripPoints[(int) e.NewValue];
 
             var basicGeoposition = Locations[(int) e.NewValue];
             // Currently removing the Car from Map which is the last item added. 
@@ -202,13 +204,13 @@ namespace MyDriving.UWP.Views
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 // TODO: Need to fix data binding and remove this code. 
-                TextTime.Text = _viewModel.ElapsedTime;
-                TextDistance.Text = _viewModel.Distance;
-                TextFuel.Text = _viewModel.FuelConsumption;
-                TextFuelunits.Text = _viewModel.FuelConsumptionUnits;
-                TextSpeed.Text = _viewModel.Speed;
-                TextSpeedunits.Text = _viewModel.SpeedUnits;
-                TextDistanceunits.Text = _viewModel.DistanceUnits;
+                TextTime.Text = viewModel.ElapsedTime;
+                TextDistance.Text = viewModel.Distance;
+                TextFuel.Text = viewModel.FuelConsumption;
+                TextFuelunits.Text = viewModel.FuelConsumptionUnits;
+                TextSpeed.Text = viewModel.Speed;
+                TextSpeedunits.Text = viewModel.SpeedUnits;
+                TextDistanceunits.Text = viewModel.DistanceUnits;
             });
         }
     }

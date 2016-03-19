@@ -21,7 +21,7 @@ namespace MyDriving.DataStore.Mock.Stores
 
         public override Task<IEnumerable<POI>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
-            var poiList = this.GenRandomPOI();
+            var poiList = GenRandomPOI();
             return Task.FromResult(poiList.AsEnumerable());
         }
 

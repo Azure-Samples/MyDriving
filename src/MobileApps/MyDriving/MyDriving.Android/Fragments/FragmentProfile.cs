@@ -22,9 +22,7 @@ namespace MyDriving.Droid.Fragments
             stops,
             accelerations,
             trips,
-            fuelUsed,
-            distanceUnits,
-            profileRating,
+            fuelUsed, profileRating,
             profileGreat,
             profileBetter;
 

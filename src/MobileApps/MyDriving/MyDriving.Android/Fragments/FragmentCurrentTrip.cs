@@ -389,13 +389,6 @@ namespace MyDriving.Droid.Fragments
 
         #region Options Menu & User Actions
 
-        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
-        {
-            //if((viewModel?.IsRecording).GetValueOrDefault())
-            //     inflater.Inflate(Resource.Menu.menu_current_trip, menu);
-            base.OnCreateOptionsMenu(menu, inflater);
-        }
-
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             switch (item.ItemId)

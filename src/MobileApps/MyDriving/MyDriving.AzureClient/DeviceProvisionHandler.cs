@@ -67,9 +67,11 @@ namespace MyDriving.AzureClient
                 return Settings.Current.DeviceConnectionString;
             else
             {
-                Dictionary<string, string> myParms = new Dictionary<string, string>();
-                myParms.Add("userId", Settings.Current.UserUID);
-                myParms.Add("deviceName", Settings.Current.DeviceId);
+                Dictionary<string, string> myParms = new Dictionary<string, string>
+                {
+                    {"userId", Settings.Current.UserUID},
+                    {"deviceName", Settings.Current.DeviceId}
+                };
 
                 var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client as MobileServiceClient;
 
