@@ -11,8 +11,8 @@ Param(
 [string] $TemplateFile = '..\ARM\scenario_complete.json'
 [string] $ParametersFile = '..\ARM\scenario_complete.params.json'
 
-[string] $dbSchemaDB = "..\..\src\SQLDatabase\MyDrivingDB.sql" 
-[string] $dbSchemaSQL = "..\..\src\SQLDatabase\MyDrivingAnalyticsDB.sql"
+[string] $dbSchemaDB = "..\SQLDatabase\MyDrivingDB.sql" 
+[string] $dbSchemaSQL = "..\SQLDatabase\MyDrivingAnalyticsDB.sql"
 
 [string] $DeploymentName = ((Get-ChildItem $TemplateFile).BaseName + '-' + ((Get-Date).ToUniversalTime()).ToString('MMdd-HHmm'))
 
