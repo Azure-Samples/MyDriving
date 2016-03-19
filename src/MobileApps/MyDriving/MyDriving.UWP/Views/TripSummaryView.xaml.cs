@@ -97,18 +97,18 @@ namespace MyDriving.UWP.Views
             Frame.Navigate(typeof (CurrentTripView));
         }
 
-        //private void DrawPath()
-
-        //        var basicGeoPosion = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
-        //    {
-
-        //    foreach (var trail in this.viewModel.Trip.Points)
-        //        return;
-
-        //    if (viewModel.Points.Count == 0)
+        //{
         //    MapPolyline mapPolyLine = new MapPolyline();
 
-        //{
+        //    if (viewModel.Points.Count == 0)
+        //        return;
+
+        //    foreach (var trail in this.viewModel.Trip.Points)
+        //    {
+
+        //        var basicGeoPosion = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
+
+        //private void DrawPath()
         //        Locations.Add(basicGeoPosion);
         //    }
         //    mapPolyLine.Path = new Geopath(Locations);

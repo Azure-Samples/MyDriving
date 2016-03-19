@@ -61,7 +61,7 @@ namespace MyDriving.UWP.Views
             return navigated;
         }
 
-        private  void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var trip = (Trip) e.AddedItems[0];
             Frame.Navigate(typeof (PastTripMapView), trip); // PastTripMapView does not exist
