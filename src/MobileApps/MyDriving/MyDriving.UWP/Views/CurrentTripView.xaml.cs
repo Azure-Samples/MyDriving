@@ -131,7 +131,7 @@ namespace MyDriving.UWP.Views
                     };
 
                     UpdateMap_PositionChanged(basicGeoposition);
-                    UpdateMapView(basicGeoposition);
+                   // UpdateMapView(basicGeoposition);
                     UpdateStats();
                     break;
 
@@ -324,14 +324,16 @@ namespace MyDriving.UWP.Views
                 _carIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
                 MyMap.Center = _carIcon.Location;
                 MyMap.MapElements.Add(_carIcon);
+
+                // Add the Start Icon
+                AddStartMarker();
+
+                // Add Path if we are recording 
+                DrawPath(basicGeoposition);
             });
 
 
-            // Add the Start Icon
-            AddStartMarker();
-
-            // Add Path if we are recording 
-            DrawPath();
+     
         }
 
         private async void AddStartMarker()
@@ -360,7 +362,7 @@ namespace MyDriving.UWP.Views
             });
         }
 
-        private async void DrawPath()
+        private async void DrawPath(BasicGeoposition basicGeoposition)
         {
             if (!ViewModel.IsRecording || ViewModel.CurrentTrip.Points.Count == 0)
                 return;
@@ -369,10 +371,15 @@ namespace MyDriving.UWP.Views
             {
                 if (MyMap == null)
                     return;
-                Locations =
+                if (Locations.Count == 0)
+                {
+                    Locations =
                     new List<BasicGeoposition>(
                         ViewModel.CurrentTrip.Points.Select(
-                            s => new BasicGeoposition() {Latitude = s.Latitude, Longitude = s.Longitude}));
+                            s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }));
+                }
+                else
+                    Locations.Add(basicGeoposition);
 
                 _mapPolyline.Path = new Geopath(Locations);
                 _mapPolyline.StrokeColor = Colors.Red;
@@ -386,9 +393,9 @@ namespace MyDriving.UWP.Views
             var geoPoint = new Geopoint(basicGeoposition);
             if (!ViewModel.IsBusy)
                 {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { MyMap.Center = geoPoint; });
-                await MyMap.TrySetViewAsync(geoPoint);
-            }
+                    //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { MyMap.Center = geoPoint; });
+                    await MyMap.TrySetViewAsync(geoPoint);
+                }
         }
 
         private async void UpdateStats()

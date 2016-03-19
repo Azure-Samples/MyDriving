@@ -27,7 +27,7 @@
                     <controls:ProfileViewTabControl x:Name="TotalTimeTab" DataContext="{Binding ViewModel.TotalTime, Converter={StaticResource TimeConverter}, ConverterParameter=' {0}  seconds'}" />
 
                 <Border Margin="0,10,0,0" />
-                    <controls:ProfileViewTabControl x:Name="MaxSpeedTab" DataContext="{Binding ViewModel.MaxSpeedDisplay, Converter={StaticResource SpeedConverter} }" />
+                    <controls:ProfileViewTabControl x:Name="MaxSpeedTab" DataContext="{Binding ViewModel.MaxSpeedDisplay}" />
 
                 <Border Margin="0,10,0,0" />
                     <controls:ProfileViewTabControl x:Name="HardBreaksTab" DataContext="{Binding ViewModel.HardStops,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
