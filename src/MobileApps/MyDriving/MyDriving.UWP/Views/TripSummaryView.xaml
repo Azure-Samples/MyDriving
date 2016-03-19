@@ -2,12 +2,11 @@
     x:Class="MyDriving.UWP.Views.TripSummaryView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:controls="using:MyDriving.UWP.Controls"
-    xmlns:local="using:MyDriving.UWP.Views"
+    xmlns:controls="using:MyDriving.UWP.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    x:Name="SUMMARY">
+    x:Name="Summary">
 
     <Grid Background="{StaticResource MainBackgroundColor2}">
         <Button VerticalAlignment="Top" HorizontalAlignment="Right" Height="64" Width="64"></Button>

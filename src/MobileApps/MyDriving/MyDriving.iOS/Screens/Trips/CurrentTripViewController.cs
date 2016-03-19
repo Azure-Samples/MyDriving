@@ -19,9 +19,9 @@ namespace MyDriving.iOS
 {
     partial class CurrentTripViewController : UIViewController
     {
-        CarAnnotation _currentLocationAnnotation;
-        TripMapViewDelegate _mapDelegate;
-        List<CLLocationCoordinate2D> _route;
+        CarAnnotation currentLocationAnnotation;
+        TripMapViewDelegate mapDelegate;
+        List<CLLocationCoordinate2D> route;
 
         public CurrentTripViewController(IntPtr handle) : base(handle)
         {
@@ -62,8 +62,8 @@ namespace MyDriving.iOS
         async Task ConfigureCurrentTripUserInterface()
         {
             // Configure map
-            _mapDelegate = new TripMapViewDelegate(true);
-            tripMapView.Delegate = _mapDelegate;
+            mapDelegate = new TripMapViewDelegate(true);
+            tripMapView.Delegate = mapDelegate;
             tripMapView.ShowsUserLocation = false;
             tripMapView.Camera.Altitude = 5000;
 
@@ -96,7 +96,7 @@ namespace MyDriving.iOS
         {
             InvokeOnMainThread(() =>
             {
-                _route = null;
+                route = null;
                 tripMapView.RemoveAnnotations(tripMapView.Annotations);
 
                 if (tripMapView.Overlays != null && tripMapView.Overlays.Length > 0)
@@ -199,8 +199,8 @@ namespace MyDriving.iOS
                     ResetMapViewState();
                     InvokeOnMainThread(delegate
                     {
-                        _mapDelegate = new TripMapViewDelegate(true);
-                        tripMapView.Delegate = _mapDelegate;
+                        mapDelegate = new TripMapViewDelegate(true);
+                        tripMapView.Delegate = mapDelegate;
                     });
 
                     UpdateRecordButton(false);
@@ -234,7 +234,7 @@ namespace MyDriving.iOS
                 labelFourValue.Text = CurrentTripViewModel.EngineLoad;
 
                 // If we already haven't starting tracking route yet, start that.
-                if (_route == null)
+                if (route == null)
                     StartTrackingRoute(coordinate);
                 // Draw from last known coordinate to new coordinate.
                 else
@@ -244,18 +244,18 @@ namespace MyDriving.iOS
 
         void StartTrackingRoute(CLLocationCoordinate2D coordinate)
         {
-            _route = new List<CLLocationCoordinate2D>();
+            route = new List<CLLocationCoordinate2D>();
 
             var count = CurrentTripViewModel.CurrentTrip.Points.Count;
             if (count == 0)
             {
-                _route.Add(coordinate);
+                route.Add(coordinate);
             }
             else
             {
                 var firstPoint = CurrentTripViewModel.CurrentTrip.Points?[0];
                 var firstCoordinate = new CLLocationCoordinate2D(firstPoint.Latitude, firstPoint.Longitude);
-                _route.Add(firstCoordinate);
+                route.Add(firstCoordinate);
             }
         }
 
@@ -269,8 +269,8 @@ namespace MyDriving.iOS
             var coordinateCount = PastTripsDetailViewModel.Trip.Points.Count;
 
             // Setup map
-            _mapDelegate = new TripMapViewDelegate(false);
-            tripMapView.Delegate = _mapDelegate;
+            mapDelegate = new TripMapViewDelegate(false);
+            tripMapView.Delegate = mapDelegate;
             tripMapView.ShowsUserLocation = false;
 
             // Draw endpoints
@@ -286,8 +286,8 @@ namespace MyDriving.iOS
 
             // Draw car
             var carCoordinate = PastTripsDetailViewModel.Trip.Points[0];
-            _currentLocationAnnotation = new CarAnnotation(carCoordinate.ToCoordinate(), UIColor.Blue);
-            tripMapView.AddAnnotation(_currentLocationAnnotation);
+            currentLocationAnnotation = new CarAnnotation(carCoordinate.ToCoordinate(), UIColor.Blue);
+            tripMapView.AddAnnotation(currentLocationAnnotation);
 
             // Configure slider area
             ConfigureSlider();
@@ -398,24 +398,24 @@ namespace MyDriving.iOS
 
         void UpdateCarAnnotationPosition(CLLocationCoordinate2D coordinate)
         {
-            if (_currentLocationAnnotation != null)
-                tripMapView.RemoveAnnotation(_currentLocationAnnotation);
+            if (currentLocationAnnotation != null)
+                tripMapView.RemoveAnnotation(currentLocationAnnotation);
 
             var color = CurrentTripViewModel != null && CurrentTripViewModel.IsRecording ? UIColor.Red : UIColor.Blue;
-            _currentLocationAnnotation = new CarAnnotation(coordinate, color);
+            currentLocationAnnotation = new CarAnnotation(coordinate, color);
 
-            tripMapView.AddAnnotation(_currentLocationAnnotation);
+            tripMapView.AddAnnotation(currentLocationAnnotation);
             tripMapView.Camera.CenterCoordinate = coordinate;
         }
 
         void DrawNewRouteWaypoint(CLLocationCoordinate2D coordinate)
         {
-            _route.Add(coordinate);
+            route.Add(coordinate);
 
             if (tripMapView.Overlays != null)
                 tripMapView.RemoveOverlays(tripMapView.Overlays);
 
-            tripMapView.DrawRoute(_route.ToArray());
+            tripMapView.DrawRoute(route.ToArray());
         }
 
         #endregion

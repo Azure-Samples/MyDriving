@@ -8,16 +8,16 @@ namespace MyDriving.Model
 {
     public class Setting : INotifyPropertyChanged
     {
-        string _value;
+        string value;
 
         public string Name { get; set; }
 
         public string Value
         {
-            get { return _value; }
+            get { return value; }
             set
             {
-                _value = value;
+                this.value = value;
                 NotifyPropertyChanged("Value");
             }
         }

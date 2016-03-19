@@ -15,9 +15,9 @@ namespace MyDriving.UWP.Views
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SplitViewShell : Page
+    public sealed partial class SplitViewShell
     {
-        SplitViewButtonContent _selectedControl;
+        SplitViewButtonContent selectedControl;
 
         public SplitViewShell(Frame frame)
         {
@@ -122,9 +122,9 @@ namespace MyDriving.UWP.Views
 
         private void SelectControl(SplitViewButtonContent control)
         {
-            _selectedControl?.SetSelected(false);
+            selectedControl?.SetSelected(false);
             control.SetSelected(true);
-            _selectedControl = control;
+            selectedControl = control;
         }
 
         public void SetVisible(bool visible)

@@ -15,42 +15,42 @@ namespace MyDriving.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        readonly IAuthentication _authentication;
-        private readonly IMobileServiceClient _client;
+        readonly IAuthentication authentication;
+        private readonly IMobileServiceClient client;
 
-        bool _isLoggedIn;
+        bool isLoggedIn;
 
-        ICommand _loginFacebookCommand;
+        ICommand loginFacebookCommand;
 
-        ICommand _loginMicrosoftCommand;
+        ICommand loginMicrosoftCommand;
 
-        ICommand _loginTwitterCommand;
+        ICommand loginTwitterCommand;
 
         public LoginViewModel()
         {
-            _client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
-            _authentication = ServiceLocator.Instance.Resolve<IAuthentication>();
+            client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
+            authentication = ServiceLocator.Instance.Resolve<IAuthentication>();
         }
 
         public UserProfile UserProfile { get; set; }
 
         public bool IsLoggedIn
         {
-            get { return _isLoggedIn; }
-            set { SetProperty(ref _isLoggedIn, value); }
+            get { return isLoggedIn; }
+            set { SetProperty(ref isLoggedIn, value); }
         }
 
         public ICommand LoginTwitterCommand =>
-            _loginTwitterCommand ??
-            (_loginTwitterCommand = new RelayCommand(async () => await ExecuteLoginTwitterCommandAsync()));
+            loginTwitterCommand ??
+            (loginTwitterCommand = new RelayCommand(async () => await ExecuteLoginTwitterCommandAsync()));
 
         public ICommand LoginMicrosoftCommand =>
-            _loginMicrosoftCommand ??
-            (_loginMicrosoftCommand = new RelayCommand(async () => await ExecuteLoginMicrosoftCommandAsync()));
+            loginMicrosoftCommand ??
+            (loginMicrosoftCommand = new RelayCommand(async () => await ExecuteLoginMicrosoftCommandAsync()));
 
         public ICommand LoginFacebookCommand =>
-            _loginFacebookCommand ??
-            (_loginFacebookCommand = new RelayCommand(async () => await ExecuteLoginFacebookCommandAsync()));
+            loginFacebookCommand ??
+            (loginFacebookCommand = new RelayCommand(async () => await ExecuteLoginFacebookCommandAsync()));
 
         public void InitFakeUser()
         {
@@ -63,7 +63,7 @@ namespace MyDriving.ViewModel
 
         public async Task ExecuteLoginTwitterCommandAsync()
         {
-            if (_client == null || IsBusy)
+            if (client == null || IsBusy)
                 return;
 
             Settings.LoginAccount = LoginAccount.Twitter;
@@ -75,7 +75,7 @@ namespace MyDriving.ViewModel
 
         public async Task ExecuteLoginMicrosoftCommandAsync()
         {
-            if (_client == null || IsBusy)
+            if (client == null || IsBusy)
                 return;
 
             Settings.LoginAccount = LoginAccount.Microsoft;
@@ -87,7 +87,7 @@ namespace MyDriving.ViewModel
 
         public async Task ExecuteLoginFacebookCommandAsync()
         {
-            if (_client == null || IsBusy)
+            if (client == null || IsBusy)
                 return;
             Settings.LoginAccount = LoginAccount.Facebook;
             var track = Logger.Instance.TrackTime("LoginFacebook");
@@ -110,13 +110,13 @@ namespace MyDriving.ViewModel
 
             try
             {
-                _authentication.ClearCookies();
-                user = await _authentication.LoginAsync(_client, provider);
+                authentication.ClearCookies();
+                user = await authentication.LoginAsync(client, provider);
 
                 if (user != null)
                 {
                     IsBusy = true;
-                    UserProfile = await UserProfileHelper.GetUserProfileAsync(_client);
+                    UserProfile = await UserProfileHelper.GetUserProfileAsync(client);
                 }
             }
             catch (Exception ex)

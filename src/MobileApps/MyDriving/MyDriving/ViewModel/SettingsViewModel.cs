@@ -13,16 +13,16 @@ namespace MyDriving.ViewModel
 {
     public class SettingsViewModel : ViewModelBase
     {
-        List<Setting> _about;
+        List<Setting> about;
 
-        ICommand _logoutCommand;
+        ICommand logoutCommand;
 
-        ICommand _openBrowserCommand;
-        List<Setting> _permissions;
+        ICommand openBrowserCommand;
+        List<Setting> permissions;
 
-        private Dictionary<string, List<Setting>> _settingsData;
+        private Dictionary<string, List<Setting>> settingsData;
 
-        List<Setting> _units;
+        List<Setting> units;
         //Use Settings.DeviceConnectionString
         public string PrivacyPolicyUrl => "http://microsoft.com";
         public string TermsOfUseUrl => "http://microsoft.com";
@@ -34,17 +34,17 @@ namespace MyDriving.ViewModel
         public string XamarinUrl => "http://xamarin.com";
 
         public ICommand OpenBrowserCommand =>
-            _openBrowserCommand ??
-            (_openBrowserCommand = new RelayCommand<string>(async url => await ExecuteOpenBrowserCommandAsync(url)));
+            openBrowserCommand ??
+            (openBrowserCommand = new RelayCommand<string>(async url => await ExecuteOpenBrowserCommandAsync(url)));
 
         public ICommand LogoutCommand =>
-            _logoutCommand ?? (_logoutCommand = new RelayCommand(async () => await ExecuteLogoutCommandAsync()));
+            logoutCommand ?? (logoutCommand = new RelayCommand(async () => await ExecuteLogoutCommandAsync()));
 
         public Dictionary<string, List<Setting>> SettingsData
         {
             get
             {
-                if (_settingsData == null)
+                if (settingsData == null)
                 {
                     var distanceSetting = new Setting
                     {
@@ -63,18 +63,18 @@ namespace MyDriving.ViewModel
                     distanceSetting.PropertyChanged += DistanceSetting_PropertyChanged;
                     capacitySetting.PropertyChanged += CapacitySetting_PropertyChanged;
                     //temperatureSetting.PropertyChanged += TemperatureSetting_PropertyChanged;
-                    _units = new List<Setting>
+                    units = new List<Setting>
                     {
                         distanceSetting,
                         capacitySetting
                     };
 
-                    _permissions = new List<Setting>
+                    permissions = new List<Setting>
                     {
                         new Setting {Name = "Change MyDriving Permissions", IsButton = true, ButtonUrl = "Permissions"}
                     };
 
-                    _about = new List<Setting>
+                    about = new List<Setting>
                     {
                         new Setting {Name = "Copyright Microsoft 2016", IsButton = true, ButtonUrl = PrivacyPolicyUrl},
                         new Setting {Name = "Terms of Use", IsButton = true, ButtonUrl = TermsOfUseUrl},
@@ -84,15 +84,15 @@ namespace MyDriving.ViewModel
                         new Setting {Name = "Built in C# with Xamarin", IsButton = true, ButtonUrl = XamarinUrl},
                     };
 
-                    _settingsData = new Dictionary<string, List<Setting>>
+                    settingsData = new Dictionary<string, List<Setting>>
                     {
-                        {"Units", _units},
-                        {"Permissions", _permissions},
-                        {"About", _about}
+                        {"Units", units},
+                        {"Permissions", permissions},
+                        {"About", about}
                     };
                 }
 
-                return _settingsData;
+                return settingsData;
             }
         }
 

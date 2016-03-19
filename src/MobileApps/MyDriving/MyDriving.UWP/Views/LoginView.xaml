@@ -2,11 +2,10 @@
     x:Class="MyDriving.UWP.Views.LoginView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MyDriving.UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-     x:Name="Login">
+    x:Name="Login">
 
     <Grid Name="LoginGrid" >
         <Grid.Background>
@@ -45,11 +44,11 @@
                 </StackPanel>           
             </Button>
 
-            <Button x:Name="MSAButtonLogin"   Style="{StaticResource LoginButtonStyle}"  Command="{Binding LoginMicrosoftCommand}"
+            <Button x:Name="MsaButtonLogin"   Style="{StaticResource LoginButtonStyle}"  Command="{Binding LoginMicrosoftCommand}"
                     Background="{StaticResource MSALoginButtonColor}"  >
                
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
-                    <Image Name="MSAImage"  Source="{StaticResource MicrosoftLogo}" HorizontalAlignment="Left" Height="24" Width="24"/>
+                    <Image Name="MsaImage"  Source="{StaticResource MicrosoftLogo}" HorizontalAlignment="Left" Height="24" Width="24"/>
                     <TextBlock Text="Login with Microsoft"  Style="{StaticResource LoginButtonTextStyle}" />
                 </StackPanel>
 

@@ -17,16 +17,16 @@ namespace MyDriving.DataStore.Mock.Stores
     public class TripStore : BaseStore<Trip>, ITripStore
     {
         static Random _random;
-        bool _initialized;
-        IPhotoStore _photoStore;
+        bool initialized;
+        IPhotoStore photoStore;
         List<Trip> Trips { get; set; } = new List<Trip>();
 
         public override Task InitializeStoreAsync()
         {
-            if (_initialized)
+            if (initialized)
                 return Task.FromResult(true);
 
-            _initialized = true;
+            initialized = true;
 
             Trips = GetTrips();
             return Task.FromResult(true);
@@ -35,17 +35,17 @@ namespace MyDriving.DataStore.Mock.Stores
         public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100,
             bool forceRefresh = false)
         {
-            if (!_initialized)
+            if (!initialized)
                 await InitializeStoreAsync();
-            if (_photoStore == null)
-                _photoStore = Utils.ServiceLocator.Instance.Resolve<IPhotoStore>();
+            if (photoStore == null)
+                photoStore = Utils.ServiceLocator.Instance.Resolve<IPhotoStore>();
 
             foreach (var trip in Trips)
             {
                 if (trip.Photos == null)
                     trip.Photos = new List<Photo>();
                 trip.Photos.Clear();
-                foreach (var photo in await _photoStore.GetTripPhotos(trip.Id))
+                foreach (var photo in await photoStore.GetTripPhotos(trip.Id))
                     trip.Photos.Add(photo);
             }
 
@@ -54,7 +54,7 @@ namespace MyDriving.DataStore.Mock.Stores
 
         public override async Task<Trip> GetItemAsync(string id)
         {
-            if (!_initialized)
+            if (!initialized)
                 await InitializeStoreAsync();
 
 

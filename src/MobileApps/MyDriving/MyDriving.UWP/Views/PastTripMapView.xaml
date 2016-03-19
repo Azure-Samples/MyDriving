@@ -2,13 +2,12 @@
     x:Class="MyDriving.UWP.Views.PastTripMapView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MyDriving.UWP.Views"
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
  
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    x:Name="PAST">
+    x:Name="Past">
 
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -17,27 +16,27 @@
 
             <StackPanel Name="Gallons" Orientation="Vertical" Height="Auto" Width="90">
 
-                <TextBlock  Name="text_fuel" Text="{x:Bind _viewModel.FuelConsumption}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
-                <TextBlock  Name="text_fuelunits"  Text="Gallons" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
+                <TextBlock  Name="TextFuel" Text="{x:Bind _viewModel.FuelConsumption}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
+                <TextBlock  Name="TextFuelunits"  Text="Gallons" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
 
             </StackPanel>
 
             <StackPanel Name="Distance" Orientation="Vertical" Height="Auto" Width="90">
 
-                <TextBlock  Name="text_distance" Text="{x:Bind _viewModel.Distance}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
-                <TextBlock  Name="text_distanceunits" Text="Miles"  Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
+                <TextBlock  Name="TextDistance" Text="{x:Bind _viewModel.Distance}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
+                <TextBlock  Name="TextDistanceunits" Text="Miles"  Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
 
             </StackPanel>
             
             <StackPanel Name="Time" Orientation="Vertical" Height="Auto" Width="90">
-                <TextBlock  Name="text_time" Text="{x:Bind _viewModel.ElapsedTime}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
+                <TextBlock  Name="TextTime" Text="{x:Bind _viewModel.ElapsedTime}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
                 <TextBlock  Text="Elapsed Time" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
             </StackPanel>
            
             <StackPanel Name="Speed" Orientation="Vertical" Height="Auto" Width="90">
 
-                <TextBlock  Name="text_speed" Text="{x:Bind _viewModel.Speed}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
-                <TextBlock  Name="text_speedunits" Text="{x:Bind _viewModel.SpeedUnits}"  Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
+                <TextBlock  Name="TextSpeed" Text="{x:Bind _viewModel.Speed}" Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" Visibility="Visible" FontSize="16"/>
+                <TextBlock  Name="TextSpeedunits" Text="{x:Bind _viewModel.SpeedUnits}"  Grid.Row="1" HorizontalAlignment="Center" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13"/>
 
             </StackPanel>
         </StackPanel>
@@ -56,10 +55,10 @@
             <Image Source="ms-appx:///Assets/A.png"  AutomationProperties.Name="Start Point"  Stretch="None" VerticalAlignment="Center"
                    HorizontalAlignment="Left" Margin="20,0,10,16" Canvas.ZIndex="3"/>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,16" >
-                <Slider Name="positionSlider" HorizontalAlignment="Stretch" VerticalAlignment="Center"  ValueChanged="positionSlider_ValueChanged" Canvas.ZIndex="2"  Width="200" RequestedTheme="Light" Foreground="#FF4444E2" Height="30" />
+                <Slider Name="PositionSlider" HorizontalAlignment="Stretch" VerticalAlignment="Center"  ValueChanged="positionSlider_ValueChanged" Canvas.ZIndex="2"  Width="200" RequestedTheme="Light" Foreground="#FF4444E2" Height="30" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
-                    <TextBlock  x:Name="text_starttime"  HorizontalAlignment="Left" Foreground="Black" Margin="0,0,50,0" FontSize="13"/>
-                    <TextBlock  x:Name="text_endtime"  HorizontalAlignment="Right" Foreground="Black" Margin="50,0,0,0" FontSize="13"/>
+                    <TextBlock  x:Name="TextStarttime"  HorizontalAlignment="Left" Foreground="Black" Margin="0,0,50,0" FontSize="13"/>
+                    <TextBlock  x:Name="TextEndtime"  HorizontalAlignment="Right" Foreground="Black" Margin="50,0,0,0" FontSize="13"/>
                 </StackPanel>
                 </StackPanel>
             <Image Source="ms-appx:///Assets/B.png" Canvas.ZIndex="3" AutomationProperties.Name="End Point" Stretch="None" Margin="10,0,20,16" VerticalAlignment="Center" HorizontalAlignment="Right"/>

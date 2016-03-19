@@ -4,7 +4,6 @@
 using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MyDriving.Utils;
@@ -17,21 +16,21 @@ namespace MyDriving.UWP.Views
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class LoginView : Page
+    public sealed partial class LoginView
     {
-        readonly LoginViewModel _viewModel;
+        readonly LoginViewModel viewModel;
 
         public LoginView()
         {
             InitializeComponent();
-            DataContext = _viewModel = new LoginViewModel();
+            DataContext = viewModel = new LoginViewModel();
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
-                case nameof(_viewModel.IsLoggedIn):
+                case nameof(viewModel.IsLoggedIn):
                     ShowUserWelcome();
                     break;
             }
@@ -40,19 +39,19 @@ namespace MyDriving.UWP.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            _viewModel.PropertyChanged += ViewModel_PropertyChanged;
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            _viewModel.PropertyChanged -= ViewModel_PropertyChanged;
+            viewModel.PropertyChanged -= ViewModel_PropertyChanged;
         }
 
         //This button is temporary - intended to make it easier to debug app
         private void SkipAuthBtn_Click(object sender, RoutedEventArgs e)
         {
-            _viewModel.InitFakeUser();
+            viewModel.InitFakeUser();
             Frame.NavigationFailed += OnNavigationFailed;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 

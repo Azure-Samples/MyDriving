@@ -85,8 +85,8 @@ namespace MyDriving.UITests
         {
             if (OnAndroid)
             {
-                if (App.Query(_hamburger).Any())
-                    App.Tap(_hamburger);
+                if (App.Query(hamburger).Any())
+                    App.Tap(hamburger);
 
                 App.Screenshot("Navigation Menu Open");
                 int count = 0;
@@ -96,7 +96,7 @@ namespace MyDriving.UITests
                     count++;
                 }
             }
-            App.Tap(_tab(tabName));
+            App.Tap(tab(tabName));
         }
 
         #region CommonPageActions
@@ -104,20 +104,20 @@ namespace MyDriving.UITests
         // Use this region to define functionality that is common across many or all pages in your app.
         // Eg tapping the back button of a page or selecting the tabs of a tab bar
 
-        Query _hamburger;
-        Func<string, Query> _tab;
+        Query hamburger;
+        Func<string, Query> tab;
 
         void InitializeCommonQueries()
         {
             if (OnAndroid)
             {
-                _hamburger = x => x.Class("ImageButton").Marked("OK");
-                _tab = name => x => x.Class("NavigationMenuItemView").Text(name);
+                hamburger = x => x.Class("ImageButton").Marked("OK");
+                tab = name => x => x.Class("NavigationMenuItemView").Text(name);
             }
 
             if (OniOS)
             {
-                _tab = name => x => x.Class("UITabBarButtonLabel").Text(name);
+                tab = name => x => x.Class("UITabBarButtonLabel").Text(name);
             }
         }
 

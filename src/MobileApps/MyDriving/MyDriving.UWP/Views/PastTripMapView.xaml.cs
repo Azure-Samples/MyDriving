@@ -10,7 +10,6 @@ using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
@@ -24,7 +23,7 @@ namespace MyDriving.UWP.Views
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PastTripMapView : Page
+    public sealed partial class PastTripMapView
     {
         readonly PastTripsDetailViewModel _viewModel;
 
@@ -95,15 +94,15 @@ namespace MyDriving.UWP.Views
         {
             MyMap.ZoomLevel = 16;
             if (_viewModel.Trip.Points.Count > 0)
-                positionSlider.Maximum = TripPoints.Count - 1;
+                PositionSlider.Maximum = TripPoints.Count - 1;
             else
-                positionSlider.Maximum = 0;
+                PositionSlider.Maximum = 0;
 
-            positionSlider.Minimum = 0;
-            positionSlider.IsThumbToolTipEnabled = false;
+            PositionSlider.Minimum = 0;
+            PositionSlider.IsThumbToolTipEnabled = false;
 
-            text_starttime.Text = _viewModel.Trip.StartTimeDisplay;
-            text_endtime.Text = _viewModel.Trip.EndTimeDisplay;
+            TextStarttime.Text = _viewModel.Trip.StartTimeDisplay;
+            TextEndtime.Text = _viewModel.Trip.EndTimeDisplay;
         }
 
         private async void DrawPath()
@@ -203,13 +202,13 @@ namespace MyDriving.UWP.Views
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 // TODO: Need to fix data binding and remove this code. 
-                text_time.Text = _viewModel.ElapsedTime;
-                text_distance.Text = _viewModel.Distance;
-                text_fuel.Text = _viewModel.FuelConsumption;
-                text_fuelunits.Text = _viewModel.FuelConsumptionUnits;
-                text_speed.Text = _viewModel.Speed;
-                text_speedunits.Text = _viewModel.SpeedUnits;
-                text_distanceunits.Text = _viewModel.DistanceUnits;
+                TextTime.Text = _viewModel.ElapsedTime;
+                TextDistance.Text = _viewModel.Distance;
+                TextFuel.Text = _viewModel.FuelConsumption;
+                TextFuelunits.Text = _viewModel.FuelConsumptionUnits;
+                TextSpeed.Text = _viewModel.Speed;
+                TextSpeedunits.Text = _viewModel.SpeedUnits;
+                TextDistanceunits.Text = _viewModel.DistanceUnits;
             });
         }
     }

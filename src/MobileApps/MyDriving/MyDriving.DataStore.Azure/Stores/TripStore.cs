@@ -14,11 +14,11 @@ namespace MyDriving.DataStore.Azure.Stores
 {
     public class TripStore : BaseStore<Trip>, ITripStore
     {
-        readonly IPhotoStore _photoStore;
+        readonly IPhotoStore photoStore;
 
         public TripStore()
         {
-            _photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>();
+            photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>();
         }
 
         public override string Identifier => "Trip";
@@ -30,7 +30,7 @@ namespace MyDriving.DataStore.Azure.Stores
             foreach (var item in items)
             {
                 item.Photos = new List<Photo>();
-                var photos = await _photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
+                var photos = await photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
                 foreach (var photo in photos)
                     item.Photos.Add(photo);
             }
@@ -47,7 +47,7 @@ namespace MyDriving.DataStore.Azure.Stores
             else
                 item.Photos.Clear();
 
-            var photos = await _photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
+            var photos = await photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
             foreach (var photo in photos)
                 item.Photos.Add(photo);
 

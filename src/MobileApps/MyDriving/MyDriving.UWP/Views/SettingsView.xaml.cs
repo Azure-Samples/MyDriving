@@ -3,9 +3,7 @@
 
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using MyDriving.Utils;
 using MyDriving.ViewModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -15,15 +13,15 @@ namespace MyDriving.UWP.Views
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SettingsView : Page
+    public sealed partial class SettingsView
     {
-        readonly SettingsViewModel _settingsViewModel;
+        readonly SettingsViewModel settingsViewModel;
 
         public SettingsView()
         {
             InitializeComponent();
-            DataContext = Settings.Current;
-            _settingsViewModel = new SettingsViewModel();
+            DataContext = Utils.Settings.Current;
+            settingsViewModel = new SettingsViewModel();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -62,27 +60,27 @@ namespace MyDriving.UWP.Views
 
         public void PrivacyPolicyButton_Click(object sender, RoutedEventArgs e)
         {
-            _settingsViewModel.OpenBrowserCommand.Execute(_settingsViewModel.PrivacyPolicyUrl);
+            settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.PrivacyPolicyUrl);
         }
 
         private void TermsOfUseButton_Click(object sender, RoutedEventArgs e)
         {
-            _settingsViewModel.OpenBrowserCommand.Execute(_settingsViewModel.TermsOfUseUrl);
+            settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.TermsOfUseUrl);
         }
 
         public void OpenSourceNoticeButton_Click(object sender, RoutedEventArgs e)
         {
-            _settingsViewModel.OpenBrowserCommand.Execute(_settingsViewModel.OpenSourceNoticeUrl);
+            settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.OpenSourceNoticeUrl);
         }
 
         public void OpenSourceGitHubButton_Click(object sender, RoutedEventArgs e)
         {
-            _settingsViewModel.OpenBrowserCommand.Execute(_settingsViewModel.SourceOnGitHubUrl);
+            settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.SourceOnGitHubUrl);
         }
 
         public void XamarinButton_Click(object sender, RoutedEventArgs e)
         {
-            _settingsViewModel.OpenBrowserCommand.Execute(_settingsViewModel.XamarinUrl);
+            settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.XamarinUrl);
         }
     }
 }

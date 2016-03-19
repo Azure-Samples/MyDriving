@@ -14,25 +14,25 @@ namespace MyDriving.Droid.Fragments
 {
     public class FragmentProfile : Fragment
     {
-        CircleImageView _circleImage;
+        CircleImageView circleImage;
 
-        TextView _distance,
-            _maxSpeed,
-            _time,
-            _stops,
-            _accelerations,
-            _trips,
-            _fuelUsed,
-            _distanceUnits,
-            _profileRating,
-            _profileGreat,
-            _profileBetter;
+        TextView distance,
+            maxSpeed,
+            time,
+            stops,
+            accelerations,
+            trips,
+            fuelUsed,
+            distanceUnits,
+            profileRating,
+            profileGreat,
+            profileBetter;
 
-        LinearLayout _profileAll;
+        LinearLayout profileAll;
 
-        RatingCircle _ratingCircle;
-        bool _refresh = true;
-        ProfileViewModel _viewModel;
+        RatingCircle ratingCircle;
+        bool refresh = true;
+        ProfileViewModel viewModel;
         public static FragmentProfile NewInstance() => new FragmentProfile {Arguments = new Bundle()};
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -40,26 +40,26 @@ namespace MyDriving.Droid.Fragments
             base.OnCreateView(inflater, container, savedInstanceState);
             var view = inflater.Inflate(Resource.Layout.fragment_profile, null);
 
-            _ratingCircle = view.FindViewById<RatingCircle>(Resource.Id.rating_circle);
-            _circleImage = view.FindViewById<CircleImageView>(Resource.Id.profile_image);
+            ratingCircle = view.FindViewById<RatingCircle>(Resource.Id.rating_circle);
+            circleImage = view.FindViewById<CircleImageView>(Resource.Id.profile_image);
 
 
-            _viewModel = new ProfileViewModel();
-            Square.Picasso.Picasso.With(Activity).Load(Settings.Current.UserProfileUrl).Into(_circleImage);
+            viewModel = new ProfileViewModel();
+            Square.Picasso.Picasso.With(Activity).Load(Settings.Current.UserProfileUrl).Into(circleImage);
 
-            _trips = view.FindViewById<TextView>(Resource.Id.text_trips);
-            _time = view.FindViewById<TextView>(Resource.Id.text_time);
-            _distance = view.FindViewById<TextView>(Resource.Id.text_distance);
-            _maxSpeed = view.FindViewById<TextView>(Resource.Id.text_max_speed);
-            _fuelUsed = view.FindViewById<TextView>(Resource.Id.text_fuel_consumption);
-            _accelerations = view.FindViewById<TextView>(Resource.Id.text_hard_accelerations);
-            _stops = view.FindViewById<TextView>(Resource.Id.text_hard_breaks);
-            _profileAll = view.FindViewById<LinearLayout>(Resource.Id.text_profile_all);
+            trips = view.FindViewById<TextView>(Resource.Id.text_trips);
+            time = view.FindViewById<TextView>(Resource.Id.text_time);
+            distance = view.FindViewById<TextView>(Resource.Id.text_distance);
+            maxSpeed = view.FindViewById<TextView>(Resource.Id.text_max_speed);
+            fuelUsed = view.FindViewById<TextView>(Resource.Id.text_fuel_consumption);
+            accelerations = view.FindViewById<TextView>(Resource.Id.text_hard_accelerations);
+            stops = view.FindViewById<TextView>(Resource.Id.text_hard_breaks);
+            profileAll = view.FindViewById<LinearLayout>(Resource.Id.text_profile_all);
 
-            _profileGreat = view.FindViewById<TextView>(Resource.Id.text_profile_great);
-            _profileBetter = view.FindViewById<TextView>(Resource.Id.text_profile_better);
-            _profileRating = view.FindViewById<TextView>(Resource.Id.text_profile_rating);
-            _profileAll.Visibility = ViewStates.Invisible;
+            profileGreat = view.FindViewById<TextView>(Resource.Id.text_profile_great);
+            profileBetter = view.FindViewById<TextView>(Resource.Id.text_profile_better);
+            profileRating = view.FindViewById<TextView>(Resource.Id.text_profile_rating);
+            profileAll.Visibility = ViewStates.Invisible;
             UpdateUI();
             return view;
         }
@@ -68,10 +68,10 @@ namespace MyDriving.Droid.Fragments
         {
             base.OnStart();
 
-            if (_refresh)
+            if (refresh)
             {
-                _refresh = false;
-                _viewModel.UpdateProfileAsync().ContinueWith(t => UpdateUI());
+                refresh = false;
+                viewModel.UpdateProfileAsync().ContinueWith(t => UpdateUI());
             }
         }
 
@@ -79,21 +79,21 @@ namespace MyDriving.Droid.Fragments
         {
             Activity.RunOnUiThread(() =>
             {
-                _trips.Text = _viewModel.TotalTrips.ToString();
-                _time.Text = _viewModel.TotalTimeDisplay;
-                _distance.Text = _viewModel.TotalDistanceDisplay;
-                _maxSpeed.Text = _viewModel.MaxSpeedDisplay;
-                _fuelUsed.Text = _viewModel.FuelDisplay;
-                _accelerations.Text = _viewModel.HardAccelerations.ToString();
-                _stops.Text = _viewModel.HardStops.ToString();
-                _ratingCircle.Rating = _viewModel.DrivingSkills;
+                trips.Text = viewModel.TotalTrips.ToString();
+                time.Text = viewModel.TotalTimeDisplay;
+                distance.Text = viewModel.TotalDistanceDisplay;
+                maxSpeed.Text = viewModel.MaxSpeedDisplay;
+                fuelUsed.Text = viewModel.FuelDisplay;
+                accelerations.Text = viewModel.HardAccelerations.ToString();
+                stops.Text = viewModel.HardStops.ToString();
+                ratingCircle.Rating = viewModel.DrivingSkills;
 
-                _profileGreat.Text = $"Driving Skills: {_viewModel.DrivingSkillsPlacementBucket.Description}";
-                _profileBetter.Text = $"Better than {_viewModel.DrivingSkills.ToString()}% of drivers";
-                _profileRating.Text = $"{_viewModel.DrivingSkills.ToString()}%";
+                profileGreat.Text = $"Driving Skills: {viewModel.DrivingSkillsPlacementBucket.Description}";
+                profileBetter.Text = $"Better than {viewModel.DrivingSkills.ToString()}% of drivers";
+                profileRating.Text = $"{viewModel.DrivingSkills.ToString()}%";
 
 
-                _profileAll.Visibility = ViewStates.Visible;
+                profileAll.Visibility = ViewStates.Visible;
             });
         }
     }

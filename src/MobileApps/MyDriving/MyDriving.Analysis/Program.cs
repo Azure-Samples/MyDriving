@@ -11,7 +11,7 @@ namespace MyDriving.Analysis
 {
     class Program
     {
-        readonly Dictionary<string, FileInfo> _files = new Dictionary<string, FileInfo>();
+        readonly Dictionary<string, FileInfo> files = new Dictionary<string, FileInfo>();
 
         static void Main(string[] args)
         {
@@ -80,16 +80,16 @@ namespace MyDriving.Analysis
 
         void AddRef(string path, Solution sln)
         {
-            if (_files.ContainsKey(path))
+            if (files.ContainsKey(path))
             {
-                _files[path].Solutions.Add(sln);
-                sln.CodeFiles.Add(_files[path]);
+                files[path].Solutions.Add(sln);
+                sln.CodeFiles.Add(files[path]);
             }
             else
             {
                 var info = new FileInfo {Path = path,};
                 info.Solutions.Add(sln);
-                _files[path] = info;
+                files[path] = info;
                 sln.CodeFiles.Add(info);
             }
         }
@@ -139,7 +139,7 @@ namespace MyDriving.Analysis
             //
             // Get the lines of code
             //
-            foreach (var f in _files.Values)
+            foreach (var f in files.Values)
             {
                 try
                 {

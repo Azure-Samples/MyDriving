@@ -19,9 +19,9 @@ namespace MyDriving.Droid.Activities
         ScreenOrientation = ScreenOrientation.Portrait)]
     public class GettingStartedActivity : BaseActivity
     {
-        TabAdapter _adapter;
+        TabAdapter adapter;
 
-        ViewPager _pager;
+        ViewPager pager;
         protected override int LayoutResource => Resource.Layout.activity_getting_started;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -34,13 +34,13 @@ namespace MyDriving.Droid.Activities
                 Window.DecorView.SystemUiVisibility = StatusBarVisibility.Visible;
             }
 
-            _adapter = new TabAdapter(this, SupportFragmentManager);
-            _pager = FindViewById<ViewPager>(Resource.Id.pager);
-            _pager.Adapter = _adapter;
-            _pager.OffscreenPageLimit = 3;
+            adapter = new TabAdapter(this, SupportFragmentManager);
+            pager = FindViewById<ViewPager>(Resource.Id.pager);
+            pager.Adapter = adapter;
+            pager.OffscreenPageLimit = 3;
 
             SupportActionBar.Title = "Getting Started (1/5)";
-            _pager.PageSelected += (sender, e) => { SupportActionBar.Title = $"Getting Started ({e.Position + 1}/5)"; };
+            pager.PageSelected += (sender, e) => { SupportActionBar.Title = $"Getting Started ({e.Position + 1}/5)"; };
 
             SupportActionBar?.SetDisplayHomeAsUpEnabled(false);
             SupportActionBar?.SetDisplayShowHomeEnabled(false);

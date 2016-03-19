@@ -20,22 +20,22 @@ namespace MyDriving.Shared
 {
     public class OBDDevice : IOBDDevice
     {
-        readonly ObdWrapper _obdWrapper = new ObdWrapper();
+        readonly ObdWrapper obdWrapper = new ObdWrapper();
 
         public async Task Disconnect()
         {
-            await _obdWrapper.Disconnect();
+            await obdWrapper.Disconnect();
         }
 
         public async Task<bool> Initialize(bool simulatorMode = false)
         {
             IsSimulated = simulatorMode;
-            return await _obdWrapper.Init(simulatorMode);
+            return await obdWrapper.Init(simulatorMode);
         }
 
         public Dictionary<String, String> ReadData()
         {
-            return _obdWrapper.Read();
+            return obdWrapper.Read();
         }
 
         public bool IsSimulated { get; private set; }

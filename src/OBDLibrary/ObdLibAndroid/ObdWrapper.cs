@@ -15,30 +15,30 @@ namespace ObdLibAndroid
         const string DefValue = "-255";
         private static readonly UUID SppUuid = UUID.FromString("00001101-0000-1000-8000-00805F9B34FB");
         private readonly Object _lock = new Object();
-        private BluetoothAdapter _bluetoothAdapter;
-        private BluetoothDevice _bluetoothDevice;
-        private BluetoothSocket _bluetoothSocket;
-        private bool _connected = true;
-        private Dictionary<string, string> _data;
+        private BluetoothAdapter bluetoothAdapter;
+        private BluetoothDevice bluetoothDevice;
+        private BluetoothSocket bluetoothSocket;
+        private bool connected = true;
+        private Dictionary<string, string> data;
         private Dictionary<string, string> _PIDs;
-        private Stream _reader;
-        private bool _running = true;
-        private bool _simulatormode;
-        private Stream _writer;
+        private Stream reader;
+        private bool running = true;
+        private bool simulatormode;
+        private Stream writer;
 
         public async Task<bool> Init(bool simulatormode = false)
         {
-            _running = true;
+            running = true;
             //initialize _data
-            _data = new Dictionary<string, string> {{"vin", DefValue}};
+            data = new Dictionary<string, string> {{"vin", DefValue}};
             //VIN
             _PIDs = ObdShare.ObdUtil.GetPIDs();
             foreach (var v in _PIDs.Values)
             {
-                _data.Add(v, DefValue);
+                data.Add(v, DefValue);
             }
 
-            _simulatormode = simulatormode;
+            this.simulatormode = simulatormode;
             if (simulatormode)
             {
                 //PollObd();
@@ -53,8 +53,8 @@ namespace ObdLibAndroid
                 return true;
             }
 
-            _bluetoothAdapter = BluetoothAdapter.DefaultAdapter;
-            if (_bluetoothAdapter == null)
+            bluetoothAdapter = BluetoothAdapter.DefaultAdapter;
+            if (bluetoothAdapter == null)
             {
                 System.Diagnostics.Debug.WriteLine("Bluetooth is not available");
                 return false;
@@ -67,28 +67,28 @@ namespace ObdLibAndroid
             //}
             try
             {
-                var ba = _bluetoothAdapter.BondedDevices;
+                var ba = bluetoothAdapter.BondedDevices;
                 foreach (var bd in ba)
                 {
                     if (bd.Name.ToLower().Contains("obd"))
-                        _bluetoothDevice = bd;
+                        bluetoothDevice = bd;
                 }
-                if (_bluetoothDevice == null)
+                if (bluetoothDevice == null)
                 {
                     return false;
                 }
-                _bluetoothSocket = _bluetoothDevice.CreateRfcommSocketToServiceRecord(SppUuid);
+                bluetoothSocket = bluetoothDevice.CreateRfcommSocketToServiceRecord(SppUuid);
 
-                await _bluetoothSocket.ConnectAsync();
-                _connected = true;
+                await bluetoothSocket.ConnectAsync();
+                connected = true;
             }
             catch (Java.IO.IOException e)
             {
                 // Close the socket
                 try
                 {
-                    _connected = false;
-                    _bluetoothSocket.Close();
+                    connected = false;
+                    bluetoothSocket.Close();
                 }
                 catch (Java.IO.IOException e2)
                 {
@@ -102,17 +102,16 @@ namespace ObdLibAndroid
             catch (Exception ex4)
             {
             }
-            if (_connected)
+            if (connected)
             {
-                _reader = _bluetoothSocket.InputStream;
-                _writer = _bluetoothSocket.OutputStream;
+                reader = bluetoothSocket.InputStream;
+                writer = bluetoothSocket.OutputStream;
 
-                string s;
-                s = await SendAndReceive("ATZ\r");
-                s = await SendAndReceive("ATE0\r");
-                s = await SendAndReceive("ATL1\r");
+                await SendAndReceive("ATZ\r");
+                await SendAndReceive("ATE0\r");
+                await SendAndReceive("ATL1\r");
                 //s = await SendAndReceive("0100\r");
-                s = await SendAndReceive("ATSP00\r");
+                await SendAndReceive("ATSP00\r");
 
                 PollObd();
 
@@ -132,7 +131,7 @@ namespace ObdLibAndroid
         {
             var ret = new Dictionary<string, string>();
             string s;
-            if (_simulatormode)
+            if (simulatormode)
             {
                 s = "SIMULATORANDROID1";
                 ret.Add("vin", s);
@@ -145,7 +144,7 @@ namespace ObdLibAndroid
                 return ret;
             }
 
-            if (!_simulatormode && _bluetoothSocket == null)
+            if (!simulatormode && bluetoothSocket == null)
             {
                 //if there is no connection
                 return null;
@@ -153,13 +152,13 @@ namespace ObdLibAndroid
 
             lock (_lock)
             {
-                foreach (var key in _data.Keys)
+                foreach (var key in data.Keys)
                 {
-                    ret.Add(key, _data[key]);
+                    ret.Add(key, data[key]);
                 }
                 foreach (var v in _PIDs.Values)
                 {
-                    _data[v] = DefValue;
+                    data[v] = DefValue;
                 }
             }
             return ret;
@@ -170,29 +169,29 @@ namespace ObdLibAndroid
             try
             {
                 string s;
-                if (_simulatormode)
+                if (simulatormode)
                     s = "SIMULATOR12345678";
                 else
                     s = await GetVIN();
                 lock (_lock)
                 {
-                    _data["vin"] = s;
+                    data["vin"] = s;
                 }
                 while (true)
                 {
                     foreach (var cmd in _PIDs.Keys)
                     {
                         var key = _PIDs[cmd];
-                        if (_simulatormode)
+                        if (simulatormode)
                             s = ObdShare.ObdUtil.GetEmulatorValue(cmd);
                         else
                             s = await RunCmd(cmd);
                         if (s != "ERROR")
                             lock (_lock)
                             {
-                                _data[key] = s;
+                                data[key] = s;
                             }
-                        if (!_running)
+                        if (!running)
                             return;
                     }
                 }
@@ -200,21 +199,21 @@ namespace ObdLibAndroid
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                _running = false;
-                if (_reader != null)
+                running = false;
+                if (reader != null)
                 {
-                    _reader.Close();
-                    _reader = null;
+                    reader.Close();
+                    reader = null;
                 }
-                if (_writer != null)
+                if (writer != null)
                 {
-                    _writer.Close();
-                    _writer = null;
+                    writer.Close();
+                    writer = null;
                 }
-                if (_bluetoothSocket != null)
+                if (bluetoothSocket != null)
                 {
-                    _bluetoothSocket.Close();
-                    _bluetoothSocket = null;
+                    bluetoothSocket.Close();
+                    bluetoothSocket = null;
                 }
             }
         }
@@ -246,7 +245,7 @@ namespace ObdLibAndroid
         {
             System.Diagnostics.Debug.WriteLine(msg);
             byte[] buffer = GetBytes(msg);
-            await _writer.WriteAsync(buffer, 0, buffer.Length);
+            await writer.WriteAsync(buffer, 0, buffer.Length);
         }
 
         private byte[] GetBytes(string str)
@@ -270,7 +269,7 @@ namespace ObdLibAndroid
         private async Task<string> ReadAsyncRaw()
         {
             byte[] buffer = new byte[1024];
-            var bytes = await _reader.ReadAsync(buffer, 0, buffer.Length);
+            var bytes = await reader.ReadAsync(buffer, 0, buffer.Length);
             var s1 = new Java.Lang.String(buffer, 0, bytes);
             var s = s1.ToString();
             System.Diagnostics.Debug.WriteLine(s);
@@ -285,28 +284,28 @@ namespace ObdLibAndroid
 
         public async Task Disconnect()
         {
-            _running = false;
-            if (_reader != null)
+            running = false;
+            if (reader != null)
             {
-                _reader.Close();
-                _reader = null;
+                reader.Close();
+                reader = null;
             }
-            if (_writer != null)
+            if (writer != null)
             {
-                _writer.Close();
-                _writer = null;
+                writer.Close();
+                writer = null;
             }
-            if (_bluetoothSocket != null)
+            if (bluetoothSocket != null)
             {
                 try
                 {
-                    _bluetoothSocket.Close();
+                    bluetoothSocket.Close();
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
                 }
-                _bluetoothSocket = null;
+                bluetoothSocket = null;
             }
         }
     }

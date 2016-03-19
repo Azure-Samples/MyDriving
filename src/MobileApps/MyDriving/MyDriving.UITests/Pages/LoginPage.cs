@@ -5,8 +5,8 @@ namespace MyDriving.UITests
 {
     public class LoginPage : BasePage
     {
-        string LoginWithFacebookItem = "LoginWithFacebook";
-        string SkipAuthenticationItem = "SkipAuthentication";
+        string loginWithFacebookItem = "LoginWithFacebook";
+        string skipAuthenticationItem = "SkipAuthentication";
 
         public LoginPage()
             : base(c => c.Marked("LoginWithTwitter"), c => c.Marked("LoginWithTwitter"))
@@ -22,7 +22,7 @@ namespace MyDriving.UITests
 
         public void LoginWithFacebook()
         {
-            App.Tap(LoginWithFacebookItem);
+            App.Tap(loginWithFacebookItem);
 
             App.Screenshot("Embedded Facebook Web View");
             App.EnterText(c => c.Css("INPUT._56bg._4u9z._5ruq"), "scott_kdnkrdr_guthrie@tfbnw.net");
@@ -36,7 +36,7 @@ namespace MyDriving.UITests
 
         public void SkipAuthentication()
         {
-            App.Tap(SkipAuthenticationItem);
+            App.Tap(skipAuthenticationItem);
             App.Screenshot("Authentication Skipped");
         }
     }

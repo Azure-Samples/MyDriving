@@ -5,26 +5,26 @@ namespace MyDriving.UITests
 {
     public class PastTripsPage : BasePage
     {
-        string PageId;
-        string SliderId;
+        string pageId;
+        string sliderId;
 
         public PastTripsPage()
         {
             if (OniOS)
             {
-                SliderId = "UISlider";
-                PageId = "Trips";
+                sliderId = "UISlider";
+                pageId = "Trips";
             }
             else
             {
-                SliderId = "SeekBar";
-                PageId = "Past Trips";
+                sliderId = "SeekBar";
+                pageId = "Past Trips";
             }
         }
 
         public PastTripsPage NavigateToPastTripsPage()
         {
-            NavigateTo(PageId);
+            NavigateTo(pageId);
 
             return this;
         }
@@ -47,10 +47,10 @@ namespace MyDriving.UITests
 
         public PastTripsPage MoveTripSlider()
         {
-            App.SetSliderValue(c => c.Class(SliderId), 25);
+            App.SetSliderValue(c => c.Class(sliderId), 25);
             App.Screenshot("Trip Slider at 25%");
 
-            App.SetSliderValue(c => c.Class(SliderId), 75);
+            App.SetSliderValue(c => c.Class(sliderId), 75);
             App.Screenshot("Trip Slider at 75%");
 
             return this;

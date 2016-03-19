@@ -18,30 +18,30 @@ namespace ObdLibiOS
         const int Interval = 100;
         const string DefValue = "-255";
         private readonly Object _lock = new Object();
-        private bool _connected = true;
-        private Dictionary<string, string> _data;
-        private IPAddress _ipAddress;
-        private IPEndPoint _ipEndPoint;
+        private bool connected = true;
+        private Dictionary<string, string> data;
+        private IPAddress ipAddress;
+        private IPEndPoint ipEndPoint;
         private Dictionary<string, string> _PIDs;
-        private int _port;
-        private bool _running = true;
-        private bool _simulatormode;
-        private Socket _socket;
-        private Stream _stream;
+        private int port;
+        private bool running = true;
+        private bool simulatormode;
+        private Socket socket;
+        private Stream stream;
 
         public async Task<bool> Init(bool simulatormode = false)
         {
-            _running = true;
+            running = true;
             //initialize _data
-            _data = new Dictionary<string, string> {{"vin", DefValue}};
+            data = new Dictionary<string, string> { { "vin", DefValue } };
             //VIN
             _PIDs = ObdShare.ObdUtil.GetPIDs();
             foreach (var v in _PIDs.Values)
             {
-                _data.Add(v, DefValue);
+                data.Add(v, DefValue);
             }
 
-            _simulatormode = simulatormode;
+            this.simulatormode = simulatormode;
             if (simulatormode)
             {
                 PollObd();
@@ -74,29 +74,28 @@ namespace ObdLibiOS
             }
             if (!isObdReaderAvailable)
             {
-                _socket = null;
-                _running = false;
-                _connected = false;
+                socket = null;
+                running = false;
+                connected = false;
                 return false;
             }
 
             if (!ConnectSocket())
             {
-                _socket = null;
-                _running = false;
-                _connected = false;
+                socket = null;
+                running = false;
+                connected = false;
                 return false;
             }
 
-            if (_connected)
+            if (connected)
             {
                 //initialize the device
-                string s;
-                s = await SendAndReceive("ATZ\r");
-                s = await SendAndReceive("ATE0\r");
-                s = await SendAndReceive("ATL1\r");
+                await SendAndReceive("ATZ\r");
+                await SendAndReceive("ATE0\r");
+                await SendAndReceive("ATL1\r");
                 //s = await SendAndReceive("0100\r");
-                s = await SendAndReceive("ATSP00\r");
+                await SendAndReceive("ATSP00\r");
 
                 PollObd();
 
@@ -115,7 +114,7 @@ namespace ObdLibiOS
 
         public Dictionary<string, string> Read()
         {
-            if (!_simulatormode && _socket == null)
+            if (!simulatormode && socket == null)
             {
                 //if there is no connection
                 return null;
@@ -123,13 +122,13 @@ namespace ObdLibiOS
             var ret = new Dictionary<string, string>();
             lock (_lock)
             {
-                foreach (var key in _data.Keys)
+                foreach (var key in data.Keys)
                 {
-                    ret.Add(key, _data[key]);
+                    ret.Add(key, data[key]);
                 }
                 foreach (var v in _PIDs.Values)
                 {
-                    _data[v] = DefValue;
+                    data[v] = DefValue;
                 }
             }
             return ret;
@@ -140,29 +139,29 @@ namespace ObdLibiOS
             try
             {
                 string s;
-                if (_simulatormode)
+                if (simulatormode)
                     s = "SIMULATORIPHONE12";
                 else
                     s = await GetVIN();
                 lock (_lock)
                 {
-                    _data["vin"] = s;
+                    data["vin"] = s;
                 }
                 while (true)
                 {
                     foreach (var cmd in _PIDs.Keys)
                     {
                         var key = _PIDs[cmd];
-                        if (_simulatormode)
+                        if (simulatormode)
                             s = ObdShare.ObdUtil.GetEmulatorValue(cmd);
                         else
                             s = await RunCmd(cmd);
                         if (s != "ERROR")
                             lock (_lock)
                             {
-                                _data[key] = s;
+                                data[key] = s;
                             }
-                        if (!_running)
+                        if (!running)
                             return;
                         await Task.Delay(Interval);
                     }
@@ -171,16 +170,16 @@ namespace ObdLibiOS
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                _running = false;
-                if (_stream != null)
+                running = false;
+                if (stream != null)
                 {
-                    _stream.Close();
-                    _stream = null;
+                    stream.Close();
+                    stream = null;
                 }
-                if (_socket != null)
+                if (socket != null)
                 {
-                    _socket.Close();
-                    _socket = null;
+                    socket.Close();
+                    socket = null;
                 }
             }
         }
@@ -202,20 +201,20 @@ namespace ObdLibiOS
         private bool ConnectSocket()
         {
             //setup the connection via socket
-            _ipAddress = IPAddress.Parse("192.168.0.10"); //hard coded in obdlink MX
-            _port = 35000; //hard coded in obdlink MX
-            _ipEndPoint = new IPEndPoint(_ipAddress, _port);
-            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            ipAddress = IPAddress.Parse("192.168.0.10"); //hard coded in obdlink MX
+            port = 35000; //hard coded in obdlink MX
+            ipEndPoint = new IPEndPoint(ipAddress, port);
+            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             try
             {
-                _socket.Connect(_ipEndPoint);
-                _stream = new NetworkStream(_socket);
-                _connected = true;
+                socket.Connect(ipEndPoint);
+                stream = new NetworkStream(socket);
+                connected = true;
             }
             catch (Exception ex)
             {
-                _connected = false;
+                connected = false;
                 return false;
             }
             return true;
@@ -251,8 +250,8 @@ namespace ObdLibiOS
         {
             System.Diagnostics.Debug.WriteLine(msg);
             byte[] buffer = Encoding.ASCII.GetBytes(msg);
-            await _stream.WriteAsync(buffer, 0, buffer.Length);
-            _stream.Flush();
+            await stream.WriteAsync(buffer, 0, buffer.Length);
+            stream.Flush();
         }
 
         private async Task<string> ReceiveAsync()
@@ -269,7 +268,7 @@ namespace ObdLibiOS
         private async Task<string> ReceiveAsyncRaw()
         {
             byte[] buffer = new byte[BufSize];
-            var bytes = await _stream.ReadAsync(buffer, 0, buffer.Length);
+            var bytes = await stream.ReadAsync(buffer, 0, buffer.Length);
             var s = Encoding.ASCII.GetString(buffer, 0, bytes);
             System.Diagnostics.Debug.WriteLine(s);
             return s;
@@ -283,25 +282,25 @@ namespace ObdLibiOS
 
         public async Task Disconnect()
         {
-            _running = false;
-            if (_stream != null)
+            running = false;
+            if (stream != null)
             {
-                _stream.Dispose();
-                _stream.Close();
-                _stream = null;
+                stream.Dispose();
+                stream.Close();
+                stream = null;
             }
-            if (_socket != null)
+            if (socket != null)
             {
                 try
                 {
-                    _socket.Shutdown(SocketShutdown.Both);
+                    socket.Shutdown(SocketShutdown.Both);
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
                 }
-                _socket.Close();
-                _socket = null;
+                socket.Close();
+                socket = null;
             }
         }
     }
