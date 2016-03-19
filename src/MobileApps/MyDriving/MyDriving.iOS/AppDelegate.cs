@@ -24,6 +24,7 @@ namespace MyDriving.iOS
         {
             ThemeManager.ApplyTheme();
             ViewModel.ViewModelBase.Init();
+			application.IdleTimerDisabled = true;
 
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
             ServiceLocator.Instance.Add<ILogger, PlatformLogger>();
