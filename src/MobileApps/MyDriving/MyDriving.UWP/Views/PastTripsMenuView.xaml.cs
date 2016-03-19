@@ -6,6 +6,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MyDriving.DataObjects;
 using MyDriving.ViewModel;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -65,6 +68,30 @@ namespace MyDriving.UWP.Views
         {
             var trip = (Trip) e.AddedItems[0];
             Frame.Navigate(typeof (PastTripMapView), trip); // PastTripMapView does not exist
+        }
+
+        private void ListViewItem_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            var senderElement = sender as FrameworkElement;
+            var flyoutBase = FlyoutBase.GetAttachedFlyout(senderElement);
+
+            flyoutBase.ShowAt(senderElement);
+        }
+
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var trip = (e.OriginalSource as FrameworkElement).DataContext as Trip;
+
+            if (trip == null)
+                return;
+
+            await ViewModel.ExecuteDeleteTripCommand(trip);
+
+        }
+        
+        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            await ViewModel.ExecuteLoadPastTripsCommandAsync();
         }
     }
 }

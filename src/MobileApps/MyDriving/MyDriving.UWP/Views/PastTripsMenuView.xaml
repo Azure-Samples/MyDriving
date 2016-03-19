@@ -7,6 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     x:Name="PAST">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Refresh" Label="Refresh" x:Name="RefreshButton" Click="RefreshButton_Click"/>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 
     <Grid Background="{StaticResource MainBackgroundColor}">
         <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Auto" >
@@ -23,8 +30,14 @@
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:Trip">
-                            <StackPanel>
-                                <Image x:Name="Image" Source="{x:Bind MainPhotoUrl}" HorizontalAlignment="Stretch" MaxHeight="175" Stretch="UniformToFill" />
+                            <StackPanel Holding="ListViewItem_Holding">
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Text="Delete"
+                                                            Click="DeleteButton_Click" />
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
+                                <Image x:Name="Image" Source="{x:Bind MainPhotoUrl}" HorizontalAlignment="Stretch" MaxHeight="125" Stretch="UniformToFill" />
                                 <TextBlock Text="{x:Bind Name}" Margin="0,5,0,0"/>
                                 <Grid  Margin="0" HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
