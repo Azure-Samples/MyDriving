@@ -31,9 +31,8 @@ namespace MyDriving.DataObjects
         {
             Id = Guid.NewGuid().ToString();
         }
-        
+
         public string Id { get; set; }
-        
     }
 #endif
 }

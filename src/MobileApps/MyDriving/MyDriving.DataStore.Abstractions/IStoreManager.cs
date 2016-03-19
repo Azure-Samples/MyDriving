@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MyDriving.DataStore.Abstractions
 {
-    public interface IStoreManager 
+    public interface IStoreManager
     {
         bool IsInitialized { get; }
         ITripStore TripStore { get; }
