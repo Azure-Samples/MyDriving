@@ -12,33 +12,56 @@ namespace MyDriving.UITests
         {
         }
 
-        [Test]
-        public void NavigateToCurrentTripTabTest()
-        {
+		[Test]
+		public void NavigateToProfileTabTest ()
+		{
             new CurrentTripPage()
-                .NavigateToCurrentTripPage();
-        }
+                .NavigateTo("Profile");
 
-        [Test]
-        public void NavigateToPastTripsTabTest()
-        {
+            new ProfilePage()
+                .AssertOnPage();
+		}
+
+		[Test]
+		public void NavigateToSettingsTest ()
+		{
+            if (OnAndroid)
+            { 
+                new CurrentTripPage()
+                    .NavigateTo("Settings");
+            }
+
+            if (OniOS)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Profile");
+
+                new ProfilePage()
+                    .NavigateToSettings();
+            }
+
+            new SettingsPage()
+                .AssertOnPage();
+		}
+
+		[Test]
+		public void NavigateToPastTripsTabTest ()
+		{
+            new CurrentTripPage()
+                .NavigateTo("Past Trips");
+
             new PastTripsPage()
-                .NavigateToPastTripsPage();
-        }
+                .AssertOnPage();
+		}
 
-        [Test]
-        public void NavigateToProfileTabTest()
-        {
-            new ProfilePage()
-                .NavigateToProfilePage();
-        }
+		[Test]
+		public void NavigateToCurrentTripTabTest ()
+		{
+            new CurrentTripPage()
+                .NavigateTo("Current Trip");
 
-        [Test]
-        public void NavigateToSettingsTest()
-        {
-            new ProfilePage()
-                .NavigateToProfilePage()
-                .NavigateToSettingsPage();
-        }
-    }
+            new CurrentTripPage()
+                .AssertOnPage();
+		}
+	}
 }

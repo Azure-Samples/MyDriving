@@ -42,6 +42,9 @@ namespace MyDriving.DataStore.Mock
         public IHubIOTStore IOTHubStore
             => _iotHubStore ?? (_iotHubStore = ServiceLocator.Instance.Resolve<IHubIOTStore>());
 
+        IPOIStore poiStore;
+        public IPOIStore POIStore => poiStore ?? (poiStore = ServiceLocator.Instance.Resolve<IPOIStore>());
+
         #endregion
     }
 }

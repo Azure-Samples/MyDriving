@@ -299,6 +299,7 @@ namespace MyDriving.iOS
                 MKPolyline.FromCoordinates(PastTripsDetailViewModel.Trip.Points.ToCoordinateArray()).BoundingMapRect,
                 new UIEdgeInsets(25, 25, 25, 25), false);
 
+            tripMapView.CenterCoordinate = carCoordinate.ToCoordinate();
             UpdateTripStatistics(carCoordinate);
             NSNotificationCenter.DefaultCenter.AddObserver(new NSString("RefreshTripUnits"), HandleTripUnitsChanged);
         }
@@ -421,3 +422,4 @@ namespace MyDriving.iOS
         #endregion
     }
 }
+

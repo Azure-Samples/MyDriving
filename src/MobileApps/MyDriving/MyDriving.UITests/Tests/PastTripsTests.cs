@@ -6,45 +6,59 @@ using NUnit.Framework;
 
 namespace MyDriving.UITests
 {
-    [TestFixture(Platform.Android)]
-    public class PastTripsTests : AbstractSetup
-    {
-        public PastTripsTests(Platform platform) : base(platform)
-        {
-        }
+	public class PastTripsTests : AbstractSetup
+	{
+		public PastTripsTests (Platform platform) : base (platform)
+		{
+		}
 
-        [Test]
-        public void ClickTripSliderEndpointsTest()
-        {
-            new PastTripsPage()
-                .NavigateToPastTripsPage()
-                .NavigateToPastTripsDetail()
-                .ClickTripSliderEndpoints();
-        }
+		[Test]
+		public void PullToRefreshTest ()
+		{
+            new CurrentTripPage()
+                .NavigateTo("Past Trips");
 
-        [Test]
-        public void MoveTripSliderTest()
-        {
             new PastTripsPage()
-                .NavigateToPastTripsPage()
-                .NavigateToPastTripsDetail()
-                .MoveTripSlider();
-        }
+				.PullToRefresh ();
+		}
 
-        [Test]
-        public void NavigateToDetailsTest()
-        {
-            new PastTripsPage()
-                .NavigateToPastTripsPage()
-                .NavigateToPastTripsDetail();
-        }
+		[Test]
+		public void NavigateToDetailsTest ()
+		{
+            new CurrentTripPage()
+                .NavigateTo("Past Trips");
 
-        [Test]
-        public void PullToRefreshTest()
-        {
+			new PastTripsPage ()
+				.NavigateToPastTripsDetail ("James@ToVivace");
+
+            new PastTripDetailPage()
+                .AssertOnPage();
+		}
+
+		[Test]
+		public void MoveTripSliderTest ()
+		{
+            new CurrentTripPage()
+                .NavigateTo("Past Trips");
+
             new PastTripsPage()
-                .NavigateToPastTripsPage()
-                .PullToRefresh();
-        }
-    }
+                .NavigateToPastTripsDetail("James@ToVivace");
+
+            new PastTripDetailPage()
+				.MoveTripSlider ();
+		}
+
+		[Test]
+		public void ClickTripSliderEndpointsTest ()
+		{
+            new CurrentTripPage()
+                .NavigateTo("Past Trips");
+
+            new PastTripsPage()
+                .NavigateToPastTripsDetail("James@ToVivace");
+
+            new PastTripDetailPage()
+				.ClickTripSliderEndpoints ();
+		}
+	}
 }
