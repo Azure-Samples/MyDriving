@@ -13,7 +13,7 @@ namespace MyDriving.UITests
         }
 
         [Test]
-        public void LoginWithFacebookTest()
+        public void SkipAuthenticationTest()
         {
             ClearKeychain();
 
@@ -25,7 +25,7 @@ namespace MyDriving.UITests
         }
 
         [Test]
-        public void SkipAuthenticationTest()
+        public void LoginWithFacebookTest()
         {
             ClearKeychain();
 
