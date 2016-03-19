@@ -6,22 +6,25 @@ using NUnit.Framework;
 
 namespace MyDriving.UITests
 {
-    [TestFixture(Platform.Android)]
-    public class CurrentTripTests : AbstractSetup
-    {
-        public CurrentTripTests(Platform platform) : base(platform)
-        {
-        }
+	public class CurrentTripTests : AbstractSetup
+	{
+		public CurrentTripTests (Platform platform) : base (platform)
+		{
+		}
 
         [Test]
         public void RecordTripTest()
         {
             new CurrentTripPage()
-                .NavigateToCurrentTripPage()
+                .NavigateTo("Current Trip");
+
+            new CurrentTripPage()
                 .StartRecordingTrip()
-                .StopRecordingTrip();
-            //.DismissTripSummary ()
-            //.EnterTripName();
-        }
-    }
+                .StopRecordingTrip()
+                .SaveTrip("Test Cloud Test Drive");
+
+            new TripSummaryPage()
+                .AssertOnPage();
+		}
+	}
 }

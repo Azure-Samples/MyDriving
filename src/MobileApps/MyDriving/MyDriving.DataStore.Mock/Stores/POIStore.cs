@@ -27,6 +27,11 @@ namespace MyDriving.DataStore.Mock.Stores
             return Task.FromResult(poiList.AsEnumerable());
         }
 
+        public async Task<IEnumerable<POI>> GetItemsAsync(string tripId)
+        {
+            return new List<POI>();
+        }
+
         private List<POI> GenRandomPOI()
         {
             var poiList = new List<POI>();

@@ -6,7 +6,6 @@ using Xamarin.UITest;
 
 namespace MyDriving.UITests
 {
-    [TestFixture(Platform.Android)]
     public class LoginTests : AbstractSetup
     {
         public LoginTests(Platform platform) : base(platform)
@@ -19,7 +18,10 @@ namespace MyDriving.UITests
             ClearKeychain();
 
             new LoginPage()
-                .LoginWithFacebook();
+                .SkipAuthentication();
+
+            new CurrentTripPage()
+                .AssertOnPage();
         }
 
         [Test]
@@ -28,7 +30,13 @@ namespace MyDriving.UITests
             ClearKeychain();
 
             new LoginPage()
-                .SkipAuthentication();
-        }
-    }
+                .LoginWithFacebook();
+
+            new FacebookLoginPage()
+                .Login();
+
+            new CurrentTripPage()
+                .AssertOnPage();
+		}
+	}
 }

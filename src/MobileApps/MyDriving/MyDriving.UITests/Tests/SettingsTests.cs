@@ -6,48 +6,60 @@ using NUnit.Framework;
 
 namespace MyDriving.UITests
 {
-    public class SettingsTests : AbstractSetup
-    {
-        public SettingsTests(Platform platform) : base(platform)
-        {
-        }
+	public class SettingsTests : AbstractSetup
+	{
+		public SettingsTests (Platform platform) : base (platform)
+		{
+		}
 
-        [Test]
-        public void ChangeCapacityUnits()
-        {
-            new ProfilePage()
-                .NavigateToProfilePage()
-                .NavigateToSettingsPage()
-                .NavigateToCapacitySetting()
-                .SetCapacitySetting()
-                .NavigateFromSettingsDetailPage();
+		[Test]
+		public void ChangeDistanceUnits ()
+		{
+            if (OnAndroid)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Settings");
+            }
+            if (OniOS)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Profile");
 
-            App.Screenshot("Changed Capacity Setting");
-        }
+                new ProfilePage()
+                    .NavigateToSettings();
+            }
 
-        [Test]
-        public void ChangeDistanceUnits()
-        {
-            new ProfilePage()
-                .NavigateToProfilePage()
-                .NavigateToSettingsPage()
-                .NavigateToDistanceSetting()
+            new SettingsPage()
                 .SetDistanceSetting()
-                .NavigateFromSettingsDetailPage();
+                .NavigateTo("Profile");
 
-            App.Screenshot("Changed Distance Setting");
-        }
-
-
-        [Test]
-        public void Logout()
-        {
             new ProfilePage()
-                .NavigateToProfilePage()
-                .NavigateToSettingsPage()
-                .Logout();
+                .CheckDistanceMetric(true);
+		}
 
-            App.Screenshot("Logged out");
-        }
-    }
+		[Test]
+		public void ChangeCapacityUnits ()
+		{
+            if (OnAndroid)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Settings");
+            }
+            if (OniOS)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Profile");
+
+                new ProfilePage()
+                    .NavigateToSettings();
+            }
+
+            new SettingsPage()
+                .SetCapacitySetting()
+                .NavigateTo("Profile");
+
+            new ProfilePage()
+                .CheckFuelMetric(true);
+		}
+	}
 }
