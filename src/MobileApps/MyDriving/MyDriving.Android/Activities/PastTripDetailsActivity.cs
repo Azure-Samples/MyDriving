@@ -21,28 +21,28 @@ namespace MyDriving.Droid.Activities
         ScreenOrientation = ScreenOrientation.Portrait)]
     public class PastTripDetailsActivity : BaseActivity, IOnMapReadyCallback
     {
-        Marker _carMarker;
-        TextView _distance, _distanceUnits, _time, _speed, _speedUnits, _consumption, _consumptionUnits;
-        string _id;
+        Marker carMarker;
+        TextView distance, distanceUnits, time, speed, speedUnits, consumption, consumptionUnits;
+        string id;
 
-        GoogleMap _map;
-        SupportMapFragment _mapFrag;
-        SeekBar _seekBar;
-        TextView _startTime, _endTime;
-        PastTripsDetailViewModel _viewModel;
+        GoogleMap map;
+        SupportMapFragment mapFrag;
+        SeekBar seekBar;
+        TextView startTime, endTime;
+        PastTripsDetailViewModel viewModel;
 
         protected override int LayoutResource => Resource.Layout.activity_past_trip_details;
 
 
         public async void OnMapReady(GoogleMap googleMap)
         {
-            _map = googleMap;
+            map = googleMap;
 
-            await _viewModel.ExecuteLoadTripCommandAsync(_id);
+            await viewModel.ExecuteLoadTripCommandAsync(id);
 
-            _startTime.Text = _viewModel.Trip.StartTimeDisplay;
-            _endTime.Text = _viewModel.Trip.EndTimeDisplay;
-            SupportActionBar.Title = _viewModel.Title;
+            startTime.Text = viewModel.Trip.StartTimeDisplay;
+            endTime.Text = viewModel.Trip.EndTimeDisplay;
+            SupportActionBar.Title = viewModel.Title;
             SetupMap();
             UpdateStats();
         }
@@ -57,48 +57,48 @@ namespace MyDriving.Droid.Activities
             }
 
 
-            _viewModel = new PastTripsDetailViewModel {Title = _id = Intent.GetStringExtra("Id")};
-            _seekBar = FindViewById<SeekBar>(Resource.Id.trip_progress);
-            _seekBar.Enabled = false;
+            viewModel = new PastTripsDetailViewModel {Title = id = Intent.GetStringExtra("Id")};
+            seekBar = FindViewById<SeekBar>(Resource.Id.trip_progress);
+            seekBar.Enabled = false;
 
-            _startTime = FindViewById<TextView>(Resource.Id.text_start_time);
-            _endTime = FindViewById<TextView>(Resource.Id.text_end_time);
-            _startTime.Text = _endTime.Text = string.Empty;
+            startTime = FindViewById<TextView>(Resource.Id.text_start_time);
+            endTime = FindViewById<TextView>(Resource.Id.text_end_time);
+            startTime.Text = endTime.Text = string.Empty;
 
-            _time = FindViewById<TextView>(Resource.Id.text_time);
-            _distance = FindViewById<TextView>(Resource.Id.text_distance);
-            _distanceUnits = FindViewById<TextView>(Resource.Id.text_distance_units);
-            _consumption = FindViewById<TextView>(Resource.Id.text_consumption);
-            _consumptionUnits = FindViewById<TextView>(Resource.Id.text_consumption_units);
-            _speed = FindViewById<TextView>(Resource.Id.text_speed);
-            _speedUnits = FindViewById<TextView>(Resource.Id.text_speed_units);
+            time = FindViewById<TextView>(Resource.Id.text_time);
+            distance = FindViewById<TextView>(Resource.Id.text_distance);
+            distanceUnits = FindViewById<TextView>(Resource.Id.text_distance_units);
+            consumption = FindViewById<TextView>(Resource.Id.text_consumption);
+            consumptionUnits = FindViewById<TextView>(Resource.Id.text_consumption_units);
+            speed = FindViewById<TextView>(Resource.Id.text_speed);
+            speedUnits = FindViewById<TextView>(Resource.Id.text_speed_units);
 
-            _mapFrag = (SupportMapFragment) SupportFragmentManager.FindFragmentById(Resource.Id.map);
-            _mapFrag.GetMapAsync(this);
+            mapFrag = (SupportMapFragment) SupportFragmentManager.FindFragmentById(Resource.Id.map);
+            mapFrag.GetMapAsync(this);
         }
 
         void UpdateStats()
         {
-            _time.Text = _viewModel.ElapsedTime;
-            _consumption.Text = _viewModel.FuelConsumption;
-            _consumptionUnits.Text = _viewModel.FuelConsumptionUnits;
-            _speed.Text = _viewModel.Speed;
-            _speedUnits.Text = _viewModel.SpeedUnits;
-            _distanceUnits.Text = _viewModel.DistanceUnits;
-            _distance.Text = _viewModel.Distance;
+            time.Text = viewModel.ElapsedTime;
+            consumption.Text = viewModel.FuelConsumption;
+            consumptionUnits.Text = viewModel.FuelConsumptionUnits;
+            speed.Text = viewModel.Speed;
+            speedUnits.Text = viewModel.SpeedUnits;
+            distanceUnits.Text = viewModel.DistanceUnits;
+            distance.Text = viewModel.Distance;
         }
 
         void SetupMap()
         {
-            if (_mapFrag.View.Width == 0)
+            if (mapFrag.View.Width == 0)
             {
-                _mapFrag.View.PostDelayed(SetupMap, 500);
+                mapFrag.View.PostDelayed(SetupMap, 500);
                 return;
             }
-            var start = _viewModel.Trip.Points[0];
-            var end = _viewModel.Trip.Points[_viewModel.Trip.Points.Count - 1];
-            _seekBar.Max = _viewModel.Trip.Points.Count - 1;
-            _seekBar.ProgressChanged += SeekBar_ProgressChanged;
+            var start = viewModel.Trip.Points[0];
+            var end = viewModel.Trip.Points[viewModel.Trip.Points.Count - 1];
+            seekBar.Max = viewModel.Trip.Points.Count - 1;
+            seekBar.ProgressChanged += SeekBar_ProgressChanged;
 
             var logicalDensity = Resources.DisplayMetrics.Density;
             var thicknessCar = (int) Math.Ceiling(26*logicalDensity + .5f);
@@ -131,56 +131,54 @@ namespace MyDriving.Droid.Activities
             b = ContextCompat.GetDrawable(this, Resource.Drawable.ic_tip) as BitmapDrawable;
             finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
             var poiIcon = BitmapDescriptorFactory.FromBitmap(finalIcon);
-            foreach (var poi in _viewModel.POIs)
+            foreach (var poi in viewModel.POIs)
             {
                 var poiMarker = new MarkerOptions();
                 poiMarker.SetPosition(new LatLng(poi.Latitude, poi.Longitude));
                 poiMarker.SetIcon(poiIcon);
                 poiMarker.Anchor(.5f, .5f);
-                _map.AddMarker(poiMarker);
+                map.AddMarker(poiMarker);
             }
 
 
-            var points = _viewModel.Trip.Points.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
+            var points = viewModel.Trip.Points.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
             var rectOptions = new PolylineOptions();
             rectOptions.Add(points);
             rectOptions.InvokeColor(ContextCompat.GetColor(this, Resource.Color.primary_dark));
-            _map.AddPolyline(rectOptions);
+            map.AddPolyline(rectOptions);
 
 
-            _map.AddMarker(startMarker);
-            _map.AddMarker(endMarker);
+            map.AddMarker(startMarker);
+            map.AddMarker(endMarker);
 
-            _carMarker = _map.AddMarker(car);
+            carMarker = map.AddMarker(car);
 
             var boundsPoints = new LatLngBounds.Builder();
             foreach (var point in points)
                 boundsPoints.Include(point);
 
             var bounds = boundsPoints.Build();
-            _map.MoveCamera(CameraUpdateFactory.NewLatLngBounds(bounds, 64));
+            map.MoveCamera(CameraUpdateFactory.NewLatLngBounds(bounds, 64));
 
-            _map.MoveCamera(CameraUpdateFactory.NewLatLng(_carMarker.Position));
+            map.MoveCamera(CameraUpdateFactory.NewLatLng(carMarker.Position));
 
 
-           
-
-            _seekBar.Enabled = true;
+            seekBar.Enabled = true;
         }
 
         void SeekBar_ProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)
         {
-            if (_carMarker == null)
+            if (carMarker == null)
                 return;
 
-            _viewModel.CurrentPosition = _viewModel.Trip.Points[e.Progress];
+            viewModel.CurrentPosition = viewModel.Trip.Points[e.Progress];
 
             RunOnUiThread(() =>
             {
                 UpdateStats();
-                _carMarker.Position = new LatLng(_viewModel.CurrentPosition.Latitude,
-                    _viewModel.CurrentPosition.Longitude);
-                _map.MoveCamera(CameraUpdateFactory.NewLatLng(_carMarker.Position));
+                carMarker.Position = new LatLng(viewModel.CurrentPosition.Latitude,
+                    viewModel.CurrentPosition.Longitude);
+                map.MoveCamera(CameraUpdateFactory.NewLatLng(carMarker.Position));
             });
         }
 

@@ -17,15 +17,15 @@ namespace MyDriving.Droid.Helpers
 
     public class AccelerometerManager
     {
-        readonly ShakeSensorEventListener _eventListener;
-        readonly SensorManager _sensorManager;
-        Sensor _sensor;
+        readonly ShakeSensorEventListener eventListener;
+        readonly SensorManager sensorManager;
+        Sensor sensor;
 
         public AccelerometerManager(Context context, IAccelerometerListener listener)
         {
-            _eventListener = new ShakeSensorEventListener(listener);
-            _sensorManager = (SensorManager) context.GetSystemService(Context.SensorService);
-            IsSupported = _sensorManager.GetSensorList(SensorType.Accelerometer).Count > 0;
+            eventListener = new ShakeSensorEventListener(listener);
+            sensorManager = (SensorManager) context.GetSystemService(Context.SensorService);
+            IsSupported = sensorManager.GetSensorList(SensorType.Accelerometer).Count > 0;
         }
 
         public bool IsSupported { get; set; }
@@ -37,8 +37,8 @@ namespace MyDriving.Droid.Helpers
 
         public void Configure(int threshold, int interval)
         {
-            _eventListener.Threshold = threshold;
-            _eventListener.Interval = interval;
+            eventListener.Threshold = threshold;
+            eventListener.Interval = interval;
         }
 
         public void StopListening()
@@ -46,9 +46,9 @@ namespace MyDriving.Droid.Helpers
             IsListening = false;
             try
             {
-                if (_sensorManager != null && _eventListener != null)
+                if (sensorManager != null && eventListener != null)
                 {
-                    _sensorManager.UnregisterListener(_eventListener);
+                    sensorManager.UnregisterListener(eventListener);
                 }
             }
             catch (Exception)
@@ -58,25 +58,25 @@ namespace MyDriving.Droid.Helpers
 
         public void StartListening()
         {
-            var sensors = _sensorManager.GetSensorList(SensorType.Accelerometer);
+            var sensors = sensorManager.GetSensorList(SensorType.Accelerometer);
             if (sensors.Count > 0)
             {
-                _sensor = sensors[0];
-                IsListening = _sensorManager.RegisterListener(_eventListener, _sensor, SensorDelay.Game);
+                sensor = sensors[0];
+                IsListening = sensorManager.RegisterListener(eventListener, sensor, SensorDelay.Game);
             }
         }
 
 
         class ShakeSensorEventListener : Object, ISensorEventListener
         {
-            readonly IAccelerometerListener _listener;
-            long _now, _timeDiff, _lastUpdate, _lastShake;
-            float _x, _y, _z, _lastX, _lastY, _lastZ, _force;
+            readonly IAccelerometerListener listener;
+            long now, timeDiff, lastUpdate, lastShake;
+            float x, y, z, lastX, lastY, lastZ, force;
 
 
             public ShakeSensorEventListener(IAccelerometerListener listener)
             {
-                _listener = listener;
+                this.listener = listener;
                 Threshold = 25.0f;
                 Interval = 200;
             }
@@ -93,42 +93,42 @@ namespace MyDriving.Droid.Helpers
             {
                 try
                 {
-                    _now = e.Timestamp;
-                    _x = e.Values[0];
-                    _y = e.Values[1];
-                    _z = e.Values[2];
+                    now = e.Timestamp;
+                    x = e.Values[0];
+                    y = e.Values[1];
+                    z = e.Values[2];
 
-                    if (_lastUpdate == 0)
+                    if (lastUpdate == 0)
                     {
-                        _lastUpdate = _now;
-                        _lastShake = _now;
-                        _lastX = _x;
-                        _lastY = _y;
-                        _lastZ = _z;
+                        lastUpdate = now;
+                        lastShake = now;
+                        lastX = x;
+                        lastY = y;
+                        lastZ = z;
                     }
                     else
                     {
-                        _timeDiff = _now - _lastUpdate;
-                        if (_timeDiff <= 0)
+                        timeDiff = now - lastUpdate;
+                        if (timeDiff <= 0)
                             return;
 
-                        _force = Math.Abs(_x + _y + _z - _lastX - _lastY - _lastZ);
-                        if (Float.Compare(_force, Threshold) > 0)
+                        force = Math.Abs(x + y + z - lastX - lastY - lastZ);
+                        if (Float.Compare(force, Threshold) > 0)
                         {
-                            if (_now - _lastShake >= Interval)
-                                _listener.OnShake(_force);
+                            if (now - lastShake >= Interval)
+                                listener.OnShake(force);
 
-                            _lastShake = _now;
+                            lastShake = now;
                         }
-                        _lastX = _x;
-                        _lastY = _y;
-                        _lastZ = _z;
-                        _lastUpdate = _now;
+                        lastX = x;
+                        lastY = y;
+                        lastZ = z;
+                        lastUpdate = now;
                     }
                 }
                 finally
                 {
-                    _listener.OnAccelerationChanged(_x, _y, _z);
+                    listener.OnAccelerationChanged(x, y, z);
                 }
             }
         }

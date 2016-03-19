@@ -22,12 +22,12 @@ namespace MyDriving.Droid
         ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : BaseActivity
     {
-        DrawerLayout _drawerLayout;
-        NavigationView _navigationView;
+        DrawerLayout drawerLayout;
+        NavigationView navigationView;
 
-        int _oldPosition = -1;
+        int oldPosition = -1;
 
-        bool _shouldClose;
+        bool shouldClose;
 
         protected override int LayoutResource => Resource.Layout.activity_main;
 
@@ -38,16 +38,16 @@ namespace MyDriving.Droid
 #if !XTC
             InitializeHockeyApp();
 #endif
-            _drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            drawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
 
             //Set hamburger items menu
             SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.ic_menu);
 
             //setup navigation view
-            _navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
 
             //handle navigation
-            _navigationView.NavigationItemSelected += (sender, e) =>
+            navigationView.NavigationItemSelected += (sender, e) =>
             {
                 e.MenuItem.SetChecked(true);
 
@@ -58,7 +58,7 @@ namespace MyDriving.Droid
                     ? Settings.Current.UserFirstName
                     : e.MenuItem.TitleFormatted.ToString();
 
-                _drawerLayout.CloseDrawers();
+                drawerLayout.CloseDrawers();
             };
 
             if (Intent.GetBooleanExtra("tracking", false))
@@ -99,10 +99,10 @@ namespace MyDriving.Droid
         void ListItemClicked(int itemId)
         {
             //this way we don't load twice, but you might want to modify this a bit.
-            if (itemId == _oldPosition)
+            if (itemId == oldPosition)
                 return;
-            _shouldClose = false;
-            _oldPosition = itemId;
+            shouldClose = false;
+            oldPosition = itemId;
 
             Android.Support.V4.App.Fragment fragment = null;
             switch (itemId)
@@ -126,7 +126,7 @@ namespace MyDriving.Droid
                 .Replace(Resource.Id.content_frame, fragment)
                 .Commit();
 
-            _navigationView.SetCheckedItem(itemId);
+            navigationView.SetCheckedItem(itemId);
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
@@ -134,7 +134,7 @@ namespace MyDriving.Droid
             switch (item.ItemId)
             {
                 case Android.Resource.Id.Home:
-                    _drawerLayout.OpenDrawer(GravityCompat.Start);
+                    drawerLayout.OpenDrawer(GravityCompat.Start);
                     return true;
             }
             return base.OnOptionsItemSelected(item);
@@ -143,21 +143,21 @@ namespace MyDriving.Droid
         protected override void OnStart()
         {
             base.OnStart();
-            _shouldClose = false;
+            shouldClose = false;
         }
 
         public override void OnBackPressed()
         {
-            if (_drawerLayout.IsDrawerOpen((int) GravityFlags.Start))
+            if (drawerLayout.IsDrawerOpen((int) GravityFlags.Start))
             {
-                _drawerLayout.CloseDrawer(GravityCompat.Start);
+                drawerLayout.CloseDrawer(GravityCompat.Start);
             }
             else
             {
-                if (!_shouldClose)
+                if (!shouldClose)
                 {
                     Toast.MakeText(this, "Press back again to exit.", ToastLength.Short).Show();
-                    _shouldClose = true;
+                    shouldClose = true;
                     return;
                 }
                 base.OnBackPressed();

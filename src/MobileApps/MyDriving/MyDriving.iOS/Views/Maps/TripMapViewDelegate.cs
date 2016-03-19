@@ -12,23 +12,23 @@ namespace MyDriving.iOS
         const string CarAnnotation = "CAR_ANNOTATION";
         const string WaypointAnnotation = "WAYPOINT_ANNOTATION";
         const string POI_ANNOTATION = "POI_ANNOTATION";
-        readonly double _alpha = 0.6;
+        readonly double alpha = 0.6;
 
-        readonly UIColor _color;
+        readonly UIColor color;
 
         public TripMapViewDelegate(bool isCurrentTripMap)
         {
-            _color = isCurrentTripMap ? UIColor.Red : UIColor.Blue;
+            color = isCurrentTripMap ? UIColor.Red : UIColor.Blue;
         }
 
         public override MKOverlayRenderer OverlayRenderer(MKMapView mapView, IMKOverlay overlay)
         {
             return new MKPolylineRenderer(overlay as MKPolyline)
             {
-                Alpha = (nfloat) _alpha,
+                Alpha = (nfloat) alpha,
                 LineWidth = (nfloat) 4.0,
-                FillColor = _color,
-                StrokeColor = _color
+                FillColor = color,
+                StrokeColor = color
             };
         }
 

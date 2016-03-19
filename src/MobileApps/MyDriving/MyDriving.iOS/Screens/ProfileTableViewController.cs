@@ -14,7 +14,7 @@ namespace MyDriving.iOS
     public partial class ProfileTableViewController : UITableViewController
     {
         const string StatCellIdentifier = "STAT_CELL_IDENTIFIER";
-        List<DrivingStatistic> _data;
+        List<DrivingStatistic> data;
 
         public ProfileTableViewController(IntPtr handle) : base(handle)
         {
@@ -52,7 +52,7 @@ namespace MyDriving.iOS
             lblDrivingSkills.Text = $"Driving Skills: {ViewModel.DrivingSkillsPlacementBucket.Description}";
             lblBetterThan.Text = $"Better than {ViewModel.DrivingSkills}% of Americans";
             PercentageView.Value = (ViewModel.DrivingSkills/100f)*360f;
-            _data = new List<DrivingStatistic>
+            data = new List<DrivingStatistic>
             {
                 new DrivingStatistic {Name = "Total Distance", Value = ViewModel.TotalDistanceDisplay},
                 new DrivingStatistic {Name = "Total Duration", Value = ViewModel.TotalTimeDisplay},
@@ -75,15 +75,15 @@ namespace MyDriving.iOS
 
         public override nint RowsInSection(UITableView tableView, nint section)
         {
-            return (_data?.Count).GetValueOrDefault();
+            return (data?.Count).GetValueOrDefault();
         }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(StatCellIdentifier) as ProfileStatCell;
 
-            cell.Name = _data[indexPath.Row].Name;
-            cell.Value = _data[indexPath.Row].Value;
+            cell.Name = data[indexPath.Row].Name;
+            cell.Value = data[indexPath.Row].Value;
 
             return cell;
         }
