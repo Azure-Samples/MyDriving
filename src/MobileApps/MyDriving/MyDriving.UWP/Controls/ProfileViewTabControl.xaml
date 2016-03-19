@@ -10,13 +10,18 @@
     d:DesignWidth="400">
 
     <Grid  Height="60">
-        <Grid Height="60" Background="{StaticResource ListTabColor}" Margin="30,0,0,0">
+        <Grid Height="60" Background="{StaticResource ListTabColor}" Margin="50,0,0,0">
             <TextBlock Name="Value" Text="{Binding }" Style="{StaticResource ProfileTabStyle}"/>
         </Grid>
-        <Ellipse Fill="{StaticResource TripCompletionCircleColor}" Height="60" Width="60" HorizontalAlignment="Left" />
-        <StackPanel Width="60" HorizontalAlignment="Left" Margin="0,17,0,0">
+
+        <Grid Width="100" HorizontalAlignment="Left">
+            <Ellipse Fill="{StaticResource TripCompletionCircleColor}" Height="60" Width="60" HorizontalAlignment="Left" />
+        <Rectangle Fill="{StaticResource TripCompletionCircleColor}" Height="60" Width="50" HorizontalAlignment="Center" />
+        <Ellipse Fill="{StaticResource TripCompletionCircleColor}" Height="60" Width="60" HorizontalAlignment="Right" />
+        <StackPanel Width="100" HorizontalAlignment="Center" Margin="0,17,0,0">
             <TextBlock Text="{x:Bind Title1}"  HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="SegoeUI-Semilight" FontSize="11" Foreground="#e5e5e5"/>
             <TextBlock Text="{x:Bind Title2}"  HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="SegoeUI-Semilight" FontSize="11" Foreground="#e5e5e5"/>
         </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

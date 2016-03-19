@@ -175,12 +175,12 @@ namespace MyDriving.UWP.Views
                 case GeolocationAccessStatus.Denied:
                     Acr.UserDialogs.UserDialogs.Instance.Alert(
                         "Please ensure that geolocation is enabled and permissions are allowed for MyDriving to start a recording.",
-                                                "Geolcoation Disabled", "OK");
+                                                "Geolocation Disabled", "OK");
                     startRecordBtn.IsEnabled = false;
                     break;
 
                 case GeolocationAccessStatus.Unspecified:
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unspecified Error...", "Geolcoation Disabled", "OK");
+                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unspecified Error...", "Geolocation Disabled", "OK");
                     startRecordBtn.IsEnabled = false;
                     break;
             }
