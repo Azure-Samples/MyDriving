@@ -9,5 +9,8 @@ namespace MyDriving.DataStore.Abstractions
 {
     public interface IPOIStore : IBaseStore<POI>
     {
+        Task<IEnumerable<POI>> GetItemsAsync(string tripId);
+
+
     }
 }

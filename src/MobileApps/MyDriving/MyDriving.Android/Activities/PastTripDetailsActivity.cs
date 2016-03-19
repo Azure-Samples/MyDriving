@@ -128,6 +128,18 @@ namespace MyDriving.Droid.Activities
             endMarker.SetIcon(BitmapDescriptorFactory.FromBitmap(finalIcon));
             endMarker.Anchor(.5f, .5f);
 
+            b = ContextCompat.GetDrawable(this, Resource.Drawable.ic_tip) as BitmapDrawable;
+            finalIcon = Bitmap.CreateScaledBitmap(b.Bitmap, thicknessPoints, thicknessPoints, false);
+            var poiIcon = BitmapDescriptorFactory.FromBitmap(finalIcon);
+            foreach (var poi in _viewModel.POIs)
+            {
+                var poiMarker = new MarkerOptions();
+                poiMarker.SetPosition(new LatLng(poi.Latitude, poi.Longitude));
+                poiMarker.SetIcon(poiIcon);
+                poiMarker.Anchor(.5f, .5f);
+                _map.AddMarker(poiMarker);
+            }
+
 
             var points = _viewModel.Trip.Points.Select(s => new LatLng(s.Latitude, s.Longitude)).ToArray();
             var rectOptions = new PolylineOptions();
@@ -149,6 +161,9 @@ namespace MyDriving.Droid.Activities
             _map.MoveCamera(CameraUpdateFactory.NewLatLngBounds(bounds, 64));
 
             _map.MoveCamera(CameraUpdateFactory.NewLatLng(_carMarker.Position));
+
+
+           
 
             _seekBar.Enabled = true;
         }

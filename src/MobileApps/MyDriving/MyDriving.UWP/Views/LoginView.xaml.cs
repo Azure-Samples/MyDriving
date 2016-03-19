@@ -32,7 +32,7 @@ namespace MyDriving.UWP.Views
             switch (e.PropertyName)
             {
                 case nameof(_viewModel.IsLoggedIn):
-                    ShowUserWelcome();
+                    Frame.Navigate(typeof(CurrentTripView));
                     break;
             }
         }
@@ -56,13 +56,13 @@ namespace MyDriving.UWP.Views
             Frame.NavigationFailed += OnNavigationFailed;
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
 
-            Frame.Navigate(typeof (CurrentTripView));
+            Frame.Navigate(typeof(CurrentTripView));
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
             //For now, don't let user go back to the log in page; need to finalize what this experience should be like when user keeps pushing back
-            if (Frame.CurrentSourcePageType != typeof (PastTripsMenuView))
+            if (Frame.CurrentSourcePageType != typeof(PastTripsMenuView))
             {
                 if (Frame != null && Frame.CanGoBack)
                 {
@@ -79,28 +79,27 @@ namespace MyDriving.UWP.Views
 
         private void ShowUserWelcome()
         {
-            Frame.Navigate(typeof(CurrentTripView));
-            /*         if (!string.IsNullOrWhiteSpace(Settings.Current.AzureMobileUserId))
-                     {
-                         AppLogo.Visibility = Visibility.Collapsed;
-                         LoginButtons.Visibility = Visibility.Collapsed;
-                         AppLogo.Visibility = Visibility.Collapsed;
-                         WelcomeText.Text = "Welcome " + Settings.Current.UserFirstName + "!";
-                         WelcomeText.Visibility = Visibility.Visible;
-                         SetImageSource();
-                         ProfileImage.Visibility = Visibility.Visible;
-                         ContinueButton.Visibility = Visibility.Visible;
-                     }
-                     else //if no user info to show, go directly to next page
-                     {
-                         Frame.Navigate(typeof (CurrentTripView));
-                     }
-                     */
+            if (!string.IsNullOrWhiteSpace(Settings.Current.AzureMobileUserId))
+            {
+                AppLogo.Visibility = Visibility.Collapsed;
+                LoginButtons.Visibility = Visibility.Collapsed;
+                AppLogo.Visibility = Visibility.Collapsed;
+                WelcomeText.Text = "Welcome " + Settings.Current.UserFirstName + "!";
+                WelcomeText.Visibility = Visibility.Visible;
+                SetImageSource();
+                ProfileImage.Visibility = Visibility.Visible;
+                ContinueButton.Visibility = Visibility.Visible;
+            }
+            else //if no user info to show, go directly to next page
+            {
+                Frame.Navigate(typeof(CurrentTripView));
+            }
+
         }
 
         private void Continue_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof (CurrentTripView));
+            Frame.Navigate(typeof(CurrentTripView));
         }
 
         private void SetImageSource()

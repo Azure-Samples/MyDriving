@@ -8,6 +8,7 @@ using System.Windows.Input;
 using MyDriving.Helpers;
 using MyDriving.Utils;
 using MyDriving.DataObjects;
+using System.Collections.Generic;
 
 namespace MyDriving.ViewModel
 {
@@ -30,6 +31,7 @@ namespace MyDriving.ViewModel
         string _speed = "0.0";
 
         string _speedUnits = "Mph";
+
 
         public PastTripsDetailViewModel()
         {
@@ -58,6 +60,8 @@ namespace MyDriving.ViewModel
         }
 
         public Trip Trip { get; set; }
+
+        public List<POI> POIs { get; } = new List<POI>();
 
         public TripPoint CurrentPosition
         {
@@ -128,7 +132,32 @@ namespace MyDriving.ViewModel
                 IsBusy = true;
 
                 Trip = await StoreManager.TripStore.GetItemAsync(id);
-                Title = Trip.Name;                
+
+                Title = Trip.Name;
+                for (int i = 0; i < Trip.Points.Count; i++)
+                {
+                    var point = Trip.Points[i];
+                    if (point.MassFlowRate == -255)
+                    {
+                        point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
+                    }
+                    if (point.Speed == -255)
+                    {
+                        point.Speed = i == 0 ? 0 : Trip.Points[i - 1].Speed;
+                    }
+                }
+
+
+                POIs.AddRange(await StoreManager.POIStore.GetItemsAsync(Trip.Id));
+
+                //TODO: This should be removed for final version
+                if (POIs.Count == 0)
+                {
+                    var centerPoint = Trip.Points[Trip.Points.Count / 2];
+                    if (centerPoint != null)
+                        POIs.Add(new POI { Latitude = centerPoint.Latitude, Longitude = centerPoint.Longitude, POIType = POIType.HardBrake, Timestamp = centerPoint.RecordedTimeStamp, TripId = Trip.Id });
+                }
+                Title = Trip.Name;    
             }
             catch (Exception ex)
             {
