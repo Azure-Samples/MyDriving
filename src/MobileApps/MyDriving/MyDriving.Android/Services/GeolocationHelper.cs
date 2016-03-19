@@ -87,24 +87,30 @@ namespace MyDriving.Droid.Services
 
         public static void StopLocationService()
         {
-            if (!_isRunning)
-                return;
-            _isRunning = false;
-            // Check for nulls in case StartLocationService task has not yet completed.
-            Log.Debug("App", "StopLocationService");
-
-            // Unbind from the LocationService; otherwise, StopSelf (below) will not work:
-            if (LocationServiceConnection != null)
+            try
             {
-                Log.Debug("App", "Unbinding from LocationService");
-                Android.App.Application.Context.UnbindService(LocationServiceConnection);
+                if (!_isRunning)
+                    return;
+                _isRunning = false;
+                // Check for nulls in case StartLocationService task has not yet completed.
+                Log.Debug("App", "StopLocationService");
+
+                // Unbind from the LocationService; otherwise, StopSelf (below) will not work:
+                if (LocationServiceConnection != null)
+                {
+                    Log.Debug("App", "Unbinding from LocationService");
+                    Android.App.Application.Context.UnbindService(LocationServiceConnection);
+                }
+
+                // Stop the LocationService:
+                if (Current.LocationService != null)
+                {
+                    Log.Debug("App", "Stopping the LocationService");
+                    Current.LocationService.StopSelf();
+                }
             }
-
-            // Stop the LocationService:
-            if (Current.LocationService != null)
+            catch
             {
-                Log.Debug("App", "Stopping the LocationService");
-                Current.LocationService.StopSelf();
             }
         }
 
