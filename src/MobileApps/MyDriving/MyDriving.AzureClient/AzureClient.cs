@@ -8,14 +8,14 @@ namespace MyDriving.AzureClient
     public class AzureClient : IAzureClient
     {
         const string DefaultMobileServiceUrl = "https://mydriving.azurewebsites.net";
-        IMobileServiceClient _client;
-        string _mobileServiceUrl;
-        public IMobileServiceClient Client => _client ?? (_client = CreateClient());
+        IMobileServiceClient client;
+        string mobileServiceUrl;
+        public IMobileServiceClient Client => client ?? (client = CreateClient());
 
 
         IMobileServiceClient CreateClient()
         {
-            _client = new MobileServiceClient(DefaultMobileServiceUrl, new AuthHandler())
+            client = new MobileServiceClient(DefaultMobileServiceUrl, new AuthHandler())
             {
                 SerializerSettings = new MobileServiceJsonSerializerSettings()
                 {
@@ -23,7 +23,7 @@ namespace MyDriving.AzureClient
                     CamelCasePropertyNames = true
                 }
             };
-            return _client;
+            return client;
         }
     }
 }

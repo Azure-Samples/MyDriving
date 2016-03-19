@@ -17,29 +17,29 @@ namespace ObdLibUWP
         const int Interval = 100;
         const string DefValue = "-255";
         private readonly Object _lock = new Object();
-        private bool _connected = true;
-        private Dictionary<string, string> _data;
-        private DataReader _dataReaderObject;
-        private DataWriter _dataWriterObject;
-        private Dictionary<string, string> _PIDs;
-        private bool _running = true;
-        private RfcommDeviceService _service;
-        private bool _simulatormode;
-        private StreamSocket _socket;
+        private bool connected = true;
+        private Dictionary<string, string> data;
+        private DataReader dataReaderObject;
+        private DataWriter dataWriterObject;
+        private Dictionary<string, string> piDs;
+        private bool running = true;
+        private RfcommDeviceService service;
+        private bool simulatormode;
+        private StreamSocket socket;
 
         public async Task<bool> Init(bool simulatormode = false)
         {
-            _running = true;
+            running = true;
             //initialize _data
-            _data = new Dictionary<string, string> {{"vin", DefValue}};
+            data = new Dictionary<string, string> {{"vin", DefValue}};
             //VIN
-            _PIDs = ObdShare.ObdUtil.GetPIDs();
-            foreach (var v in _PIDs.Values)
+            piDs = ObdShare.ObdUtil.GetPIDs();
+            foreach (var v in piDs.Values)
             {
-                _data.Add(v, DefValue);
+                data.Add(v, DefValue);
             }
 
-            _simulatormode = simulatormode;
+            this.simulatormode = simulatormode;
             if (simulatormode)
             {
                 PollObd();
@@ -69,31 +69,31 @@ namespace ObdLibUWP
                 return false;
             try
             {
-                _service = await RfcommDeviceService.FromIdAsync(device.Id);
+                service = await RfcommDeviceService.FromIdAsync(device.Id);
 
                 // Disposing the socket with close it and release all resources associated with the socket
-                _socket?.Dispose();
+                socket?.Dispose();
 
-                _socket = new StreamSocket();
+                socket = new StreamSocket();
                 try
                 {
                     // Note: If either parameter is null or empty, the call will throw an exception
-                    await _socket.ConnectAsync(_service.ConnectionHostName, _service.ConnectionServiceName);
-                    _connected = true;
+                    await socket.ConnectAsync(service.ConnectionHostName, service.ConnectionServiceName);
+                    connected = true;
                 }
                 catch (Exception ex)
                 {
-                    _connected = false;
+                    connected = false;
                     System.Diagnostics.Debug.WriteLine("Connect:" + ex.Message);
                 }
                 // If the connection was successful, the RemoteAddress field will be populated
-                if (_connected)
+                if (connected)
                 {
-                    string msg = String.Format("Connected to {0}!", _socket.Information.RemoteAddress.DisplayName);
+                    string msg = String.Format("Connected to {0}!", socket.Information.RemoteAddress.DisplayName);
                     System.Diagnostics.Debug.WriteLine(msg);
 
-                    _dataWriterObject = new DataWriter(_socket.OutputStream);
-                    _dataReaderObject = new DataReader(_socket.InputStream);
+                    dataWriterObject = new DataWriter(socket.OutputStream);
+                    dataReaderObject = new DataReader(socket.InputStream);
 
                     //initialize the device
                     string s;
@@ -120,20 +120,20 @@ namespace ObdLibUWP
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Overall Connect: " + ex.Message);
-                if (_dataReaderObject != null)
+                if (dataReaderObject != null)
                 {
-                    _dataReaderObject.Dispose();
-                    _dataReaderObject = null;
+                    dataReaderObject.Dispose();
+                    dataReaderObject = null;
                 }
-                if (_dataWriterObject != null)
+                if (dataWriterObject != null)
                 {
-                    _dataWriterObject.Dispose();
-                    _dataWriterObject = null;
+                    dataWriterObject.Dispose();
+                    dataWriterObject = null;
                 }
-                if (_socket != null)
+                if (socket != null)
                 {
-                    _socket.Dispose();
-                    _socket = null;
+                    socket.Dispose();
+                    socket = null;
                 }
                 return false;
             }
@@ -144,29 +144,29 @@ namespace ObdLibUWP
             try
             {
                 string s;
-                if (_simulatormode)
+                if (simulatormode)
                     s = "SIMULATORWINPHONE";
                 else
                     s = await GetVIN();
                 lock (_lock)
                 {
-                    _data["vin"] = s;
+                    data["vin"] = s;
                 }
                 while (true)
                 {
-                    foreach (var cmd in _PIDs.Keys)
+                    foreach (var cmd in piDs.Keys)
                     {
-                        var key = _PIDs[cmd];
-                        if (_simulatormode)
+                        var key = piDs[cmd];
+                        if (simulatormode)
                             s = ObdShare.ObdUtil.GetEmulatorValue(cmd);
                         else
                             s = await RunCmd(cmd);
                         if (s != "ERROR")
                             lock (_lock)
                             {
-                                _data[key] = s;
+                                data[key] = s;
                             }
-                        if (!_running)
+                        if (!running)
                             return;
                         await Task.Delay(Interval);
                     }
@@ -175,22 +175,22 @@ namespace ObdLibUWP
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
-                _running = false;
-                if (_dataReaderObject != null)
+                running = false;
+                if (dataReaderObject != null)
                 {
-                    _dataReaderObject.Dispose();
-                    _dataReaderObject = null;
+                    dataReaderObject.Dispose();
+                    dataReaderObject = null;
                 }
-                if (_dataWriterObject != null)
+                if (dataWriterObject != null)
                 {
-                    _dataWriterObject.Dispose();
-                    _dataWriterObject = null;
+                    dataWriterObject.Dispose();
+                    dataWriterObject = null;
                 }
-                if (_socket != null)
+                if (socket != null)
                 {
-                    await _socket.CancelIOAsync();
-                    _socket.Dispose();
-                    _socket = null;
+                    await socket.CancelIOAsync();
+                    socket.Dispose();
+                    socket = null;
                 }
             }
         }
@@ -208,7 +208,7 @@ namespace ObdLibUWP
 
         public async Task<string> GetSpeed()
         {
-            if (_simulatormode)
+            if (simulatormode)
             {
                 var r = new Random();
                 return r.Next().ToString();
@@ -233,7 +233,7 @@ namespace ObdLibUWP
 
         public Dictionary<string, string> Read()
         {
-            if (!_simulatormode && _socket == null)
+            if (!simulatormode && socket == null)
             {
                 //if there is no connection
                 return null;
@@ -241,13 +241,13 @@ namespace ObdLibUWP
             var ret = new Dictionary<string, string>();
             lock (_lock)
             {
-                foreach (var key in _data.Keys)
+                foreach (var key in data.Keys)
                 {
-                    ret.Add(key, _data[key]);
+                    ret.Add(key, data[key]);
                 }
-                foreach (var v in _PIDs.Values)
+                foreach (var v in piDs.Values)
                 {
-                    _data[v] = DefValue;
+                    data[v] = DefValue;
                 }
             }
             return ret;
@@ -266,7 +266,7 @@ namespace ObdLibUWP
         {
             try
             {
-                if (_socket.OutputStream != null)
+                if (socket.OutputStream != null)
                 {
                     //Launch the WriteAsync task to perform the write
                     await WriteAsync(msg);
@@ -284,10 +284,10 @@ namespace ObdLibUWP
             finally
             {
                 // Cleanup once complete
-                if (_dataWriterObject != null)
+                if (dataWriterObject != null)
                 {
-                    _dataWriterObject.DetachStream();
-                    _dataWriterObject = null;
+                    dataWriterObject.DetachStream();
+                    dataWriterObject = null;
                 }
             }
         }
@@ -299,10 +299,10 @@ namespace ObdLibUWP
             if (msg.Length != 0)
             {
                 // Load the text from the sendText input text box to the dataWriter object
-                _dataWriterObject.WriteString(msg);
+                dataWriterObject.WriteString(msg);
 
                 // Launch an async task to complete the write operation
-                storeAsyncTask = _dataWriterObject.StoreAsync().AsTask();
+                storeAsyncTask = dataWriterObject.StoreAsync().AsTask();
 
                 UInt32 bytesWritten = await storeAsyncTask;
                 if (bytesWritten > 0)
@@ -317,13 +317,13 @@ namespace ObdLibUWP
 
         private async Task<string> ReadAsyncRaw()
         {
-            uint ReadBufferLength = 1024;
+            uint readBufferLength = 1024;
 
             // Set InputStreamOptions to complete the asynchronous read operation when one or more bytes is available
-            _dataReaderObject.InputStreamOptions = InputStreamOptions.Partial;
+            dataReaderObject.InputStreamOptions = InputStreamOptions.Partial;
 
             // Create a task object to wait for data on the serialPort.InputStream
-            var loadAsyncTask = _dataReaderObject.LoadAsync(ReadBufferLength).AsTask();
+            var loadAsyncTask = dataReaderObject.LoadAsync(readBufferLength).AsTask();
 
             // Launch the task and wait
             UInt32 bytesRead = await loadAsyncTask;
@@ -331,7 +331,7 @@ namespace ObdLibUWP
             {
                 try
                 {
-                    string recvdtxt = _dataReaderObject.ReadString(bytesRead);
+                    string recvdtxt = dataReaderObject.ReadString(bytesRead);
                     System.Diagnostics.Debug.WriteLine(recvdtxt);
                     return recvdtxt;
                 }
@@ -352,29 +352,29 @@ namespace ObdLibUWP
 
         public async Task Disconnect()
         {
-            _running = false;
-            if (_dataReaderObject != null)
+            running = false;
+            if (dataReaderObject != null)
             {
-                _dataReaderObject.Dispose();
-                _dataReaderObject = null;
+                dataReaderObject.Dispose();
+                dataReaderObject = null;
             }
-            if (_dataWriterObject != null)
+            if (dataWriterObject != null)
             {
-                _dataWriterObject.Dispose();
-                _dataWriterObject = null;
+                dataWriterObject.Dispose();
+                dataWriterObject = null;
             }
-            if (_socket != null)
+            if (socket != null)
             {
                 try
                 {
-                    await _socket.CancelIOAsync();
-                    _socket.Dispose();
+                    await socket.CancelIOAsync();
+                    socket.Dispose();
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
                 }
-                _socket = null;
+                socket = null;
             }
         }
     }
