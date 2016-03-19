@@ -3,7 +3,6 @@
 
 using System;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MyDriving.ViewModel;
 
@@ -14,7 +13,7 @@ namespace MyDriving.UWP.Views
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class TripSummaryView : Page
+    public sealed partial class TripSummaryView
     {
         public TripSummaryView()
         {
@@ -41,7 +40,6 @@ namespace MyDriving.UWP.Views
 
             HardAccelerationsTab.Title1 = "Hard";
             HardAccelerationsTab.Title2 = "ACCELERATIONS";
-
         }
 
         public TripSummaryViewModel ViewModel { get; set; }
@@ -96,21 +94,21 @@ namespace MyDriving.UWP.Views
 
         private void ButtonClick_CloseView(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(CurrentTripView));
+            Frame.Navigate(typeof (CurrentTripView));
         }
 
-        //{
-        //    MapPolyline mapPolyLine = new MapPolyline();
-
-        //    if (viewModel.Points.Count == 0)
-        //        return;
-
-        //    foreach (var trail in this.viewModel.Trip.Points)
-        //    {
+        //private void DrawPath()
 
         //        var basicGeoPosion = new BasicGeoposition() { Latitude = trail.Latitude, Longitude = trail.Longitude };
+        //    {
 
-        //private void DrawPath()
+        //    foreach (var trail in this.viewModel.Trip.Points)
+        //        return;
+
+        //    if (viewModel.Points.Count == 0)
+        //    MapPolyline mapPolyLine = new MapPolyline();
+
+        //{
         //        Locations.Add(basicGeoPosion);
         //    }
         //    mapPolyLine.Path = new Geopath(Locations);

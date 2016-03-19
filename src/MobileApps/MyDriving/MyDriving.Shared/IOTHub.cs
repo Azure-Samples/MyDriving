@@ -13,23 +13,23 @@ namespace MyDriving.Shared
 {
     public class IOTHub : IHubIOT
     {
-        private DeviceClient _deviceClient;
+        private DeviceClient deviceClient;
 
         public void Initialize(string connectionStr)
         {
-            _deviceClient = DeviceClient.CreateFromConnectionString(connectionStr);
+            deviceClient = DeviceClient.CreateFromConnectionString(connectionStr);
         }
 
         public async Task SendEvents(IEnumerable<String> blobs)
         {
             List<Message> messages = blobs.Select(b => new Message(Encoding.ASCII.GetBytes(b))).ToList();
-            await _deviceClient.SendEventBatchAsync(messages);
+            await deviceClient.SendEventBatchAsync(messages);
         }
 
         public async Task SendEvent(string blob)
         {
             var message = new Message(Encoding.ASCII.GetBytes(blob));
-            await _deviceClient.SendEventAsync(message);
+            await deviceClient.SendEventAsync(message);
         }
     }
 }
