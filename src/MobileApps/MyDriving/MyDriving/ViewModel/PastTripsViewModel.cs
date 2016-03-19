@@ -118,7 +118,10 @@ namespace MyDriving.ViewModel
                 IsBusy = true;
                 CanLoadMore = true;
 
+                var newCount = Trips.Count + 25;
                 Trips.AddRange(await StoreManager.TripStore.GetItemsAsync(Trips.Count, 25, true));
+
+                CanLoadMore = Trips.Count == newCount;
             }
             catch (Exception ex)
             {

@@ -81,7 +81,12 @@ namespace MyDriving.iOS
                        new TripTableViewCellWithImage(new NSString(TripCellWithimageIdentifier));
 
             if (ViewModel.CanLoadMore && !ViewModel.IsBusy && ViewModel.Trips.Count > 0 && indexPath.Row == ViewModel.Trips.Count - 1)
-                ViewModel.LoadMorePastTripCommand.Execute(null);
+            {
+                ViewModel.ExecuteLoadMorePastTripsCommandAsync().ContinueWith((t) =>
+                {
+                    InvokeOnMainThread(delegate { TableView.ReloadData(); });
+                }, scheduler: System.Threading.Tasks.TaskScheduler.Current);
+            }
 
             var trip = ViewModel.Trips[indexPath.Row];
             cell.DisplayImage.SetImage(new NSUrl(trip.MainPhotoUrl));
