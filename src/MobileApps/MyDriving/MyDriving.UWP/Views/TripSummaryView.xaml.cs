@@ -30,13 +30,18 @@ namespace MyDriving.UWP.Views
             TotalTimeTab.Title1 = "Total";
             TotalTimeTab.Title2 = "TIME";
 
-            AvgSpeedTab.Title1 = "Max";
-            AvgSpeedTab.Title2 = "SPEED";
+            MaxSpeedTab.Title1 = "Max";
+            MaxSpeedTab.Title2 = "SPEED";
+
+            FuelConsumptionTab.Title1 = "FUEL";
+            FuelConsumptionTab.Title2 = "used";
 
             HardBreaksTab.Title1 = "Hard";
-            HardBreaksTab.Title2 = "BREAKS";
+            HardBreaksTab.Title2 = "STOPS";
 
-            TipsTab.Title1 = "TIPS";
+            HardAccelerationsTab.Title1 = "Hard";
+            HardAccelerationsTab.Title2 = "ACCEL";
+
         }
 
         public TripSummaryViewModel ViewModel { get; set; }
@@ -87,6 +92,11 @@ namespace MyDriving.UWP.Views
             {
                 //TotalDistanceTab.SetValue( ViewModel.TotalDistance);
             });
+        }
+
+        private void ButtonClick_CloseView(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(CurrentTripView));
         }
 
         //{
