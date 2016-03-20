@@ -52,10 +52,6 @@ namespace MyDriving.ViewModel
                 {
                     point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
                 }
-                if (point.Speed == -255)
-                {
-                    point.Speed = i == 0 ? 0 : Trip.Points[i - 1].Speed;
-                }
             }
         }
 
