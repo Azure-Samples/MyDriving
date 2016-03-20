@@ -85,8 +85,12 @@ namespace MyDriving.UWP
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-
-                if (Settings.Current.FirstRun)
+                if (Settings.Current.IsLoggedIn)
+                {
+                    Window.Current.Content = new SplitViewShell(rootFrame);
+                    rootFrame.Navigate(typeof(CurrentTripView), e.Arguments);
+                }
+                else if (Settings.Current.FirstRun)
                 {
                     rootFrame.Navigate(typeof (GetStarted1), e.Arguments);
                 }

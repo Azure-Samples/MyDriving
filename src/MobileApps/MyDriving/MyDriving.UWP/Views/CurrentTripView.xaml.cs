@@ -40,7 +40,6 @@ namespace MyDriving.UWP.Views
         public CurrentTripView()
         {
             InitializeComponent();
-            BeginExtendedExecution();
             ViewModel = new CurrentTripViewModel();
             Locations = new List<BasicGeoposition>();
             MyMap.Loaded += MyMap_Loaded;
@@ -169,6 +168,7 @@ namespace MyDriving.UWP.Views
                     UpdateMap_PositionChanged(basicPosition);
                     */
                     StartRecordBtn.IsEnabled = true;
+                    await BeginExtendedExecution();
                     break;
 
                 case GeolocationAccessStatus.Denied:
@@ -188,6 +188,9 @@ namespace MyDriving.UWP.Views
 
         private async Task BeginExtendedExecution()
         {
+            if (ViewModel == null)
+                return;
+
             ClearExtendedExecution();
 
             var newSession = new ExtendedExecutionSession

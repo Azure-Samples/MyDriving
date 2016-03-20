@@ -238,6 +238,7 @@
     <Content Include="Assets\ic_launcher48.targetsize-48.png" />
     <Content Include="Assets\ic_start.png" />
     <Content Include="Assets\ic_stop.png" />
+    <Content Include="Assets\ic_tip.png" />
     <Content Include="Assets\Login\appLogo.png" />
     <Content Include="Assets\Login\facebook.png" />
     <Content Include="Assets\ic_start_point.png" />
@@ -407,6 +408,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <SDKReference Include="Microsoft.VCLibs.120, Version=14.0">
+      <Name>Microsoft Visual C++ 2013 Runtime Package for Windows Universal</Name>
+    </SDKReference>
     <SDKReference Include="SQLite.UWP.2015, Version=3.11.1">
       <Name>SQLite for Universal Windows Platform</Name>
     </SDKReference>

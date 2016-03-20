@@ -12,6 +12,7 @@ namespace ObdLibAndroid
 {
     public class ObdWrapper
     {
+        const int Interval = 100;
         const string DefValue = "-255";
         private static readonly UUID SppUuid = UUID.FromString("00001101-0000-1000-8000-00805F9B34FB");
         private readonly Object _lock = new Object();
@@ -41,15 +42,6 @@ namespace ObdLibAndroid
             this.simulatormode = simulatormode;
             if (simulatormode)
             {
-                //PollObd();
-
-                ////these code is for testing.
-                //while (true)
-                //{
-                //    await Task.Delay(2000);
-                //    var dse = Read();
-                //}
-
                 return true;
             }
 
@@ -59,12 +51,6 @@ namespace ObdLibAndroid
                 System.Diagnostics.Debug.WriteLine("Bluetooth is not available");
                 return false;
             }
-            //if (!_bluetoothAdapter.IsEnabled)
-            //{
-            //    Intent enableIntent = new Intent(BluetoothAdapter.ActionRequestEnable);
-            //    StartActivityForResult(enableIntent, 2);
-            //    // Otherwise, setup the chat session
-            //}
             try
             {
                 var ba = bluetoothAdapter.BondedDevices;
@@ -82,7 +68,7 @@ namespace ObdLibAndroid
                 await bluetoothSocket.ConnectAsync();
                 connected = true;
             }
-            catch (Java.IO.IOException e)
+            catch (Java.IO.IOException)
             {
                 // Close the socket
                 try
@@ -90,16 +76,16 @@ namespace ObdLibAndroid
                     connected = false;
                     bluetoothSocket.Close();
                 }
-                catch (Java.IO.IOException e2)
+                catch (Java.IO.IOException)
                 {
                 }
-                catch (Exception ex3)
+                catch (Exception)
                 {
                 }
 
                 return false;
             }
-            catch (Exception ex4)
+            catch (Exception)
             {
             }
             if (connected)
@@ -111,17 +97,20 @@ namespace ObdLibAndroid
                 s = await SendAndReceive("ATZ\r");
                 s = await SendAndReceive("ATE0\r");
                 s = await SendAndReceive("ATL1\r");
-                //s = await SendAndReceive("0100\r");
                 s = await SendAndReceive("ATSP00\r");
 
+                //read MAF flow rate
+                s = await RunCmd("0110");
+                if (s != "ERROR")
+                {
+                    lock (_lock)
+                    {
+                        data["fr"] = s;
+                    }
+                }
+
                 PollObd();
-
-                //while(true)
-                //{
-                //    var dse = Read();
-                //    await Task.Delay(2000);
-                //}
-
+                
                 return true;
             }
             else
@@ -195,6 +184,7 @@ namespace ObdLibAndroid
                         if (!running)
                             return;
                     }
+                    await Task.Delay(Interval);
                 }
             }
             catch (Exception ex)

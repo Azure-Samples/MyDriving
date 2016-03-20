@@ -43,14 +43,7 @@ namespace ObdLibUWP
             if (simulatormode)
             {
                 PollObd();
-
-                ////these code is for testing.
-                //while (true)
-                //{
-                //    await Task.Delay(2000);
-                //    var dse = Read();
-                //}
-
+                
                 return true;
             }
 
@@ -100,18 +93,20 @@ namespace ObdLibUWP
                     s = await SendAndReceive("ATZ\r");
                     s = await SendAndReceive("ATE0\r");
                     s = await SendAndReceive("ATL1\r");
-                    //s = await SendAndReceive("0100\r");
                     s = await SendAndReceive("ATSP00\r");
 
+                    //read MAF flow rate
+                    s = await RunCmd("0110");
+                    if (s != "ERROR")
+                    {
+                        lock (_lock)
+                        {
+                            data["fr"] = s;
+                        }
+                    }
+
                     PollObd();
-
-                    ////these code is for testing.
-                    //while (true)
-                    //{
-                    //    await Task.Delay(2000);
-                    //    var dse = Read();
-                    //}
-
+                    
                     return true;
                 }
                 else
@@ -168,8 +163,8 @@ namespace ObdLibUWP
                             }
                         if (!running)
                             return;
-                        await Task.Delay(Interval);
                     }
+                    await Task.Delay(Interval);
                 }
             }
             catch (Exception ex)
@@ -271,14 +266,9 @@ namespace ObdLibUWP
                     //Launch the WriteAsync task to perform the write
                     await WriteAsync(msg);
                 }
-                else
-                {
-                    //status.Text = "Select a device and connect";
-                }
             }
             catch (Exception ex)
             {
-                //status.Text = "Send(): " + ex.Message;
                 System.Diagnostics.Debug.WriteLine("Send(): " + ex.Message);
             }
             finally

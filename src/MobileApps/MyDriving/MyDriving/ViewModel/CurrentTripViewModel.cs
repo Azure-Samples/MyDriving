@@ -162,9 +162,12 @@ namespace MyDriving.ViewModel
                 }
 
                 //Connect to the OBD device
-                await obdDataProcessor.ConnectToObdDevice(true);
+                if (obdDataProcessor != null)
+                {
+                    await obdDataProcessor.ConnectToObdDevice(true);
 
-                CurrentTrip.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
+                    CurrentTrip.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
+                }
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
@@ -272,8 +275,11 @@ namespace MyDriving.ViewModel
 
             try
             {
-                //Disconnect from the OBD device; if still trying to connect, stop polling for the device
-                await obdDataProcessor.DisconnectFromObdDevice();
+                if (obdDataProcessor != null)
+                {
+                    //Disconnect from the OBD device; if still trying to connect, stop polling for the device
+                    await obdDataProcessor.DisconnectFromObdDevice();
+                }
             }
             catch (Exception ex)
             {
@@ -357,7 +363,10 @@ namespace MyDriving.ViewModel
         {
             //Read data from the OBD device
             point.HasOBDData = false;
-            var obdData = await obdDataProcessor.ReadOBDData();
+            Dictionary<string,string> obdData = null;
+
+            if(obdDataProcessor != null)
+                obdData = await obdDataProcessor.ReadOBDData();
 
             if (obdData != null)
             {
@@ -468,15 +477,19 @@ namespace MyDriving.ViewModel
                 hasEngineLoad = false;
 
                 //Add OBD data
-                point.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
+                if(obdDataProcessor != null)
+                    point.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
                 await AddOBDDataToPoint(point);
 
                 CurrentTrip.Points.Add(point);
 
                 try
                 {
-                    //Push the trip data packaged with the OBD data to the IOT Hub
-                    obdDataProcessor.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
+                    if (obdDataProcessor != null)
+                    {
+                        //Push the trip data packaged with the OBD data to the IOT Hub
+                        obdDataProcessor.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -492,9 +505,12 @@ namespace MyDriving.ViewModel
 
                     //calculate gas usage
                     var timeDif1 = point.RecordedTimeStamp - previous.RecordedTimeStamp;
-                    CurrentTrip.FuelUsed += fuelConsumptionRate*0.00002236413*timeDif1.Seconds;
-                    FuelConsumption = Settings.MetricUnits
-                        ? (CurrentTrip.FuelUsed*3.7854).ToString("N2")
+                    CurrentTrip.FuelUsed += fuelConsumptionRate*0.00002236413*timeDif1.Seconds;                    
+                    if(CurrentTrip.FuelUsed == 0)
+                        FuelConsumption = "N/A";
+                    else
+                        FuelConsumption = Settings.MetricUnits
+                        ? (CurrentTrip.FuelUsed * 3.7854).ToString("N2")
                         : CurrentTrip.FuelUsed.ToString("N2");
                 }
                 else

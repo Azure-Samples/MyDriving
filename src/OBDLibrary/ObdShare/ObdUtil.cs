@@ -15,7 +15,7 @@ namespace ObdShare
 
         private static int ParseString(string str, int bytes)
         {
-            return int.Parse(str.Substring(4, bytes*2), NumberStyles.HexNumber);
+            return int.Parse(str.Substring(4, bytes * 2), NumberStyles.HexNumber);
         }
 
         public static string ParseObd01Msg(string input)
@@ -24,44 +24,53 @@ namespace ObdShare
             if (!str.StartsWith("41") || str.Length < 6)
                 return "-255";
             string pid = str.Substring(2, 2);
-            //int result;
-            //var ret = int.TryParse(str.Substring(4), NumberStyles.HexNumber, CultureInfo.InvariantCulture.NumberFormat, out result);
-            //if (!ret)
-            //    return "ERROR";
+            int result;
             switch (pid)
             {
                 case "04": //EngineLoad
-                    return (ParseString(str, 1)*100/255).ToString();
+                    return (ParseString(str, 1) * 100 / 255).ToString();
                 case "06": //ShortTermFuelBank1
-                    return ((ParseString(str, 1) - 128)*100/128).ToString();
+                    return ((ParseString(str, 1) - 128) * 100 / 128).ToString();
                 case "07": //LongTermFuelBank1
-                    return ((ParseString(str, 1) - 128)*100/128).ToString();
+                    return ((ParseString(str, 1) - 128) * 100 / 128).ToString();
                 case "0C": //RPM
-                    return (ParseString(str, 2)/4).ToString();
+                    result = (ParseString(str, 2) / 4);
+                    if (result < 0 || result > 16383)
+                        result = -255;
+                    return result.ToString();
                 case "0D": //Speed
-                    return ParseString(str, 1).ToString();
+                    result = ParseString(str, 1);
+                    if (result < 0 || result > 255)
+                        result = -255;
+                    return result.ToString();
                 case "0F": //InsideTemperature
                     return (ParseString(str, 1) - 40).ToString();
                 case "10": //MAF air flow rate
-                    return (ParseString(str, 2)/100).ToString();
+                    result = (ParseString(str, 2) / 100);
+                    if (result < 0 || result > 655)
+                        result = -255;
+                    return result.ToString();
                 case "11": //Throttle position
-                    return (ParseString(str, 1)*100/255).ToString();
+                    return (ParseString(str, 1) * 100 / 255).ToString();
                 case "1F": //Runtime 
                     return ParseString(str, 2).ToString();
                 case "21": //DistancewithML  
                     return ParseString(str, 2).ToString();
                 case "2C": //Commanded EGR
-                    return (ParseString(str, 1)*100/255).ToString();
+                    return (ParseString(str, 1) * 100 / 255).ToString();
                 case "2D": //EGR Error
-                    return ((ParseString(str, 1) - 128)*100/128).ToString();
+                    return ((ParseString(str, 1) - 128) * 100 / 128).ToString();
                 case "33": //BarometricPressure
                     return ParseString(str, 1).ToString();
                 case "45": //Relative throttle position
-                    return (ParseString(str, 1)*100/255).ToString();
+                    return (ParseString(str, 1) * 100 / 255).ToString();
                 case "46": //OutsideTemperature
                     return (ParseString(str, 1) - 40).ToString();
                 case "5E": //EngineFuelRate
-                    return (ParseString(str, 2)/20).ToString();
+                    result = (ParseString(str, 2) / 20);
+                    if (result < 0 || result > 3212)
+                        result = -255;
+                    return result.ToString();
             }
             return "ERROR";
         }
@@ -89,7 +98,7 @@ namespace ObdShare
                 string ret = "";
                 foreach (var s in items)
                 {
-                    ret += (char) int.Parse(s, NumberStyles.HexNumber);
+                    ret += (char)int.Parse(s, NumberStyles.HexNumber);
                 }
                 if (ret.Length > 17)
                     ret = ret.Substring(ret.Length - 17);
@@ -123,30 +132,30 @@ namespace ObdShare
             {
                 case "02": //VIN
                     tint = int.Parse(items[6], NumberStyles.HexNumber);
-                    tchar = (char) tint;
+                    tchar = (char)tint;
                     ret += tchar.ToString();
                     for (int i = 10; i < 14; i++)
                     {
                         tint = int.Parse(items[i], NumberStyles.HexNumber);
-                        tchar = (char) tint;
+                        tchar = (char)tint;
                         ret += tchar.ToString();
                     }
                     for (int i = 17; i < 21; i++)
                     {
                         tint = int.Parse(items[i], NumberStyles.HexNumber);
-                        tchar = (char) tint;
+                        tchar = (char)tint;
                         ret += tchar.ToString();
                     }
                     for (int i = 24; i < 28; i++)
                     {
                         tint = int.Parse(items[i], NumberStyles.HexNumber);
-                        tchar = (char) tint;
+                        tchar = (char)tint;
                         ret += tchar.ToString();
                     }
                     for (int i = 31; i < 35; i++)
                     {
                         tint = int.Parse(items[i], NumberStyles.HexNumber);
-                        tchar = (char) tint;
+                        tchar = (char)tint;
                         ret += tchar.ToString();
                     }
                     //mask last 7 digits
@@ -205,9 +214,9 @@ namespace ObdShare
                 case "010C":
                     return r.Next(0, 2500).ToString();
                 case "010D":
-                    return r.Next(20, 120).ToString();
+                    return r.Next(5, 70).ToString();
                 case "0110":
-                    return r.Next(0, 600).ToString();
+                    return r.Next(0, 50).ToString();
                 case "0111":
                     return r.Next(0, 100).ToString();
                 case "011F":
@@ -215,7 +224,7 @@ namespace ObdShare
                     return _runtime.ToString();
                 case "0121":
                     _distancewithMl = _distancewithMl + 0.1;
-                    return ((int) _distancewithMl).ToString();
+                    return ((int)_distancewithMl).ToString();
                 case "0145":
                     return r.Next(0, 100).ToString();
                 case "0146":
@@ -237,7 +246,7 @@ namespace ObdShare
                 var temperature = Double.Parse(_outsideTemperature);
 
                 // Returns variance value between .01 and .05
-                var variance = r.NextDouble()*(0.04) + .01;
+                var variance = r.NextDouble() * (0.04) + .01;
 
                 var varyTemperatureDirection = r.Next(0, 2);
                 if (varyTemperatureDirection == 0)
@@ -253,7 +262,7 @@ namespace ObdShare
 
         static string SimulateEngineFuelRateValue(Random r)
         {
-            var variance = r.NextDouble()*6 + 8;
+            var variance = r.NextDouble() * 6 + 8;
             return variance.ToString();
         }
     }
