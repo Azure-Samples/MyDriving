@@ -71,7 +71,7 @@ $deployment = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-0" `
                                                  -Force -Verbose
 
 # Upload HQL Queries to Storage Account Continer
-if ($deployment -ne $null) {
+if ($deployment -ne $null -and $deployment.ProvisioningState -ne "Failed") {
 . .\scripts\Copy-ArtifactsToBlobStorage.ps1 -StorageAccountName $deployment.Outputs.storageAccountName.Value `
                                             -StorageAccountKey $deployment.Outputs.storageAccountKey.Value `
                                             -StorageContainerName $deployment.Outputs.assetsContainerName.Value
@@ -85,7 +85,7 @@ $deployment = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-1" `
 											     -Force -Verbose
 
 # Initialize SQL databases
-if ($deployment -ne $null) {
+if ($deployment -ne $null -and $deployment.ProvisioningState -ne "Failed") {
 . .\scripts\setupDb.ps1 $deployment.Outputs.databaseConnectionDB.Value $dbSchemaDB
 . .\scripts\setupDb.ps1 $deployment.Outputs.databaseConnectionSQL.Value $dbSchemaSQL
 }
