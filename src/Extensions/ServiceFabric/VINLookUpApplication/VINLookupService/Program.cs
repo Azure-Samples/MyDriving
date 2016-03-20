@@ -30,7 +30,7 @@ namespace VINLookupService
                         typeof (VINLookupService).Name);
 
                     Thread.Sleep(Timeout.Infinite);
-                        // Prevents this host process from terminating so services keeps running.
+                    // Prevents this host process from terminating so services keeps running.
                 }
             }
             catch (Exception e)
