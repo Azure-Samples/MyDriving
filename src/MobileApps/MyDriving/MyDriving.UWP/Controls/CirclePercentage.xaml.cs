@@ -4,8 +4,6 @@
 using Windows.Foundation;
 using static System.Math;
 
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace MyDriving.UWP.Controls
 {
     public sealed partial class CirclePercentage

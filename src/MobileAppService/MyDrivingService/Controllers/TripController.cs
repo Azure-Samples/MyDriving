@@ -15,13 +15,13 @@ namespace MyDrivingService.Controllers
 {
     public class TripController : TableController<Trip>
     {
-        private MyDrivingContext _dbContext;
+        private MyDrivingContext dbContext;
 
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
-            _dbContext = new MyDrivingContext();
-            DomainManager = new EntityDomainManager<Trip>(_dbContext, Request);
+            dbContext = new MyDrivingContext();
+            DomainManager = new EntityDomainManager<Trip>(dbContext, Request);
         }
 
         // GET tables/Trip
@@ -60,10 +60,10 @@ namespace MyDrivingService.Controllers
 
             Trip current = await InsertAsync(trip);
 
-            if (_dbContext == null)
-                _dbContext = new MyDrivingContext();
+            if (dbContext == null)
+                dbContext = new MyDrivingContext();
 
-            var curUser = _dbContext.UserProfiles.FirstOrDefault(u => u.UserId == id);
+            var curUser = dbContext.UserProfiles.FirstOrDefault(u => u.UserId == id);
 
             //update user with stats
             if (curUser != null)
@@ -80,7 +80,7 @@ namespace MyDrivingService.Controllers
                 curUser.TotalTrips++;
                 curUser.TotalTime += (long) (current.EndTimeStamp - current.RecordedTimeStamp).TotalSeconds;
 
-                _dbContext.SaveChanges();
+                dbContext.SaveChanges();
             }
 
 

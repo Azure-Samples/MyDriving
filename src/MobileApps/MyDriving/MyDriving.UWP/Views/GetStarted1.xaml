@@ -6,12 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:MyDriving.UWP.Controls"
     mc:Ignorable="d">
-
     <Grid >
         <Grid.Background>
             <ImageBrush Stretch="Fill" ImageSource="{StaticResource Background}" />
         </Grid.Background>
-
         <Image x:Name="Getstarted1" Source="{StaticResource GetStarted1}" />
         <Grid Height="60" VerticalAlignment="Bottom">
             <controls:DotsControl x:Name="Dots"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
