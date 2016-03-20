@@ -9,9 +9,9 @@ namespace VINParser
 {
     public class VMIProvider
     {
-        private readonly Dictionary<string, string> _mMakeLookup;
-        private readonly Dictionary<string, MakeMap> _mMakeMaps = new Dictionary<string, MakeMap>();
-        private readonly Dictionary<string, CarInfo> _mWmiLookup;
+        private readonly Dictionary<string, string> mMakeLookup;
+        private readonly Dictionary<string, MakeMap> mMakeMaps = new Dictionary<string, MakeMap>();
+        private readonly Dictionary<string, CarInfo> mWmiLookup;
 
         public VMIProvider()
         {
@@ -19,17 +19,17 @@ namespace VINParser
 
         public VMIProvider(string vmiJson)
         {
-            _mWmiLookup = DeserializeJsonFile<Dictionary<string, CarInfo>>(vmiJson);
+            mWmiLookup = DeserializeJsonFile<Dictionary<string, CarInfo>>(vmiJson);
 
             FileInfo info = new FileInfo(vmiJson);
             var manufactureFile = Path.Combine(info.Directory.FullName, "manufactures.json");
             if (File.Exists(manufactureFile))
             {
-                _mMakeLookup = DeserializeJsonFile<Dictionary<string, string>>(manufactureFile);
-                foreach (string key in _mMakeLookup.Keys)
+                mMakeLookup = DeserializeJsonFile<Dictionary<string, string>>(manufactureFile);
+                foreach (string key in mMakeLookup.Keys)
                 {
-                    _mMakeMaps.Add(key,
-                        DeserializeJsonFile<MakeMap>(Path.Combine(info.Directory.FullName, _mMakeLookup[key])));
+                    mMakeMaps.Add(key,
+                        DeserializeJsonFile<MakeMap>(Path.Combine(info.Directory.FullName, mMakeLookup[key])));
                 }
             }
         }
@@ -49,16 +49,16 @@ namespace VINParser
         public CarInfo GetCarInfo(string vin)
         {
             CarInfo ret = null;
-            if (_mWmiLookup != null)
+            if (mWmiLookup != null)
             {
                 string key = vin.Substring(0, 3);
-                if (_mWmiLookup.ContainsKey(key))
-                    ret = _mWmiLookup[key];
+                if (mWmiLookup.ContainsKey(key))
+                    ret = mWmiLookup[key];
                 else
                 {
                     key = vin.Substring(0, 2);
-                    if (_mWmiLookup.ContainsKey(key))
-                        ret = _mWmiLookup[key];
+                    if (mWmiLookup.ContainsKey(key))
+                        ret = mWmiLookup[key];
                 }
             }
             if (ret == null)
@@ -71,13 +71,13 @@ namespace VINParser
                 };
             }
 
-            if (_mMakeLookup != null)
+            if (mMakeLookup != null)
             {
                 MakeMap map = null;
-                if (_mMakeMaps.ContainsKey(vin.Substring(0, 3)))
-                    map = _mMakeMaps[vin.Substring(0, 3)];
-                else if (_mMakeLookup.ContainsKey(vin.Substring(0, 2)))
-                    map = _mMakeMaps[vin.Substring(0, 2)];
+                if (mMakeMaps.ContainsKey(vin.Substring(0, 3)))
+                    map = mMakeMaps[vin.Substring(0, 3)];
+                else if (mMakeLookup.ContainsKey(vin.Substring(0, 2)))
+                    map = mMakeMaps[vin.Substring(0, 2)];
                 if (map != null)
                 {
                     ExpandCarInfo(ret, map, vin);
