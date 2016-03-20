@@ -188,7 +188,7 @@ namespace MyDriving.UWP.Views
             {
                 Location = new Geopoint(new BasicGeoposition { Latitude = poi.Latitude, Longitude = poi.Longitude }),
                 NormalizedAnchorPoint = new Point(0.5, 0.5),
-                Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_tip.png")),
+                Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/POI.png")),
                 ZIndex = 1,
                 CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
             };
@@ -197,7 +197,7 @@ namespace MyDriving.UWP.Views
 
         private void DrawCarOnMap(BasicGeoposition basicGeoposition)
         {
-            MapIcon _carIcon = null;
+            MapIcon carIcon = null;
             // Find if there is a MapIcon with title Car
             if (MyMap.MapElements != null)
             {
@@ -205,14 +205,14 @@ namespace MyDriving.UWP.Views
                 foreach (var item in mapIcons)
                 {
                     if (item.Title == "Car")
-                        _carIcon = item;
+                        carIcon = item;
                 }
             }
             
-            if (_carIcon == null)
+            if (carIcon == null)
             {
                 // Car Icon not found creating it at the position and adding to maps
-                _carIcon = new MapIcon
+                carIcon = new MapIcon
             {
                 Location = new Geopoint(basicGeoposition),
                 NormalizedAnchorPoint = new Point(0.5, 0.5),
@@ -221,13 +221,13 @@ namespace MyDriving.UWP.Views
                     CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible,
                     Title = "Car"
             };
-                MyMap.MapElements.Add(_carIcon);
+                MyMap.MapElements.Add(carIcon);
             }
             else
             {
-                _carIcon.Location = new Geopoint(basicGeoposition);
+                carIcon.Location = new Geopoint(basicGeoposition);
             }
-            MyMap.Center = _carIcon.Location;
+            MyMap.Center = carIcon.Location;
         }
 
         private async void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
