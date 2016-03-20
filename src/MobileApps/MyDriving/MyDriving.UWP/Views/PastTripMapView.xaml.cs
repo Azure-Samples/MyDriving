@@ -73,7 +73,7 @@ namespace MyDriving.UWP.Views
 
             // Enable the back button navigation
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-            systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
+            systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested; 
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -158,7 +158,7 @@ namespace MyDriving.UWP.Views
                 {
                     Location = new Geopoint(Locations.First()),
                     NormalizedAnchorPoint = new Point(0.5, 0.5),
-                    Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_start_point.png")),
+                    Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/A100.png")),
                     ZIndex = 1,
                     CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
                 };
@@ -170,7 +170,7 @@ namespace MyDriving.UWP.Views
                 {
                     Location = new Geopoint(Locations.Last()),
                     NormalizedAnchorPoint = new Point(0.5, 0.5),
-                    Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png")),
+                    Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/B100.png")),
                     ZIndex = 1,
                     CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
                 };
@@ -188,8 +188,8 @@ namespace MyDriving.UWP.Views
             {
                 Location = new Geopoint(new BasicGeoposition { Latitude = poi.Latitude, Longitude = poi.Longitude }),
                 NormalizedAnchorPoint = new Point(0.5, 0.5),
-                Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_tip.png")),
-                ZIndex = 1,
+                Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/POI.png")),
+                ZIndex = 2,
                 CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
             };
             MyMap.MapElements.Add(poiIcon);
@@ -197,18 +197,37 @@ namespace MyDriving.UWP.Views
 
         private void DrawCarOnMap(BasicGeoposition basicGeoposition)
         {
-            MapIcon mapCarIcon = new MapIcon
+            MapIcon carIcon = null;
+            // Find if there is a MapIcon with title Car
+            if (MyMap.MapElements != null)
+            {
+                var mapIcons = MyMap.MapElements.OfType<MapIcon>().ToList();
+                foreach (var item in mapIcons)
+                {
+                    if (item.Title == "Car")
+                        carIcon = item;
+                }
+            }
+            
+            if (carIcon == null)
+            {
+                // Car Icon not found creating it at the position and adding to maps
+                carIcon = new MapIcon
             {
                 Location = new Geopoint(basicGeoposition),
                 NormalizedAnchorPoint = new Point(0.5, 0.5),
-                Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_car_blue.png")),
+                    Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/BlueCar.png")),
                 ZIndex = 2,
-                CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
+                    CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible,
+                    Title = "Car"
             };
-
-
-            MyMap.MapElements.Add(mapCarIcon);
-            MyMap.Center = mapCarIcon.Location;
+                MyMap.MapElements.Add(carIcon);
+            }
+            else
+            {
+                carIcon.Location = new Geopoint(basicGeoposition);
+            }
+            MyMap.Center = carIcon.Location;
         }
 
         private async void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
@@ -216,8 +235,6 @@ namespace MyDriving.UWP.Views
             viewModel.CurrentPosition = TripPoints[(int) e.NewValue];
 
             var basicGeoposition = Locations[(int) e.NewValue];
-            // Currently removing the Car from Map which is the last item added. 
-            MyMap.MapElements.RemoveAt(MyMap.MapElements.Count - 1);
             DrawCarOnMap(basicGeoposition);
             await MyMap.TrySetViewAsync(new Geopoint(basicGeoposition));
             UpdateStats();
