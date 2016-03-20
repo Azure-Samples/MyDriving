@@ -14,7 +14,7 @@ namespace IoTHubPartitionMap
 {
     internal class IoTHubPartitionMap : StatefulActor<IoTHubPartitionMap.ActorState>, IIoTHubPartitionMap
     {
-        IActorTimer _mTimer;
+        IActorTimer mTimer;
 
         Task<string> IIoTHubPartitionMap.LeaseTHubPartitionAsync()
         {
@@ -52,7 +52,7 @@ namespace IoTHubPartitionMap
                     PartitionLeases = new Dictionary<string, DateTime>()
                 };
                 ResetPartitionNames();
-                _mTimer = RegisterTimer(CheckLease, null, TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(30));
+                mTimer = RegisterTimer(CheckLease, null, TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(30));
             }
             return Task.FromResult(true);
         }
@@ -71,8 +71,8 @@ namespace IoTHubPartitionMap
 
         protected override Task OnDeactivateAsync()
         {
-            if (_mTimer != null)
-                UnregisterTimer(_mTimer);
+            if (mTimer != null)
+                UnregisterTimer(mTimer);
             return base.OnDeactivateAsync();
         }
 
