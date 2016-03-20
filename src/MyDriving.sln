@@ -74,6 +74,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObdShare", "OBDLibrary\ObdS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObdLibiOS", "OBDLibrary\ObdLibiOS\ObdLibiOS.csproj", "{8B136D60-8E68-4871-BF25-52E27C61E8E9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PowerBI", "PowerBI", "{366D992C-6ADD-455F-BB60-D1462D52657D}"
+	ProjectSection(SolutionItems) = preProject
+		PowerBI\CarDash.pbix = PowerBI\CarDash.pbix
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLDatabase", "SQLDatabase", "{AB2E403C-81FF-48FE-931A-9C320E6336A9}"
+	ProjectSection(SolutionItems) = preProject
+		SQLDatabase\add_fakedata_sql.txt = SQLDatabase\add_fakedata_sql.txt
+		SQLDatabase\sql_createtables.txt = SQLDatabase\sql_createtables.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Streaming Analytics", "Streaming Analytics", "{F0AB80BF-B291-425F-9B7E-D10AEEED83CF}"
+	ProjectSection(SolutionItems) = preProject
+		StreamAnalytics\asa_blobsink_query.txt = StreamAnalytics\asa_blobsink_query.txt
+		StreamAnalytics\asa_ehsink_query.txt = StreamAnalytics\asa_ehsink_query.txt
+		StreamAnalytics\asa_hourlypbi_query.txt = StreamAnalytics\asa_hourlypbi_query.txt
+		StreamAnalytics\asa_sqlsink_powerbisink_query.txt = StreamAnalytics\asa_sqlsink_powerbisink_query.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MobileApps\MyDriving\MyDriving.DataObjects\MyDriving.DataObjects.projitems*{bd4403c0-6cd5-4030-b1a3-7ad98b9b80ca}*SharedItemsImports = 13
