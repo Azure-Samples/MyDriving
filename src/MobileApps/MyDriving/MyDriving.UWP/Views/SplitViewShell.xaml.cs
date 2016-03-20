@@ -1,44 +1,53 @@
-﻿using MyDriving.UWP.Controls;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using System;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-
+using MyDriving.UWP.Controls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace MyDriving.UWP.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SplitViewShell : Page
+    public sealed partial class SplitViewShell
     {
-        Color selectedTextColor = Color.FromArgb(0xFF, 0x1b, 0xa0, 0xe1);
-        SplitViewButtonContent selectedControl = null;
+        SplitViewButtonContent selectedControl;
+
         public SplitViewShell(Frame frame)
         {
-            this.InitializeComponent();
-            this.MyDrivingSplitView.Content = frame;
+            InitializeComponent();
+            MyDrivingSplitView.Content = frame;
             frame.Navigated += Frame_Navigated;
 
-            this.Current.labelText = "Current";
-            this.Current.defaultImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_current.png", UriKind.Absolute));
-            this.Current.selectedImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_current.png", UriKind.Absolute));
+            Current.LabelText = "Current";
+            Current.DefaultImageSource =
+                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_current.png", UriKind.Absolute));
+            Current.SelectedImageSource =
+                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_current.png", UriKind.Absolute));
 
-            this.PastTrips.labelText = "Past";
-            this.PastTrips.defaultImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_pastTrips.png", UriKind.Absolute));
-            this.PastTrips.selectedImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_pastTrips.png", UriKind.Absolute));
+            PastTrips.LabelText = "Past";
+            PastTrips.DefaultImageSource =
+                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_pastTrips.png", UriKind.Absolute));
+            PastTrips.SelectedImageSource =
+                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_pastTrips.png", UriKind.Absolute));
 
-            this.Profile.labelText = "Profile";
-            this.Profile.defaultImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_profile.png", UriKind.Absolute));
-            this.Profile.selectedImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_profile.png", UriKind.Absolute));
+            Profile.LabelText = "Profile";
+            Profile.DefaultImageSource =
+                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_profile.png", UriKind.Absolute));
+            Profile.SelectedImageSource =
+                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_profile.png", UriKind.Absolute));
 
-            this.Settings.labelText = "Settings";
-            this.Settings.defaultImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_settings.png", UriKind.Absolute));
-            this.Settings.selectedImageSource = new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_settings.png", UriKind.Absolute));
+            Settings.LabelText = "Settings";
+            Settings.DefaultImageSource =
+                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_settings.png", UriKind.Absolute));
+            Settings.SelectedImageSource =
+                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_settings.png", UriKind.Absolute));
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
@@ -51,50 +60,42 @@ namespace MyDriving.UWP.Views
         {
             SelectControl(PastTrips);
             MyDrivingSplitView.IsPaneOpen = false;
-            ((Frame)this.MyDrivingSplitView.Content).Navigate(typeof(PastTripsMenuView));
+            PageTitle.Text = "PAST TRIPS";
+            ((Frame) MyDrivingSplitView.Content).Navigate(typeof (PastTripsMenuView));
         }
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
             SelectControl(Profile);
             MyDrivingSplitView.IsPaneOpen = false;
-            ((Frame)this.MyDrivingSplitView.Content).Navigate(typeof(ProfileView));
+            PageTitle.Text = "PROFILE";
+            ((Frame) MyDrivingSplitView.Content).Navigate(typeof (ProfileView));
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             SelectControl(Settings);
             MyDrivingSplitView.IsPaneOpen = false;
-            ((Frame)this.MyDrivingSplitView.Content).Navigate(typeof(SettingsView));
+            PageTitle.Text = "SETTINGS";
+            ((Frame) MyDrivingSplitView.Content).Navigate(typeof (SettingsView));
         }
 
         private void NewTripButton_Click(object sender, RoutedEventArgs e)
         {
             SelectControl(Current);
             MyDrivingSplitView.IsPaneOpen = false;
-            ((Frame)this.MyDrivingSplitView.Content).Navigate(typeof(CurrentTripView));
+            PageTitle.Text = "CURRENT TRIP";
+            ((Frame) MyDrivingSplitView.Content).Navigate(typeof (CurrentTripView));
         }
 
-        private void TripSummaryButton_Click(object sender, RoutedEventArgs e)
-        {
-            MyDrivingSplitView.IsPaneOpen = false;
-
-            //test code to load a trip
-            //if (App.currentTrip == null)
-            //{
-            //    var trips = MyDriving.DataStore.Mock.Stores.TripStore.GetTrips();
-            //    App.currentTrip = trips[4];
-            //}
-            //((Frame)this.MyDrivingSplitView.Content).Navigate(typeof(TripSummaryView));
-        }
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
             MyDrivingSplitView.IsPaneOpen = false;
 
-            var frame = this.MyDrivingSplitView.Content as Frame;
+            var frame = MyDrivingSplitView.Content as Frame;
 
-            var name = ((Page)frame.Content).Name;
+            var name = ((Page) frame.Content).Name;
             if (string.Compare(name, "Login", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 SetVisible(false);
@@ -102,23 +103,21 @@ namespace MyDriving.UWP.Views
             else
             {
                 SetVisible(true);
-                PageTitle.Text = name;
-            }        
+                if (string.IsNullOrWhiteSpace(PageTitle.Text))
+                    PageTitle.Text = name;
+            }
         }
 
         private void SelectControl(SplitViewButtonContent control)
         {
-            if (selectedControl != null)
-            {
-                selectedControl.SetSelected(false);
-            }
+            selectedControl?.SetSelected(false);
             control.SetSelected(true);
             selectedControl = control;
         }
 
         public void SetVisible(bool visible)
         {
-            if(visible)
+            if (visible)
             {
                 HamburgerGrid.Visibility = Visibility.Visible;
                 SplitViewPanel.Visibility = Visibility.Visible;
@@ -141,7 +140,6 @@ namespace MyDriving.UWP.Views
                 SettingsButton.IsEnabled = false;
                 PageTitle.Text = "";
             }
-            
         }
     }
 }

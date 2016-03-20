@@ -1,20 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyDriving.Services
 {
     public class CustomContractResolver : DefaultContractResolver
     {
-        private Dictionary<string, string> PropertyMappings { get; set; }
-
-        private List<string> IgnoreProperties { get; set; }
-
         public CustomContractResolver()
         {
             PropertyMappings = new Dictionary<string, string>
@@ -30,24 +25,27 @@ namespace MyDriving.Services
                 ["HasSimulatedOBDData"] = "IsSimulated",
             };
 
-            this.IgnoreProperties = new List<string>();
-            this.IgnoreProperties.Add("HasOBDData");
+            IgnoreProperties = new List<string> {"HasOBDData"};
         }
+
+        private Dictionary<string, string> PropertyMappings { get; }
+
+        private List<string> IgnoreProperties { get; }
 
         protected override string ResolvePropertyName(string propertyName)
         {
-            string resolvedName = null;
-            var resolved = this.PropertyMappings.TryGetValue(propertyName, out resolvedName);
-            return (resolved) ? resolvedName : base.ResolvePropertyName(propertyName);
+            string resolvedName;
+            var resolved = PropertyMappings.TryGetValue(propertyName, out resolvedName);
+            return resolved ? resolvedName : base.ResolvePropertyName(propertyName);
         }
 
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             JsonProperty property = base.CreateProperty(member, memberSerialization);
 
-            if (this.IgnoreProperties.Contains(property.PropertyName))
+            if (IgnoreProperties.Contains(property.PropertyName))
             {
-                property.ShouldSerialize = p => { return false; };
+                property.ShouldSerialize = p => false;
             }
 
             return property;

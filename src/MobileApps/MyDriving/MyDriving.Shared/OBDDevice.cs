@@ -1,39 +1,43 @@
-﻿using MyDriving.Interfaces;
-#if WINDOWS_UWP
-using ObdLibUWP;
-#elif __ANDROID__
-using ObdLibAndroid;
-#elif __IOS__
-using ObdLibiOS;
-#endif
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using MyDriving.Interfaces;
+#if WINDOWS_UWP
+using ObdLibUWP;
+
+#elif __ANDROID__
+using ObdLibAndroid;
+
+#elif __IOS__
+using ObdLibiOS;
+
+#endif
 
 namespace MyDriving.Shared
 {
     public class OBDDevice : IOBDDevice
     {
-        ObdWrapper obdWrapper = new ObdWrapper();
+        readonly ObdWrapper obdWrapper = new ObdWrapper();
+
+        public bool IsSimulated { get; private set; }
 
         public async Task Disconnect()
         {
-            await this.obdWrapper.Disconnect();
+            await obdWrapper.Disconnect();
         }
 
         public async Task<bool> Initialize(bool simulatorMode = false)
         {
-            this.IsSimulated = simulatorMode;
-            return await this.obdWrapper.Init(simulatorMode);
+            IsSimulated = simulatorMode;
+            return await obdWrapper.Init(simulatorMode);
         }
 
         public Dictionary<String, String> ReadData()
         {
-            return this.obdWrapper.Read();
+            return obdWrapper.Read();
         }
-
-        public bool IsSimulated { get; private set; }
     }
 }

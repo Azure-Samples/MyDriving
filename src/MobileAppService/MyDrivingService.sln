@@ -10,6 +10,7 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\MobileApps\MyDriving\MyDriving.DataObjects\MyDriving.DataObjects.projitems*{bd4403c0-6cd5-4030-b1a3-7ad98b9b80ca}*SharedItemsImports = 13
+		..\MobileApps\MyDriving\MyDriving.DataObjects\MyDriving.DataObjects.projitems*{209fa716-a7ad-4095-bd70-c8710fc66fa7}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

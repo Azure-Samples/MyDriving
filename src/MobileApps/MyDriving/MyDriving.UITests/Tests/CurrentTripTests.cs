@@ -1,26 +1,30 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Xamarin.UITest;
 using NUnit.Framework;
 
 namespace MyDriving.UITests
 {
-    [TestFixture(Platform.Android)]
 	public class CurrentTripTests : AbstractSetup
 	{
 		public CurrentTripTests (Platform platform) : base (platform)
 		{
 		}
 
-		[Test]
-		public void RecordTripTest ()
-		{
+        [Test]
+        public void RecordTripTest()
+        {
             new CurrentTripPage()
-                .NavigateToCurrentTripPage()
+                .NavigateTo("Current Trip");
+
+            new CurrentTripPage()
                 .StartRecordingTrip()
-                .StopRecordingTrip();
-				//.DismissTripSummary ()
-                //.EnterTripName();
+                .StopRecordingTrip()
+                .SaveTrip("Test Cloud Test Drive");
+
+            new TripSummaryPage()
+                .AssertOnPage();
 		}
 	}
 }
-

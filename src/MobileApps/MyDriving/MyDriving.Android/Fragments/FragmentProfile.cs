@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Views;
@@ -11,16 +14,27 @@ namespace MyDriving.Droid.Fragments
 {
     public class FragmentProfile : Fragment
     {
-
-        RatingCircle ratingCircle;
         CircleImageView circleImage;
-        bool refresh = true;
-        public static FragmentProfile NewInstance() => new FragmentProfile { Arguments = new Bundle() };
-        ProfileViewModel viewModel;
+
+        TextView distance,
+            maxSpeed,
+            time,
+            stops,
+            accelerations,
+            trips,
+            fuelUsed,
+            distanceUnits,
+            profileRating,
+            profileGreat,
+            profileBetter;
 
         LinearLayout profileAll;
 
-        TextView distance, maxSpeed, time, stops, accelerations, trips, fuelUsed, distanceUnits, profileRating, profileGreat, profileBetter;
+        RatingCircle ratingCircle;
+        bool refresh = true;
+        ProfileViewModel viewModel;
+        public static FragmentProfile NewInstance() => new FragmentProfile {Arguments = new Bundle()};
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             base.OnCreateView(inflater, container, savedInstanceState);
@@ -29,7 +43,6 @@ namespace MyDriving.Droid.Fragments
             ratingCircle = view.FindViewById<RatingCircle>(Resource.Id.rating_circle);
             circleImage = view.FindViewById<CircleImageView>(Resource.Id.profile_image);
 
-           
 
             viewModel = new ProfileViewModel();
             Square.Picasso.Picasso.With(Activity).Load(Settings.Current.UserProfileUrl).Into(circleImage);
@@ -58,7 +71,7 @@ namespace MyDriving.Droid.Fragments
             if (refresh)
             {
                 refresh = false;
-                viewModel.UpdateProfileAsync().ContinueWith((t)=>UpdateUI());
+                viewModel.UpdateProfileAsync().ContinueWith(t => UpdateUI());
             }
         }
 
@@ -83,6 +96,5 @@ namespace MyDriving.Droid.Fragments
                 profileAll.Visibility = ViewStates.Visible;
             });
         }
-
     }
 }

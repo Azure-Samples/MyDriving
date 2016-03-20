@@ -1,4 +1,7 @@
-﻿using Microsoft.WindowsAzure.MobileServices;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 using MyDriving.Utils;
 using MyDriving.DataObjects;
@@ -11,10 +14,10 @@ namespace MyDriving.Helpers
         public static async Task<UserProfile> GetUserProfileAsync(IMobileServiceClient client)
         {
             var userprof =
-            await client.InvokeApiAsync<UserProfile>(
-                "UserInfo",
-                System.Net.Http.HttpMethod.Get,
-                null);
+                await client.InvokeApiAsync<UserProfile>(
+                    "UserInfo",
+                    System.Net.Http.HttpMethod.Get,
+                    null);
 
             Settings.Current.UserFirstName = userprof?.FirstName ?? string.Empty;
             Settings.Current.UserLastName = userprof?.LastName ?? string.Empty;

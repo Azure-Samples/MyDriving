@@ -1,33 +1,33 @@
-﻿using MyDriving.Interfaces;
-using MyDriving.Shared;
-using MyDriving.Utils;
-using MyDriving.UWP.Helpers;
-using MyDriving.UWP.Views;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MyDriving.Interfaces;
+using MyDriving.Shared;
+using MyDriving.Utils;
+using MyDriving.UWP.Helpers;
+using MyDriving.UWP.Views;
 
 namespace MyDriving.UWP
 {
     /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
+    ///     Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : Application
+    sealed partial class App
     {
         /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
+        ///     Initializes the singleton application object.  This is the first line of authored code
+        ///     executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
-
-
-
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
 
             ViewModel.ViewModelBase.Init();
 
@@ -36,17 +36,16 @@ namespace MyDriving.UWP
         }
 
         /// <summary>
-        /// Invoked when the application is launched normally by the end user.  Other entry points
-        /// will be used such as when the application is launched to open a specific file.
+        ///     Invoked when the application is launched normally by the end user.  Other entry points
+        ///     will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
 
@@ -62,7 +61,7 @@ namespace MyDriving.UWP
                 //Register platform specific implementations of shared interfaces
                 ServiceLocator.Instance.Add<IAuthentication, Authentication>();
                 ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
-                ServiceLocator.Instance.Add<MyDriving.Utils.Interfaces.ILogger, MyDriving.Shared.PlatformLogger>();
+                ServiceLocator.Instance.Add<Utils.Interfaces.ILogger, PlatformLogger>();
                 ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
                 //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
@@ -89,12 +88,12 @@ namespace MyDriving.UWP
 
                 if (Settings.Current.FirstRun)
                 {
-                    rootFrame.Navigate(typeof(GetStarted1), e.Arguments);
+                    rootFrame.Navigate(typeof (GetStarted1), e.Arguments);
                 }
                 else
                 {
                     Window.Current.Content = new SplitViewShell(rootFrame);
-                    rootFrame.Navigate(typeof(LoginView), e.Arguments);
+                    rootFrame.Navigate(typeof (LoginView), e.Arguments);
                 }
             }
             // Ensure the current window is active
@@ -102,7 +101,7 @@ namespace MyDriving.UWP
         }
 
         /// <summary>
-        /// Invoked when Navigation to a certain page fails
+        ///     Invoked when Navigation to a certain page fails
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
@@ -112,9 +111,9 @@ namespace MyDriving.UWP
         }
 
         /// <summary>
-        /// Invoked when application execution is being suspended.  Application state is saved
-        /// without knowing whether the application will be terminated or resumed with the contents
-        /// of memory still intact.
+        ///     Invoked when application execution is being suspended.  Application state is saved
+        ///     without knowing whether the application will be terminated or resumed with the contents
+        ///     of memory still intact.
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
@@ -124,6 +123,5 @@ namespace MyDriving.UWP
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
-
     }
 }

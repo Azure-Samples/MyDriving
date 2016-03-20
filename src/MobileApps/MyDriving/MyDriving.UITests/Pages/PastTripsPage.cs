@@ -1,75 +1,72 @@
-﻿using System;
-using Xamarin.UITest;
-using NUnit.Framework;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
+using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
 
 namespace MyDriving.UITests
 {
     public class PastTripsPage : BasePage
     {
-        string SliderId;
-        string PageId;
+        readonly Query RefreshView;
+        readonly Func<string, Query> PastTripCell;
+
         public PastTripsPage()
+            : base (x => x.Marked("Past Trips"), x => x.Class("UINavigationItemView").Marked("Past Trips"))
         {
             if (OniOS)
             {
-                SliderId = "UISlider";
-                PageId = "Trips";
+                RefreshView = x => x.Class("UITableView");
+                PastTripCell = (arg) => x => x.Marked(arg).Parent().Class("TripTableViewCellWithImage");
             }
-            else
+            if (OnAndroid)
             {
-                SliderId = "SeekBar";
-                PageId = "Past Trips";
+                RefreshView = x => x.Id("content_frame");
             }
-
-			
-		}
-
-		public PastTripsPage NavigateToPastTripsPage ()
-		{
-            NavigateTo(PageId);
-
-			return this;
 		}
 
 		public PastTripsPage PullToRefresh ()
 		{
-			var coords = app.Query("TableView")[0].Rect;
-			app.DragCoordinates(coords.CenterX, 0, coords.CenterX, coords.Y);
+            App.WaitForElement(RefreshView);
+            var coords = App.Query(RefreshView)[0].Rect;
+            if (OniOS)
+    			App.DragCoordinates(coords.CenterX, coords.Y + 75, coords.CenterX, coords.CenterY);
+            if (OnAndroid)
+                App.DragCoordinates(coords.CenterX, coords.Y, coords.CenterX, coords.CenterY);
+            
+            App.Screenshot("Pulled view to refresh");
 
-			return this;
-		}
+            return this;
+        }
 
-		public PastTripsPage NavigateToPastTripsDetail ()
+        public void NavigateToPastTripsDetail (string title)
 		{
-			app.Tap(x => x.Marked("James@ToVivace"));
-			app.Screenshot ("Past Trips Detail");
-
-			return this;
-		}
-
-		public PastTripsPage MoveTripSlider ()
-		{
-			app.SetSliderValue (c => c.Class (SliderId), 25);
-			app.Screenshot ("Trip Slider at 25%");
-
-			app.SetSliderValue (c => c.Class (SliderId), 75);
-			app.Screenshot ("Trip Slider at 75%");
-
-			return this;
-		}
-
-		public PastTripsPage ClickTripSliderEndpoints ()
-		{
+            if (OnAndroid)
+            {
+                App.ScrollDownTo(title);
+                App.Screenshot("Selecting past trip: " + title);
+                App.Tap(title);
+            }
             if (OniOS)
             {
-                app.Tap(x => x.Text("A"));
-                app.Screenshot("Tapped A Endpoint");
+                App.ScrollDownTo(PastTripCell(title));
+                App.Screenshot("Selecting past trip: " + title);
+                App.Tap(PastTripCell(title));
+            }
+		}
 
-                app.Tap(x => x.Text("B"));
-                app.Screenshot ("Tapped B Endpoint");
+        public PastTripsPage ClickTripSliderEndpoints()
+        {
+            if (OniOS)
+            {
+                App.Tap(x => x.Text("A"));
+                App.Screenshot("Tapped A Endpoint");
+
+                App.Tap(x => x.Text("B"));
+                App.Screenshot("Tapped B Endpoint");
             }
 
-			return this;
-		}
-	}
+            return this;
+        }
+    }
 }

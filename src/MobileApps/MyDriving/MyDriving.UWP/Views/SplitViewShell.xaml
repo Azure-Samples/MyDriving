@@ -2,13 +2,15 @@
     x:Class="MyDriving.UWP.Views.SplitViewShell"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MyDriving.UWP"
-      xmlns:controls="using:MyDriving.UWP.Controls"
+    xmlns:controls="using:MyDriving.UWP.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="MainGrid" Background="{StaticResource MainBackgroundColor}">
+    <Grid x:Name="MainGrid" >
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="{StaticResource Background}" />
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition />
@@ -17,11 +19,11 @@
             <ColumnDefinition Width="35"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid Background="Black" x:Name="HamburgerGrid">
-            <Button x:Name="HamburgerButton" Width="40" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Background="Transparent" Click="HamburgerButton_Click" VerticalAlignment="Center" Foreground="#adacac"/>
+        <Grid Background="#0087d2" x:Name="HamburgerGrid">
+            <Button x:Name="HamburgerButton" Width="40" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Background="Transparent" Click="HamburgerButton_Click" VerticalAlignment="Center" Foreground="White"/>
         </Grid>
-        <Grid Grid.Column="1" Background="#161b1f"  x:Name="TitleGrid">
-            <TextBlock x:Name="PageTitle" Margin="10,0,0,0" Foreground="#adacac" 
+        <Grid Grid.Column="1" Background="#0087d2"  x:Name="TitleGrid">
+            <TextBlock x:Name="PageTitle" Margin="10,0,0,0" Foreground="White" 
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"/>
         </Grid>

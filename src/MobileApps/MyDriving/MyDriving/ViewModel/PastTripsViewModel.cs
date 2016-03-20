@@ -1,26 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
 using MyDriving.DataObjects;
 using MyDriving.Helpers;
 using MyDriving.Utils;
-
 using Acr.UserDialogs;
 using MvvmHelpers;
-using Plugin.DeviceInfo;
 
 namespace MyDriving.ViewModel
 {
     public class PastTripsViewModel : ViewModelBase
     {
+        ICommand loadMorePastTripsCommand;
+
+        ICommand loadPastTripsCommand;
         public ObservableRangeCollection<Trip> Trips { get; } = new ObservableRangeCollection<Trip>();
 
-        ICommand  loadPastTripsCommand;
+        public ICommand LoadPastTripsCommand =>
+            loadPastTripsCommand ??
+            (loadPastTripsCommand = new RelayCommand(async () => await ExecuteLoadPastTripsCommandAsync()));
+
+        public ICommand LoadMorePastTripCommand =>
+            loadMorePastTripsCommand ??
+            (loadMorePastTripsCommand = new RelayCommand(async () => await ExecuteLoadMorePastTripsCommandAsync()));
 
         public async Task<bool> ExecuteDeleteTripCommand(Trip trip)
         {
@@ -31,7 +36,10 @@ namespace MyDriving.ViewModel
 
             try
             {
-                var result = await UserDialogs.Instance.ConfirmAsync($"Are you sure you want to delete trip: {trip.Name}?", "Delete trip?", "Delete", "Cancel");
+                var result =
+                    await
+                        UserDialogs.Instance.ConfirmAsync($"Are you sure you want to delete trip: {trip.Name}?",
+                            "Delete trip?", "Delete", "Cancel");
 
                 if (!result)
                     return false;
@@ -52,26 +60,21 @@ namespace MyDriving.ViewModel
                 progress?.Dispose();
             }
 
-           
+
             return true;
         }
 
-        public ICommand LoadPastTripsCommand =>
-        loadPastTripsCommand ?? (loadPastTripsCommand = new RelayCommand(async () => await ExecuteLoadPastTripsCommandAsync())); 
-
         public async Task ExecuteLoadPastTripsCommandAsync()
         {
-            if(IsBusy)
+            if (IsBusy)
                 return;
 
             var track = Logger.Instance.TrackTime("LoadTrips");
-            track.Start();
+            track?.Start();
 
-			IProgressDialog progressDialog = null;
-			
-			progressDialog = UserDialogs.Instance.Loading("Loading trips...", maskType: MaskType.Clear);			   
+            var progressDialog = UserDialogs.Instance.Loading("Loading trips...", maskType: MaskType.Clear);
 
-            try 
+            try
             {
                 IsBusy = true;
                 CanLoadMore = true;
@@ -81,29 +84,25 @@ namespace MyDriving.ViewModel
 
                 CanLoadMore = Trips.Count == 25;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
-            } 
-            finally 
+            }
+            finally
             {
-                track.Stop();
+                track?.Stop();
                 IsBusy = false;
 
-				progressDialog?.Dispose();
+                progressDialog?.Dispose();
             }
 
             if (Trips.Count == 0)
             {
-                UserDialogs.Instance.Alert("Looks like you don't have any trips recorded yet, feel free to start one up.",
-                   "No Past Trips", "OK");
+                UserDialogs.Instance.Alert(
+                    "Looks like you don't have any trips recorded yet, feel free to start one up.",
+                    "No Past Trips", "OK");
             }
-
         }
-
-        ICommand  loadMorePastTripsCommand;
-        public ICommand LoadMorePastTripCommand =>
-        loadMorePastTripsCommand ?? (loadMorePastTripsCommand = new RelayCommand(async () => await ExecuteLoadMorePastTripsCommandAsync()));
 
         public async Task ExecuteLoadMorePastTripsCommandAsync()
         {
@@ -111,9 +110,9 @@ namespace MyDriving.ViewModel
                 return;
 
             var track = Logger.Instance.TrackTime("LoadMoreTrips");
-            track.Start();
+            track?.Start();
             var progress = UserDialogs.Instance.Loading("Loading more trips...", maskType: MaskType.Clear);
-            
+
             try
             {
                 IsBusy = true;
@@ -121,13 +120,13 @@ namespace MyDriving.ViewModel
 
                 Trips.AddRange(await StoreManager.TripStore.GetItemsAsync(Trips.Count, 25, true));
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
-            } 
-            finally 
+            }
+            finally
             {
-                track.Stop();
+                track?.Stop();
                 IsBusy = false;
                 progress?.Dispose();
             }

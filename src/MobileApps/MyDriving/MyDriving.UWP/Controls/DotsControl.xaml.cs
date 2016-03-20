@@ -1,35 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace MyDriving.UWP.Controls
 {
-    public sealed partial class DotsControl : UserControl
+    public sealed partial class DotsControl
     {
-        SolidColorBrush selectedColorBrush = new SolidColorBrush(Colors.White);
-        SolidColorBrush unselectedColorBrush = new SolidColorBrush(Colors.Gray);
+        readonly SolidColorBrush selectedColorBrush = new SolidColorBrush(Colors.White);
+        readonly SolidColorBrush unselectedColorBrush = new SolidColorBrush(Colors.Gray);
+
         public DotsControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         public void SelectCircle(int position)
         {
-            switch(position)
+            switch (position)
             {
                 case 1:
                     Circle5.Fill = unselectedColorBrush;

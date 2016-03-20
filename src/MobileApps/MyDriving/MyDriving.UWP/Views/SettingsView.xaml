@@ -2,7 +2,6 @@
     x:Class="MyDriving.UWP.Views.SettingsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MyDriving.UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -10,13 +9,13 @@
 
     <Grid Background="{StaticResource MainBackgroundColor}">
         <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="15,0,15,0">
-            <StackPanel>
+            <StackPanel Margin="0,16,0,0">
 
-                <TextBlock  Text="Unit Preferences"  Style="{StaticResource SettingsSubLabelStyle}"/>
+                <TextBlock  Text="Unit Preferences"  Style="{StaticResource SettingsLabelStyle}"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -40,30 +39,16 @@
 
                 <Border  Style="{StaticResource SettingsSeparatorLine}" />
 
-                <TextBlock Text="On Board Diagnostic" Style="{StaticResource SettingsSubLabelStyle}"/>
-                <Grid >
-                    <TextBlock  Text="Sample interval" />
-                <TextBlock  Text="2 sec" HorizontalAlignment="Right" />
-                </Grid>
-                <Border  Style="{StaticResource SettingsSeparatorLine}" />
 
-                <TextBlock Name="IotHub" Text="IoT Settings" Style="{StaticResource SettingsSubLabelStyle}"/>
-                <TextBlock  Text="IoT Hub Host Url"  Style="{StaticResource SettingsSubLabelStyle}"/>
-        <!--        <TextBox Name="IoT" Text="{Binding HostName, Mode=TwoWay}"  BorderBrush="Transparent" BorderThickness="0" Background="Transparent" Foreground="#7BA4C5"/>  -->
-                <TextBlock Name="IoT" Text="{Binding HostName, Mode=OneWay}"  Foreground="#7BA4C5" TextWrapping="Wrap" />
-                <TextBlock  Text="Mobile Client Url"   Style="{StaticResource SettingsSubLabelStyle}"/>
-         <!--       <TextBox Name="AzureURL" Text="{Binding MobileClientUrl, Mode=TwoWay}"  BorderBrush="Transparent" BorderThickness="0" Background="Transparent" Foreground="#7BA4C5"/>  -->
-                <TextBlock Name="AzureURL" Text="{Binding MobileClientUrl, Mode=OneWay}"  Foreground="#7BA4C5" TextWrapping="Wrap"  />
+                <TextBlock Text="About" Style="{StaticResource SettingsLabelStyle}"/>
 
-                <Border Style="{StaticResource SettingsSeparatorLine}" />
+                <Button  Content="Copyright 2016 Microsoft" Style="{StaticResource SettingsAboutButtonStyle}" />
+                <Button Name="TermsOfUseButton" Content="Terms of use"  Click="TermsOfUseButton_Click" Style="{StaticResource SettingsAboutButtonStyle}" />
+                <Button Name="PrivacyPolicyButton" Content="Privacy policy"   Click="PrivacyPolicyButton_Click" Style="{StaticResource SettingsAboutButtonStyle}" />
+                <Button Name="OpenSourceNoticeButton" Content="Open Source Notice"   Click="OpenSourceNoticeButton_Click" Style="{StaticResource SettingsAboutButtonStyle}" />
+                <Button Name="OpenSourceGitHubButton" Content="Open Source on GitHub"   Click="OpenSourceGitHubButton_Click" Style="{StaticResource SettingsAboutButtonStyle}" />
+                <Button Name="XamarinButton" Content="Built in C# with Xamarin"  Click="XamarinButton_Click" Style="{StaticResource SettingsAboutButtonStyle}" />
 
-                <TextBlock Text="About" Style="{StaticResource SettingsSubLabelStyle}"/>
-                <Button Name="PrivacyPolicyButton" Content="Privacy policy"   Click="PrivacyPolicyButton_Click" Style="{StaticResource SettingsAboutButtonStyle}" ></Button>
-                <Button Name="TermsOfUseButton" Content="Terms of use"  Click="TermsOfUseButton_Click" Style="{StaticResource SettingsAboutButtonStyle}"></Button>
-                <Button Name="OpenSourceNoticeButton" Content="Open Source Notice"   Click="OpenSourceNoticeButton_Click" Style="{StaticResource SettingsAboutButtonStyle}"></Button>
-                <Button Name="OpenSourceGitHubButton" Content="Open Source on GitHub"   Click="OpenSourceGitHubButton_Click" Style="{StaticResource SettingsAboutButtonStyle}"></Button>
-                <Button Name="XamarinButton" Content="Built in C# with Xamarin"  Click="XamarinButton_Click" Style="{StaticResource SettingsAboutButtonStyle}"></Button>
-                <Button  Content="Copyright 2016 Microsoft" Style="{StaticResource SettingsAboutButtonStyle}" ></Button>
 
             </StackPanel>
         </ScrollViewer>

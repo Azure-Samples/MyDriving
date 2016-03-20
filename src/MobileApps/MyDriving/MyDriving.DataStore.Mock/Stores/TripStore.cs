@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using MyDriving.DataObjects;
 using MyDriving.DataStore.Abstractions;
 using System.Threading.Tasks;
@@ -13,32 +16,88 @@ namespace MyDriving.DataStore.Mock.Stores
 {
     public class TripStore : BaseStore<Trip>, ITripStore
     {
+        static Random _random;
         bool initialized;
-		List<Trip> Trips {get;set;} = new List<Trip> ();
-
-        static Random random;
         IPhotoStore photoStore;
+        List<Trip> Trips { get; set; } = new List<Trip>();
+
+        public override Task InitializeStoreAsync()
+        {
+            if (initialized)
+                return Task.FromResult(true);
+
+            initialized = true;
+
+            Trips = GetTrips();
+            return Task.FromResult(true);
+        }
+
+        public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100,
+            bool forceRefresh = false)
+        {
+            if (!initialized)
+                await InitializeStoreAsync();
+            if (photoStore == null)
+                photoStore = Utils.ServiceLocator.Instance.Resolve<IPhotoStore>();
+
+            foreach (var trip in Trips)
+            {
+                if (trip.Photos == null)
+                    trip.Photos = new List<Photo>();
+                trip.Photos.Clear();
+                foreach (var photo in await photoStore.GetTripPhotos(trip.Id))
+                    trip.Photos.Add(photo);
+            }
+
+            return Trips.OrderByDescending(s => s.RecordedTimeStamp);
+        }
+
+        public override async Task<Trip> GetItemAsync(string id)
+        {
+            if (!initialized)
+                await InitializeStoreAsync();
+
+
+            var trip = Trips.FirstOrDefault(t => t.Id == id) ?? Trips[0];
+
+            return trip;
+        }
+
+        public override async Task<bool> InsertAsync(Trip item)
+        {
+            //No need to set the Id here since it's already set in the BaseDataObject
+            Trips.Add(item);
+            return true;
+        }
+
+        public override Task<bool> RemoveAsync(Trip item)
+        {
+            Trips.Remove(item);
+            return Task.FromResult(true);
+        }
+
         static void AddTripDetails(Trip trip, int id, double lat, double lng, DateTime timestamp)
         {
-            var pt = new TripPoint();
-            pt.TripId = id.ToString();
-            pt.Sequence = id;
-            pt.Latitude = lat;
-            pt.Longitude = lng;
-            pt.RecordedTimeStamp = timestamp;
-            pt.EngineLoad = random.Next(25, 75);
-            pt.EngineFuelRate = random.Next(19, 25);
-			pt.Speed = random.Next(30, 60);
-            pt.MassFlowRate = random.Next(50, 100);
-            pt.HasOBDData = true;
+            var pt = new TripPoint
+            {
+                TripId = id.ToString(),
+                Sequence = id,
+                Latitude = lat,
+                Longitude = lng,
+                RecordedTimeStamp = timestamp,
+                EngineLoad = _random.Next(25, 75),
+                EngineFuelRate = _random.Next(19, 25),
+                Speed = _random.Next(30, 60),
+                MassFlowRate = _random.Next(50, 100),
+                HasOBDData = true
+            };
             trip.Points.Add(pt);
         }
 
         public static List<Trip> GetTrips()
         {
-            random = new Random();
-            Trip trip1 = new Trip();
-            trip1.UserId = "Scott";
+            _random = new Random();
+            Trip trip1 = new Trip {UserId = "Scott"};
             trip1.Name = trip1.UserId + " - Redmond";
             trip1.Distance = 34;
             trip1.Photos = new List<Photo>();
@@ -74,9 +133,7 @@ namespace MyDriving.DataStore.Mock.Stores
             AddTripDetails(trip1, 25, 47.738988, -122.185227, startTime.AddMinutes(timeIncrement++));
 
 
-
-            Trip trip5 = new Trip();
-            trip5.UserId = "Amanda";
+            Trip trip5 = new Trip {UserId = "Amanda"};
             trip5.Name = trip5.UserId + " - SF";
             trip5.Distance = 3;
 
@@ -122,108 +179,52 @@ namespace MyDriving.DataStore.Mock.Stores
             AddTripDetails(trip5, 37, 37.64724442, -122.45059714, startTime.AddMinutes(timeIncrement++));
             AddTripDetails(trip5, 38, 37.64750744, -122.45075656, startTime.AddMinutes(timeIncrement++));
             AddTripDetails(trip5, 39, 37.64777453, -122.45090651, startTime.AddMinutes(timeIncrement++));
-            AddTripDetails(trip5, 40,  37.64803999, -122.45107063, startTime.AddMinutes(timeIncrement++));
-			AddTripDetails(trip5, 41,  37.64830846, -122.45123173, startTime.AddMinutes(timeIncrement++));
+            AddTripDetails(trip5, 40, 37.64803999, -122.45107063, startTime.AddMinutes(timeIncrement++));
+            AddTripDetails(trip5, 41, 37.64830846, -122.45123173, startTime.AddMinutes(timeIncrement++));
 
 
             Trip trip6 = null;
             try
             {
-                var json = ResourceLoader.GetEmbeddedResourceString(Assembly.Load(new AssemblyName("MyDriving.DataStore.Mock")), "sampletrip.json");
+                var json =
+                    ResourceLoader.GetEmbeddedResourceString(
+                        Assembly.Load(new AssemblyName("MyDriving.DataStore.Mock")), "sampletrip.json");
                 trip6 = JsonConvert.DeserializeObject<Trip>(json);
                 trip6.Photos = new List<Photo>();
                 trip6.MainPhotoUrl = "http://www.livingwilderness.com/seattle/space-needle-fog.jpg";
                 foreach (var pt in trip6.Points)
                 {
-                    pt.EngineLoad = random.Next(25, 75);
-                    pt.EngineFuelRate = random.Next(19, 25);
-					pt.Speed = random.Next(30, 60);
-					pt.HasOBDData = true;
-                    pt.MassFlowRate = random.Next(50, 100);
+                    pt.EngineLoad = _random.Next(25, 75);
+                    pt.EngineFuelRate = _random.Next(19, 25);
+                    pt.Speed = _random.Next(30, 60);
+                    pt.HasOBDData = true;
+                    pt.MassFlowRate = _random.Next(50, 100);
                 }
 
-				trip6.Points[0].Speed = 0.0;
+                trip6.Points[0].Speed = 0.0;
             }
             catch (Exception ex)
             {
             }
 
 
-
             var items = new List<Trip>
-            { 
-                trip1, trip5, trip6
+            {
+                trip1,
+                trip5,
+                trip6
             };
-
 
 
             foreach (var item in items)
             {
-                item.Rating = random.Next(30, 100);
-                var point = item.Points.ElementAt((int)(item.Points.Count / 2));
-                item.MainPhotoUrl = $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{point.Latitude.ToString(CultureInfo.InvariantCulture)},{point.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key=J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
-
+                item.Rating = _random.Next(30, 100);
+                var point = item.Points.ElementAt(item.Points.Count/2);
+                item.MainPhotoUrl =
+                    $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{point.Latitude.ToString(CultureInfo.InvariantCulture)},{point.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key=J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
             }
 
             return items;
         }
-
-        public override Task InitializeStoreAsync()
-        {
-            if (initialized)
-                return Task.FromResult(true);
-
-            initialized = true;
-            
-            Trips = GetTrips();
-            return Task.FromResult(true);
-        }
-
-        public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
-        {
-            if (!initialized)
-                await InitializeStoreAsync();
-            if (photoStore == null)
-                photoStore = Utils.ServiceLocator.Instance.Resolve<IPhotoStore>();
-
-            foreach (var trip in Trips)
-            {
-                if (trip.Photos == null)
-                    trip.Photos = new List<Photo>();
-                trip.Photos.Clear();
-                foreach (var photo in await photoStore.GetTripPhotos(trip.Id))
-                    trip.Photos.Add(photo);
-            }
-            
-            return Trips.OrderByDescending(s => s.RecordedTimeStamp);
-        }
-
-        public override async Task<Trip> GetItemAsync(string id)
-        {
-            if (!initialized)
-                await InitializeStoreAsync();
-
-
-            var trip = Trips.FirstOrDefault(t => t.Id == id);
-
-            if (trip == null)
-                trip = Trips[0];
-
-            return trip;
-        }
-
-        public override async Task<bool> InsertAsync(Trip item)
-        {
-            //No need to set the Id here since it's already set in the BaseDataObject
-            Trips.Add(item);
-            return true;
-        }
-
-        public override Task<bool> RemoveAsync(Trip item)
-        {
-            Trips.Remove(item);
-            return Task.FromResult(true);
-        }
     }
 }
-

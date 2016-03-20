@@ -1,4 +1,6 @@
-// Helpers/Settings.cs
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using System;
@@ -16,86 +18,94 @@ namespace MyDriving.Utils
     }
 
     /// <summary>
-    /// This is the Settings static class that can be used in your Core solution or in any
-    /// of your client applications. All settings are laid out the same exact way with getters
-    /// and setters. 
-    /// </summary>
+    ///     This is the Settings static class that can be used in your Core solution or in any
+    ///     of your client applications. All settings are laid out the same exact way with getters
+    ///     and setters.
     /// </summary>
     public class Settings : INotifyPropertyChanged
     {
-        static ISettings AppSettings
-        {
-            get
-            {
-                return CrossSettings.Current;
-            }
-        }
+        const string DatabaseIdKey = "azure_database";
 
-        static Settings settings;
+        const string LoginAccountKey = "login_account";
+
+
+        const string DeviceIdKey = "device_id";
+
+        const string HostNameKey = "host_name";
+
+        const string DeviceConnectionStringKey = "device_connection_string";
+
+
+        const string MetricDistanceKey = "metric_distance";
+
+
+        const string MetricUnitsKey = "metric_units";
+
+
+        const string FirstRunKey = "first_run";
+
+        const string LoginAttemptsKey = "login_attempts";
+        const int LoginAttemptsDefault = 0;
+
+        const string HasSyncedDataKey = "has_synced";
+        const bool HasSyncedDataDefault = false;
+
+        const string LastSyncKey = "last_sync";
+
+        static Settings _settings;
+        static readonly int DatabaseIdDefault = 0;
+        static readonly LoginAccount LoginAccountDefault = LoginAccount.None;
+        static readonly string DeviceIdDefault = string.Empty;
+        static readonly string HostNameDefault = string.Empty;
+        static readonly string DeviceConnectionStringDefault = string.Empty;
+        static readonly bool MetricDistanceDefault = false;
+        static readonly bool MetricUnitsDefault = false;
+        static readonly bool FirstRunDefault = true;
+        static readonly DateTime LastSyncDefault = DateTime.Now.AddDays(-30);
+
+        bool isConnected;
+
+        static ISettings AppSettings => CrossSettings.Current;
 
         /// <summary>
-        /// Gets or sets the current settings. This should always be used
+        ///     Gets or sets the current settings. This should always be used
         /// </summary>
         /// <value>The current.</value>
-        public static Settings Current
-        {
-            get { return settings ?? (settings = new Settings()); }
-        }
-
-        const string DatabaseIdKey = "azure_database";
-        static readonly int DatabaseIdDefault = 0;
+        public static Settings Current => _settings ?? (_settings = new Settings());
 
         public int DatabaseId
         {
-            get { return AppSettings.GetValueOrDefault<int>(DatabaseIdKey, DatabaseIdDefault); }
-            set
-            {
-                AppSettings.AddOrUpdateValue<int>(DatabaseIdKey, value);
-            }
+            get { return AppSettings.GetValueOrDefault(DatabaseIdKey, DatabaseIdDefault); }
+            set { AppSettings.AddOrUpdateValue(DatabaseIdKey, value); }
         }
-
-        public int UpdateDatabaseId()
-        {
-            return DatabaseId++;
-        }
-
-        const string LoginAccountKey = "login_account";
-        static readonly LoginAccount LoginAccountDefault = LoginAccount.None;
 
 
         public LoginAccount LoginAccount
         {
-            get { return  (LoginAccount)AppSettings.GetValueOrDefault<int>(LoginAccountKey, (int)LoginAccountDefault); }
+            get { return (LoginAccount) AppSettings.GetValueOrDefault(LoginAccountKey, (int) LoginAccountDefault); }
             set
             {
-                if (AppSettings.AddOrUpdateValue<int>(LoginAccountKey, (int)value))
+                if (AppSettings.AddOrUpdateValue(LoginAccountKey, (int) value))
                     OnPropertyChanged();
             }
         }
-
-
-        const string DeviceIdKey = "device_id";
-        static readonly string DeviceIdDefault = string.Empty;
 
         public string DeviceId
         {
-            get { return AppSettings.GetValueOrDefault<string>(DeviceIdKey, DeviceIdDefault); }
+            get { return AppSettings.GetValueOrDefault(DeviceIdKey, DeviceIdDefault); }
             set
             {
-                if (AppSettings.AddOrUpdateValue<string>(DeviceIdKey, value))
+                if (AppSettings.AddOrUpdateValue(DeviceIdKey, value))
                     OnPropertyChanged();
             }
         }
 
-        const string HostNameKey = "host_name";
-        static readonly string HostNameDefault = string.Empty;
-
         public string HostName
         {
-            get { return AppSettings.GetValueOrDefault<string>(HostNameKey, HostNameDefault); }
+            get { return AppSettings.GetValueOrDefault(HostNameKey, HostNameDefault); }
             set
             {
-                if (AppSettings.AddOrUpdateValue<string>(HostNameKey, value))
+                if (AppSettings.AddOrUpdateValue(HostNameKey, value))
                 {
                     //if hostname is changed, DeviceConnectionString must be recreated
                     DeviceConnectionString = string.Empty;
@@ -104,109 +114,75 @@ namespace MyDriving.Utils
             }
         }
 
-        const string DeviceConnectionStringKey = "device_connection_string";
-        static readonly string DeviceConnectionStringDefault = string.Empty;
-
         public string DeviceConnectionString
         {
-            get { return AppSettings.GetValueOrDefault<string>(DeviceConnectionStringKey, DeviceConnectionStringDefault); }
+            get { return AppSettings.GetValueOrDefault(DeviceConnectionStringKey, DeviceConnectionStringDefault); }
             set
             {
-                if (AppSettings.AddOrUpdateValue<string>(DeviceConnectionStringKey, value))
+                if (AppSettings.AddOrUpdateValue(DeviceConnectionStringKey, value))
                     OnPropertyChanged();
             }
         }
-
-     
-
-        const string MetricDistanceKey = "metric_distance";
-        static readonly bool MetricDistanceDefault = false;
 
         public bool MetricDistance
         {
-            get { return AppSettings.GetValueOrDefault<bool>(MetricDistanceKey, MetricDistanceDefault); }
+            get { return AppSettings.GetValueOrDefault(MetricDistanceKey, MetricDistanceDefault); }
             set
             {
-                if (AppSettings.AddOrUpdateValue<bool>(MetricDistanceKey, value))
+                if (AppSettings.AddOrUpdateValue(MetricDistanceKey, value))
                     OnPropertyChanged();
             }
         }
-
-
-        const string MetricUnitsKey = "metric_units";
-        static readonly bool MetricUnitsDefault = false;
 
         public bool MetricUnits
         {
-            get { return AppSettings.GetValueOrDefault<bool>(MetricUnitsKey, MetricUnitsDefault); }
+            get { return AppSettings.GetValueOrDefault(MetricUnitsKey, MetricUnitsDefault); }
             set
             {
-                if (AppSettings.AddOrUpdateValue<bool>(MetricUnitsKey, value))
+                if (AppSettings.AddOrUpdateValue(MetricUnitsKey, value))
                     OnPropertyChanged();
             }
         }
 
-
-
-
-        const string FirstRunKey = "first_run";
-        static readonly bool FirstRunDefault = true;
-
         /// <summary>
-        /// Gets or sets a value indicating whether the user wants to see favorites only.
+        ///     Gets or sets a value indicating whether the user wants to see favorites only.
         /// </summary>
         /// <value><c>true</c> if favorites only; otherwise, <c>false</c>.</value>
         public bool FirstRun
         {
-            get { return AppSettings.GetValueOrDefault<bool>(FirstRunKey, FirstRunDefault); }
+            get { return AppSettings.GetValueOrDefault(FirstRunKey, FirstRunDefault); }
             set
             {
-                if (AppSettings.AddOrUpdateValue<bool>(FirstRunKey, value))
+                if (AppSettings.AddOrUpdateValue(FirstRunKey, value))
                     OnPropertyChanged();
             }
         }
 
-        public bool IsLoggedIn => (!string.IsNullOrWhiteSpace(AuthToken) && !string.IsNullOrWhiteSpace(AzureMobileUserId));
+        public bool IsLoggedIn
+            => !string.IsNullOrWhiteSpace(AuthToken) && !string.IsNullOrWhiteSpace(AzureMobileUserId);
 
-        const string LoginAttemptsKey = "login_attempts";
-        const int LoginAttemptsDefault = 0;
         public int LoginAttempts
         {
-            get
-            {
-                return AppSettings.GetValueOrDefault<int>(LoginAttemptsKey, LoginAttemptsDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue<int>(LoginAttemptsKey, value);
-            }
+            get { return AppSettings.GetValueOrDefault(LoginAttemptsKey, LoginAttemptsDefault); }
+            set { AppSettings.AddOrUpdateValue(LoginAttemptsKey, value); }
         }
 
-        const string HasSyncedDataKey = "has_synced";
-        const bool HasSyncedDataDefault = false;
         public bool HasSyncedData
         {
-            get { return AppSettings.GetValueOrDefault<bool>(HasSyncedDataKey, HasSyncedDataDefault); }
-            set { AppSettings.AddOrUpdateValue<bool>(HasSyncedDataKey, value); }
-
+            get { return AppSettings.GetValueOrDefault(HasSyncedDataKey, HasSyncedDataDefault); }
+            set { AppSettings.AddOrUpdateValue(HasSyncedDataKey, value); }
         }
 
-        const string LastSyncKey = "last_sync";
-        static readonly DateTime LastSyncDefault = DateTime.Now.AddDays(-30);
         public DateTime LastSync
         {
-            get
-            {
-                return AppSettings.GetValueOrDefault<DateTime>(LastSyncKey, LastSyncDefault);
-            }
+            get { return AppSettings.GetValueOrDefault(LastSyncKey, LastSyncDefault); }
             set
             {
-                if (AppSettings.AddOrUpdateValue<DateTime>(LastSyncKey, value))
+                if (AppSettings.AddOrUpdateValue(LastSyncKey, value))
                     OnPropertyChanged();
             }
         }
 
-        bool isConnected;
         public bool IsConnected
         {
             get { return isConnected; }
@@ -219,32 +195,29 @@ namespace MyDriving.Utils
             }
         }
 
+        public int UpdateDatabaseId()
+        {
+            return DatabaseId++;
+        }
+
         #region User Profile
 
         const string UserUIDKey = "user_uid";
         static readonly string UserUIDDefault = string.Empty;
+
         public string UserUID
         {
-            get {
-                return AppSettings.GetValueOrDefault<string>(UserUIDKey, UserUIDDefault);
-            }
-            set {
-                AppSettings.AddOrUpdateValue<string>(UserUIDKey, value);
-            }
+            get { return AppSettings.GetValueOrDefault(UserUIDKey, UserUIDDefault); }
+            set { AppSettings.AddOrUpdateValue(UserUIDKey, value); }
         }
 
         const string AzureMobileUserIdKey = "user_azure_id";
         static readonly string AzureMobileUserIdDefault = string.Empty;
+
         public string AzureMobileUserId
         {
-            get
-            {
-                return AppSettings.GetValueOrDefault<string>(AzureMobileUserIdKey, AzureMobileUserIdDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue<string>(AzureMobileUserIdKey, value);
-            }
+            get { return AppSettings.GetValueOrDefault(AzureMobileUserIdKey, AzureMobileUserIdDefault); }
+            set { AppSettings.AddOrUpdateValue(AzureMobileUserIdKey, value); }
         }
 
         const string AuthTokenKey = "authtoken";
@@ -252,14 +225,8 @@ namespace MyDriving.Utils
 
         public string AuthToken
         {
-            get
-            {
-                return AppSettings.GetValueOrDefault<string>(AuthTokenKey, AuthTokenDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue<string>(AuthTokenKey, value);
-            }
+            get { return AppSettings.GetValueOrDefault(AuthTokenKey, AuthTokenDefault); }
+            set { AppSettings.AddOrUpdateValue(AuthTokenKey, value); }
         }
 
         const string FirstNameKey = "user_firstname";
@@ -267,14 +234,8 @@ namespace MyDriving.Utils
 
         public string UserFirstName
         {
-            get
-            {
-                return AppSettings.GetValueOrDefault<string>(FirstNameKey, FirstNameDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue<string>(FirstNameKey, value);
-            }
+            get { return AppSettings.GetValueOrDefault(FirstNameKey, FirstNameDefault); }
+            set { AppSettings.AddOrUpdateValue(FirstNameKey, value); }
         }
 
         const string LastNameKey = "user_lastname";
@@ -282,16 +243,9 @@ namespace MyDriving.Utils
 
         public string UserLastName
         {
-            get
-            {
-                return AppSettings.GetValueOrDefault<string>(LastNameKey, LastNameDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue<string>(LastNameKey, value);
-            }
+            get { return AppSettings.GetValueOrDefault(LastNameKey, LastNameDefault); }
+            set { AppSettings.AddOrUpdateValue(LastNameKey, value); }
         }
-
 
 
         const string ProfileUrlKey = "user_profile_url";
@@ -299,14 +253,8 @@ namespace MyDriving.Utils
 
         public string UserProfileUrl
         {
-            get
-            {
-                return AppSettings.GetValueOrDefault<string>(ProfileUrlKey, ProfileUrlDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue<string>(ProfileUrlKey, value);
-            }
+            get { return AppSettings.GetValueOrDefault(ProfileUrlKey, ProfileUrlDefault); }
+            set { AppSettings.AddOrUpdateValue(ProfileUrlKey, value); }
         }
 
 
@@ -320,13 +268,16 @@ namespace MyDriving.Utils
             UserUID = string.Empty;
             LoginAccount = LoginAccount.None;
         }
+
         #endregion
 
-
         #region INotifyPropertyChanged implementation
+
         public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged([CallerMemberName]string name = "") =>
+
+        void OnPropertyChanged([CallerMemberName] string name = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
         #endregion
     }
 }

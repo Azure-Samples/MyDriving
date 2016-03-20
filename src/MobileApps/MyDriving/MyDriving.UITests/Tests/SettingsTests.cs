@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Xamarin.UITest;
 using NUnit.Framework;
 
@@ -13,40 +15,51 @@ namespace MyDriving.UITests
 		[Test]
 		public void ChangeDistanceUnits ()
 		{
-			new ProfilePage ()
-				.NavigateToProfilePage ()
-				.NavigateToSettingsPage ()
-				.NavigateToDistanceSetting ()
-				.SetDistanceSetting ()
-				.NavigateFromSettingsDetailPage ();
+            if (OnAndroid)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Settings");
+            }
+            if (OniOS)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Profile");
 
-			app.Screenshot ("Changed Distance Setting");
+                new ProfilePage()
+                    .NavigateToSettings();
+            }
+
+            new SettingsPage()
+                .SetDistanceSetting()
+                .NavigateTo("Profile");
+
+            new ProfilePage()
+                .CheckDistanceMetric(true);
 		}
 
 		[Test]
 		public void ChangeCapacityUnits ()
 		{
-			new ProfilePage ()
-				.NavigateToProfilePage ()
-				.NavigateToSettingsPage ()
-				.NavigateToCapacitySetting ()
-				.SetCapacitySetting ()
-				.NavigateFromSettingsDetailPage ();
+            if (OnAndroid)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Settings");
+            }
+            if (OniOS)
+            {
+                new CurrentTripPage()
+                    .NavigateTo("Profile");
 
-			app.Screenshot ("Changed Capacity Setting");
-		}
+                new ProfilePage()
+                    .NavigateToSettings();
+            }
 
-		
+            new SettingsPage()
+                .SetCapacitySetting()
+                .NavigateTo("Profile");
 
-		[Test]
-		public void Logout ()
-		{
-			new ProfilePage ()
-				.NavigateToProfilePage ()
-				.NavigateToSettingsPage ()
-				.Logout ();
-
-			app.Screenshot ("Logged out");
+            new ProfilePage()
+                .CheckFuelMetric(true);
 		}
 	}
 }

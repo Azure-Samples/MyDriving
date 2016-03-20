@@ -1,4 +1,7 @@
-﻿using Android.Content;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using Android.Content;
 using Android.Hardware;
 using Java.Lang;
 using Exception = System.Exception;
@@ -11,31 +14,32 @@ namespace MyDriving.Droid.Helpers
         void OnAccelerationChanged(float x, float y, float z);
         void OnShake(float force);
     }
+
     public class AccelerometerManager
     {
-        Sensor sensor;
-        readonly SensorManager sensorManager;
-
         readonly ShakeSensorEventListener eventListener;
-        public bool IsSupported { get; set; }
+        readonly SensorManager sensorManager;
+        Sensor sensor;
 
         public AccelerometerManager(Context context, IAccelerometerListener listener)
         {
             eventListener = new ShakeSensorEventListener(listener);
-            sensorManager = (SensorManager)context.GetSystemService(Context.SensorService);
+            sensorManager = (SensorManager) context.GetSystemService(Context.SensorService);
             IsSupported = sensorManager.GetSensorList(SensorType.Accelerometer).Count > 0;
         }
+
+        public bool IsSupported { get; set; }
+
+        /// <summary>
+        ///     Gets if the manager is listening to orientation changes
+        /// </summary>
+        public bool IsListening { get; private set; }
 
         public void Configure(int threshold, int interval)
         {
             eventListener.Threshold = threshold;
             eventListener.Interval = interval;
         }
-
-        /// <summary>
-        /// Gets if the manager is listening to orientation changes
-        /// </summary>
-        public bool IsListening { get; private set; }
 
         public void StopListening()
         {
@@ -49,7 +53,6 @@ namespace MyDriving.Droid.Helpers
             }
             catch (Exception)
             {
-
             }
         }
 
@@ -66,13 +69,9 @@ namespace MyDriving.Droid.Helpers
 
         class ShakeSensorEventListener : Object, ISensorEventListener
         {
-            long now, timeDiff, lastUpdate, lastShake = 0;
-            float x, y, z, lastX, lastY, lastZ, force = 0;
-            IAccelerometerListener listener;
-
-            //Accuracy Configuration
-            public float Threshold { get; set; }
-            public int Interval { get; set; }
+            readonly IAccelerometerListener listener;
+            long now, timeDiff, lastUpdate, lastShake;
+            float x, y, z, lastX, lastY, lastZ, force;
 
 
             public ShakeSensorEventListener(IAccelerometerListener listener)
@@ -81,16 +80,19 @@ namespace MyDriving.Droid.Helpers
                 Threshold = 25.0f;
                 Interval = 200;
             }
+
+            //Accuracy Configuration
+            public float Threshold { get; set; }
+            public int Interval { get; set; }
+
             public void OnAccuracyChanged(Sensor sensor, SensorStatus accuracy)
             {
-
             }
 
             public void OnSensorChanged(SensorEvent e)
             {
                 try
                 {
-
                     now = e.Timestamp;
                     x = e.Values[0];
                     y = e.Values[1];
@@ -122,7 +124,6 @@ namespace MyDriving.Droid.Helpers
                         lastY = y;
                         lastZ = z;
                         lastUpdate = now;
-
                     }
                 }
                 finally
@@ -133,4 +134,3 @@ namespace MyDriving.Droid.Helpers
         }
     }
 }
-

@@ -1,54 +1,76 @@
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 ﻿using System;
+using System.Linq;
 using Xamarin.UITest;
+using Query = System.Func<Xamarin.UITest.Queries.AppQuery, Xamarin.UITest.Queries.AppQuery>;
 
 namespace MyDriving.UITests
 {
-	public class CurrentTripPage : BasePage
-	{
-		public CurrentTripPage ()
-		{
-			app.Screenshot ("Current Trip");
-		}
+    public class CurrentTripPage : BasePage
+    {
+        readonly Query RecordingButton;
+        readonly string UseSimulatorButton = "Use Simulator";
+        readonly Query TripTitleField;
+        readonly Query SaveTripButton;
 
-		public CurrentTripPage NavigateToCurrentTripPage ()
-		{
-			app.Tap ("Current Trip");
+        public CurrentTripPage ()
+            : base("Current Trip", "Current Trip")
+        {
+            if (OnAndroid)
+            {
+                RecordingButton = x => x.Id("fab");
+                TripTitleField = x => x.Class("EditText");
+                SaveTripButton = x => x.Id("button1");
+            }
+            if (OniOS)
+            { 
+                RecordingButton = x => x.Class("UIButton");
+                SaveTripButton = x => x.Marked("OK");
+                TripTitleField = x => x.Class("UITextField");
+            }
+        }
 
-			return this;
-		}
+        public CurrentTripPage StartRecordingTrip ()
+        {
+            App.Tap (RecordingButton);
 
-		public CurrentTripPage StartRecordingTrip ()
-		{
-			app.Tap (c => c.Class ("UIButton"));
-			app.Screenshot ("Started recording trip");
+            System.Threading.Thread.Sleep(2500);
 
-            app.Tap("Use Simulator");
+            if (!App.Query(UseSimulatorButton).Any())
+            {
+                App.Tap(RecordingButton);
+            }
 
-			return this;
-		}
+            App.Tap(UseSimulatorButton);
 
-		public CurrentTripPage StopRecordingTrip ()
-		{
-			System.Threading.Thread.Sleep (2500);
-			app.Tap (c => c.Class ("UIButton"));
+            App.Screenshot ("Started recording trip");
 
-			return this;
-		}
+            return this;
+        }
 
-		public CurrentTripPage EnterTripName ()
-		{
-			app.EnterText (c => c.Class ("UITextField"), "Trip Name");
-			app.DismissKeyboard ();
-			app.Screenshot ("Trip summary");
+        public CurrentTripPage StopRecordingTrip ()
+        {
+            System.Threading.Thread.Sleep (2500);
+            App.Tap (RecordingButton);
+            App.Screenshot("Stopped recording trip");
 
-			return this;
-		}
+            return this;
+        }
 
-		public CurrentTripPage DismissTripSummary ()
-		{
-			app.Tap ("Done");
+        public CurrentTripPage SaveTrip (string title)
+        {
+            App.ClearText (TripTitleField);
+            App.EnterText (TripTitleField, title);
+            App.DismissKeyboard ();
 
-			return this;
-		}
-	}
+            App.Screenshot ("Trip title entered");
+
+            App.Tap(SaveTripButton);
+            App.Screenshot("Trip Saved!");
+
+            return this;
+        }
+    }
 }

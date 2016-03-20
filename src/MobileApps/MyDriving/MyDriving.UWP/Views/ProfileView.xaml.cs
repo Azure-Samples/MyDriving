@@ -1,24 +1,26 @@
-﻿using MyDriving.ViewModel;
-using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
 
+using Windows.UI.Core;
+using Windows.UI.Xaml.Navigation;
+using MyDriving.ViewModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace MyDriving.UWP.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ProfileView : Page
+    public sealed partial class ProfileView
     {
-        ProfileViewModel profileViewModel;
+        readonly ProfileViewModel profileViewModel;
+
         public ProfileView()
-        {      
+        {
             profileViewModel = new ProfileViewModel();
             DataContext = profileViewModel;
-            this.InitializeComponent();
+            InitializeComponent();
 
             TotalDistanceTab.Title1 = "Total";
             TotalDistanceTab.Title2 = "DISTANCE";
@@ -26,11 +28,20 @@ namespace MyDriving.UWP.Views
             TotalTimeTab.Title1 = "Total";
             TotalTimeTab.Title2 = "TIME";
 
-            AvgSpeedTab.Title1 = "Avg";
-            AvgSpeedTab.Title2 = "SPEED";
+            MaxSpeedTab.Title1 = "Max";
+            MaxSpeedTab.Title2 = "SPEED";
+
+            FuelConsumptionTab.Title1 = "Total";
+            FuelConsumptionTab.Title2 = "FUEL USED";
 
             HardBreaksTab.Title1 = "Hard";
-            HardBreaksTab.Title2 = "BREAKS";
+            HardBreaksTab.Title2 = "STOPS";
+
+            HardAccelTab.Title1 = "Hard";
+            HardAccelTab.Title2 = "ACCELERATIONS";
+
+            TotalTripsTab.Title1 = "Total";
+            TotalTripsTab.Title2 = "TRIPS";
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -48,7 +59,6 @@ namespace MyDriving.UWP.Views
             base.OnNavigatedFrom(e);
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested -= SystemNavigationManager_BackRequested;
-
         }
 
         private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
@@ -62,9 +72,9 @@ namespace MyDriving.UWP.Views
         private bool TryGoBack()
         {
             bool navigated = false;
-            if (this.Frame.CanGoBack)
+            if (Frame.CanGoBack)
             {
-                this.Frame.GoBack();
+                Frame.GoBack();
                 navigated = true;
             }
             return navigated;

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MyDriving.Utils;
@@ -5,7 +8,6 @@ using MyDriving.Helpers;
 using MyDriving.Interfaces;
 using MyDriving.DataObjects;
 using Microsoft.WindowsAzure.MobileServices;
-using MyDriving.DataStore.Abstractions;
 using MyDriving.AzureClient;
 using System;
 
@@ -13,8 +15,17 @@ namespace MyDriving.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        private IMobileServiceClient client;
-        IAuthentication authentication;
+        readonly IAuthentication authentication;
+        private readonly IMobileServiceClient client;
+
+        bool isLoggedIn;
+
+        ICommand loginFacebookCommand;
+
+        ICommand loginMicrosoftCommand;
+
+        ICommand loginTwitterCommand;
+
         public LoginViewModel()
         {
             client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
@@ -23,12 +34,23 @@ namespace MyDriving.ViewModel
 
         public UserProfile UserProfile { get; set; }
 
-        bool isLoggedIn;
         public bool IsLoggedIn
         {
             get { return isLoggedIn; }
             set { SetProperty(ref isLoggedIn, value); }
         }
+
+        public ICommand LoginTwitterCommand =>
+            loginTwitterCommand ??
+            (loginTwitterCommand = new RelayCommand(async () => await ExecuteLoginTwitterCommandAsync()));
+
+        public ICommand LoginMicrosoftCommand =>
+            loginMicrosoftCommand ??
+            (loginMicrosoftCommand = new RelayCommand(async () => await ExecuteLoginMicrosoftCommandAsync()));
+
+        public ICommand LoginFacebookCommand =>
+            loginFacebookCommand ??
+            (loginFacebookCommand = new RelayCommand(async () => await ExecuteLoginFacebookCommandAsync()));
 
         public void InitFakeUser()
         {
@@ -39,60 +61,48 @@ namespace MyDriving.ViewModel
             Settings.UserProfileUrl = "http://refractored.com/images/Scott.png";
         }
 
-        ICommand  loginTwitterCommand;
-        public ICommand LoginTwitterCommand =>
-            loginTwitterCommand ?? (loginTwitterCommand = new RelayCommand(async () => await ExecuteLoginTwitterCommandAsync())); 
-
         public async Task ExecuteLoginTwitterCommandAsync()
         {
-            if(client == null || IsBusy)
+            if (client == null || IsBusy)
                 return;
-            
+
             Settings.LoginAccount = LoginAccount.Twitter;
             var track = Logger.Instance.TrackTime("LoginTwitter");
-            track.Start();
+            track?.Start();
             IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.Twitter);
-            track.Stop();
+            track?.Stop();
         }
-
-        ICommand  loginMicrosoftCommand;
-        public ICommand LoginMicrosoftCommand =>
-            loginMicrosoftCommand ?? (loginMicrosoftCommand = new RelayCommand(async () => await ExecuteLoginMicrosoftCommandAsync())); 
 
         public async Task ExecuteLoginMicrosoftCommandAsync()
         {
-            if(client == null || IsBusy)
+            if (client == null || IsBusy)
                 return;
-            
+
             Settings.LoginAccount = LoginAccount.Microsoft;
             var track = Logger.Instance.TrackTime("LoginMicrosoft");
-            track.Start();
+            track?.Start();
             IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.MicrosoftAccount);
-            track.Stop();
+            track?.Stop();
         }
-
-        ICommand  loginFacebookCommand;
-        public ICommand LoginFacebookCommand =>
-            loginFacebookCommand ?? (loginFacebookCommand = new RelayCommand(async () => await ExecuteLoginFacebookCommandAsync())); 
 
         public async Task ExecuteLoginFacebookCommandAsync()
         {
-            if(client == null || IsBusy)
+            if (client == null || IsBusy)
                 return;
             Settings.LoginAccount = LoginAccount.Facebook;
             var track = Logger.Instance.TrackTime("LoginFacebook");
-            track.Start();
+            track?.Start();
             IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.Facebook);
-            track.Stop();
+            track?.Stop();
         }
 
         async Task<bool> LoginAsync(MobileServiceAuthenticationProvider provider)
         {
             if (!Plugin.Connectivity.CrossConnectivity.Current.IsConnected)
-            {                
+            {
                 Acr.UserDialogs.UserDialogs.Instance.Alert("Ensure you have internet connection to login.",
                     "No Connection", "OK");
-                
+
                 return false;
             }
 

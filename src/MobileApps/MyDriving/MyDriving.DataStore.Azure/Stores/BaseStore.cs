@@ -1,14 +1,15 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
+using System;
 using MyDriving.DataStore.Abstractions;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 using MyDriving.Utils;
 using System.Collections.Generic;
-using System.Linq;
 using MyDriving.DataObjects;
 using Plugin.Connectivity;
-using System.Diagnostics;
 using MyDriving.AzureClient;
 
 namespace MyDriving.DataStore.Azure.Stores
@@ -17,21 +18,17 @@ namespace MyDriving.DataStore.Azure.Stores
     {
         IStoreManager storeManager;
 
-        public virtual string Identifier => "Items";
-
         IMobileServiceSyncTable<T> table;
-        protected IMobileServiceSyncTable<T> Table => 
-            table ?? (table = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client?.GetSyncTable<T>()); 
+
+        protected IMobileServiceSyncTable<T> Table =>
+            table ?? (table = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client?.GetSyncTable<T>());
+
+        public virtual string Identifier => "Items";
 
         public virtual Task<bool> DropTable()
         {
             table = null;
             return Task.FromResult(true);
-        }
-
-        public BaseStore()
-        {
-
         }
 
         #region IBaseStore implementation
@@ -41,7 +38,7 @@ namespace MyDriving.DataStore.Azure.Stores
             bool result = true;
             foreach (var item in items)
             {
-                result = result && await this.RemoveAsync(item);
+                result = result && await RemoveAsync(item);
             }
 
             return result;
@@ -98,8 +95,6 @@ namespace MyDriving.DataStore.Azure.Stores
             bool result = false;
             try
             {
-               
-                
                 await InitializeStoreAsync().ConfigureAwait(false);
                 await PullLatestAsync().ConfigureAwait(false);
                 await Table.DeleteAsync(item).ConfigureAwait(false);
@@ -108,7 +103,7 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             catch (Exception e)
             {
-                Logger.Instance.WriteLine(String.Format("Unable to remove item {0}:{1}", item.Id, e));
+                Logger.Instance.WriteLine($"Unable to remove item {item.Id}:{e}");
             }
 
             return result;
@@ -152,19 +147,16 @@ namespace MyDriving.DataStore.Azure.Stores
                 }
                 await PullLatestAsync().ConfigureAwait(false);
                 await client.SyncContext.PushAsync().ConfigureAwait(false);
-
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Instance.WriteLine("Unable to sync items, that is alright as we have offline capabilities: " + ex);
                 return false;
             }
-            finally
-            {
-            }
+
             return true;
         }
+
         #endregion
     }
 }
-
