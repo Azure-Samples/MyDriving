@@ -25,14 +25,14 @@ namespace MyDriving.Droid.Services
     [Service]
     public class GeolocationService : Service
     {
-        IBinder _binder;
+        IBinder binder;
 
         public CurrentTripViewModel ViewModel { get; private set; }
 
         public override IBinder OnBind(Intent intent)
         {
-            _binder = new GeolocationServiceBinder(this);
-            return _binder;
+            binder = new GeolocationServiceBinder(this);
+            return binder;
         }
 
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
@@ -48,9 +48,9 @@ namespace MyDriving.Droid.Services
             var notification = builder.SetContentIntent(pendingIntent)
                 .SetSmallIcon(Resource.Drawable.ic_notification)
                 .SetAutoCancel(false)
-                .SetTicker("MyDriving in foreground")
+                .SetTicker("MyDriving is recording.")
                 .SetContentTitle("MyDriving")
-                .SetContentText("MyDriving is running in the foreground")
+                .SetContentText("MyDriving is recording your current trip.")
                 .Build();
 
 

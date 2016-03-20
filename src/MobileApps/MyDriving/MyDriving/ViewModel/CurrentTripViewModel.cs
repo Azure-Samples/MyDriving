@@ -22,32 +22,32 @@ namespace MyDriving.ViewModel
 {
     public class CurrentTripViewModel : ViewModelBase
     {
-        readonly OBDDataProcessor _obdDataProcessor;
-        readonly List<Photo> _photos;
-        string _distance = "0.0";
+        readonly OBDDataProcessor obdDataProcessor;
+        readonly List<Photo> photos;
+        string distance = "0.0";
 
-        string _distanceUnits = "miles";
+        string distanceUnits = "miles";
 
-        string _elapsedTime = "0s";
+        string elapsedTime = "0s";
 
-        string _engineLoad = "N/A";
+        string engineLoad = "N/A";
 
-        string _fuelConsumption = "N/A";
+        string fuelConsumption = "N/A";
 
-        double _fuelConsumptionRate;
+        double fuelConsumptionRate;
 
-        string _fuelConsumptionUnits = "Gallons";
+        string fuelConsumptionUnits = "Gallons";
 
-        bool _hasEngineLoad;
-        bool _isRecording;
+        bool hasEngineLoad;
+        bool isRecording;
 
-        Position _position;
+        Position position;
 
-        ICommand _startTrackingTripCommand;
+        ICommand startTrackingTripCommand;
 
-        ICommand _stopTrackingTripCommand;
+        ICommand stopTrackingTripCommand;
 
-        ICommand _takePhotoCommand;
+        ICommand takePhotoCommand;
 
         public CurrentTripViewModel()
         {
@@ -56,65 +56,65 @@ namespace MyDriving.ViewModel
                 UserId = Settings.Current.UserUID,
                 Points = new ObservableRangeCollection<TripPoint>()
             };
-            _photos = new List<Photo>();
-            _fuelConsumptionRate = 0;
+            photos = new List<Photo>();
+            fuelConsumptionRate = 0;
             FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
             DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";
             ElapsedTime = "0s";
             Distance = "0.0";
             FuelConsumption = "N/A";
             EngineLoad = "N/A";
-            _obdDataProcessor = OBDDataProcessor.GetProcessor();
+            obdDataProcessor = OBDDataProcessor.GetProcessor();
         }
 
         public Trip CurrentTrip { get; private set; }
 
         public bool IsRecording
         {
-            get { return _isRecording; }
-            private set { SetProperty(ref _isRecording, value); }
+            get { return isRecording; }
+            private set { SetProperty(ref isRecording, value); }
         }
 
         public Position CurrentPosition
         {
-            get { return _position; }
-            set { SetProperty(ref _position, value); }
+            get { return position; }
+            set { SetProperty(ref position, value); }
         }
 
         public string ElapsedTime
         {
-            get { return _elapsedTime; }
-            set { SetProperty(ref _elapsedTime, value); }
+            get { return elapsedTime; }
+            set { SetProperty(ref elapsedTime, value); }
         }
 
         public string Distance
         {
-            get { return _distance; }
-            set { SetProperty(ref _distance, value); }
+            get { return distance; }
+            set { SetProperty(ref distance, value); }
         }
 
         public string DistanceUnits
         {
-            get { return _distanceUnits; }
-            set { SetProperty(ref _distanceUnits, value); }
+            get { return distanceUnits; }
+            set { SetProperty(ref distanceUnits, value); }
         }
 
         public string FuelConsumption
         {
-            get { return _fuelConsumption; }
-            set { SetProperty(ref _fuelConsumption, value); }
+            get { return fuelConsumption; }
+            set { SetProperty(ref fuelConsumption, value); }
         }
 
         public string FuelConsumptionUnits
         {
-            get { return _fuelConsumptionUnits; }
-            set { SetProperty(ref _fuelConsumptionUnits, value); }
+            get { return fuelConsumptionUnits; }
+            set { SetProperty(ref fuelConsumptionUnits, value); }
         }
 
         public string EngineLoad
         {
-            get { return _engineLoad; }
-            set { SetProperty(ref _engineLoad, value); }
+            get { return engineLoad; }
+            set { SetProperty(ref engineLoad, value); }
         }
 
         public bool NeedSave { get; set; }
@@ -124,16 +124,16 @@ namespace MyDriving.ViewModel
         public TripSummaryViewModel TripSummary { get; set; }
 
         public ICommand StartTrackingTripCommand =>
-            _startTrackingTripCommand ??
-            (_startTrackingTripCommand = new RelayCommand(async () => await ExecuteStartTrackingTripCommandAsync()));
+            startTrackingTripCommand ??
+            (startTrackingTripCommand = new RelayCommand(async () => await ExecuteStartTrackingTripCommandAsync()));
 
         public ICommand StopTrackingTripCommand =>
-            _stopTrackingTripCommand ??
-            (_stopTrackingTripCommand = new RelayCommand(async () => await ExecuteStopTrackingTripCommandAsync()));
+            stopTrackingTripCommand ??
+            (stopTrackingTripCommand = new RelayCommand(async () => await ExecuteStopTrackingTripCommandAsync()));
 
         public ICommand TakePhotoCommand =>
-            _takePhotoCommand ??
-            (_takePhotoCommand = new RelayCommand(async () => await ExecuteTakePhotoCommandAsync()));
+            takePhotoCommand ??
+            (takePhotoCommand = new RelayCommand(async () => await ExecuteTakePhotoCommandAsync()));
 
         public async Task<bool> StartRecordingTrip()
         {
@@ -162,9 +162,12 @@ namespace MyDriving.ViewModel
                 }
 
                 //Connect to the OBD device
-                await _obdDataProcessor.ConnectToObdDevice(true);
+                if (obdDataProcessor != null)
+                {
+                    await obdDataProcessor.ConnectToObdDevice(true);
 
-                CurrentTrip.HasSimulatedOBDData = _obdDataProcessor.IsObdDeviceSimulated;
+                    CurrentTrip.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
+                }
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
@@ -227,7 +230,7 @@ namespace MyDriving.ViewModel
 
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
 
-                foreach (var photo in _photos)
+                foreach (var photo in photos)
                 {
                     photo.TripId = CurrentTrip.Id;
                     await StoreManager.PhotoStore.InsertAsync(photo);
@@ -272,15 +275,18 @@ namespace MyDriving.ViewModel
 
             try
             {
-                //Disconnect from the OBD device; if still trying to connect, stop polling for the device
-                await _obdDataProcessor.DisconnectFromObdDevice();
+                if (obdDataProcessor != null)
+                {
+                    //Disconnect from the OBD device; if still trying to connect, stop polling for the device
+                    await obdDataProcessor.DisconnectFromObdDevice();
+                }
             }
             catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
             }
 
-            var poiList = (List<POI>)await StoreManager.POIStore.GetItemsAsync();
+            var poiList = (List<POI>) await StoreManager.POIStore.GetItemsAsync();
             CurrentTrip.HardStops = poiList.Where(p => p.POIType == POIType.HardBrake).Count();
             CurrentTrip.HardAccelerations = poiList.Where(p => p.POIType == POIType.HardAcceleration).Count();
 
@@ -357,7 +363,10 @@ namespace MyDriving.ViewModel
         {
             //Read data from the OBD device
             point.HasOBDData = false;
-            var obdData = await _obdDataProcessor.ReadOBDData();
+            Dictionary<string,string> obdData = null;
+
+            if(obdDataProcessor != null)
+                obdData = await obdDataProcessor.ReadOBDData();
 
             if (obdData != null)
             {
@@ -377,7 +386,7 @@ namespace MyDriving.ViewModel
                 if (obdData.ContainsKey("el") && !string.IsNullOrWhiteSpace(obdData["el"]))
                 {
                     double.TryParse(obdData["el"], out el);
-                    _hasEngineLoad = el != -255;
+                    hasEngineLoad = el != -255;
                 }
                 if (obdData.ContainsKey("stfb"))
                     double.TryParse(obdData["stfb"], out stfb);
@@ -388,7 +397,7 @@ namespace MyDriving.ViewModel
                     double.TryParse(obdData["fr"], out fr);
                     if (fr != -255)
                     {
-                        _fuelConsumptionRate = fr;
+                        fuelConsumptionRate = fr;
                     }
                     else
                         ;
@@ -465,18 +474,22 @@ namespace MyDriving.ViewModel
                     VIN = "-255"
                 };
 
-                _hasEngineLoad = false;
+                hasEngineLoad = false;
 
                 //Add OBD data
-                point.HasSimulatedOBDData = _obdDataProcessor.IsObdDeviceSimulated;
+                if(obdDataProcessor != null)
+                    point.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
                 await AddOBDDataToPoint(point);
 
                 CurrentTrip.Points.Add(point);
 
                 try
                 {
-                    //Push the trip data packaged with the OBD data to the IOT Hub
-                    _obdDataProcessor.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
+                    if (obdDataProcessor != null)
+                    {
+                        //Push the trip data packaged with the OBD data to the IOT Hub
+                        obdDataProcessor.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -492,9 +505,12 @@ namespace MyDriving.ViewModel
 
                     //calculate gas usage
                     var timeDif1 = point.RecordedTimeStamp - previous.RecordedTimeStamp;
-                    CurrentTrip.FuelUsed += _fuelConsumptionRate*0.00002236413*timeDif1.Seconds;
-                    FuelConsumption = Settings.MetricUnits
-                        ? (CurrentTrip.FuelUsed*3.7854).ToString("N2")
+                    CurrentTrip.FuelUsed += fuelConsumptionRate*0.00002236413*timeDif1.Seconds;                    
+                    if(CurrentTrip.FuelUsed == 0)
+                        FuelConsumption = "N/A";
+                    else
+                        FuelConsumption = Settings.MetricUnits
+                        ? (CurrentTrip.FuelUsed * 3.7854).ToString("N2")
                         : CurrentTrip.FuelUsed.ToString("N2");
                 }
                 else
@@ -513,7 +529,7 @@ namespace MyDriving.ViewModel
                 else
                     ElapsedTime = $"{(int) timeDif.TotalHours}h {timeDif.Minutes}m {timeDif.Seconds}s";
 
-                if (_hasEngineLoad)
+                if (hasEngineLoad)
                     EngineLoad = $"{(int) point.EngineLoad}%";
 
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
@@ -576,7 +592,7 @@ namespace MyDriving.ViewModel
                     TimeStamp = DateTime.UtcNow
                 };
 
-                _photos.Add(photoDb);
+                photos.Add(photoDb);
                 photo.Dispose();
             }
             catch (Exception ex)

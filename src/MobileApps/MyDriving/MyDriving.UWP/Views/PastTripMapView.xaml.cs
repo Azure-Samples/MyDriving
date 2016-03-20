@@ -10,7 +10,6 @@ using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
@@ -24,16 +23,16 @@ namespace MyDriving.UWP.Views
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PastTripMapView : Page
+    public sealed partial class PastTripMapView
     {
-        readonly PastTripsDetailViewModel _viewModel;
+        readonly PastTripsDetailViewModel viewModel;
 
         public Trip SelectedTrip;
 
         public PastTripMapView()
         {
             InitializeComponent();
-            _viewModel = new PastTripsDetailViewModel();
+            viewModel = new PastTripsDetailViewModel();
             Locations = new List<BasicGeoposition>();
             DataContext = this;
         }
@@ -42,24 +41,36 @@ namespace MyDriving.UWP.Views
 
         public List<TripPoint> TripPoints { get; set; }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             var trip = e.Parameter as Trip;
             base.OnNavigatedTo(e);
+            viewModel.Trip = trip;
+
             MyMap.Loaded += MyMap_Loaded;
             MyMap.MapElements.Clear();
-            _viewModel.Trip = trip;
+            await viewModel.ExecuteLoadTripCommandAsync(trip.Id);
             DrawPath();
+
+            foreach (var poi in viewModel.POIs)
+                DrawPoiOnMap(poi);
 
             // Currently Points are all jumbled. We need to investigate why this is happening.
             // As a workaround I am sorting the points based on timestamp.  
-            TripPoints = _viewModel.Trip.Points.OrderBy(p => p.RecordedTimeStamp).ToList();
+            TripPoints = viewModel.Trip.Points.OrderBy(p => p.RecordedTimeStamp).ToList();
 
             if (TripPoints.Any())
             {
-                _viewModel.CurrentPosition = TripPoints[0];
+                viewModel.CurrentPosition = TripPoints[0];
                 UpdateStats();
             }
+
+
+            if (mapLoaded)
+                InitialSetup();
+            
+
+
             // Enable the back button navigation
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested; 
@@ -91,19 +102,32 @@ namespace MyDriving.UWP.Views
             return navigated;
         }
 
+        bool initialized;
+        void InitialSetup()
+        {
+            if (initialized)
+                return;
+
+            initialized = true;
+            MyMap.ZoomLevel = 16;
+            if (viewModel.Trip.Points.Count > 0)
+                PositionSlider.Maximum = TripPoints.Count - 1;
+            else
+                PositionSlider.Maximum = 0;
+
+            PositionSlider.Minimum = 0;
+            PositionSlider.IsThumbToolTipEnabled = false;
+
+            TextStarttime.Text = viewModel.Trip.StartTimeDisplay;
+            TextEndtime.Text = viewModel.Trip.EndTimeDisplay;
+        }
+
+        bool mapLoaded;
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
-            MyMap.ZoomLevel = 16;
-            if (_viewModel.Trip.Points.Count > 0)
-                positionSlider.Maximum = TripPoints.Count - 1;
-            else
-                positionSlider.Maximum = 0;
-
-            positionSlider.Minimum = 0;
-            positionSlider.IsThumbToolTipEnabled = false;
-
-            text_starttime.Text = _viewModel.Trip.StartTimeDisplay;
-            text_endtime.Text = _viewModel.Trip.EndTimeDisplay;
+            mapLoaded = true;
+            if (!initialized && TripPoints != null)
+                InitialSetup();
         }
 
         private async void DrawPath()
@@ -120,7 +144,7 @@ namespace MyDriving.UWP.Views
 
                 mapPolyLine.ZIndex = 1;
                 mapPolyLine.Visible = true;
-                mapPolyLine.StrokeColor = Colors.Red;
+                mapPolyLine.StrokeColor = new Color { A = 255, R = 0, G = 94, B = 147 };
                 mapPolyLine.StrokeThickness = 4;
 
                 // Starting off with the first point as center
@@ -153,21 +177,22 @@ namespace MyDriving.UWP.Views
                 MyMap.MapElements.Add(mapEndIcon);
 
                 // Draw the Car 
-                DrawCarOnMap(this.Locations.First());
+                DrawCarOnMap(Locations.First());
             });
         }
 
-        private void DrawPoiOnMap()
+        private void DrawPoiOnMap(POI poi)
         {
             // Foreach POI point. Put it on Maps. 
-            MapIcon mapEndIcon = new MapIcon();
-            mapEndIcon.Location = new Geopoint(this.Locations.First());
-            mapEndIcon.NormalizedAnchorPoint = new Point(0.5, 0.5);
-            mapEndIcon.Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/POI.png"));
-            mapEndIcon.ZIndex = 1;
-            mapEndIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
-            MyMap.MapElements.Add(mapEndIcon);
-
+            var poiIcon = new MapIcon
+            {
+                Location = new Geopoint(new BasicGeoposition { Latitude = poi.Latitude, Longitude = poi.Longitude }),
+                NormalizedAnchorPoint = new Point(0.5, 0.5),
+                Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_tip.png")),
+                ZIndex = 1,
+                CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
+            };
+            MyMap.MapElements.Add(poiIcon);
         }
 
         private void DrawCarOnMap(BasicGeoposition basicGeoposition)
@@ -188,14 +213,14 @@ namespace MyDriving.UWP.Views
             {
                 // Car Icon not found creating it at the position and adding to maps
                 _carIcon = new MapIcon
-                {
-                    Location = new Geopoint(basicGeoposition),
-                    NormalizedAnchorPoint = new Point(0.5, 0.5),
-                    Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/RedCar.png")),
-                    ZIndex = 2,
+            {
+                Location = new Geopoint(basicGeoposition),
+                NormalizedAnchorPoint = new Point(0.5, 0.5),
+                    Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/BlueCar.png")),
+                ZIndex = 2,
                     CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible,
                     Title = "Car"
-                };
+            };
                 MyMap.MapElements.Add(_carIcon);
             }
             else
@@ -207,7 +232,7 @@ namespace MyDriving.UWP.Views
 
         private async void positionSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            _viewModel.CurrentPosition = TripPoints[(int) e.NewValue];
+            viewModel.CurrentPosition = TripPoints[(int) e.NewValue];
 
             var basicGeoposition = Locations[(int) e.NewValue];
             DrawCarOnMap(basicGeoposition);
@@ -220,13 +245,13 @@ namespace MyDriving.UWP.Views
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 // TODO: Need to fix data binding and remove this code. 
-                text_time.Text = _viewModel.ElapsedTime;
-                text_distance.Text = _viewModel.Distance;
-                text_fuel.Text = _viewModel.FuelConsumption;
-                text_fuelunits.Text = _viewModel.FuelConsumptionUnits;
-                text_speed.Text = _viewModel.Speed;
-                text_speedunits.Text = _viewModel.SpeedUnits;
-                text_distanceunits.Text = _viewModel.DistanceUnits;
+                TextTime.Text = viewModel.ElapsedTime;
+                TextDistance.Text = viewModel.Distance;
+                TextFuel.Text = viewModel.FuelConsumption;
+                TextFuelunits.Text = viewModel.FuelConsumptionUnits;
+                TextSpeed.Text = viewModel.Speed;
+                TextSpeedunits.Text = viewModel.SpeedUnits;
+                TextDistanceunits.Text = viewModel.DistanceUnits;
             });
         }
     }

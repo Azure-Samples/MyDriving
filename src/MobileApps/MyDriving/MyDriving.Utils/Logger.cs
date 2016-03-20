@@ -125,29 +125,29 @@ namespace MyDriving.Utils
 
     public class MyDrivingTrackHandle : ITrackHandle, IDisposable
     {
-        readonly Xamarin.ITrackHandle _handle;
+        readonly Xamarin.ITrackHandle handle;
 
         public MyDrivingTrackHandle(Xamarin.ITrackHandle handle)
         {
-            _handle = handle;
+            this.handle = handle;
         }
 
         #region IDisposable implementation
 
         public void Dispose()
         {
-            _handle?.Stop();
-            _handle?.Dispose();
+            handle?.Stop();
+            handle?.Dispose();
         }
 
         #endregion
 
         #region ITrackHandle implementation
 
-        public void Start() => _handle?.Start();
-        public void Stop() => _handle?.Stop();
+        public void Start() => handle?.Start();
+        public void Stop() => handle?.Stop();
 
-        public IDictionary<string, string> Data => _handle?.Data;
+        public IDictionary<string, string> Data => handle?.Data;
 
         #endregion
     }

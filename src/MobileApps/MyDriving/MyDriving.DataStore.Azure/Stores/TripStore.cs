@@ -14,11 +14,11 @@ namespace MyDriving.DataStore.Azure.Stores
 {
     public class TripStore : BaseStore<Trip>, ITripStore
     {
-        readonly IPhotoStore _photoStore;
+        readonly IPhotoStore photoStore;
 
         public TripStore()
         {
-            _photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>();
+            photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>();
         }
 
         public override string Identifier => "Trip";
@@ -26,16 +26,23 @@ namespace MyDriving.DataStore.Azure.Stores
         public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100,
             bool forceRefresh = false)
         {
-            var items = await base.GetItemsAsync(skip, take, forceRefresh).ConfigureAwait(false);
+            await InitializeStoreAsync().ConfigureAwait(false);
+            if (forceRefresh)
+            {
+                await SyncAsync().ConfigureAwait(false);
+            }
+
+            var items = await Table.Skip(skip).Take(take).OrderByDescending(s => s.RecordedTimeStamp).ToEnumerableAsync().ConfigureAwait(false);
+
             foreach (var item in items)
             {
                 item.Photos = new List<Photo>();
-                var photos = await _photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
+                var photos = await photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
                 foreach (var photo in photos)
                     item.Photos.Add(photo);
             }
 
-            return items.OrderByDescending(s => s.RecordedTimeStamp);
+            return items;
         }
 
         public override async Task<Trip> GetItemAsync(string id)
@@ -47,7 +54,7 @@ namespace MyDriving.DataStore.Azure.Stores
             else
                 item.Photos.Clear();
 
-            var photos = await _photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
+            var photos = await photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
             foreach (var photo in photos)
                 item.Photos.Add(photo);
 

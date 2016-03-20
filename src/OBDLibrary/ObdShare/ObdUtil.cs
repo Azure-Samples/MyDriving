@@ -205,9 +205,9 @@ namespace ObdShare
                 case "010C":
                     return r.Next(0, 2500).ToString();
                 case "010D":
-                    return r.Next(20, 120).ToString();
+                    return r.Next(5, 70).ToString();
                 case "0110":
-                    return r.Next(0, 600).ToString();
+                    return r.Next(0, 50).ToString();
                 case "0111":
                     return r.Next(0, 100).ToString();
                 case "011F":

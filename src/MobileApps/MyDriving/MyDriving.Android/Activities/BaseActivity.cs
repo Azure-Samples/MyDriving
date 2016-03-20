@@ -13,8 +13,8 @@ namespace MyDriving.Droid
 {
     public abstract class BaseActivity : AppCompatActivity, IAccelerometerListener
     {
-        AccelerometerManager _accelerometerManager;
-        bool _canShowFeedback;
+        AccelerometerManager accelerometerManager;
+        bool canShowFeedback;
         public Toolbar Toolbar { get; set; }
         protected abstract int LayoutResource { get; }
 
@@ -29,9 +29,9 @@ namespace MyDriving.Droid
 
         public void OnShake(float force)
         {
-            if (!_canShowFeedback)
+            if (!canShowFeedback)
                 return;
-            _canShowFeedback = false;
+            canShowFeedback = false;
             HockeyApp.FeedbackManager.ShowFeedbackActivity(this);
         }
 
@@ -48,8 +48,8 @@ namespace MyDriving.Droid
                 SupportActionBar.SetHomeButtonEnabled(true);
             }
 
-            _accelerometerManager = new AccelerometerManager(this, this);
-            _accelerometerManager.Configure(50, 500);
+            accelerometerManager = new AccelerometerManager(this, this);
+            accelerometerManager.Configure(50, 500);
         }
 
 
@@ -62,9 +62,9 @@ namespace MyDriving.Droid
         protected override void OnResume()
         {
             base.OnResume();
-            _canShowFeedback = true;
-            if (_accelerometerManager.IsSupported)
-                _accelerometerManager.StartListening();
+            canShowFeedback = true;
+            if (accelerometerManager.IsSupported)
+                accelerometerManager.StartListening();
         }
 
         void InitActivityTransitions()
@@ -87,15 +87,15 @@ namespace MyDriving.Droid
         protected override void OnStop()
         {
             base.OnStop();
-            if (_accelerometerManager.IsListening)
-                _accelerometerManager.StopListening();
+            if (accelerometerManager.IsListening)
+                accelerometerManager.StopListening();
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            if (_accelerometerManager.IsListening)
-                _accelerometerManager.StopListening();
+            if (accelerometerManager.IsListening)
+                accelerometerManager.StopListening();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace MyDriving.Utils
     public sealed class ServiceLocator
     {
         static readonly Lazy<ServiceLocator> instance = new Lazy<ServiceLocator>(() => new ServiceLocator());
-        readonly Dictionary<Type, Lazy<object>> _registeredServices = new Dictionary<Type, Lazy<object>>();
+        readonly Dictionary<Type, Lazy<object>> registeredServices = new Dictionary<Type, Lazy<object>>();
 
         /// <summary>
         ///     Singleton instance for default service locator
@@ -26,7 +26,7 @@ namespace MyDriving.Utils
         /// <typeparam name="TService">Service type</typeparam>
         public void Add<TContract, TService>() where TService : new()
         {
-            _registeredServices[typeof (TContract)] =
+            registeredServices[typeof (TContract)] =
                 new Lazy<object>(() => Activator.CreateInstance(typeof (TService)));
         }
 
@@ -40,7 +40,7 @@ namespace MyDriving.Utils
         public T Resolve<T>() where T : class
         {
             Lazy<object> service;
-            if (_registeredServices.TryGetValue(typeof (T), out service))
+            if (registeredServices.TryGetValue(typeof (T), out service))
             {
                 return (T) service.Value;
             }

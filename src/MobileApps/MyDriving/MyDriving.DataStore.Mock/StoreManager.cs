@@ -28,19 +28,19 @@ namespace MyDriving.DataStore.Mock
 
         public bool IsInitialized => true;
 
-        ITripStore _tripStore;
-        public ITripStore TripStore => _tripStore ?? (_tripStore = ServiceLocator.Instance.Resolve<ITripStore>());
+        ITripStore tripStore;
+        public ITripStore TripStore => tripStore ?? (tripStore = ServiceLocator.Instance.Resolve<ITripStore>());
 
-        IPhotoStore _photoStore;
-        public IPhotoStore PhotoStore => _photoStore ?? (_photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
+        IPhotoStore photoStore;
+        public IPhotoStore PhotoStore => photoStore ?? (photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>());
 
-        IUserStore _userStore;
-        public IUserStore UserStore => _userStore ?? (_userStore = ServiceLocator.Instance.Resolve<IUserStore>());
+        IUserStore userStore;
+        public IUserStore UserStore => userStore ?? (userStore = ServiceLocator.Instance.Resolve<IUserStore>());
 
-        IHubIOTStore _iotHubStore;
+        IHubIOTStore iotHubStore;
 
         public IHubIOTStore IOTHubStore
-            => _iotHubStore ?? (_iotHubStore = ServiceLocator.Instance.Resolve<IHubIOTStore>());
+            => iotHubStore ?? (iotHubStore = ServiceLocator.Instance.Resolve<IHubIOTStore>());
 
         IPOIStore poiStore;
         public IPOIStore POIStore => poiStore ?? (poiStore = ServiceLocator.Instance.Resolve<IPOIStore>());

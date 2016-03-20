@@ -14,23 +14,23 @@ namespace MyDriving.ViewModel
 {
     public class PastTripsDetailViewModel : ViewModelBase
     {
-        string _distance = "0.0";
+        string distance = "0.0";
 
-        string _distanceUnits = "miles";
+        string distanceUnits = "miles";
 
-        string _elapsedTime = "0s";
+        string elapsedTime = "0s";
 
-        string _fuelConsumption = "N/A";
+        string fuelConsumption = "N/A";
 
-        string _fuelConsumptionUnits = "gal";
+        string fuelConsumptionUnits = "gal";
 
-        ICommand _loadTripCommand;
+        ICommand loadTripCommand;
 
-        TripPoint _position;
+        TripPoint position;
 
-        string _speed = "0.0";
+        string speed = "0.0";
 
-        string _speedUnits = "Mph";
+        string speedUnits = "Mph";
 
 
         public PastTripsDetailViewModel()
@@ -65,59 +65,59 @@ namespace MyDriving.ViewModel
 
         public TripPoint CurrentPosition
         {
-            get { return _position; }
+            get { return position; }
             set
             {
-                SetProperty(ref _position, value);
+                SetProperty(ref position, value);
                 UpdateTripInformationForPoint();
             }
         }
 
         public string ElapsedTime
         {
-            get { return _elapsedTime; }
-            set { SetProperty(ref _elapsedTime, value); }
+            get { return elapsedTime; }
+            set { SetProperty(ref elapsedTime, value); }
         }
 
         public string Distance
         {
-            get { return _distance; }
-            set { SetProperty(ref _distance, value); }
+            get { return distance; }
+            set { SetProperty(ref distance, value); }
         }
 
         public string DistanceUnits
         {
-            get { return _distanceUnits; }
-            set { SetProperty(ref _distanceUnits, value); }
+            get { return distanceUnits; }
+            set { SetProperty(ref distanceUnits, value); }
         }
 
         public string FuelConsumption
         {
-            get { return _fuelConsumption; }
-            set { SetProperty(ref _fuelConsumption, value); }
+            get { return fuelConsumption; }
+            set { SetProperty(ref fuelConsumption, value); }
         }
 
         public string FuelConsumptionUnits
         {
-            get { return _fuelConsumptionUnits; }
-            set { SetProperty(ref _fuelConsumptionUnits, value); }
+            get { return fuelConsumptionUnits; }
+            set { SetProperty(ref fuelConsumptionUnits, value); }
         }
 
         public string Speed
         {
-            get { return _speed; }
-            set { SetProperty(ref _speed, value); }
+            get { return speed; }
+            set { SetProperty(ref speed, value); }
         }
 
         public string SpeedUnits
         {
-            get { return _speedUnits; }
-            set { SetProperty(ref _speedUnits, value); }
+            get { return speedUnits; }
+            set { SetProperty(ref speedUnits, value); }
         }
 
         public ICommand LoadTripCommand =>
-            _loadTripCommand ??
-            (_loadTripCommand = new RelayCommand<string>(async id => await ExecuteLoadTripCommandAsync(id)));
+            loadTripCommand ??
+            (loadTripCommand = new RelayCommand<string>(async id => await ExecuteLoadTripCommandAsync(id)));
 
         public async Task ExecuteLoadTripCommandAsync(string id)
         {
@@ -153,11 +153,18 @@ namespace MyDriving.ViewModel
                 //TODO: This should be removed for final version
                 if (POIs.Count == 0)
                 {
-                    var centerPoint = Trip.Points[Trip.Points.Count / 2];
+                    var centerPoint = Trip.Points[Trip.Points.Count/2];
                     if (centerPoint != null)
-                        POIs.Add(new POI { Latitude = centerPoint.Latitude, Longitude = centerPoint.Longitude, POIType = POIType.HardBrake, Timestamp = centerPoint.RecordedTimeStamp, TripId = Trip.Id });
+                        POIs.Add(new POI
+                        {
+                            Latitude = centerPoint.Latitude,
+                            Longitude = centerPoint.Longitude,
+                            POIType = POIType.HardBrake,
+                            Timestamp = centerPoint.RecordedTimeStamp,
+                            TripId = Trip.Id
+                        });
                 }
-                Title = Trip.Name;    
+                Title = Trip.Name;
             }
             catch (Exception ex)
             {
@@ -172,7 +179,7 @@ namespace MyDriving.ViewModel
 
         public void UpdateTripInformationForPoint()
         {
-            var timeDif = _position.RecordedTimeStamp - Trip.RecordedTimeStamp;
+            var timeDif = position.RecordedTimeStamp - Trip.RecordedTimeStamp;
 
             //track seconds, minutes, then hours
             if (timeDif.TotalMinutes < 1)
@@ -182,7 +189,7 @@ namespace MyDriving.ViewModel
             else
                 ElapsedTime = $"{(int) timeDif.TotalHours}h {timeDif.Minutes}m";
 
-            var previousPoints = Trip.Points.Where(p => p.RecordedTimeStamp <= _position.RecordedTimeStamp).ToArray();
+            var previousPoints = Trip.Points.Where(p => p.RecordedTimeStamp <= position.RecordedTimeStamp).ToArray();
             var obdPoints = previousPoints.Where(p => p.HasOBDData && p.MassFlowRate > -1).ToArray();
 
             if (previousPoints.Length > 1)
@@ -191,16 +198,19 @@ namespace MyDriving.ViewModel
                 for (int i = 1; i < previousPoints.Length; i++)
                 {
                     var timeDif1 = previousPoints[i].RecordedTimeStamp - previousPoints[i - 1].RecordedTimeStamp;
-                    fuelUsedLiters += previousPoints[i].MassFlowRate * 0.00002236413 * timeDif1.Seconds;
+                    fuelUsedLiters += previousPoints[i].MassFlowRate*0.00002236413*timeDif1.Seconds;
                 }
-                FuelConsumption = Settings.MetricUnits
+                if (fuelUsedLiters == 0)
+                    FuelConsumption = "N/A";
+                else
+                    FuelConsumption = Settings.MetricUnits
                     ? fuelUsedLiters.ToString("N2")
-                    : (fuelUsedLiters * .264172).ToString("N2");
+                    : (fuelUsedLiters*.264172).ToString("N2");
             }
             else
             {
                 FuelConsumption = "N/A";
-            }            
+            }
 
             FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
             DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";

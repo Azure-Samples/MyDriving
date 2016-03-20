@@ -13,7 +13,6 @@ using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -27,29 +26,30 @@ namespace MyDriving.UWP.Views
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class CurrentTripView : Page, INotifyPropertyChanged
+    public sealed partial class CurrentTripView : INotifyPropertyChanged
     {
-        private ImageSource _recordButtonImage;
+     
+        private ImageSource recordButtonImage;
 
-        private ExtendedExecutionSession _session;
+        private ExtendedExecutionSession session;
         public CurrentTripViewModel ViewModel;
-   
+
         public CurrentTripView()
         {
             InitializeComponent();
-            BeginExtendedExecution();
             ViewModel = new CurrentTripViewModel();
             Locations = new List<BasicGeoposition>();
             MyMap.Loaded += MyMap_Loaded;
             DataContext = this;
-            _recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
+            recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
             OnPropertyChanged(nameof(RecordButtonImage));
-            startRecordBtn.Click += StartRecordBtn_Click;
+            StartRecordBtn.Click += StartRecordBtn_Click;
+            BeginExtendedExecution();
         }
     
         public IList<BasicGeoposition> Locations { get; set; }
 
-        public ImageSource RecordButtonImage => _recordButtonImage;
+        public ImageSource RecordButtonImage => recordButtonImage;
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -86,7 +86,7 @@ namespace MyDriving.UWP.Views
             Locations = null;
             MyMap.MapElements.Clear();
             MyMap.Loaded -= MyMap_Loaded;
-            startRecordBtn.Click -= StartRecordBtn_Click;
+            StartRecordBtn.Click -= StartRecordBtn_Click;
             ViewModel.PropertyChanged -= OnPropertyChanged;
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested -= SystemNavigationManager_BackRequested;
@@ -153,27 +153,29 @@ namespace MyDriving.UWP.Views
             {
                 case GeolocationAccessStatus.Allowed:
 
-                    startRecordBtn.IsEnabled = true;
+                    StartRecordBtn.IsEnabled = true;
                     break;
 
                 case GeolocationAccessStatus.Denied:
                     Acr.UserDialogs.UserDialogs.Instance.Alert(
                         "Please ensure that geolocation is enabled and permissions are allowed for MyDriving to start a recording.",
                                                 "Geolocation Disabled", "OK");
-                    startRecordBtn.IsEnabled = false;
+                    StartRecordBtn.IsEnabled = false;
                     break;
 
                 case GeolocationAccessStatus.Unspecified:
                     Acr.UserDialogs.UserDialogs.Instance.Alert("Unspecified Error...", "Geolocation Disabled", "OK");
-                    startRecordBtn.IsEnabled = false;
+                    StartRecordBtn.IsEnabled = false;
                     break;
             }
         }
 
 
-       
         private async Task BeginExtendedExecution()
         {
+            if (ViewModel == null)
+                return;
+
             ClearExtendedExecution();
 
             var newSession = new ExtendedExecutionSession
@@ -189,7 +191,7 @@ namespace MyDriving.UWP.Views
                     //Acr.UserDialogs.UserDialogs.Instance.InfoToast("Extended execution allowed.",
                     //                      "Extended Execution", 4000);
 
-                    _session = newSession;
+                    session = newSession;
                     ViewModel.Geolocator.AllowsBackgroundUpdates = true;
                     ViewModel.StartTrackingTripCommand.Execute(null);
 
@@ -206,11 +208,11 @@ namespace MyDriving.UWP.Views
 
         private void ClearExtendedExecution()
         {
-            if (_session != null)
+            if (session != null)
             {
-                _session.Revoked -= SessionRevoked;
-                _session.Dispose();
-                _session = null;
+                session.Revoked -= SessionRevoked;
+                session.Dispose();
+                session = null;
             }
         }
 
@@ -258,7 +260,7 @@ namespace MyDriving.UWP.Views
                 // Need to add the end marker only when we are able to stop the trip. 
                 AddEndMarker(basicGeoposition);
 
-                _recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
+                recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
                 var recordedTripSummary = ViewModel.TripSummary;
                 await ViewModel.SaveRecordingTripAsync();
@@ -272,7 +274,7 @@ namespace MyDriving.UWP.Views
                     return;
 
                 // Update UI to start recording.
-                _recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StopRecord.png", UriKind.Absolute));
+                recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StopRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
                 // Update the Map with StartMarker, Path
                 AddStartMarker(basicGeoposition);
@@ -284,7 +286,7 @@ namespace MyDriving.UWP.Views
         private async void UpdateMap_PositionChanged(BasicGeoposition basicGeoposition)
         {
      
-                if (ViewModel.IsBusy)
+            if (ViewModel.IsBusy)
                 return;
  
             // To update the carIcon first find it if it exists in MapElements already. 
@@ -307,15 +309,15 @@ namespace MyDriving.UWP.Views
                 {
                     // Car Icon is currently not present. So add it. 
                     _carIcon = new MapIcon
-                    {
+                {
                         NormalizedAnchorPoint = new Point(0.5, 0.5),
                         ZIndex = 4,
                         CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible,
                         Title = "Car"
-                    };
+                };
                     MyMap.MapElements.Add(_carIcon);
                 }
-               
+
                 // Update the icon of the car based on the recording status
                 if (ViewModel.IsRecording)
                     _carIcon.Image =
@@ -327,8 +329,8 @@ namespace MyDriving.UWP.Views
                 // Update the location
                 _carIcon.Location = new Geopoint(basicGeoposition);
                 MyMap.Center = _carIcon.Location;
-              
-                // Add Path if we are recording 
+
+            // Add Path if we are recording 
                 DrawPath(basicGeoposition);
             });
         }
@@ -365,7 +367,7 @@ namespace MyDriving.UWP.Views
                 
                 if (Locations.Count == 0)
                 {
-                    Locations =
+                Locations =
                     new List<BasicGeoposition>(
                         ViewModel.CurrentTrip.Points.Select(
                             s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }));
@@ -401,20 +403,20 @@ namespace MyDriving.UWP.Views
             var geoPoint = new Geopoint(basicGeoposition);
             if (!ViewModel.IsBusy)
                 {
-                    await MyMap.TrySetViewAsync(geoPoint);
-                }
+                await MyMap.TrySetViewAsync(geoPoint);
+            }
         }
 
         private async void UpdateStats()
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                text_fuel.Text = ViewModel.FuelConsumption;
-                text_fuelunits.Text = ViewModel.FuelConsumptionUnits;
-                text_distance.Text = ViewModel.Distance;
-                text_distanceunits.Text = ViewModel.DistanceUnits;
-                text_time.Text = ViewModel.ElapsedTime;
-                text_engineload.Text = ViewModel.EngineLoad;
+                TextFuel.Text = ViewModel.FuelConsumption;
+                TextFuelunits.Text = ViewModel.FuelConsumptionUnits;
+                TextDistance.Text = ViewModel.Distance;
+                TextDistanceunits.Text = ViewModel.DistanceUnits;
+                TextTime.Text = ViewModel.ElapsedTime;
+                TextEngineload.Text = ViewModel.EngineLoad;
             });
         }
 

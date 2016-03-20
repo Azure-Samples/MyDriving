@@ -13,24 +13,24 @@ namespace MyDriving.ViewModel
     public class ProfileViewModel : ViewModelBase
     {
         const int DrivingSkillsBuckets = 4;
-        int _drivingSkills; //percentage
+        int drivingSkills; //percentage
 
 
-        DrivingSkillsBucket _drivingSkillsPlacementBucket;
+        DrivingSkillsBucket drivingSkillsPlacementBucket;
 
-        double _fuelUsed;
+        double fuelUsed;
 
-        long _hardAccelerations;
+        long hardAccelerations;
 
-        long _hardStops;
+        long hardStops;
 
-        double _maxSpeed;
+        double maxSpeed;
 
-        double _totalDistance;
+        double totalDistance;
 
-        double _totalTime;
+        double totalTime;
 
-        long _totalTrips;
+        long totalTrips;
 
         public ProfileViewModel()
         {
@@ -39,18 +39,18 @@ namespace MyDriving.ViewModel
 
         public int DrivingSkills
         {
-            get { return _drivingSkills; }
+            get { return drivingSkills; }
             set
             {
-                SetProperty(ref _drivingSkills, value);
-                UpdatePlacementBucket(_drivingSkills);
+                SetProperty(ref drivingSkills, value);
+                UpdatePlacementBucket(drivingSkills);
             }
         }
 
         public DrivingSkillsBucket DrivingSkillsPlacementBucket
         {
-            get { return _drivingSkillsPlacementBucket; }
-            set { SetProperty(ref _drivingSkillsPlacementBucket, value); }
+            get { return drivingSkillsPlacementBucket; }
+            set { SetProperty(ref drivingSkillsPlacementBucket, value); }
         }
 
         public string FuelUnits => Settings.MetricUnits ? "L" : "gal.";
@@ -94,10 +94,10 @@ namespace MyDriving.ViewModel
 
         public double TotalDistance
         {
-            get { return _totalDistance; }
+            get { return totalDistance; }
             set
             {
-                if (!SetProperty(ref _totalDistance, value))
+                if (!SetProperty(ref totalDistance, value))
                     return;
 
                 OnPropertyChanged(nameof(DistanceUnits));
@@ -109,10 +109,10 @@ namespace MyDriving.ViewModel
 
         public double FuelUsed
         {
-            get { return _fuelUsed; }
+            get { return fuelUsed; }
             set
             {
-                if (!SetProperty(ref _fuelUsed, value))
+                if (!SetProperty(ref fuelUsed, value))
                     return;
 
                 OnPropertyChanged(nameof(FuelUnits));
@@ -124,10 +124,10 @@ namespace MyDriving.ViewModel
 
         public double TotalTime
         {
-            get { return _totalTime; }
+            get { return totalTime; }
             set
             {
-                if (!SetProperty(ref _totalTime, value))
+                if (!SetProperty(ref totalTime, value))
                     return;
 
                 OnPropertyChanged(nameof(TotalTimeDisplay));
@@ -136,10 +136,10 @@ namespace MyDriving.ViewModel
 
         public double MaxSpeed
         {
-            get { return _maxSpeed; }
+            get { return maxSpeed; }
             set
             {
-                if (!SetProperty(ref _maxSpeed, value))
+                if (!SetProperty(ref maxSpeed, value))
                     return;
 
                 OnPropertyChanged(nameof(SpeedUnits));
@@ -151,20 +151,20 @@ namespace MyDriving.ViewModel
 
         public long HardStops
         {
-            get { return _hardStops; }
-            set { SetProperty(ref _hardStops, value); }
+            get { return hardStops; }
+            set { SetProperty(ref hardStops, value); }
         }
 
         public long HardAccelerations
         {
-            get { return _hardAccelerations; }
-            set { SetProperty(ref _hardAccelerations, value); }
+            get { return hardAccelerations; }
+            set { SetProperty(ref hardAccelerations, value); }
         }
 
         public long TotalTrips
         {
-            get { return _totalTrips; }
-            set { SetProperty(ref _totalTrips, value); }
+            get { return totalTrips; }
+            set { SetProperty(ref totalTrips, value); }
         }
 
         DrivingSkillsBucket[] Skills { get; set; }

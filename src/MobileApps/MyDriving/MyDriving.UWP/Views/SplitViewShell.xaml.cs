@@ -15,9 +15,9 @@ namespace MyDriving.UWP.Views
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SplitViewShell : Page
+    public sealed partial class SplitViewShell
     {
-        SplitViewButtonContent _selectedControl;
+        SplitViewButtonContent selectedControl;
 
         public SplitViewShell(Frame frame)
         {
@@ -60,7 +60,7 @@ namespace MyDriving.UWP.Views
         {
             SelectControl(PastTrips);
             MyDrivingSplitView.IsPaneOpen = false;
-            PageTitle.Text = "PAST TRIPS";
+            PageTitle.Text = "Past Trips";
             ((Frame) MyDrivingSplitView.Content).Navigate(typeof (PastTripsMenuView));
         }
 
@@ -68,7 +68,7 @@ namespace MyDriving.UWP.Views
         {
             SelectControl(Profile);
             MyDrivingSplitView.IsPaneOpen = false;
-            PageTitle.Text = "PROFILE";
+            PageTitle.Text = "Profile";
             ((Frame) MyDrivingSplitView.Content).Navigate(typeof (ProfileView));
         }
 
@@ -76,7 +76,7 @@ namespace MyDriving.UWP.Views
         {
             SelectControl(Settings);
             MyDrivingSplitView.IsPaneOpen = false;
-            PageTitle.Text = "SETTINGS";
+            PageTitle.Text = "Settings";
             ((Frame) MyDrivingSplitView.Content).Navigate(typeof (SettingsView));
         }
 
@@ -84,22 +84,10 @@ namespace MyDriving.UWP.Views
         {
             SelectControl(Current);
             MyDrivingSplitView.IsPaneOpen = false;
-            PageTitle.Text = "CURRENT TRIP";
+            PageTitle.Text = "Current Trip";
             ((Frame) MyDrivingSplitView.Content).Navigate(typeof (CurrentTripView));
         }
 
-        private void TripSummaryButton_Click(object sender, RoutedEventArgs e)
-        {
-            MyDrivingSplitView.IsPaneOpen = false;
-
-            //test code to load a trip
-            //if (App.currentTrip == null)
-            //{
-            //    var trips = MyDriving.DataStore.Mock.Stores.TripStore.GetTrips();
-            //    App.currentTrip = trips[4];
-            //}
-            //((Frame)this.MyDrivingSplitView.Content).Navigate(typeof(TripSummaryView));
-        }
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
@@ -122,9 +110,9 @@ namespace MyDriving.UWP.Views
 
         private void SelectControl(SplitViewButtonContent control)
         {
-            _selectedControl?.SetSelected(false);
+            selectedControl?.SetSelected(false);
             control.SetSelected(true);
-            _selectedControl = control;
+            selectedControl = control;
         }
 
         public void SetVisible(bool visible)
