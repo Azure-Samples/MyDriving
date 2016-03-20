@@ -44,7 +44,6 @@ namespace MyDriving.UWP.Views
             recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
             OnPropertyChanged(nameof(RecordButtonImage));
             StartRecordBtn.Click += StartRecordBtn_Click;
-            BeginExtendedExecution();
         }
     
         public IList<BasicGeoposition> Locations { get; set; }
@@ -154,6 +153,7 @@ namespace MyDriving.UWP.Views
                 case GeolocationAccessStatus.Allowed:
 
                     StartRecordBtn.IsEnabled = true;
+                    await BeginExtendedExecution();
                     break;
 
                 case GeolocationAccessStatus.Denied:
