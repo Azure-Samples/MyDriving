@@ -19,8 +19,6 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MyDriving.ViewModel;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace MyDriving.UWP.Views
 {
     /// <summary>
