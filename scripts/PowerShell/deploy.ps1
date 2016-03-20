@@ -1,28 +1,38 @@
 ﻿#Requires -Module AzureRM.Resources
 
 Param(
-    #[string] [Parameter(Mandatory=$true)] $ResourceGroupLocation,
-    #[string] [Parameter(Mandatory=$true)] $ResourceGroupName
+    [string] [Parameter(Mandatory=$true)] $ResourceGroupLocation,
+    [string] [Parameter(Mandatory=$true)] $ResourceGroupName
 )
 
-$ResourceGroupLocation = "westus"
-$ResourceGroupName = "nbeni-rg"
-
 # Variables
+[string] $PreReqTemplateFile = '..\ARM\prerequisites.json'
+
 [string] $TemplateFile = '..\ARM\scenario_complete.json'
-[string] $TemplateFile = '..\ARM\test.json'
-[string] $TemplateParametersFile = '..\ARM\scenario_complete.params.json'
+[string] $ParametersFile = '..\ARM\scenario_complete.params.json'
+
+[string] $dbSchemaDB = "..\SQLDatabase\MyDrivingDB.sql" 
+[string] $dbSchemaSQL = "..\SQLDatabase\MyDrivingAnalyticsDB.sql"
+
 [string] $DeploymentName = ((Get-ChildItem $TemplateFile).BaseName + '-' + ((Get-Date).ToUniversalTime()).ToString('MMdd-HHmm'))
 
 Import-Module Azure -ErrorAction Stop
 
+$PreReqTemplateFile = [System.IO.Path]::Combine($PSScriptRoot, $PreReqTemplateFile)
 $TemplateFile = [System.IO.Path]::Combine($PSScriptRoot, $TemplateFile)
-$TemplateParametersFile = [System.IO.Path]::Combine($PSScriptRoot, $TemplateParametersFile)
+$ParametersFile = [System.IO.Path]::Combine($PSScriptRoot, $ParametersFile)
 
 # verify if user is logged in by querying his subscriptions.
 # if none is found assume he is not
-$Subscriptions = Get-AzureRmSubscription -ErrorAction SilentlyContinue
-if (!($Subscriptions)) {
+try
+{
+	$Subscriptions = Get-AzureRmSubscription
+	if (!($Subscriptions)) {
+		Login-AzureRmAccount 
+	}
+}
+catch
+{
     Login-AzureRmAccount 
 }
 
@@ -54,8 +64,28 @@ if ($Subscriptions.Length -gt 1) {
 # Create or update the resource group using the specified template file and template parameters file
 New-AzureRmResourceGroup -Name $ResourceGroupName -Location $ResourceGroupLocation -Verbose -Force -ErrorAction Stop 
 
-New-AzureRmResourceGroupDeployment -Name $DeploymentName `
-                                   -ResourceGroupName $ResourceGroupName `
-                                   -TemplateFile $TemplateFile `
-                                   -TemplateParameterFile $TemplateParametersFile `
-                                   -Force -Verbose
+# Create Storage Account
+$deployment = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-0" `
+                                                 -ResourceGroupName $ResourceGroupName `
+                                                 -TemplateFile $PreReqTemplateFile `
+                                                 -Force -Verbose
+
+# Upload HQL Queries to Storage Account Continer
+if ($deployment -ne $null) {
+. .\scripts\Copy-ArtifactsToBlobStorage.ps1 -StorageAccountName $deployment.Outputs.storageAccountName.Value `
+                                            -StorageAccountKey $deployment.Outputs.storageAccountKey.Value `
+                                            -StorageContainerName $deployment.Outputs.assetsContainerName.Value
+}
+
+# Create Required Services
+$deployment = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-1" `
+							                     -ResourceGroupName $ResourceGroupName `
+											     -TemplateFile $TemplateFile `
+												 -TemplateParameterFile $ParametersFile `
+											     -Force -Verbose
+
+# Initialize SQL databases
+if ($deployment -ne $null) {
+. .\scripts\setupDb.ps1 $deployment.Outputs.databaseConnectionDB.Value $dbSchemaDB
+. .\scripts\setupDb.ps1 $deployment.Outputs.databaseConnectionSQL.Value $dbSchemaSQL
+}
