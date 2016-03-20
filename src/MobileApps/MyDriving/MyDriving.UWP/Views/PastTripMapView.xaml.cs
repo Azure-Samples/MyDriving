@@ -189,7 +189,7 @@ namespace MyDriving.UWP.Views
                 Location = new Geopoint(new BasicGeoposition { Latitude = poi.Latitude, Longitude = poi.Longitude }),
                 NormalizedAnchorPoint = new Point(0.5, 0.5),
                 Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/POI.png")),
-                ZIndex = 1,
+                ZIndex = 2,
                 CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
             };
             MyMap.MapElements.Add(poiIcon);
