@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25116.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "VINLookUpApplication", "VINLookUpApplication\VINLookUpApplication.sfproj", "{9F110657-BB44-40AE-B87D-92B2B32D3F39}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3A9A9078-BED6-4DEE-82ED-82B287FD2531} = {3A9A9078-BED6-4DEE-82ED-82B287FD2531}
+		{109E2AC7-5699-4B32-968B-B37C6C8C594E} = {109E2AC7-5699-4B32-968B-B37C6C8C594E}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VINLookupService", "VINLookupService\VINLookupService.csproj", "{59C7BD02-6514-4016-81D8-800B039F2C04}"
 EndProject

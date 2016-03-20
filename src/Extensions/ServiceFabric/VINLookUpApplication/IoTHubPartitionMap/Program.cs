@@ -27,7 +27,7 @@ namespace IoTHubPartitionMap
                     fabricRuntime.RegisterActor<IoTHubPartitionMap>();
 
                     Thread.Sleep(Timeout.Infinite);
-                        // Prevents this host process from terminating to keep the service host process running.
+                    // Prevents this host process from terminating to keep the service host process running.
                 }
             }
             catch (Exception e)

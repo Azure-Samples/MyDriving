@@ -45,14 +45,7 @@ namespace ObdLibiOS
             if (simulatormode)
             {
                 PollObd();
-
-                ////these code is for testing.
-                //while (true)
-                //{
-                //    await Task.Delay(2000);
-                //    var dse = Read();
-                //}
-
+                
                 return true;
             }
             bool isObdReaderAvailable = false;
@@ -95,18 +88,20 @@ namespace ObdLibiOS
                 s = await SendAndReceive("ATZ\r");
                 s = await SendAndReceive("ATE0\r");
                 s = await SendAndReceive("ATL1\r");
-                //s = await SendAndReceive("0100\r");
                 s = await SendAndReceive("ATSP00\r");
 
+                //read MAF flow rate
+                s = await RunCmd("0110");
+                if (s != "ERROR")
+                {
+                    lock(_lock)
+                    {
+                        data["fr"] = s;
+                    }
+                }
+
                 PollObd();
-
-                ////these code is for testing.
-                //while (true)
-                //{
-                //    await Task.Delay(2000);
-                //    var dse = Read();
-                //}
-
+                
                 return true;
             }
             else
@@ -164,8 +159,8 @@ namespace ObdLibiOS
                             }
                         if (!running)
                             return;
-                        await Task.Delay(Interval);
                     }
+                    await Task.Delay(Interval);
                 }
             }
             catch (Exception ex)
@@ -213,7 +208,7 @@ namespace ObdLibiOS
                 stream = new NetworkStream(socket);
                 connected = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 connected = false;
                 return false;

@@ -5,8 +5,6 @@ using Windows.UI;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace MyDriving.UWP.Controls
 {
     public sealed partial class SplitViewButtonContent

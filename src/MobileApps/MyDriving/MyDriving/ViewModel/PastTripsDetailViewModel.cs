@@ -200,7 +200,10 @@ namespace MyDriving.ViewModel
                     var timeDif1 = previousPoints[i].RecordedTimeStamp - previousPoints[i - 1].RecordedTimeStamp;
                     fuelUsedLiters += previousPoints[i].MassFlowRate*0.00002236413*timeDif1.Seconds;
                 }
-                FuelConsumption = Settings.MetricUnits
+                if (fuelUsedLiters == 0)
+                    FuelConsumption = "N/A";
+                else
+                    FuelConsumption = Settings.MetricUnits
                     ? fuelUsedLiters.ToString("N2")
                     : (fuelUsedLiters*.264172).ToString("N2");
             }
