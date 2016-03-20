@@ -30,9 +30,11 @@ namespace MyDriving.iOS
             btnSkipAuth.Layer.CornerRadius = 4;
             btnSkipAuth.Layer.MasksToBounds = true;
 
-#if RELEASE
+#if DEBUG || XTC
+            btnSkipAuth.Hidden = false;
+#else
             btnSkipAuth.Hidden = true;
-            #endif
+#endif
         }
 
         public override void ViewDidAppear(bool animated)
