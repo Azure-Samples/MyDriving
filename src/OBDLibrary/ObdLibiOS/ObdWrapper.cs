@@ -89,17 +89,7 @@ namespace ObdLibiOS
                 s = await SendAndReceive("ATE0\r");
                 s = await SendAndReceive("ATL1\r");
                 s = await SendAndReceive("ATSP00\r");
-
-                //read MAF flow rate
-                s = await RunCmd("0110");
-                if (s != "ERROR")
-                {
-                    lock(_lock)
-                    {
-                        data["fr"] = s;
-                    }
-                }
-
+                
                 PollObd();
                 
                 return true;

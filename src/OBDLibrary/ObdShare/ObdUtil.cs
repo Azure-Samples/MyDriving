@@ -172,12 +172,12 @@ namespace ObdShare
             //the structure is <cmd, key>
             var ret = new Dictionary<string, string>
             {
+                {"0110", "fr"},
                 {"0104", "el"},
                 {"0106", "stfb"},
                 {"0107", "ltfb"},
                 {"010C", "rpm"},
                 {"010D", "spd"},
-                {"0110", "fr"},
                 {"0111", "tp"},
                 {"011F", "rt"},
                 {"0121", "dis"},
