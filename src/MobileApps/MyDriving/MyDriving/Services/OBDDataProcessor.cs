@@ -54,7 +54,7 @@ namespace MyDriving.Services
                 isInitialized = true;
                 this.storeManager = storeManager;
 
-                //Get platform specific implemenation of IOTHub and IOBDDevice
+                //Get platform specific implementation of IOTHub and IOBDDevice
                 iotHub = ServiceLocator.Instance.Resolve<IHubIOT>();
                 obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
 
