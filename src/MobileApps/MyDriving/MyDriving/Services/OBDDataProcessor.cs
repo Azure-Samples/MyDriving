@@ -54,7 +54,7 @@ namespace MyDriving.Services
                 isInitialized = true;
                 this.storeManager = storeManager;
 
-                //Get platform specific implemenation of IOTHub and IOBDDevice
+                //Get platform specific implementation of IOTHub and IOBDDevice
                 iotHub = ServiceLocator.Instance.Resolve<IHubIOT>();
                 obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
 
@@ -270,11 +270,13 @@ namespace MyDriving.Services
                     try
                     {
                         isConnected = await Task.Run(async () => await obdDevice.Initialize(true)).WithTimeout(5000);
+                        IsObdDeviceSimulated = obdDevice.IsSimulated;
                     }
                     catch (Exception ex)
                     {
-                        IsObdDeviceSimulated = obdDevice.IsSimulated;
+                        Logger.Instance.WriteLine(ex.ToString());
                     }
+                    
                 }
             }
 

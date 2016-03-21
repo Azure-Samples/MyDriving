@@ -94,6 +94,7 @@ namespace MyDriving.UWP.Views
 
         private void ButtonClick_CloseView(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            App.SetTitle("CURRENT TRIP");
             Frame.Navigate(typeof (CurrentTripView));
         }
 

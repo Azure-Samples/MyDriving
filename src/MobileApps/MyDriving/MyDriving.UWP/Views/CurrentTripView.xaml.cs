@@ -41,7 +41,7 @@ namespace MyDriving.UWP.Views
             DataContext = this;
             recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
             OnPropertyChanged(nameof(RecordButtonImage));
-            StartRecordBtn.Click += StartRecordBtn_Click;
+            StartRecordBtn.Click += StartRecordBtn_Click;       
         }
     
         public IList<BasicGeoposition> Locations { get; set; }
@@ -270,6 +270,9 @@ namespace MyDriving.UWP.Views
             {
                 if (!await ViewModel.StartRecordingTrip())
                     return;
+
+                if (ViewModel.CurrentTrip.HasSimulatedOBDData)
+                    App.SetTitle("CURRENT TRIP (SIMULATED OBD)");
 
                 // Update UI to start recording.
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StopRecord.png", UriKind.Absolute));
