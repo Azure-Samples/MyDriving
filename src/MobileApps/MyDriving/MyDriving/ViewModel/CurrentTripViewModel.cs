@@ -505,7 +505,7 @@ namespace MyDriving.ViewModel
 
                     //calculate gas usage
                     var timeDif1 = point.RecordedTimeStamp - previous.RecordedTimeStamp;
-                    CurrentTrip.FuelUsed += fuelConsumptionRate*0.00002236413*timeDif1.Seconds;                    
+                    CurrentTrip.FuelUsed += fuelConsumptionRate*0.00002236413*timeDif1.TotalSeconds;                    
                     if(CurrentTrip.FuelUsed == 0)
                         FuelConsumption = "N/A";
                     else
