@@ -52,10 +52,6 @@ namespace MyDriving.ViewModel
                 {
                     point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
                 }
-                if (point.Speed == -255)
-                {
-                    point.Speed = i == 0 ? 0 : Trip.Points[i - 1].Speed;
-                }
             }
         }
 
@@ -198,7 +194,7 @@ namespace MyDriving.ViewModel
                 for (int i = 1; i < previousPoints.Length; i++)
                 {
                     var timeDif1 = previousPoints[i].RecordedTimeStamp - previousPoints[i - 1].RecordedTimeStamp;
-                    fuelUsedLiters += previousPoints[i].MassFlowRate*0.00002236413*timeDif1.TotalSeconds;
+                    fuelUsedLiters += previousPoints[i].MassFlowRate*0.0000846572*timeDif1.TotalSeconds;
                 }
                 if (fuelUsedLiters == 0)
                     FuelConsumption = "N/A";

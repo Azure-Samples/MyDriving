@@ -199,10 +199,10 @@ namespace MyDriving.ViewModel
                     TotalTrips = currentUser.TotalTrips;
                     FuelUsed = currentUser.FuelConsumption;
                     MaxSpeed = currentUser.MaxSpeed;
-#if DEBUG || XTC
+//#if DEBUG || XTC
                     if (currentUser.Rating == 0)
                         DrivingSkills = 86;
-#endif
+//#endif
                     OnPropertyChanged("Stats");
                 }
                 //update stats here.

@@ -19,8 +19,6 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MyDriving.ViewModel;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace MyDriving.UWP.Views
 {
     /// <summary>
@@ -28,10 +26,7 @@ namespace MyDriving.UWP.Views
     /// </summary>
     public sealed partial class CurrentTripView : INotifyPropertyChanged
     {
-        private MapIcon carIcon;
-
-        private MapPolyline mapPolyline;
-
+     
         private ImageSource recordButtonImage;
 
         private ExtendedExecutionSession session;
@@ -46,9 +41,9 @@ namespace MyDriving.UWP.Views
             DataContext = this;
             recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
             OnPropertyChanged(nameof(RecordButtonImage));
-            StartRecordBtn.Click += StartRecordBtn_Click;
+            StartRecordBtn.Click += StartRecordBtn_Click;       
         }
-
+    
         public IList<BasicGeoposition> Locations { get; set; }
 
         public ImageSource RecordButtonImage => recordButtonImage;
@@ -61,13 +56,11 @@ namespace MyDriving.UWP.Views
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
+             
 
         private void MyMap_Loaded(object sender, RoutedEventArgs e)
         {
             MyMap.ZoomLevel = 16;
-            carIcon = new MapIcon();
-            mapPolyline = new MapPolyline();
             MyMap.MapElements.Clear();
         }
 
@@ -118,7 +111,6 @@ namespace MyDriving.UWP.Views
 
         void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            //PropertyChanged(this, new PropertyChangedEventArgs("viewModel"));
             switch (e.PropertyName)
             {
                 case nameof(ViewModel.CurrentPosition):
@@ -129,7 +121,6 @@ namespace MyDriving.UWP.Views
                     };
 
                     UpdateMap_PositionChanged(basicGeoposition);
-                    UpdateMapView(basicGeoposition);
                     UpdateStats();
                     break;
 
@@ -158,15 +149,7 @@ namespace MyDriving.UWP.Views
             switch (accessStatus)
             {
                 case GeolocationAccessStatus.Allowed:
-                    // Need to Get the position to Get the map to focus on current position. 
-                    /* var position = await ViewModel.Geolocator.GetPositionAsync();
-                    var basicPosition = new BasicGeoposition()
-                    {
-                        Latitude = position.Latitude,
-                        Longitude = position.Longitude
-                    };
-                    UpdateMap_PositionChanged(basicPosition);
-                    */
+
                     StartRecordBtn.IsEnabled = true;
                     await BeginExtendedExecution();
                     break;
@@ -174,7 +157,7 @@ namespace MyDriving.UWP.Views
                 case GeolocationAccessStatus.Denied:
                     Acr.UserDialogs.UserDialogs.Instance.Alert(
                         "Please ensure that geolocation is enabled and permissions are allowed for MyDriving to start a recording.",
-                        "Geolocation Disabled", "OK");
+                                                "Geolocation Disabled", "OK");
                     StartRecordBtn.IsEnabled = false;
                     break;
 
@@ -214,7 +197,7 @@ namespace MyDriving.UWP.Views
 
                 default:
                     Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to execute app in the background.",
-                        "Background execution denied.", "OK");
+                      "Background execution denied.", "OK");
 
                     newSession.Dispose();
                     break;
@@ -244,15 +227,15 @@ namespace MyDriving.UWP.Views
 
                     case ExtendedExecutionRevokedReason.SystemPolicy:
                         Acr.UserDialogs.UserDialogs.Instance.Alert("Extended execution revoked due to system policy.",
-                            "Background Execution revoked.", "OK");
+                                        "Background Execution revoked.", "OK");
                         break;
                 }
                 // Once Resumed we need to start the extended execution again.
                 await BeginExtendedExecution();
             });
         }
-
-
+       
+  
         private async void StartRecordBtn_Click(object sender, RoutedEventArgs e)
         {
             if (ViewModel?.CurrentPosition == null || ViewModel.IsBusy)
@@ -280,18 +263,22 @@ namespace MyDriving.UWP.Views
                 var recordedTripSummary = ViewModel.TripSummary;
                 await ViewModel.SaveRecordingTripAsync();
                 // Launch Trip Summary Page. 
-
+               
                 Frame.Navigate(typeof (TripSummaryView), recordedTripSummary);
-            }
+        }
             else
             {
                 if (!await ViewModel.StartRecordingTrip())
                     return;
 
+                if (ViewModel.CurrentTrip.HasSimulatedOBDData)
+                    App.SetTitle("CURRENT TRIP (SIMULATED OBD)");
+
                 // Update UI to start recording.
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StopRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
                 // Update the Map with StartMarker, Path
+                AddStartMarker(basicGeoposition);
                 UpdateMap_PositionChanged(basicGeoposition);
                 UpdateStats();
             }
@@ -299,43 +286,57 @@ namespace MyDriving.UWP.Views
 
         private async void UpdateMap_PositionChanged(BasicGeoposition basicGeoposition)
         {
+     
             if (ViewModel.IsBusy)
                 return;
-
-            // To update the carIcon first find it and remove it from the MapElements
+ 
+            // To update the carIcon first find it if it exists in MapElements already. 
+            // If it exists just update the existing one with new location and image 
             await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                // Clear all the map elements. 
-                MyMap.MapElements.Clear();
-
-                carIcon = new MapIcon
+                MapIcon _carIcon = null;
+                // Find if there is a MapIcon with title Car
+                if (MyMap.MapElements != null)
                 {
-                    Location = new Geopoint(basicGeoposition),
-                    NormalizedAnchorPoint = new Point(0.5, 0.5)
+                    var mapIcons = MyMap.MapElements.OfType<MapIcon>().ToList();
+                    foreach (var item in mapIcons)
+                    {
+                        if (item.Title == "Car")
+                            _carIcon = item;
+                    }
+                }
+
+                if (_carIcon == null)
+                {
+                    // Car Icon is currently not present. So add it. 
+                    _carIcon = new MapIcon
+                {
+                        NormalizedAnchorPoint = new Point(0.5, 0.5),
+                        ZIndex = 4,
+                        CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible,
+                        Title = "Car"
                 };
+                    MyMap.MapElements.Add(_carIcon);
+                }
 
+                // Update the icon of the car based on the recording status
                 if (ViewModel.IsRecording)
-                    carIcon.Image =
-                        RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_car_red.png"));
+                    _carIcon.Image =
+                        RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/RedCar.png"));
                 else
-                    carIcon.Image =
-                        RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_car_blue.png"));
+                    _carIcon.Image =
+                        RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/BlueCar.png"));
 
-                carIcon.ZIndex = 4;
-                carIcon.CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible;
-                MyMap.Center = carIcon.Location;
-                MyMap.MapElements.Add(carIcon);
-            });
-
-
-            // Add the Start Icon
-            AddStartMarker();
+                // Update the location
+                _carIcon.Location = new Geopoint(basicGeoposition);
+                MyMap.Center = _carIcon.Location;
 
             // Add Path if we are recording 
-            DrawPath();
+                DrawPath(basicGeoposition);
+            });
         }
 
-        private async void AddStartMarker()
+        private async void AddStartMarker(BasicGeoposition basicGeoposition)
         {
             if (!ViewModel.IsRecording || ViewModel.CurrentTrip.Points.Count == 0)
                 return;
@@ -343,25 +344,19 @@ namespace MyDriving.UWP.Views
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 // First point of the trip will be Start Position. 
-                var basicGeoposition = new BasicGeoposition()
-                {
-                    Latitude = ViewModel.CurrentTrip.Points.First().Latitude,
-                    Longitude = ViewModel.CurrentTrip.Points.First().Longitude
-                };
                 MapIcon mapStartIcon = new MapIcon
                 {
                     Location = new Geopoint(basicGeoposition),
                     NormalizedAnchorPoint = new Point(0.5, 0.5),
-                    Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_start_point.png")),
+                    Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/A100.png")),
                     ZIndex = 3,
                     CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
                 };
-                //   MyMap.Center = mapStartIcon.Location;
                 MyMap.MapElements.Add(mapStartIcon);
             });
         }
 
-        private async void DrawPath()
+        private async void DrawPath(BasicGeoposition basicGeoposition)
         {
             if (!ViewModel.IsRecording || ViewModel.CurrentTrip.Points.Count == 0)
                 return;
@@ -370,24 +365,45 @@ namespace MyDriving.UWP.Views
             {
                 if (MyMap == null)
                     return;
+                
+                if (Locations.Count == 0)
+                {
                 Locations =
                     new List<BasicGeoposition>(
                         ViewModel.CurrentTrip.Points.Select(
-                            s => new BasicGeoposition() {Latitude = s.Latitude, Longitude = s.Longitude}));
+                            s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }));
+                }
+                else
+                    Locations.Add(basicGeoposition);
 
-                mapPolyline.Path = new Geopath(Locations);
-                mapPolyline.StrokeColor = Colors.Red;
-                mapPolyline.StrokeThickness = 3;
-                MyMap.MapElements.Add(mapPolyline);
+                // Check if _mapPolyline is already in MapElements
+                var _mapPolyline = MyMap.MapElements.OfType<MapPolyline>().FirstOrDefault();
+
+                if (_mapPolyline == null)
+                {
+                    // Polyline does not exist. Create a new path and add it.
+                    _mapPolyline = new MapPolyline
+                    {
+                        StrokeColor = Colors.Red,
+                        StrokeThickness = 3,
+                        Visible = true,
+                        Path = new Geopath(Locations)
+                    };
+                    MyMap.MapElements.Add(_mapPolyline);
+                }
+                else
+                {
+                    // Set the path of the already added polyline to new locations
+                    _mapPolyline.Path = new Geopath(Locations);
+                }
             });
         }
-
+ 
         private async void UpdateMapView(BasicGeoposition basicGeoposition)
         {
             var geoPoint = new Geopoint(basicGeoposition);
             if (!ViewModel.IsBusy)
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { MyMap.Center = geoPoint; });
+                {
                 await MyMap.TrySetViewAsync(geoPoint);
             }
         }
@@ -408,13 +424,13 @@ namespace MyDriving.UWP.Views
 
         private void ResetTrip()
         {
-            // MyMap.MapElements.Clear();
+            MyMap.MapElements.Clear();
             Locations?.Clear();
             Locations = null;
             UpdateStats();
         }
 
-
+   
         private async void AddEndMarker(BasicGeoposition basicGeoposition)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -423,7 +439,7 @@ namespace MyDriving.UWP.Views
                 {
                     Location = new Geopoint(basicGeoposition),
                     NormalizedAnchorPoint = new Point(0.5, 0.5),
-                    Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/ic_end_point.png")),
+                    Image = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/B100.png")),
                     ZIndex = 3,
                     CollisionBehaviorDesired = MapElementCollisionBehavior.RemainVisible
                 };
