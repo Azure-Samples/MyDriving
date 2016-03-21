@@ -80,7 +80,9 @@ namespace MyDriving.UWP
                 // parameter
                 if (Settings.Current.IsLoggedIn)
                 {
-                    Window.Current.Content = new SplitViewShell(rootFrame);
+                    SplitViewShell shell = new SplitViewShell(rootFrame);
+                    Window.Current.Content = shell;
+                    shell.SetTitle("CURRENT TRIP");
                     rootFrame.Navigate(typeof(CurrentTripView), e.Arguments);
                 }
                 else if (Settings.Current.FirstRun)
@@ -119,6 +121,13 @@ namespace MyDriving.UWP
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        public static void SetTitle(string title)
+        {
+            SplitViewShell shell = Window.Current.Content as SplitViewShell;
+            if(shell != null)
+                shell.SetTitle(title);
         }
     }
 }
