@@ -3,7 +3,7 @@
     "Acr.UserDialogs": "4.3.4",
     "HockeySDK.UWP": "3.1.1-build36794",
     "Humanizer.Core": "2.0.1",
-    "Microsoft.Azure.Devices.Client": "1.0.2",
+    "Microsoft.Azure.Devices.Client.PCL": "1.0.3",
     "Microsoft.Azure.Mobile.Client.SQLiteStore": "2.0.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "Newtonsoft.Json": "8.0.2",

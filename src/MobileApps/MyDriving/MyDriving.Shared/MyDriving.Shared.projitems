@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)OBDDevice.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)IOTHub.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PlatformLogger.cs" />
   </ItemGroup>
 </Project>

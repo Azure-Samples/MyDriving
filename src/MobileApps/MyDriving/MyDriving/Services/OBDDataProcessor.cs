@@ -22,7 +22,7 @@ namespace MyDriving.Services
         readonly object sendDataLock = new object();
 
         //IOT Hub state
-        IHubIOT iotHub;
+        IHubIOT iotHub = new IOTHub();
         bool isConnectedToObd;
         bool isInitialized;
         bool isPollingObdDevice;
@@ -54,8 +54,7 @@ namespace MyDriving.Services
                 isInitialized = true;
                 this.storeManager = storeManager;
 
-                //Get platform specific implementation of IOTHub and IOBDDevice
-                iotHub = ServiceLocator.Instance.Resolve<IHubIOT>();
+                //Get platform specific implementation IOBDDevice
                 obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
 
                 //Start listening for connectivity change event so that we know if connection is restablished\dropped when pushing data to the IOT Hub
