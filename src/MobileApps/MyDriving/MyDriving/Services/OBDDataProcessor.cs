@@ -270,11 +270,13 @@ namespace MyDriving.Services
                     try
                     {
                         isConnected = await Task.Run(async () => await obdDevice.Initialize(true)).WithTimeout(5000);
+                        IsObdDeviceSimulated = obdDevice.IsSimulated;
                     }
                     catch (Exception ex)
                     {
-                        IsObdDeviceSimulated = obdDevice.IsSimulated;
+                        Logger.Instance.WriteLine(ex.ToString());
                     }
+                    
                 }
             }
 
