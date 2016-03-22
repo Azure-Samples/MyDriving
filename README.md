@@ -1,6 +1,6 @@
 ---
 services: applications-insights, app-service, data-factory, hdinsight, hockeyapp, iot-hub, machine-learning, power-bi, sql-database, storage, stream-analytics, visual-studio-team-services 
-platforms: dotnet, ios, android, uwp, xamarin
+platforms: dotnet, ios, android, xamarin
 author: harikm86
 ---
 
