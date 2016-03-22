@@ -479,28 +479,22 @@ namespace MyDriving.ViewModel
                 //Add OBD data
                 if(obdDataProcessor != null)
                     point.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
+                
                 await AddOBDDataToPoint(point);
-
-                CurrentTrip.Points.Add(point);
-
-                try
-                {
-                    if (obdDataProcessor != null)
-                    {
-                        //Push the trip data packaged with the OBD data to the IOT Hub
-                        obdDataProcessor.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.Report(ex);
-                }
+             
 
                 if (CurrentTrip.Points.Count > 1)
                 {
                     var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];
-                    CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude,
+                    var newDistance = DistanceUtils.CalculateDistance(userLocation.Latitude,
                         userLocation.Longitude, previous.Latitude, previous.Longitude);
+
+                    if(newDistance > 4) // if more than 4 kilometers then gps is off don't use
+                        return;
+
+                    CurrentTrip.Distance += newDistance;
+
+
                     Distance = CurrentTrip.TotalDistanceNoUnits;
 
                     //calculate gas usage
@@ -517,6 +511,19 @@ namespace MyDriving.ViewModel
                 {
                     CurrentTrip.FuelUsed = 0;
                     FuelConsumption = "N/A";
+                }
+
+                //only add if calculations are correct
+                CurrentTrip.Points.Add(point);
+
+                try
+                {
+                    //Push the trip data packaged with the OBD data to the IOT Hub
+                    obdDataProcessor?.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.Report(ex);
                 }
 
                 var timeDif = point.RecordedTimeStamp - CurrentTrip.RecordedTimeStamp;
