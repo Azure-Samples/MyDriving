@@ -1,20 +1,21 @@
 ---
-services: app-service, data-factory, event-hubs, hdinsight, hockeyapp, iot-hub, key-vault, machine-learning, sql-database, storage, stream-analytics, visual-studio-team-services
-platforms: dotnet, ios, android, xamarin
+services: applications-insights, app-service, data-factory, hdinsight, hockeyapp, iot-hub, machine-learning, power-bi, sql-database, storage, stream-analytics, visual-studio-team-services 
+platforms: dotnet, ios, android, uwp, xamarin
 author: harikm86
 ---
 
 
 # MyDriving starter kit
 
-This repository contains the MyDriving starter kit that demonstrates the design and implementation of a typical Internet of Things (IoT) solution that gathers telemetry from devices, processes that data in the cloud, and applies machine learning to provide an adaptive response. The demonstration logs data about your car trips, using data both from your mobile phone and an OBD adaptor that collects information from your car’s control system. It uses this data to provide feedback on your driving style in comparison to other users. 
+This repository contains the MyDriving starter kit that demonstrates the design and implementation of a typical Internet of Things (IoT) solution that gathers telemetry from devices, processes that data in the cloud, and applies machine learning to provide an adaptive response. The demonstration logs data about your car trips, using data both from your mobile phone and an OBD adaptor that collects information from your car’s control system. It uses this data to provide feedback on your driving style in comparison to other users. For more information check out the [MyDriving Page](http://aka.ms/iotsampleapp)
 
-## Documentation
+## Quick Start and Reference Guide
 
 In addition to the readme documentation included in this repository, please see:
 
-- MyDriving: Quick start [TODO: Add link]
-- MyDriving Reference Guide [TODO: Add link]
+- [Try out the MyDriving Solution](http://aka.ms/mydriving-use)
+- [Build your own MyDriving Solution](http://aka.ms/mydriving-start)
+- [MyDriving Reference Guide: Building Integrated IoT Systems that Collect, Process, and Visualize Data](http://aka.ms/mydriving-keynote)
 
 ## Repository contents
 
