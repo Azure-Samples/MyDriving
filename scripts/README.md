@@ -28,6 +28,38 @@ TBD
 
 ## Manual Configuration
 
+### Configuring Power BI Outputs for Azure Streaming Analytics
+
+1. In the [Azure classic portal](https://manage.windowsazure.com/), go to **Stream Analytics** and select **mydriving-hourlypbi**.
+
+1. Click the **STOP** button at the bottom of the page. You need to stop the job in order to add a new output.
+
+1. Click **OUTPUTS** at the top of the page, and then click **Add Output**.
+
+1. In the **Add an Output** dialog box, select **Power BI** and then click next.
+
+1. In the **Add a Microsoft Power BI output**, supply a work or school account for the Stream Analytics job output. If you already have a Power BI account, select **Authorize Now**. If not, choose **Sign up now**.
+
+	![Adding Power BI output](Images/adding-powerbi-output.png?raw=true "Adding Power BI output")
+
+	_Adding Power BI output_
+
+1. Next, set the following values:
+
+	- **Output Alias**: PowerBiSink
+	- **Dataset Name**: ASA-HourlyData
+	- **Table Name**: HourlyTripData
+	- **Workspace**: You can use the default
+
+1. Click the **START** button to restart the job.
+
+1. Repeat the same steps to configure the **mydriving-sqlpbi** Stream Analytics Job using the following values:
+
+	- **Output Alias**: PowerBiSink
+	- **Dataset Name**: MyDriving-ASAdataset
+	- **Table Name**: TripPointData
+	- **Workspace**: You can use the default
+
 ### Power BI configuration (optional)
 At the time of writing, Power Bi dashboard creation is not automated. To define Power BI reports and dashboards, follow the following steps.
 
