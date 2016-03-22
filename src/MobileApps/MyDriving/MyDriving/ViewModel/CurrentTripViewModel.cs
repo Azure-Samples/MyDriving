@@ -448,6 +448,18 @@ namespace MyDriving.ViewModel
             {
                 var userLocation = e.Position;
 
+                TripPoint previous = null;
+                double newDistance = 0;
+                if (CurrentTrip.Points.Count > 1)
+                {
+                    previous = CurrentTrip.Points[CurrentTrip.Points.Count - 1];
+                    newDistance = DistanceUtils.CalculateDistance(userLocation.Latitude,
+                        userLocation.Longitude, previous.Latitude, previous.Longitude);
+
+                    if(newDistance > 4) // if more than 4 miles then gps is off don't use
+                        return;
+                }
+
                 var point = new TripPoint
                     {
                         TripId = CurrentTrip.Id,
@@ -489,11 +501,9 @@ namespace MyDriving.ViewModel
                     Logger.Instance.Report(ex);
                 }
 
-                if (CurrentTrip.Points.Count > 1)
+                if (CurrentTrip.Points.Count > 1 && previous != null)
                 {
-                    var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];
-                    CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude,
-                        userLocation.Longitude, previous.Latitude, previous.Longitude);
+                    CurrentTrip.Distance += newDistance;
                     Distance = CurrentTrip.TotalDistanceNoUnits;
 
                     //calculate gas usage
