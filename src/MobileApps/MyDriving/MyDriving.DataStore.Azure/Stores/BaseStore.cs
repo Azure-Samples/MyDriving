@@ -16,18 +16,18 @@ namespace MyDriving.DataStore.Azure.Stores
 {
     public class BaseStore<T> : IBaseStore<T> where T : class, IBaseDataObject, new()
     {
-        IStoreManager _storeManager;
+        IStoreManager storeManager;
 
-        IMobileServiceSyncTable<T> _table;
+        IMobileServiceSyncTable<T> table;
 
         protected IMobileServiceSyncTable<T> Table =>
-            _table ?? (_table = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client?.GetSyncTable<T>());
+            table ?? (table = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client?.GetSyncTable<T>());
 
         public virtual string Identifier => "Items";
 
         public virtual Task<bool> DropTable()
         {
-            _table = null;
+            table = null;
             return Task.FromResult(true);
         }
 
@@ -47,11 +47,11 @@ namespace MyDriving.DataStore.Azure.Stores
 
         public async Task InitializeStoreAsync()
         {
-            if (_storeManager == null)
-                _storeManager = ServiceLocator.Instance.Resolve<IStoreManager>();
+            if (storeManager == null)
+                storeManager = ServiceLocator.Instance.Resolve<IStoreManager>();
 
-            if (!_storeManager.IsInitialized)
-                await _storeManager.InitializeAsync().ConfigureAwait(false);
+            if (!storeManager.IsInitialized)
+                await storeManager.InitializeAsync().ConfigureAwait(false);
         }
 
         public virtual async Task<IEnumerable<T>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)

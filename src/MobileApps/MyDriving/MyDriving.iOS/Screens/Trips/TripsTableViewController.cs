@@ -80,6 +80,14 @@ namespace MyDriving.iOS
             var cell = tableView.DequeueReusableCell(TripCellWithimageIdentifier) as TripTableViewCellWithImage ??
                        new TripTableViewCellWithImage(new NSString(TripCellWithimageIdentifier));
 
+            if (ViewModel.CanLoadMore && !ViewModel.IsBusy && ViewModel.Trips.Count > 0 && indexPath.Row == ViewModel.Trips.Count - 1)
+            {
+                ViewModel.ExecuteLoadMorePastTripsCommandAsync().ContinueWith((t) =>
+                {
+                    InvokeOnMainThread(delegate { TableView.ReloadData(); });
+                }, scheduler: System.Threading.Tasks.TaskScheduler.Current);
+            }
+
             var trip = ViewModel.Trips[indexPath.Row];
             cell.DisplayImage.SetImage(new NSUrl(trip.MainPhotoUrl));
             cell.LocationName = trip.Name;
@@ -105,9 +113,8 @@ namespace MyDriving.iOS
             {
                 case UITableViewCellEditingStyle.Delete:
                     var trip = ViewModel.Trips[indexPath.Row];
-                    await ViewModel.ExecuteDeleteTripCommand(trip);
-
-                    tableView.DeleteRows(new[] {indexPath}, UITableViewRowAnimation.Automatic);
+                    if(await ViewModel.ExecuteDeleteTripCommand(trip))
+                        tableView.DeleteRows(new[] {indexPath}, UITableViewRowAnimation.Automatic);
                     break;
             }
         }

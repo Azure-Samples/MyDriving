@@ -9,13 +9,13 @@ namespace MyDriving.Droid.Fragments
 {
     public class FragmentSettings : PreferenceFragmentCompat
     {
-        SettingsViewModel _viewModel;
+        SettingsViewModel viewModel;
         public static FragmentSettings NewInstance() => new FragmentSettings {Arguments = new Bundle()};
 
         public override void OnCreatePreferences(Bundle p0, string p1)
         {
             AddPreferencesFromResource(Resource.Xml.preferences);
-            _viewModel = new SettingsViewModel();
+            viewModel = new SettingsViewModel();
         }
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -23,17 +23,17 @@ namespace MyDriving.Droid.Fragments
             base.OnCreate(savedInstanceState);
 
             FindPreference("url_privacy").PreferenceClick +=
-                (sender, args) => _viewModel.OpenBrowserCommand.Execute(_viewModel.PrivacyPolicyUrl);
+                (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.PrivacyPolicyUrl);
             FindPreference("url_copyright").PreferenceClick +=
-                (sender, args) => _viewModel.OpenBrowserCommand.Execute(_viewModel.PrivacyPolicyUrl);
+                (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.PrivacyPolicyUrl);
             FindPreference("url_xamarin").PreferenceClick +=
-                (sender, args) => _viewModel.OpenBrowserCommand.Execute(_viewModel.XamarinUrl);
+                (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.XamarinUrl);
             FindPreference("url_terms").PreferenceClick +=
-                (sender, args) => _viewModel.OpenBrowserCommand.Execute(_viewModel.TermsOfUseUrl);
+                (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.TermsOfUseUrl);
             FindPreference("url_open_notice").PreferenceClick +=
-                (sender, args) => _viewModel.OpenBrowserCommand.Execute(_viewModel.OpenSourceNoticeUrl);
+                (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.OpenSourceNoticeUrl);
             FindPreference("url_github").PreferenceClick +=
-                (sender, args) => _viewModel.OpenBrowserCommand.Execute(_viewModel.SourceOnGitHubUrl);
+                (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.SourceOnGitHubUrl);
         }
     }
 }

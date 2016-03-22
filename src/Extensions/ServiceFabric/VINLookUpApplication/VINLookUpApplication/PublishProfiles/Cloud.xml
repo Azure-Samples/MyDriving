@@ -15,6 +15,6 @@
                                     StoreLocation="CurrentUser"
                                     StoreName="My" />
   -->
-  <ClusterConnectionParameters ConnectionEndpoint="Please specify a connection endpoint." />
+  <ClusterConnectionParameters ConnectionEndpoint="mydriving-ext.westus.cloudapp.azure.com:19000" X509Credential="true" ServerCertThumbprint="27B000263FE9203D6D395DB3F67CB06644D4E594" FindType="FindByThumbprint" FindValue="27B000263FE9203D6D395DB3F67CB06644D4E594" StoreLocation="CurrentUser" StoreName="My" />
   <ApplicationParameterFile Path="..\ApplicationParameters\Cloud.xml" />
 </PublishProfile>

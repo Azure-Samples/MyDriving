@@ -2,19 +2,16 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using Windows.UI;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace MyDriving.UWP.Controls
 {
-    public sealed partial class SplitViewButtonContent : UserControl
+    public sealed partial class SplitViewButtonContent
     {
-        readonly SolidColorBrush _defaultTextColor = new SolidColorBrush(Color.FromArgb(0xFF, 0xad, 0xac, 0xac));
+        readonly SolidColorBrush defaultTextColor = new SolidColorBrush(Color.FromArgb(0xFF, 0xad, 0xac, 0xac));
 
-        readonly SolidColorBrush _selectedTextColor = new SolidColorBrush(Color.FromArgb(0xFF, 0x1b, 0xa0, 0xe1));
+        readonly SolidColorBrush selectedTextColor = new SolidColorBrush(Color.FromArgb(0xFF, 0x1b, 0xa0, 0xe1));
         public BitmapImage DefaultImageSource;
         public string LabelText;
         public BitmapImage SelectedImageSource;
@@ -29,12 +26,12 @@ namespace MyDriving.UWP.Controls
             if (selected)
             {
                 Image.Source = SelectedImageSource;
-                Label.Foreground = _selectedTextColor;
+                Label.Foreground = selectedTextColor;
             }
             else
             {
                 Image.Source = DefaultImageSource;
-                Label.Foreground = _defaultTextColor;
+                Label.Foreground = defaultTextColor;
             }
         }
     }

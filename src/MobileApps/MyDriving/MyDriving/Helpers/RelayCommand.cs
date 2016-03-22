@@ -8,26 +8,26 @@ namespace MyDriving.Helpers
 {
     public class RelayCommand : ICommand
     {
-        private readonly Func<bool> _canExecute;
-        private readonly Action _handler;
-        private bool _isEnabled;
+        private readonly Func<bool> canExecute;
+        private readonly Action handler;
+        private bool isEnabled;
 
         public RelayCommand(Action handler, Func<bool> canExecute = null)
         {
-            _handler = handler;
-            _canExecute = canExecute;
+            this.handler = handler;
+            this.canExecute = canExecute;
             if (canExecute == null)
-                _isEnabled = true;
+                isEnabled = true;
         }
 
         public bool IsEnabled
         {
-            get { return _isEnabled; }
+            get { return isEnabled; }
             set
             {
-                if (value != _isEnabled)
+                if (value != isEnabled)
                 {
-                    _isEnabled = value;
+                    isEnabled = value;
                     CanExecuteChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
@@ -35,8 +35,8 @@ namespace MyDriving.Helpers
 
         public bool CanExecute(object parameter)
         {
-            if (_canExecute != null)
-                IsEnabled = _canExecute();
+            if (canExecute != null)
+                IsEnabled = canExecute();
 
             return IsEnabled;
         }
@@ -45,7 +45,7 @@ namespace MyDriving.Helpers
 
         public void Execute(object parameter)
         {
-            _handler();
+            handler();
         }
 
         /// <summary>
@@ -62,26 +62,26 @@ namespace MyDriving.Helpers
 
     public class RelayCommand<T> : ICommand
     {
-        private readonly Func<T, bool> _canExecute;
-        private readonly Action<T> _handler;
-        private bool _isEnabled = true;
+        private readonly Func<T, bool> canExecute;
+        private readonly Action<T> handler;
+        private bool isEnabled = true;
 
         public RelayCommand(Action<T> handler, Func<T, bool> canExecute = null)
         {
-            _handler = handler;
-            _canExecute = canExecute;
+            this.handler = handler;
+            this.canExecute = canExecute;
             if (canExecute == null)
-                _isEnabled = true;
+                isEnabled = true;
         }
 
         public bool IsEnabled
         {
-            get { return _isEnabled; }
+            get { return isEnabled; }
             set
             {
-                if (value != _isEnabled)
+                if (value != isEnabled)
                 {
-                    _isEnabled = value;
+                    isEnabled = value;
                     CanExecuteChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
@@ -89,8 +89,8 @@ namespace MyDriving.Helpers
 
         public bool CanExecute(object parameter)
         {
-            if (_canExecute != null)
-                IsEnabled = _canExecute((T) parameter);
+            if (canExecute != null)
+                IsEnabled = canExecute((T) parameter);
 
             return IsEnabled;
         }
@@ -99,7 +99,7 @@ namespace MyDriving.Helpers
 
         public void Execute(object parameter)
         {
-            _handler((T) parameter);
+            handler((T) parameter);
         }
 
         /// <summary>

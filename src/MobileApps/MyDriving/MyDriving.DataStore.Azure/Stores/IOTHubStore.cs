@@ -20,5 +20,14 @@ namespace MyDriving.DataStore.Azure.Stores
         {
             return Task.FromResult(true);
         }
+
+        object locker = new object();
+        public override Task<bool> InsertAsync(IOTHubData item)
+        {
+            lock(locker)
+            {
+                return base.InsertAsync(item);
+            }
+        }
     }
 }

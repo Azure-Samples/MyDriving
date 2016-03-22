@@ -63,7 +63,7 @@ namespace MyDriving.Utils
         static readonly bool FirstRunDefault = true;
         static readonly DateTime LastSyncDefault = DateTime.Now.AddDays(-30);
 
-        bool _isConnected;
+        bool isConnected;
 
         static ISettings AppSettings => CrossSettings.Current;
 
@@ -185,12 +185,12 @@ namespace MyDriving.Utils
 
         public bool IsConnected
         {
-            get { return _isConnected; }
+            get { return isConnected; }
             set
             {
-                if (_isConnected == value)
+                if (isConnected == value)
                     return;
-                _isConnected = value;
+                isConnected = value;
                 OnPropertyChanged();
             }
         }

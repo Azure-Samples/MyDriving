@@ -2,14 +2,11 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using Windows.Foundation;
-using Windows.UI.Xaml.Controls;
 using static System.Math;
-
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace MyDriving.UWP.Controls
 {
-    public sealed partial class CirclePercentage : UserControl
+    public sealed partial class CirclePercentage
     {
         public Point EndPoint;
         public bool IsLargeArc;

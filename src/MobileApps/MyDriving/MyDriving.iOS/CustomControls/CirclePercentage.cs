@@ -12,7 +12,7 @@ namespace MyDriving.iOS.CustomControls
     [Register("CirclePercentage"), DesignTimeVisible(true)]
     public class CirclePercentage : UIView
     {
-        float _percentage;
+        float percentage;
 
         public CirclePercentage(IntPtr p) : base(p)
         {
@@ -27,23 +27,23 @@ namespace MyDriving.iOS.CustomControls
         [Export("Value"), Browsable(true)]
         public float Value
         {
-            get { return _percentage; }
+            get { return percentage; }
             set
             {
-                _percentage = value;
+                percentage = value;
                 SetNeedsDisplay();
             }
         }
 
         void Initialize()
         {
-            _percentage = 50;
+            percentage = 50;
         }
 
         public override void Draw(CGRect frame)
         {
             var context = UIGraphics.GetCurrentContext();
-            var expression = 377.0f - _percentage;
+            var expression = 377.0f - percentage;
 
             // coverView Drawing
             var coverViewPath =

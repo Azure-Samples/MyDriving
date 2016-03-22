@@ -8,23 +8,23 @@ namespace VINParser
     public class VINParser
     {
         private const string MYearMap = "ABCDEFGHJKLMNPRSTVWXY123456789";
-        private readonly VMIProvider _mVmiProvider;
+        private readonly VMIProvider mVmiProvider;
 
         public VINParser()
         {
-            _mVmiProvider = new VMIProvider();
+            mVmiProvider = new VMIProvider();
         }
 
         public VINParser(string vmiJsonFile)
         {
-            _mVmiProvider = new VMIProvider(vmiJsonFile);
+            mVmiProvider = new VMIProvider(vmiJsonFile);
         }
 
         public CarInfo Parse(string vin)
         {
-            if (vin == null || vin.Length != 17)
+            if (vin == null || vin.Trim().Length != 17)
                 throw new ArgumentException("VIN number has to be 17 digits long.");
-            CarInfo ret = _mVmiProvider.GetCarInfo(vin);
+            CarInfo ret = mVmiProvider.GetCarInfo(vin.Trim());
             ret.Year = GetYear(vin);
             return ret;
         }

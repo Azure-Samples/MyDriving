@@ -12,7 +12,7 @@ namespace MyTrip.iOS
     [Register("TripSlider"), DesignTimeVisible(true)]
     public class TripSlider : UIView
     {
-        float _percentage;
+        float percentage;
 
         public TripSlider()
         {
@@ -25,10 +25,10 @@ namespace MyTrip.iOS
         [Export("Percentage"), Browsable(true)]
         public float Percentage
         {
-            get { return _percentage; }
+            get { return percentage; }
             set
             {
-                _percentage = value;
+                percentage = value;
                 SetNeedsDisplay();
             }
         }
@@ -44,9 +44,9 @@ namespace MyTrip.iOS
             var color = UIColor.FromRGBA(0.376f, 0.490f, 0.722f, 1.000f);
 
             // Variable Declarations
-            var expression2 = _percentage*2.0f;
+            var expression2 = percentage*2.0f;
             var expression = new CGPoint(25.0f + expression2, 61.0f);
-            var expression3 = 200.0f - _percentage*2.0f;
+            var expression3 = 200.0f - percentage*2.0f;
 
             // Minimum Track Drawing
             var minimumTrackPath =

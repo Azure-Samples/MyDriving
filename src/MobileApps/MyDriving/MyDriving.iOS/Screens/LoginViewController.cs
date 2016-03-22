@@ -11,8 +11,8 @@ namespace MyDriving.iOS
 {
     partial class LoginViewController : UIViewController
     {
-        bool _didAnimate;
-        LoginViewModel _viewModel;
+        bool didAnimate;
+        LoginViewModel viewModel;
 
         public LoginViewController(IntPtr handle) : base(handle)
         {
@@ -20,7 +20,7 @@ namespace MyDriving.iOS
 
         public override void ViewDidLoad()
         {
-            _viewModel = new LoginViewModel();
+            viewModel = new LoginViewModel();
             //Prepare buttons for fade in animation.
             btnFacebook.Alpha = 0;
             btnTwitter.Alpha = 0;
@@ -30,19 +30,21 @@ namespace MyDriving.iOS
             btnSkipAuth.Layer.CornerRadius = 4;
             btnSkipAuth.Layer.MasksToBounds = true;
 
-#if RELEASE
+#if DEBUG || XTC
+            btnSkipAuth.Hidden = false;
+#else
             btnSkipAuth.Hidden = true;
-            #endif
+#endif
         }
 
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
 
-            if (_didAnimate)
+            if (didAnimate)
                 return;
 
-            _didAnimate = true;
+            didAnimate = true;
             btnFacebook.FadeIn(0.3, 0.3f);
             btnTwitter.FadeIn(0.3, 0.5f);
             btnMicrosoft.FadeIn(0.3, 0.7f);
@@ -69,23 +71,23 @@ namespace MyDriving.iOS
             switch (account)
             {
                 case LoginAccount.Facebook:
-                    await _viewModel.ExecuteLoginFacebookCommandAsync();
+                    await viewModel.ExecuteLoginFacebookCommandAsync();
                     break;
                 case LoginAccount.Microsoft:
-                    await _viewModel.ExecuteLoginMicrosoftCommandAsync();
+                    await viewModel.ExecuteLoginMicrosoftCommandAsync();
                     break;
                 case LoginAccount.Twitter:
-                    await _viewModel.ExecuteLoginTwitterCommandAsync();
+                    await viewModel.ExecuteLoginTwitterCommandAsync();
                     break;
             }
 
-            if (_viewModel.IsLoggedIn)
+            if (viewModel.IsLoggedIn)
                 NavigateToTabs();
         }
 
         partial void BtnSkipAuth_TouchUpInside(UIButton sender)
         {
-            _viewModel.InitFakeUser();
+            viewModel.InitFakeUser();
             NavigateToTabs();
         }
 

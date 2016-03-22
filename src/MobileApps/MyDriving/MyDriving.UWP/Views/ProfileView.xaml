@@ -2,8 +2,7 @@
     x:Class="MyDriving.UWP.Views.ProfileView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MyDriving.UWP.Views"
-     xmlns:controls="using:MyDriving.UWP.Controls"
+    xmlns:controls="using:MyDriving.UWP.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -27,16 +26,16 @@
                     <controls:CirclePercentage x:Name="CirclePercentage" Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" DataContext="{x:Bind _profileViewModel.DrivingSkills, Mode=OneWay}"/>
                     <Ellipse Grid.RowSpan="2" Width="100" Height="100">
                         <Ellipse.Fill>
-                            <ImageBrush x:Name="ProfileImage" ImageSource="{x:Bind _profileViewModel.Settings.UserProfileUrl, Mode=OneWay, Converter={StaticResource ImageSourceConverter}}"/>
+                            <ImageBrush x:Name="ProfileImage" ImageSource="{x:Bind profileViewModel.Settings.UserProfileUrl, Mode=OneWay, Converter={StaticResource ImageSourceConverter}}"/>
                         </Ellipse.Fill>
                     </Ellipse>
 
-                    <TextBlock Name="DrivingSkills" Text="{x:Bind _profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}% '}"   
+                    <TextBlock Name="DrivingSkills" Text="{x:Bind profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}% '}"   
                                      Grid.Column="1" FontFamily="SegoeUI" FontSize="32" Foreground="{StaticResource BrandColor}" TextWrapping="Wrap"/>
                     <StackPanel Grid.Column="1" Grid.Row="1">
-                        <TextBlock Name="DrivingSkillsMessage2" Text="{x:Bind _profileViewModel.DrivingSkillsPlacementBucket.Description,  Converter={StaticResource StringFormatConverter}, ConverterParameter='Driving skills: {0}', Mode=OneWay}"   
+                        <TextBlock Name="DrivingSkillsMessage2" Text="{x:Bind profileViewModel.DrivingSkillsPlacementBucket.Description,  Converter={StaticResource StringFormatConverter}, ConverterParameter='Driving skills: {0}', Mode=OneWay}"   
                                     FontFamily="SegoeUI-Light" FontSize="16" Foreground="White" TextWrapping="Wrap" />
-                        <TextBlock Name="DrivingSkillsMessage" Text="{x:Bind _profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Better than {0}% of americans'}" 
+                        <TextBlock Name="DrivingSkillsMessage" Text="{x:Bind profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Better than {0}% of drivers'}" 
                                     FontFamily="SegoeUI-Semilight" FontSize="11"  Foreground="#b1b2b1" TextWrapping="Wrap" />
                     </StackPanel>
                 </Grid>

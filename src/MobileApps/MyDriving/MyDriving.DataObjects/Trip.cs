@@ -10,6 +10,7 @@ using Humanizer;
 using Newtonsoft.Json;
 using MvvmHelpers;
 using MyDriving.Utils;
+
 #endif
 
 namespace MyDriving.DataObjects
@@ -62,8 +63,9 @@ namespace MyDriving.DataObjects
         public double Distance { get; set; }
 #else
         double distance;
+
         /// <summary>
-        /// Gets or sets the total distance in miles.
+        ///     Gets or sets the total distance in miles.
         /// </summary>
         /// <value>The total distance.</value>
         public double Distance
@@ -77,13 +79,13 @@ namespace MyDriving.DataObjects
         public string TimeAgo => EndTimeStamp.ToLocalTime().Humanize(false);
 
         [JsonIgnore]
-        public double DistanceConverted => (Settings.Current.MetricDistance ? (Distance * 1.60934) : Distance);
+        public double DistanceConverted => (Settings.Current.MetricDistance ? (Distance*1.60934) : Distance);
 
         [JsonIgnore]
         public string Units => (Settings.Current.MetricDistance ? "km" : "miles");
 
         [JsonIgnore]
-        public string TotalDistance => DistanceConverted.ToString("f") + " "  + Units;
+        public string TotalDistance => DistanceConverted.ToString("f") + " " + Units;
 
         [JsonIgnore]
         public string TotalDistanceNoUnits => DistanceConverted.ToString("f");
@@ -92,11 +94,15 @@ namespace MyDriving.DataObjects
         public string StartTimeDisplay => RecordedTimeStamp.ToLocalTime().ToString("t");
 
         [JsonIgnore]
-        public string EndTimeDisplay => (Points?.Count).GetValueOrDefault() > 0 ? Points[Points.Count - 1].RecordedTimeStamp.ToLocalTime().ToString("t") : string.Empty;
+        public string EndTimeDisplay
+            =>
+                (Points?.Count).GetValueOrDefault() > 0
+                    ? Points[Points.Count - 1].RecordedTimeStamp.ToLocalTime().ToString("t")
+                    : string.Empty;
 
         [JsonIgnore]
         public IList<Photo> Photos { get; set; }
 
-        #endif
+#endif
     }
 }

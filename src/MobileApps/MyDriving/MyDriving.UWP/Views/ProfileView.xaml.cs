@@ -2,7 +2,6 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MyDriving.ViewModel;
 
@@ -13,14 +12,14 @@ namespace MyDriving.UWP.Views
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ProfileView : Page
+    public sealed partial class ProfileView
     {
-        readonly ProfileViewModel _profileViewModel;
+        readonly ProfileViewModel profileViewModel;
 
         public ProfileView()
         {
-            _profileViewModel = new ProfileViewModel();
-            DataContext = _profileViewModel;
+            profileViewModel = new ProfileViewModel();
+            DataContext = profileViewModel;
             InitializeComponent();
 
             TotalDistanceTab.Title1 = "Total";
@@ -52,7 +51,7 @@ namespace MyDriving.UWP.Views
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
 
-            await _profileViewModel.UpdateProfileAsync();
+            await profileViewModel.UpdateProfileAsync();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)

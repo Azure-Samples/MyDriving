@@ -14,18 +14,18 @@ namespace MyDriving.ViewModel
 {
     public class PastTripsViewModel : ViewModelBase
     {
-        ICommand _loadMorePastTripsCommand;
+        ICommand loadMorePastTripsCommand;
 
-        ICommand _loadPastTripsCommand;
+        ICommand loadPastTripsCommand;
         public ObservableRangeCollection<Trip> Trips { get; } = new ObservableRangeCollection<Trip>();
 
         public ICommand LoadPastTripsCommand =>
-            _loadPastTripsCommand ??
-            (_loadPastTripsCommand = new RelayCommand(async () => await ExecuteLoadPastTripsCommandAsync()));
+            loadPastTripsCommand ??
+            (loadPastTripsCommand = new RelayCommand(async () => await ExecuteLoadPastTripsCommandAsync()));
 
         public ICommand LoadMorePastTripCommand =>
-            _loadMorePastTripsCommand ??
-            (_loadMorePastTripsCommand = new RelayCommand(async () => await ExecuteLoadMorePastTripsCommandAsync()));
+            loadMorePastTripsCommand ??
+            (loadMorePastTripsCommand = new RelayCommand(async () => await ExecuteLoadMorePastTripsCommandAsync()));
 
         public async Task<bool> ExecuteDeleteTripCommand(Trip trip)
         {
@@ -118,7 +118,10 @@ namespace MyDriving.ViewModel
                 IsBusy = true;
                 CanLoadMore = true;
 
+                var newCount = Trips.Count + 25;
                 Trips.AddRange(await StoreManager.TripStore.GetItemsAsync(Trips.Count, 25, true));
+
+                CanLoadMore = Trips.Count == newCount;
             }
             catch (Exception ex)
             {

@@ -19,20 +19,20 @@ namespace MyDriving.Services
     public class OBDDataProcessor
     {
         static OBDDataProcessor _obdDataProcessor;
-        readonly object _sendDataLock = new object();
+        readonly object sendDataLock = new object();
 
         //IOT Hub state
-        IHubIOT _iotHub;
-        bool _isConnectedToObd;
-        bool _isInitialized;
-        bool _isPollingObdDevice;
-        bool _isSendingBufferData;
-        Timer _obdConnectionTimer;
+        IHubIOT iotHub;
+        bool isConnectedToObd;
+        bool isInitialized;
+        bool isPollingObdDevice;
+        bool isSendingBufferData;
+        Timer obdConnectionTimer;
 
         //OBD Device state
-        IOBDDevice _obdDevice;
-        TimeSpan _obdEllapsedTime;
-        IStoreManager _storeManager;
+        IOBDDevice obdDevice;
+        TimeSpan obdEllapsedTime;
+        IStoreManager storeManager;
 
         private OBDDataProcessor()
         {
@@ -49,21 +49,21 @@ namespace MyDriving.Services
         public async Task Initialize(IStoreManager storeManager)
         {
             //Ensure that initialization is only performed once
-            if (!_isInitialized)
+            if (!isInitialized)
             {
-                _isInitialized = true;
-                _storeManager = storeManager;
+                isInitialized = true;
+                this.storeManager = storeManager;
 
-                //Get platform specific implemenation of IOTHub and IOBDDevice
-                _iotHub = ServiceLocator.Instance.Resolve<IHubIOT>();
-                _obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
+                //Get platform specific implementation of IOTHub and IOBDDevice
+                iotHub = ServiceLocator.Instance.Resolve<IHubIOT>();
+                obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
 
                 //Start listening for connectivity change event so that we know if connection is restablished\dropped when pushing data to the IOT Hub
                 CrossConnectivity.Current.ConnectivityChanged += Current_ConnectivityChanged;
 
                 //Provision the device with the IOT Hub
                 var connectionStr = await DeviceProvisionHandler.GetHandler().ProvisionDevice();
-                _iotHub.Initialize(connectionStr);
+                iotHub.Initialize(connectionStr);
 
                 //Check right away if there is any trip data left in the buffer that needs to be sent to the IOT Hub - run this thread in the background
                 SendBufferedDataToIOTHub();
@@ -97,7 +97,7 @@ namespace MyDriving.Services
 
             try
             {
-                await _iotHub.SendEvent(packagedBlob);
+                await iotHub.SendEvent(packagedBlob);
             }
             catch (Exception e)
             {
@@ -111,7 +111,7 @@ namespace MyDriving.Services
         {
             IOTHubData iotHubData = new IOTHubData {Blob = tripDataPointBlob};
 
-            await _storeManager.IOTHubStore.InsertAsync(iotHubData);
+            await storeManager.IOTHubStore.InsertAsync(iotHubData);
 
             //Try to sending buffered data to the IOT Hub in the background
             SendBufferedDataToIOTHub();
@@ -130,19 +130,19 @@ namespace MyDriving.Services
         private async Task SendBufferedDataToIOTHub()
         {
             //Make sure that this thread can't be kicked off concurrently
-            lock (_sendDataLock)
+            lock (sendDataLock)
             {
-                if (_isSendingBufferData)
+                if (isSendingBufferData)
                 {
                     return;
                 }
                 else
                 {
-                    _isSendingBufferData = true;
+                    isSendingBufferData = true;
                 }
             }
 
-            var iotHubDataBlobs = new List<IOTHubData>(await _storeManager.IOTHubStore.GetItemsAsync());
+            var iotHubDataBlobs = new List<IOTHubData>(await storeManager.IOTHubStore.GetItemsAsync());
 
             while (CrossConnectivity.Current.IsConnected && iotHubDataBlobs.Any())
             {
@@ -150,8 +150,8 @@ namespace MyDriving.Services
                 {
                     //Once all the data is pushed to the IOT Hub, delete it from the buffer
                     //Note: This could still be pushing a bunch of data at once, but running in the background should make the performance impact of this unnoticable
-                    await _iotHub.SendEvent(iotHubDataBlobs[0].Blob);
-                    await _storeManager.IOTHubStore.RemoveAsync(iotHubDataBlobs[0]);
+                    await iotHub.SendEvent(iotHubDataBlobs[0].Blob);
+                    await storeManager.IOTHubStore.RemoveAsync(iotHubDataBlobs[0]);
                 }
                 catch (Exception e)
                 {
@@ -161,13 +161,13 @@ namespace MyDriving.Services
                 }
                 finally
                 {
-                    iotHubDataBlobs = new List<IOTHubData>(await _storeManager.IOTHubStore.GetItemsAsync());
+                    iotHubDataBlobs = new List<IOTHubData>(await storeManager.IOTHubStore.GetItemsAsync());
                 }
             }
 
-            lock (_sendDataLock)
+            lock (sendDataLock)
             {
-                _isSendingBufferData = false;
+                isSendingBufferData = false;
             }
         }
 
@@ -184,15 +184,15 @@ namespace MyDriving.Services
         public async Task<Dictionary<String, String>> ReadOBDData()
         {
             Dictionary<String, String> obdData = null;
-            if (_isConnectedToObd)
+            if (isConnectedToObd)
             {
                 //Null is returned if connection to the OBD device is dropped
-                obdData = _obdDevice.ReadData();
+                obdData = obdDevice.ReadData();
 
                 if (obdData == null)
                 {
                     //Invoke in background so that caller isn't blocked while trying to connect to OBD device
-                    _isConnectedToObd = false;
+                    isConnectedToObd = false;
                     ConnectToObdDevice(false);
                 }
             }
@@ -207,9 +207,9 @@ namespace MyDriving.Services
 
             //Disconnect to the device in the case that we did successfull connect to it
             if (!IsObdDeviceSimulated)
-                await _obdDevice.Disconnect();
+                await obdDevice.Disconnect();
 
-            _isConnectedToObd = false;
+            isConnectedToObd = false;
         }
 
         public async Task ConnectToObdDevice(bool showConfirmDialog)
@@ -218,7 +218,7 @@ namespace MyDriving.Services
             if (showConfirmDialog)
             {
                 //Prompts user with dialog to retry if connection to OBD device fails
-                _isConnectedToObd = await ConnectToObdDeviceWithConfirmation();
+                isConnectedToObd = await ConnectToObdDeviceWithConfirmation();
             }
             else
             {
@@ -233,14 +233,14 @@ namespace MyDriving.Services
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Connecting to OBD Device...",
                 maskType: Acr.UserDialogs.MaskType.Clear);
 
-            if (_obdDevice == null)
+            if (obdDevice == null)
             {
-                _obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
+                obdDevice = ServiceLocator.Instance.Resolve<IOBDDevice>();
             }
 
             try
             {
-                isConnected = await Task.Run(async () => await _obdDevice.Initialize()).WithTimeout(5000);
+                isConnected = await Task.Run(async () => await obdDevice.Initialize()).WithTimeout(5000);
             }
             catch (Exception ex)
             {
@@ -269,12 +269,14 @@ namespace MyDriving.Services
                     //Use the OBD simulator
                     try
                     {
-                        isConnected = await Task.Run(async () => await _obdDevice.Initialize(true)).WithTimeout(5000);
+                        isConnected = await Task.Run(async () => await obdDevice.Initialize(true)).WithTimeout(5000);
+                        IsObdDeviceSimulated = obdDevice.IsSimulated;
                     }
                     catch (Exception ex)
                     {
-                        IsObdDeviceSimulated = _obdDevice.IsSimulated;
+                        Logger.Instance.WriteLine(ex.ToString());
                     }
+                    
                 }
             }
 
@@ -283,22 +285,22 @@ namespace MyDriving.Services
 
         private void StartPollingOBDDevice()
         {
-            if (!_isConnectedToObd && !_isPollingObdDevice)
+            if (!isConnectedToObd && !isPollingObdDevice)
             {
-                _isPollingObdDevice = true;
-                _obdEllapsedTime = new TimeSpan(0, 0, 0);
-                _obdConnectionTimer = new Timer(OnTick, 0, 1000, 1000);
+                isPollingObdDevice = true;
+                obdEllapsedTime = new TimeSpan(0, 0, 0);
+                obdConnectionTimer = new Timer(OnTick, 0, 1000, 1000);
             }
         }
 
         private void StopPollingOBDDevice()
         {
-            if (_isPollingObdDevice)
+            if (isPollingObdDevice)
             {
-                _obdConnectionTimer.Cancel();
-                _obdConnectionTimer.Dispose();
-                _isPollingObdDevice = false;
-                _obdEllapsedTime = new TimeSpan(0, 0, 0);
+                obdConnectionTimer.Cancel();
+                obdConnectionTimer.Dispose();
+                isPollingObdDevice = false;
+                obdEllapsedTime = new TimeSpan(0, 0, 0);
             }
         }
 
@@ -306,11 +308,11 @@ namespace MyDriving.Services
         {
             try
             {
-                if (_obdDevice == null)
+                if (obdDevice == null)
                     return;
 
-                _isConnectedToObd = await Task.Run(async () => await _obdDevice.Initialize()).WithTimeout(5000);
-                if (_isConnectedToObd)
+                isConnectedToObd = await Task.Run(async () => await obdDevice.Initialize()).WithTimeout(5000);
+                if (isConnectedToObd)
                 {
                     StopPollingOBDDevice();
                 }
@@ -322,24 +324,24 @@ namespace MyDriving.Services
 
         private async void OnTick(object args)
         {
-            _obdEllapsedTime = _obdEllapsedTime.Add(new TimeSpan(0, 0, 1));
+            obdEllapsedTime = obdEllapsedTime.Add(new TimeSpan(0, 0, 1));
 
-            if (_obdEllapsedTime.TotalMinutes < 5 && _obdEllapsedTime.TotalSeconds%10 == 0)
+            if (obdEllapsedTime.TotalMinutes < 5 && obdEllapsedTime.TotalSeconds%10 == 0)
             {
                 //Try to connect every 10 seconds if the OBD device disconnected time is 5 mins or less
                 await TryToConnectToOBDDevice();
             }
-            else if (_obdEllapsedTime.TotalMinutes < 30 && _obdEllapsedTime.TotalMinutes%5 == 0)
+            else if (obdEllapsedTime.TotalMinutes < 30 && obdEllapsedTime.TotalMinutes%5 == 0)
             {
                 //Try to connect every 5 minutes if the OBD device disconnected time is 30 mins or less
                 await TryToConnectToOBDDevice();
             }
-            else if (_obdEllapsedTime.TotalHours < 3 && _obdEllapsedTime.TotalMinutes%30 == 0)
+            else if (obdEllapsedTime.TotalHours < 3 && obdEllapsedTime.TotalMinutes%30 == 0)
             {
                 //Otherwise, try to connect every 30 minutes
                 await TryToConnectToOBDDevice();
             }
-            else if (_obdEllapsedTime.TotalHours >= 3)
+            else if (obdEllapsedTime.TotalHours >= 3)
             {
                 //Give up after 3 hours
                 StopPollingOBDDevice();

@@ -3,7 +3,6 @@
 
 using System;
 using MvvmHelpers;
-
 #if BACKEND
 using Microsoft.Azure.Mobile.Server;
 
@@ -31,9 +30,8 @@ namespace MyDriving.DataObjects
         {
             Id = Guid.NewGuid().ToString();
         }
-        
+
         public string Id { get; set; }
-        
     }
 #endif
 }

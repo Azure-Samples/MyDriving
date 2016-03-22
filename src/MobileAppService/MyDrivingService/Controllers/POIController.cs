@@ -11,13 +11,13 @@ namespace MyDrivingService.Controllers
 {
     public class POIController : TableController<POI>
     {
-        private MyDrivingContext _dbContext;
+        private MyDrivingContext dbContext;
 
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
-            _dbContext = new MyDrivingContext();
-            DomainManager = new EntityDomainManager<POI>(_dbContext, Request);
+            dbContext = new MyDrivingContext();
+            DomainManager = new EntityDomainManager<POI>(dbContext, Request);
         }
 
         public IQueryable<POI> GetAllPOIs(string tripId)

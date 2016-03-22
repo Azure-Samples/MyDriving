@@ -117,6 +117,22 @@ namespace VINLookupService
                     string insertedId = (string) cmd.ExecuteScalar();
                     ServiceEventSource.Current.ServiceMessage(this, "Records ID {0} inserted.", insertedId);
                 }
+                else
+                {
+                    cmd = conn.CreateCommand();
+                    cmd.CommandText = @"
+                    UPDATE dbo.dimVinLookup SET make=@make, model=@model, carYear=@carYear, carType=@carType
+                    WHERE vinNum=@vinNum";
+
+                    cmd.Parameters.AddWithValue("@vinNum", vin);
+                    cmd.Parameters.AddWithValue("@make", carInfo.Make);
+                    cmd.Parameters.AddWithValue("@model", carInfo.Model);
+                    cmd.Parameters.AddWithValue("@carYear", carInfo.Year);
+                    cmd.Parameters.AddWithValue("@carType", carInfo.CarType.ToString());
+
+                    int rowCount = cmd.ExecuteNonQuery();
+                    ServiceEventSource.Current.ServiceMessage(this, "{0} row updated.", rowCount);
+                }
             }
         }
     }

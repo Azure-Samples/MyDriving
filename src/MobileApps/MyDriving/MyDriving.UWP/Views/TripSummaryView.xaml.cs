@@ -3,7 +3,6 @@
 
 using System;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MyDriving.ViewModel;
 
@@ -14,7 +13,7 @@ namespace MyDriving.UWP.Views
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class TripSummaryView : Page
+    public sealed partial class TripSummaryView
     {
         public TripSummaryView()
         {
@@ -39,7 +38,6 @@ namespace MyDriving.UWP.Views
 
             HardAccelerationsTab.Title1 = "Hard";
             HardAccelerationsTab.Title2 = "ACCELERATIONS";
-
         }
 
         public TripSummaryViewModel ViewModel { get; set; }
@@ -94,7 +92,8 @@ namespace MyDriving.UWP.Views
 
         private void ButtonClick_CloseView(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(CurrentTripView));
+            App.SetTitle("CURRENT TRIP");
+            Frame.Navigate(typeof (CurrentTripView));
         }
 
         //{

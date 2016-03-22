@@ -142,6 +142,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="Assets\A100.png" />
+    <Content Include="Assets\B100.png" />
+    <Content Include="Assets\BlueCar.png" />
     <Content Include="Assets\close64x64.png" />
     <Content Include="Assets\Fonts\CorbertRegular\Corbert-Regular.otf" />
     <None Include="MyDriving.UWP_TemporaryKey.pfx" />
@@ -223,8 +226,6 @@
   <ItemGroup>
     <Content Include="Assets\A.png" />
     <Content Include="Assets\B.png" />
-    <Content Include="Assets\Car Icon_Blue.png" />
-    <Content Include="Assets\Car Icon_Red.png" />
     <Content Include="Assets\Fonts\CorbertRegular\Desktop EULA 1.6.txt" />
     <Content Include="Assets\GetStarted\background.png" />
     <Content Include="Assets\GetStarted\SCREEN1.png" />
@@ -238,12 +239,10 @@
     <Content Include="Assets\ic_launcher48.targetsize-48.png" />
     <Content Include="Assets\ic_start.png" />
     <Content Include="Assets\ic_stop.png" />
+    <Content Include="Assets\ic_tip.png" />
     <Content Include="Assets\Login\appLogo.png" />
     <Content Include="Assets\Login\facebook.png" />
     <Content Include="Assets\ic_start_point.png" />
-    <Content Include="Assets\ic_end_point.png" />
-    <Content Include="Assets\ic_car_blue.png" />
-    <Content Include="Assets\ic_car_red.png" />
     <Content Include="Assets\Login\Microsoft.png" />
     <Content Include="Assets\Login\twitter.png" />
     <Content Include="Assets\logo%403x.png" />
@@ -253,7 +252,8 @@
     <Content Include="Assets\Logos\Logo300x300.png" />
     <Content Include="Assets\Logos\Logo88x88.png" />
     <Content Include="Assets\Logos\SplashScreen.png" />
-    <Content Include="Assets\mappin.png" />
+    <Content Include="Assets\POI.png" />
+    <Content Include="Assets\RedCar.png" />
     <Content Include="Assets\Smarttriplogo.png" />
     <Content Include="Assets\SplitView\default_Current.png" />
     <Content Include="Assets\SplitView\default_logout.png" />
@@ -281,7 +281,6 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="Assets\car_annotation.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -407,6 +406,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
     <SDKReference Include="SQLite.UWP.2015, Version=3.11.1">
       <Name>SQLite for Universal Windows Platform</Name>
     </SDKReference>

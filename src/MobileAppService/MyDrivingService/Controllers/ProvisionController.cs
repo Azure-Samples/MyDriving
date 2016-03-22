@@ -19,7 +19,7 @@ namespace MyDrivingService.Controllers
     public class ProvisionController : ApiController
     {
         private static RegistryManager registryManager;
-        private static object syncRoot = new object();
+        private static readonly object SyncRoot = new object();
 
         // GET api/Provision
         [HttpGet]
@@ -44,10 +44,10 @@ namespace MyDrivingService.Controllers
             MyDrivingContext context = new MyDrivingContext();
             var curUser = context.UserProfiles.FirstOrDefault(user => user.UserId == userId) ??
                           context.UserProfiles.Add(new MyDriving.DataObjects.UserProfile
-            {
-                Id = Guid.NewGuid().ToString(),
-                UserId = userId
-            });
+                          {
+                              Id = Guid.NewGuid().ToString(),
+                              UserId = userId
+                          });
 
             if (curUser.Devices == null)
             {
@@ -76,13 +76,13 @@ namespace MyDrivingService.Controllers
         {
             if (registryManager == null)
             {
-                lock (syncRoot)
+                lock (SyncRoot)
                 {
                     if (registryManager == null)
                     {
                         var settings = Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
                         string iotHubconnectionString = settings["IoTHubConnectionString"];
-                            //ConfigurationManager.AppSettings["IoTHubConnectionString"];
+                        //ConfigurationManager.AppSettings["IoTHubConnectionString"];
                         registryManager = RegistryManager.CreateFromConnectionString(iotHubconnectionString);
                     }
                 }

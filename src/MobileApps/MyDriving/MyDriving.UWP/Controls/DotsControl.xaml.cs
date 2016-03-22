@@ -2,17 +2,14 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using Windows.UI;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace MyDriving.UWP.Controls
 {
-    public sealed partial class DotsControl : UserControl
+    public sealed partial class DotsControl
     {
-        readonly SolidColorBrush _selectedColorBrush = new SolidColorBrush(Colors.White);
-        readonly SolidColorBrush _unselectedColorBrush = new SolidColorBrush(Colors.Gray);
+        readonly SolidColorBrush selectedColorBrush = new SolidColorBrush(Colors.White);
+        readonly SolidColorBrush unselectedColorBrush = new SolidColorBrush(Colors.Gray);
 
         public DotsControl()
         {
@@ -24,24 +21,24 @@ namespace MyDriving.UWP.Controls
             switch (position)
             {
                 case 1:
-                    Circle5.Fill = _unselectedColorBrush;
-                    Circle1.Fill = _selectedColorBrush;
+                    Circle5.Fill = unselectedColorBrush;
+                    Circle1.Fill = selectedColorBrush;
                     break;
                 case 2:
-                    Circle1.Fill = _unselectedColorBrush;
-                    Circle2.Fill = _selectedColorBrush;
+                    Circle1.Fill = unselectedColorBrush;
+                    Circle2.Fill = selectedColorBrush;
                     break;
                 case 3:
-                    Circle2.Fill = _unselectedColorBrush;
-                    Circle3.Fill = _selectedColorBrush;
+                    Circle2.Fill = unselectedColorBrush;
+                    Circle3.Fill = selectedColorBrush;
                     break;
                 case 4:
-                    Circle3.Fill = _unselectedColorBrush;
-                    Circle4.Fill = _selectedColorBrush;
+                    Circle3.Fill = unselectedColorBrush;
+                    Circle4.Fill = selectedColorBrush;
                     break;
                 case 5:
-                    Circle4.Fill = _unselectedColorBrush;
-                    Circle5.Fill = _selectedColorBrush;
+                    Circle4.Fill = unselectedColorBrush;
+                    Circle5.Fill = selectedColorBrush;
                     break;
                 default:
                     UnselectAll();
@@ -51,11 +48,11 @@ namespace MyDriving.UWP.Controls
 
         public void UnselectAll()
         {
-            Circle1.Fill = _unselectedColorBrush;
-            Circle2.Fill = _selectedColorBrush;
-            Circle3.Fill = _unselectedColorBrush;
-            Circle4.Fill = _selectedColorBrush;
-            Circle5.Fill = _selectedColorBrush;
+            Circle1.Fill = unselectedColorBrush;
+            Circle2.Fill = selectedColorBrush;
+            Circle3.Fill = unselectedColorBrush;
+            Circle4.Fill = selectedColorBrush;
+            Circle5.Fill = selectedColorBrush;
         }
     }
 }
