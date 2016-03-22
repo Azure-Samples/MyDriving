@@ -24,7 +24,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <controls:CirclePercentage x:Name="CirclePercentage" Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" DataContext="{Binding }"/>
+                    <controls:CirclePercentage x:Name="CirclePercentage" Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" DataContext="{x:Bind _profileViewModel.DrivingSkills, Mode=OneWay}"/>
                     <Ellipse Grid.RowSpan="2" Width="100" Height="100">
                         <Ellipse.Fill>
                             <ImageBrush x:Name="ProfileImage" ImageSource="{x:Bind _profileViewModel.Settings.UserProfileUrl, Mode=OneWay, Converter={StaticResource ImageSourceConverter}}"/>
@@ -42,30 +42,26 @@
                 </Grid>
 
                 <Border Margin="0,16,0,0" />
-                <controls:ProfileViewTabControl x:Name="TotalDistanceTab" DataContext="{Binding TotalDistanceDisplay}" />
+                <controls:ProfileViewTabControl x:Name="TotalDistanceTab" DataContext="{x:Bind _profileViewModel.TotalDistanceDisplay, Mode=OneWay}" />
 
                 <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="TotalTimeTab" DataContext="{Binding TotalTimeDisplay}" />
+                <controls:ProfileViewTabControl x:Name="TotalTimeTab" DataContext="{x:Bind _profileViewModel.TotalTimeDisplay, Mode=OneWay}" />
 
                 <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="MaxSpeedTab" DataContext="{Binding MaxSpeedDisplay}" />
+                <controls:ProfileViewTabControl x:Name="MaxSpeedTab" DataContext="{x:Bind _profileViewModel.MaxSpeedDisplay, Mode=OneWay}" />
 
                 <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="FuelConsumptionTab" DataContext="{Binding FuelDisplay}" />
+                <controls:ProfileViewTabControl x:Name="FuelConsumptionTab" DataContext="{x:Bind _profileViewModel.FuelDisplay, Mode=OneWay}" />
 
                 <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="HardBreaksTab" DataContext="{Binding HardStops,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
+                <controls:ProfileViewTabControl x:Name="HardBreaksTab" DataContext="{x:Bind _profileViewModel.HardStops, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
 
                 <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="HardAccelTab" DataContext="{Binding HardAccelerations,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
+                <controls:ProfileViewTabControl x:Name="HardAccelTab" DataContext="{x:Bind _profileViewModel.HardAccelerations, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
 
                 <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="TotalTripsTab" DataContext="{Binding TotalTrips}" />
+                <controls:ProfileViewTabControl x:Name="TotalTripsTab" DataContext="{x:Bind _profileViewModel.TotalTrips, Mode=OneWay}" />
 
-                <!-- we no longer have tips
-                <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="TipsTab" DataContext="{Binding Tips.Count,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  tips'}" />
-                -->
             </StackPanel>
         </ScrollViewer>
 
