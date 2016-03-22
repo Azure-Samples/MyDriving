@@ -38,7 +38,6 @@ namespace MyDriving.ViewModel
 
         string fuelConsumptionUnits = "Gallons";
 
-        bool hasEngineLoad;
         bool isRecording;
 
         Position position;
@@ -48,12 +47,6 @@ namespace MyDriving.ViewModel
         ICommand stopTrackingTripCommand;
 
         ICommand takePhotoCommand;
-
-        Timer obdTimer;
-
-        int count;
-
-        TripPoint lastObdRead;
 
         public CurrentTripViewModel()
         {
@@ -173,9 +166,6 @@ namespace MyDriving.ViewModel
                     await obdDataProcessor.ConnectToObdDevice(true);
 
                     CurrentTrip.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
-
-                    obdTimer = new Timer(OnReadObd, 0, 1000, 1000);
-                    count = 0;
                 }
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
@@ -278,22 +268,7 @@ namespace MyDriving.ViewModel
 
 
             //always will have 1 point, so we can stop.
-
-
             CurrentTrip.EndTimeStamp = DateTime.UtcNow;
-
-
-            try 
-            {
-                obdTimer?.Cancel();
-                obdTimer?.Dispose();
-                obdTimer = null;
-                count = 0;
-            } 
-            catch (Exception ex) 
-            {
-                Logger.Instance.Report(ex);
-            }
             try
             {
                 if (obdDataProcessor != null)
@@ -406,8 +381,8 @@ namespace MyDriving.ViewModel
 
                 if (obdData.ContainsKey("el") && !string.IsNullOrWhiteSpace(obdData["el"]))
                 {
-                    double.TryParse(obdData["el"], out el);
-                    hasEngineLoad = el != -255;
+                    if(!double.TryParse(obdData["el"], out el))
+                        el = -255;
                 }
                 if (obdData.ContainsKey("stfb"))
                     double.TryParse(obdData["stfb"], out stfb);
@@ -420,8 +395,6 @@ namespace MyDriving.ViewModel
                     {
                         fuelConsumptionRate = fr;
                     }
-                    else
-                        ;
                 }
                 if (obdData.ContainsKey("tp"))
                     double.TryParse(obdData["tp"], out tp);
@@ -467,6 +440,7 @@ namespace MyDriving.ViewModel
             }
         }
 
+
         async void Geolocator_PositionChanged(object sender, PositionEventArgs e)
         {
             // Only update the route if we are meant to be recording coordinates
@@ -474,52 +448,52 @@ namespace MyDriving.ViewModel
             {
                 var userLocation = e.Position;
 
-                TripPoint previous = null;
-                double newDistance = 0;
-                if (CurrentTrip.Points.Count > 1)
-                {
-                    previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];
-                    newDistance = DistanceUtils.CalculateDistance(userLocation.Latitude,
-                        userLocation.Longitude, previous.Latitude, previous.Longitude);
-
-                    if(newDistance > 4) // if more than 4 kilometers then gps is off don't use
-                        return;
-                }
-
                 var point = new TripPoint
-                {
-                    TripId = CurrentTrip.Id,
-                    RecordedTimeStamp = DateTime.UtcNow,
-                    Latitude = userLocation.Latitude,
-                    Longitude = userLocation.Longitude,
-                    Sequence = CurrentTrip.Points.Count,
-                    Speed = -255,
-                    RPM = -255,
-                    ShortTermFuelBank = -255,
-                    LongTermFuelBank = -255,
-                    ThrottlePosition = -255,
-                    RelativeThrottlePosition = -255,
-                    Runtime = -255,
-                    DistanceWithMalfunctionLight = -255,
-                    EngineLoad = -255,
-                    MassFlowRate = -255,
-                    EngineFuelRate = -255,
-                    VIN = "-255"
-                };
-
-                hasEngineLoad = false;
-
+                    {
+                        TripId = CurrentTrip.Id,
+                        RecordedTimeStamp = DateTime.UtcNow,
+                        Latitude = userLocation.Latitude,
+                        Longitude = userLocation.Longitude,
+                        Sequence = CurrentTrip.Points.Count,
+                        Speed = -255,
+                        RPM = -255,
+                        ShortTermFuelBank = -255,
+                        LongTermFuelBank = -255,
+                        ThrottlePosition = -255,
+                        RelativeThrottlePosition = -255,
+                        Runtime = -255,
+                        DistanceWithMalfunctionLight = -255,
+                        EngineLoad = -255,
+                        MassFlowRate = -255,
+                        EngineFuelRate = -255,
+                        VIN = "-255"
+                    };
+       
                 //Add OBD data
                 if(obdDataProcessor != null)
                     point.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
-                
                 await AddOBDDataToPoint(point);
 
-                if (CurrentTrip.Points.Count > 1 && previous != null)
-                {
-                   
-                    CurrentTrip.Distance += newDistance;
+                CurrentTrip.Points.Add(point);
 
+                try
+                {
+                    if (obdDataProcessor != null)
+                    {
+                        //Push the trip data packaged with the OBD data to the IOT Hub
+                        obdDataProcessor.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.Report(ex);
+                }
+
+                if (CurrentTrip.Points.Count > 1)
+                {
+                    var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];
+                    CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude,
+                        userLocation.Longitude, previous.Latitude, previous.Longitude);
                     Distance = CurrentTrip.TotalDistanceNoUnits;
 
                     //calculate gas usage
@@ -529,8 +503,8 @@ namespace MyDriving.ViewModel
                         FuelConsumption = "N/A";
                     else
                         FuelConsumption = Settings.MetricUnits
-                        ? (CurrentTrip.FuelUsed * 3.7854).ToString("N2")
-                        : CurrentTrip.FuelUsed.ToString("N2");
+                            ? (CurrentTrip.FuelUsed * 3.7854).ToString("N2")
+                            : CurrentTrip.FuelUsed.ToString("N2");
                 }
                 else
                 {
@@ -538,19 +512,17 @@ namespace MyDriving.ViewModel
                     FuelConsumption = "N/A";
                 }
 
-                //only add if calculations are correct
-                CurrentTrip.Points.Add(point);
-
-
                 var timeDif = point.RecordedTimeStamp - CurrentTrip.RecordedTimeStamp;
 
-                //track minutes then hours
-                if (timeDif.TotalHours < 1)
-                    ElapsedTime = $"{timeDif.Minutes}m";
+                //track seconds, minutes, then hours
+                if (timeDif.TotalMinutes < 1)
+                    ElapsedTime = $"{timeDif.Seconds}s";
+                else if (timeDif.TotalHours < 1)
+                    ElapsedTime = $"{timeDif.Minutes}m {timeDif.Seconds}s";
                 else
-                    ElapsedTime = $"{(int) timeDif.TotalHours}h {timeDif.Minutes}m";
+                    ElapsedTime = $"{(int) timeDif.TotalHours}h {timeDif.Minutes}m {timeDif.Seconds}s";
 
-                if (hasEngineLoad)
+                if (point.EngineLoad != -255)
                     EngineLoad = $"{(int) point.EngineLoad}%";
 
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
@@ -560,57 +532,6 @@ namespace MyDriving.ViewModel
             }
 
             CurrentPosition = e.Position;
-        }
-
-        private void OnReadObd(object args)
-        {
-            var point = new TripPoint
-                {
-                    TripId = CurrentTrip.Id,
-                    RecordedTimeStamp = DateTime.UtcNow,
-                    Latitude = CurrentPosition.Latitude,
-                    Longitude = CurrentPosition.Longitude,
-                    Sequence = count++,
-                    Speed = -255,
-                    RPM = -255,
-                    ShortTermFuelBank = -255,
-                    LongTermFuelBank = -255,
-                    ThrottlePosition = -255,
-                    RelativeThrottlePosition = -255,
-                    Runtime = -255,
-                    DistanceWithMalfunctionLight = -255,
-                    EngineLoad = -255,
-                    MassFlowRate = -255,
-                    EngineFuelRate = -255,
-                    VIN = "-255"
-                };
-
-            hasEngineLoad = false;
-
-            //Add OBD data
-            if(obdDataProcessor != null)
-                point.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
-
-            try
-            {
-                AddOBDDataToPoint(point).ContinueWith((t)=>
-                    {
-                        try
-                        {
-                            //Push the trip data packaged with the OBD data to the IOT Hub
-                            obdDataProcessor?.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Instance.Report(ex);
-                        }
-                    });
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Report(ex);
-            }
-
         }
 
         async Task ExecuteTakePhotoCommandAsync()
