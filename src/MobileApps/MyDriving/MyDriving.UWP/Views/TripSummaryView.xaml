@@ -29,7 +29,7 @@
                     <controls:ProfileViewTabControl x:Name="TotalTimeTab" DataContext="{x:Bind ViewModel.TotalTime, Mode=OneWay, Converter={StaticResource TimeConverter}, ConverterParameter=' {0}  seconds'}" />
 
                     <Border Margin="0,10,0,0" />
-                    <controls:ProfileViewTabControl x:Name="MaxSpeedTab" DataContext="{Binding ViewModel.MaxSpeedDisplay}" />
+                    <controls:ProfileViewTabControl x:Name="MaxSpeedTab" DataContext="{x:Bind ViewModel.MaxSpeedDisplay, Mode=OneWay}" />
 
                     <Border Margin="0,10,0,0" />
                     <controls:ProfileViewTabControl x:Name="FuelConsumptionTab" DataContext="{x:Bind ViewModel.FuelDisplay, Mode=OneWay}" />
