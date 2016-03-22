@@ -26,7 +26,7 @@
         <TextBlock x:Name="LogoText" HorizontalAlignment="Center"  VerticalAlignment="Bottom"   Text="MyDriving" Foreground="White" FontFamily="Assets/Fonts/CorbertRegular/Corbert-regular.otf#Corbert" FontSize="24" />
         <StackPanel x:Name="LoginButtons" VerticalAlignment="Center" Grid.Row="1" Visibility="Visible" Margin="50,0,50,0">
 
-            <Button x:Name="FaceBookButtonLogin" Command="{x:Bind _viewModel.LoginFacebookCommand, Mode=OneWay}"   Style="{StaticResource LoginButtonStyle}" 
+            <Button x:Name="FaceBookButtonLogin" Command="{x:Bind viewModel.LoginFacebookCommand, Mode=OneWay}"   Style="{StaticResource LoginButtonStyle}" 
                     Background="{StaticResource FacebookLoginButtonColor}"  Height="40" MaxWidth="300">
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
@@ -35,7 +35,7 @@
                 </StackPanel>
             </Button>
 
-            <Button x:Name="TwitterButtonLogin" Style="{StaticResource LoginButtonStyle}"  Command="{x:Bind _viewModel.LoginTwitterCommand, Mode=OneWay}"
+            <Button x:Name="TwitterButtonLogin" Style="{StaticResource LoginButtonStyle}"  Command="{x:Bind viewModel.LoginTwitterCommand, Mode=OneWay}"
                     Background="{StaticResource TwitterLoginButtonColor}"  >
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
@@ -44,7 +44,7 @@
                 </StackPanel>           
             </Button>
 
-            <Button x:Name="MSAButtonLogin"   Style="{StaticResource LoginButtonStyle}"  Command="{x:Bind _viewModel.LoginMicrosoftCommand, Mode=OneWay}"
+            <Button x:Name="MSAButtonLogin"   Style="{StaticResource LoginButtonStyle}"  Command="{x:Bind viewModel.LoginMicrosoftCommand, Mode=OneWay}"
                     Background="{StaticResource MSALoginButtonColor}"  >
                
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
