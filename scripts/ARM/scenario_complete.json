@@ -1791,7 +1791,7 @@
               ],
               "start": "2016-03-12T02:00:00Z",
               "end": "2016-06-04T02:00:00Z",
-              "isPaused": true,
+              "isPaused": false,
               "pipelineMode": "Scheduled"
             },
             "dependsOn": [
@@ -1847,7 +1847,7 @@
               ],
               "start": "2016-03-12T02:00:00Z",
               "end": "2016-06-04T02:00:00Z",
-              "isPaused": true,
+              "isPaused": false,
               "pipelineMode": "Scheduled"
             },
             "dependsOn": [
@@ -1974,7 +1974,7 @@
               ],
               "start": "2016-03-12T02:00:00Z",
               "end": "2016-06-04T02:00:00Z",
-              "isPaused": true,
+              "isPaused": false,
               "pipelineMode": "Scheduled"
             },
             "dependsOn": [
