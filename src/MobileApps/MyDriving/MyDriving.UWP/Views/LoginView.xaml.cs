@@ -48,16 +48,6 @@ namespace MyDriving.UWP.Views
             viewModel.PropertyChanged -= ViewModel_PropertyChanged;
         }
 
-        //This button is temporary - intended to make it easier to debug app
-        private void SkipAuthBtn_Click(object sender, RoutedEventArgs e)
-        {
-            viewModel.InitFakeUser();
-            Frame.NavigationFailed += OnNavigationFailed;
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-
-            Frame.Navigate(typeof (CurrentTripView));
-        }
-
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
         {
             //For now, don't let user go back to the log in page; need to finalize what this experience should be like when user keeps pushing back

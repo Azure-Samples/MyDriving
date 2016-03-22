@@ -5,8 +5,7 @@
     xmlns:controls="using:MyDriving.UWP.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    x:Name="PROFILE">
+    mc:Ignorable="d">
 
     <Grid Background="{StaticResource MainBackgroundColor2}">
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -35,8 +34,6 @@
                     <StackPanel Grid.Column="1" Grid.Row="1">
                         <TextBlock Name="DrivingSkillsMessage2" Text="{x:Bind profileViewModel.DrivingSkillsPlacementBucket.Description,  Converter={StaticResource StringFormatConverter}, ConverterParameter='Driving skills: {0}', Mode=OneWay}"   
                                     FontFamily="SegoeUI-Light" FontSize="16" Foreground="White" TextWrapping="Wrap" />
-                        <TextBlock Name="DrivingSkillsMessage" Text="{x:Bind profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Better than {0}% of drivers'}" 
-                                    FontFamily="SegoeUI-Semilight" FontSize="11"  Foreground="#b1b2b1" TextWrapping="Wrap" />
                     </StackPanel>
                 </Grid>
 
@@ -61,10 +58,6 @@
                 <Border Margin="0,10,0,0" />
                 <controls:ProfileViewTabControl x:Name="TotalTripsTab" DataContext="{Binding TotalTrips}" />
 
-                <!-- we no longer have tips
-                <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="TipsTab" DataContext="{Binding Tips.Count,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  tips'}" />
-                -->
             </StackPanel>
         </ScrollViewer>
 
