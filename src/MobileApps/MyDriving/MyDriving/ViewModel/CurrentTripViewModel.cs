@@ -49,6 +49,12 @@ namespace MyDriving.ViewModel
 
         ICommand takePhotoCommand;
 
+        Timer obdTimer;
+
+        int count;
+
+        TripPoint lastObdRead;
+
         public CurrentTripViewModel()
         {
             CurrentTrip = new Trip
@@ -167,6 +173,9 @@ namespace MyDriving.ViewModel
                     await obdDataProcessor.ConnectToObdDevice(true);
 
                     CurrentTrip.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
+
+                    obdTimer = new Timer(OnReadObd, 0, 1000, 1000);
+                    count = 0;
                 }
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
@@ -273,6 +282,18 @@ namespace MyDriving.ViewModel
 
             CurrentTrip.EndTimeStamp = DateTime.UtcNow;
 
+
+            try 
+            {
+                obdTimer?.Cancel();
+                obdTimer?.Dispose();
+                obdTimer = null;
+                count = 0;
+            } 
+            catch (Exception ex) 
+            {
+                Logger.Instance.Report(ex);
+            }
             try
             {
                 if (obdDataProcessor != null)
@@ -326,8 +347,8 @@ namespace MyDriving.ViewModel
                     Geolocator.DesiredAccuracy = 25;
 
                     Geolocator.PositionChanged += Geolocator_PositionChanged;
-                    //every second, 5 meters
-                    await Geolocator.StartListeningAsync(1000, 0);
+                    //every 3 second, 5 meters
+                    await Geolocator.StartListeningAsync(3000, 5);
                 }
                 else
                 {
@@ -493,13 +514,11 @@ namespace MyDriving.ViewModel
                     point.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
                 
                 await AddOBDDataToPoint(point);
-             
 
                 if (CurrentTrip.Points.Count > 1 && previous != null)
                 {
                    
                     CurrentTrip.Distance += newDistance;
-
 
                     Distance = CurrentTrip.TotalDistanceNoUnits;
 
@@ -522,25 +541,14 @@ namespace MyDriving.ViewModel
                 //only add if calculations are correct
                 CurrentTrip.Points.Add(point);
 
-                try
-                {
-                    //Push the trip data packaged with the OBD data to the IOT Hub
-                    obdDataProcessor?.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.Report(ex);
-                }
 
                 var timeDif = point.RecordedTimeStamp - CurrentTrip.RecordedTimeStamp;
 
-                //track seconds, minutes, then hours
-                if (timeDif.TotalMinutes < 1)
-                    ElapsedTime = $"{timeDif.Seconds}s";
-                else if (timeDif.TotalHours < 1)
-                    ElapsedTime = $"{timeDif.Minutes}m {timeDif.Seconds}s";
+                //track minutes then hours
+                if (timeDif.TotalHours < 1)
+                    ElapsedTime = $"{timeDif.Minutes}m";
                 else
-                    ElapsedTime = $"{(int) timeDif.TotalHours}h {timeDif.Minutes}m {timeDif.Seconds}s";
+                    ElapsedTime = $"{(int) timeDif.TotalHours}h {timeDif.Minutes}m";
 
                 if (hasEngineLoad)
                     EngineLoad = $"{(int) point.EngineLoad}%";
@@ -552,6 +560,57 @@ namespace MyDriving.ViewModel
             }
 
             CurrentPosition = e.Position;
+        }
+
+        private void OnReadObd(object args)
+        {
+            var point = new TripPoint
+                {
+                    TripId = CurrentTrip.Id,
+                    RecordedTimeStamp = DateTime.UtcNow,
+                    Latitude = CurrentPosition.Latitude,
+                    Longitude = CurrentPosition.Longitude,
+                    Sequence = count++,
+                    Speed = -255,
+                    RPM = -255,
+                    ShortTermFuelBank = -255,
+                    LongTermFuelBank = -255,
+                    ThrottlePosition = -255,
+                    RelativeThrottlePosition = -255,
+                    Runtime = -255,
+                    DistanceWithMalfunctionLight = -255,
+                    EngineLoad = -255,
+                    MassFlowRate = -255,
+                    EngineFuelRate = -255,
+                    VIN = "-255"
+                };
+
+            hasEngineLoad = false;
+
+            //Add OBD data
+            if(obdDataProcessor != null)
+                point.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
+
+            try
+            {
+                AddOBDDataToPoint(point).ContinueWith((t)=>
+                    {
+                        try
+                        {
+                            //Push the trip data packaged with the OBD data to the IOT Hub
+                            obdDataProcessor?.SendTripPointToIOTHub(CurrentTrip.Id, CurrentTrip.UserId, point);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Instance.Report(ex);
+                        }
+                    });
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Report(ex);
+            }
+
         }
 
         async Task ExecuteTakePhotoCommandAsync()
