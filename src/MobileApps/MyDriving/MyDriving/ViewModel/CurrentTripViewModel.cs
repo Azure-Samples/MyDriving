@@ -453,6 +453,18 @@ namespace MyDriving.ViewModel
             {
                 var userLocation = e.Position;
 
+                TripPoint previous = null;
+                double newDistance = 0;
+                if (CurrentTrip.Points.Count > 1)
+                {
+                    previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];
+                    newDistance = DistanceUtils.CalculateDistance(userLocation.Latitude,
+                        userLocation.Longitude, previous.Latitude, previous.Longitude);
+
+                    if(newDistance > 4) // if more than 4 kilometers then gps is off don't use
+                        return;
+                }
+
                 var point = new TripPoint
                 {
                     TripId = CurrentTrip.Id,
@@ -483,15 +495,9 @@ namespace MyDriving.ViewModel
                 await AddOBDDataToPoint(point);
              
 
-                if (CurrentTrip.Points.Count > 1)
+                if (CurrentTrip.Points.Count > 1 && previous != null)
                 {
-                    var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];
-                    var newDistance = DistanceUtils.CalculateDistance(userLocation.Latitude,
-                        userLocation.Longitude, previous.Latitude, previous.Longitude);
-
-                    if(newDistance > 4) // if more than 4 kilometers then gps is off don't use
-                        return;
-
+                   
                     CurrentTrip.Distance += newDistance;
 
 
