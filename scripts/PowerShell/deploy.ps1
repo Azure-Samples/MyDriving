@@ -14,8 +14,6 @@ Param(
 
 [string] $dbSchemaDB = "..\..\src\SQLDatabase\MyDrivingDB.sql" 
 [string] $dbSchemaSQL = "..\..\src\SQLDatabase\MyDrivingAnalyticsDB.sql"
-[string] $dbSchemaSQL_sp_mergeDimUser = "..\..\src\SQLDatabase\MyDrivingAnalyticsDB-sp_mergeDimUser.sql"
-[string] $dbSchemaSQL_sp_mergeFactTripData = "..\..\src\SQLDatabase\MyDrivingAnalyticsDB-sp_mergeFactTripData.sql"
 
 [string] $DeploymentName = ((Get-ChildItem $TemplateFile).BaseName + '-' + ((Get-Date).ToUniversalTime()).ToString('MMdd-HHmm'))
 
@@ -114,7 +112,5 @@ if ($deployment2 -and $deployment2.ProvisioningState -eq "Failed") {
 Write-Output "Initializing the schema of the SQL databases..."
 . .\scripts\setupDb.ps1 $deployment2.Outputs.databaseConnectionDB.Value $dbSchemaDB
 . .\scripts\setupDb.ps1 $deployment2.Outputs.databaseConnectionSQL.Value $dbSchemaSQL
-. .\scripts\setupDb.ps1 $deployment2.Outputs.databaseConnectionSQL.Value $dbSchemaSQL_sp_mergeDimUser
-. .\scripts\setupDb.ps1 $deployment2.Outputs.databaseConnectionSQL.Value $dbSchemaSQL_sp_mergeFactTripData
-
+Write-Output ""
 Write-Output "The deployment is complete!"
