@@ -89,7 +89,7 @@
     "vinlookupJobName": "[concat(variables('baseName'), '-vinlookup')]",
     "vinlookupJobQuery": "With VINData as \r\n(\r\nSELECT\r\n\tTripId,\r\n\tTripDataPoint.VIN,\r\n\tcount(*)\r\nFROM\r\n\tCarDeviceData\r\nWHERE\r\n\tTripId is not null AND\r\n\tTripDataPoint.VIN is not null AND\r\n\tTripId != '' AND\r\n\tTripDataPoint.VIN != ''\r\nGROUP BY \r\n\tTripId,\r\n\tTripDataPoint.VIN,\r\n\tTUMBLINGWINDOW(hour,1)\r\n)\r\n\r\nSELECT \r\n\tTripId,\r\n\tVIN\r\nINTO EHSink\r\nFROM VINData",
     "vinlookupJobConsumerGroupName": "asa-vinlookup",
-    /* Hostin Plan settings */
+    /* Hosting Plan settings */
     "hostingPlanName": "[concat(variables('baseName'), 'Plan', '-', uniquestring(resourceGroup().id))]",
     /* Mobile App settings */
     "mobileAppName": "[concat(variables('baseName'), '-', uniquestring(resourceGroup().id))]",
