@@ -78,7 +78,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Height" Value="32"  />
-        <Setter Property="Width" Value="124"  />
+        <Setter Property="Width" Value="164"  />
     </Style>
 
 
