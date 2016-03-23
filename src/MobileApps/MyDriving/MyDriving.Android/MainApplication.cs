@@ -61,7 +61,6 @@ namespace MyDriving.Droid
             ViewModel.ViewModelBase.Init();
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
             ServiceLocator.Instance.Add<Utils.Interfaces.ILogger, PlatformLogger>();
-            ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
             ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
             //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
