@@ -16,7 +16,7 @@
    <DefaultServices>
       <Service Name="VINLookupService">
          <StatelessService ServiceTypeName="VINLookupServiceType" InstanceCount="[VINLookupService_InstanceCount]">
-            <SingletonPartition />
+            <UniformInt64Partition PartitionCount="10" LowKey="1" HighKey="1000" />
          </StatelessService>
       </Service>
       <Service Name="IoTHubPartitionMapActorService" GeneratedIdRef="05456ebd-8727-4902-94a2-718705209ef3">

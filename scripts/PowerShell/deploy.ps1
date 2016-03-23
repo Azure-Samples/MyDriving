@@ -1,8 +1,9 @@
 ﻿#Requires -Module AzureRM.Resources
 
 Param(
-    [string] [Parameter(Mandatory=$true)] $ResourceGroupLocation,
-    [string] [Parameter(Mandatory=$true)] $ResourceGroupName
+   [string] [Parameter(Mandatory=$true)] $ResourceGroupLocation,
+   [string] [Parameter(Mandatory=$true)] $ResourceGroupName,
+   [string] [Parameter(Mandatory=$false)] $MobileAppRepositoryUrl = $null
 )
 
 # Variables
@@ -11,10 +12,15 @@ Param(
 [string] $TemplateFile = '..\ARM\scenario_complete.json'
 [string] $ParametersFile = '..\ARM\scenario_complete.params.json'
 
-[string] $dbSchemaDB = "..\SQLDatabase\MyDrivingDB.sql" 
-[string] $dbSchemaSQL = "..\SQLDatabase\MyDrivingAnalyticsDB.sql"
+[string] $dbSchemaDB = "..\..\src\SQLDatabase\MyDrivingDB.sql" 
+[string] $dbSchemaSQL = "..\..\src\SQLDatabase\MyDrivingAnalyticsDB.sql"
+[string] $dbSchemaSQL_sp_mergeDimUser = "..\..\src\SQLDatabase\MyDrivingAnalyticsDB-sp_mergeDimUser.sql"
+[string] $dbSchemaSQL_sp_mergeFactTripData = "..\..\src\SQLDatabase\MyDrivingAnalyticsDB-sp_mergeFactTripData.sql"
 
 [string] $DeploymentName = ((Get-ChildItem $TemplateFile).BaseName + '-' + ((Get-Date).ToUniversalTime()).ToString('MMdd-HHmm'))
+
+$deployment1 = $null
+$deployment2 = $null
 
 Import-Module Azure -ErrorAction Stop
 
@@ -62,30 +68,53 @@ if ($Subscriptions.Length -gt 1) {
 }
 
 # Create or update the resource group using the specified template file and template parameters file
+Write-Information "Creating the resource group..."
 New-AzureRmResourceGroup -Name $ResourceGroupName -Location $ResourceGroupLocation -Verbose -Force -ErrorAction Stop 
 
 # Create Storage Account
-$deployment = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-0" `
+Write-Output "Provisioning the prerequisites..."
+$deployment1 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-0" `
                                                  -ResourceGroupName $ResourceGroupName `
                                                  -TemplateFile $PreReqTemplateFile `
                                                  -Force -Verbose
 
 # Upload HQL Queries to Storage Account Continer
-if ($deployment -ne $null -and $deployment.ProvisioningState -ne "Failed") {
-. .\scripts\Copy-ArtifactsToBlobStorage.ps1 -StorageAccountName $deployment.Outputs.storageAccountName.Value `
-                                            -StorageAccountKey $deployment.Outputs.storageAccountKey.Value `
-                                            -StorageContainerName $deployment.Outputs.assetsContainerName.Value
+if ($deployment1 -and $deployment1.ProvisioningState -eq "Failed") {
+	Write-Error "Failed to provision the prerequisites storage account."
+	exit 1;
 }
+
+Write-Output "Uploading the prerequisites to blob storage..."
+. .\scripts\Copy-ArtifactsToBlobStorage.ps1 -StorageAccountName $deployment1.Outputs.storageAccountName.Value `
+                                        -StorageAccountKey $deployment1.Outputs.storageAccountKey.Value `
+                                        -StorageContainerName $deployment1.Outputs.assetsContainerName.Value
 
 # Create Required Services
-$deployment = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-1" `
-							                     -ResourceGroupName $ResourceGroupName `
-											     -TemplateFile $TemplateFile `
-												 -TemplateParameterFile $ParametersFile `
-											     -Force -Verbose
+$templateParams = New-Object -TypeName Hashtable
+if ($MobileAppRepositoryUrl) {
+	Write-Warning "Overriding the mobile app repository URL..."
+	$templateParams.Add("MobileAppRepositoryUrl", $MobileAppRepositoryUrl)
+}
+
+Write-Output "Deploying the resources in the ARM template..."
+$deployment2 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-1" `
+													-ResourceGroupName $ResourceGroupName `
+													-TemplateFile $TemplateFile `
+													-TemplateParameterFile $ParametersFile `
+													@templateParams `
+													-Force -Verbose
 
 # Initialize SQL databases
-if ($deployment -ne $null -and $deployment.ProvisioningState -ne "Failed") {
-. .\scripts\setupDb.ps1 $deployment.Outputs.databaseConnectionDB.Value $dbSchemaDB
-. .\scripts\setupDb.ps1 $deployment.Outputs.databaseConnectionSQL.Value $dbSchemaSQL
+if ($deployment2 -and $deployment2.ProvisioningState -eq "Failed") {
+	Write-Error "At least one resource could not be provisioned successfully. Review the output above to correct any errors and then run the deployment script again."
+	Write-Warning "Skipped the database initialization..."
+	exit 2;
 }
+
+Write-Output "Initializing the schema of the SQL databases..."
+. .\scripts\setupDb.ps1 $deployment2.Outputs.databaseConnectionDB.Value $dbSchemaDB
+. .\scripts\setupDb.ps1 $deployment2.Outputs.databaseConnectionSQL.Value $dbSchemaSQL
+. .\scripts\setupDb.ps1 $deployment2.Outputs.databaseConnectionSQL.Value $dbSchemaSQL_sp_mergeDimUser
+. .\scripts\setupDb.ps1 $deployment2.Outputs.databaseConnectionSQL.Value $dbSchemaSQL_sp_mergeFactTripData
+
+Write-Output "The deployment is complete!"
