@@ -13,7 +13,7 @@ Param(
 [string] $ParametersFile = '..\ARM\scenario_complete.params.json'
 
 [string] $dbSchemaDB = "..\..\src\SQLDatabase\MyDrivingDB.sql" 
-[string] $dbSchemaSQL = "..\..\src\SQLDatabase\MyDrivingAnalyticsDB.sql"
+[string] $dbSchemaSQLAnalytics = "..\..\src\SQLDatabase\MyDrivingAnalyticsDB.sql"
 
 [string] $DeploymentName = ((Get-ChildItem $TemplateFile).BaseName + '-' + ((Get-Date).ToUniversalTime()).ToString('MMdd-HHmm'))
 
@@ -110,7 +110,18 @@ if ($deployment2 -and $deployment2.ProvisioningState -eq "Failed") {
 }
 
 Write-Output "Initializing the schema of the SQL databases..."
-. .\scripts\setupDb.ps1 $deployment2.Outputs.databaseConnectionDB.Value $dbSchemaDB
-. .\scripts\setupDb.ps1 $deployment2.Outputs.databaseConnectionSQL.Value $dbSchemaSQL
+
+. .\scripts\setupDb.ps1 -ServerName $deployment2.Outputs.sqlServerFullyQualifiedDomainName.Value `
+						-AdminLogin $deployment2.Outputs.sqlServerAdminLogin.Value `
+						-AdminPassword $deployment2.Outputs.sqlServerAdminPassword.Value `
+						-DatabaseName $deployment2.Outputs.sqlDBName.Value `
+						-ScriptPath $dbSchemaDB
+
+. .\scripts\setupDb.ps1 -ServerName $deployment2.Outputs.sqlAnalyticsFullyQualifiedDomainName.Value `
+						-AdminLogin $deployment2.Outputs.sqlAnalyticsServerAdminLogin.Value `
+						-AdminPassword $deployment2.Outputs.sqlAnalyticsServerAdminPassword.Value `
+						-DatabaseName $deployment2.Outputs.sqlAnalyticsDBName.Value `
+						-ScriptPath $dbSchemaSQLAnalytics
+
 Write-Output ""
 Write-Output "The deployment is complete!"
