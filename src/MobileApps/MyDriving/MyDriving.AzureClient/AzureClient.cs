@@ -7,7 +7,7 @@ namespace MyDriving.AzureClient
 {
     public class AzureClient : IAzureClient
     {
-        const string DefaultMobileServiceUrl = "https://smartkar.azurewebsites.net/";
+        const string DefaultMobileServiceUrl = "https://mydriving.azurewebsites.net";
         IMobileServiceClient client;
         string mobileServiceUrl;
         public IMobileServiceClient Client => client ?? (client = CreateClient());
