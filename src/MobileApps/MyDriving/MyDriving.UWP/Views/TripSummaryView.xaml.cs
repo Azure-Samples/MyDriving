@@ -20,8 +20,6 @@ namespace MyDriving.UWP.Views
             InitializeComponent();
             ViewModel = new TripSummaryViewModel();
 
-            DataContext = this;
-
             TotalDistanceTab.Title1 = "Total";
             TotalDistanceTab.Title2 = "DISTANCE";
 

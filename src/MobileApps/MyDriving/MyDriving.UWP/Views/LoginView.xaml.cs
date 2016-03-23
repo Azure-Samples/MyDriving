@@ -31,6 +31,9 @@ namespace MyDriving.UWP.Views
             switch (e.PropertyName)
             {
                 case nameof(viewModel.IsLoggedIn):
+                    SplitViewShell shell = new SplitViewShell(this.Frame);
+                    Window.Current.Content = shell;
+                    shell.SetTitle("CURRENT TRIP");
                     Frame.Navigate(typeof (CurrentTripView));
                     break;
             }

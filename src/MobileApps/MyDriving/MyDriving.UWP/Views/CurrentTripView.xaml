@@ -53,7 +53,7 @@
                         <Grid>
                             <Ellipse Name="Elipse1" Stroke="White" Canvas.ZIndex="5"  StrokeThickness="3" >
                                 <Ellipse.Fill>
-                                    <ImageBrush ImageSource="{Binding RecordButtonImage}" />
+                                    <ImageBrush ImageSource="{Binding RecordButtonImage, Mode=OneWay}" />
                                 </Ellipse.Fill>
                             </Ellipse>
                         </Grid>

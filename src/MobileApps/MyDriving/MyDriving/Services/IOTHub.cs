@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
 using MyDriving.Interfaces;
 
-namespace MyDriving.Shared
+namespace MyDriving.Services
 {
     public class IOTHub : IHubIOT
     {
@@ -20,7 +20,7 @@ namespace MyDriving.Shared
             if (string.IsNullOrWhiteSpace(connectionStr))
                 return;
 
-            deviceClient = DeviceClient.CreateFromConnectionString(connectionStr);
+            deviceClient = DeviceClient.CreateFromConnectionString(connectionStr, TransportType.Http1);
         }
 
         public async Task SendEvents(IEnumerable<String> blobs)
@@ -28,7 +28,7 @@ namespace MyDriving.Shared
             if (deviceClient == null)
                 return;
 
-            List<Message> messages = blobs.Select(b => new Message(Encoding.ASCII.GetBytes(b))).ToList();
+            List<Message> messages = blobs.Select(b => new Message(Encoding.UTF8.GetBytes(b))).ToList();
             await deviceClient.SendEventBatchAsync(messages);
         }
 
@@ -37,7 +37,7 @@ namespace MyDriving.Shared
             if (deviceClient == null)
                 return;
 
-            var message = new Message(Encoding.ASCII.GetBytes(blob));
+            var message = new Message(Encoding.UTF8.GetBytes(blob));
             await deviceClient.SendEventAsync(message);
         }
     }
