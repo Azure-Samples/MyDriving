@@ -17,7 +17,7 @@ namespace MyDrivingService.Controllers
     public class UserInfoController : ApiController
     {
         // GET api/UserInfo
-        //[Authorize]
+        [Authorize]
         public async Task<MyDriving.DataObjects.UserProfile> Get()
         {
             //return the current authenticated user profile

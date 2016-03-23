@@ -22,21 +22,21 @@ namespace MyDrivingService.Controllers
         }
 
         // GET tables/TripPoint
-        //[Authorize]
+        [Authorize]
         public IQueryable<TripPoint> GetAllTripPoints()
         {
             return Query();
         }
 
         // GET tables/TripPoint/<id>
-        //[Authorize]
+        [Authorize]
         public SingleResult<TripPoint> GetTripPoint(string id)
         {
             return Lookup(id);
         }
 
         // PATCH tables/TripPoint/<id>
-        //[Authorize]
+        [Authorize]
         public Task<TripPoint> PatchTripPoint(string id, Delta<TripPoint> patch)
         {
             return UpdateAsync(id, patch);
@@ -68,7 +68,7 @@ namespace MyDrivingService.Controllers
         }*/
 
         // DELETE tables/TripPoint/<id>
-        //[Authorize]
+        [Authorize]
         public Task DeleteTripPoint(string id)
         {
             return DeleteAsync(id);
