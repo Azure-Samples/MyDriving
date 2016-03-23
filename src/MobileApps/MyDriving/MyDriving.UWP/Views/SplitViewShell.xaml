@@ -27,7 +27,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"/>
         </Grid>
-        <SplitView x:Name="MyDrivingSplitView" DisplayMode="Overlay"  IsPaneOpen="False" CompactPaneLength="32" OpenPaneLength="124"   Grid.Row="1" Grid.ColumnSpan="2">
+        <SplitView x:Name="MyDrivingSplitView" DisplayMode="Overlay"  IsPaneOpen="False" CompactPaneLength="32" OpenPaneLength="164"   Grid.Row="1" Grid.ColumnSpan="2">
             <SplitView.Pane>
                 <StackPanel Background="Black"  x:Name="SplitViewPanel">
                     <Button x:Name="NewTripButton"  Click="NewTripButton_Click" Style="{StaticResource SplitViewButtonStyle}">
@@ -45,13 +45,6 @@
                     <Button x:Name="SettingsButton" Click="SettingsButton_Click" Style="{StaticResource SplitViewButtonStyle}">
                         <controls:SplitViewButtonContent x:Name="Settings" />
                     </Button>
-
-                 <!-- 
-                    <StackPanel Orientation="Horizontal">
-                        <Button x:Name="TripSummaryButton" FontFamily="Segoe MDL2 Assets" Content="&#xE734;" Background="Transparent" Click="TripSummaryButton_Click"/>
-                        <TextBlock Text="Debug/TripSummary" VerticalAlignment="Center" />
-                    </StackPanel>
-                   -->
                 </StackPanel>
             </SplitView.Pane>
         </SplitView>

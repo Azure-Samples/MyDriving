@@ -25,13 +25,13 @@ namespace MyDriving.UWP.Views
             MyDrivingSplitView.Content = frame;
             frame.Navigated += Frame_Navigated;
 
-            Current.LabelText = "Current";
+            Current.LabelText = "Current Trip";
             Current.DefaultImageSource =
                 new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_current.png", UriKind.Absolute));
             Current.SelectedImageSource =
                 new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_current.png", UriKind.Absolute));
 
-            PastTrips.LabelText = "Past";
+            PastTrips.LabelText = "Past Trips";
             PastTrips.DefaultImageSource =
                 new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_pastTrips.png", UriKind.Absolute));
             PastTrips.SelectedImageSource =
