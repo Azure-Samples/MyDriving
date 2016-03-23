@@ -91,7 +91,6 @@ namespace MyDriving.UWP
                 }
                 else
                 {
-                    Window.Current.Content = new SplitViewShell(rootFrame);
                     rootFrame.Navigate(typeof (LoginView), e.Arguments);
                 }
             }

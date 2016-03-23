@@ -92,20 +92,6 @@ namespace MyDriving.UWP.Views
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
             MyDrivingSplitView.IsPaneOpen = false;
-
-            var frame = MyDrivingSplitView.Content as Frame;
-
-            var name = ((Page) frame.Content).Name;
-            if (string.Compare(name, "Login", StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                SetVisible(false);
-            }
-            else
-            {
-                SetVisible(true);
-                if (string.IsNullOrWhiteSpace(PageTitle.Text))
-                    PageTitle.Text = name;
-            }
         }
 
         private void SelectControl(SplitViewButtonContent control)
@@ -113,33 +99,6 @@ namespace MyDriving.UWP.Views
             selectedControl?.SetSelected(false);
             control.SetSelected(true);
             selectedControl = control;
-        }
-
-        public void SetVisible(bool visible)
-        {
-            if (visible)
-            {
-                HamburgerGrid.Visibility = Visibility.Visible;
-                SplitViewPanel.Visibility = Visibility.Visible;
-                TitleGrid.Visibility = Visibility.Visible;
-                HamburgerButton.IsEnabled = true;
-                NewTripButton.IsEnabled = true;
-                TripsButton.IsEnabled = true;
-                ProfileButton.IsEnabled = true;
-                SettingsButton.IsEnabled = true;
-            }
-            else
-            {
-                HamburgerGrid.Visibility = Visibility.Collapsed;
-                SplitViewPanel.Visibility = Visibility.Collapsed;
-                TitleGrid.Visibility = Visibility.Collapsed;
-                HamburgerButton.IsEnabled = false;
-                NewTripButton.IsEnabled = false;
-                TripsButton.IsEnabled = false;
-                ProfileButton.IsEnabled = false;
-                SettingsButton.IsEnabled = false;
-                PageTitle.Text = "";
-            }
         }
 
         public void SetTitle(string title)
