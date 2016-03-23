@@ -18,18 +18,25 @@ namespace MyDriving.AzureClient
 
         private DeviceProvisionHandler()
         {
-            if (!string.IsNullOrEmpty(Settings.Current.DeviceId))
+            try
+            {
                 DeviceId = Settings.Current.DeviceId;
-            else
+                HostName = Settings.Current.HostName;
+            }
+            catch(Exception e)
+            {
+                //Occassionally, a System.IO.FileLoadException can occur
+                Logger.Instance.WriteLine("Unable to get device id and/or host name from user settings: " + e.Message);
+            }
+
+            if (String.IsNullOrEmpty(DeviceId))
             {
                 //generate device ID
                 DeviceId = Guid.NewGuid().ToString();
                 Settings.Current.DeviceId = DeviceId;
             }
 
-            if (!string.IsNullOrEmpty(Settings.Current.HostName))
-                HostName = Settings.Current.HostName;
-            else
+            if (String.IsNullOrEmpty(HostName))
             {
                 HostName = DefaultHostName;
                 Settings.Current.HostName = HostName;
