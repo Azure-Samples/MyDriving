@@ -40,25 +40,19 @@
                     </StackPanel>
                 </Grid>
 
-                <Border Margin="0,16,0,0" />
+                <Border Margin="0,6,0,0" />
                 <controls:ProfileViewTabControl x:Name="TotalDistanceTab" DataContext="{x:Bind profileViewModel.TotalDistanceDisplay, Mode=OneWay}" />
 
-                <Border Margin="0,10,0,0" />
                 <controls:ProfileViewTabControl x:Name="TotalTimeTab" DataContext="{x:Bind profileViewModel.TotalTimeDisplay, Mode=OneWay}" />
 
-                <Border Margin="0,10,0,0" />
                 <controls:ProfileViewTabControl x:Name="MaxSpeedTab" DataContext="{x:Bind profileViewModel.MaxSpeedDisplay, Mode=OneWay}" />
 
-                <Border Margin="0,10,0,0" />
                 <controls:ProfileViewTabControl x:Name="FuelConsumptionTab" DataContext="{x:Bind profileViewModel.FuelDisplay, Mode=OneWay}" />
 
-                <Border Margin="0,10,0,0" />
                 <controls:ProfileViewTabControl x:Name="HardBreaksTab" DataContext="{x:Bind profileViewModel.HardStops, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
 
-                <Border Margin="0,10,0,0" />
                 <controls:ProfileViewTabControl x:Name="HardAccelTab" DataContext="{x:Bind profileViewModel.HardAccelerations, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
 
-                <Border Margin="0,10,0,0" />
                 <controls:ProfileViewTabControl x:Name="TotalTripsTab" DataContext="{x:Bind profileViewModel.TotalTrips, Mode=OneWay}" />
 
             </StackPanel>
