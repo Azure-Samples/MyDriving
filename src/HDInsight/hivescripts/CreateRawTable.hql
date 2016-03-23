@@ -31,3 +31,18 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
 STORED AS TEXTFILE 
 LOCATION 'wasb://rawdata@mydrivingstr.blob.core.windows.net/tripdata'
 tblproperties ("skip.header.line.count"="1");
+
+
+DROP TABLE IF EXISTS tripDataMLFinal;
+CREATE EXTERNAL TABLE tripDataMLFinal
+(
+tripId string,
+userId string,
+triptime timestamp,
+ERPMdiffsd double,
+Speeddiffsd double,
+ELoutlier double
+) PARTITIONED BY (year int, month int, day int) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+STORED AS TEXTFILE 
+LOCATION 'wasb://tripdata@mydrivingstr.blob.core.windows.net/tables/mlinput'; 

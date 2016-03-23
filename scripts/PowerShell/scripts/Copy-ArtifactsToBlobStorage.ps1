@@ -1,4 +1,4 @@
-Param ([string] $StorageAccountName, [string] $StorageAccountKey, [string] $StorageContainerName, [string] $ArtifactsPath = '..\..\Assets', [string] $AzCopyPath = '..\tools\AzCopy.exe')
+Param ([string] $StorageAccountName, [string] $StorageAccountKey, [string] $StorageContainerName, [string] $ArtifactsPath = '..\..\..\src\HDInsight', [string] $AzCopyPath = '..\tools\AzCopy.exe')
 
 $AzCopyPath = [System.IO.Path]::Combine($PSScriptRoot, $AzCopyPath)
 $ArtifactsPath = [System.IO.Path]::Combine($PSScriptRoot, $ArtifactsPath)

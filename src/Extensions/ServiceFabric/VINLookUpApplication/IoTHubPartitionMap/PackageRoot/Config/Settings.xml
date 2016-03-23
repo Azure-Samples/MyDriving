@@ -12,8 +12,8 @@
       <Parameter Name="MaxVerPages" Value="32768" />
    </Section>
    <Section Name="ServiceConfigSection">
-      <Parameter Name="EventHubConnectionString" Value="[Event Hub Connection String]" />
+      <Parameter Name="EventHubConnectionString" Value="[IoT Hub Connection string]" />
       <Parameter Name="EventHubName" Value="mydriving" />
-      <Parameter Name="SqlConnectionString" Value="[Sql Connection String]" />
+      <Parameter Name="SqlConnectionString" Value="[SQL Connection string]" />
    </Section>
 </Settings>

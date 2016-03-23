@@ -35,8 +35,6 @@
                     <StackPanel Grid.Column="1" Grid.Row="1">
                         <TextBlock Name="DrivingSkillsMessage2" Text="{x:Bind profileViewModel.DrivingSkillsPlacementBucket.Description,  Converter={StaticResource StringFormatConverter}, ConverterParameter='Driving skills: {0}', Mode=OneWay}"   
                                     FontFamily="SegoeUI-Light" FontSize="16" Foreground="White" TextWrapping="Wrap" />
-                        <TextBlock Name="DrivingSkillsMessage" Text="{x:Bind profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Better than {0}% of drivers'}" 
-                                    FontFamily="SegoeUI-Semilight" FontSize="11"  Foreground="#b1b2b1" TextWrapping="Wrap" />
                     </StackPanel>
                 </Grid>
 
