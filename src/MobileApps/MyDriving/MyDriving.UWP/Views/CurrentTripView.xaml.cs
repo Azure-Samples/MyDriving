@@ -216,7 +216,7 @@ namespace MyDriving.UWP.Views
 
         private async void SessionRevoked(object sender, ExtendedExecutionRevokedEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 switch (args.Reason)
                 {
@@ -230,8 +230,8 @@ namespace MyDriving.UWP.Views
                                         "Background Execution revoked.", "OK");
                         break;
                 }
-                // Once Resumed we need to start the extended execution again.
-                await BeginExtendedExecution();
+
+                ClearExtendedExecution();
             });
         }
        
