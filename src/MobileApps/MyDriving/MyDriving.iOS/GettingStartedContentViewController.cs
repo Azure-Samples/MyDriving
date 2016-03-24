@@ -28,6 +28,7 @@ namespace MyDriving.iOS
 		{
 			base.ViewDidLoad();
 
+			View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromBundle("background_started.png"));
 			imageView.Image = Image;
 		}
 	}
