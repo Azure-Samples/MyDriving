@@ -54,7 +54,7 @@ namespace MyDriving.AzureClient
             get
             {
                 string connectionStr = String.Empty;
-                if (!String.IsNullOrEmpty(AccessKey))
+                if (!String.IsNullOrEmpty(AccessKey) && !String.IsNullOrEmpty(HostName) && !String.IsNullOrEmpty(DeviceId))
                 {
                     connectionStr = $"HostName={HostName};DeviceId={DeviceId};SharedAccessKey={AccessKey}";
                 }
@@ -71,12 +71,14 @@ namespace MyDriving.AzureClient
         public async Task<string> ProvisionDevice()
         {
             if (!string.IsNullOrEmpty(Settings.Current.DeviceConnectionString))
+            {
                 return Settings.Current.DeviceConnectionString;
+            }
             else
             {
                 Dictionary<string, string> myParms = new Dictionary<string, string>();
                 myParms.Add("userId", Settings.Current.UserUID);
-                myParms.Add("deviceName", Settings.Current.DeviceId);
+                myParms.Add("deviceName", DeviceId);
 
                 var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client as MobileServiceClient;
 
