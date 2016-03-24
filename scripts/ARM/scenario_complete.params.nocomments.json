@@ -1,0 +1,11 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "iotHubSku": { "value": { "name": "S1", "tier": "Standard", "capacity": 1 } },
+    "storageAccountType": { "value": "Standard_LRS" },
+    "sqlServiceObjectiveName": { "value": "S0" }, 
+    "sqlDBEdition": { "value": "Standard" },
+    "hostingPlanSku": { "value": { "tier": "Free", "name": "F1", "capacity": 0 } }
+  }
+}
