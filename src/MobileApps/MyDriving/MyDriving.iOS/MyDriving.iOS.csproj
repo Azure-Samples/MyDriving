@@ -243,7 +243,7 @@
       <HintPath>..\..\packages\Xamarin.TestCloud.Agent.0.18.2\lib\Xamarin.iOS10\Calabash.dll</HintPath>
     </Reference>
     <Reference Include="BTProgressHUD">
-      <HintPath>..\..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
+      <HintPath>..\..\..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
     </Reference>
     <Reference Include="HockeySDK">
       <HintPath>..\..\packages\HockeySDK.Xamarin.4.1.0-alpha1\lib\Xamarin.iOS10\HockeySDK.dll</HintPath>
@@ -418,6 +418,14 @@
       <DependentUpon>TripSummaryViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Annotations\PoiAnnotation.cs" />
+    <Compile Include="GettingStartedViewController.cs" />
+    <Compile Include="GettingStartedViewController.designer.cs">
+      <DependentUpon>GettingStartedViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GettingStartedContentViewController.cs" />
+    <Compile Include="GettingStartedContentViewController.designer.cs">
+      <DependentUpon>GettingStartedContentViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
@@ -481,6 +489,11 @@
     <BundleResource Include="Resources\splash-screen1240x600.png" />
     <BundleResource Include="Resources\Logo300x300.png" />
     <BundleResource Include="Resources\background_started.png" />
+    <BundleResource Include="Resources\screen_1.png" />
+    <BundleResource Include="Resources\screen_2.png" />
+    <BundleResource Include="Resources\screen_3.png" />
+    <BundleResource Include="Resources\screen_4.png" />
+    <BundleResource Include="Resources\screen_5.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="btprogresshud">
