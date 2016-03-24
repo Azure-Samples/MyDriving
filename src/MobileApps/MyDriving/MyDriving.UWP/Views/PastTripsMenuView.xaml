@@ -5,8 +5,7 @@
     xmlns:local="using:MyDriving.DataObjects"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    x:Name="PAST">
+    mc:Ignorable="d">
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.PrimaryCommands>
@@ -16,47 +15,43 @@
     </Page.BottomAppBar>
 
     <Grid Background="{StaticResource MainBackgroundColor}">
-        <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Auto" >
-            <StackPanel>
-                <ListView x:Name="ListView" ItemsSource="{x:Bind ViewModel.Trips}" Margin="0,10,10,0" SelectionChanged="listView_SelectionChanged">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalAlignment" Value="Stretch" />
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="Background" Value="#23313B" />
-                            <Setter Property="BorderThickness" Value="3" />
-                            <Setter Property="BorderBrush" Value="#162129" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="local:Trip">
-                            <StackPanel Holding="ListViewItem_Holding">
-                                <FlyoutBase.AttachedFlyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem Text="Delete"
+        <ListView x:Name="ListView" ItemsSource="{x:Bind ViewModel.Trips}" Margin="0,10,10,0" SelectionChanged="listView_SelectionChanged">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="Background" Value="{StaticResource MainBackgroundColor2}" />
+                    <Setter Property="BorderThickness" Value="3" />
+                    <Setter Property="BorderBrush" Value="{StaticResource PastTripsBorderColor}" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:Trip">
+                    <StackPanel Holding="ListViewItem_Holding">
+                        <FlyoutBase.AttachedFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="Delete"
                                                             Click="DeleteButton_Click" />
-                                    </MenuFlyout>
-                                </FlyoutBase.AttachedFlyout>
-                                <Image x:Name="Image" Source="{x:Bind MainPhotoUrl}" HorizontalAlignment="Stretch" MaxHeight="125" Stretch="UniformToFill" />
-                                <TextBlock Text="{x:Bind Name}" Margin="0,5,0,0"/>
-                                <Grid  Margin="0" HorizontalAlignment="Stretch">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid Grid.Column="1" HorizontalAlignment="Stretch" >
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <TextBlock Text="{x:Bind TimeAgo}" HorizontalAlignment="Left" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
-                                        <TextBlock Text="{x:Bind TotalDistance}" HorizontalAlignment="Right" Foreground="#7BA4C5" Margin="0,0,0,5" FontSize="13.333"/>
-                                    </Grid>
-                                </Grid>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
-        </ScrollViewer>
+                            </MenuFlyout>
+                        </FlyoutBase.AttachedFlyout>
+                        <Image x:Name="Image" Source="{x:Bind MainPhotoUrl}" HorizontalAlignment="Stretch" MaxHeight="125" Stretch="UniformToFill" />
+                        <TextBlock Text="{x:Bind Name}" Margin="0,5,0,0"/>
+                        <Grid  Margin="0" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="1" HorizontalAlignment="Stretch" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{x:Bind TimeAgo}" HorizontalAlignment="Left" Foreground="{StaticResource CalculationTextColor}" Margin="0,0,0,5" FontSize="13.333"/>
+                                <TextBlock Text="{x:Bind TotalDistance}" HorizontalAlignment="Right" Foreground="{StaticResource CalculationTextColor}" Margin="0,0,0,5" FontSize="13.333"/>
+                            </Grid>
+                        </Grid>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>

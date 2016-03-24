@@ -6,13 +6,12 @@
  
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    x:Name="PAST">
+    mc:Ignorable="d">
 
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <Grid Canvas.ZIndex="2" Background="#111111" VerticalAlignment="Top">
+        <Grid Canvas.ZIndex="2" Background="{StaticResource GridBackgroundColor}" VerticalAlignment="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -26,20 +25,20 @@
             </Grid.ColumnDefinitions>
 
 
-            <TextBlock  Name="TextFuel" Text="{x:Bind viewModel.FuelConsumption}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Foreground="#7BA4C5"  Visibility="Visible" FontSize="16" VerticalAlignment="Center" Margin="0,4,0,2"/>
-            <TextBlock  Name="TextFuelunits" Text="{x:Bind viewModel.FuelConsumptionUnits}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Foreground="#7BA4C5"  FontSize="13" VerticalAlignment="Center" Margin="0,2,0,4"/>
+            <TextBlock  Name="TextFuel" Text="{x:Bind viewModel.FuelConsumption}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource CalculationTextColor}"  Visibility="Visible" FontSize="16" VerticalAlignment="Center" Margin="0,4,0,2"/>
+            <TextBlock  Name="TextFuelunits" Text="{x:Bind viewModel.FuelConsumptionUnits}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Foreground="{StaticResource CalculationTextColor}"  FontSize="13" VerticalAlignment="Center" Margin="0,2,0,4"/>
 
 
-            <TextBlock  Name="TextDistance" Text="{x:Bind viewModel.Distance}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Foreground="#7BA4C5"  Visibility="Visible" FontSize="16" VerticalAlignment="Center" Margin="0,4,0,2"/>
-            <TextBlock  Name="TextDistanceunits" Text="{x:Bind viewModel.DistanceUnits}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Foreground="#7BA4C5"  FontSize="13"  VerticalAlignment="Center" Margin="0,2,0,4"/>
+            <TextBlock  Name="TextDistance" Text="{x:Bind viewModel.Distance}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Foreground="{StaticResource CalculationTextColor}"  Visibility="Visible" FontSize="16" VerticalAlignment="Center" Margin="0,4,0,2"/>
+            <TextBlock  Name="TextDistanceunits" Text="{x:Bind viewModel.DistanceUnits}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Foreground="{StaticResource CalculationTextColor}"  FontSize="13"  VerticalAlignment="Center" Margin="0,2,0,4"/>
 
 
-            <TextBlock  Name="TextTime" Text="{x:Bind viewModel.ElapsedTime}" Grid.Row="0"  Grid.Column="2" HorizontalAlignment="Center" Foreground="#7BA4C5"  Visibility="Visible" FontSize="16" VerticalAlignment="Center" Margin="0,4,0,2"/>
-            <TextBlock  Text="Elapsed Time" Grid.Row="1" HorizontalAlignment="Center"  Grid.Column="2" Foreground="#7BA4C5"  FontSize="13"  VerticalAlignment="Center" Margin="0,2,0,4"/>
+            <TextBlock  Name="TextTime" Text="{x:Bind viewModel.ElapsedTime}" Grid.Row="0"  Grid.Column="2" HorizontalAlignment="Center" Foreground="{StaticResource CalculationTextColor}"  Visibility="Visible" FontSize="16" VerticalAlignment="Center" Margin="0,4,0,2"/>
+            <TextBlock  Text="Elapsed Time" Grid.Row="1" HorizontalAlignment="Center"  Grid.Column="2" Foreground="{StaticResource CalculationTextColor}"  FontSize="13"  VerticalAlignment="Center" Margin="0,2,0,4"/>
 
 
-            <TextBlock  Name="TextSpeed" Text="{x:Bind viewModel.Speed}" Grid.Row="0" Grid.Column="3"  HorizontalAlignment="Center" Foreground="#7BA4C5"  Visibility="Visible" FontSize="16" VerticalAlignment="Center" Margin="0,4,0,2"/>
-            <TextBlock  Name="TextSpeedunits" Text="{x:Bind viewModel.SpeedUnits}"  Grid.Row="1"  Grid.Column="3" HorizontalAlignment="Center" Foreground="#7BA4C5"  FontSize="13"  VerticalAlignment="Center" Margin="0,2,0,4"/>
+            <TextBlock  Name="TextSpeed" Text="{x:Bind viewModel.Speed}" Grid.Row="0" Grid.Column="3"  HorizontalAlignment="Center" Foreground="{StaticResource CalculationTextColor}"  Visibility="Visible" FontSize="16" VerticalAlignment="Center" Margin="0,4,0,2"/>
+            <TextBlock  Name="TextSpeedunits" Text="{x:Bind viewModel.SpeedUnits}"  Grid.Row="1"  Grid.Column="3" HorizontalAlignment="Center" Foreground="{StaticResource CalculationTextColor}"  FontSize="13"  VerticalAlignment="Center" Margin="0,2,0,4"/>
 
         </Grid>
         <Grid >
@@ -52,12 +51,12 @@
             IsRightTapEnabled="true"
            />
 
-        <Rectangle HorizontalAlignment="Stretch" Height="90" VerticalAlignment="Bottom" Fill="#FF8B7C7C" Opacity="0.4"  />
+        <Rectangle HorizontalAlignment="Stretch" Height="90" VerticalAlignment="Bottom" Fill="{StaticResource MapFillColor}" Opacity="0.4"  />
         <StackPanel x:Name="FooterPanel" Orientation="Horizontal" VerticalAlignment="Bottom"  HorizontalAlignment="Center">
             <Image Source="ms-appx:///Assets/A.png"  AutomationProperties.Name="Start Point"  Stretch="None" VerticalAlignment="Center"
                    HorizontalAlignment="Left" Margin="20,0,10,16" Canvas.ZIndex="3"/>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,0,16" >
-                <Slider Name="PositionSlider" HorizontalAlignment="Stretch" VerticalAlignment="Center"  ValueChanged="positionSlider_ValueChanged" Canvas.ZIndex="2"  Width="200" RequestedTheme="Light" Foreground="#FF4444E2" Height="30" />
+                <Slider Name="PositionSlider" HorizontalAlignment="Stretch" VerticalAlignment="Center"  ValueChanged="positionSlider_ValueChanged" Canvas.ZIndex="2"  Width="200" RequestedTheme="Light" Foreground="{StaticResource SliderColor}" Height="30" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
                     <TextBlock  x:Name="TextStarttime"  HorizontalAlignment="Left" Foreground="Black" Margin="0,0,50,0" FontSize="13"/>
                     <TextBlock  x:Name="TextEndtime"  HorizontalAlignment="Right" Foreground="Black" Margin="50,0,0,0" FontSize="13"/>
