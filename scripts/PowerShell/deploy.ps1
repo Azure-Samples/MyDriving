@@ -28,6 +28,7 @@ $ParametersFile = [System.IO.Path]::Combine($PSScriptRoot, $ParametersFile)
 
 # verify if user is logged in by querying his subscriptions.
 # if none is found assume he is not
+Write-Output "Retrieving Azure subscription information..."
 try
 {
 	$Subscriptions = Get-AzureRmSubscription
@@ -69,25 +70,25 @@ if ($Subscriptions.Length -gt 1) {
 Write-Information "Creating the resource group..."
 New-AzureRmResourceGroup -Name $ResourceGroupName -Location $ResourceGroupLocation -Verbose -Force -ErrorAction Stop 
 
-# Create Storage Account
+# Create storage account
 Write-Output "Provisioning the prerequisites..."
 $deployment1 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-0" `
                                                  -ResourceGroupName $ResourceGroupName `
                                                  -TemplateFile $PreReqTemplateFile `
                                                  -Force -Verbose
 
-# Upload HQL Queries to Storage Account Continer
 if ($deployment1 -and $deployment1.ProvisioningState -eq "Failed") {
 	Write-Error "Failed to provision the prerequisites storage account."
 	exit 1;
 }
 
+# Upload the HQL queries to the storage account container
 Write-Output "Uploading the prerequisites to blob storage..."
 . .\scripts\Copy-ArtifactsToBlobStorage.ps1 -StorageAccountName $deployment1.Outputs.storageAccountName.Value `
                                         -StorageAccountKey $deployment1.Outputs.storageAccountKey.Value `
                                         -StorageContainerName $deployment1.Outputs.assetsContainerName.Value
 
-# Create Required Services
+# Create required services
 $templateParams = New-Object -TypeName Hashtable
 if ($MobileAppRepositoryUrl) {
 	Write-Warning "Overriding the mobile app repository URL..."
@@ -102,13 +103,13 @@ $deployment2 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-1" `
 													@templateParams `
 													-Force -Verbose
 
-# Initialize SQL databases
 if ($deployment2 -and $deployment2.ProvisioningState -eq "Failed") {
 	Write-Error "At least one resource could not be provisioned successfully. Review the output above to correct any errors and then run the deployment script again."
 	Write-Warning "Skipped the database initialization..."
 	exit 2;
 }
 
+# Initialize SQL databases
 Write-Output "Initializing the schema of the SQL databases..."
 
 . .\scripts\setupDb.ps1 -ServerName $deployment2.Outputs.sqlServerFullyQualifiedDomainName.Value `
