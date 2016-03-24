@@ -6,11 +6,13 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 ### If you use PowerShell
 
 * [Azure PowerShell](http://aka.ms/webpi-azps)
-* [A active Azure subscription](https://azure.microsoft.com) with at least 24 available cores (for on-demand HDInsight cluster)
+* [An active Azure subscription](https://azure.microsoft.com) with at least 24 available cores (for on-demand HDInsight cluster)
 
 ### If you use Bash
 
-* TBD
+* [Azure CLI](https://azure.microsoft.com/en-us/documentation/articles/xplat-cli-install/)
+* [Node.js](http://nodejs.org)
+* [An active Azure subscription](https://azure.microsoft.com) with at least 24 available cores (for on-demand HDInsight cluster)
 
 ## Use PowerShell script
 1. Launch **deploy.ps1** under the **scripts\PowerShell** folder:
