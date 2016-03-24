@@ -1,0 +1,8 @@
+{
+  "name": "deploy-dependencies",
+  "version": "1.0.0",
+  "description": "dependencies for the deployment script",
+  "dependencies": {
+    "tedious": "^1.13.2"
+  }
+}
