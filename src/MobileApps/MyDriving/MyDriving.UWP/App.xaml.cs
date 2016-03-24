@@ -80,6 +80,9 @@ namespace MyDriving.UWP
                     Window.Current.Content = shell;
                     shell.SetTitle("CURRENT TRIP");
                     rootFrame.Navigate(typeof(CurrentTripView), e.Arguments);
+
+                    //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+                    MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
                 }
                 else if (Settings.Current.FirstRun)
                 {
