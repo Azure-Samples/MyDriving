@@ -59,7 +59,7 @@ namespace MyDriving.iOS
 
             if (!Settings.Current.IsLoggedIn)
             {
-				if (Settings.Current.FirstRun)
+				if (!Settings.Current.FirstRun)
 				{
 					var viewController = UIStoryboard.FromName("Main", null)
 								 .InstantiateViewController("gettingStartedViewController");
