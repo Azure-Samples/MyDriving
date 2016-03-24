@@ -41,40 +41,33 @@
     },
     "mobileAppRepositoryUrl": {
       "type": "string",
-      "defaultValue": "https://github.com/f2bo/f2botrips.git" /* TODO: REPLACE WITH mydriving APPLICATION */
+      "defaultValue": "https://github.com/f2bo/f2botrips.git"
     }
   },
   "variables": {
     "baseName": "mydriving",
-    /* Storage settings*/
     "blobStorageAnalytics": "[substring(toLower(concat(variables('baseName'), 'str', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]",
     "blobStorageHdiMetastore": "[substring(toLower(concat(variables('baseName'), 'logs', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]",
-    "assetsContainerName": "mydrivinghdi", /* if you change this value, remember to also update the same variable in prerequisites.json */
-    /* IoT Hub settings */
+    "assetsContainerName": "mydrivinghdi",
     "iotHubName": "[concat(variables('baseName'), '-', uniquestring(resourceGroup().id))]",
     "iotHubKeyName": "iothubowner",
-    /* Event Hub settings */
     "eventHubNamespace": "[concat(variables('baseName'), '-', 'ns', '-', uniquestring(resourceGroup().id))]",
     "eventHubName": "[variables('baseName')]",
-    /* TODO: Review if we can create a SAS Key */ "eventHubKeyName": "RootManageSharedAccessKey",
-    /* SQL Server settings */
+    "eventHubKeyName": "RootManageSharedAccessKey",
     "sqlServerName": "[toLower(concat(variables('baseName'), 'dbserver', '-', uniquestring(resourceGroup().id)))]",
     "sqlServerAdminLogin": "scott",
     "sqlDBName": "[concat(variables('baseName'), 'DB')]",
     "sqlDBEdition": "[parameters('sqlDBEdition')]",
     "sqlServiceObjectiveName": "[parameters('sqlServiceObjectiveName')]",
-    /* SQL Server settings - Analytics */
     "sqlAnalyticsServerName": "[toLower(concat(variables('baseName'), '-', 'dbserver', '-', uniquestring(resourceGroup().id)))]",
     "sqlAnalyticsServerAdminLogin": "scott",
     "sqlAnalyticsDBName": "[concat(variables('baseName'), 'AnalyticsDB')]",
     "sqlAnalyticsDBEdition": "[parameters('sqlDBEdition')]",
     "sqlAnalyticsServiceObjectiveName": "[parameters('sqlServiceObjectiveName')]",
-    /* SQL Server settings - Shared */
     "sqlServerVersion": "12.0",
     "sqlFirewallIpStart": "0.0.0.0",
     "sqlFirewallIpEnd": "255.255.255.255",
     "sqlCollation": "SQL_Latin1_General_CP1_CI_AS",
-    /* ASA Job settings */
     "archiveJobName": "[concat(variables('baseName'), '-archive')]",
     "archiveJobQuery": "SELECT\r\n\tTripId,\r\n\tUserId,\r\n\tName,\r\n\tTripDataPoint.TripPointId as TripPointId,\r\n\tTripDataPoint.Lat as Lat,\r\n\tTripDataPoint.Lon as Lon,\r\n\tTripDataPoint.Speed as Speed,\r\n\tTripDataPoint.RecordedTimeStamp as RecordedTimeStamp,\r\n\tTripDataPoint.Sequence as Sequence,\r\n\tTripDataPoint.EngineRPM as EngineRPM,\r\n\tTripDataPoint.ShortTermFuelBank1 as ShortTermFuelBank,\r\n\tTripDataPoint.LongTermFuelBank1 as LongTermFuelBank,\r\n\tTripDataPoint.ThrottlePosition as ThrottlePosition,\r\n\tTripDataPoint.RelativeThrottlePosition as RelativeThrottlePosition,\r\n\tTripDataPoint.Runtime as Runtime,\r\n\tTripDataPoint.DistancewithMIL as DistancewithMIL,\r\n\tTripDataPoint.EngineLoad as EngineLoad,\r\n\tTripDataPoint.MAFFlowRate as MAFFlowRate,\r\n\tTripDataPoint.OutsideTemperature as OutsideTemperature,\r\n\tTripDataPoint.EngineFuelRate as EngineFuelRate,\r\n\tTripDataPoint.VIN as vin\r\nINTO\r\n\tBlobSink\r\nFROM\r\n\tCarDeviceData\r\nWHERE\r\n\tTripId is not null\r\n\tand UserId is not null\r\n\tand TripId != ''\r\n\tand UserId != ''\r\n",
     "archiveJobConsumerGroupName": "asa-blobarchive",
@@ -89,15 +82,11 @@
     "vinlookupJobName": "[concat(variables('baseName'), '-vinlookup')]",
     "vinlookupJobQuery": "With VINData as \r\n(\r\nSELECT\r\n\tTripId,\r\n\tTripDataPoint.VIN,\r\n\tcount(*)\r\nFROM\r\n\tCarDeviceData\r\nWHERE\r\n\tTripId is not null AND\r\n\tTripDataPoint.VIN is not null AND\r\n\tTripId != '' AND\r\n\tTripDataPoint.VIN != ''\r\nGROUP BY \r\n\tTripId,\r\n\tTripDataPoint.VIN,\r\n\tTUMBLINGWINDOW(hour,1)\r\n)\r\n\r\nSELECT \r\n\tTripId,\r\n\tVIN\r\nINTO EHSink\r\nFROM VINData",
     "vinlookupJobConsumerGroupName": "asa-vinlookup",
-    /* Hosting Plan settings */
     "hostingPlanName": "[concat(variables('baseName'), 'Plan', '-', uniquestring(resourceGroup().id))]",
-    /* Mobile App settings */
     "mobileAppName": "[concat(variables('baseName'), '-', uniquestring(resourceGroup().id))]",
     "mobileAppRepositoryBranch": "master",
-    /* App Insights settings */
     "appInsightsName": "[concat(variables('baseName'), 'API', '-', uniquestring(resourceGroup().id))]",
-    "appInsightsLocation": "centralus", /* App Insights is currently only available in Central US */
-    /* Data Factory settings */
+    "appInsightsLocation": "centralus",
     "dataFactoryName": "[concat(variables('baseName'), '-df', uniquestring(resourceGroup().id))]",
     "mlScoringLinkedServiceName": "AzureMLScoringandUpdateLinkedService",
     "mlTrainingEndpointLinkedServiceName": "TrainingEndpoint-AMLLinkedService",
@@ -134,7 +123,6 @@
     "pipelineSQLSproc": "SQLSprocPipeline",
     "pipelineSQLSprocCleanup": "SQLSprocCleanupPipeline",
     "hdInsightScriptsFolder": "hivescripts",
-    /* Machine Learning settings */
     "mlEndpoint": "https://ussouthcentral.services.azureml.net/workspaces/5aaa8b190e554515af1acc8d2a09cfdf/services/a9e38126472a442faa5e02cfb1a64da0/jobs?api-version=2.0",
     "mlApiKey": "<TO-BE-COMPLETED>",
     "mlUpdateResourceEndpoint": "https://management.azureml.net/workspaces/5aaa8b190e554515af1acc8d2a09cfdf/webservices/4fcc15b6ed0a453cbedea56d68c2bb2b/endpoints/retrain",
@@ -142,7 +130,6 @@
     "mlTrainingEndpointApiKey": "<TO-BE-COMPLETED>"
   },
   "resources": [
-    /* Create Storage Account - Analytics */
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Storage/storageAccounts",
@@ -150,7 +137,6 @@
       "location": "[resourceGroup().location]",
       "properties": { "accountType": "[parameters('storageAccountType')]" }
     },
-    /* Create Storage Account - HDI Metastore */
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Storage/storageAccounts",
@@ -158,7 +144,6 @@
       "location": "[resourceGroup().location]",
       "properties": { "accountType": "[parameters('storageAccountType')]" }
     },
-    /* Create IoT Hub */
     {
       "apiVersion": "2016-02-03",
       "type": "Microsoft.Devices/IotHubs",
@@ -166,7 +151,6 @@
       "location": "[resourceGroup().location]",
       "sku": "[parameters('iotHubSku')]"
     },
-    /* Create IoT Hub Consumer Groups */
     {
       "apiVersion": "2016-02-03",
       "name": "[concat(variables('iotHubName'), '/events/', variables('archiveJobConsumerGroupName'))]",
@@ -199,7 +183,6 @@
         "[concat('Microsoft.Devices/Iothubs/', variables('iotHubName'))]"
       ]
     },
-    /* Create Event Hub */
     {
       "apiVersion": "2014-09-01",
       "type": "Microsoft.EventHub/namespaces",
@@ -217,7 +200,6 @@
         }
       ]
     },
-    /* Create SQL Server */
     {
       "apiVersion": "2014-04-01-preview",
       "type": "Microsoft.Sql/servers",
@@ -254,15 +236,12 @@
         }
       ]
     },
-    /* Create ASA Jobs */
-    /* ASA Job: Archive */
     {
       "apiVersion": "2015-09-01",
       "type": "Microsoft.StreamAnalytics/StreamingJobs",
       "name": "[variables('archiveJobName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        /* The only supported value for ASA sku is standard https://msdn.microsoft.com/en-us/library/azure/dn834994.aspx */
         "sku": { "name": "Standard" },
         "inputs": [
           {
@@ -327,14 +306,12 @@
         "[resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageAnalytics'))]"
       ]
     },
-    /* ASA Job: Hourly Power BI */
     {
       "apiVersion": "2015-09-01",
       "type": "Microsoft.StreamAnalytics/StreamingJobs",
       "name": "[variables('hourlypbiJobName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        /* The only supported value for ASA sku is standard https://msdn.microsoft.com/en-us/library/azure/dn834994.aspx */
         "sku": { "name": "Standard" },
         "inputs": [
           {
@@ -371,14 +348,12 @@
         "[resourceId('Microsoft.Devices/IotHubs', variables('iotHubName'))]"
       ]
     },
-    /* ASA Job: SQL-Power BI */
     {
       "apiVersion": "2015-09-01",
       "type": "Microsoft.StreamAnalytics/StreamingJobs",
       "name": "[variables('sqlpbiJobName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        /* The only supported value for ASA sku is standard https://msdn.microsoft.com/en-us/library/azure/dn834994.aspx */
         "sku": { "name": "Standard" },
         "inputs": [
           {
@@ -436,14 +411,12 @@
         "[resourceId('Microsoft.SQL/servers/databases', variables('sqlServerName'), variables('sqlDBName'))]"
       ]
     },
-    /* ASA Job: VIN Lookup */
     {
       "apiVersion": "2015-09-01",
       "type": "Microsoft.StreamAnalytics/StreamingJobs",
       "name": "[variables('vinlookupJobName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        /* The only supported value for ASA sku is standard https://msdn.microsoft.com/en-us/library/azure/dn834994.aspx */
         "sku": { "name": "Standard" },
         "inputs": [
           {
@@ -500,7 +473,6 @@
         "[resourceId('Microsoft.EventHub/namespaces', variables('eventHubNamespace'))]"
       ]
     },
-    /* Create Hosting Plan */
     {
       "apiVersion": "2015-08-01",
       "type": "Microsoft.Web/serverfarms",
@@ -509,7 +481,6 @@
       "sku": "[parameters('hostingPlanSku')]",
       "properties": { "numberOfWorkers": 1 }
     },
-    /* Create Mobile App */
     {
       "apiVersion": "2015-08-01",
       "type": "Microsoft.Web/sites",
@@ -564,7 +535,6 @@
       ],
       "dependsOn": [ "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]" ]
     },
-    /* Create App Insights Component */
     {
       "apiVersion": "2015-05-01",
       "type": "microsoft.insights/components",
@@ -576,7 +546,6 @@
         "[concat('Microsoft.Web/sites/', variables('mobileAppName'))]"
       ]
     },
-    /* Create SQL Server - Analytics */
     {
       "apiVersion": "2014-04-01-preview",
       "type": "Microsoft.Sql/servers",
@@ -613,14 +582,12 @@
         }
       ]
     },
-    /* Create Data Factory */
     {
       "apiVersion": "2015-10-01",
       "type": "Microsoft.DataFactory/datafactories",
       "name": "[variables('dataFactoryName')]",
       "location": "[resourceGroup().location]",
       "resources": [
-        /* Linked Service: SQL Database - Analytics */
         {
           "apiVersion": "2015-10-01",
           "type": "linkedservices",
@@ -637,7 +604,6 @@
             "[resourceId('Microsoft.SQL/servers/databases', variables('sqlAnalyticsServerName'), variables('sqlAnalyticsDBName'))]"
           ]
         },
-        /* Linked Service: SQL Database - Mobile App */
         {
           "apiVersion": "2015-10-01",
           "type": "linkedservices",
@@ -654,7 +620,6 @@
             "[resourceId('Microsoft.SQL/servers/databases', variables('sqlServerName'), variables('sqlDBName'))]"
           ]
         },
-        /* Linked Service: Blob Storage - Analytics */
         {
           "apiVersion": "2015-10-01",
           "type": "linkedservices",
@@ -671,7 +636,6 @@
             "[resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageAnalytics'))]"
           ]
         },
-        /* Linked Service: Blob Storage - HDI Metastore */
         {
           "apiVersion": "2015-10-01",
           "type": "linkedservices",
@@ -688,7 +652,6 @@
             "[resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageHdiMetastore'))]"
           ]
         },
-        /* Linked Service: HDI Compute Cluster */
         {
           "apiVersion": "2015-10-01",
           "type": "linkedservices",
@@ -711,7 +674,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedservices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
           ]
         },
-        /* Linked Service: Machine Learning */
         {
           "apiVersion": "2015-10-01",
           "type": "linkedservices",
@@ -729,7 +691,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]"
           ]
         },
-        /* Linked Service: Machine Learning Training Endpoint*/
         {
           "apiVersion": "2015-10-01",
           "type": "linkedservices",
@@ -746,7 +707,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]"
           ]
         },
-        /* Dataset: AML-iLearnerDataset */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -774,7 +734,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
           ]
         },
-        /* Dataset: DimUser-Blob */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -811,7 +770,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
           ]
         },
-        /* Dataset: DimUser-SQL */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -843,7 +801,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlAnalyticsLinkedServiceName'))]"
           ]
         },
-        /* Dataset: DimUserTemp-SQL */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -875,7 +832,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlAnalyticsLinkedServiceName'))]"
           ]
         },
-        /* Dataset: FactTripData-Blob */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -948,7 +904,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
           ]
         },
-        /* Dataset: FactTripData-SQL */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -1016,7 +971,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlAnalyticsLinkedServiceName'))]"
           ]
         },
-        /* Dataset: FactTripDataTemp-SQL */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -1084,7 +1038,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlAnalyticsLinkedServiceName'))]"
           ]
         },
-        /* Dataset: FactTripMLData-MobileSQL */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -1120,7 +1073,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlMobileAppLinkedServiceName'))]"
           ]
         },
-        /* Dataset: FactTripMLData-SQL */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -1156,7 +1108,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlAnalyticsLinkedServiceName'))]"
           ]
         },
-        /* Dataset: FactTripMLInputData-Blob */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -1210,7 +1161,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
           ]
         },
-        /* Dataset: MyDrivingRawData-Blob */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -1351,7 +1301,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
           ]
         },
-        /* Dataset: RawDataOneSecAggregated */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -1376,7 +1325,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
           ]
         },
-        /* Dataset: TempIntermediateDataset2-Blob */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -1402,7 +1350,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
           ]
         },
-        /* Dataset: TempIntermediateDataset3-Blob */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -1428,7 +1375,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
           ]
         },
-        /* Dataset: TempIntermediateDataset-Blob */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -1454,7 +1400,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
           ]
         },
-        /* Dataset: FinalTempDataSet-Blob */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
@@ -1480,7 +1425,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
           ]
         },
-        /* Pipeline: AzureMLDataPrep */
         {
           "apiVersion": "2015-10-01",
           "type": "datapipelines",
@@ -1535,7 +1479,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripMLInputDataBlob'))]"
           ]
         },
-        /* Pipeline: AzureMLScoringPipeline */
         {
           "apiVersion": "2015-10-01",
           "type": "datapipelines",
@@ -1604,7 +1547,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripMLDataMobileSql'))]"
           ]
         },
-        /* Pipeline: AzureML-RetrainingPipeline */
         {
           "apiVersion": "2015-10-01",
           "type": "datapipelines",
@@ -1691,7 +1633,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetTempIntermediate3Blob'))]"
           ]
         },
-        /* Pipeline: CopyPipeline-DimUserBlobToSQL */
         {
           "apiVersion": "2015-10-01",
           "type": "datapipelines",
@@ -1744,7 +1685,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetDimUserTempSql'))]"
           ]
         },
-        /* Pipeline: CopyPipeline-FactTripDataBlobToSQL */
         {
           "apiVersion": "2015-10-01",
           "type": "datapipelines",
@@ -1797,7 +1737,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripDataTempSql'))]"
           ]
         },
-        /* Pipeline: DimUserCompute-HDI */
         {
           "apiVersion": "2015-10-01",
           "type": "datapipelines",
@@ -1856,7 +1795,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetDimUserBlob'))]"
           ]
         },
-        /* Pipeline: FactTripDataCompute-HDI */
         {
           "apiVersion": "2015-10-01",
           "type": "datapipelines",
@@ -1911,7 +1849,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripDataBlob'))]"
           ]
         },
-        /* Pipeline: SetupHiveTablesPipeline */
         {
           "apiVersion": "2015-10-01",
           "type": "datapipelines",
@@ -2041,7 +1978,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetRawDataOneSecAggregated'))]"
           ]
         },
-        /* Pipeline: SQLSprocPipeline */
         {
           "apiVersion": "2015-10-01",
           "type": "datapipelines",
@@ -2123,7 +2059,6 @@
             "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripDataSql'))]"
           ]
         },
-        /* Pipeline: SQLSprocCleanupPipeline */
         {
           "apiVersion": "2015-10-01",
           "type": "datapipelines",
