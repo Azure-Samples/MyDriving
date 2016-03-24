@@ -79,9 +79,5 @@ namespace MyDriving.UWP.Views
             settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.SourceOnGitHubUrl);
         }
 
-        public void XamarinButton_Click(object sender, RoutedEventArgs e)
-        {
-            settingsViewModel.OpenBrowserCommand.Execute(settingsViewModel.XamarinUrl);
-        }
     }
 }
