@@ -143,23 +143,8 @@ namespace MyDriving.ViewModel
                     }
                 }
 
-
                 POIs.AddRange(await StoreManager.POIStore.GetItemsAsync(Trip.Id));
 
-                //TODO: This should be removed for final version
-                if (POIs.Count == 0)
-                {
-                    var centerPoint = Trip.Points[Trip.Points.Count/2];
-                    if (centerPoint != null)
-                        POIs.Add(new POI
-                        {
-                            Latitude = centerPoint.Latitude,
-                            Longitude = centerPoint.Longitude,
-                            POIType = POIType.HardBrake,
-                            Timestamp = centerPoint.RecordedTimeStamp,
-                            TripId = Trip.Id
-                        });
-                }
                 Title = Trip.Name;
             }
             catch (Exception ex)

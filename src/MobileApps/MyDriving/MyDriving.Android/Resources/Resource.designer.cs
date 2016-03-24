@@ -1593,6 +1593,8 @@ namespace MyDriving.Droid
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::MyDriving.Droid.Resource.Styleable.ProgressWheel_ahText;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::MyDriving.Droid.Resource.Styleable.ProgressWheel_ahTextColor;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::MyDriving.Droid.Resource.Styleable.ProgressWheel_ahTextSize;
+			global::PCLCrypto.Resource.String.ApplicationName = global::MyDriving.Droid.Resource.String.ApplicationName;
+			global::PCLCrypto.Resource.String.Hello = global::MyDriving.Droid.Resource.String.Hello;
 			global::PCLStorage.Resource.String.ApplicationName = global::MyDriving.Droid.Resource.String.ApplicationName;
 			global::PCLStorage.Resource.String.Hello = global::MyDriving.Droid.Resource.String.Hello;
 			global::Splat.Resource.String.library_name = global::MyDriving.Droid.Resource.String.library_name;
