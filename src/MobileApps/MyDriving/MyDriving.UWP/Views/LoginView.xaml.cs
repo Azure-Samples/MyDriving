@@ -31,6 +31,9 @@ namespace MyDriving.UWP.Views
             switch (e.PropertyName)
             {
                 case nameof(viewModel.IsLoggedIn):
+                    SplitViewShell shell = new SplitViewShell(this.Frame);
+                    Window.Current.Content = shell;
+                    shell.SetTitle("CURRENT TRIP");
                     Frame.Navigate(typeof (CurrentTripView));
                     break;
             }
@@ -46,16 +49,6 @@ namespace MyDriving.UWP.Views
         {
             base.OnNavigatedFrom(e);
             viewModel.PropertyChanged -= ViewModel_PropertyChanged;
-        }
-
-        //This button is temporary - intended to make it easier to debug app
-        private void SkipAuthBtn_Click(object sender, RoutedEventArgs e)
-        {
-            viewModel.InitFakeUser();
-            Frame.NavigationFailed += OnNavigationFailed;
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-
-            Frame.Navigate(typeof (CurrentTripView));
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)

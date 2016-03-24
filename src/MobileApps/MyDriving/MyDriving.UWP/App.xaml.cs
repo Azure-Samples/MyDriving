@@ -53,7 +53,6 @@ namespace MyDriving.UWP
 
                 //Register platform specific implementations of shared interfaces
                 ServiceLocator.Instance.Add<IAuthentication, Authentication>();
-                ServiceLocator.Instance.Add<IHubIOT, IOTHub>();
                 ServiceLocator.Instance.Add<Utils.Interfaces.ILogger, PlatformLogger>();
                 ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
@@ -91,7 +90,6 @@ namespace MyDriving.UWP
                 }
                 else
                 {
-                    Window.Current.Content = new SplitViewShell(rootFrame);
                     rootFrame.Navigate(typeof (LoginView), e.Arguments);
                 }
             }

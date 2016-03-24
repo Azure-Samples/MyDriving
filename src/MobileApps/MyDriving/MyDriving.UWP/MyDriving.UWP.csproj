@@ -198,9 +198,6 @@
     <Compile Include="Views\ProfileView.xaml.cs">
       <DependentUpon>ProfileView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RecommendedRoutes.xaml.cs">
-      <DependentUpon>RecommendedRoutes.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
@@ -228,11 +225,11 @@
     <Content Include="Assets\B.png" />
     <Content Include="Assets\Fonts\CorbertRegular\Desktop EULA 1.6.txt" />
     <Content Include="Assets\GetStarted\background.png" />
+    <Content Include="Assets\GetStarted\SCREEN5.png" />
     <Content Include="Assets\GetStarted\SCREEN1.png" />
     <Content Include="Assets\GetStarted\SCREEN2.png" />
     <Content Include="Assets\GetStarted\SCREEN3.png" />
     <Content Include="Assets\GetStarted\SCREEN4.png" />
-    <Content Include="Assets\GetStarted\SCREEN5.png" />
     <Content Include="Assets\ic_launcher144.png" />
     <Content Include="Assets\ic_launcher48.png" />
     <Content Include="Assets\ic_launcher48.scale-200.png" />
@@ -332,10 +329,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ProfileView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\RecommendedRoutes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
