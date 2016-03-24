@@ -23,6 +23,7 @@ namespace MyDrivingService.Controllers
 
         // GET tables/TripPoint
         //[Authorize]
+        [EnableQuery(MaxTop = 100000)]
         public IQueryable<TripPoint> GetAllTripPoints()
         {
             return Query();

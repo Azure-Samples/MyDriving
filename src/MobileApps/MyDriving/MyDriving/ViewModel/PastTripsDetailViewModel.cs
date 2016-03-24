@@ -128,8 +128,19 @@ namespace MyDriving.ViewModel
             try
             {
                 IsBusy = true;
+                if (Trip == null)
+                    Trip = await StoreManager.TripStore.GetItemAsync(id);
 
-                Trip = await StoreManager.TripStore.GetItemAsync(id);
+                //pull if we don't have the trip, else order by sequence.
+                if (Trip.Points == null || Trip.Points.Count == 0)
+                {
+                    Trip.Points = new List<TripPoint>();
+                    Trip.Points = new List<TripPoint>(await StoreManager.TripPointStore.GetPointsForTripAsync(id));
+                }
+                else
+                {
+                    Trip.Points = Trip.Points.OrderBy(p => p.Sequence).ToArray();
+                }
 
                 Title = Trip.Name;
                 for (int i = 0; i < Trip.Points.Count; i++)

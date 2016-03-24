@@ -266,14 +266,18 @@ namespace MyDriving.iOS
         async Task ConfigurePastTripUserInterface()
         {
             NavigationItem.Title = PastTripsDetailViewModel.Title;
-            var coordinateCount = PastTripsDetailViewModel.Trip.Points.Count;
 
             await PastTripsDetailViewModel.ExecuteLoadTripCommandAsync(PastTripsDetailViewModel.Trip.Id);
+            
             // Setup map
             mapDelegate = new TripMapViewDelegate(false);
             tripMapView.Delegate = mapDelegate;
             tripMapView.ShowsUserLocation = false;
 
+            if (PastTripsDetailViewModel.Trip == null || PastTripsDetailViewModel.Trip.Points == null || PastTripsDetailViewModel.Trip.Points.Count == 0)
+                return;
+
+            var coordinateCount = PastTripsDetailViewModel.Trip.Points.Count;
             // Draw endpoints
             var startEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Points[0].ToCoordinate(), "A");
             tripMapView.AddAnnotation(startEndpoint);

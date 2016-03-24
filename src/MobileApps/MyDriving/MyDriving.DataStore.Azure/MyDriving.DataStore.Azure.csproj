@@ -53,6 +53,7 @@
     <Compile Include="Stores\BaseStore.cs" />
     <Compile Include="Stores\IOTHubStore.cs" />
     <Compile Include="Stores\POIStore.cs" />
+    <Compile Include="Stores\TripPointStore.cs" />
     <Compile Include="Stores\TripStore.cs" />
     <Compile Include="StoreManager.cs" />
     <Compile Include="Stores\PhotoStore.cs" />
