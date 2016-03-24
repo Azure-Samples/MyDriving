@@ -181,9 +181,7 @@ namespace MyDriving.ViewModel
             {
                 IsBusy = true;
 
-                var users = await StoreManager.UserStore.GetItemsAsync(0, 100, true);
-
-                var currentUser = users.FirstOrDefault(s => s.UserId == Settings.UserUID);
+                var currentUser = await StoreManager.UserStore.GetItemAsync(Settings.UserUID);
 
                 if (currentUser == null)
                 {
