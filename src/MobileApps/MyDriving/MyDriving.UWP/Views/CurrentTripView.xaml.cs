@@ -186,9 +186,6 @@ namespace MyDriving.UWP.Views
             switch (result)
             {
                 case ExtendedExecutionResult.Allowed:
-                    //Acr.UserDialogs.UserDialogs.Instance.InfoToast("Extended execution allowed.",
-                    //                      "Extended Execution", 4000);
-
                     session = newSession;
                     ViewModel.Geolocator.AllowsBackgroundUpdates = true;
                     ViewModel.StartTrackingTripCommand.Execute(null);
@@ -221,8 +218,6 @@ namespace MyDriving.UWP.Views
                 switch (args.Reason)
                 {
                     case ExtendedExecutionRevokedReason.Resumed:
-                        //Acr.UserDialogs.UserDialogs.Instance.InfoToast("Extended execution revoked due to returning to foreground.",
-                        //                    "App Resumed", 4000);
                         break;
 
                     case ExtendedExecutionRevokedReason.SystemPolicy:

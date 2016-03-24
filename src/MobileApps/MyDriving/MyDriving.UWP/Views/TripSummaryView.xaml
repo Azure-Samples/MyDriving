@@ -17,10 +17,10 @@
                 </Button>
                 <StackPanel Margin="24,4,24,4">
 
-                    <StackPanel>
-                        <TextBlock Text="You completed your trip!" HorizontalAlignment="Center" Margin="0,0,0,5" FontFamily="SegoeUI-Light" FontSize="21" Foreground="#8ab0cc" />
-                        <TextBlock Text="Trip Summary" HorizontalAlignment="Center" Margin="0,5,0,15" FontFamily="SegoeUI-Semibold" FontSize="16" Foreground="White" FontWeight="Bold" />
-                    </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="You completed your trip!" HorizontalAlignment="Center" Margin="0,0,0,5" FontFamily="SegoeUI-Light" FontSize="21" Foreground="{StaticResource SummaryTextColor}" />
+                    <TextBlock Text="Trip Summary" HorizontalAlignment="Center" Margin="0,5,0,15" FontFamily="SegoeUI-Semibold" FontSize="16" Foreground="White" FontWeight="Bold" />
+                </StackPanel>
 
                     <controls:ProfileViewTabControl x:Name="TotalDistanceTab" DataContext="{x:Bind ViewModel.TotalDistance, Mode=OneWay, Converter={StaticResource DistanceConverter} }" />
 
@@ -31,12 +31,12 @@
                     <controls:ProfileViewTabControl x:Name="FuelConsumptionTab" DataContext="{x:Bind ViewModel.FuelDisplay, Mode=OneWay}" />
 
                     <controls:ProfileViewTabControl x:Name="HardBreaksTab" DataContext="{x:Bind ViewModel.HardStops, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
-                
+
                     <controls:ProfileViewTabControl x:Name="HardAccelerationsTab" DataContext="{x:Bind ViewModel.HardAccelerations, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
 
                 </StackPanel>
-
-
+                
+   
             </StackPanel>
         </ScrollViewer>
 

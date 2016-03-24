@@ -225,11 +225,11 @@
     <Content Include="Assets\B.png" />
     <Content Include="Assets\Fonts\CorbertRegular\Desktop EULA 1.6.txt" />
     <Content Include="Assets\GetStarted\background.png" />
+    <Content Include="Assets\GetStarted\SCREEN5.png" />
     <Content Include="Assets\GetStarted\SCREEN1.png" />
     <Content Include="Assets\GetStarted\SCREEN2.png" />
     <Content Include="Assets\GetStarted\SCREEN3.png" />
     <Content Include="Assets\GetStarted\SCREEN4.png" />
-    <Content Include="Assets\GetStarted\SCREEN5.png" />
     <Content Include="Assets\ic_launcher144.png" />
     <Content Include="Assets\ic_launcher48.png" />
     <Content Include="Assets\ic_launcher48.scale-200.png" />

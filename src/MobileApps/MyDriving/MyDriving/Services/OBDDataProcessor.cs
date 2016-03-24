@@ -36,6 +36,10 @@ namespace MyDriving.Services
 
         private OBDDataProcessor()
         {
+            // The mobile app sends data to both the IOT Hub and the backend Mobile App Service:
+            //1.)	The Mobile App Service provides authentication and offline syncing between local storage and the backend database; the backend database is used to store trip, user, and OBD data in addition to data streamed by machine learning(ML).
+            //2.)	OBD data is read from the OBD device and pushed to the IOT Hub which performs analysis on the data; the resulting  ML data is then sent to the Mobile App Service’s backend database.
+            // The OBD processor is responsible for reading data from the OBD device and pushing it to the IOT Hub.
         }
 
         public bool IsObdDeviceSimulated { get; set; }
@@ -125,7 +129,6 @@ namespace MyDriving.Services
                 since data cannot be sent to the IOT Hub when there is no connection.
             (3) When we first launch the app we kick this task off to see if there is any data remaining in the buffer from previous times that the app may have been run.
         */
-
         private async Task SendBufferedDataToIOTHub()
         {
             //Make sure that this thread can't be kicked off concurrently
