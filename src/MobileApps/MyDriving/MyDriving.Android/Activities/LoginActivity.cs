@@ -43,6 +43,15 @@ namespace MyDriving.Droid.Activities
             microsoft.Click += (sender, e) => Login(LoginAccount.Microsoft);
             facebook.Click += (sender, e) => Login(LoginAccount.Facebook);
 
+            FindViewById<Button>(Resource.Id.button_skip).Click += (sender, e) =>
+            {
+                viewModel.InitFakeUser();
+                var intent = new Intent(this, typeof(MainActivity));
+                intent.AddFlags(ActivityFlags.ClearTop);
+                StartActivity(intent);
+                Finish();
+            };
+
             #if XTC || DEBUG
             #else
             FindViewById<Button>(Resource.Id.button_skip).Visibility = ViewStates.Gone;
