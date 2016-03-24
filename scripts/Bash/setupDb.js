@@ -73,7 +73,7 @@ var config = {
 // array, can handle more than one script file
 var scriptFiles = [process.argv[6]];
 
-console.log('Initializing the ' + config1.options.database + ' database...');
+console.log('Initializing the ' + config.options.database + ' database...');
 setupDb(config, scriptFiles, function (err) {
     if (err) {
        return console.log('Error executing a database script. ' + err.message);
