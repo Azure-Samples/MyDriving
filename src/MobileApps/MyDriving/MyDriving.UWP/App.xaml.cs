@@ -76,13 +76,13 @@ namespace MyDriving.UWP
                 // parameter
                 if (Settings.Current.IsLoggedIn)
                 {
+                    //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+                    MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
+
                     SplitViewShell shell = new SplitViewShell(rootFrame);
                     Window.Current.Content = shell;
                     shell.SetTitle("CURRENT TRIP");
                     rootFrame.Navigate(typeof(CurrentTripView), e.Arguments);
-
-                    //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
-                    MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
                 }
                 else if (Settings.Current.FirstRun)
                 {

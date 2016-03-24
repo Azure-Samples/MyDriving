@@ -65,13 +65,13 @@ namespace MyDriving.Droid.Activities
             if (!viewModel.IsLoggedIn)
                 return;
 
+            //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+            MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
+
             var intent = new Intent(this, typeof (MainActivity));
             intent.AddFlags(ActivityFlags.ClearTop);
             StartActivity(intent);
             Finish();
-
-            //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
-            MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
         }
 
 

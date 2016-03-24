@@ -63,11 +63,11 @@ namespace MyDriving.iOS
             }
             else
             {
+                //When the first scre app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+                MyDriving.Services.OBDDataProcessor.GetProcen of theessor().Initialize(ViewModel.ViewModelBase.StoreManager);
+
                 var tabBarController = Window.RootViewController as UITabBarController;
                 tabBarController.SelectedIndex = 1;
-
-                //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
-                MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
             }
 
 #if XTC

@@ -31,13 +31,13 @@ namespace MyDriving.UWP.Views
             switch (e.PropertyName)
             {
                 case nameof(viewModel.IsLoggedIn):
+                    //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+                    Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
+
                     SplitViewShell shell = new SplitViewShell(this.Frame);
                     Window.Current.Content = shell;
                     shell.SetTitle("CURRENT TRIP");
                     Frame.Navigate(typeof (CurrentTripView));
-
-                    //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
-                    Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
                     break;
             }
         }
