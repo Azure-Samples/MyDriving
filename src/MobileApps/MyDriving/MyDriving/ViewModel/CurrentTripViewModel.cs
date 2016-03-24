@@ -433,8 +433,10 @@ namespace MyDriving.ViewModel
                 point.EngineFuelRate = efr;
                 point.VIN = vin;
 
+                #if DEBUG
                 foreach (var kvp in obdData)
                     Logger.Instance.WriteLine($"{kvp.Key} {kvp.Value}");
+                #endif
 
                 point.HasOBDData = true;
             }
