@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 # Variables
 DEPLOYMENTNAME="scenario_complete-$(date -u +%m%d-%H%M)"
@@ -44,6 +43,7 @@ fi
 
 # verify if user is logged in by querying his subscriptions.
 # if none is found assume he is not
+echo "Retrieving Azure subscription information..."
 IFS=$'\n'
 SUBSCRIPTIONS=($(azure account list | awk -F $'  ' '{printf $3"\n"}'))
 unset IFS
@@ -90,9 +90,11 @@ fi
 azure config mode arm
 
 # create the resource group
+echo "Creating the resource group..."
 azure group create --name "${RESOURCEGROUPNAME}" --location "${LOCATION}" --verbose
 
 # create the deployment with the prerequisites template
+echo "Provisioning the prerequisites..."
 DEPLOYMENT1=`azure group deployment create --name "${DEPLOYMENTNAME}-0" \
                                          --resource-group "${RESOURCEGROUPNAME}" \
                                          --template-file "${PREREQ_TEMPLATEFILE}" \
@@ -102,8 +104,16 @@ DEPLOYMENT1=`azure group deployment create --name "${DEPLOYMENTNAME}-0" \
                 $2 ~ /storageAccountKey/   {split($2, a, " "); print "export AZURE_STORAGE_ACCESS_KEY=" a[3] "\n"} \
                 $2 ~ /assetsContainerName/ {split($2, a, " "); print "export ASSETS_CONTAINER_NAME="    a[3] "\n"} \
             '`
+
+if [ "$?" != "0" ]; then
+	echo "Failed to provision the prerequisites storage account."
+	exit 1;
+fi
+
 eval $DEPLOYMENT1
 
+# upload the HQL queries to the storage account container
+echo "Uploading the prerequisites to blob storage..."
 uploadAssets() {
  for i in "$1"/*;do
     if [ -d "$i" ];then
@@ -117,12 +127,13 @@ uploadAssets() {
 }
 
 echo "Creating the '$ASSETS_CONTAINER_NAME' blob container to store assets..."
-azure storage container create $ASSETS_CONTAINER_NAME
+azure storage container create $ASSETS_CONTAINER_NAME || :
 
-echo "Copying all assets in '$ASSETS_DIRECTORY' to blob storage..."
+echo "Copying assets in '$ASSETS_DIRECTORY' to blob storage..."
 uploadAssets $ASSETS_DIRECTORY
 
 # create the deployment with the solution template
+echo "Deploying the resources in the ARM template..."
 DEPLOYMENT2=`azure group deployment create --name "${DEPLOYMENTNAME}-1" \
                                          --resource-group "${RESOURCEGROUPNAME}" \
                                          --template-file "${TEMPLATEFILE}" \
@@ -138,10 +149,23 @@ DEPLOYMENT2=`azure group deployment create --name "${DEPLOYMENTNAME}-1" \
                 $2 ~ /sqlAnalyticsServerAdminPassword/      {split($2, a, " "); print "export SQLANALYTICS_ADMIN_PASSWORD="              a[3] "\n"} \
                 $2 ~ /sqlAnalyticsDBName/                   {split($2, a, " "); print "export SQLANALYTICS_DATABASE_NAME="               a[3] "\n"} \
             '`
+
+if [ "$?" != "0" ]; then
+	echo "At least one resource could not be provisioned successfully. Review the output above to correct any errors and then run the deployment script again."
+	echo "Skipped the database initialization..."
+	exit 2;
+fi
+
 eval $DEPLOYMENT2
+
+# Initialize SQL databases
+echo "Initializing the schema of the SQL databases..."
 
 # set up the SQL Database
 node setupDb $SQLSERVER_FULLY_QUALIFIED_DOMAIN_NAME    $SQLSERVER_ADMIN_LOGIN    $SQLSERVER_ADMIN_PASSWORD    $SQLSERVER_DATABASE_NAME    '../../src/SQLDatabase/MyDrivingDB.sql'
 
 # set up the Analytics Database
 node setupDb $SQLANALYTICS_FULLY_QUALIFIED_DOMAIN_NAME $SQLANALYTICS_ADMIN_LOGIN $SQLANALYTICS_ADMIN_PASSWORD $SQLANALYTICS_DATABASE_NAME '../../src/SQLDatabase/MyDrivingAnalyticsDB.sql'
+
+echo "The deployment is complete!"
+
