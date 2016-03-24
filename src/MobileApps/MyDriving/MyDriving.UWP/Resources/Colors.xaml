@@ -4,14 +4,21 @@
 
     <SolidColorBrush x:Key="BrandColor" Color="#0087d2"/>
     <SolidColorBrush x:Key="MainBackgroundColor" Color="#17212a"/>
-    <SolidColorBrush x:Key="TopBarBackgroundColor" Color="#161b1f"/>
-
     <SolidColorBrush x:Key="MainBackgroundColor2" Color="#23313B"/>
+    <SolidColorBrush x:Key="TopBarBackgroundColor" Color="#161b1f"/>
     
     <SolidColorBrush x:Key="FacebookLoginButtonColor" Color="#324e97"/>
     <SolidColorBrush x:Key="TwitterLoginButtonColor" Color="#00acee"/>
     <SolidColorBrush x:Key="MSALoginButtonColor" Color="#437fa3" />
     
     <SolidColorBrush x:Key="ListTabColor" Color="#FF0F3D53"/>
+    <SolidColorBrush x:Key="GridBackgroundColor" Color="#111111"/>
+    <SolidColorBrush x:Key="ProfileTextColor" Color="#e5e5e5" />
+    <SolidColorBrush x:Key="CalculationTextColor" Color="#7BA4C5" />
+    <SolidColorBrush x:Key="MapFillColor" Color="#FF8B7C7C" />
+    <SolidColorBrush x:Key="SliderColor" Color="#FF4444E2" />
+    <SolidColorBrush x:Key="PastTripsBorderColor" Color="#162129" />
+    <SolidColorBrush x:Key="SplitViewColor" Color="#0087d2" />
+    <SolidColorBrush x:Key="SummaryTextColor" Color="#8ab0cc" />
     <SolidColorBrush x:Key="TripCompletionCircleColor" Color="#FF11597C"/>
 </ResourceDictionary>

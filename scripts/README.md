@@ -86,10 +86,24 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 	- **Table Name**: TripPointData
 	- **Workspace**: You can use the default
 
-### Power BI configuration (optional)
-At the time of writing, Power Bi dashboard creation is not automated. To define Power BI reports and dashboards, follow the following steps.
+### Machine Learning configuration (optional)
+You can use the supplied **scripts\PowerShell\scripts\copyMLExperiment.ps1** to import previously packaged ML experiments at these locations:
+
+* https://storage.azureml.net/directories/2e55da807f4a4273bfa99852d3d6e304/items (MyDriving)
+* https://storage.azureml.net/directories/a9fb6aeb3a164eedaaa28da34f02c3b0/items (MyDriving [Predictive Exp.])
+
+For example:
+
+		.\copyMLExperiment.ps1 "[your Azure subscription Id]" "[name of the workspace to be created]" "[location]" "[owner email]" "[storage account name]" "[storage account key]" "[experiement package URL (see above)]"
+
+The PowerShell script also provides other useful functions with several other tasks, such as finding a work space/experiment, and packaging an experiment. For example, to package an existing experiment (so that it can be unpacked to a new work space), use the following cmdlet:
+
+		ExportExperiment "[subscription id]" "[workspace name]" "[experiment name]" "[ML key]"
+
 
 ### Visual Studio Online configuration (optional)
+
+TBD
 
 ### Service Fabric cluster configuration (optional)
 Service Fabric is used one of the possible extension processing unit hosts. In the starter kit, we provide a sample Service Fabric service that parses vehicle VIN numbers to corresponding make, mode, year and type info. The following steps show how to deploy a Service Fabric cluster, and how to publish the VIN look up service using Visual Studio.

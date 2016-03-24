@@ -5,8 +5,7 @@
     xmlns:controls="using:MyDriving.UWP.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    x:Name="PROFILE">
+    mc:Ignorable="d">
 
     <Grid Background="{StaticResource MainBackgroundColor2}">
         <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -23,7 +22,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <controls:CirclePercentage x:Name="CirclePercentage" Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" DataContext="{Binding }"/>
+                    <controls:CirclePercentage x:Name="CirclePercentage" Grid.RowSpan="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" DataContext="{x:Bind profileViewModel.DrivingSkills, Mode=OneWay}"/>
                     <Ellipse Grid.RowSpan="2" Width="100" Height="100">
                         <Ellipse.Fill>
                             <ImageBrush x:Name="ProfileImage" ImageSource="{x:Bind profileViewModel.Settings.UserProfileUrl, Mode=OneWay, Converter={StaticResource ImageSourceConverter}}"/>
@@ -35,36 +34,24 @@
                     <StackPanel Grid.Column="1" Grid.Row="1">
                         <TextBlock Name="DrivingSkillsMessage2" Text="{x:Bind profileViewModel.DrivingSkillsPlacementBucket.Description,  Converter={StaticResource StringFormatConverter}, ConverterParameter='Driving skills: {0}', Mode=OneWay}"   
                                     FontFamily="SegoeUI-Light" FontSize="16" Foreground="White" TextWrapping="Wrap" />
-                        <TextBlock Name="DrivingSkillsMessage" Text="{x:Bind profileViewModel.DrivingSkills, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter='Better than {0}% of drivers'}" 
-                                    FontFamily="SegoeUI-Semilight" FontSize="11"  Foreground="#b1b2b1" TextWrapping="Wrap" />
                     </StackPanel>
                 </Grid>
 
-                <Border Margin="0,16,0,0" />
-                <controls:ProfileViewTabControl x:Name="TotalDistanceTab" DataContext="{Binding TotalDistanceDisplay}" />
+                <Border Margin="0,6,0,0" />
+                <controls:ProfileViewTabControl x:Name="TotalDistanceTab" DataContext="{x:Bind profileViewModel.TotalDistanceDisplay, Mode=OneWay}" />
 
-                <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="TotalTimeTab" DataContext="{Binding TotalTimeDisplay}" />
+                <controls:ProfileViewTabControl x:Name="TotalTimeTab" DataContext="{x:Bind profileViewModel.TotalTimeDisplay, Mode=OneWay}" />
 
-                <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="MaxSpeedTab" DataContext="{Binding MaxSpeedDisplay}" />
+                <controls:ProfileViewTabControl x:Name="MaxSpeedTab" DataContext="{x:Bind profileViewModel.MaxSpeedDisplay, Mode=OneWay}" />
 
-                <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="FuelConsumptionTab" DataContext="{Binding FuelDisplay}" />
+                <controls:ProfileViewTabControl x:Name="FuelConsumptionTab" DataContext="{x:Bind profileViewModel.FuelDisplay, Mode=OneWay}" />
 
-                <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="HardBreaksTab" DataContext="{Binding HardStops,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
+                <controls:ProfileViewTabControl x:Name="HardBreaksTab" DataContext="{x:Bind profileViewModel.HardStops, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
 
-                <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="HardAccelTab" DataContext="{Binding HardAccelerations,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
+                <controls:ProfileViewTabControl x:Name="HardAccelTab" DataContext="{x:Bind profileViewModel.HardAccelerations, Mode=OneWay, Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  times'}" />
 
-                <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="TotalTripsTab" DataContext="{Binding TotalTrips}" />
+                <controls:ProfileViewTabControl x:Name="TotalTripsTab" DataContext="{x:Bind profileViewModel.TotalTrips, Mode=OneWay}" />
 
-                <!-- we no longer have tips
-                <Border Margin="0,10,0,0" />
-                <controls:ProfileViewTabControl x:Name="TipsTab" DataContext="{Binding Tips.Count,  Converter={StaticResource StringFormatConverter}, ConverterParameter=' {0}  tips'}" />
-                -->
             </StackPanel>
         </ScrollViewer>
 
