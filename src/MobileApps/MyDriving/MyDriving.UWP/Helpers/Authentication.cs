@@ -29,8 +29,11 @@ namespace MyDriving.UWP.Helpers
             }
             catch (Exception e)
             {
-                e.Data["method"] = "LoginAsync";
-                Logger.Instance.Report(e);
+                if (!e.Message.Contains("cancelled"))
+                {
+                    e.Data["method"] = "LoginAsync";
+                    Logger.Instance.Report(e);
+                }
             }
 
             return null;
