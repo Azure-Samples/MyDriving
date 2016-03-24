@@ -6,7 +6,7 @@ DEPLOYMENTNAME="scenario_complete-$(date -u +%m%d-%H%M)"
 TEMPLATEFILE="../ARM/scenario_complete.nocomments.json"
 PREREQ_TEMPLATEFILE="../ARM/prerequisites.nocomments.json"
 PARAMETERSFILE="../ARM/scenario_complete.params.nocomments.json"
-ASSETS_DIRECTORY="../Assets"
+ASSETS_DIRECTORY="../../src/HDInsight"
 
 # Parse parameters, use > 1 to consume two arguments per pass in the loop.
 while [[ $# > 1 ]] 
