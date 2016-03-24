@@ -25,10 +25,18 @@ namespace MyDriving.iOS
 
 		public class PageViewControllerSource : UIPageViewControllerDataSource
 		{
+			public override nint GetPresentationCount(UIPageViewController pageViewController)
+			{
+				return 5;
+			}
+
 			public override UIViewController GetPreviousViewController(UIPageViewController pageViewController, UIViewController referenceViewController)
 			{
 				var vc = (GettingStartedContentViewController)referenceViewController;
 				var index = vc.PageIndex;
+
+				if (index == 0)
+					return null;
 
 				return GettingStartedContentViewController.ControllerForPageIndex(index-1);
 			}
@@ -37,6 +45,9 @@ namespace MyDriving.iOS
 			{
 				var vc = (GettingStartedContentViewController)referenceViewController;
 				var index = vc.PageIndex;
+
+				if (index == 4)
+					return null;
 
 				return GettingStartedContentViewController.ControllerForPageIndex(index+1);
 			}
