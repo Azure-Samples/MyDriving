@@ -120,6 +120,8 @@ namespace MyDriving.ViewModel
             if (IsBusy)
                 return;
 
+            Logger.Instance.Track("LoadPastTrip");
+
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading trip details...",
                 maskType: Acr.UserDialogs.MaskType.Clear);
 

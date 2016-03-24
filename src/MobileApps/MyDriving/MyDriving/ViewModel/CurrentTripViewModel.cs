@@ -171,7 +171,7 @@ namespace MyDriving.ViewModel
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
                 IsRecording = true;
-
+                Logger.Instance.Track("StartRecording");
                 //add start point
                 CurrentTrip.Points.Add(new TripPoint
                 {
@@ -245,6 +245,7 @@ namespace MyDriving.ViewModel
                 OnPropertyChanged(nameof(CurrentTrip));
                 OnPropertyChanged("Stats");
                 NeedSave = false;
+                Logger.Instance.Track("SaveRecording");
                 return true;
             }
             catch (Exception ex)
@@ -299,6 +300,7 @@ namespace MyDriving.ViewModel
 
             IsRecording = false;
             NeedSave = true;
+            Logger.Instance.Track("StopRecording");
             return true;
         }
 
