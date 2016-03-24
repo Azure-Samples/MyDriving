@@ -57,18 +57,26 @@ namespace MyDriving.iOS
             }
 #endif
 
-            if (!Settings.Current.IsLoggedIn)
-            {
-                var viewController = UIStoryboard.FromName("Main", null)
-                    .InstantiateViewController("loginViewController");
-                // Storyboard.InstantiateViewController("loginViewController");
-                Window.RootViewController = viewController;
-            }
-            else
-            {
-                var tabBarController = Window.RootViewController as UITabBarController;
-                tabBarController.SelectedIndex = 1;
-            }
+    //        if (!Settings.Current.IsLoggedIn)
+    //        {
+				//if (Settings.Current.FirstRun)
+				//{
+					var viewController = UIStoryboard.FromName("Main", null)
+								 .InstantiateViewController("gettingStartedViewController");
+					Window.RootViewController = viewController;
+				//}
+				//else
+				//{
+				//	var viewController = UIStoryboard.FromName("Main", null)
+				//	                                 .InstantiateViewController("loginViewController");
+				//	Window.RootViewController = viewController;
+				//}
+    //        }
+    //        else
+    //        {
+    //            var tabBarController = Window.RootViewController as UITabBarController;
+    //            tabBarController.SelectedIndex = 1;
+    //        }
 
 #if XTC
             Xamarin.Calabash.Start();
