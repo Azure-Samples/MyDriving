@@ -65,6 +65,8 @@ namespace MyDriving.iOS
 								 .InstantiateViewController("gettingStartedViewController");
 					var navigationController = new UINavigationController(viewController);
 					Window.RootViewController = navigationController;
+
+					Settings.Current.FirstRun = false;
 				}
 				else
 				{
