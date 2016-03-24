@@ -4,8 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-     x:Name="Login">
+    mc:Ignorable="d">
 
     <Grid Name="LoginGrid" >
         <Grid.Background>
@@ -26,7 +25,7 @@
         <TextBlock x:Name="LogoText" HorizontalAlignment="Center"  VerticalAlignment="Bottom"   Text="MyDriving" Foreground="White" FontFamily="Assets/Fonts/CorbertRegular/Corbert-regular.otf#Corbert" FontSize="24" />
         <StackPanel x:Name="LoginButtons" VerticalAlignment="Center" Grid.Row="1" Visibility="Visible" Margin="50,0,50,0">
 
-            <Button x:Name="FaceBookButtonLogin" Command="{Binding LoginFacebookCommand}"   Style="{StaticResource LoginButtonStyle}" 
+            <Button x:Name="FaceBookButtonLogin" Command="{x:Bind viewModel.LoginFacebookCommand, Mode=OneWay}"   Style="{StaticResource LoginButtonStyle}" 
                     Background="{StaticResource FacebookLoginButtonColor}"  Height="40" MaxWidth="300">
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
@@ -35,7 +34,7 @@
                 </StackPanel>
             </Button>
 
-            <Button x:Name="TwitterButtonLogin" Style="{StaticResource LoginButtonStyle}"  Command="{Binding LoginTwitterCommand}"
+            <Button x:Name="TwitterButtonLogin" Style="{StaticResource LoginButtonStyle}"  Command="{x:Bind viewModel.LoginTwitterCommand, Mode=OneWay}"
                     Background="{StaticResource TwitterLoginButtonColor}"  >
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
@@ -44,7 +43,7 @@
                 </StackPanel>           
             </Button>
 
-            <Button x:Name="MSAButtonLogin"   Style="{StaticResource LoginButtonStyle}"  Command="{Binding LoginMicrosoftCommand}"
+            <Button x:Name="MSAButtonLogin"   Style="{StaticResource LoginButtonStyle}"  Command="{x:Bind viewModel.LoginMicrosoftCommand, Mode=OneWay}"
                     Background="{StaticResource MSALoginButtonColor}"  >
                
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
@@ -53,18 +52,6 @@
                 </StackPanel>
 
             </Button>
-
-            <!--
-            <Button x:Name="SkipAuthBtn"   Style="{StaticResource LoginButtonStyle}"  Click="SkipAuthBtn_Click" 
-                    Background="Gray" HorizontalContentAlignment="Center" >
-
-                <StackPanel  Margin="40,0,0,0">
-               
-                    <TextBlock Text="Skip Authentication"  Style="{StaticResource LoginButtonTextStyle2}" />
-                </StackPanel>
-
-            </Button>
-            -->
         </StackPanel>
 
         <Button x:Name="ContinueButton" HorizontalAlignment="Center" Margin="0,10,0,0"  Content="Continue"  Click="Continue_Click" Grid.Row="2" VerticalAlignment="Top" Visibility="Collapsed" />

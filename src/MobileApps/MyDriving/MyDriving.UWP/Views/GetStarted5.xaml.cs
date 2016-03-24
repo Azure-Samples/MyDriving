@@ -45,7 +45,6 @@ namespace MyDriving.UWP.Views
         private void GoNext(object sender, RoutedEventArgs e)
         {
             Settings.Current.FirstRun = false;
-            Window.Current.Content = new SplitViewShell(Frame);
             Frame.Navigate(typeof (LoginView));
         }
     }
