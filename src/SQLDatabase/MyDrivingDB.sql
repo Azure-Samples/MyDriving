@@ -254,79 +254,92 @@ CREATE NONCLUSTERED INDEX [IX_TripId] ON [dbo].[TripPoints]
 	[TripId] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Devices__Id__4E88ABD4]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Devices__Id__4E88ABD4]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Id' AND object_id = object_id('dbo.Devices')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[Devices] ADD  DEFAULT (newid()) FOR [Id]
 END
 
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Devices__Created__4F7CD00D]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Devices__Created__4F7CD00D]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='CreatedAt' AND object_id = object_id('dbo.Devices')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[Devices] ADD  DEFAULT (sysutcdatetime()) FOR [CreatedAt]
 END
 
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__IOTHubDatas__Id__36B12243]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__IOTHubDatas__Id__36B12243]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Id' AND object_id = object_id('dbo.IOTHubDatas')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[IOTHubDatas] ADD  DEFAULT (newid()) FOR [Id]
 END
 
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__IOTHubDat__Creat__37A5467C]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__IOTHubDat__Creat__37A5467C]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='CreatedAt' AND object_id = object_id('dbo.IOTHubDatas')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[IOTHubDatas] ADD  DEFAULT (sysutcdatetime()) FOR [CreatedAt]
 END
 
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__POIs__Id__3B75D760]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__POIs__Id__3B75D760]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Id' AND object_id = object_id('dbo.POIs')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[POIs] ADD  DEFAULT (newid()) FOR [Id]
 END
 
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__POIs__CreatedAt__3C69FB99]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__POIs__CreatedAt__3C69FB99]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='CreatedAt' AND object_id = object_id('dbo.POIs')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[POIs] ADD  DEFAULT (sysutcdatetime()) FOR [CreatedAt]
 END
 
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__POIs__Timestamp__5535A963]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__POIs__Timestamp__5535A963]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Timestamp' AND object_id = object_id('dbo.POIs')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[POIs] ADD  DEFAULT ('1900-01-01T00:00:00.000') FOR [Timestamp]
 END
 
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__TripPoints__Id__403A8C7D]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__TripPoints__Id__403A8C7D]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Id' AND object_id = object_id('dbo.TripPoints')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[TripPoints] ADD  DEFAULT (newid()) FOR [Id]
 END
 
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__TripPoint__Creat__412EB0B6]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__TripPoint__Creat__412EB0B6]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='CreatedAt' AND object_id = object_id('dbo.TripPoints')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[TripPoints] ADD  DEFAULT (sysutcdatetime()) FOR [CreatedAt]
 END
 
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Trips__Id__44FF419A]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Trips__Id__44FF419A]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Id' AND object_id = object_id('dbo.Trips')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[Trips] ADD  DEFAULT (newid()) FOR [Id]
 END
 
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Trips__CreatedAt__45F365D3]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Trips__CreatedAt__45F365D3]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='CreatedAt' AND object_id = object_id('dbo.Trips')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[Trips] ADD  DEFAULT (sysutcdatetime()) FOR [CreatedAt]
 END
 
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__UserProfiles__Id__49C3F6B7]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__UserProfiles__Id__49C3F6B7]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Id' AND object_id = object_id('dbo.UserProfiles')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[UserProfiles] ADD  DEFAULT (newid()) FOR [Id]
 END
 
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__UserProfi__Creat__4AB81AF0]') AND type = 'D')
+--IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__UserProfi__Creat__4AB81AF0]') AND type = 'D')
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='CreatedAt' AND object_id = object_id('dbo.UserProfiles')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[UserProfiles] ADD  DEFAULT (sysutcdatetime()) FOR [CreatedAt]
 END
