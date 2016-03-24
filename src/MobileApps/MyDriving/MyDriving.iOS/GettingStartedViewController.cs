@@ -16,6 +16,14 @@ namespace MyDriving.iOS
 		{
 			base.ViewDidLoad();
 
+			Title = "MyDriving";
+			NavigationItem.SetRightBarButtonItem(new UIBarButtonItem("Dismiss", UIBarButtonItemStyle.Plain, (sender, e) =>
+			{
+				var viewController = UIStoryboard.FromName("Main", null).InstantiateViewController("loginViewController");
+				var appDelegate = (AppDelegate)UIApplication.SharedApplication.Delegate;
+				appDelegate.Window.RootViewController = viewController;
+			}), false);
+
 			pageOne.PageIndex = 0;
 			pageOne.Image = UIImage.FromBundle("screen_1.png");
 

@@ -63,7 +63,9 @@ namespace MyDriving.iOS
 				//{
 					var viewController = UIStoryboard.FromName("Main", null)
 								 .InstantiateViewController("gettingStartedViewController");
-					Window.RootViewController = viewController;
+			var navigationController = new UINavigationController(viewController);
+			Window.RootViewController = navigationController;
+
 				//}
 				//else
 				//{
@@ -84,7 +86,6 @@ namespace MyDriving.iOS
 
             return true;
         }
-
         #region Background Refresh
 
         private const double MinimumBackgroundFetchInterval = 900;
