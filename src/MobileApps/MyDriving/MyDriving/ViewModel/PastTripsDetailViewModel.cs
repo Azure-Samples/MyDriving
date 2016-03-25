@@ -143,25 +143,31 @@ namespace MyDriving.ViewModel
                     Trip.Points = Trip.Points.OrderBy(p => p.Sequence).ToArray();
                 }
 
-                
 
-                Title = Trip.Name;
-                for (int i = 0; i < Trip.Points.Count; i++)
+                if (Trip.Points != null || Trip.Points.Count > 0)
                 {
-                    var point = Trip.Points[i];
-                    if (point.MassFlowRate == -255)
+                    Title = Trip.Name;
+                    for (int i = 0; i < Trip.Points.Count; i++)
                     {
-                        point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
+                        var point = Trip.Points[i];
+                        if (point.MassFlowRate == -255)
+                        {
+                            point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
+                        }
+                        if (point.Speed == -255)
+                        {
+                            point.Speed = i == 0 ? 0 : Trip.Points[i - 1].Speed;
+                        }
                     }
-                    if (point.Speed == -255)
-                    {
-                        point.Speed = i == 0 ? 0 : Trip.Points[i - 1].Speed;
-                    }
+                    POIs.AddRange(await StoreManager.POIStore.GetItemsAsync(Trip.Id));
+
+                    Title = Trip.Name;
+                }
+                else
+                {
+                    error = true;
                 }
 
-                POIs.AddRange(await StoreManager.POIStore.GetItemsAsync(Trip.Id));
-
-                Title = Trip.Name;
             }
             catch (Exception ex)
             {

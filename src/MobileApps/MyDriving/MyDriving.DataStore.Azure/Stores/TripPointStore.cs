@@ -1,5 +1,7 @@
-﻿using MyDriving.DataObjects;
+﻿using Microsoft.WindowsAzure.MobileServices;
+using MyDriving.DataObjects;
 using MyDriving.DataStore.Abstractions;
+using MyDriving.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +17,17 @@ namespace MyDriving.DataStore.Azure.Stores
         public async Task<IEnumerable<TripPoint>> GetPointsForTripAsync(string id)
         {
             await InitializeStoreAsync().ConfigureAwait(false);
-            
-            await base.SyncAsync().ConfigureAwait(false);
+
+            try
+            {
+                var pullId = $"{id}";
+                await Table.PullAsync(pullId, Table.Where(s => s.TripId == id)).ConfigureAwait(false);
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.WriteLine("Unable to pull items, that is alright as we have offline capabilities: " + ex);
+            }
 
             return await Table.Where(s => s.TripId == id).OrderBy(p => p.Sequence).ToEnumerableAsync().ConfigureAwait(false);
         }
