@@ -136,7 +136,7 @@ uploadAssets $ASSETS_DIRECTORY
 # create the deployment with the solution template
 echo "Deploying the resources in the ARM template. This operation may take several minutes..."
 if ! OUTPUT1=$(azure group deployment create \
-					--name "${DEPLOYMENTNAME}-0" \
+					--name "${DEPLOYMENTNAME}-1" \
 					--resource-group "${RESOURCEGROUPNAME}" \
                     --template-file "${TEMPLATEFILE}" \
                     --parameters-file "${PARAMETERSFILE}" \
