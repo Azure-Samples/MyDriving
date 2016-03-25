@@ -22,24 +22,28 @@ namespace MyDrivingService.Controllers
         }
 
         // GET tables/IOTHubData
+        [Authorize]
         public IQueryable<IOTHubData> GetAllIOTHubData()
         {
             return Query();
         }
 
         // GET tables/IOTHubData/<id>
+        [Authorize]
         public SingleResult<IOTHubData> GetIOTHubData(string id)
         {
             return Lookup(id);
         }
 
         // PATCH tables/IOTHubData/<id>
+        [Authorize]
         public Task<IOTHubData> PatchIOTHubData(string id, Delta<IOTHubData> patch)
         {
             return UpdateAsync(id, patch);
         }
 
         // POST tables/IOTHubData
+        [Authorize]
         public async Task<IHttpActionResult> PostIOTHubData(IOTHubData item)
         {
             IOTHubData current = await InsertAsync(item);
@@ -47,6 +51,7 @@ namespace MyDrivingService.Controllers
         }
 
         // DELETE tables/IOTHubData/<id>
+        [Authorize]
         public Task DeleteIOTHubData(string id)
         {
             return DeleteAsync(id);

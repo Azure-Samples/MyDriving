@@ -23,7 +23,7 @@ namespace MyDrivingService.Controllers
 
         // GET api/Provision
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public async Task<IEnumerable<Device>> Get()
         {
             EnsureRegistryManagerInitialized();
@@ -32,7 +32,7 @@ namespace MyDrivingService.Controllers
 
         // POST api/Provision
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public async Task<IHttpActionResult> Post(string userId, string deviceName)
         {
             Device device;

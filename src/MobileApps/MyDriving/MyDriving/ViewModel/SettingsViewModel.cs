@@ -24,8 +24,8 @@ namespace MyDriving.ViewModel
 
         List<Setting> units;
         //Use Settings.DeviceConnectionString
-        public string PrivacyPolicyUrl => "https://www.microsoft.com/EN-US/privacystatement/OnlineServices/Default.aspx";
-        public string TermsOfUseUrl => "https://github.com/Azure-Samples/MyDriving/blob/master/src/MobileApps/Licenses/EULA.docx";
+        public string PrivacyPolicyUrl => "http://aka.ms/mydriving-privacy";
+        public string TermsOfUseUrl => "http://aka.ms/mydriving-eula";
 
         public string OpenSourceNoticeUrl => "https://github.com/Azure-Samples/MyDriving/tree/master/MobileApp/Licenses"
             ;
@@ -101,6 +101,7 @@ namespace MyDriving.ViewModel
             if (string.IsNullOrWhiteSpace(url))
                 return;
 
+            Logger.Instance.Track("LaunchUrl");
             await CrossShare.Current.OpenBrowser(url, new Plugin.Share.Abstractions.BrowserOptions
             {
                 ChromeShowTitle = true,
@@ -112,6 +113,8 @@ namespace MyDriving.ViewModel
 
         public Task<bool> ExecuteLogoutCommandAsync()
         {
+
+            Logger.Instance.Track("Logout");
             return Task.FromResult(true);
         }
 

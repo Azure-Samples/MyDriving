@@ -1,20 +1,19 @@
 ﻿{
   "dependencies": {
     "Acr.UserDialogs": "4.3.4",
-    "HockeySDK.UWP": "3.1.1-build36794",
+    "HockeySDK.UWP": "3.1.1-build59744",
     "Humanizer.Core": "2.0.1",
     "Microsoft.Azure.Devices.Client.PCL": "1.0.3",
     "Microsoft.Azure.Mobile.Client.SQLiteStore": "2.0.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "Newtonsoft.Json": "8.0.2",
+    "Newtonsoft.Json": "8.0.3",
     "Plugin.Share": "4.0.0",
     "Refractored.MvvmHelpers": "1.0.1",
     "Xam.Plugin.Connectivity": "2.1.2",
     "Xam.Plugin.DeviceInfo": "2.0.2",
     "Xam.Plugin.Geolocator": "3.0.4",
     "Xam.Plugin.Media": "2.4.0-beta3",
-    "Xam.Plugins.Settings": "2.1.0",
-    "Xamarin.Insights": "1.11.4"
+    "Xam.Plugins.Settings": "2.1.0"
   },
   "frameworks": {
     "uap10.0": {}

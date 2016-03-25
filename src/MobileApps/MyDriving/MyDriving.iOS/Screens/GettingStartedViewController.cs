@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for details.
+
 using Foundation;
 using System;
 using UIKit;
@@ -15,6 +18,9 @@ namespace MyDriving.iOS
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+
+			AutomaticallyAdjustsScrollViewInsets = false;
+			//self.automaticallyAdjustsScrollViewInsets = false;
 
 			Title = "MyDriving";
 			NavigationItem.SetRightBarButtonItem(new UIBarButtonItem("Dismiss", UIBarButtonItemStyle.Plain, (sender, e) =>

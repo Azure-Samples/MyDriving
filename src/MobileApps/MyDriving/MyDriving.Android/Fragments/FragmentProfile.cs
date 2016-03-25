@@ -25,8 +25,7 @@ namespace MyDriving.Droid.Fragments
             fuelUsed,
             distanceUnits,
             profileRating,
-            profileGreat,
-            profileBetter;
+            profileGreat;
 
         LinearLayout profileAll;
 
@@ -57,7 +56,6 @@ namespace MyDriving.Droid.Fragments
             profileAll = view.FindViewById<LinearLayout>(Resource.Id.text_profile_all);
 
             profileGreat = view.FindViewById<TextView>(Resource.Id.text_profile_great);
-            profileBetter = view.FindViewById<TextView>(Resource.Id.text_profile_better);
             profileRating = view.FindViewById<TextView>(Resource.Id.text_profile_rating);
             profileAll.Visibility = ViewStates.Invisible;
             UpdateUI();
@@ -89,7 +87,6 @@ namespace MyDriving.Droid.Fragments
                 ratingCircle.Rating = viewModel.DrivingSkills;
 
                 profileGreat.Text = $"Driving Skills: {viewModel.DrivingSkillsPlacementBucket.Description}";
-                profileBetter.Text = $"Better than {viewModel.DrivingSkills.ToString()}% of drivers";
                 profileRating.Text = $"{viewModel.DrivingSkills.ToString()}%";
 
 
