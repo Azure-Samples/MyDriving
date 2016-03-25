@@ -373,10 +373,6 @@
     <Compile Include="Screens\LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cells\TripTableViewCell.cs" />
-    <Compile Include="Cells\TripTableViewCell.designer.cs">
-      <DependentUpon>TripTableViewCell.cs</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\Images.cs" />
     <Compile Include="Helpers\Authentication.cs" />
     <Compile Include="Views\Annotations\BaseCustomAnnotation.cs" />
@@ -439,13 +435,13 @@
       <DependentUpon>TripSummaryViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Annotations\PoiAnnotation.cs" />
-    <Compile Include="GettingStartedViewController.cs" />
-    <Compile Include="GettingStartedViewController.designer.cs">
-      <DependentUpon>GettingStartedViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GettingStartedContentViewController.cs" />
-    <Compile Include="GettingStartedContentViewController.designer.cs">
+    <Compile Include="Screens\GettingStartedContentViewController.cs" />
+    <Compile Include="Screens\GettingStartedContentViewController.designer.cs">
       <DependentUpon>GettingStartedContentViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\GettingStartedViewController.cs" />
+    <Compile Include="Screens\GettingStartedViewController.designer.cs">
+      <DependentUpon>GettingStartedViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
