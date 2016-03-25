@@ -203,6 +203,9 @@ namespace MyDriving.ViewModel
                     else if(currentUser.Rating > 100)
                         DrivingSkills = 100;
 
+					if (currentUser.HardStops < 0)
+						HardStops = 0;
+
                     OnPropertyChanged("Stats");
                 }
                 //update stats here.

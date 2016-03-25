@@ -101,7 +101,7 @@ The PowerShell script also provides other useful functions with several other ta
 		ExportExperiment "[subscription id]" "[workspace name]" "[experiment name]" "[ML key]"
 
 
-### Visual Studio Online configuration (optional)
+### Visual Studio Team Services configuration (optional)
 
 1. Before using the following script to import build definitions, you'll need to create a Personal Access Token (PAT) following the instructions on this page: [http://blog.devmatter.com/personal-access-tokens-vsts/](http://blog.devmatter.com/personal-access-tokens-vsts/).
 2. 
