@@ -45,6 +45,7 @@ namespace MyDriving.DataStore.Azure
             store.DefineTable<TripPoint>();
             store.DefineTable<Photo>();
             store.DefineTable<Trip>();
+            store.DefineTable<POI>();
             store.DefineTable<IOTHubData>();
 
             await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler()).ConfigureAwait(false);

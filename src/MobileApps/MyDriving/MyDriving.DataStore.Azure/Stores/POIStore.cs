@@ -5,6 +5,7 @@ using MyDriving.DataObjects;
 using MyDriving.DataStore.Abstractions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace MyDriving.DataStore.Azure.Stores
 {
@@ -12,7 +13,10 @@ namespace MyDriving.DataStore.Azure.Stores
     {
         public async Task<IEnumerable<POI>> GetItemsAsync(string tripId)
         {
-            return new List<POI>();
+            //Always force refresh
+            await InitializeStoreAsync().ConfigureAwait(false);
+            await SyncAsync().ConfigureAwait(false);
+            return await Table.CreateQuery().Where(p => p.TripId == tripId).ToEnumerableAsync().ConfigureAwait(false);
         }
     }
 }

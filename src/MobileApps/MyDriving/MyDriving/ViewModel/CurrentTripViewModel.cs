@@ -283,7 +283,7 @@ namespace MyDriving.ViewModel
                 Logger.Instance.Report(ex);
             }
 
-            var poiList = (List<POI>) await StoreManager.POIStore.GetItemsAsync();
+            List<POI> poiList = new List<POI>(await StoreManager.POIStore.GetItemsAsync(CurrentTrip.Id));
             CurrentTrip.HardStops = poiList.Where(p => p.POIType == POIType.HardBrake).Count();
             CurrentTrip.HardAccelerations = poiList.Where(p => p.POIType == POIType.HardAcceleration).Count();
 
