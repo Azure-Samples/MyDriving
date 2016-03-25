@@ -926,7 +926,7 @@
                                     <constraint firstAttribute="trailing" secondItem="3jO-Rf-KjH" secondAttribute="trailing" constant="8" id="xFh-mb-yiX"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p6d-Wb-uN3">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p6d-Wb-uN3" hidden="YES">
                                 <rect key="frame" x="275" y="489" width="50" height="50"/>
                                 <color key="backgroundColor" red="0.98039215800000001" green="0.41568627949999998" blue="0.42352941630000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>

@@ -67,7 +67,8 @@ namespace MyDriving.iOS
             tripMapView.ShowsUserLocation = false;
             tripMapView.Camera.Altitude = 5000;
 
-            // Setup record button
+			// Setup record button
+			recordButton.Hidden = false;
             recordButton.Layer.CornerRadius = recordButton.Frame.Width/2;
             recordButton.Layer.MasksToBounds = true;
             recordButton.Layer.BorderColor = UIColor.White.CGColor;
