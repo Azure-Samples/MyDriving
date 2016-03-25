@@ -12,7 +12,7 @@ namespace MyDriving.ViewModel
 {
     public class ProfileViewModel : ViewModelBase
     {
-        const int DrivingSkillsBuckets = 4;
+        const int DrivingSkillsBuckets = 5;
         int drivingSkills; //percentage
 
 
@@ -197,10 +197,12 @@ namespace MyDriving.ViewModel
                     TotalTrips = currentUser.TotalTrips;
                     FuelUsed = currentUser.FuelConsumption;
                     MaxSpeed = currentUser.MaxSpeed;
-//#if DEBUG || XTC
-                    if (currentUser.Rating == 0)
-                        DrivingSkills = 86;
-//#endif
+
+                    if (currentUser.Rating < 0)
+                        DrivingSkills = 0;
+                    else if(currentUser.Rating > 100)
+                        DrivingSkills = 100;
+
                     OnPropertyChanged("Stats");
                 }
                 //update stats here.
@@ -230,10 +232,11 @@ namespace MyDriving.ViewModel
             // to do find specifications for colors/desription 
             Skills = new[]
             {
+                new DrivingSkillsBucket() {BetterThan = -1, Description = "Not available"},
                 new DrivingSkillsBucket() {BetterThan = 0, Description = "Poor"},
                 new DrivingSkillsBucket() {BetterThan = 45, Description = "Average"},
                 new DrivingSkillsBucket() {BetterThan = 75, Description = "Great!"},
-                new DrivingSkillsBucket() {BetterThan = 90, Description = "Amazing!"}
+                new DrivingSkillsBucket() {BetterThan = 90, Description = "Amazing!"},
             };
         }
 

@@ -399,6 +399,7 @@
     <AndroidResource Include="Resources\drawable-nodpi\screen_2.png" />
     <AndroidResource Include="Resources\drawable-nodpi\screen_3.png" />
     <AndroidResource Include="Resources\drawable-nodpi\screen_4.png" />
+    <AndroidResource Include="Resources\drawable-nodpi\screen_5.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_close.png" />
     <AndroidResource Include="Resources\drawable-mdpi\ic_close.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_close.png" />
@@ -419,7 +420,6 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_launcher.png" />
-    <AndroidResource Include="Resources\drawable-nodpi\screen_5.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
