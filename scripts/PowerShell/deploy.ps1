@@ -28,7 +28,10 @@ $ParametersFile = [System.IO.Path]::Combine($PSScriptRoot, $ParametersFile)
 
 # verify if user is logged in by querying his subscriptions.
 # if none is found assume he is not
-Write-Output "Retrieving Azure subscription information..."
+Write-Output ""
+Write-Output "**************************************************************************************************"
+Write-Output "* Retrieving Azure subscription information..."
+Write-Output "**************************************************************************************************"
 try
 {
 	$Subscriptions = Get-AzureRmSubscription
@@ -67,23 +70,32 @@ if ($Subscriptions.Length -gt 1) {
 }
 
 # Create or update the resource group using the specified template file and template parameters file
-Write-Information "Creating the resource group..."
+Write-Output ""
+Write-Output "**************************************************************************************************"
+Write-Output "* Creating the resource group..."
+Write-Output "**************************************************************************************************"
 New-AzureRmResourceGroup -Name $ResourceGroupName -Location $ResourceGroupLocation -Verbose -Force -ErrorAction Stop 
 
 # Create storage account
-Write-Output "Provisioning the prerequisites..."
+Write-Output ""
+Write-Output "**************************************************************************************************"
+Write-Output "* Deploying the prerequisites..."
+Write-Output "**************************************************************************************************"
 $deployment1 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-0" `
                                                  -ResourceGroupName $ResourceGroupName `
                                                  -TemplateFile $PreReqTemplateFile `
                                                  -Force -Verbose
 
-if ($deployment1 -and $deployment1.ProvisioningState -eq "Failed") {
+if ($deployment1 -and $deployment1.ProvisioningState -ne "Succeeded") {
 	Write-Error "Failed to provision the prerequisites storage account."
-	exit 1;
+	exit 1
 }
 
 # Upload the HQL queries to the storage account container
-Write-Output "Uploading the prerequisites to blob storage..."
+Write-Output ""
+Write-Output "**************************************************************************************************"
+Write-Output "* Uploading files to blob storage..."
+Write-Output "**************************************************************************************************"
 . .\scripts\Copy-ArtifactsToBlobStorage.ps1 -StorageAccountName $deployment1.Outputs.storageAccountName.Value `
                                         -StorageAccountKey $deployment1.Outputs.storageAccountKey.Value `
                                         -StorageContainerName $deployment1.Outputs.assetsContainerName.Value
@@ -95,7 +107,10 @@ if ($MobileAppRepositoryUrl) {
 	$templateParams.Add("MobileAppRepositoryUrl", $MobileAppRepositoryUrl)
 }
 
-Write-Output "Deploying the resources in the ARM template..."
+Write-Output ""
+Write-Output "**************************************************************************************************"
+Write-Output "* Deploying the resources in the ARM template. This operation may take several minutes..."
+Write-Output "**************************************************************************************************"
 $deployment2 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-1" `
 													-ResourceGroupName $ResourceGroupName `
 													-TemplateFile $TemplateFile `
@@ -103,21 +118,25 @@ $deployment2 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-1" `
 													@templateParams `
 													-Force -Verbose
 
-if ($deployment2 -and $deployment2.ProvisioningState -eq "Failed") {
+if ($deployment2 -and $deployment2.ProvisioningState -ne "Succeeded") {
+	Write-Warning "Skipping the storage and database initialization..."
 	Write-Error "At least one resource could not be provisioned successfully. Review the output above to correct any errors and then run the deployment script again."
-	Write-Warning "Skipped the database initialization..."
 	exit 2;
 }
 
 # Initialize SQL databases
-Write-Output "Initializing the schema of the SQL databases..."
-
+Write-Output ""
+Write-Output "**************************************************************************************************"
+Write-Output "* Preparing the SQL databases..."
+Write-Output "**************************************************************************************************"
+Write-Output "Initializing the '$deployment2.Outputs.sqlDBName.Value' database..."
 . .\scripts\setupDb.ps1 -ServerName $deployment2.Outputs.sqlServerFullyQualifiedDomainName.Value `
 						-AdminLogin $deployment2.Outputs.sqlServerAdminLogin.Value `
 						-AdminPassword $deployment2.Outputs.sqlServerAdminPassword.Value `
 						-DatabaseName $deployment2.Outputs.sqlDBName.Value `
 						-ScriptPath $dbSchemaDB
 
+Write-Output "Initializing the '$deployment2.Outputs.sqlAnalyticsDBName.Value' database..."
 . .\scripts\setupDb.ps1 -ServerName $deployment2.Outputs.sqlAnalyticsFullyQualifiedDomainName.Value `
 						-AdminLogin $deployment2.Outputs.sqlAnalyticsServerAdminLogin.Value `
 						-AdminPassword $deployment2.Outputs.sqlAnalyticsServerAdminPassword.Value `
