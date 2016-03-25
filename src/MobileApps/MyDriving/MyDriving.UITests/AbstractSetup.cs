@@ -43,6 +43,9 @@ namespace MyDriving.UITests
             {
                 if (App.Query("Allow").Any())
                     App.Tap("Allow");
+
+				if (App.Query("Dismiss").Any())
+					App.Tap("Dismiss");
             }
         }
 
