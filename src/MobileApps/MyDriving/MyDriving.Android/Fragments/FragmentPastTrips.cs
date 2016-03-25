@@ -81,6 +81,8 @@ namespace MyDriving.Droid.Fragments
             var intent = new Intent(Activity, typeof (PastTripDetailsActivity));
             intent.PutExtra("Id", trip.Id);
             intent.PutExtra("Rating", trip.Rating);
+
+            PastTripDetailsActivity.Trip = trip;
             Activity.StartActivity(intent);
         }
 

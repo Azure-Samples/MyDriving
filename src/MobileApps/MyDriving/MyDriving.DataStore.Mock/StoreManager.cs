@@ -36,6 +36,8 @@ namespace MyDriving.DataStore.Mock
 
         IUserStore userStore;
         public IUserStore UserStore => userStore ?? (userStore = ServiceLocator.Instance.Resolve<IUserStore>());
+        ITripPointStore tripPointStore;
+        public ITripPointStore TripPointStore => tripPointStore ?? (tripPointStore = ServiceLocator.Instance.Resolve<ITripPointStore>());
 
         IHubIOTStore iotHubStore;
 

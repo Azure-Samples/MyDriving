@@ -26,7 +26,7 @@ namespace MyDrivingService.Controllers
 
         // GET tables/Trip
         //[Authorize]
-        [QueryableExpand("Points")]
+        //[QueryableExpand("Points")]
         public async Task<IQueryable<Trip>> GetAllTrips()
         {
             var id = await IdentitiyHelper.FindSidAsync(User, Request);
@@ -35,7 +35,7 @@ namespace MyDrivingService.Controllers
             return Query().Where(s => s.UserId == id);
         }
 
-        // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
+        // GET tables/Trip/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [QueryableExpand("Points")]
         //[Authorize]
         public SingleResult<Trip> GetTrip(string id)

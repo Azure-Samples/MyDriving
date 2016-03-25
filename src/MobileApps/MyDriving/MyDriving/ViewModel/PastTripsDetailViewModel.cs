@@ -115,19 +115,35 @@ namespace MyDriving.ViewModel
             loadTripCommand ??
             (loadTripCommand = new RelayCommand<string>(async id => await ExecuteLoadTripCommandAsync(id)));
 
-        public async Task ExecuteLoadTripCommandAsync(string id)
+        public async Task<bool> ExecuteLoadTripCommandAsync(string id)
         {
             if (IsBusy)
-                return;
+                return false;
+
+            Logger.Instance.Track("LoadPastTrip");
 
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading trip details...",
                 maskType: Acr.UserDialogs.MaskType.Clear);
 
+            bool error = false;
             try
             {
                 IsBusy = true;
+                if (Trip == null)
+                    Trip = await StoreManager.TripStore.GetItemAsync(id);
 
-                Trip = await StoreManager.TripStore.GetItemAsync(id);
+                //pull if we don't have the trip, else order by sequence.
+                if (Trip.Points == null || Trip.Points.Count == 0)
+                {
+                    Trip.Points = new List<TripPoint>();
+                    Trip.Points = new List<TripPoint>(await StoreManager.TripPointStore.GetPointsForTripAsync(id));
+                }
+                else
+                {
+                    Trip.Points = Trip.Points.OrderBy(p => p.Sequence).ToArray();
+                }
+
+                
 
                 Title = Trip.Name;
                 for (int i = 0; i < Trip.Points.Count; i++)
@@ -165,12 +181,19 @@ namespace MyDriving.ViewModel
             catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
+                error = true;
             }
             finally
             {
                 progress?.Dispose();
                 IsBusy = false;
             }
+
+            Acr.UserDialogs.UserDialogs.Instance.Alert(
+                      "Please check internet connection and try again.",
+                      "Unable to load Trip", "OK");
+
+            return error;
         }
 
         public void UpdateTripInformationForPoint()

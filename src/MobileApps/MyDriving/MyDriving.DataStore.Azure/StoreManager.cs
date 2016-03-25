@@ -85,6 +85,9 @@ namespace MyDriving.DataStore.Azure
         IUserStore userStore;
         public IUserStore UserStore => userStore ?? (userStore = ServiceLocator.Instance.Resolve<IUserStore>());
 
+        ITripPointStore tripPointStore;
+        public ITripPointStore TripPointStore => tripPointStore ?? (tripPointStore = ServiceLocator.Instance.Resolve<ITripPointStore>());
+
         IHubIOTStore iotHubStore;
 
         public IHubIOTStore IOTHubStore
