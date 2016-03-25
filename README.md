@@ -28,7 +28,9 @@ Refer to the [scripts readme](https://github.com/Azure-Samples/MyDriving/blob/ma
 
 ### [src](./src)
 
-**MyDriving.sln** makes it easy to view all the source in the repository in one place, including various queries and scripts that are used in the ARM templates to configure services. However, this solution is just for reference and not set up to build all the projects in one go: open the individual solutions to build and deploy. More information on deploying to your own environment is given in the [Getting Started guide](http://aka.ms/mydriving-start).
+**MyDriving.sln** makes it easy to view all the source in the repository in one place, including various queries and scripts that are used in the ARM templates to configure services. **NOTE**: this solution is just for reference and will not build all the projects in one go. Open the individual solutions in their respective folders to build and deploy.
+
+More information on deploying to your own environment is given in the [Getting Started guide](http://aka.ms/mydriving-start).
 
 #### [src/DataFactory](./src/DataFactory)
 
