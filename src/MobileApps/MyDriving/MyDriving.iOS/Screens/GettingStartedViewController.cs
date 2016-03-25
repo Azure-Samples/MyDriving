@@ -16,6 +16,9 @@ namespace MyDriving.iOS
 		{
 			base.ViewDidLoad();
 
+			AutomaticallyAdjustsScrollViewInsets = false;
+			//self.automaticallyAdjustsScrollViewInsets = false;
+
 			Title = "MyDriving";
 			NavigationItem.SetRightBarButtonItem(new UIBarButtonItem("Dismiss", UIBarButtonItemStyle.Plain, (sender, e) =>
 			{
