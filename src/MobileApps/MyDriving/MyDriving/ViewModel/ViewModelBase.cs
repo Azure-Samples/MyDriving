@@ -12,6 +12,12 @@ namespace MyDriving.ViewModel
     {
         static IStoreManager _storeManager;
 
+        /// <summary>
+        /// You can generate a key from: www.bingmapsportal.com
+        /// This enables maps to show on the Past Trips screen
+        /// </summary>
+        public string BingMapsAPIKey => "[BingMapsAPIKey]";
+
         public Settings Settings => Settings.Current;
 
         public static IStoreManager StoreManager
