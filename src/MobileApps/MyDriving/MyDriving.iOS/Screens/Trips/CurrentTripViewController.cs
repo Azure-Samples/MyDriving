@@ -267,8 +267,18 @@ namespace MyDriving.iOS
         async Task ConfigurePastTripUserInterface()
         {
             NavigationItem.Title = PastTripsDetailViewModel.Title;
-            var coordinateCount = PastTripsDetailViewModel.Trip.Points.Count;
+			sliderView.Hidden = false;
+			tripSlider.Hidden = false;
 
+			wayPointA.Layer.CornerRadius = wayPointA.Frame.Width / 2;
+			wayPointA.Layer.BorderWidth = 2;
+			wayPointA.Layer.BorderColor = UIColor.White.CGColor;
+
+			wayPointB.Layer.CornerRadius = wayPointB.Frame.Width / 2;
+			wayPointB.Layer.BorderWidth = 2;
+			wayPointB.Layer.BorderColor = UIColor.White.CGColor;
+
+            var coordinateCount = PastTripsDetailViewModel.Trip.Points.Count;
             await PastTripsDetailViewModel.ExecuteLoadTripCommandAsync(PastTripsDetailViewModel.Trip.Id);
             // Setup map
             mapDelegate = new TripMapViewDelegate(false);
@@ -329,9 +339,6 @@ namespace MyDriving.iOS
 
         void ConfigureSlider()
         {
-            sliderView.Hidden = false;
-            tripSlider.Hidden = false;
-
             tripSlider.MinValue = 0;
             tripSlider.MaxValue = PastTripsDetailViewModel.Trip.Points.Count - 1;
             tripSlider.Value = 0;
@@ -347,18 +354,12 @@ namespace MyDriving.iOS
             startTimeLabel.Text = PastTripsDetailViewModel.Trip.StartTimeDisplay;
             endTimeLabel.Text = PastTripsDetailViewModel.Trip.EndTimeDisplay;
 
-            wayPointA.Layer.CornerRadius = wayPointA.Frame.Width/2;
-            wayPointA.Layer.BorderWidth = 2;
-            wayPointA.Layer.BorderColor = UIColor.White.CGColor;
             wayPointA.TouchUpInside += delegate
             {
                 tripSlider.Value = 0;
                 TripSlider_ValueChanged(this, null);
             };
 
-            wayPointB.Layer.CornerRadius = wayPointB.Frame.Width/2;
-            wayPointB.Layer.BorderWidth = 2;
-            wayPointB.Layer.BorderColor = UIColor.White.CGColor;
             wayPointB.TouchUpInside += delegate
             {
                 tripSlider.Value = tripSlider.MaxValue;
