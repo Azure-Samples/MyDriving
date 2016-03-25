@@ -155,7 +155,7 @@ eval $(echo "$OUTPUT1" | awk -F ': ' \
                 $2 ~ /sqlAnalyticsFullyQualifiedDomainName/ {split($2, a, " "); print "export SQLANALYTICS_FULLY_QUALIFIED_DOMAIN_NAME=" a[3] ";"} \
                 $2 ~ /sqlAnalyticsServerAdminLogin/         {split($2, a, " "); print "export SQLANALYTICS_ADMIN_LOGIN="                 a[3] ";"} \
                 $2 ~ /sqlAnalyticsServerAdminPassword/      {split($2, a, " "); print "export SQLANALYTICS_ADMIN_PASSWORD="              a[3] ";"} \
-                $2 ~ /sqlAnalyticsDBName/                   {split($2, a, " "); print "export SQLANALYTICS_DATABASE_NAME="               a[3] ";"}'
+                $2 ~ /sqlAnalyticsDBName/                   {split($2, a, " "); print "export SQLANALYTICS_DATABASE_NAME="               a[3] ";"}')
 
 # Initialize SQL databases
 echo "Initializing the schema of the SQL databases..."
