@@ -1,5 +1,5 @@
 ---
-services: applications-insights, app-service, data-factory, hdinsight, hockeyapp, iot-hub, machine-learning, power-bi, sql-database, storage, stream-analytics, visual-studio-team-services 
+services: applications-insights, app-service, data-factory, hdinsight, hockeyapp, iot-hub, key-vault, machine-learning, power-bi, sql-database, storage, stream-analytics, visual-studio-team-services 
 platforms: dotnet, ios, android, xamarin
 author: harikm86
 ---
@@ -41,7 +41,7 @@ SQL scripts executed by the PowerShell script to initialize the SQL database cre
 
 ### [src](./src)
 
-The **MyDriving.sln** Visual Studio 2015 solution enables you to build and deploy the MyDriving starter kit to your environment. The solution contains multiple projects such as those related to phone app, the Azure App Service Mobile Apps service, and the VIN Lookup service.
+The **MyDriving.sln** is just for reference and not set up to build all the projects in one-go. This makes it easier for you to view all the source in the repository in one place. Please open individual solutions and build and deploy. More information on deploying to your own environment is given [here](http://aka.ms/mydriving-start)
 
 #### [src/Components](./src/Components)
 
