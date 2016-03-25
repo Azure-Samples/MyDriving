@@ -29,6 +29,7 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 	* **project name**: The name of the VSTS project to be created.
 	* **local working folder**: The local folder where MyDriving source code will be copied to.
 
+>Note: ARM deployments may fail because of transient errors. 
 ## Use Bash script 
 
 1. Install [Node.js](http://nodejs.org).
@@ -56,6 +57,8 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
    ```
 	* _< location >_ is the Azure datacenter where you want the services to be deployed, such as "WestUS".
 	* _< resource group name >_ is the name of the deployed resource group.
+
+>Note: Machine Learning configuration and VSTS configuration are not supported by Bash. Please follow the following instructions to use PowerShell to complete configurations of those parts.
 
 ## Manual Configuration
 
@@ -91,9 +94,18 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 	- **Table Name**: TripPointData
 	- **Workspace**: You can use the default
 
-### Machine Learning configuration (optional)
-> Note: Machine Learning experiments provisioning is part in the master deployment script. You can use the following steps to provision additional Machine Learning experiments on different subscriptions.
+### Machine Learning configuration
 
+1. Open the Machine Learning work space (named MyDriving).
+2. Modify the Reader component in both experiments to enter storage account key. The storage account is under the same resource group and should have name prefixed with "mydrivingstr".
+3. [TBD]
+
+### Azure Data Factory configuration
+
+1. 
+
+
+##### _Additional Information_
 You can use the supplied **scripts\PowerShell\scripts\copyMLExperiment.ps1** to import previously packaged ML experiments at these locations:
 
 * https://storage.azureml.net/directories/2e55da807f4a4273bfa99852d3d6e304/items (MyDriving)
