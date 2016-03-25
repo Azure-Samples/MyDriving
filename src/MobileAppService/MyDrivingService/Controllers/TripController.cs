@@ -25,33 +25,33 @@ namespace MyDrivingService.Controllers
         }
 
         // GET tables/Trip
-        //[Authorize]
-        [QueryableExpand("Points")]
+        [Authorize]
+        [QueryableExpand("Points")]   //we need to remove this
         public async Task<IQueryable<Trip>> GetAllTrips()
         {
             var id = await IdentitiyHelper.FindSidAsync(User, Request);
             if (string.IsNullOrWhiteSpace(id))
-                return Query();
+                return null;
             return Query().Where(s => s.UserId == id);
         }
 
         // GET tables/TodoItem/48D68C86-6EA6-4C25-AA33-223FC9A27959
         [QueryableExpand("Points")]
-        //[Authorize]
+        [Authorize]
         public SingleResult<Trip> GetTrip(string id)
         {
             return Lookup(id);
         }
 
         // PATCH tables/Trip/<id>
-        //[Authorize]
+        [Authorize]
         public Task<Trip> PatchTrip(string id, Delta<Trip> patch)
         {
             return UpdateAsync(id, patch);
         }
 
         // POST tables/Trip
-        //[Authorize]
+        [Authorize]
         public async Task<IHttpActionResult> PostTrip(Trip trip)
         {
             var id = await IdentitiyHelper.FindSidAsync(User, Request);
@@ -68,17 +68,17 @@ namespace MyDrivingService.Controllers
             //update user with stats
             if (curUser != null)
             {
-                curUser.FuelConsumption += current.FuelUsed;
+                curUser.FuelConsumption += trip.FuelUsed;
 
-                var max = current?.Points.Max(s => s.Speed) ?? 0;
+                var max = trip?.Points.Max(s => s.Speed) ?? 0;
                 if (max > curUser.MaxSpeed)
                     curUser.MaxSpeed = max;
 
-                curUser.TotalDistance += current.Distance;
-                curUser.HardAccelerations += current.HardAccelerations;
-                curUser.HardStops += current.HardStops;
+                curUser.TotalDistance += trip.Distance;
+                curUser.HardAccelerations += trip.HardAccelerations;
+                curUser.HardStops += trip.HardStops;
                 curUser.TotalTrips++;
-                curUser.TotalTime += (long) (current.EndTimeStamp - current.RecordedTimeStamp).TotalSeconds;
+                curUser.TotalTime += (long) (trip.EndTimeStamp - trip.RecordedTimeStamp).TotalSeconds;
 
                 dbContext.SaveChanges();
             }
@@ -88,7 +88,7 @@ namespace MyDrivingService.Controllers
         }
 
         // DELETE tables/Trip/<id>
-        //[Authorize]
+        [Authorize]
         public Task DeleteTrip(string id)
         {
             return DeleteAsync(id);
