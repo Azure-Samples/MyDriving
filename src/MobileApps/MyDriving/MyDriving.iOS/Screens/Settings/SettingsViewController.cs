@@ -8,6 +8,8 @@ using UIKit;
 using MyDriving.Model;
 using MyDriving.ViewModel;
 
+using HockeyApp;
+
 namespace MyDriving.iOS
 {
     partial class SettingsViewController : UIViewController
@@ -38,7 +40,8 @@ namespace MyDriving.iOS
             // Wire up table source
             settingsTableView.Source = new SettingsDataSource(ViewModel, keys);
 
-            btnLogout.Hidden = true;
+			btnLogout.SetTitle("Leave Feedback", UIControlState.Normal);
+			btnLogout.TouchUpInside += LeaveFeedbackButtonClicked;
 
             NSNotificationCenter.DefaultCenter.AddObserver(new NSString("RefreshSettingsTable"),
                 HandleReloadTableNotification);
@@ -71,6 +74,11 @@ namespace MyDriving.iOS
                 controller.SettingKey = keys[cell.Section];
             }
         }
+
+		void LeaveFeedbackButtonClicked(object sender, EventArgs e)
+		{
+			BITHockeyManager.SharedHockeyManager.FeedbackManager.ShowFeedbackComposeView();
+		}
 
         void HandleReloadTableNotification(NSNotification obj)
         {
