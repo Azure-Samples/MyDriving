@@ -39,11 +39,11 @@
     },
     "storageAccountKey": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('mlStorageAccountName')), '2015-06-15').key1]"
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-06-15').key1]"
     },
     "mlStorageAccountName": {
       "type": "string",
-      "value": "[variables('storageAccountName')]"
+      "value": "[variables('mlStorageAccountName')]"
     },
     "mlStorageAccountKey": {
       "type": "string",

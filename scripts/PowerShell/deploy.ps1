@@ -96,10 +96,6 @@ if ($deployment1 -and $deployment1.ProvisioningState -ne "Succeeded") {
 	exit 1
 }
 
-# Provision ML experiments
-$context = Get-AzureRmContext
-.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/2e55da807f4a4273bfa99852d3d6e304/items'
-.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/a9fb6aeb3a164eedaaa28da34f02c3b0/items'
 
 # Upload the HQL queries to the storage account container
 Write-Output ""
@@ -174,6 +170,16 @@ Write-Output "Initializing the '$deployment2.Outputs.sqlAnalyticsDBName.Value' d
 						-ScriptPath $dbSchemaSQLAnalytics
 
 Write-Output ""
+
+# Provision ML experiments
+Write-Output ""
+Write-Output "**************************************************************************************************"
+Write-Output "* Configuring ML..."
+Write-Output "**************************************************************************************************"
+	
+$context = Get-AzureRmContext
+.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/2e55da807f4a4273bfa99852d3d6e304/items'
+.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/a9fb6aeb3a164eedaaa28da34f02c3b0/items'
 
 # Deploy VSTS build definitions
 $confirmation = Read-Host "Do you want to deploy VSTS CI? [y/n]"
