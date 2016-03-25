@@ -23,7 +23,11 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 	* _< location >_ is the Azure datacenter where you want the services to be deployed, such as "WestUS".
 	* _< resource group name >_ is the name of the deployed resource group. 
 2. During deployment, the script will ask you to provide two SQL Datbase passwords: **sqlServerAdminPassword** and **sqlAnalyticsServerAdminPassword**. The first password is for the Mobile App back end database; the second password is for the analytic database that supports Power BI queries. 
-
+3. Once the service deployment is complete, the script will ask if you want to provision the Visual Studio Team Service continuous integration pipelines. If you answer 'y' (for yes), you'll be prompted to enter the following values before it copies MyDriving source to the specified local folder, creates a new VSTS project, checks in the source to the project, and creates all build definitions:
+	* **your VSTS account**: The name of your VSTS account. It should have format of _https://[account name].visualstuio.com_.
+	* **your PAT**:  The personal access token (see [http://blog.devmatter.com/personal-access-tokens-vsts/](http://blog.devmatter.com/personal-access-tokens-vsts/)).
+	* **project name**: The name of the VSTS project to be created.
+	* **local working folder**: The local folder where MyDriving source code will be copied to.
 
 ## Use Bash script 
 
@@ -88,7 +92,7 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 	- **Workspace**: You can use the default
 
 ### Machine Learning configuration (optional)
-> Note: Machine Learning experiments provisioning is an optional part in the master deployment script. If you chose not to deploy Machine Learning experiments during the master deployment, you can use the following steps to provision Machine Learning experiments.
+> Note: Machine Learning experiments provisioning is part in the master deployment script. You can use the following steps to provision additional Machine Learning experiments on different subscriptions.
 
 You can use the supplied **scripts\PowerShell\scripts\copyMLExperiment.ps1** to import previously packaged ML experiments at these locations:
 

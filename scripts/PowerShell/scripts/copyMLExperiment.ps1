@@ -126,7 +126,7 @@ function UnpackExperiment([string]$key, [string]$workspaceId, [string] $packageL
         }
         catch
         {
-            Write-Error $_.Exception.Response
+            #Write-Error $_.Exception.Response
             return
         }
     } 
