@@ -97,7 +97,8 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 ### Machine Learning configuration
 
 1. Open the Machine Learning work space (named MyDriving).
-2. Modify the Reader component in both experiments to enter storage account key. The storage account is under the same resource group and should have name prefixed with "mydrivingstr".
+2. Modify the Reader components in both experiments to enter storage account key. The storage account is under the same resource group and should have name prefixed with "mydrivingstr".
+3. Modify the Writer components in both experiments to enter correct SQL Database connection info. You need to provide correct SQL Database server names and login credentials for both mydrivingDB database (on a server with a "mydrivingdbserver" prefix) and mydrivingAnalyticsDB (on a server with a "mydriving-dbserver" prefix). 
 3. [TBD]
 
 ### Azure Data Factory configuration
