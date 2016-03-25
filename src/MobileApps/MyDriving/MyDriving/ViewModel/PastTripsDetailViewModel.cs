@@ -42,17 +42,8 @@ namespace MyDriving.ViewModel
         public PastTripsDetailViewModel(Trip trip) : this()
         {
             Title = trip.Name;
-            //make sure the points are ordered
-            trip.Points = trip.Points.OrderBy(p => p.Sequence).ToArray();
+      
             Trip = trip;
-            for (int i = 0; i < Trip.Points.Count; i++)
-            {
-                var point = Trip.Points[i];
-                if (point.MassFlowRate == -255)
-                {
-                    point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
-                }
-            }
         }
 
         public Trip Trip { get; set; }
