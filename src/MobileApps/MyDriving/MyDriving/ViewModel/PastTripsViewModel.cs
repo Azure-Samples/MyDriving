@@ -32,6 +32,7 @@ namespace MyDriving.ViewModel
             if (IsBusy)
                 return false;
 
+            Logger.Instance.Track("DeleteTrip");
             var progress = UserDialogs.Instance.Loading("Deleting Trip...", show: false, maskType: MaskType.Clear);
 
             try

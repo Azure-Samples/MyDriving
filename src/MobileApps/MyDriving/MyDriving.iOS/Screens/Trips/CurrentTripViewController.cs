@@ -277,14 +277,23 @@ namespace MyDriving.iOS
 			wayPointB.Layer.CornerRadius = wayPointB.Frame.Width / 2;
 			wayPointB.Layer.BorderWidth = 2;
 			wayPointB.Layer.BorderColor = UIColor.White.CGColor;
-
-            var coordinateCount = PastTripsDetailViewModel.Trip.Points.Count;
-            await PastTripsDetailViewModel.ExecuteLoadTripCommandAsync(PastTripsDetailViewModel.Trip.Id);
+            
+            var success = await PastTripsDetailViewModel.ExecuteLoadTripCommandAsync(PastTripsDetailViewModel.Trip.Id);
+            
+            if(!success)
+            {
+                NavigationController.PopViewController(true);
+                return;
+            }
             // Setup map
             mapDelegate = new TripMapViewDelegate(false);
             tripMapView.Delegate = mapDelegate;
             tripMapView.ShowsUserLocation = false;
 
+            if (PastTripsDetailViewModel.Trip == null || PastTripsDetailViewModel.Trip.Points == null || PastTripsDetailViewModel.Trip.Points.Count == 0)
+                return;
+
+            var coordinateCount = PastTripsDetailViewModel.Trip.Points.Count;
             // Draw endpoints
             var startEndpoint = new WaypointAnnotation(PastTripsDetailViewModel.Trip.Points[0].ToCoordinate(), "A");
             tripMapView.AddAnnotation(startEndpoint);

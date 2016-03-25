@@ -63,9 +63,9 @@ namespace MyDriving.Droid
             ServiceLocator.Instance.Add<Utils.Interfaces.ILogger, PlatformLogger>();
             ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
-#if !XTC
-            Xamarin.Insights.Initialize(Logger.InsightsKey, this);
-#endif
+            //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+            MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
+
 
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             UserDialogs.Init(() => CrossCurrentActivity.Current.Activity);

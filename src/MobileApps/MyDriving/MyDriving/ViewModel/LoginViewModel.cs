@@ -71,6 +71,7 @@ namespace MyDriving.ViewModel
             track?.Start();
             IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.Twitter);
             track?.Stop();
+            Logger.Instance.Track("LoginTwitter");
         }
 
         public async Task ExecuteLoginMicrosoftCommandAsync()
@@ -83,6 +84,7 @@ namespace MyDriving.ViewModel
             track?.Start();
             IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.MicrosoftAccount);
             track?.Stop();
+            Logger.Instance.Track("LoginMicrosoft");
         }
 
         public async Task ExecuteLoginFacebookCommandAsync()
@@ -94,6 +96,7 @@ namespace MyDriving.ViewModel
             track?.Start();
             IsLoggedIn = await LoginAsync(MobileServiceAuthenticationProvider.Facebook);
             track?.Stop();
+            Logger.Instance.Track("LoginFacebook");
         }
 
         async Task<bool> LoginAsync(MobileServiceAuthenticationProvider provider)
@@ -134,12 +137,16 @@ namespace MyDriving.ViewModel
                 Settings.UserFirstName = string.Empty;
                 Settings.AuthToken = string.Empty;
                 Settings.UserLastName = string.Empty;
+
+                Logger.Instance.Track("LoginError");
                 Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to login or create account.", "Login error", "OK");
                 return false;
             }
             else
             {
                 Init();
+
+                Logger.Instance.Track("LoginSuccess");
             }
 
             return true;

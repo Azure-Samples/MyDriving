@@ -37,15 +37,15 @@ namespace MyDrivingService.Controllers
 
             string first = string.Empty, last = string.Empty, profile = string.Empty;
             userId = await IdentitiyHelper.FindSidAsync(User, Request);
-            if ((fbCredentials?.UserClaims).Any())
+            if (fbCredentials?.UserClaims?.Count() > 0)
             {
                 FillDataFromFacebook(fbCredentials, out first, out last, out profile);
             }
-            else if ((msCredentials?.UserClaims).Any())
+            else if (msCredentials?.UserClaims?.Count() > 0)
             {
                 FillDataFromMS(msCredentials, out first, out last, out profile);
             }
-            else if ((twitterCredentials?.UserClaims).Any())
+            else if (twitterCredentials?.UserClaims?.Count() > 0)
             {
                 FillDataFromTwitter(twitterCredentials, out first, out last, out profile);
             }
