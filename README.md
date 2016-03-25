@@ -41,7 +41,7 @@ SQL scripts executed by the PowerShell script to initialize the SQL database cre
 
 ### [src](./src)
 
-The **MyDriving.sln** is just for reference and not set up to build all the projects in one-go. This makes it easier for you to view all the source in the repository in one place. Please open individual solutions and build and deploy. More information on deploying to your own environment is given [here](http://aka.ms/mydriving-start)
+The **MyDriving.sln** is just for reference and not set up to build all the projects in one-go. This makes it easier for you to view all the source in the repository in one place. Please open individual solutions to build and deploy. More information on deploying to your own environment is given [here](http://aka.ms/mydriving-start)
 
 #### [src/Components](./src/Components)
 
