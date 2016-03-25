@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Plugin.DeviceInfo;
 
 namespace MyDriving.AzureClient
 {
@@ -32,7 +33,8 @@ namespace MyDriving.AzureClient
             if (String.IsNullOrEmpty(DeviceId))
             {
                 //generate device ID
-                DeviceId = Guid.NewGuid().ToString();
+                
+                DeviceId = CrossDeviceInfo.Current.Id;
                 Settings.Current.DeviceId = DeviceId;
             }
 
