@@ -56,9 +56,6 @@ namespace MyDriving.UWP
                 ServiceLocator.Instance.Add<Utils.Interfaces.ILogger, PlatformLogger>();
                 ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
-                //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
-                Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
-
                 Xamarin.Insights.Initialize(Logger.InsightsKey);
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
@@ -79,6 +76,9 @@ namespace MyDriving.UWP
                 // parameter
                 if (Settings.Current.IsLoggedIn)
                 {
+                    //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+                    MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
+
                     SplitViewShell shell = new SplitViewShell(rootFrame);
                     Window.Current.Content = shell;
                     shell.SetTitle("CURRENT TRIP");
