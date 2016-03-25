@@ -3,8 +3,8 @@
   <Identity Name="2db66399-c05a-4736-b4dc-f7b061ebe028" Publisher="CN=james" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="2db66399-c05a-4736-b4dc-f7b061ebe028" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>MyDriving.UWP</DisplayName>
-    <PublisherDisplayName>james</PublisherDisplayName>
+    <DisplayName>MyDriving</DisplayName>
+    <PublisherDisplayName>Microsoft</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>

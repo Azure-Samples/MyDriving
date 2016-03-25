@@ -21,11 +21,9 @@ namespace MyDriving.UWP.Controls
         {
             InitializeComponent();
             StartPoint = new Point(Radius + StrokeThickness/2, StrokeThickness/2);
+            EndPoint = StartPoint;
             Size = new Size(Radius, Radius);
             TotalSize = 2*Radius + StrokeThickness;
-
-            Percentage = 87; //todo add binding
-            ComputeEndPoint();
         }
 
         private void ComputeEndPoint()
@@ -40,6 +38,13 @@ namespace MyDriving.UWP.Controls
             double endY = Radius*(1 - Cos(angle)) + StrokeThickness/2;
 
             EndPoint = new Point(endX, endY);
+        }
+
+        public void Update()
+        {
+            ComputeEndPoint();
+            Arc.IsLargeArc = IsLargeArc;
+            Arc.Point = EndPoint;
         }
     }
 }

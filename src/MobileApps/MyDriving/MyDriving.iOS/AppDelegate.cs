@@ -59,10 +59,21 @@ namespace MyDriving.iOS
 
             if (!Settings.Current.IsLoggedIn)
             {
-                var viewController = UIStoryboard.FromName("Main", null)
-                    .InstantiateViewController("loginViewController");
-                // Storyboard.InstantiateViewController("loginViewController");
-                Window.RootViewController = viewController;
+				if (Settings.Current.FirstRun)
+				{
+					var viewController = UIStoryboard.FromName("Main", null)
+								 .InstantiateViewController("gettingStartedViewController");
+					var navigationController = new UINavigationController(viewController);
+					Window.RootViewController = navigationController;
+
+					Settings.Current.FirstRun = false;
+				}
+				else
+				{
+					var viewController = UIStoryboard.FromName("Main", null)
+					                                 .InstantiateViewController("loginViewController");
+					Window.RootViewController = viewController;
+				}
             }
             else
             {
@@ -76,7 +87,6 @@ namespace MyDriving.iOS
 
             return true;
         }
-
         #region Background Refresh
 
         private const double MinimumBackgroundFetchInterval = 900;
