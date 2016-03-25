@@ -8,8 +8,6 @@ author: harikm86
 
 This repository contains the MyDriving sample that demonstrates the design and implementation of a comprehensive Internet of Things (IoT) solution that gathers telemetry from devices, processes that data in the cloud, and applies machine learning to provide an adaptive response. The demonstration logs data about your car trips using both your mobile phone and an On-Board Diagnostics (OBD) adaptor that collects information from your vehicle's control system. The Azure backend uses this data to provide feedback on your driving style in comparison to other users.
 
-For more information check out the [MyDriving page](http://aka.ms/iotsampleapp) where you'll find information on using the app and deploying a similar system of your own.
-
 ## Quick Start and Reference Guide
 
 In addition to the readme documentation included in this repository, please see:
@@ -25,6 +23,8 @@ In addition to the readme documentation included in this repository, please see:
 A collection of resources to enable you to deploy and configure the Azure backend for MyDriving to your own Azure subscription. This includes Azure Resource Manager (ARM) templates for deploying all the necessary Azure services, Bash scripts, and Powershell scripts. 
 
 It also includes scripts you can import into Visual Studio Team Services to set up build definitions for the Xamarin mobile app projects and the API endpoint project that's deployed to Azure App Service.
+
+Refer to the [scripts readme](https://github.com/Azure-Samples/MyDriving/blob/master/scripts/README.md) for additional details.
 
 ### [src](./src)
 
