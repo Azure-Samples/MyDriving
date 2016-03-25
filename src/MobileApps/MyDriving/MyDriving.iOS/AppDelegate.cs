@@ -30,11 +30,6 @@ namespace MyDriving.iOS
             ServiceLocator.Instance.Add<ILogger, PlatformLogger>();
             ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
             
-            //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
-            Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
-
-
-
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             SQLitePCL.CurrentPlatform.Init();
 
