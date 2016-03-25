@@ -223,11 +223,11 @@ namespace MyDriving.ViewModel
                 track?.Start();
                 progress?.Show();
 
-                if (BingMapsAPIKey != "[BingMapsAPIKey]")
+                if (Logger.BingMapsAPIKey != "____BingMapsAPIKey____")
                 {
 
                     CurrentTrip.MainPhotoUrl =
-                        $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{CurrentPosition.Latitude.ToString(CultureInfo.InvariantCulture)},{CurrentPosition.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key={BingMapsAPIKey}";
+                        $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{CurrentPosition.Latitude.ToString(CultureInfo.InvariantCulture)},{CurrentPosition.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key={Logger.BingMapsAPIKey}";
                 }
                 else
                 {
