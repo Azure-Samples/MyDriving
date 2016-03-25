@@ -103,7 +103,8 @@ The PowerShell script also provides other useful functions with several other ta
 
 ### Visual Studio Online configuration (optional)
 
-TBD
+1. Before using the following script to import build definitions, you'll need to create a Personal Access Token (PAT) following the instructions on this page: [http://blog.devmatter.com/personal-access-tokens-vsts/](http://blog.devmatter.com/personal-access-tokens-vsts/).
+2. 
 
 ### Service Fabric cluster configuration (optional)
 Service Fabric is used one of the possible extension processing unit hosts. In the starter kit, we provide a sample Service Fabric service that parses vehicle VIN numbers to corresponding make, mode, year and type info. The following steps show how to deploy a Service Fabric cluster, and how to publish the VIN look up service using Visual Studio.
