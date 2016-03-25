@@ -50,7 +50,7 @@ namespace MyDriving.UWP.Views
             // Enable back button behavior
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;
-
+            profileViewModel.PropertyChanged += ViewModel_PropertyChanged;
             await profileViewModel.UpdateProfileAsync();
         }
 
@@ -63,6 +63,7 @@ namespace MyDriving.UWP.Views
 
         private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
         {
+            profileViewModel.PropertyChanged += ViewModel_PropertyChanged;
             if (!e.Handled)
             {
                 e.Handled = TryGoBack();
@@ -78,6 +79,15 @@ namespace MyDriving.UWP.Views
                 navigated = true;
             }
             return navigated;
+        }
+
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (string.CompareOrdinal(e.PropertyName, nameof(profileViewModel.DrivingSkills)) == 0)
+            {
+                CirclePercentage.Percentage = (double)profileViewModel.DrivingSkills;
+                CirclePercentage.Update();
+            }
         }
     }
 }

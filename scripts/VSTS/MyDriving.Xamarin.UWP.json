@@ -1,0 +1,219 @@
+{
+  "build": [
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "NuGet restore src/MobileApps/MyDriving.sln",
+      "task": {
+        "id": "333b11bd-d341-40d9-afcf-b32d5ce6f23b",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "solution": "src/MobileApps/MyDriving.sln",
+        "nugetConfigPath": "",
+        "noCache": "false",
+        "nuGetRestoreArgs": "",
+        "nuGetPath": ""
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Version Assemblies using AssemblyInfo.*",
+      "task": {
+        "id": "5b4d14d0-3868-11e4-a31d-3f0a2d8202f4",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "sourcePath": "src/MobileApps/MyDriving/MyDriving.UWP/Properties",
+        "filePattern": "AssemblyInfo.*",
+        "buildRegex": "\\d+\\.\\d+\\.\\d+",
+        "buildRegexIndex": "0",
+        "replaceRegex": "",
+        "replacePrefix": "",
+        "failIfNoMatchFound": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Version Assemblies using Package.appxmanifest",
+      "task": {
+        "id": "5b4d14d0-3868-11e4-a31d-3f0a2d8202f4",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "sourcePath": "src/MobileApps/MyDriving/MyDriving.UWP",
+        "filePattern": "Package.appxmanifest",
+        "buildRegex": "\\d+\\.\\d+\\.\\d+\\.\\d+",
+        "buildRegexIndex": "0",
+        "replaceRegex": " Version=\"\\d+\\.\\d+\\.\\d+\\.\\d+",
+        "replacePrefix": " Version=",
+        "failIfNoMatchFound": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Build solution src/MobileApps/MyDriving/MyDriving.UWP/MyDriving.UWP.csproj",
+      "task": {
+        "id": "c6c4c611-aa2e-4a33-b606-5eaba2196824",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "solution": "src/MobileApps/MyDriving/MyDriving.UWP/MyDriving.UWP.csproj",
+        "platform": "",
+        "configuration": "$(BuildConfiguration)",
+        "msbuildArguments": "/p:AppxBundlePlatforms=\"$(BuildPlatform)\" /p:AppxPackageDir=\"$(Build.BinariesDirectory)\\AppxPackages\\\\\" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload",
+        "clean": "false",
+        "restoreNugetPackages": "false",
+        "logProjectEvents": "false",
+        "msbuildLocationMethod": "version",
+        "msbuildVersion": "14.0",
+        "msbuildArchitecture": "x86",
+        "msbuildLocation": ""
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Copy Files to: $(build.artifactstagingdirectory)",
+      "task": {
+        "id": "5bfb729a-a7c8-4a78-a7c3-8d717bb7c13c",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "SourceFolder": "$(Build.BinariesDirectory)\\AppxPackages",
+        "Contents": "**\\*$(Build.BuildNumber)*.appxbundle",
+        "TargetFolder": "$(build.artifactstagingdirectory)",
+        "CleanTargetFolder": "false",
+        "OverWrite": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Publish Artifact: drop",
+      "task": {
+        "id": "2ff763a7-ce83-4e1f-bc89-0ae63477cebe",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "PathtoPublish": "$(build.artifactstagingdirectory)",
+        "ArtifactName": "drop",
+        "ArtifactType": "Container",
+        "TargetPath": "\\\\my\\share\\$(Build.DefinitionName)\\$(Build.BuildNumber)"
+      }
+    }
+  ],
+  "options": [
+    {
+      "enabled": false,
+      "definition": {
+        "id": "7c555368-ca64-4199-add6-9ebaf0b0137d"
+      },
+      "inputs": {
+        "multipliers": "[]",
+        "parallel": "false",
+        "continueOnError": "true",
+        "additionalFields": "{}"
+      }
+    },
+    {
+      "enabled": false,
+      "definition": {
+        "id": "a9db38f9-9fdc-478c-b0f9-464221e58316"
+      },
+      "inputs": {
+        "workItemType": "133217",
+        "assignToRequestor": "true",
+        "additionalFields": "{}"
+      }
+    },
+    {
+      "enabled": false,
+      "definition": {
+        "id": "57578776-4c22-4526-aeb0-86b6da17ee9c"
+      },
+      "inputs": {
+        "additionalFields": "{}"
+      }
+    }
+  ],
+  "triggers": [
+    {
+      "branchFilters": [
+        "+master"
+      ],
+      "batchChanges": true,
+      "maxConcurrentBuildsPerBranch": 1,
+      "triggerType": "continuousIntegration"
+    }
+  ],
+  "variables": {
+    "BuildConfiguration": {
+      "value": "Release",
+      "allowOverride": true
+    },
+    "BuildPlatform": {
+      "value": "x86|x64|ARM",
+      "allowOverride": true
+    },
+    "system.debug": {
+      "value": "false",
+      "allowOverride": true
+    },
+    "XamarinLicenseUser": {
+      "value": "someuser@outlook.com"
+    },
+    "GeneralPassword": {
+      "value": null,
+      "isSecret": true
+    }
+  },
+  "retentionRules": [
+    {
+      "branches": [
+        "+refs/heads/*"
+      ],
+      "artifacts": [
+        "build.SourceLabel"
+      ],
+      "daysToKeep": 1,
+      "minimumToKeep": 1,
+      "deleteBuildRecord": true,
+      "deleteTestResults": true
+    }
+  ],
+  "buildNumberFormat": "1.0.0$(rev:.r)",
+  "jobAuthorizationScope": "projectCollection",
+  "jobTimeoutInMinutes": 60,
+  "quality": "definition",
+  "queue": {
+    "pool": {
+      "id": 2,
+      "name": "Hosted"
+    },
+    "id": 2,
+    "name": "Hosted"
+  },
+  "type": "build",
+  "name": "MyDriving.Xamarin.UWP",
+  "repository": {
+    "properties": {
+      "labelSources": "0"
+    },
+    "type": "TfsGit",
+    "name": "",
+    "url": "repoUrl",
+    "defaultBranch": "refs/heads/master",
+    "clean": "false",
+    "checkoutSubmodules": false
+  }
+}

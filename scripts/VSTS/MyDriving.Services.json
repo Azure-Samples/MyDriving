@@ -1,0 +1,173 @@
+{
+  "build": [
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "NuGet restore src/MobileAppService/MyDrivingService.sln",
+      "task": {
+        "id": "333b11bd-d341-40d9-afcf-b32d5ce6f23b",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "solution": "src/MobileAppService/MyDrivingService.sln",
+        "nugetConfigPath": "",
+        "noCache": "false",
+        "nuGetRestoreArgs": "",
+        "nuGetPath": ""
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Build solution src/MobileAppService/MyDrivingService.sln",
+      "task": {
+        "id": "71a9a2d3-a98a-4caa-96ab-affca411ecda",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "solution": "src/MobileAppService/MyDrivingService.sln",
+        "msbuildArgs": "/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation=\"$(build.artifactstagingdirectory)\\\\",
+        "platform": "$(BuildPlatform)",
+        "configuration": "$(BuildConfiguration)",
+        "clean": "false",
+        "vsVersion": "14.0",
+        "restoreNugetPackages": "false",
+        "msbuildArchitecture": "x86",
+        "logProjectEvents": "true"
+      }
+    },
+    {
+      "enabled": false,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Copy Files to: $(build.artifactstagingdirectory)",
+      "task": {
+        "id": "5bfb729a-a7c8-4a78-a7c3-8d717bb7c13c",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "SourceFolder": "$(build.sourcesdirectory)",
+        "Contents": "**\\bin\\$(BuildConfiguration)\\**",
+        "TargetFolder": "$(build.artifactstagingdirectory)",
+        "CleanTargetFolder": "false",
+        "OverWrite": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": true,
+      "displayName": "Publish Artifact: drop",
+      "task": {
+        "id": "2ff763a7-ce83-4e1f-bc89-0ae63477cebe",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "PathtoPublish": "$(build.artifactstagingdirectory)",
+        "ArtifactName": "drop",
+        "ArtifactType": "Container",
+        "TargetPath": "\\\\my\\share\\$(Build.DefinitionName)\\$(Build.BuildNumber)"
+      }
+    }
+  ],
+  "options": [
+    {
+      "enabled": false,
+      "definition": {
+        "id": "7c555368-ca64-4199-add6-9ebaf0b0137d"
+      },
+      "inputs": {
+        "multipliers": "[]",
+        "parallel": "false",
+        "continueOnError": "true",
+        "additionalFields": "{}"
+      }
+    },
+    {
+      "enabled": false,
+      "definition": {
+        "id": "a9db38f9-9fdc-478c-b0f9-464221e58316"
+      },
+      "inputs": {
+        "workItemType": "133217",
+        "assignToRequestor": "true",
+        "additionalFields": "{}"
+      }
+    },
+    {
+      "enabled": false,
+      "definition": {
+        "id": "57578776-4c22-4526-aeb0-86b6da17ee9c"
+      },
+      "inputs": {
+        "additionalFields": "{}"
+      }
+    }
+  ],
+  "triggers": [
+    {
+      "branchFilters": [
+        "+master"
+      ],
+      "batchChanges": true,
+      "maxConcurrentBuildsPerBranch": 1,
+      "triggerType": "continuousIntegration"
+    }
+  ],
+  "variables": {
+    "system.debug": {
+      "value": "false",
+      "allowOverride": true
+    },
+    "BuildConfiguration": {
+      "value": "release",
+      "allowOverride": true
+    },
+    "BuildPlatform": {
+      "value": "any cpu",
+      "allowOverride": true
+    }
+  },
+  "retentionRules": [
+    {
+      "branches": [
+        "+refs/heads/*"
+      ],
+      "artifacts": [
+        "build.SourceLabel"
+      ],
+      "artifactTypesToDelete": [ ],
+      "daysToKeep": 10,
+      "minimumToKeep": 1,
+      "deleteBuildRecord": true,
+      "deleteTestResults": true
+    }
+  ],
+  "buildNumberFormat": "$(date:yyyyMMdd)$(rev:.r)",
+  "jobAuthorizationScope": "projectCollection",
+  "jobTimeoutInMinutes": 60, 
+  "quality": "definition",
+  "queue": {
+    "pool": {
+      "id": 2,
+      "name": "Hosted"
+    },
+    "id": 2,
+    "name": "Hosted"
+  },
+  "type": "build",
+  "name": "MyDriving.Services",
+  "repository": {
+    "properties": {
+      "labelSources": "0"
+    },
+    "type": "TfsGit",
+    "name": "",
+    "url": "repoUrl",
+    "defaultBranch": "refs/heads/master",
+    "clean": "false",
+    "checkoutSubmodules": false
+  }
+}
