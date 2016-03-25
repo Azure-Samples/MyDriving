@@ -47,14 +47,15 @@ namespace MyDriving.iOS
             base.ViewDidAppear(animated);
             PopRecordButtonAnimation();
 
-            if (CurrentTripViewModel != null)
-            {
-                await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async task =>
-                {
-                    // If we don't have permission from the user, prompt a dialog requesting permission.
-                    await PromptPermissionsChangeDialog();
-                });
-            }
+			if (CurrentTripViewModel != null && !CurrentTripViewModel.Geolocator.IsListening)
+			{
+				await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
+				{
+					// If we don't have permission from the user, prompt a dialog requesting permission.
+					if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
+						await PromptPermissionsChangeDialog();
+				});
+			}
         }
 
         #region Current Trip User Interface Logic

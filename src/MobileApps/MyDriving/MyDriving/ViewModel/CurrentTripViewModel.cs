@@ -318,7 +318,7 @@ namespace MyDriving.ViewModel
                     await Geolocator.StopListeningAsync();
                 }
 
-                if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
+				if (Geolocator.IsGeolocationAvailable && (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS || Geolocator.IsGeolocationEnabled))
                 {
                     Geolocator.AllowsBackgroundUpdates = true;
                     Geolocator.DesiredAccuracy = 25;
