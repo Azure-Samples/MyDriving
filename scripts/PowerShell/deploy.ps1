@@ -124,6 +124,25 @@ if ($deployment2 -and $deployment2.ProvisioningState -ne "Succeeded") {
 	exit 2;
 }
 
+# Configure blob storage
+Write-Output ""
+Write-Output "**************************************************************************************************"
+Write-Output "* Initializing blob storage..."
+Write-Output "**************************************************************************************************"
+$containerName = $deployment2.Outputs.rawdataContainerName.Value
+Write-Output "Creating the '$containerName' blob container..."
+try {
+	$ctx = New-AzureStorageContext $deployment2.Outputs.storageAccountNameAnalytics.Value -StorageAccountKey $deployment2.Outputs.storageAccountKeyAnalytics.Value
+	New-AzureStorageContainer -Name $containerName -Permission Off -Context $ctx -ErrorAction Stop
+}
+catch {
+    if ($Error[0].CategoryInfo.Category -ne "ResourceExists") {
+        throw
+    }
+
+    Write-Warning "Blob container already exists..."
+}
+
 # Initialize SQL databases
 Write-Output ""
 Write-Output "**************************************************************************************************"
