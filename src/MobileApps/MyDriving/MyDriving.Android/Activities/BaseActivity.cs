@@ -49,7 +49,7 @@ namespace MyDriving.Droid
             }
 
             accelerometerManager = new AccelerometerManager(this, this);
-            accelerometerManager.Configure(50, 500);
+            accelerometerManager.Configure(40, 350);
         }
 
 
