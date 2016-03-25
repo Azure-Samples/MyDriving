@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+set -o pipefail
 
 # Variables
 DEPLOYMENTNAME="scenario_complete-$(date -u +%m%d-%H%M)"
@@ -43,7 +45,7 @@ fi
 
 # verify if user is logged in by querying his subscriptions.
 # if none is found assume he is not
-echo "Retrieving Azure subscription information..."
+echo "Retrieving the Azure subscription information..."
 IFS=$'\n'
 SUBSCRIPTIONS=($(azure account list | awk -F $'  ' '{printf $3"\n"}'))
 unset IFS
@@ -91,29 +93,26 @@ azure config mode arm
 
 # create the resource group
 echo "Creating the resource group..."
-azure group create --name "${RESOURCEGROUPNAME}" --location "${LOCATION}" --verbose
+azure group create --name "${RESOURCEGROUPNAME}" --location "${LOCATION}"
 
 # create the deployment with the prerequisites template
-echo "Provisioning the prerequisites..."
-DEPLOYMENT1=`azure group deployment create --name "${DEPLOYMENTNAME}-0" \
-                                         --resource-group "${RESOURCEGROUPNAME}" \
-                                         --template-file "${PREREQ_TEMPLATEFILE}" \
-                                         --verbose \
-            | awk -F ': ' \
-               '$2 ~ /storageAccountName/  {split($2, a, " "); print "export AZURE_STORAGE_ACCOUNT="    a[3] "\n"} \
-                $2 ~ /storageAccountKey/   {split($2, a, " "); print "export AZURE_STORAGE_ACCESS_KEY=" a[3] "\n"} \
-                $2 ~ /assetsContainerName/ {split($2, a, " "); print "export ASSETS_CONTAINER_NAME="    a[3] "\n"} \
-            '`
-
-if [ "$?" != "0" ]; then
-	echo "Failed to provision the prerequisites storage account."
+echo "Deploying the prerequisites..."
+if ! OUTPUT0=$(azure group deployment create \
+					--name "${DEPLOYMENTNAME}-0" \
+					--resource-group "${RESOURCEGROUPNAME}" \
+					--template-file "${PREREQ_TEMPLATEFILE}" \
+				| tee /dev/tty); then
+	echo "Failed to provision the storage account for the prerequisites. Review the output above to correct any errors and then run the deployment script again."
 	exit 1;
 fi
 
-eval $DEPLOYMENT1
+# parse the deployment output
+eval $(echo "$OUTPUT0" | awk -F ': ' \
+               '$2 ~ /storageAccountName/  {split($2, a, " "); print "export AZURE_STORAGE_ACCOUNT="    a[3] ";"} \
+                $2 ~ /storageAccountKey/   {split($2, a, " "); print "export AZURE_STORAGE_ACCESS_KEY=" a[3] ";"} \
+                $2 ~ /assetsContainerName/ {split($2, a, " "); print "export ASSETS_CONTAINER_NAME="    a[3] ";"}')
 
-# upload the HQL queries to the storage account container
-echo "Uploading the prerequisites to blob storage..."
+# uploads files in a specified directory
 uploadAssets() {
  for i in "$1"/*;do
     if [ -d "$i" ];then
@@ -126,37 +125,37 @@ uploadAssets() {
  done
 }
 
+# create the storage account container for the assets
 echo "Creating the '$ASSETS_CONTAINER_NAME' blob container to store assets..."
 azure storage container create $ASSETS_CONTAINER_NAME || :
 
-echo "Copying assets in '$ASSETS_DIRECTORY' to blob storage..."
+# upload the assets to the container
+echo "Copying the assets in '$ASSETS_DIRECTORY' to blob storage..."
 uploadAssets $ASSETS_DIRECTORY
 
 # create the deployment with the solution template
-echo "Deploying the resources in the ARM template..."
-DEPLOYMENT2=`azure group deployment create --name "${DEPLOYMENTNAME}-1" \
-                                         --resource-group "${RESOURCEGROUPNAME}" \
-                                         --template-file "${TEMPLATEFILE}" \
-                                         --parameters-file "${PARAMETERSFILE}" \
-                                         --verbose \
-            | awk -F ': ' \
-               '$2 ~ /sqlServerFullyQualifiedDomainName/    {split($2, a, " "); print "export SQLSERVER_FULLY_QUALIFIED_DOMAIN_NAME="    a[3] "\n"} \
-                $2 ~ /sqlServerAdminLogin/                  {split($2, a, " "); print "export SQLSERVER_ADMIN_LOGIN="                    a[3] "\n"} \
-                $2 ~ /sqlServerAdminPassword/               {split($2, a, " "); print "export SQLSERVER_ADMIN_PASSWORD="                 a[3] "\n"} \
-                $2 ~ /sqlDBName/                            {split($2, a, " "); print "export SQLSERVER_DATABASE_NAME="                  a[3] "\n"} \
-                $2 ~ /sqlAnalyticsFullyQualifiedDomainName/ {split($2, a, " "); print "export SQLANALYTICS_FULLY_QUALIFIED_DOMAIN_NAME=" a[3] "\n"} \
-                $2 ~ /sqlAnalyticsServerAdminLogin/         {split($2, a, " "); print "export SQLANALYTICS_ADMIN_LOGIN="                 a[3] "\n"} \
-                $2 ~ /sqlAnalyticsServerAdminPassword/      {split($2, a, " "); print "export SQLANALYTICS_ADMIN_PASSWORD="              a[3] "\n"} \
-                $2 ~ /sqlAnalyticsDBName/                   {split($2, a, " "); print "export SQLANALYTICS_DATABASE_NAME="               a[3] "\n"} \
-            '`
-
-if [ "$?" != "0" ]; then
+echo "Deploying the resources in the ARM template. This operation may take several minutes..."
+if ! OUTPUT1=$(azure group deployment create \
+					--name "${DEPLOYMENTNAME}-0" \
+					--resource-group "${RESOURCEGROUPNAME}" \
+                    --template-file "${TEMPLATEFILE}" \
+                    --parameters-file "${PARAMETERSFILE}" \
+				| tee /dev/tty); then
+	echo "Skipping the database initialization..."
 	echo "At least one resource could not be provisioned successfully. Review the output above to correct any errors and then run the deployment script again."
-	echo "Skipped the database initialization..."
 	exit 2;
 fi
 
-eval $DEPLOYMENT2
+# parse the deployment output
+eval $(echo "$OUTPUT1" | awk -F ': ' \
+               '$2 ~ /sqlServerFullyQualifiedDomainName/    {split($2, a, " "); print "export SQLSERVER_FULLY_QUALIFIED_DOMAIN_NAME="    a[3] ";"} \
+                $2 ~ /sqlServerAdminLogin/                  {split($2, a, " "); print "export SQLSERVER_ADMIN_LOGIN="                    a[3] ";"} \
+                $2 ~ /sqlServerAdminPassword/               {split($2, a, " "); print "export SQLSERVER_ADMIN_PASSWORD="                 a[3] ";"} \
+                $2 ~ /sqlDBName/                            {split($2, a, " "); print "export SQLSERVER_DATABASE_NAME="                  a[3] ";"} \
+                $2 ~ /sqlAnalyticsFullyQualifiedDomainName/ {split($2, a, " "); print "export SQLANALYTICS_FULLY_QUALIFIED_DOMAIN_NAME=" a[3] ";"} \
+                $2 ~ /sqlAnalyticsServerAdminLogin/         {split($2, a, " "); print "export SQLANALYTICS_ADMIN_LOGIN="                 a[3] ";"} \
+                $2 ~ /sqlAnalyticsServerAdminPassword/      {split($2, a, " "); print "export SQLANALYTICS_ADMIN_PASSWORD="              a[3] ";"} \
+                $2 ~ /sqlAnalyticsDBName/                   {split($2, a, " "); print "export SQLANALYTICS_DATABASE_NAME="               a[3] ";"}'
 
 # Initialize SQL databases
 echo "Initializing the schema of the SQL databases..."

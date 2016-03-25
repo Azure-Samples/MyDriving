@@ -1,0 +1,248 @@
+{
+  "build": [
+    {
+      "enabled": true,
+      "continueOnError": true,
+      "alwaysRun": false,
+      "displayName": "Remove Xamarin credentials",
+      "task": {
+        "id": "d9bafed4-0b18-4f58-968d-86655b4d2ce9",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "filename": "rm",
+        "arguments": "../../../../.xamarin-credentials",
+        "workingFolder": "",
+        "failOnStandardError": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Add Xamarin credentials",
+      "task": {
+        "id": "d9bafed4-0b18-4f58-968d-86655b4d2ce9",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "filename": "mono",
+        "arguments": "$(Build.SourcesDirectory)/src/MobileApps/tools/xamarin-component.exe login $(XamarinLicenseUser) -p $(GeneralPassword)",
+        "workingFolder": "",
+        "failOnStandardError": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Restore Xamarin components",
+      "task": {
+        "id": "d9bafed4-0b18-4f58-968d-86655b4d2ce9",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "filename": "mono ",
+        "arguments": "$(Build.SourcesDirectory)/src/MobileApps/tools/xamarin-component.exe restore $(Build.SourcesDirectory)/src/MobileApps/MyDriving.iOS.sln",
+        "workingFolder": "",
+        "failOnStandardError": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Restore Nuget packages",
+      "task": {
+        "id": "d9bafed4-0b18-4f58-968d-86655b4d2ce9",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "filename": "/usr/local/bin/nuget",
+        "arguments": "restore $(Build.SourcesDirectory)/src/MobileApps/MyDriving.iOS.sln",
+        "workingFolder": "",
+        "failOnStandardError": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Build Xamarin.iOS",
+      "task": {
+        "id": "0f077e3a-af59-496d-81bc-ad971b7464e0",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "solution": "src/MobileApps/MyDriving.iOS.sln",
+        "configuration": "$(Configuration)",
+        "mdtoolLocation": "",
+        "forSimulator": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Package app",
+      "task": {
+        "id": "f54d001c-999f-408a-9867-0400c1838c5e",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "appName": "MyDrivingiOS.app",
+        "ipaName": "MyDrivingiOS.ipa",
+        "provisioningProfile": "iOS Wildcard In-House",
+        "sdk": "iphoneos",
+        "appPath": "src/MobileApps/MyDriving/MyDriving.iOS/bin/iPhone/$(Configuration)",
+        "ipaPath": "out"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Copy Files to to staging",
+      "task": {
+        "id": "5bfb729a-a7c8-4a78-a7c3-8d717bb7c13c",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "SourceFolder": "src/MobileApps/MyDriving/MyDriving.iOS/bin/iPhone/$(Configuration)",
+        "Contents": "*.ipa",
+        "TargetFolder": "$(build.artifactstagingdirectory)",
+        "CleanTargetFolder": "false",
+        "OverWrite": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Publish Artifact: drop",
+      "task": {
+        "id": "2ff763a7-ce83-4e1f-bc89-0ae63477cebe",
+        "versionSpec": "*"
+      },
+      "inputs": {
+        "PathtoPublish": "/$(build.artifactstagingdirectory)",
+        "ArtifactName": "drop",
+        "ArtifactType": "Container",
+        "TargetPath": "\\\\my\\share\\$(Build.DefinitionName)\\$(Build.BuildNumber)"
+      }
+    }
+  ],
+  "options": [
+    {
+      "enabled": false,
+      "definition": {
+        "id": "7c555368-ca64-4199-add6-9ebaf0b0137d"
+      },
+      "inputs": {
+        "multipliers": "[]",
+        "parallel": "false",
+        "continueOnError": "true",
+        "additionalFields": "{}"
+      }
+    },
+    {
+      "enabled": false,
+      "definition": {
+        "id": "a9db38f9-9fdc-478c-b0f9-464221e58316"
+      },
+      "inputs": {
+        "workItemType": "133217",
+        "assignToRequestor": "true",
+        "additionalFields": "{}"
+      }
+    },
+    {
+      "enabled": false,
+      "definition": {
+        "id": "57578776-4c22-4526-aeb0-86b6da17ee9c"
+      },
+      "inputs": {
+        "additionalFields": "{}"
+      }
+    }
+  ],
+  "triggers": [
+    {
+      "branchFilters": [
+        "+master"
+      ],
+      "batchChanges": true,
+      "maxConcurrentBuildsPerBranch": 1,
+      "triggerType": "continuousIntegration"
+    }
+  ],
+  "variables": {
+    "system.debug": {
+      "value": "true",
+      "allowOverride": true
+    },
+    "Configuration": {
+      "value": "Release",
+      "allowOverride": true
+    },
+    "XamarinLicenseUser": {
+      "value": null,
+      "isSecret": true
+    },
+    "GeneralPassword": {
+      "value": null,
+      "isSecret": true
+    },
+    "XTCKey": {
+      "value": null,
+      "isSecret": true
+    },
+    "XTCUser": {
+      "value": null,
+      "isSecret": true
+    },
+    "XTCDevices": {
+      "value": null,
+      "isSecret": true
+    }
+  },
+  "retentionRules": [
+    {
+      "branches": [
+        "+refs/heads/*"
+      ],
+      "artifacts": [
+        "build.SourceLabel"
+      ],
+      "daysToKeep": 1,
+      "minimumToKeep": 1,
+      "deleteBuildRecord": true,
+      "deleteTestResults": true
+    }
+  ],
+  "buildNumberFormat": "1.0.0$(rev:.r)",
+  "jobAuthorizationScope": "projectCollection",
+  "jobTimeoutInMinutes": 60,
+  "quality": "definition",
+  "queue": {
+    "pool": {
+      "id": 2,
+      "name": "Hosted"
+    },
+    "id": 2,
+    "name": "Hosted"
+  },
+  "type": "build",
+  "name": "MyDriving.Xamarin.iOS",
+  "repository": {
+    "properties": {
+      "labelSources": "0"
+    },
+    "type": "TfsGit",
+    "name": "",
+    "url": "repoUrl",
+    "defaultBranch": "refs/heads/master",
+    "clean": "false",
+    "checkoutSubmodules": false
+  }
+}
