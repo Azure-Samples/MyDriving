@@ -7,6 +7,7 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 
 * [Azure PowerShell](http://aka.ms/webpi-azps)
 * [An active Azure subscription](https://azure.microsoft.com) with at least 24 available cores (for on-demand HDInsight cluster)
+* [Git](https://git-scm.com/) (if you want to set up VSTS CI pipelines)
 
 ### If you use Bash
 
@@ -22,7 +23,11 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 	* _< location >_ is the Azure datacenter where you want the services to be deployed, such as "WestUS".
 	* _< resource group name >_ is the name of the deployed resource group. 
 2. During deployment, the script will ask you to provide two SQL Datbase passwords: **sqlServerAdminPassword** and **sqlAnalyticsServerAdminPassword**. The first password is for the Mobile App back end database; the second password is for the analytic database that supports Power BI queries. 
-
+3. Once the service deployment is complete, the script will ask if you want to provision the Visual Studio Team Service continuous integration pipelines. If you answer 'y' (for yes), you'll be prompted to enter the following values before it copies MyDriving source to the specified local folder, creates a new VSTS project, checks in the source to the project, and creates all build definitions:
+	* **your VSTS account**: The name of your VSTS account. It should have format of _https://[account name].visualstuio.com_.
+	* **your PAT**:  The personal access token (see [http://blog.devmatter.com/personal-access-tokens-vsts/](http://blog.devmatter.com/personal-access-tokens-vsts/)).
+	* **project name**: The name of the VSTS project to be created.
+	* **local working folder**: The local folder where MyDriving source code will be copied to.
 
 ## Use Bash script 
 
@@ -87,6 +92,8 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 	- **Workspace**: You can use the default
 
 ### Machine Learning configuration (optional)
+> Note: Machine Learning experiments provisioning is part in the master deployment script. You can use the following steps to provision additional Machine Learning experiments on different subscriptions.
+
 You can use the supplied **scripts\PowerShell\scripts\copyMLExperiment.ps1** to import previously packaged ML experiments at these locations:
 
 * https://storage.azureml.net/directories/2e55da807f4a4273bfa99852d3d6e304/items (MyDriving)
@@ -101,10 +108,22 @@ The PowerShell script also provides other useful functions with several other ta
 		ExportExperiment "[subscription id]" "[workspace name]" "[experiment name]" "[ML key]"
 
 
-### Visual Studio Online configuration (optional)
+### Visual Studio Team Service configuration (optional)
+> Note: Visual Studio Team Service provisioning is an optional part in the master deployment script. If you chose not to deploy Visual Studio Team Service during the master deployment, you can use the following steps to provision Visual Studio Team Service.
+
+This script copies MyDriving source code into a working folder, creates a new VSTS project, checks in the code into the new project, and then imports all build definitions under the **scripts\VSTS** folder. Some build steps such as downloading certificates are removed from the build pipelines. After you import the build pipelines, you should review them and make necessary adjustments before using them.
 
 1. Before using the following script to import build definitions, you'll need to create a Personal Access Token (PAT) following the instructions on this page: [http://blog.devmatter.com/personal-access-tokens-vsts/](http://blog.devmatter.com/personal-access-tokens-vsts/).
-2. 
+2. Launch **importVSTSBuildDefinition.ps1** under the **scripts\PowerShell\scripts** folder:
+
+		.\importVSTSBuildDefinition.ps1 "<your VSTS account>" "<your PAT>" "<project name>" "<folder to the build definition files>" "<local working folder>"
+
+	* _< your VSTS account >_ is the name of your VSTS account. It should have format of _https://[account name].visualstuio.com_.
+	* _< your PAT >_ is the PAT you generated in step 1.
+	* _< project name >_ is the name of the VSTS project to be created.
+	* _< Folder to the build definition file >_ is the folder that holds exported build definition (JSON) files. You should point this to the **scripts\VSTS** folder.
+	* _< local working folder >_ is the local folder where MyDriving source code will be copied to.
+
 
 ### Service Fabric cluster configuration (optional)
 Service Fabric is used one of the possible extension processing unit hosts. In the starter kit, we provide a sample Service Fabric service that parses vehicle VIN numbers to corresponding make, mode, year and type info. The following steps show how to deploy a Service Fabric cluster, and how to publish the VIN look up service using Visual Studio.

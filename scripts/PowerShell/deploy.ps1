@@ -52,6 +52,8 @@ if (!($Subscriptions)) {
     exit
 }
 
+$subscription
+
 # if the user has more than one subscriptions force the user to select one
 if ($Subscriptions.Length -gt 1) {
     $i = 1
@@ -64,9 +66,12 @@ if ($Subscriptions.Length -gt 1) {
 
         if ([int]::TryParse($input, [ref]$intInput) -and ($intInput -ge 1 -and $intInput -le $Subscriptions.Length)) {
             Select-AzureRmSubscription -SubscriptionId $($Subscriptions.Get($intInput-1).SubscriptionId)
+            $subscription = $Subscriptions.Get($intInput-1)
             break;
         }
     }
+} else {
+    $subscription = $Subscriptions.Get(0)
 }
 
 # Create or update the resource group using the specified template file and template parameters file
@@ -91,6 +96,11 @@ if ($deployment1 -and $deployment1.ProvisioningState -ne "Succeeded") {
 	exit 1
 }
 
+# Provision ML experiments
+$context = Get-AzureRmContext
+.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/2e55da807f4a4273bfa99852d3d6e304/items'
+.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/a9fb6aeb3a164eedaaa28da34f02c3b0/items'
+
 # Upload the HQL queries to the storage account container
 Write-Output ""
 Write-Output "**************************************************************************************************"
@@ -99,6 +109,7 @@ Write-Output "******************************************************************
 . .\scripts\Copy-ArtifactsToBlobStorage.ps1 -StorageAccountName $deployment1.Outputs.storageAccountName.Value `
                                         -StorageAccountKey $deployment1.Outputs.storageAccountKey.Value `
                                         -StorageContainerName $deployment1.Outputs.assetsContainerName.Value
+
 
 # Create required services
 $templateParams = New-Object -TypeName Hashtable
@@ -163,4 +174,17 @@ Write-Output "Initializing the '$deployment2.Outputs.sqlAnalyticsDBName.Value' d
 						-ScriptPath $dbSchemaSQLAnalytics
 
 Write-Output ""
+
+# Deploy VSTS build definitions
+$confirmation = Read-Host "Do you want to deploy VSTS CI? [y/n]"
+if ($confirmation -eq 'y') {
+  $vstsAccount = Read-Host "Enter your VSTS account (http://<your account>.visualstudio.com)" 
+  $vstsPAT = Read-Host "Enter your VSTS PAT: (see http://blog.devmatter.com/personal-access-tokens-vsts/)"
+  $vstsProjectName = Read-Host "Enter the VSTS project name to be created"
+  $buildFiles = "..\VSTS"
+  $localFolder = Read-Host "Enter a local folder where MyDriving code will be checked out"
+  .\scripts\importVSTSBuildDefinition.ps1 $vstsAccount $vstsPAT $vstsProjectName $buildFiles $localFolder
+}
+
+
 Write-Output "The deployment is complete!"
