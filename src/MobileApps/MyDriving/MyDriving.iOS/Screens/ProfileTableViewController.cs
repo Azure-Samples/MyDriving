@@ -50,7 +50,6 @@ namespace MyDriving.iOS
         void UpdateUI()
         {
             lblDrivingSkills.Text = $"Driving Skills: {ViewModel.DrivingSkillsPlacementBucket.Description}";
-            lblBetterThan.Text = $"Better than {ViewModel.DrivingSkills}% of drivers";
             PercentageView.Value = (ViewModel.DrivingSkills/100f)*360f;
             data = new List<DrivingStatistic>
             {
