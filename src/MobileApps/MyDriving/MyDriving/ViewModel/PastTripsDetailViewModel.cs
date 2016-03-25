@@ -174,11 +174,14 @@ namespace MyDriving.ViewModel
                 IsBusy = false;
             }
 
-            Acr.UserDialogs.UserDialogs.Instance.Alert(
-                      "Please check internet connection and try again.",
-                      "Unable to load Trip", "OK");
+            if (error)
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert(
+                          "Please check internet connection and try again.",
+                          "Unable to load Trip", "OK");
+            }
 
-            return error;
+            return !error;
         }
 
         public void UpdateTripInformationForPoint()
