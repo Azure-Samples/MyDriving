@@ -178,13 +178,16 @@ Write-Output ""
 # Deploy VSTS build definitions
 $confirmation = Read-Host "Do you want to deploy VSTS CI? [y/n]"
 if ($confirmation -eq 'y') {
-  $vstsAccount = Read-Host "Enter your VSTS account (http://<your account>.visualstudio.com)" 
-  $vstsPAT = Read-Host "Enter your VSTS PAT: (see http://blog.devmatter.com/personal-access-tokens-vsts/)"
-  $vstsProjectName = Read-Host "Enter the VSTS project name to be created"
-  $buildFiles = "..\VSTS"
-  $localFolder = Read-Host "Enter a local folder where MyDriving code will be checked out"
-  .\scripts\importVSTSBuildDefinition.ps1 $vstsAccount $vstsPAT $vstsProjectName $buildFiles $localFolder
+	Write-Output ""
+	Write-Output "**************************************************************************************************"
+	Write-Output "* Configuring VSTS CI..."
+	Write-Output "**************************************************************************************************"
+	$vstsAccount = Read-Host "Enter your VSTS account (http://<your account>.visualstudio.com)" 
+	$vstsPAT = Read-Host "Enter your VSTS PAT: (see http://blog.devmatter.com/personal-access-tokens-vsts/)"
+	$vstsProjectName = Read-Host "Enter the VSTS project name to be created"
+	$buildFiles = "..\VSTS"
+	$localFolder = Read-Host "Enter a local folder where MyDriving code will be checked out"
+	.\scripts\importVSTSBuildDefinition.ps1 $vstsAccount $vstsPAT $vstsProjectName $buildFiles $localFolder
 }
-
 
 Write-Output "The deployment is complete!"
