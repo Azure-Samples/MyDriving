@@ -24,7 +24,7 @@ namespace MyDriving.UITests
                 .AssertOnPage();
         }
 
-        [Test]
+        /*[Test]
         public void LoginWithFacebookTest()
         {
             ClearKeychain();
@@ -37,6 +37,6 @@ namespace MyDriving.UITests
 
             new CurrentTripPage()
                 .AssertOnPage();
-		}
+		}*/
 	}
 }

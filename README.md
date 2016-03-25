@@ -1,11 +1,11 @@
 ---
-services: applications-insights, app-service, data-factory, hdinsight, hockeyapp, iot-hub, machine-learning, power-bi, sql-database, storage, stream-analytics, visual-studio-team-services 
+services: applications-insights, app-service, data-factory, hdinsight, hockeyapp, iot-hub, key-vault, machine-learning, power-bi, sql-database, storage, stream-analytics, visual-studio-team-services 
 platforms: dotnet, ios, android, xamarin
 author: harikm86
 ---
 
 
-# MyDriving - An IOT Sample Application
+# MyDriving - An Azure IOT and Mobile Sample Application
 
 This repository contains the MyDriving starter kit that demonstrates the design and implementation of a typical Internet of Things (IoT) solution that gathers telemetry from devices, processes that data in the cloud, and applies machine learning to provide an adaptive response. The demonstration logs data about your car trips, using data both from your mobile phone and an OBD adaptor that collects information from your car’s control system. It uses this data to provide feedback on your driving style in comparison to other users. For more information check out the [MyDriving Page](http://aka.ms/iotsampleapp)
 
@@ -41,7 +41,7 @@ SQL scripts executed by the PowerShell script to initialize the SQL database cre
 
 ### [src](./src)
 
-The **MyDriving.sln** Visual Studio 2015 solution enables you to build and deploy the MyDriving starter kit to your environment. The solution contains multiple projects such as those related to phone app, the Azure App Service Mobile Apps service, and the VIN Lookup service.
+The **MyDriving.sln** is just for reference and not set up to build all the projects in one-go. This makes it easier for you to view all the source in the repository in one place. Please open individual solutions to build and deploy. More information on deploying to your own environment is given [here](http://aka.ms/mydriving-start)
 
 #### [src/Components](./src/Components)
 

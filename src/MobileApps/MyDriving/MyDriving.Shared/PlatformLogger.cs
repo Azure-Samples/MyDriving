@@ -31,32 +31,45 @@ namespace MyDriving.Shared
         public override void Identify(string uid, string key, string value)
         {
             Debug.WriteLine("Logger: Identify: " + uid + " key: " + key + " value: " + value);
+
+
+
             base.Identify(uid, key, value);
         }
 
         public override void Track(string trackIdentifier, IDictionary<string, string> table = null)
         {
             Debug.WriteLine("Logger: Track: " + trackIdentifier);
+#if __ANDROID__
+            HockeyApp.Metrics.MetricsManager.TrackEvent(trackIdentifier);
+#elif __IOS__
+            HockeyApp.BITHockeyManager.SharedHockeyManager.MetricsManager.TrackEvent(trackIdentifier);
+#endif
             base.Track(trackIdentifier, table);
         }
 
         public override void Track(string trackIdentifier, string key, string value)
         {
             Debug.WriteLine("Logger: Track: " + trackIdentifier + " key: " + key + " value: " + value);
+#if __ANDROID__
+            HockeyApp.Metrics.MetricsManager.TrackEvent(trackIdentifier);
+#elif __IOS__
+            HockeyApp.BITHockeyManager.SharedHockeyManager.MetricsManager.TrackEvent(trackIdentifier);
+#endif
             base.Track(trackIdentifier, key, value);
         }
 
         public override ITrackHandle TrackTime(string identifier, IDictionary<string, string> table = null)
         {
             Debug.WriteLine("Logger: TrackTime: " + identifier);
-
+            Track(identifier);
             return base.TrackTime(identifier, table);
         }
 
         public override ITrackHandle TrackTime(string identifier, string key, string value)
         {
             Debug.WriteLine("Logger: TrackTime: " + identifier + " key: " + key + " value: " + value);
-
+            Track(identifier);
             return base.TrackTime(identifier, key, value);
         }
 

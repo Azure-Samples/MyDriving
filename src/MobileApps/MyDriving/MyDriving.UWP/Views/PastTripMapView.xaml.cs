@@ -49,7 +49,12 @@ namespace MyDriving.UWP.Views
 
             MyMap.Loaded += MyMap_Loaded;
             MyMap.MapElements.Clear();
-            await viewModel.ExecuteLoadTripCommandAsync(trip.Id);
+            var success = await viewModel.ExecuteLoadTripCommandAsync(trip.Id);
+            if(!success)
+            {
+                Frame.GoBack();
+                return;
+            }
             DrawPath();
 
             foreach (var poi in viewModel.POIs)

@@ -13,7 +13,7 @@ namespace MyDriving.iOS
 {
     public partial class TripsTableViewController : UITableViewController
     {
-        const string TripCellWithimageIdentifier = "TRIP_CELL_WITHIMAGE_IDENTIFIER";
+		const string TripCellWithImageIdentifier = "TRIP_CELL_WITHIMAGE_IDENTIFIER";
         const string PastTripSegueIdentifier = "pastTripSegue";
 
         public TripsTableViewController(IntPtr handle) : base(handle)
@@ -77,8 +77,8 @@ namespace MyDriving.iOS
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = tableView.DequeueReusableCell(TripCellWithimageIdentifier) as TripTableViewCellWithImage ??
-                       new TripTableViewCellWithImage(new NSString(TripCellWithimageIdentifier));
+            var cell = tableView.DequeueReusableCell(TripCellWithImageIdentifier) as TripTableViewCellWithImage ??
+                       new TripTableViewCellWithImage(new NSString(TripCellWithImageIdentifier));
 
             if (ViewModel.CanLoadMore && !ViewModel.IsBusy && ViewModel.Trips.Count > 0 && indexPath.Row == ViewModel.Trips.Count - 1)
             {

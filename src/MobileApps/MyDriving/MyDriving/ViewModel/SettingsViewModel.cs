@@ -101,6 +101,7 @@ namespace MyDriving.ViewModel
             if (string.IsNullOrWhiteSpace(url))
                 return;
 
+            Logger.Instance.Track("LaunchUrl");
             await CrossShare.Current.OpenBrowser(url, new Plugin.Share.Abstractions.BrowserOptions
             {
                 ChromeShowTitle = true,
@@ -112,6 +113,8 @@ namespace MyDriving.ViewModel
 
         public Task<bool> ExecuteLogoutCommandAsync()
         {
+
+            Logger.Instance.Track("Logout");
             return Task.FromResult(true);
         }
 
