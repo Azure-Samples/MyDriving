@@ -513,9 +513,9 @@
     <BundleResource Include="Resources\background_started.png" />
     <BundleResource Include="Resources\screen_1.png" />
     <BundleResource Include="Resources\screen_2.png" />
-    <BundleResource Include="Resources\screen_5.png" />
     <BundleResource Include="Resources\screen_3.png" />
     <BundleResource Include="Resources\screen_4.png" />
+    <BundleResource Include="Resources\screen_5.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="btprogresshud">
