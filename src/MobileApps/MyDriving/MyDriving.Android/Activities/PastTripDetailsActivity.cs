@@ -39,7 +39,12 @@ namespace MyDriving.Droid.Activities
         {
             map = googleMap;
 
-            await viewModel.ExecuteLoadTripCommandAsync(id);
+            var success = await viewModel.ExecuteLoadTripCommandAsync(id);
+            if (!success)
+            {
+                Finish();
+                return;
+            }
 
             startTime.Text = viewModel.Trip.StartTimeDisplay;
             endTime.Text = viewModel.Trip.EndTimeDisplay;

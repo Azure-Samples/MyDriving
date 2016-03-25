@@ -267,7 +267,7 @@ namespace MyDriving.iOS
         {
             NavigationItem.Title = PastTripsDetailViewModel.Title;
 
-            await PastTripsDetailViewModel.ExecuteLoadTripCommandAsync(PastTripsDetailViewModel.Trip.Id);
+            var success = await PastTripsDetailViewModel.ExecuteLoadTripCommandAsync(PastTripsDetailViewModel.Trip.Id);
             
             // Setup map
             mapDelegate = new TripMapViewDelegate(false);
