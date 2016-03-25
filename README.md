@@ -5,7 +5,7 @@ author: harikm86
 ---
 
 
-# MyDriving - An IOT Sample Application
+# MyDriving - An Azure IOT and Mobile Sample Application
 
 This repository contains the MyDriving starter kit that demonstrates the design and implementation of a typical Internet of Things (IoT) solution that gathers telemetry from devices, processes that data in the cloud, and applies machine learning to provide an adaptive response. The demonstration logs data about your car trips, using data both from your mobile phone and an OBD adaptor that collects information from your car’s control system. It uses this data to provide feedback on your driving style in comparison to other users. For more information check out the [MyDriving Page](http://aka.ms/iotsampleapp)
 
