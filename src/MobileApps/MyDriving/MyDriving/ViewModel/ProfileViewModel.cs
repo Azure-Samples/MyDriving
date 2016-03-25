@@ -189,14 +189,14 @@ namespace MyDriving.ViewModel
                 }
                 else
                 {
-                    TotalDistance = currentUser.TotalDistance;
-                    HardStops = currentUser.HardStops;
-                    HardAccelerations = currentUser.HardAccelerations;
+                    TotalDistance = currentUser.TotalDistance < 0 ? 0 : currentUser.TotalDistance;
+                    HardStops = currentUser.HardStops < 0 ? 0 : currentUser.HardStops;
+                    HardAccelerations = currentUser.HardAccelerations < 0 ? 0 : currentUser.HardAccelerations;
                     DrivingSkills = currentUser.Rating;
-                    TotalTime = currentUser.TotalTime;
-                    TotalTrips = currentUser.TotalTrips;
-                    FuelUsed = currentUser.FuelConsumption;
-                    MaxSpeed = currentUser.MaxSpeed;
+                    TotalTime = currentUser.TotalTime < 0 ? 0 : currentUser.TotalTime;
+                    TotalTrips = currentUser.TotalTrips < 0 ? 0 : currentUser.TotalTrips;
+                    FuelUsed = currentUser.FuelConsumption < 0 ? 0 : currentUser.FuelConsumption;
+                    MaxSpeed = currentUser.MaxSpeed < 0 ? 0 : currentUser.MaxSpeed;
 
                     if (currentUser.Rating < 0)
                         DrivingSkills = 0;
