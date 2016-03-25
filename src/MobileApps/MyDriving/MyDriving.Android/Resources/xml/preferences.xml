@@ -48,6 +48,9 @@
 		 <Preference
            android:title="Built in C# with Xamarin"
            android:key="url_xamarin"/>
+        <Preference
+          android:title="Leave Feedback"
+          android:key="leave_feedback"/>
 
     </PreferenceCategory>
 </PreferenceScreen>
