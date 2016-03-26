@@ -42,17 +42,7 @@ namespace MyDriving.ViewModel
         public PastTripsDetailViewModel(Trip trip) : this()
         {
             Title = trip.Name;
-            //make sure the points are ordered
-            trip.Points = trip.Points.OrderBy(p => p.Sequence).ToArray();
             Trip = trip;
-            for (int i = 0; i < Trip.Points.Count; i++)
-            {
-                var point = Trip.Points[i];
-                if (point.MassFlowRate == -255)
-                {
-                    point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
-                }
-            }
         }
 
         public Trip Trip { get; set; }
@@ -132,36 +122,33 @@ namespace MyDriving.ViewModel
                 if (Trip == null)
                     Trip = await StoreManager.TripStore.GetItemAsync(id);
 
-                //pull if we don't have the trip, else order by sequence.
-                if (Trip.Points == null || Trip.Points.Count == 0)
+                Trip.Points = new List<TripPoint>(await StoreManager.TripPointStore.GetPointsForTripAsync(id));
+
+
+                if (Trip.Points != null && Trip.Points.Count > 0)
                 {
-                    Trip.Points = new List<TripPoint>();
-                    Trip.Points = new List<TripPoint>(await StoreManager.TripPointStore.GetPointsForTripAsync(id));
+                    Title = Trip.Name;
+                    for (int i = 0; i < Trip.Points.Count; i++)
+                    {
+                        var point = Trip.Points[i];
+                        if (point.MassFlowRate == -255)
+                        {
+                            point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
+                        }
+                        if (point.Speed == -255)
+                        {
+                            point.Speed = i == 0 ? 0 : Trip.Points[i - 1].Speed;
+                        }
+                    }
+                    POIs.AddRange(await StoreManager.POIStore.GetItemsAsync(Trip.Id));
+
+                    Title = Trip.Name;
                 }
                 else
                 {
-                    Trip.Points = Trip.Points.OrderBy(p => p.Sequence).ToArray();
+                    error = true;
                 }
 
-                
-
-                Title = Trip.Name;
-                for (int i = 0; i < Trip.Points.Count; i++)
-                {
-                    var point = Trip.Points[i];
-                    if (point.MassFlowRate == -255)
-                    {
-                        point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
-                    }
-                    if (point.Speed == -255)
-                    {
-                        point.Speed = i == 0 ? 0 : Trip.Points[i - 1].Speed;
-                    }
-                }
-
-                POIs.AddRange(await StoreManager.POIStore.GetItemsAsync(Trip.Id));
-
-                Title = Trip.Name;
             }
             catch (Exception ex)
             {
