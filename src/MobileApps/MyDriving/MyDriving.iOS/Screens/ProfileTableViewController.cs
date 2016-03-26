@@ -40,17 +40,16 @@ namespace MyDriving.iOS
             UpdateUI();
         }
 
-        public override void ViewDidAppear(bool animated)
+        public override async void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
-            ViewModel.UpdateProfileAsync()
+            await ViewModel.UpdateProfileAsync()
                 .ContinueWith(t => { UpdateUI(); }, scheduler: TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         void UpdateUI()
         {
             lblDrivingSkills.Text = $"Driving Skills: {ViewModel.DrivingSkillsPlacementBucket.Description}";
-            lblBetterThan.Text = $"Better than {ViewModel.DrivingSkills}% of drivers";
             PercentageView.Value = (ViewModel.DrivingSkills/100f)*360f;
             data = new List<DrivingStatistic>
             {

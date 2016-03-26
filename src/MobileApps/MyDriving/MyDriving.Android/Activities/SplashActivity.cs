@@ -18,14 +18,20 @@ namespace MyDriving.Droid.Activities
 
             Intent newIntent;
             if (Settings.Current.IsLoggedIn)
-                newIntent = new Intent(this, typeof (MainActivity));
+            {
+                newIntent = new Intent(this, typeof(MainActivity));
+
+                //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+                MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
+            }
+
             else if (Settings.Current.FirstRun)
             {
 #if XTC
                 newIntent = new Intent(this, typeof(LoginActivity));
 
 #else
-                newIntent = new Intent(this, typeof (GettingStartedActivity));
+                newIntent = new Intent(this, typeof(GettingStartedActivity));
 
 #endif
 
@@ -34,7 +40,7 @@ namespace MyDriving.Droid.Activities
 #endif
             }
             else
-                newIntent = new Intent(this, typeof (LoginActivity));
+                newIntent = new Intent(this, typeof(LoginActivity));
 
 
             newIntent.AddFlags(ActivityFlags.ClearTop);

@@ -13,6 +13,7 @@ namespace MyDriving.DataStore.Abstractions
         IUserStore UserStore { get; }
         IHubIOTStore IOTHubStore { get; }
         IPOIStore POIStore { get; }
+        ITripPointStore TripPointStore { get; }
         Task<bool> SyncAllAsync(bool syncUserSpecific);
         Task DropEverythingAsync();
         Task InitializeAsync();

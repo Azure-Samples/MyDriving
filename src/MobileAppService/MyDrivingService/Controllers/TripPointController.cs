@@ -9,6 +9,7 @@ using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using MyDriving.DataObjects;
 using MyDrivingService.Models;
+using MyDrivingService.Helpers;
 
 namespace MyDrivingService.Controllers
 {
@@ -22,53 +23,39 @@ namespace MyDrivingService.Controllers
         }
 
         // GET tables/TripPoint
-        //[Authorize]
+        [EnableQuery(MaxTop = 100000)]
+        [Authorize]
         public IQueryable<TripPoint> GetAllTripPoints()
         {
             return Query();
         }
 
         // GET tables/TripPoint/<id>
-        //[Authorize]
+        [Authorize]
         public SingleResult<TripPoint> GetTripPoint(string id)
         {
             return Lookup(id);
         }
 
+        // POST tables/TripPoint
+        [Authorize]
+        public async Task<IHttpActionResult> PostTripPoint(TripPoint tripPoint)
+        {
+ 
+            var current = await InsertAsync(tripPoint);
+
+            return CreatedAtRoute("Tables", new { id = current.Id }, current);
+        }
+
         // PATCH tables/TripPoint/<id>
-        //[Authorize]
+        [Authorize]
         public Task<TripPoint> PatchTripPoint(string id, Delta<TripPoint> patch)
         {
             return UpdateAsync(id, patch);
         }
 
-
-        /*public async Task<IHttpActionResult> PostTripPoints(IEnumerable<TripPoint> tripPoints)
-        {
-            foreach(var point in tripPoints)
-            {
-                var pointTrip = this._dbContext.Trips.Where(trip => trip.Id == point.TripId).FirstOrDefault();
-                if(pointTrip == null)
-                {
-                    return BadRequest("The trip you are trying to add points to does not exist.");
-                } else if(pointTrip.IsComplete)
-                {
-                    return BadRequest("The trip you are trying to add points to is already complete.");
-                }
-                else
-                {
-                    var maxSequence = getMaxSequence(point.TripId);
-                    maxSequence++;
-                    point.Sequence = maxSequence;
-
-                    TripPoint current = await InsertAsync(point);
-                }
-            }
-            return Created("tables/trippoints", tripPoints);
-        }*/
-
         // DELETE tables/TripPoint/<id>
-        //[Authorize]
+        [Authorize]
         public Task DeleteTripPoint(string id)
         {
             return DeleteAsync(id);

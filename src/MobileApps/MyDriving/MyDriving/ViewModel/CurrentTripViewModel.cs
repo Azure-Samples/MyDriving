@@ -38,7 +38,6 @@ namespace MyDriving.ViewModel
 
         string fuelConsumptionUnits = "Gallons";
 
-        bool hasEngineLoad;
         bool isRecording;
 
         Position position;
@@ -172,7 +171,7 @@ namespace MyDriving.ViewModel
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
                 IsRecording = true;
-
+                Logger.Instance.Track("StartRecording");
                 //add start point
                 CurrentTrip.Points.Add(new TripPoint
                 {
@@ -246,6 +245,7 @@ namespace MyDriving.ViewModel
                 OnPropertyChanged(nameof(CurrentTrip));
                 OnPropertyChanged("Stats");
                 NeedSave = false;
+                Logger.Instance.Track("SaveRecording");
                 return true;
             }
             catch (Exception ex)
@@ -269,10 +269,7 @@ namespace MyDriving.ViewModel
 
 
             //always will have 1 point, so we can stop.
-
-
             CurrentTrip.EndTimeStamp = DateTime.UtcNow;
-
             try
             {
                 if (obdDataProcessor != null)
@@ -286,7 +283,7 @@ namespace MyDriving.ViewModel
                 Logger.Instance.Report(ex);
             }
 
-            var poiList = (List<POI>) await StoreManager.POIStore.GetItemsAsync();
+            List<POI> poiList = new List<POI>(await StoreManager.POIStore.GetItemsAsync(CurrentTrip.Id));
             CurrentTrip.HardStops = poiList.Where(p => p.POIType == POIType.HardBrake).Count();
             CurrentTrip.HardAccelerations = poiList.Where(p => p.POIType == POIType.HardAcceleration).Count();
 
@@ -303,6 +300,7 @@ namespace MyDriving.ViewModel
 
             IsRecording = false;
             NeedSave = true;
+            Logger.Instance.Track("StopRecording");
             return true;
         }
 
@@ -320,14 +318,14 @@ namespace MyDriving.ViewModel
                     await Geolocator.StopListeningAsync();
                 }
 
-                if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
+				if (Geolocator.IsGeolocationAvailable && (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS || Geolocator.IsGeolocationEnabled))
                 {
                     Geolocator.AllowsBackgroundUpdates = true;
                     Geolocator.DesiredAccuracy = 25;
 
                     Geolocator.PositionChanged += Geolocator_PositionChanged;
-                    //every second, 5 meters
-                    await Geolocator.StartListeningAsync(1000, 0);
+                    //every 3 second, 5 meters
+                    await Geolocator.StartListeningAsync(3000, 5);
                 }
                 else
                 {
@@ -385,8 +383,8 @@ namespace MyDriving.ViewModel
 
                 if (obdData.ContainsKey("el") && !string.IsNullOrWhiteSpace(obdData["el"]))
                 {
-                    double.TryParse(obdData["el"], out el);
-                    hasEngineLoad = el != -255;
+                    if(!double.TryParse(obdData["el"], out el))
+                        el = -255;
                 }
                 if (obdData.ContainsKey("stfb"))
                     double.TryParse(obdData["stfb"], out stfb);
@@ -399,8 +397,6 @@ namespace MyDriving.ViewModel
                     {
                         fuelConsumptionRate = fr;
                     }
-                    else
-                        ;
                 }
                 if (obdData.ContainsKey("tp"))
                     double.TryParse(obdData["tp"], out tp);
@@ -439,12 +435,15 @@ namespace MyDriving.ViewModel
                 point.EngineFuelRate = efr;
                 point.VIN = vin;
 
+                #if DEBUG
                 foreach (var kvp in obdData)
                     Logger.Instance.WriteLine($"{kvp.Key} {kvp.Value}");
+                #endif
 
                 point.HasOBDData = true;
             }
         }
+
 
         async void Geolocator_PositionChanged(object sender, PositionEventArgs e)
         {
@@ -453,29 +452,39 @@ namespace MyDriving.ViewModel
             {
                 var userLocation = e.Position;
 
-                var point = new TripPoint
+                TripPoint previous = null;
+                double newDistance = 0;
+                if (CurrentTrip.Points.Count > 1)
                 {
-                    TripId = CurrentTrip.Id,
-                    RecordedTimeStamp = DateTime.UtcNow,
-                    Latitude = userLocation.Latitude,
-                    Longitude = userLocation.Longitude,
-                    Sequence = CurrentTrip.Points.Count,
-                    Speed = -255,
-                    RPM = -255,
-                    ShortTermFuelBank = -255,
-                    LongTermFuelBank = -255,
-                    ThrottlePosition = -255,
-                    RelativeThrottlePosition = -255,
-                    Runtime = -255,
-                    DistanceWithMalfunctionLight = -255,
-                    EngineLoad = -255,
-                    MassFlowRate = -255,
-                    EngineFuelRate = -255,
-                    VIN = "-255"
-                };
+                    previous = CurrentTrip.Points[CurrentTrip.Points.Count - 1];
+                    newDistance = DistanceUtils.CalculateDistance(userLocation.Latitude,
+                        userLocation.Longitude, previous.Latitude, previous.Longitude);
 
-                hasEngineLoad = false;
+                    if(newDistance > 4) // if more than 4 miles then gps is off don't use
+                        return;
+                }
 
+                var point = new TripPoint
+                    {
+                        TripId = CurrentTrip.Id,
+                        RecordedTimeStamp = DateTime.UtcNow,
+                        Latitude = userLocation.Latitude,
+                        Longitude = userLocation.Longitude,
+                        Sequence = CurrentTrip.Points.Count,
+                        Speed = -255,
+                        RPM = -255,
+                        ShortTermFuelBank = -255,
+                        LongTermFuelBank = -255,
+                        ThrottlePosition = -255,
+                        RelativeThrottlePosition = -255,
+                        Runtime = -255,
+                        DistanceWithMalfunctionLight = -255,
+                        EngineLoad = -255,
+                        MassFlowRate = -255,
+                        EngineFuelRate = -255,
+                        VIN = "-255"
+                    };
+       
                 //Add OBD data
                 if(obdDataProcessor != null)
                     point.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
@@ -496,11 +505,9 @@ namespace MyDriving.ViewModel
                     Logger.Instance.Report(ex);
                 }
 
-                if (CurrentTrip.Points.Count > 1)
+                if (CurrentTrip.Points.Count > 1 && previous != null)
                 {
-                    var previous = CurrentTrip.Points[CurrentTrip.Points.Count - 2];
-                    CurrentTrip.Distance += DistanceUtils.CalculateDistance(userLocation.Latitude,
-                        userLocation.Longitude, previous.Latitude, previous.Longitude);
+                    CurrentTrip.Distance += newDistance;
                     Distance = CurrentTrip.TotalDistanceNoUnits;
 
                     //calculate gas usage
@@ -510,8 +517,8 @@ namespace MyDriving.ViewModel
                         FuelConsumption = "N/A";
                     else
                         FuelConsumption = Settings.MetricUnits
-                        ? (CurrentTrip.FuelUsed * 3.7854).ToString("N2")
-                        : CurrentTrip.FuelUsed.ToString("N2");
+                            ? (CurrentTrip.FuelUsed * 3.7854).ToString("N2")
+                            : CurrentTrip.FuelUsed.ToString("N2");
                 }
                 else
                 {
@@ -529,7 +536,7 @@ namespace MyDriving.ViewModel
                 else
                     ElapsedTime = $"{(int) timeDif.TotalHours}h {timeDif.Minutes}m {timeDif.Seconds}s";
 
-                if (hasEngineLoad)
+                if (point.EngineLoad != -255)
                     EngineLoad = $"{(int) point.EngineLoad}%";
 
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";

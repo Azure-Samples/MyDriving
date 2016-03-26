@@ -29,14 +29,7 @@ namespace MyDriving.iOS
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
             ServiceLocator.Instance.Add<ILogger, PlatformLogger>();
             ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
-
-#if !XTC
-            Xamarin.Insights.Initialize(Logger.InsightsKey);
-#endif
-            //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
-            Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
-
-
+            
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             SQLitePCL.CurrentPlatform.Init();
 
@@ -77,6 +70,9 @@ namespace MyDriving.iOS
             }
             else
             {
+                //When the first scre app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+                MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
+
                 var tabBarController = Window.RootViewController as UITabBarController;
                 tabBarController.SelectedIndex = 1;
             }

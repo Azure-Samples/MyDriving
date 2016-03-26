@@ -34,6 +34,8 @@ namespace MyDriving.Droid.Fragments
                 (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.OpenSourceNoticeUrl);
             FindPreference("url_github").PreferenceClick +=
                 (sender, args) => viewModel.OpenBrowserCommand.Execute(viewModel.SourceOnGitHubUrl);
+            FindPreference("leave_feedback").PreferenceClick +=
+                (sender, args) => HockeyApp.FeedbackManager.ShowFeedbackActivity(Activity);
         }
     }
 }

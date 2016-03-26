@@ -186,7 +186,6 @@ This script copies the MyDriving source code into a working folder, creates a ne
 	* _< Folder to the build definition file >_ is the folder that holds exported build definition (JSON) files. You should point this to the **scripts\VSTS** folder.
 	* _< local working folder >_ is the local folder where MyDriving source code will be copied to.
 
-
 ### Service Fabric cluster configuration (optional)
 Service Fabric is used as one of the possible extension processing unit hosts. In the starter kit, we provide a sample Service Fabric service that parses vehicle VIN numbers to corresponding make, model, year and type info. The following steps show how to deploy a Service Fabric cluster, and how to publish the VIN look up service using Visual Studio.
 

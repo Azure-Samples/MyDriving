@@ -46,7 +46,7 @@ namespace MyDriving.Droid.Activities
             FindViewById<Button>(Resource.Id.button_skip).Click += (sender, e) =>
             {
                 viewModel.InitFakeUser();
-                var intent = new Intent(this, typeof (MainActivity));
+                var intent = new Intent(this, typeof(MainActivity));
                 intent.AddFlags(ActivityFlags.ClearTop);
                 StartActivity(intent);
                 Finish();
@@ -64,6 +64,9 @@ namespace MyDriving.Droid.Activities
         {
             if (!viewModel.IsLoggedIn)
                 return;
+
+            //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
+            MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
 
             var intent = new Intent(this, typeof (MainActivity));
             intent.AddFlags(ActivityFlags.ClearTop);
