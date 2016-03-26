@@ -119,8 +119,6 @@ Follow these steps to deploy the starter kit using Bash:
    
    _SQL Databases_
 
-3. [TBD]
-
 ### Azure Data Factory configuration
 
 1. At the portal, select the resource group where the solution is deployed and under **Resources**, select the Data Factory resource.
