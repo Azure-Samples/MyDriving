@@ -9,6 +9,7 @@ using System.Web.Http.OData;
 using Microsoft.Azure.Mobile.Server;
 using MyDriving.DataObjects;
 using MyDrivingService.Models;
+using MyDrivingService.Helpers;
 
 namespace MyDrivingService.Controllers
 {
@@ -34,6 +35,16 @@ namespace MyDrivingService.Controllers
         public SingleResult<TripPoint> GetTripPoint(string id)
         {
             return Lookup(id);
+        }
+
+        // POST tables/TripPoint
+        [Authorize]
+        public async Task<IHttpActionResult> PostTripPoint(TripPoint tripPoint)
+        {
+ 
+            var current = await InsertAsync(tripPoint);
+
+            return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 
         // PATCH tables/TripPoint/<id>

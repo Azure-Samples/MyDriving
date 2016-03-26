@@ -42,17 +42,7 @@ namespace MyDriving.ViewModel
         public PastTripsDetailViewModel(Trip trip) : this()
         {
             Title = trip.Name;
-            //make sure the points are ordered
-            trip.Points = trip.Points.OrderBy(p => p.Sequence).ToArray();
             Trip = trip;
-            for (int i = 0; i < Trip.Points.Count; i++)
-            {
-                var point = Trip.Points[i];
-                if (point.MassFlowRate == -255)
-                {
-                    point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
-                }
-            }
         }
 
         public Trip Trip { get; set; }
@@ -132,19 +122,10 @@ namespace MyDriving.ViewModel
                 if (Trip == null)
                     Trip = await StoreManager.TripStore.GetItemAsync(id);
 
-                //pull if we don't have the trip, else order by sequence.
-                if (Trip.Points == null || Trip.Points.Count == 0)
-                {
-                    Trip.Points = new List<TripPoint>();
-                    Trip.Points = new List<TripPoint>(await StoreManager.TripPointStore.GetPointsForTripAsync(id));
-                }
-                else
-                {
-                    Trip.Points = Trip.Points.OrderBy(p => p.Sequence).ToArray();
-                }
+                Trip.Points = new List<TripPoint>(await StoreManager.TripPointStore.GetPointsForTripAsync(id));
 
 
-                if (Trip.Points != null || Trip.Points.Count > 0)
+                if (Trip.Points != null && Trip.Points.Count > 0)
                 {
                     Title = Trip.Name;
                     for (int i = 0; i < Trip.Points.Count; i++)
