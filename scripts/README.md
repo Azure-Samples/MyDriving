@@ -16,6 +16,8 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 * [An active Azure subscription](https://azure.microsoft.com) with at least 24 available cores (for on-demand HDInsight cluster)
 
 ## Use PowerShell script
+Follow these steps to deploy the starter kit using PowerShell:
+
 1. Launch **deploy.ps1** under the **scripts\PowerShell** folder:
 
 		.\deploy.ps1 <location> <resource group name>
@@ -23,26 +25,30 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 	* _< location >_ is the Azure datacenter where you want the services to be deployed, such as "WestUS".
 	* _< resource group name >_ is the name of the deployed resource group. 
 2. During deployment, the script will ask you to provide two SQL Database passwords: **sqlServerAdminPassword** and **sqlAnalyticsServerAdminPassword**. The first password is for the Mobile App back end database; the second password is for the analytic database that supports Power BI queries. 
-3. Once the service deployment is complete, the script will ask if you want to provision the Visual Studio Team Service continuous integration pipelines. If you answer 'y' (for yes), you'll be prompted to enter the following values before it copies the MyDriving source code to the specified local folder, creates a new VSTS project, checks in the source to the project, and creates all build definitions:
+3. Once the service deployment is complete, the script will ask if you want to provision the Visual Studio Team Services continuous integration pipelines. If you answer 'y' (for yes), you'll be prompted to enter the following values before it copies the MyDriving source code to the specified local folder, creates a new VSTS project, checks in the source to the project, and creates all build definitions:
 	* **your VSTS account**: The name of your VSTS account. It should have format of _https://[account name].visualstudio.com_.
 	* **your PAT**:  The personal access token (see [http://blog.devmatter.com/personal-access-tokens-vsts/](http://blog.devmatter.com/personal-access-tokens-vsts/)).
 	* **project name**: The name of the VSTS project to be created.
-	* **local working folder**: The local folder where MyDriving source code will be copied to.
+	* **local working folder**: The local folder where the MyDriving source code will be copied to.
 
 >Note: ARM deployments may fail because of transient errors. 
 
 ## Use Bash script 
 
+Follow these steps to deploy the starter kit using Bash:
+
 1. Install [Node.js](http://nodejs.org).
 1. Install the [Azure CLI](https://azure.microsoft.com/en-us/documentation/articles/xplat-cli-install/).
 1. Open a Terminal window and go to the **scripts/bash** folder.
 1. Install the required dependencies.
+
     ```
     npm install
     ```
 1. Open **/scripts/ARM/scenario_complete.params.nocomments.json** in a text editor and update the  
    **sqlServerAdminPassword** and **sqlAnalyticsServerAdminPassword** parameters. The first password is for the Mobile App back end database; the second password is for the analytic database that supports 
-   Power BI queries. Choose a suitable password for each one and save the updated file.   
+   Power BI queries. Choose a suitable password for each one and save the updated file.
+   
     ```
     "parameters": {
         "iotHubSku": { "value": { "name": "S1", "tier": "Standard", "capacity": 1 } },
@@ -53,6 +59,7 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
     }
     ```
 1. Launch the deployment script.
+
    ``` 
    sh ./deploy.sh --location <location> --name <resource group name>
    ```
@@ -75,9 +82,9 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 
 1. In the **Add a Microsoft Power BI output**, supply a work or school account for the Stream Analytics job output. If you already have a Power BI account, select **Authorize Now**. If not, choose **Sign up now**.
 
-	![Adding Power BI output](Images/adding-powerbi-output.png?raw=true "Adding Power BI output")
+	![Adding a Power BI output](Images/adding-powerbi-output.png?raw=true "Adding a Power BI output")
 
-	_Adding Power BI output_
+	_Adding a Power BI output_
 
 1. Next, set the following values:
 
@@ -95,7 +102,7 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 	- **Table Name**: TripPointData
 	- **Workspace**: You can use the default
 
-1. Start the remaining ASA jobs, **mydriving-archive** and **mydriving-vinlookup**.
+1. Start the remaining ASA jobs. Make sure that **mydriving-archive**, **mydriving-sqlpbi**, **mydriving-hourlypbi**, and **mydriving-vinlookup** are all running.
   
 ### Machine Learning configuration
 
@@ -203,6 +210,7 @@ It's recommended that you protect your Service Fabric with a certificate. We pro
     * _< full path to .pfx file >_ is the full path to the .pfx file.
 
 	For example:
+  
   ```
   .\setupCert.ps1 mytest.westus.cloudapp.azure.com P@ssword456 testVault1h testKey1h testgrp "West US" c:\src\abc.pfx
   ```
@@ -215,6 +223,7 @@ It's recommended that you protect your Service Fabric with a certificate. We pro
   ```
 4. Use the Microsoft Azure Portal to create a new Service Fabric cluster. When configuring cluster security, enter the information items in step 3.
 5. Import the certificate to the Trusted People store.
+  
   ```
   Import-PfxCertificate -Exportable -CertStoreLocation Cert:\CurrentUser\TrustedPeople -FilePath '[path to the .pfx file]' -Password $password
   ```
