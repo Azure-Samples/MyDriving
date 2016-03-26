@@ -42,17 +42,7 @@ namespace MyDriving.ViewModel
         public PastTripsDetailViewModel(Trip trip) : this()
         {
             Title = trip.Name;
-            //make sure the points are ordered
-            trip.Points = trip.Points.OrderBy(p => p.Sequence).ToArray();
             Trip = trip;
-            for (int i = 0; i < Trip.Points.Count; i++)
-            {
-                var point = Trip.Points[i];
-                if (point.MassFlowRate == -255)
-                {
-                    point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
-                }
-            }
         }
 
         public Trip Trip { get; set; }
@@ -115,62 +105,70 @@ namespace MyDriving.ViewModel
             loadTripCommand ??
             (loadTripCommand = new RelayCommand<string>(async id => await ExecuteLoadTripCommandAsync(id)));
 
-        public async Task ExecuteLoadTripCommandAsync(string id)
+        public async Task<bool> ExecuteLoadTripCommandAsync(string id)
         {
             if (IsBusy)
-                return;
+                return false;
+
+            Logger.Instance.Track("LoadPastTrip");
 
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading trip details...",
                 maskType: Acr.UserDialogs.MaskType.Clear);
 
+            bool error = false;
             try
             {
                 IsBusy = true;
+                if (Trip == null)
+                    Trip = await StoreManager.TripStore.GetItemAsync(id);
 
-                Trip = await StoreManager.TripStore.GetItemAsync(id);
+                Trip.Points = new List<TripPoint>(await StoreManager.TripPointStore.GetPointsForTripAsync(id));
 
-                Title = Trip.Name;
-                for (int i = 0; i < Trip.Points.Count; i++)
+
+                if (Trip.Points != null && Trip.Points.Count > 0)
                 {
-                    var point = Trip.Points[i];
-                    if (point.MassFlowRate == -255)
+                    Title = Trip.Name;
+                    for (int i = 0; i < Trip.Points.Count; i++)
                     {
-                        point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
-                    }
-                    if (point.Speed == -255)
-                    {
-                        point.Speed = i == 0 ? 0 : Trip.Points[i - 1].Speed;
-                    }
-                }
-
-
-                POIs.AddRange(await StoreManager.POIStore.GetItemsAsync(Trip.Id));
-
-                //TODO: This should be removed for final version
-                if (POIs.Count == 0)
-                {
-                    var centerPoint = Trip.Points[Trip.Points.Count/2];
-                    if (centerPoint != null)
-                        POIs.Add(new POI
+                        var point = Trip.Points[i];
+                        if (point.MassFlowRate == -255)
                         {
-                            Latitude = centerPoint.Latitude,
-                            Longitude = centerPoint.Longitude,
-                            POIType = POIType.HardBrake,
-                            Timestamp = centerPoint.RecordedTimeStamp,
-                            TripId = Trip.Id
-                        });
+                            point.MassFlowRate = i == 0 ? 0 : Trip.Points[i - 1].MassFlowRate;
+                        }
+                        if (point.Speed == -255)
+                        {
+                            point.Speed = i == 0 ? 0 : Trip.Points[i - 1].Speed;
+                        }
+                    }
+                    POIs.AddRange(await StoreManager.POIStore.GetItemsAsync(Trip.Id));
+
+                    Title = Trip.Name;
                 }
-                Title = Trip.Name;
+                else
+                {
+                    error = true;
+                }
+
             }
             catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
+                error = true;
             }
             finally
             {
                 progress?.Dispose();
                 IsBusy = false;
             }
+
+            if (error)
+            {
+                Acr.UserDialogs.UserDialogs.Instance.Alert(
+                          "Please check internet connection and try again.",
+                          "Unable to load Trip", "OK");
+            }
+
+            return !error;
         }
 
         public void UpdateTripInformationForPoint()

@@ -258,7 +258,7 @@ namespace MyDriving.Services
                 var result =
                     await
                         Acr.UserDialogs.UserDialogs.Instance.ConfirmAsync(
-                            "Unable to connect to OBD device.  Would you like to attempt to connect to the OBD device again?",
+                            "Unable to connect to an OBD device, please ensure one is configured.  Would you like to attempt to connect to an OBD device again?",
                             "OBD Connection", "Retry", "Use Simulator");
 
                 if (result)

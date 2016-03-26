@@ -50,13 +50,6 @@
                     android:id="@+id/text_profile_great"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textSize="16sp" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Better than 86% of drivers"
-                    android:id="@+id/text_profile_better"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
         <TextView

@@ -14,14 +14,27 @@ namespace MyDriving.DataStore.Azure.Stores
 {
     public class TripStore : BaseStore<Trip>, ITripStore
     {
-        readonly IPhotoStore photoStore;
 
+        readonly IPhotoStore photoStore;
+        readonly ITripPointStore pointStore;
         public TripStore()
         {
             photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>();
+            pointStore = ServiceLocator.Instance.Resolve<ITripPointStore>();
         }
 
         public override string Identifier => "Trip";
+
+        public override async Task<bool> InsertAsync(Trip item)
+        {
+            /*foreach (var point in item.Points)
+            {
+                await pointStore.InsertAsync(point);
+            }
+            await pointStore.SyncAsync();*/
+            return await base.InsertAsync(item);
+ 
+        }
 
         public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100,
             bool forceRefresh = false)

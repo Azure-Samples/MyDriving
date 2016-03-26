@@ -23,24 +23,23 @@ namespace MyDrivingService.Controllers
         }
 
         // GET tables/UserProfile
-        //[Authorize]
+        [Authorize]
         [QueryableExpand("Devices")]
         public async Task<IQueryable<UserProfile>> GetAllUsers()
         {
-            //TODO: remove and add authorize in future
             var id = await IdentitiyHelper.FindSidAsync(User, Request);
-            if (string.IsNullOrWhiteSpace(id))
-                return Query();
             return Query().Where(s => s.UserId == id);
         }
 
-        // GET tables/UserProfile/<id>
-        //[Authorize]
+        /*
+         //GET tables/UserProfile/<id>
+        [Authorize]
         [QueryableExpand("Devices")]
         public SingleResult<UserProfile> GetUser(string id)
         {
             return Lookup(id);
         }
+        
 
         // PATCH tables/UserProfile/<id>
         //[Authorize]
@@ -48,9 +47,10 @@ namespace MyDrivingService.Controllers
         {
             return UpdateAsync(id, patch);
         }
+        */
 
         // POST tables/UserProfile
-        //[Authorize]
+        [Authorize]
         public async Task<IHttpActionResult> PostUser(UserProfile user)
         {
             var id = await IdentitiyHelper.FindSidAsync(User, Request);
@@ -59,11 +59,13 @@ namespace MyDrivingService.Controllers
             return CreatedAtRoute("Tables", new {id = current.Id}, current);
         }
 
+        /*
         // DELETE tables/UserProfile/<id>
         //[Authorize]
         public Task DeleteUser(string id)
         {
             return DeleteAsync(id);
         }
+        */
     }
 }

@@ -14,6 +14,7 @@ using MyDriving.ViewModel;
 using Android.Gms.Maps.Model;
 using Android.Graphics.Drawables;
 using System;
+using MyDriving.DataObjects;
 
 namespace MyDriving.Droid.Activities
 {
@@ -38,7 +39,12 @@ namespace MyDriving.Droid.Activities
         {
             map = googleMap;
 
-            await viewModel.ExecuteLoadTripCommandAsync(id);
+            var success = await viewModel.ExecuteLoadTripCommandAsync(id);
+            if (!success)
+            {
+                Finish();
+                return;
+            }
 
             startTime.Text = viewModel.Trip.StartTimeDisplay;
             endTime.Text = viewModel.Trip.EndTimeDisplay;
@@ -46,7 +52,7 @@ namespace MyDriving.Droid.Activities
             SetupMap();
             UpdateStats();
         }
-
+        public static Trip Trip { get; set; }
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -58,6 +64,8 @@ namespace MyDriving.Droid.Activities
 
 
             viewModel = new PastTripsDetailViewModel {Title = id = Intent.GetStringExtra("Id")};
+
+            viewModel.Trip = Trip;
             seekBar = FindViewById<SeekBar>(Resource.Id.trip_progress);
             seekBar.Enabled = false;
 
@@ -95,6 +103,9 @@ namespace MyDriving.Droid.Activities
                 mapFrag.View.PostDelayed(SetupMap, 500);
                 return;
             }
+            if (viewModel.Trip == null || viewModel.Trip.Points == null || viewModel.Trip.Points.Count == 0)
+                return;
+
             var start = viewModel.Trip.Points[0];
             var end = viewModel.Trip.Points[viewModel.Trip.Points.Count - 1];
             seekBar.Max = viewModel.Trip.Points.Count - 1;

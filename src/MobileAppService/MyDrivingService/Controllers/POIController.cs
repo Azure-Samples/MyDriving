@@ -6,6 +6,7 @@ using System.Web.Http.Controllers;
 using Microsoft.Azure.Mobile.Server;
 using MyDriving.DataObjects;
 using MyDrivingService.Models;
+using System.Web.Http;
 
 namespace MyDrivingService.Controllers
 {
@@ -19,7 +20,8 @@ namespace MyDrivingService.Controllers
             dbContext = new MyDrivingContext();
             DomainManager = new EntityDomainManager<POI>(dbContext, Request);
         }
-
+       
+        [Authorize]
         public IQueryable<POI> GetAllPOIs(string tripId)
         {
             return Query().Where(p => p.TripId == tripId);
