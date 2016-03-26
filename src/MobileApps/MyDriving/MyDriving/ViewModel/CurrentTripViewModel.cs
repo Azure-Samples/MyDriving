@@ -283,7 +283,7 @@ namespace MyDriving.ViewModel
                 Logger.Instance.Report(ex);
             }
 
-            var poiList = (List<POI>) await StoreManager.POIStore.GetItemsAsync();
+            List<POI> poiList = new List<POI>(await StoreManager.POIStore.GetItemsAsync(CurrentTrip.Id));
             CurrentTrip.HardStops = poiList.Where(p => p.POIType == POIType.HardBrake).Count();
             CurrentTrip.HardAccelerations = poiList.Where(p => p.POIType == POIType.HardAcceleration).Count();
 
@@ -318,7 +318,7 @@ namespace MyDriving.ViewModel
                     await Geolocator.StopListeningAsync();
                 }
 
-                if (Geolocator.IsGeolocationAvailable && (Settings.Current.FirstRun || Geolocator.IsGeolocationEnabled))
+				if (Geolocator.IsGeolocationAvailable && (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS || Geolocator.IsGeolocationEnabled))
                 {
                     Geolocator.AllowsBackgroundUpdates = true;
                     Geolocator.DesiredAccuracy = 25;

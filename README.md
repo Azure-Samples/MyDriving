@@ -4,87 +4,67 @@ platforms: dotnet, ios, android, xamarin
 author: harikm86
 ---
 
-
 # MyDriving - An Azure IOT and Mobile Sample Application
 
-This repository contains the MyDriving starter kit that demonstrates the design and implementation of a typical Internet of Things (IoT) solution that gathers telemetry from devices, processes that data in the cloud, and applies machine learning to provide an adaptive response. The demonstration logs data about your car trips, using data both from your mobile phone and an OBD adaptor that collects information from your car’s control system. It uses this data to provide feedback on your driving style in comparison to other users. For more information check out the [MyDriving Page](http://aka.ms/iotsampleapp)
+This repository contains the MyDriving sample that demonstrates the design and implementation of a comprehensive Internet of Things (IoT) solution that gathers telemetry from devices, processes that data in the cloud, and applies machine learning to provide an adaptive response. The demonstration logs data about your car trips using both your mobile phone and an On-Board Diagnostics (OBD) adaptor that collects information from your vehicle's control system. The Azure backend uses this data to provide feedback on your driving style in comparison to other users.
 
 ## Quick Start and Reference Guide
 
 In addition to the readme documentation included in this repository, please see:
-
-- [Try out the MyDriving Solution](http://aka.ms/mydriving-use)
-- [Build your own MyDriving Solution](http://aka.ms/mydriving-start)
+- [MyDriving home page](http://aka.ms/iotsampleapp)
+- [Try out the MyDriving solution as a user](http://aka.ms/mydriving-use)
+- [Build and deploy your own MyDriving solution](http://aka.ms/mydriving-start)
 - [MyDriving Reference Guide: Building Integrated IoT Systems that Collect, Process, and Visualize Data](http://aka.ms/mydriving-keynote)
 
 ## Repository contents
 
 ### [scripts](./scripts)
 
-A collection of resources to enable you to deploy the starter kit Azure services to your own Azure subscription.
+A collection of resources to enable you to deploy and configure the Azure backend for MyDriving to your own Azure subscription. This includes Azure Resource Manager (ARM) templates for deploying all the necessary Azure services, Bash scripts, and Powershell scripts. 
 
-#### [scripts/ARM](./scripts/ARM)
+It also includes scripts you can import into Visual Studio Team Services to set up build definitions for the Xamarin mobile app projects and the API endpoint project that's deployed to Azure App Service.
 
-ARM templates to configure the Azure services, such as azure IoT Hub, Azure Stream Analytics, and Azure Machine Learning used by the MyDriving sample.
-
-#### [scripts/Assets](./scripts/Assets)
-
-Additional resources referenced by the ARM templates to configure the HDInsight cluster used by the MyDriving sample.
-
-#### [scripts/PowerShell](./scripts/PowerShell)
-
-PowerShell script to execute the ARM templates and perform additional setup operations such as initializing the SQL database.
-
-#### [scripts/SQLDatabase](./scripts/SQLDatabase)
-
-SQL scripts executed by the PowerShell script to initialize the SQL database created by the ARM templates.
+Refer to the [scripts readme](https://github.com/Azure-Samples/MyDriving/blob/master/scripts/README.md) for additional details.
 
 ### [src](./src)
 
-The **MyDriving.sln** is just for reference and not set up to build all the projects in one-go. This makes it easier for you to view all the source in the repository in one place. Please open individual solutions to build and deploy. More information on deploying to your own environment is given [here](http://aka.ms/mydriving-start)
+**MyDriving.sln** makes it easy to view all the source in the repository in one place, including various queries and scripts that are used in the ARM templates to configure services. **NOTE**: this solution is just for reference and will not build all the projects in one go. Open the individual solutions in their respective folders to build and deploy.
 
-#### [src/Components](./src/Components)
-
-The [calabash](.src\Components\calabash-16.2\component\DEtails.md) and [btprogresshub](.\src\Components\btprogresshud-1.20\component\Details.md) components used in the iOS MyDriving app.
+More information on deploying to your own environment is given in the [Getting Started guide](http://aka.ms/mydriving-start).
 
 #### [src/DataFactory](./src/DataFactory)
 
-Data structure definitions used by the Data Factory service. The starter kit uses the Data Factory service to create an HDInsight cluster on demand.
+Data structure definitions used by the Data Factory service. The MyDriving system uses the Data Factory service to create an HDInsight cluster on demand. For details, refer to Chapter 8 of the [MyDriving Reference Guide](http://aka.ms/mydriving-keynote).
 
 #### [src/Extensions](./src/Extensions)
 
-Extensions to the MyDriving starter kit. This includes the Vehicle Identification Number lookup service example in the MyDriving system.
+An example extension to the MyDriving system that performs a the Vehicle Identification Number (VIN) lookup in the course of processing IoT data. For details, refer to Chapter 9 of the [MyDriving Reference Guide](http://aka.ms/mydriving-keynote).
 
 #### [src/HDInsight](./src/HDInsight)
 
-Copies of the resources the ARM templates use to configure the HDInsight cluster. The **MyDriving.sln** Visual Studio 2015 solution includes these for reference.
-
-#### [src/IOTHubClientSDK](./src/IOTHubClientSDK)
-
-Customized versions of the Microsoft Azure IoT device SDK for .NET used in the MyDriving starter kit.
+Copies of the resources the ARM templates use to configure the HDInsight cluster.
 
 #### [src/MobileApps](./src/MobileApps)
 
-Visual Studio 2015 solutions and projects for the Android, iOS, and UWP mobile apps in the MyDriving starter kit.
+Visual Studio 2015 solution and project files for the Android, iOS, and UWP mobile apps for MyDriving. These are implemented with Xamarin. For details, refer to Chapter 3 of the [MyDriving Reference Guide](http://aka.ms/mydriving-keynote).
 
 #### [src/MobileAppService](./src/MobileAppService)
 
-Visual Studio 2015 project and solution for the MyDriving Azure App Service Mobile Apps service. This project defines the endpoints the mobile apps use to access the MyDriving backend services.
+Visual Studio 2015 solution and project files for the API endpoints in Azure App Service. For details, refer to Chapter 4 of the [MyDriving Reference Guide](http://aka.ms/mydriving-keynote).
 
 #### [src/OBDLibrary](./src/OBDLibrary)
 
-Visual Studio 2015 projects containing the OBD client libraries that enable the mobile apps to interface with an OBD dongle.
+Visual Studio 2015 projects containing the OBD client libraries for communicating with OBD dongles.
 
 #### [src/PowerBI](./src/PowerBI)
 
-PowerBI report definition.
+PowerBI report definition. For details on how Power BI is used in MyDriving, refer to Chapters 6 and 8 of the [MyDriving Reference Guide](http://aka.ms/mydriving-keynote).
 
 #### [src/SQLDatabase](./src/SQLDatabase)
 
-Copies of the SQL scripts executed by the PowerShell script to populate the SQL database created by the ARM templates. The **MyDriving.sln** Visual Studio 2015 solution includes these for reference.
+Copies of the SQL scripts executed by the PowerShell script to populate the SQL databases created by the ARM templates.
 
 #### [src/StreamAnalytics](./src/StreamAnalytics)
 
-Copies of Stream Analytics queries created by the ARM template. The **MyDriving.sln** Visual Studio 2015 solution includes these for reference.
-
+Copies of queries used by the ARM template to configure Stream Anaytics jobs.
 

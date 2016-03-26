@@ -40,10 +40,10 @@ namespace MyDriving.iOS
             UpdateUI();
         }
 
-        public override void ViewDidAppear(bool animated)
+        public override async void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
-            ViewModel.UpdateProfileAsync()
+            await ViewModel.UpdateProfileAsync()
                 .ContinueWith(t => { UpdateUI(); }, scheduler: TaskScheduler.FromCurrentSynchronizationContext());
         }
 
