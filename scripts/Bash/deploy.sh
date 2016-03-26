@@ -184,7 +184,7 @@ echo "* Initializing blob storage..."
 echo "**************************************************************************************************"
 # create the storage account container for raw data
 echo "Creating the '$RAW_DATA_CONTAINER_NAME' blob container..."
-azure storage container create $RAW_DATA_CONTAINER_NAME || :
+azure storage container create $RAW_DATA_CONTAINER_NAME -a $STORAGE_ACCOUNT_NAME_ANALYTICS -k $STORAGE_ACCOUNT_KEY_ANALYTICS || :
 
 # Initialize SQL databases
 echo
