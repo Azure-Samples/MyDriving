@@ -22,14 +22,15 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 
 	* _< location >_ is the Azure datacenter where you want the services to be deployed, such as "WestUS".
 	* _< resource group name >_ is the name of the deployed resource group. 
-2. During deployment, the script will ask you to provide two SQL Datbase passwords: **sqlServerAdminPassword** and **sqlAnalyticsServerAdminPassword**. The first password is for the Mobile App back end database; the second password is for the analytic database that supports Power BI queries. 
+2. During deployment, the script will ask you to provide two SQL Database passwords: **sqlServerAdminPassword** and **sqlAnalyticsServerAdminPassword**. The first password is for the Mobile App back end database; the second password is for the analytic database that supports Power BI queries. 
 3. Once the service deployment is complete, the script will ask if you want to provision the Visual Studio Team Service continuous integration pipelines. If you answer 'y' (for yes), you'll be prompted to enter the following values before it copies MyDriving source to the specified local folder, creates a new VSTS project, checks in the source to the project, and creates all build definitions:
-	* **your VSTS account**: The name of your VSTS account. It should have format of _https://[account name].visualstuio.com_.
+	* **your VSTS account**: The name of your VSTS account. It should have format of _https://[account name].visualstudio.com_.
 	* **your PAT**:  The personal access token (see [http://blog.devmatter.com/personal-access-tokens-vsts/](http://blog.devmatter.com/personal-access-tokens-vsts/)).
 	* **project name**: The name of the VSTS project to be created.
 	* **local working folder**: The local folder where MyDriving source code will be copied to.
 
 >Note: ARM deployments may fail because of transient errors. 
+
 ## Use Bash script 
 
 1. Install [Node.js](http://nodejs.org).
@@ -87,24 +88,37 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 
 1. Click the **START** button to restart the job.
 
-1. Repeat the same steps to configure the **mydriving-sqlpbi** Stream Analytics Job using the following values:
+1. Repeat the same steps to configure the **mydriving-sqlpbi** Stream Analytics job using the following values:
 
 	- **Output Alias**: PowerBiSink
 	- **Dataset Name**: MyDriving-ASAdataset
 	- **Table Name**: TripPointData
 	- **Workspace**: You can use the default
 
+1. Start the remaining ASA jobs, **mydriving-archive** and **mydriving-vinlookup**.
+  
 ### Machine Learning configuration
 
-1. Open the Machine Learning work space (named MyDriving).
+1. Open the Machine Learning workspace (named MyDriving).
 2. Modify the Reader components in both experiments to enter storage account key. The storage account is under the same resource group and should have name prefixed with "mydrivingstr".
 3. Modify the Writer components in both experiments to enter correct SQL Database connection info. You need to provide correct SQL Database server names and login credentials for both mydrivingDB database (on a server with a "mydrivingdbserver" prefix) and mydrivingAnalyticsDB (on a server with a "mydriving-dbserver" prefix). 
 3. [TBD]
 
 ### Azure Data Factory configuration
 
-1. 
-
+1. At the portal, select the resource group where the solution is deployed and under **Resources**, select the Data Factory resource.
+1. In the data factory blade, select the **Author and deploy** action.
+1. In the authoring blade, expand **Linked Services** and then select **AzureMLScoringandUpdateLinkedService**.
+1. Update the linked service definition by entering the following information from the Machine Learning experiment.
+  - **mlEndpoint**: TODO: endpoint for the Machine Learning experiment
+  - **apiKey**: TODO: api key
+  - **updateResourceEndpoint**: TODO:
+1. Click **Deploy**.
+1. Next, under **Linked Services**, select **TrainingEndpoint-AMLLinkedService**.
+1. Update the linked service definition by entering the following information:
+  - **mlEndpoint**: TODO: endpoint for the Machine Learning experiment
+  - **apiKey**: TODO: api key
+ 1. Click **Deploy**.
 
 ##### _Additional Information_
 You can use the supplied **scripts\PowerShell\scripts\copyMLExperiment.ps1** to import previously packaged ML experiments at these locations:
