@@ -41,7 +41,7 @@
     },
     "mobileAppRepositoryUrl": {
       "type": "string",
-      "defaultValue": "https://github.com/f2bo/f2botrips.git" /* TODO: REPLACE WITH mydriving APPLICATION */
+      "defaultValue": "https://github.com/f2bo/f2botrips.git" /* TODO: REPLACE WITH mydriving APPLICATION - REMEMBER TO UPDATE scenario_complete.nocomments.json AS WELL */
     }
   },
   "variables": {
@@ -57,7 +57,7 @@
     /* Event Hub settings */
     "eventHubNamespace": "[concat(variables('baseName'), '-', 'ns', '-', uniquestring(resourceGroup().id))]",
     "eventHubName": "[variables('baseName')]",
-    /* TODO: Review if we can create a SAS Key */ "eventHubKeyName": "RootManageSharedAccessKey",
+    "eventHubKeyName": "RootManageSharedAccessKey",
     /* SQL Server settings */
     "sqlServerName": "[toLower(concat(variables('baseName'), 'dbserver', '-', uniquestring(resourceGroup().id)))]",
     "sqlServerAdminLogin": "scott",
