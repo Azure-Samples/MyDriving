@@ -8,8 +8,8 @@ TEMPLATEFILE="../ARM/scenario_complete.nocomments.json"
 PREREQ_TEMPLATEFILE="../ARM/prerequisites.nocomments.json"
 PARAMETERSFILE="../ARM/scenario_complete.params.nocomments.json"
 ASSETS_DIRECTORY="../../src/HDInsight"
-$SQLSERVER_DDL_SCRIPT="../../src/SQLDatabase/MyDrivingDB.sql"
-$SQLANALYTICS_DDL_SCRIPT="../../src/SQLDatabase/MyDrivingAnalyticsDB.sql"
+SQLSERVER_DDL_SCRIPT="../../src/SQLDatabase/MyDrivingDB.sql"
+SQLANALYTICS_DDL_SCRIPT="../../src/SQLDatabase/MyDrivingAnalyticsDB.sql"
 
 # Parse parameters, use > 1 to consume two arguments per pass in the loop.
 while [[ $# > 1 ]] 
