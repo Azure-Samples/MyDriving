@@ -59,22 +59,6 @@
       "enabled": true,
       "continueOnError": false,
       "alwaysRun": false,
-      "displayName": "Download keystore",
-      "task": {
-        "id": "d9bafed4-0b18-4f58-968d-86655b4d2ce9",
-        "versionSpec": "*"
-      },
-      "inputs": {
-        "filename": "curl.exe",
-        "arguments": "-k \"https://vstsbuild20165681.blob.core.windows.net/buildassets/smarttrips.keystore?st=2016-03-01T19%3A01%3A00Z&se=2017-03-02T19%3A01%3A00Z&sp=r&sv=2015-02-21&sr=b&sig=NxDsOi83UTJ0ozJdLZ%2FojMWRXs65u93EPObvBXWncNQ%3D\" --output $(Build.SourcesDirectory)\\src\\MobileApps\\MyDriving\\MyDriving.Android\\smarttrips.keystore",
-        "workingFolder": "",
-        "failOnStandardError": "false"
-      }
-    },
-    {
-      "enabled": true,
-      "continueOnError": false,
-      "alwaysRun": false,
       "displayName": "Activate Xamarin license",
       "task": {
         "id": "6237827d-6244-4d52-b93e-47d8610fbd8a",

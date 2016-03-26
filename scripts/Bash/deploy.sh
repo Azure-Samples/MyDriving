@@ -8,6 +8,8 @@ TEMPLATEFILE="../ARM/scenario_complete.nocomments.json"
 PREREQ_TEMPLATEFILE="../ARM/prerequisites.nocomments.json"
 PARAMETERSFILE="../ARM/scenario_complete.params.nocomments.json"
 ASSETS_DIRECTORY="../../src/HDInsight"
+SQLSERVER_DDL_SCRIPT="../../src/SQLDatabase/MyDrivingDB.sql"
+SQLANALYTICS_DDL_SCRIPT="../../src/SQLDatabase/MyDrivingAnalyticsDB.sql"
 
 # Parse parameters, use > 1 to consume two arguments per pass in the loop.
 while [[ $# > 1 ]] 
@@ -45,7 +47,10 @@ fi
 
 # verify if user is logged in by querying his subscriptions.
 # if none is found assume he is not
-echo "Retrieving the Azure subscription information..."
+echo
+echo "**************************************************************************************************"
+echo "* Retrieving Azure subscription information..."
+echo "**************************************************************************************************"
 IFS=$'\n'
 SUBSCRIPTIONS=($(azure account list | awk -F $'  ' '{printf $3"\n"}'))
 unset IFS
@@ -92,11 +97,17 @@ fi
 azure config mode arm
 
 # create the resource group
-echo "Creating the resource group..."
+echo
+echo "**************************************************************************************************"
+echo "* Creating the resource group..."
+echo "**************************************************************************************************"
 azure group create --name "${RESOURCEGROUPNAME}" --location "${LOCATION}"
 
 # create the deployment with the prerequisites template
-echo "Deploying the prerequisites..."
+echo
+echo "**************************************************************************************************"
+echo "* Deploying the prerequisites..."
+echo "**************************************************************************************************"
 if ! OUTPUT0=$(azure group deployment create \
 					--name "${DEPLOYMENTNAME}-0" \
 					--resource-group "${RESOURCEGROUPNAME}" \
@@ -112,6 +123,10 @@ eval $(echo "$OUTPUT0" | awk -F ': ' \
                 $2 ~ /storageAccountKey/   {split($2, a, " "); print "export AZURE_STORAGE_ACCESS_KEY=" a[3] ";"} \
                 $2 ~ /assetsContainerName/ {split($2, a, " "); print "export ASSETS_CONTAINER_NAME="    a[3] ";"}')
 
+echo
+echo "**************************************************************************************************"
+echo "* Uploading files to blob storage..."
+echo "**************************************************************************************************"
 # uploads files in a specified directory
 uploadAssets() {
  for i in "$1"/*;do
@@ -134,14 +149,17 @@ echo "Copying the assets in '$ASSETS_DIRECTORY' to blob storage..."
 uploadAssets $ASSETS_DIRECTORY
 
 # create the deployment with the solution template
-echo "Deploying the resources in the ARM template. This operation may take several minutes..."
+echo
+echo "**************************************************************************************************"
+echo "* Deploying the resources in the ARM template. This operation may take several minutes..."
+echo "**************************************************************************************************"
 if ! OUTPUT1=$(azure group deployment create \
-					--name "${DEPLOYMENTNAME}-0" \
+					--name "${DEPLOYMENTNAME}-1" \
 					--resource-group "${RESOURCEGROUPNAME}" \
                     --template-file "${TEMPLATEFILE}" \
                     --parameters-file "${PARAMETERSFILE}" \
 				| tee /dev/tty); then
-	echo "Skipping the database initialization..."
+	echo "Skipping the storage and database initialization..."
 	echo "At least one resource could not be provisioned successfully. Review the output above to correct any errors and then run the deployment script again."
 	exit 2;
 fi
@@ -155,16 +173,30 @@ eval $(echo "$OUTPUT1" | awk -F ': ' \
                 $2 ~ /sqlAnalyticsFullyQualifiedDomainName/ {split($2, a, " "); print "export SQLANALYTICS_FULLY_QUALIFIED_DOMAIN_NAME=" a[3] ";"} \
                 $2 ~ /sqlAnalyticsServerAdminLogin/         {split($2, a, " "); print "export SQLANALYTICS_ADMIN_LOGIN="                 a[3] ";"} \
                 $2 ~ /sqlAnalyticsServerAdminPassword/      {split($2, a, " "); print "export SQLANALYTICS_ADMIN_PASSWORD="              a[3] ";"} \
-                $2 ~ /sqlAnalyticsDBName/                   {split($2, a, " "); print "export SQLANALYTICS_DATABASE_NAME="               a[3] ";"}'
+                $2 ~ /sqlAnalyticsDBName/                   {split($2, a, " "); print "export SQLANALYTICS_DATABASE_NAME="               a[3] ";"} \
+                $2 ~ /storageAccountNameAnalytics/          {split($2, a, " "); print "export STORAGE_ACCOUNT_NAME_ANALYTICS="           a[3] ";"} \
+				$2 ~ /storageAccountKeyAnalytics/           {split($2, a, " "); print "export STORAGE_ACCOUNT_KEY_ANALYTICS="            a[3] ";"} \
+				$2 ~ /rawdataContainerName/                 {split($2, a, " "); print "export RAW_DATA_CONTAINER_NAME="                  a[3] ";"}')
+
+echo
+echo "**************************************************************************************************"
+echo "* Initializing blob storage..."
+echo "**************************************************************************************************"
+# create the storage account container for raw data
+echo "Creating the '$RAW_DATA_CONTAINER_NAME' blob container..."
+azure storage container create $RAW_DATA_CONTAINER_NAME -a $STORAGE_ACCOUNT_NAME_ANALYTICS -k $STORAGE_ACCOUNT_KEY_ANALYTICS || :
 
 # Initialize SQL databases
-echo "Initializing the schema of the SQL databases..."
-
+echo
+echo "**************************************************************************************************"
+echo "* Preparing the SQL databases..."
+echo "**************************************************************************************************"
 # set up the SQL Database
-node setupDb $SQLSERVER_FULLY_QUALIFIED_DOMAIN_NAME    $SQLSERVER_ADMIN_LOGIN    $SQLSERVER_ADMIN_PASSWORD    $SQLSERVER_DATABASE_NAME    '../../src/SQLDatabase/MyDrivingDB.sql'
+node setupDb $SQLSERVER_FULLY_QUALIFIED_DOMAIN_NAME $SQLSERVER_ADMIN_LOGIN $SQLSERVER_ADMIN_PASSWORD $SQLSERVER_DATABASE_NAME $SQLSERVER_DDL_SCRIPT
 
 # set up the Analytics Database
-node setupDb $SQLANALYTICS_FULLY_QUALIFIED_DOMAIN_NAME $SQLANALYTICS_ADMIN_LOGIN $SQLANALYTICS_ADMIN_PASSWORD $SQLANALYTICS_DATABASE_NAME '../../src/SQLDatabase/MyDrivingAnalyticsDB.sql'
+node setupDb $SQLANALYTICS_FULLY_QUALIFIED_DOMAIN_NAME $SQLANALYTICS_ADMIN_LOGIN $SQLANALYTICS_ADMIN_PASSWORD $SQLANALYTICS_DATABASE_NAME $SQLANALYTICS_DDL_SCRIPT
 
+echo
 echo "The deployment is complete!"
 

@@ -49,6 +49,7 @@
     "blobStorageAnalytics": "[substring(toLower(concat(variables('baseName'), 'str', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]",
     "blobStorageHdiMetastore": "[substring(toLower(concat(variables('baseName'), 'logs', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]",
     "assetsContainerName": "mydrivinghdi",
+    "rawDataContainerName": "rawdata",
     "iotHubName": "[concat(variables('baseName'), '-', uniquestring(resourceGroup().id))]",
     "iotHubKeyName": "iothubowner",
     "eventHubNamespace": "[concat(variables('baseName'), '-', 'ns', '-', uniquestring(resourceGroup().id))]",
@@ -71,7 +72,6 @@
     "archiveJobName": "[concat(variables('baseName'), '-archive')]",
     "archiveJobQuery": "SELECT\r\n\tTripId,\r\n\tUserId,\r\n\tName,\r\n\tTripDataPoint.TripPointId as TripPointId,\r\n\tTripDataPoint.Lat as Lat,\r\n\tTripDataPoint.Lon as Lon,\r\n\tTripDataPoint.Speed as Speed,\r\n\tTripDataPoint.RecordedTimeStamp as RecordedTimeStamp,\r\n\tTripDataPoint.Sequence as Sequence,\r\n\tTripDataPoint.EngineRPM as EngineRPM,\r\n\tTripDataPoint.ShortTermFuelBank1 as ShortTermFuelBank,\r\n\tTripDataPoint.LongTermFuelBank1 as LongTermFuelBank,\r\n\tTripDataPoint.ThrottlePosition as ThrottlePosition,\r\n\tTripDataPoint.RelativeThrottlePosition as RelativeThrottlePosition,\r\n\tTripDataPoint.Runtime as Runtime,\r\n\tTripDataPoint.DistancewithMIL as DistancewithMIL,\r\n\tTripDataPoint.EngineLoad as EngineLoad,\r\n\tTripDataPoint.MAFFlowRate as MAFFlowRate,\r\n\tTripDataPoint.OutsideTemperature as OutsideTemperature,\r\n\tTripDataPoint.EngineFuelRate as EngineFuelRate,\r\n\tTripDataPoint.VIN as vin\r\nINTO\r\n\tBlobSink\r\nFROM\r\n\tCarDeviceData\r\nWHERE\r\n\tTripId is not null\r\n\tand UserId is not null\r\n\tand TripId != ''\r\n\tand UserId != ''\r\n",
     "archiveJobConsumerGroupName": "asa-blobarchive",
-    "archiveJobContainerName": "rawdata",
     "hourlypbiJobName": "[concat(variables('baseName'), '-hourlypbi')]",
     "hourlypbiJobQuery": "WITH TripPointRaw as \r\n(\r\nSELECT\r\n\tTripId,\r\n\tUserId,\r\n\tTripDataPoint.Lat as RawLat,\r\n\tTripDataPoint.Lon as RawLong,\r\n\tCAST(TripDataPoint.Speed as FLOAT) as spd,\r\n\tCAST(TripDataPoint.EngineRPM as FLOAT) as enginerpm,\r\n\tCAST(TripDataPoint.EngineLoad as FLOAT) as engineLoad,\r\n\tCAST(TripDataPoint.ShortTermFuelBank1 as FLOAT) as shortTermFuelBank,\r\n\tCAST(TripDataPoint.LongTermFuelBank1 as FLOAT) as longTermFuelBank,\r\n\tCAST(TripDataPoint.MAFFlowRate as FLOAT) as flowRate,\r\n\tCAST(TripDataPoint.ThrottlePosition as FLOAT) as throttlePos,\r\n\tCAST(TripDataPoint.Runtime as FLOAT) as runtime,\r\n\tCAST(TripDataPoint.DistanceWithMIL as FLOAT) as distanceWithMIL,\r\n\tCAST(TripDataPoint.RelativeThrottlePosition as FLOAT) as relativeThrottlePos,\r\n\tCAST(TripDataPoint.OutsideTemperature as FLOAT) as outsideTemperature,\r\n\tCAST(TripDataPoint.EngineFuelRate as FLOAT) as engineFuelRate,\r\n\tTripDataPoint.RecordedTimeStamp as actualTS,\r\n\tDATEADD(millisecond,- DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),DATEADD(second, 5 - CAST(CEILING(DATEPART(second, TripDataPoint.RecordedTimeStamp)%5) as BIGINT),TripDataPoint.RecordedTimeStamp)) as ts,\r\n\tDATEDIFF(millisecond, TripDataPoint.RecordedTimeStamp, DATEADD(millisecond,-DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),DATEADD(second, 5 - CAST(CEILING(DATEPART(second, TripDataPoint.RecordedTimeStamp)%5) as BIGINT),TripDataPoint.RecordedTimeStamp))) as tsDiff,\r\n\tTripDataPoint.VIN as vin,\r\n\tTripDataPoint.RelativeThrottlePosition as throttle\r\nFROM\r\n\tCarDeviceData TIMESTAMP by TripDataPoint.RecordedTimeStamp\r\nWHERE\r\n\tTripId is not null\r\n\tand TripId != ''\r\n\tand UserId is not null\r\n\tand UserId != ''\r\n),\r\nTripPointAgg as \r\n(\r\nSELECT \r\n\tTripId,\r\n\tUserId,\r\n\tvin,\r\n\tts,\r\n\tAVG(RawLat) as lat,\r\n\tAVG(RawLong) as lon,\r\n\tMIN(tsDiff) as lastRecTime,\r\n\tMAX(tsDiff) as firstRecTime,\r\n\tMIN(spd) as minSpeed,\r\n\tMAX(spd) as maxSpeed,\r\n\tAVG(spd) as avgSpeed,\r\n\tAVG(engineLoad) as avgEngineLoad,\r\n\tAVG(shortTermFuelBank) as avgShortTermFuelBank,\r\n\tAVG(longTermFuelBank) as avgLongTermFuelBank,\r\n\tMAX(enginerpm) as maxEngineRpm,\r\n\tAVG(flowRate) as avgFlowRate,\r\n\tAVG(throttlePos) as avgThrottlePos,\r\n\tMAX(runtime) as maxRuntime,\r\n\tMAX(distanceWithMIL) as maxDistanceWithMIL,\r\n\tAVG(relativeThrottlePos) as avgRelativeThrottlePos,\r\n\tAVG(outsideTemperature) as avgOutsideTemperature,\r\n\tAVG(engineFuelRate) as avgEngineFuelRate\r\nFROM\r\n\tTripPointRaw\r\nWHERE\r\n\tts is not null\r\nGROUP BY\r\n\tTripId,\r\n\tUserId,\r\n\tvin,\r\n\tts,\r\n\tTumblingWindow(hour,1)\t\r\n),\r\nRoughDrivingStats as \r\n(\r\nSELECT\r\n\tt1.TripId,\r\n\tt1.UserId,\r\n\tt1.lat,\r\n\tt1.lon,\r\n\tCASE\r\n\t\tWHEN t3.spd - t2.spd > 50 THEN 2\r\n\t\tWHEN t2.spd - t3.spd > 70 OR t1.maxSpeed - t1.minSpeed > 70 OR t1.maxSpeed - t1.avgSpeed > t1.avgSpeed - t1.minSpeed + 0.10*(t1.maxSpeed - t1.minSpeed) THEN 1\r\n\t\tELSE 0\r\n\tEND as POIType,\r\n\tt1.ts,\r\n\tt1.avgSpeed,\r\n\tt1.minSpeed,\r\n\tt1.maxSpeed,\r\n\tt1.avgEngineLoad,\r\n\tt1.avgShortTermFuelBank,\r\n\tt1.avgLongTermFuelBank,\r\n\tt1.maxEngineRpm,\r\n\tt1.avgFlowRate,\r\n\tt1.avgThrottlePos,\r\n\tt1.maxRuntime,\r\n\tt1.maxDistanceWithMIL,\r\n\tt1.avgRelativeThrottlePos,\r\n\tt1.avgOutsideTemperature,\r\n\tt1.avgEngineFuelRate,\r\n\tt3.spd as firstSpeed,\r\n\tt2.spd as lastSpeed\r\nFROM TripPointAgg t1\r\nJOIN TripPointRaw t2\r\nON t1.TripId = t2.TripId and \r\nt1.vin = t2.vin and \r\nt1.ts = t2.ts and\r\nt1.lastRecTime = t2.tsDiff and\r\nDATEDIFF(minute,t1,t2) BETWEEN 0 and 0\r\nJOIN TripPointRaw t3\r\nON t1.TripId = t3.TripId and \r\nt1.vin = t3.vin and \r\nt1.ts = t3.ts and\r\nt1.firstRecTime = t3.tsDiff and\r\nDATEDIFF(minute,t1,t3) BETWEEN 0 and 0\r\n)\r\n\r\nSELECT\r\n\tTripId,\r\n\tlat as Latitude,\r\n\tlon as Longitude,\r\n\tPOIType,\r\n\tts as RecordedTimeStamp\r\nINTO PowerBISink\r\nFROM RoughDrivingStats\r\nWHERE POIType > 0",
     "hourlypbiJobConsumerGroupName": "asa-pbihourly",
@@ -291,7 +291,7 @@
                       "accountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageAnalytics')), '2015-06-15').key1]"
                     }
                   ],
-                  "container": "[variables('archiveJobContainerName')]",
+                  "container": "[variables('rawDataContainerName')]",
                   "pathPattern": "tripdata/{date}",
                   "dateFormat": "yyyy/MM/dd",
                   "timeFormat": "HH"
@@ -1169,7 +1169,7 @@
             "type": "AzureBlob",
             "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
             "typeProperties": {
-              "folderPath": "rawdata/tripdata/{Year}/{Month}/{Day}",
+              "folderPath": "[concat(variables('rawDataContainerName'), '/tripdata/{Year}/{Month}/{Day}')]",
               "format": {
                 "type": "TextFormat",
                 "rowDelimiter": "\n",
@@ -1333,7 +1333,7 @@
             "type": "AzureBlob",
             "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
             "typeProperties": {
-              "folderPath": "rawdata/intermediatefolder/tempfile-2.txt",
+              "folderPath": "[concat(variables('rawDataContainerName'), '/intermediatefolder/tempfile-2.txt')]",
               "format": {
                 "type": "TextFormat",
                 "columnDelimiter": ","
@@ -1358,7 +1358,7 @@
             "type": "AzureBlob",
             "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
             "typeProperties": {
-              "folderPath": "rawdata/intermediatefolder/tempfile-3.txt",
+              "folderPath": "[concat(variables('rawDataContainerName'), '/intermediatefolder/tempfile-3.txt')]",
               "format": {
                 "type": "TextFormat",
                 "columnDelimiter": ","
@@ -1383,7 +1383,7 @@
             "type": "AzureBlob",
             "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
             "typeProperties": {
-              "folderPath": "rawdata/intermediatefolder/tempfile.txt",
+              "folderPath": "[concat(variables('rawDataContainerName'), '/intermediatefolder/tempfile.txt')]",
               "format": {
                 "type": "TextFormat",
                 "columnDelimiter": ","
@@ -1408,7 +1408,7 @@
             "type": "AzureBlob",
             "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
             "typeProperties": {
-              "folderPath": "rawdata/intermediatefolder/tempfile.txt",
+              "folderPath": "[concat(variables('rawDataContainerName'), '/intermediatefolder/tempfile.txt')]",
               "format": {
                 "type": "TextFormat",
                 "columnDelimiter": ","
@@ -2147,6 +2147,30 @@
     "sqlAnalyticsDBName": {
       "type": "string",
       "value": "[variables('sqlAnalyticsDBName')]"
+    },
+    "storageAccountNameAnalytics": {
+      "type": "string",
+      "value": "[variables('blobStorageAnalytics')]"
+    },
+    "storageAccountKeyAnalytics": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageAnalytics')), '2015-06-15').key1]"
+    },
+    "storageAccountNameHdiMetastore": {
+      "type": "string",
+      "value": "[variables('blobStorageHdiMetastore')]"
+    },
+    "storageAccountKeyHdiMetastore": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageHdiMetastore')), '2015-06-15').key1]"
+    },
+    "assetsContainerName": {
+      "type": "string",
+      "value": "[variables('assetsContainerName')]"
+    },
+    "rawdataContainerName": {
+      "type": "string",
+      "value": "[variables('rawDataContainerName')]"
     }
   }
 }
