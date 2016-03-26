@@ -242,7 +242,6 @@
     <Content Include="Assets\ic_start_point.png" />
     <Content Include="Assets\Login\Microsoft.png" />
     <Content Include="Assets\Login\twitter.png" />
-    <Content Include="Assets\logo%403x.png" />
     <Content Include="Assets\Logos\512x512.png" />
     <Content Include="Assets\Logos\Logo150x150.png" />
     <Content Include="Assets\Logos\Logo24x24.png" />
@@ -251,7 +250,6 @@
     <Content Include="Assets\Logos\SplashScreen.png" />
     <Content Include="Assets\POI.png" />
     <Content Include="Assets\RedCar.png" />
-    <Content Include="Assets\Smarttriplogo.png" />
     <Content Include="Assets\SplitView\default_Current.png" />
     <Content Include="Assets\SplitView\default_logout.png" />
     <Content Include="Assets\SplitView\default_pastTrips.png" />
