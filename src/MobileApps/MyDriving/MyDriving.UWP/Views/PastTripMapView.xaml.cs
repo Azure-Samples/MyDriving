@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 using MyDriving.DataObjects;
 using MyDriving.ViewModel;
+using MyDriving.Utils;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -35,6 +36,11 @@ namespace MyDriving.UWP.Views
             viewModel = new PastTripsDetailViewModel();
             Locations = new List<BasicGeoposition>();
             DataContext = this;
+
+            if (Logger.BingMapsAPIKey != "____BingMapsAPIKey____")
+            {
+                MyMap.MapServiceToken = Logger.BingMapsAPIKey;
+            }
         }
 
         public IList<BasicGeoposition> Locations { get; set; }

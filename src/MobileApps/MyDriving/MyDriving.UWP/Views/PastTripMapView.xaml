@@ -44,7 +44,6 @@
         <Grid >
         <maps:MapControl
            x:Name="MyMap" 
-            MapServiceToken="JCV6QKnfQrP6Be6UuefM~6L1fUqScbKx0MP5UBI4pRw~AjMaYd80GWWDlLjZ06u2r3SHjFKy74e3P6ggHUKk1HFJsGpH19At3an_CG98AgNc"
             ZoomInteractionMode="GestureAndControl"
             Canvas.ZIndex="0"
             LandmarksVisible="True"

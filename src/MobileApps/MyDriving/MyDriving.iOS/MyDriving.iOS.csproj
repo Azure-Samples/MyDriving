@@ -246,7 +246,7 @@
       <HintPath>..\..\..\Components\btprogresshud-1.20\lib\ios-unified\BTProgressHUD.dll</HintPath>
     </Reference>
     <Reference Include="HockeySDK">
-      <HintPath>..\..\packages\HockeySDK.Xamarin.4.1.0-alpha1\lib\Xamarin.iOS10\HockeySDK.dll</HintPath>
+      <HintPath>..\..\packages\HockeySDK.Xamarin.4.1.0-alpha2\lib\Xamarin.iOS10\HockeySDK.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
