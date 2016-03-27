@@ -12,6 +12,7 @@ namespace MyDriving.ViewModel
     {
         static IStoreManager _storeManager;
 
+      
         public Settings Settings => Settings.Current;
 
         public static IStoreManager StoreManager

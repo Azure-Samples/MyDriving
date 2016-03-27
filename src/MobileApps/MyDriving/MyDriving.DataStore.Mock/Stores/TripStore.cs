@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
+using MyDriving.Utils;
 
 namespace MyDriving.DataStore.Mock.Stores
 {
@@ -101,7 +102,6 @@ namespace MyDriving.DataStore.Mock.Stores
             trip1.Name = trip1.UserId + " - Redmond";
             trip1.Distance = 34;
             trip1.Photos = new List<Photo>();
-            trip1.MainPhotoUrl = "http://cplinc.com/wp-content/uploads/2014/02/MS-1.jpg";
             var startTime = DateTime.UtcNow;
             trip1.RecordedTimeStamp = startTime;
             trip1.EndTimeStamp = startTime;
@@ -191,7 +191,6 @@ namespace MyDriving.DataStore.Mock.Stores
                         Assembly.Load(new AssemblyName("MyDriving.DataStore.Mock")), "sampletrip.json");
                 trip6 = JsonConvert.DeserializeObject<Trip>(json);
                 trip6.Photos = new List<Photo>();
-                trip6.MainPhotoUrl = "http://www.livingwilderness.com/seattle/space-needle-fog.jpg";
                 foreach (var pt in trip6.Points)
                 {
                     pt.EngineLoad = _random.Next(25, 75);
@@ -219,9 +218,12 @@ namespace MyDriving.DataStore.Mock.Stores
             foreach (var item in items)
             {
                 item.Rating = _random.Next(30, 100);
-                var point = item.Points.ElementAt(item.Points.Count/2);
-                item.MainPhotoUrl =
-                    $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{point.Latitude.ToString(CultureInfo.InvariantCulture)},{point.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key=J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
+                var point = item.Points.ElementAt(item.Points.Count / 2);
+                if (Logger.BingMapsAPIKey != "____BingMapsAPIKey____")
+                {
+                    item.MainPhotoUrl =
+                        $"http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/{point.Latitude.ToString(CultureInfo.InvariantCulture)},{point.Longitude.ToString(CultureInfo.InvariantCulture)}/15?mapSize=500,220&key={Logger.BingMapsAPIKey}";
+                }
             }
 
             return items;

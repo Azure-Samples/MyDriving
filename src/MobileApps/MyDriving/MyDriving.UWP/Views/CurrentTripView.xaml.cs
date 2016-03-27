@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MyDriving.ViewModel;
+using MyDriving.Utils;
 
 namespace MyDriving.UWP.Views
 {
@@ -37,6 +38,12 @@ namespace MyDriving.UWP.Views
             InitializeComponent();
             ViewModel = new CurrentTripViewModel();
             Locations = new List<BasicGeoposition>();
+
+            if (Logger.BingMapsAPIKey != "____BingMapsAPIKey____")
+            {
+                MyMap.MapServiceToken = Logger.BingMapsAPIKey;
+            }
+
             MyMap.Loaded += MyMap_Loaded;
             DataContext = this;
             recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
