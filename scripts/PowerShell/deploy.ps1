@@ -128,7 +128,7 @@ $deployment2 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-1" `
 if ($deployment2 -and $deployment2.ProvisioningState -ne "Succeeded") {
 	Write-Warning "Skipping the storage and database initialization..."
 	Write-Error "At least one resource could not be provisioned successfully. Review the output above to correct any errors and then run the deployment script again."
-	exit 2;
+	exit 2
 }
 
 # Configure blob storage
@@ -136,19 +136,11 @@ Write-Output ""
 Write-Output "**************************************************************************************************"
 Write-Output "* Initializing blob storage..."
 Write-Output "**************************************************************************************************"
-$containerName = $deployment2.Outputs.rawdataContainerName.Value
-Write-Output "Creating the '$containerName' blob container..."
-try {
-	$ctx = New-AzureStorageContext $deployment2.Outputs.storageAccountNameAnalytics.Value -StorageAccountKey $deployment2.Outputs.storageAccountKeyAnalytics.Value
-	New-AzureStorageContainer -Name $containerName -Permission Off -Context $ctx -ErrorAction Stop
-}
-catch {
-    if ($Error[0].CategoryInfo.Category -ne "ResourceExists") {
-        throw
-    }
-
-    Write-Warning "Blob container already exists..."
-}
+$storageAccountName = $deployment2.Outputs.storageAccountNameAnalytics.Value
+$storageAccountKey = $deployment2.Outputs.storageAccountKeyAnalytics.Value
+. .\scripts\setupStorage.ps1 -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey -ContainerName $deployment2.Outputs.rawdataContainerName.Value
+. .\scripts\setupStorage.ps1 -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey -ContainerName $deployment2.Outputs.tripdataContainerName.Value
+. .\scripts\setupStorage.ps1 -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey -ContainerName $deployment2.Outputs.referenceContainerName.Value
 
 # Initialize SQL databases
 Write-Output ""

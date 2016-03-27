@@ -34,7 +34,7 @@ EngineLoad double,
 EngineRPM double,
 DistanceWithMIL double,
 Runtime int
-) LOCATION 'wasb://tripdata@mydrivingstr.blob.core.windows.net/tables/onesecagg';
+) LOCATION 'wasb://tripdata@${hiveconf:DataStorageAccount}.blob.core.windows.net/tables/onesecagg';
 
 INSERT INTO TABLE tripDataInt 
 SELECT TripId,
