@@ -12,13 +12,21 @@
     "baseName": "mydriving",
     /* Storage settings*/
     "storageAccountName": "[substring(toLower(concat(variables('baseName'), 'logs', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]", /* uniquestring is always 13 characters long, need to limit storage account names to 24 (max length for a storage account name) */
-    "assetsContainerName": "mydrivinghdi" /* if you change this value, remember to also update the same variable in prerequisites.json */
+    "assetsContainerName": "mydrivinghdi" /* if you change this value, remember to also update the same variable in prerequisites.json */,
+    "mlStorageAccountName": "[substring(toLower(concat('ml', variables('baseName'), 'logs', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]" /* uniquestring is always 13 characters long, need to limit storage account names to 24 (max length for a storage account name) */
   },
   "resources": [
     /* Create Storage Account */
     {
       "apiVersion": "2015-06-15",
       "name": "[variables('storageAccountName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "properties": { "accountType": "[parameters('storageAccountType')]" }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[variables('mlStorageAccountName')]",
       "type": "Microsoft.Storage/storageAccounts",
       "location": "[resourceGroup().location]",
       "properties": { "accountType": "[parameters('storageAccountType')]" }
@@ -32,6 +40,14 @@
     "storageAccountKey": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-06-15').key1]"
+    },
+    "mlStorageAccountName": {
+      "type": "string",
+      "value": "[variables('mlStorageAccountName')]"
+    },
+    "mlStorageAccountKey": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('mlStorageAccountName')), '2015-06-15').key1]"
     },
     "assetsContainerName": {
       "type": "string",

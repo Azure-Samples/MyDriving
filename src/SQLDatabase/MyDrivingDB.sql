@@ -1,6 +1,4 @@
-/****** Cannot script Unresolved Entities : Server[@Name='mydrivingdbserver']/Database[@Name='mydrivingDB']/UnresolvedEntity[@Name='INSERTED'] ******/
-GO
-/****** Object:  Table [dbo].[Devices]    Script Date: 3/22/2016 7:49:21 PM ******/
+/****** Object:  Table [dbo].[Devices]    Script Date: 3/24/2016 7:53:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -22,14 +20,14 @@ CREATE TABLE [dbo].[Devices](
 )
 END
 GO
-/****** Object:  Index [IX_CreatedAt]    Script Date: 3/22/2016 7:49:26 PM ******/
+/****** Object:  Index [IX_CreatedAt]    Script Date: 3/24/2016 7:53:08 PM ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Devices]') AND name = N'IX_CreatedAt')
 CREATE CLUSTERED INDEX [IX_CreatedAt] ON [dbo].[Devices]
 (
 	[CreatedAt] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 GO
-/****** Object:  Table [dbo].[factMLOutputData]    Script Date: 3/22/2016 7:49:26 PM ******/
+/****** Object:  Table [dbo].[factMLOutputData]    Script Date: 3/24/2016 7:53:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -49,7 +47,7 @@ PRIMARY KEY CLUSTERED
 )
 END
 GO
-/****** Object:  Table [dbo].[IOTHubDatas]    Script Date: 3/22/2016 7:49:26 PM ******/
+/****** Object:  Table [dbo].[IOTHubDatas]    Script Date: 3/24/2016 7:53:09 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -69,14 +67,14 @@ CREATE TABLE [dbo].[IOTHubDatas](
 )
 END
 GO
-/****** Object:  Index [IX_CreatedAt]    Script Date: 3/22/2016 7:49:27 PM ******/
+/****** Object:  Index [IX_CreatedAt]    Script Date: 3/24/2016 7:53:09 PM ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[IOTHubDatas]') AND name = N'IX_CreatedAt')
 CREATE CLUSTERED INDEX [IX_CreatedAt] ON [dbo].[IOTHubDatas]
 (
 	[CreatedAt] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 GO
-/****** Object:  Table [dbo].[POIs]    Script Date: 3/22/2016 7:49:27 PM ******/
+/****** Object:  Table [dbo].[POIs]    Script Date: 3/24/2016 7:53:09 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -89,6 +87,7 @@ CREATE TABLE [dbo].[POIs](
 	[Latitude] [float] NOT NULL,
 	[Longitude] [float] NOT NULL,
 	[POIType] [int] NOT NULL,
+	[RecordedTimeStamp] [nvarchar](50) NULL,
 	[Version] [timestamp] NOT NULL,
 	[CreatedAt] [datetimeoffset](7) NOT NULL,
 	[UpdatedAt] [datetimeoffset](7) NULL,
@@ -101,14 +100,7 @@ CREATE TABLE [dbo].[POIs](
 )
 END
 GO
-/****** Object:  Index [IX_CreatedAt]    Script Date: 3/22/2016 7:49:28 PM ******/
-IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[POIs]') AND name = N'IX_CreatedAt')
-CREATE CLUSTERED INDEX [IX_CreatedAt] ON [dbo].[POIs]
-(
-	[CreatedAt] ASC
-)WITH (STATISTICS_NORECOMPUTE = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
-GO
-/****** Object:  Table [dbo].[TripPoints]    Script Date: 3/22/2016 7:49:28 PM ******/
+/****** Object:  Table [dbo].[TripPoints]    Script Date: 3/24/2016 7:53:10 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -147,14 +139,14 @@ CREATE TABLE [dbo].[TripPoints](
 )
 END
 GO
-/****** Object:  Index [IX_CreatedAt]    Script Date: 3/22/2016 7:49:30 PM ******/
+/****** Object:  Index [IX_CreatedAt]    Script Date: 3/24/2016 7:53:13 PM ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TripPoints]') AND name = N'IX_CreatedAt')
 CREATE CLUSTERED INDEX [IX_CreatedAt] ON [dbo].[TripPoints]
 (
 	[CreatedAt] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 GO
-/****** Object:  Table [dbo].[Trips]    Script Date: 3/22/2016 7:49:30 PM ******/
+/****** Object:  Table [dbo].[Trips]    Script Date: 3/24/2016 7:53:13 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -187,14 +179,14 @@ CREATE TABLE [dbo].[Trips](
 )
 END
 GO
-/****** Object:  Index [IX_CreatedAt]    Script Date: 3/22/2016 7:49:32 PM ******/
+/****** Object:  Index [IX_CreatedAt]    Script Date: 3/24/2016 7:53:15 PM ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Trips]') AND name = N'IX_CreatedAt')
 CREATE CLUSTERED INDEX [IX_CreatedAt] ON [dbo].[Trips]
 (
 	[CreatedAt] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, DROP_EXISTING = OFF, ONLINE = OFF)
 GO
-/****** Object:  Table [dbo].[UserProfiles]    Script Date: 3/22/2016 7:49:32 PM ******/
+/****** Object:  Table [dbo].[UserProfiles]    Script Date: 3/24/2016 7:53:15 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -227,7 +219,7 @@ CREATE TABLE [dbo].[UserProfiles](
 )
 END
 GO
-/****** Object:  Index [IX_CreatedAt]    Script Date: 3/22/2016 7:49:34 PM ******/
+/****** Object:  Index [IX_CreatedAt]    Script Date: 3/24/2016 7:53:17 PM ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[UserProfiles]') AND name = N'IX_CreatedAt')
 CREATE CLUSTERED INDEX [IX_CreatedAt] ON [dbo].[UserProfiles]
 (
@@ -237,7 +229,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_UserProfile_Id]    Script Date: 3/22/2016 7:49:34 PM ******/
+/****** Object:  Index [IX_UserProfile_Id]    Script Date: 3/24/2016 7:53:17 PM ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Devices]') AND name = N'IX_UserProfile_Id')
 CREATE NONCLUSTERED INDEX [IX_UserProfile_Id] ON [dbo].[Devices]
 (
@@ -247,7 +239,7 @@ GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_TripId]    Script Date: 3/22/2016 7:49:34 PM ******/
+/****** Object:  Index [IX_TripId]    Script Date: 3/24/2016 7:53:17 PM ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TripPoints]') AND name = N'IX_TripId')
 CREATE NONCLUSTERED INDEX [IX_TripId] ON [dbo].[TripPoints]
 (
@@ -359,7 +351,7 @@ GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_dbo.TripPoints_dbo.Trips_TripId]') AND parent_object_id = OBJECT_ID(N'[dbo].[TripPoints]'))
 ALTER TABLE [dbo].[TripPoints] CHECK CONSTRAINT [FK_dbo.TripPoints_dbo.Trips_TripId]
 GO
-/****** Object:  Trigger [dbo].[TR_dbo_Devices_InsertUpdateDelete]    Script Date: 3/22/2016 7:49:34 PM ******/
+/****** Object:  Trigger [dbo].[TR_dbo_Devices_InsertUpdateDelete]    Script Date: 3/24/2016 7:53:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -369,7 +361,7 @@ EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[TR_dbo_Devices_Inser
 GO
 ALTER TABLE [dbo].[Devices] ENABLE TRIGGER [TR_dbo_Devices_InsertUpdateDelete]
 GO
-/****** Object:  Trigger [dbo].[UpdateRatings]    Script Date: 3/22/2016 7:49:34 PM ******/
+/****** Object:  Trigger [dbo].[UpdateRatings]    Script Date: 3/24/2016 7:53:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -378,14 +370,34 @@ IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[U
 EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[UpdateRatings] ON [dbo].[factMLOutputData]
 FOR INSERT
 AS
+        -- Do it for all rows (maybe bulk insert) inserted
+        DECLARE crs CURSOR FOR
+                SELECT userId FROM inserted
+        
+        DECLARE @UId varchar(100)
+        
+        OPEN crs
+        FETCH NEXT FROM crs INTO @UId
+        WHILE @@FETCH_STATUS = 0
+        BEGIN
 
-WITH all_scores AS (SELECT userId, COUNT(driverType) as a_s FROM dbo.factMLOutputData GROUP BY userId), good_scores AS (SELECT userId, COUNT(driverType) as g_s FROM dbo.factMLOutputData WHERE driverType = ''Good'' GROUP BY userId), ratings AS (SELECT all_scores.userId as ui, CAST( (100 * g_s)/a_s AS INT) as r FROM all_scores, good_scores WHERE all_scores.userId = good_scores.userId)
-
-UPDATE UserProfiles SET UserProfiles.Rating = ratings.r FROM ratings WHERE UserProfiles.UserId = ratings.ui' 
+				WITH all_scores AS (
+						SELECT userId, COUNT(driverType) as a_s FROM dbo.factMLOutputData GROUP BY userId), 
+					good_scores AS (
+						SELECT userId, COUNT(driverType) as g_s FROM dbo.factMLOutputData WHERE driverType = ''Good'' GROUP BY userId), 
+					ratings AS (
+						SELECT all_scores.userId as ui, CAST( (100 * g_s)/a_s AS INT) as r FROM all_scores, good_scores WHERE all_scores.userId = good_scores.userId)
+				
+				UPDATE UserProfiles SET UserProfiles.Rating = ratings.r FROM ratings WHERE UserProfiles.UserId = ratings.ui AND UserProfiles.UserId = @UId;
+        
+               FETCH NEXT FROM crs INTO @UId
+        END
+        CLOSE crs
+        DEALLOCATE crs' 
 GO
 ALTER TABLE [dbo].[factMLOutputData] ENABLE TRIGGER [UpdateRatings]
 GO
-/****** Object:  Trigger [dbo].[TR_dbo_IOTHubDatas_InsertUpdateDelete]    Script Date: 3/22/2016 7:49:34 PM ******/
+/****** Object:  Trigger [dbo].[TR_dbo_IOTHubDatas_InsertUpdateDelete]    Script Date: 3/24/2016 7:53:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -395,17 +407,59 @@ EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[TR_dbo_IOTHubDatas_I
 GO
 ALTER TABLE [dbo].[IOTHubDatas] ENABLE TRIGGER [TR_dbo_IOTHubDatas_InsertUpdateDelete]
 GO
-/****** Object:  Trigger [dbo].[TR_dbo_POIs_InsertUpdateDelete]    Script Date: 3/22/2016 7:49:34 PM ******/
+/****** Object:  Trigger [dbo].[UpdateUserProfilesOnInsert]    Script Date: 3/24/2016 7:53:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[TR_dbo_POIs_InsertUpdateDelete]'))
-EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[TR_dbo_POIs_InsertUpdateDelete] ON [dbo].[POIs] AFTER INSERT, UPDATE, DELETE AS BEGIN UPDATE [dbo].[POIs] SET [dbo].[POIs].[UpdatedAt] = CONVERT(DATETIMEOFFSET, SYSUTCDATETIME()) FROM INSERTED WHERE inserted.[Id] = [dbo].[POIs].[Id] END' 
+IF NOT EXISTS (SELECT * FROM sys.triggers WHERE object_id = OBJECT_ID(N'[dbo].[UpdateUserProfilesOnInsert]'))
+EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[UpdateUserProfilesOnInsert] ON [dbo].[POIs]
+FOR INSERT
+AS
+        -- Do it for all rows (maybe bulk insert) inserted
+        DECLARE crs CURSOR FOR
+                SELECT TripId FROM inserted
+        
+        DECLARE @TId nvarchar(100)
+        
+        OPEN crs
+        FETCH NEXT FROM crs INTO @TId
+        WHILE @@FETCH_STATUS = 0
+        BEGIN
+
+               -- Update Hard Breaks      
+               WITH ascnt1 AS (
+                       SELECT p.TripId, up.UserId, p.POIType FROM dbo.POIs p
+                       INNER JOIN dbo.Trips t ON p.TripId = t.Id
+                       INNER JOIN dbo.UserProfiles up ON up.UserId = t.UserId
+               ), 
+               ref1 AS (
+                       SELECT TripId, UserId, COUNT(POIType) as acnt FROM ascnt1 WHERE POIType = 1 GROUP BY TripId, UserId
+               )       
+               UPDATE dbo.UserProfiles SET dbo.UserProfiles.HardAccelerations = ref1.acnt FROM ref1
+               WHERE ref1.TripId = @TId AND dbo.UserProfiles.UserId = ref1.UserId;
+        
+               -- Update Accelerations
+               WITH ascnt2 AS (
+                       SELECT p.TripId, up.UserId, p.POIType FROM dbo.POIs p
+                       INNER JOIN dbo.Trips t ON p.TripId = t.Id
+                       INNER JOIN dbo.UserProfiles up ON up.UserId = t.UserId
+               ), 
+               ref2 AS (
+                       SELECT TripId, UserId, COUNT(POIType) as acnt FROM ascnt2 WHERE POIType = 2 GROUP BY TripId, UserId
+               )       
+               UPDATE dbo.UserProfiles SET dbo.UserProfiles.HardStops = ref2.acnt FROM ref2
+               WHERE ref2.TripId = @TId AND dbo.UserProfiles.UserId = ref2.UserId;
+        
+        
+               FETCH NEXT FROM crs INTO @TId
+        END
+        CLOSE crs
+        DEALLOCATE crs' 
 GO
-ALTER TABLE [dbo].[POIs] ENABLE TRIGGER [TR_dbo_POIs_InsertUpdateDelete]
+ALTER TABLE [dbo].[POIs] ENABLE TRIGGER [UpdateUserProfilesOnInsert]
 GO
-/****** Object:  Trigger [dbo].[TR_dbo_TripPoints_InsertUpdateDelete]    Script Date: 3/22/2016 7:49:34 PM ******/
+/****** Object:  Trigger [dbo].[TR_dbo_TripPoints_InsertUpdateDelete]    Script Date: 3/24/2016 7:53:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -415,7 +469,7 @@ EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[TR_dbo_TripPoints_In
 GO
 ALTER TABLE [dbo].[TripPoints] ENABLE TRIGGER [TR_dbo_TripPoints_InsertUpdateDelete]
 GO
-/****** Object:  Trigger [dbo].[TR_dbo_Trips_InsertUpdateDelete]    Script Date: 3/22/2016 7:49:34 PM ******/
+/****** Object:  Trigger [dbo].[TR_dbo_Trips_InsertUpdateDelete]    Script Date: 3/24/2016 7:53:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -425,7 +479,7 @@ EXEC dbo.sp_executesql @statement = N'CREATE TRIGGER [dbo].[TR_dbo_Trips_InsertU
 GO
 ALTER TABLE [dbo].[Trips] ENABLE TRIGGER [TR_dbo_Trips_InsertUpdateDelete]
 GO
-/****** Object:  Trigger [dbo].[TR_dbo_UserProfiles_InsertUpdateDelete]    Script Date: 3/22/2016 7:49:34 PM ******/
+/****** Object:  Trigger [dbo].[TR_dbo_UserProfiles_InsertUpdateDelete]    Script Date: 3/24/2016 7:53:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

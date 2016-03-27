@@ -35,7 +35,7 @@ namespace MyDrivingService.Controllers
         [Authorize]
         public async Task<IHttpActionResult> Post(string userId, string deviceName)
         {
-            Device device;
+            Device device = null;
             EnsureRegistryManagerInitialized();
             MobileAppSettingsDictionary settings = Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
 
@@ -59,17 +59,39 @@ namespace MyDrivingService.Controllers
                 return BadRequest("You already have more than the maximum number of devices");
             }
 
+
             try
-            {
-                device = await registryManager.AddDeviceAsync(new Device(deviceName));
-                curUser.Devices.Add(new MyDriving.DataObjects.Device {Name = deviceName});
-                await context.SaveChangesAsync();
-            }
-            catch (DeviceAlreadyExistsException)
             {
                 device = await registryManager.GetDeviceAsync(deviceName);
             }
-            return Created("api/provision", device.Authentication.SymmetricKey.PrimaryKey);
+            catch (Exception)
+            {
+
+            }
+
+            if (device == null)  //device not found 
+            {
+                try
+                {
+                    device = await registryManager.AddDeviceAsync(new Device(deviceName));
+
+                    if (device != null)
+                    {
+                        curUser.Devices.Add(new MyDriving.DataObjects.Device { Name = deviceName });
+                        await context.SaveChangesAsync();
+                    }
+                    else  //registration failed
+                    {
+                        return BadRequest("Error. Cannot register device");
+                    }
+                }
+                catch (Exception e)
+                {
+                    return BadRequest("Device provisioning failed on server with exception " + e.Message);
+                }
+            }
+
+            return Created("api/provision", device?.Authentication?.SymmetricKey?.PrimaryKey);
         }
 
         private void EnsureRegistryManagerInitialized()

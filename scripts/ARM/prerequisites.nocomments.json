@@ -11,12 +11,20 @@
   "variables": {
     "baseName": "mydriving",
     "storageAccountName": "[substring(toLower(concat(variables('baseName'), 'logs', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]",
-    "assetsContainerName": "mydrivinghdi"
+    "assetsContainerName": "mydrivinghdi",
+    "mlStorageAccountName": "[substring(toLower(concat('ml', variables('baseName'), 'logs', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]"
   },
   "resources": [
     {
       "apiVersion": "2015-06-15",
       "name": "[variables('storageAccountName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "properties": { "accountType": "[parameters('storageAccountType')]" }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[variables('mlStorageAccountName')]",
       "type": "Microsoft.Storage/storageAccounts",
       "location": "[resourceGroup().location]",
       "properties": { "accountType": "[parameters('storageAccountType')]" }
@@ -30,6 +38,14 @@
     "storageAccountKey": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-06-15').key1]"
+    },
+    "mlStorageAccountName": {
+      "type": "string",
+      "value": "[variables('mlStorageAccountName')]"
+    },
+    "mlStorageAccountKey": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('mlStorageAccountName')), '2015-06-15').key1]"
     },
     "assetsContainerName": {
       "type": "string",

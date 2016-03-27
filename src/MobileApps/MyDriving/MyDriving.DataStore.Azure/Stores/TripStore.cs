@@ -14,14 +14,27 @@ namespace MyDriving.DataStore.Azure.Stores
 {
     public class TripStore : BaseStore<Trip>, ITripStore
     {
-        readonly IPhotoStore photoStore;
 
+        readonly IPhotoStore photoStore;
+        readonly ITripPointStore pointStore;
         public TripStore()
         {
             photoStore = ServiceLocator.Instance.Resolve<IPhotoStore>();
+            pointStore = ServiceLocator.Instance.Resolve<ITripPointStore>();
         }
 
         public override string Identifier => "Trip";
+
+        public override async Task<bool> InsertAsync(Trip item)
+        {
+            /*foreach (var point in item.Points)
+            {
+                await pointStore.InsertAsync(point);
+            }
+            await pointStore.SyncAsync();*/
+            return await base.InsertAsync(item);
+ 
+        }
 
         public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100,
             bool forceRefresh = false)
@@ -72,7 +85,14 @@ namespace MyDriving.DataStore.Azure.Stores
                 await InitializeStoreAsync().ConfigureAwait(false);
 
                 var t = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client?.GetSyncTable<TripPoint>();
-                foreach (var point in item.Points)
+
+                var points = item.Points;
+                if (points == null || points.Count == 0)
+                {
+                    points = new List<TripPoint>(await pointStore.GetPointsForTripAsync(item.Id));
+                }
+
+                foreach (var point in points)
                 {
                     await t.DeleteAsync(point).ConfigureAwait(false);
                 }
