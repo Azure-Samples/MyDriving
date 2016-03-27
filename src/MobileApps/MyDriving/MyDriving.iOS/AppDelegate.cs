@@ -52,6 +52,11 @@ namespace MyDriving.iOS
 
             if (!Settings.Current.IsLoggedIn)
             {
+#if XTC
+		var viewController = UIStoryboard.FromName("Main", null)
+		                                 .InstantiateViewController("loginViewController");
+		Window.RootViewController = viewController;
+#else
 				if (Settings.Current.FirstRun)
 				{
 					var viewController = UIStoryboard.FromName("Main", null)
@@ -67,6 +72,7 @@ namespace MyDriving.iOS
 					                                 .InstantiateViewController("loginViewController");
 					Window.RootViewController = viewController;
 				}
+#endif
             }
             else
             {
