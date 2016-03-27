@@ -195,14 +195,4 @@ function ExportExperiment([string]$subscriptionId, [string]$workspaceName, [stri
 }
 
 #ExportExperiment "[subscription id]" "[workspace name]" "MyDriving [Predictive Exp.]" "[ML key]"
-#ImportExperiment
-Authenticate
-$workspace = FindWorkspace "460a70be-ca5e-429e-8f8c-485b679a8708" "MyDriving"
-$details = GetWorkspace "460a70be-ca5e-429e-8f8c-485b679a8708" $workspace.Id
-
-$token = $details.AuthorizationToken[0].PrimaryToken
-
-#$exp1 = FindExperiment $token $workspace.Id "MyDriving"
-
-#$exp1Details = GetExperiment $token $workspace.Id $exp1.ExperimentId
-write-host $details.MachineLearningWebServices
+ImportExperiment
