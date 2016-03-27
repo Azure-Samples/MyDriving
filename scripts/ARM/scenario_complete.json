@@ -51,6 +51,8 @@
     "blobStorageHdiMetastore": "[substring(toLower(concat(variables('baseName'), 'logs', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]",
     "assetsContainerName": "mydrivinghdi", /* if you change this value, remember to also update the same variable in prerequisites.json */
     "rawDataContainerName": "rawdata",
+    "tripdataContainerName": "tripdata",
+    "referenceContainerName": "reference",
     /* IoT Hub settings */
     "iotHubName": "[concat(variables('baseName'), '-', uniquestring(resourceGroup().id))]",
     "iotHubKeyName": "iothubowner",
@@ -2241,6 +2243,14 @@
     "rawdataContainerName": {
       "type": "string",
       "value": "[variables('rawDataContainerName')]"
+    },
+    "tripdataContainerName": {
+      "type": "string",
+      "value": "[variables('tripdataContainerName')]"
+    },
+    "referenceContainerName": {
+      "type": "string",
+      "value": "[variables('referenceContainerName')]"
     }
   }
 }
