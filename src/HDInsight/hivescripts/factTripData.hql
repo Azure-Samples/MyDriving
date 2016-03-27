@@ -88,7 +88,7 @@ cLat double,
 cLon double
 ) ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' LINES TERMINATED BY '\n'
 STORED AS TEXTFILE 
-LOCATION 'wasb://tripdata@mydrivingstr.blob.core.windows.net/tables/factTripDataoutput';
+LOCATION 'wasb://tripdata@${hiveconf:DataStorageAccount}.blob.core.windows.net/tables/factTripDataoutput';
 
 
 INSERT INTO TABLE tripdatafinal

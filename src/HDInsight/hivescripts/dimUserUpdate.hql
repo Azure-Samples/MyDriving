@@ -5,7 +5,7 @@ CREATE TABLE dimUser
 userid string,
 vin string
 ) ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' LINES TERMINATED BY '\n'
-LOCATION 'wasb://tripdata@mydrivingstr.blob.core.windows.net/tables/dimUser';
+LOCATION 'wasb://tripdata@${hiveconf:DataStorageAccount}.blob.core.windows.net/tables/dimUser';
 
 
 INSERT INTO TABLE dimUser

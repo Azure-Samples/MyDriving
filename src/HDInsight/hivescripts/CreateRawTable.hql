@@ -29,7 +29,7 @@ CREATE EXTERNAL TABLE tripdata
 ) PARTITIONED BY (year int, month int, day int) CLUSTERED BY (TripId) sorted by (RecordedTimeStamp) into 24 buckets 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
 STORED AS TEXTFILE 
-LOCATION 'wasb://rawdata@mydrivingstr.blob.core.windows.net/tripdata'
+LOCATION 'wasb://rawdata@${hiveconf:DataStorageAccount}.blob.core.windows.net/tripdata'
 tblproperties ("skip.header.line.count"="1");
 
 
@@ -45,4 +45,4 @@ ELoutlier double
 ) PARTITIONED BY (year int, month int, day int) 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
 STORED AS TEXTFILE 
-LOCATION 'wasb://tripdata@mydrivingstr.blob.core.windows.net/tables/mlinput'; 
+LOCATION 'wasb://tripdata@${hiveconf:DataStorageAccount}.blob.core.windows.net/tables/mlinput'; 
