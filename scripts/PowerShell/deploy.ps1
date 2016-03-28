@@ -74,6 +74,27 @@ if ($Subscriptions.Length -gt 1) {
     $subscription = $Subscriptions
 }
 
+$numberOfDays = 0
+$inputOK = $false
+do
+{
+  try
+  {
+    [int]$numberOfDays = Read-Host "Enter the number of days during which you intend to run the solution"
+    if ($numberOfDays -gt 0) {
+        $inputOK = $true
+    }
+    else {
+        Write-Host -ForegroundColor red "Please enter a number greater than 0."
+    }
+  }
+  catch
+  {
+    Write-Host -ForegroundColor red "Please enter a numeric value."
+  } 
+}
+until ($inputOK)
+
 # Create or update the resource group using the specified template file and template parameters file
 Write-Output ""
 Write-Output "**************************************************************************************************"
@@ -110,7 +131,7 @@ Write-Output "******************************************************************
 # Create required services
 $templateParams = New-Object -TypeName Hashtable
 $TemplateParams.Add(("dataFactoryStartDate"), (Get-Date).ToUniversalTime().AddDays(1).ToString("s"))
-$TemplateParams.Add(("dataFactoryEndDate"), (Get-Date).ToUniversalTime().AddDays(91).ToString("s"))
+$TemplateParams.Add(("dataFactoryEndDate"), (Get-Date).ToUniversalTime().AddDays($numberOfDays + 1).ToString("s"))
 if ($MobileAppRepositoryUrl) {
 	Write-Warning "Overriding the mobile app repository URL..."
 	$templateParams.Add("mobileAppRepositoryUrl", $MobileAppRepositoryUrl)
