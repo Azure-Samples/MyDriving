@@ -16,7 +16,7 @@ Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "VINLookUpApplication", "Ext
 	ProjectSection(ProjectDependencies) = postProject
 		{3A9A9078-BED6-4DEE-82ED-82B287FD2531} = {3A9A9078-BED6-4DEE-82ED-82B287FD2531}
 		{109E2AC7-5699-4B32-968B-B37C6C8C594E} = {109E2AC7-5699-4B32-968B-B37C6C8C594E}
-	EndProjectSection
+	EndProjectSection 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VINLookupService", "Extensions\ServiceFabric\VINLookUpApplication\VINLookupService\VINLookupService.csproj", "{59C7BD02-6514-4016-81D8-800B039F2C04}"
 EndProject
