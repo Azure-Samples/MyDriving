@@ -80,7 +80,7 @@ do
 {
   try
   {
-    [int]$numberOfDays = Read-Host "Enter the number of days during which you intend to run the solution"
+    [int]$numberOfDays = Read-Host "Enter the number of days you want to run the ADF pipeline"
     if ($numberOfDays -gt 0) {
         $inputOK = $true
     }
