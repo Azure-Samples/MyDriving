@@ -27,8 +27,7 @@ namespace MyDriving.ViewModel
         public string PrivacyPolicyUrl => "http://aka.ms/mydriving-privacy";
         public string TermsOfUseUrl => "http://aka.ms/mydriving-eula";
 
-        public string OpenSourceNoticeUrl => "https://github.com/Azure-Samples/MyDriving/tree/master/MobileApp/Licenses"
-            ;
+        public string OpenSourceNoticeUrl => "https://github.com/Azure-Samples/MyDriving/tree/master/src/MobileApps/Licenses";
 
         public string SourceOnGitHubUrl => "https://github.com/Azure-Samples/MyDriving";
         public string XamarinUrl => "http://xamarin.com";
