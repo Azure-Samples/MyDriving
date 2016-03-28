@@ -43,7 +43,7 @@ while (-not $completed) {
     } catch {
         if ($retrycount -ge $retries) {
             Write-Error ("Database initialization failed the maximum number of {0} times." -f $retrycount)
-            throw
+            $completed = $true
         } else {
             Write-Warning ("Database initialization failed. Retrying in {0} seconds." -f $secondsDelay)
             Start-Sleep $secondsDelay
