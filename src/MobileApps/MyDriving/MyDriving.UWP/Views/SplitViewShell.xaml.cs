@@ -27,25 +27,25 @@ namespace MyDriving.UWP.Views
 
             Current.LabelText = "Current Trip";
             Current.DefaultImageSource =
-                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_current.png", UriKind.Absolute));
+                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/current.png", UriKind.Absolute));
             Current.SelectedImageSource =
                 new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_current.png", UriKind.Absolute));
 
             PastTrips.LabelText = "Past Trips";
             PastTrips.DefaultImageSource =
-                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_pastTrips.png", UriKind.Absolute));
+                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/pastTrips.png", UriKind.Absolute));
             PastTrips.SelectedImageSource =
                 new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_pastTrips.png", UriKind.Absolute));
 
             Profile.LabelText = "Profile";
             Profile.DefaultImageSource =
-                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_profile.png", UriKind.Absolute));
+                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/profile.png", UriKind.Absolute));
             Profile.SelectedImageSource =
                 new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_profile.png", UriKind.Absolute));
 
             Settings.LabelText = "Settings";
             Settings.DefaultImageSource =
-                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/default_settings.png", UriKind.Absolute));
+                new BitmapImage(new Uri("ms-appx:///Assets/SplitView/settings.png", UriKind.Absolute));
             Settings.SelectedImageSource =
                 new BitmapImage(new Uri("ms-appx:///Assets/SplitView/selected_settings.png", UriKind.Absolute));
         }
@@ -53,6 +53,18 @@ namespace MyDriving.UWP.Views
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             MyDrivingSplitView.IsPaneOpen = !MyDrivingSplitView.IsPaneOpen;
+            if (MyDrivingSplitView.IsPaneOpen)
+            {
+                double openPaneLength = MainGrid.ActualWidth * .6;
+                if (openPaneLength > MyDrivingSplitView.OpenPaneLength && openPaneLength < 300)
+                {
+                    MyDrivingSplitView.OpenPaneLength = openPaneLength;
+                    NewTripButton.Width = openPaneLength;
+                    TripsButton.Width = openPaneLength;
+                    ProfileButton.Width = openPaneLength;
+                    SettingsButton.Width = openPaneLength;
+                }
+            }
         }
 
 
@@ -61,7 +73,7 @@ namespace MyDriving.UWP.Views
             SelectControl(PastTrips);
             MyDrivingSplitView.IsPaneOpen = false;
             PageTitle.Text = "PAST TRIPS";
-            ((Frame) MyDrivingSplitView.Content).Navigate(typeof (PastTripsMenuView));
+            ((Frame)MyDrivingSplitView.Content).Navigate(typeof(PastTripsMenuView));
         }
 
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
@@ -69,7 +81,7 @@ namespace MyDriving.UWP.Views
             SelectControl(Profile);
             MyDrivingSplitView.IsPaneOpen = false;
             PageTitle.Text = "PROFILE";
-            ((Frame) MyDrivingSplitView.Content).Navigate(typeof (ProfileView));
+            ((Frame)MyDrivingSplitView.Content).Navigate(typeof(ProfileView));
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
@@ -77,7 +89,7 @@ namespace MyDriving.UWP.Views
             SelectControl(Settings);
             MyDrivingSplitView.IsPaneOpen = false;
             PageTitle.Text = "SETTINGS";
-            ((Frame) MyDrivingSplitView.Content).Navigate(typeof (SettingsView));
+            ((Frame)MyDrivingSplitView.Content).Navigate(typeof(SettingsView));
         }
 
         private void NewTripButton_Click(object sender, RoutedEventArgs e)
@@ -85,7 +97,7 @@ namespace MyDriving.UWP.Views
             SelectControl(Current);
             MyDrivingSplitView.IsPaneOpen = false;
             PageTitle.Text = "CURRENT TRIP";
-            ((Frame) MyDrivingSplitView.Content).Navigate(typeof (CurrentTripView));
+            ((Frame)MyDrivingSplitView.Content).Navigate(typeof(CurrentTripView));
         }
 
 
@@ -94,7 +106,7 @@ namespace MyDriving.UWP.Views
             MyDrivingSplitView.IsPaneOpen = false;
         }
 
-        private void SelectControl(SplitViewButtonContent control)
+        public void SelectControl(SplitViewButtonContent control)
         {
             selectedControl?.SetSelected(false);
             control.SetSelected(true);

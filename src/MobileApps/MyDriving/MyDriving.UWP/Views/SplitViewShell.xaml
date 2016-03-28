@@ -12,22 +12,23 @@
             <ImageBrush Stretch="Fill" ImageSource="{StaticResource Background}" />
         </Grid.Background>
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="48"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="35"/>
+            <ColumnDefinition Width="48"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid Background="{StaticResource SplitViewColor}" x:Name="HamburgerGrid">
-            <Button x:Name="HamburgerButton" Width="40" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Background="Transparent" Click="HamburgerButton_Click" VerticalAlignment="Center" Foreground="White"/>
+            <Button x:Name="HamburgerButton" Height="48" Width="48" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Background="Transparent" Click="HamburgerButton_Click" VerticalAlignment="Center" 
+                    Foreground="White" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         </Grid>
         <Grid Grid.Column="1" Background="{StaticResource SplitViewColor}"  x:Name="TitleGrid">
             <TextBlock x:Name="PageTitle" Margin="10,0,0,0" Foreground="White" 
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"/>
         </Grid>
-        <SplitView x:Name="MyDrivingSplitView" DisplayMode="Overlay"  IsPaneOpen="False" CompactPaneLength="32" OpenPaneLength="164"   Grid.Row="1" Grid.ColumnSpan="2">
+        <SplitView x:Name="MyDrivingSplitView" DisplayMode="Overlay"  IsPaneOpen="False" CompactPaneLength="48" OpenPaneLength="200"   Grid.Row="1" Grid.ColumnSpan="2" BorderThickness="0" >
             <SplitView.Pane>
                 <StackPanel Background="Black"  x:Name="SplitViewPanel">
                     <Button x:Name="NewTripButton"  Click="NewTripButton_Click" Style="{StaticResource SplitViewButtonStyle}">
