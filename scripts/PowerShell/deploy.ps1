@@ -71,7 +71,7 @@ if ($Subscriptions.Length -gt 1) {
         }
     }
 } else {
-    $subscription = $Subscriptions.Get(0)
+    $subscription = $Subscriptions
 }
 
 # Create or update the resource group using the specified template file and template parameters file
