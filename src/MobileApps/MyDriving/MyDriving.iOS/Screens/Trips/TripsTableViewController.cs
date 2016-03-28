@@ -14,6 +14,7 @@ namespace MyDriving.iOS
     public partial class TripsTableViewController : UITableViewController
     {
 		const string TripCellWithImageIdentifier = "TRIP_CELL_WITHIMAGE_IDENTIFIER";
+		const string TripCellIdentifier = "TRIP_CELL_IDENTIFIER";
         const string PastTripSegueIdentifier = "pastTripSegue";
 
         public TripsTableViewController(IntPtr handle) : base(handle)
@@ -77,28 +78,55 @@ namespace MyDriving.iOS
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = tableView.DequeueReusableCell(TripCellWithImageIdentifier) as TripTableViewCellWithImage ??
-                       new TripTableViewCellWithImage(new NSString(TripCellWithImageIdentifier));
+			if (ViewModel.CanLoadMore && !ViewModel.IsBusy && ViewModel.Trips.Count > 0 && indexPath.Row == ViewModel.Trips.Count - 1)
+			{
+				ViewModel.ExecuteLoadMorePastTripsCommandAsync().ContinueWith((t) =>
+				{
+					InvokeOnMainThread(delegate { TableView.ReloadData(); });
+				}, scheduler: System.Threading.Tasks.TaskScheduler.Current);
+			}
 
-            if (ViewModel.CanLoadMore && !ViewModel.IsBusy && ViewModel.Trips.Count > 0 && indexPath.Row == ViewModel.Trips.Count - 1)
-            {
-                ViewModel.ExecuteLoadMorePastTripsCommandAsync().ContinueWith((t) =>
-                {
-                    InvokeOnMainThread(delegate { TableView.ReloadData(); });
-                }, scheduler: System.Threading.Tasks.TaskScheduler.Current);
-            }
+			var trip = ViewModel.Trips[indexPath.Row];
+			if (string.IsNullOrEmpty(trip.MainPhotoUrl))
+			{
+				var cell = tableView.DequeueReusableCell(TripCellIdentifier) as TripTableViewCell;
 
-            var trip = ViewModel.Trips[indexPath.Row];
-            cell.DisplayImage.SetImage(new NSUrl(trip.MainPhotoUrl));
-            cell.LocationName = trip.Name;
-            cell.TimeAgo = trip.TimeAgo;
-            cell.Distance = trip.TotalDistance;
-            return cell;
+				if (cell == null)
+				{
+					cell = new TripTableViewCell(new NSString(TripCellIdentifier));
+				}
+
+				cell.LocationName = trip.Name;
+				cell.TimeAgo = trip.TimeAgo;
+				cell.Distance = trip.TotalDistance;
+
+				return cell;
+			}
+			else
+			{
+				var cell = tableView.DequeueReusableCell(TripCellWithImageIdentifier) as TripTableViewCellWithImage;
+
+				if (cell == null)
+				{
+					cell = new TripTableViewCellWithImage(new NSString(TripCellWithImageIdentifier));
+				}
+
+				cell.DisplayImage.SetImage(new NSUrl(trip.MainPhotoUrl));
+				cell.LocationName = trip.Name;
+				cell.TimeAgo = trip.TimeAgo;
+				cell.Distance = trip.TotalDistance;
+
+				return cell;
+			}
         }
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
-            return 221;
+			var trip = ViewModel.Trips[indexPath.Row];
+			if (string.IsNullOrEmpty(trip.MainPhotoUrl))
+				return 70;
+			else
+           		return 221;
         }
 
         public override bool CanEditRow(UITableView tableView, NSIndexPath indexPath)

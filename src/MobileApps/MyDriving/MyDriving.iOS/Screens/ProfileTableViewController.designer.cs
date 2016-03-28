@@ -24,6 +24,10 @@ namespace MyDriving.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel lblScore { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         MyDriving.iOS.CustomControls.CirclePercentage PercentageView { get; set; }
 
         void ReleaseDesignerOutlets ()
@@ -36,6 +40,11 @@ namespace MyDriving.iOS
             if (lblDrivingSkills != null) {
                 lblDrivingSkills.Dispose ();
                 lblDrivingSkills = null;
+            }
+
+            if (lblScore != null) {
+                lblScore.Dispose ();
+                lblScore = null;
             }
 
             if (PercentageView != null) {
