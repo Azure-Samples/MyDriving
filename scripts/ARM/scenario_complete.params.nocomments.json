@@ -8,6 +8,8 @@
     "sqlDBEdition": { "value": "Standard" },
     "hostingPlanSku": { "value": { "tier": "Free", "name": "F1", "capacity": 0 } },
     "sqlServerAdminPassword": { "value": "<CHOOSE-A-PASSWORD>" },
-    "sqlAnalyticsServerAdminPassword": { "value": "<CHOOSE-A-PASSWORD>" }
+    "sqlAnalyticsServerAdminPassword": { "value": "<CHOOSE-A-PASSWORD>" },
+    "dataFactoryStartDate": { "value": "<CHOOSE-A-START-DATE>" },
+    "dataFactoryEndDate": { "value": "<CHOOSE-AN-END-DATE>" }
   }
 }
