@@ -176,7 +176,9 @@ eval $(echo "$OUTPUT1" | awk -F ': ' \
                 $2 ~ /sqlAnalyticsDBName/                   {split($2, a, " "); print "export SQLANALYTICS_DATABASE_NAME="               a[3] ";"} \
                 $2 ~ /storageAccountNameAnalytics/          {split($2, a, " "); print "export STORAGE_ACCOUNT_NAME_ANALYTICS="           a[3] ";"} \
 				$2 ~ /storageAccountKeyAnalytics/           {split($2, a, " "); print "export STORAGE_ACCOUNT_KEY_ANALYTICS="            a[3] ";"} \
-				$2 ~ /rawdataContainerName/                 {split($2, a, " "); print "export RAW_DATA_CONTAINER_NAME="                  a[3] ";"}')
+				$2 ~ /rawdataContainerName/                 {split($2, a, " "); print "export RAW_DATA_CONTAINER_NAME="                  a[3] ";"} \
+				$2 ~ /tripdataContainerName/                {split($2, a, " "); print "export TRIP_DATA_CONTAINER_NAME="                 a[3] ";"} \
+				$2 ~ /referenceContainerName/               {split($2, a, " "); print "export REFERENCE_CONTAINER_NAME="                 a[3] ";"}')
 
 echo
 echo "**************************************************************************************************"
@@ -185,6 +187,14 @@ echo "**************************************************************************
 # create the storage account container for raw data
 echo "Creating the '$RAW_DATA_CONTAINER_NAME' blob container..."
 azure storage container create $RAW_DATA_CONTAINER_NAME -a $STORAGE_ACCOUNT_NAME_ANALYTICS -k $STORAGE_ACCOUNT_KEY_ANALYTICS || :
+
+# create the storage account container for trip data
+echo "Creating the '$TRIP_DATA_CONTAINER_NAME' blob container..."
+azure storage container create $TRIP_DATA_CONTAINER_NAME -a $STORAGE_ACCOUNT_NAME_ANALYTICS -k $STORAGE_ACCOUNT_KEY_ANALYTICS || :
+
+# create the storage account container for reference data
+echo "Creating the '$REFERENCE_CONTAINER_NAME' blob container..."
+azure storage container create $REFERENCE_CONTAINER_NAME -a $STORAGE_ACCOUNT_NAME_ANALYTICS -k $STORAGE_ACCOUNT_KEY_ANALYTICS || :
 
 # Initialize SQL databases
 echo
