@@ -50,7 +50,9 @@ Follow these steps to deploy the starter kit using Bash:
     npm install
     ```
 1. Open **/scripts/ARM/scenario_complete.params.nocomments.json** in a text editor and update the **sqlServerAdminPassword** and **sqlAnalyticsServerAdminPassword** parameters. The first password is for the Mobile App back end database; the second password is for the analytic database that supports 
-   Power BI queries. Choose a suitable password for each one and save the updated file. Next, set **dataFactoryStartDate** and **dataFactoryEndDate** to specify the period during which you intend to run the solution.
+   Power BI queries. Choose a suitable password for each one. 
+   
+   Next, set **dataFactoryStartDate** and **dataFactoryEndDate** to specify the period during which you intend to run the solution. Save the updated file.
    
     ```
     "parameters": {
