@@ -1,4 +1,4 @@
-﻿Param ([string] $subscriptionId, [string] $workspaceName, [string]$location, [string]$ownerId, [string] $storageAccountName, [string] $storageAccountKey, [string] $packageLocation)
+﻿Param ([string] $subscriptionId, [string] $workspaceName, [string]$location, [string]$ownerId, [string] $storageAccountName, [string] $storageAccountKey, [string] $packageLocation, [string]$thumbprint)
 
 $global:authResult = $null
 
@@ -14,30 +14,46 @@ function Authenticate()
     $resourceAppIdURI = "https://management.core.windows.net/"
     $authority = "https://login.windows.net/common/oauth2/authorize"
     $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
-    $global:authResult = $authContext.AcquireToken($resourceAppIdURI, $clientId, $redirectUri, "Auto")
+    $global:authResult = $authContext.AcquireToken($resourceAppIdURI, $clientId, $redirectUri, "Always")
 }
 
-function InvokeManagementAPI($subscriptionId, $uri)
+function InvokeManagementAPI([string]$subscriptionId, [string]$uri, [string]$thumbprint)
 {
     $headerDate = '2014-10-01'
-    $authHeader = $global:authResult.CreateAuthorizationHeader()
-    $headers = @{"x-ms-version"="$headerDate";"Authorization" = "$authHeader"; "Accept" = "application/json"}
+    if (!$thumbprint) {
+        $authHeader = $global:authResult.CreateAuthorizationHeader()
+        $headers = @{"x-ms-version"="$headerDate";"Authorization" = "$authHeader"; "Accept" = "application/json"}
+    }
+    else {
+       $headers = @{"x-ms-version"="$headerDate"; "Accept" = "application/json"}
+    }
     $method = "GET"
     $URI = "https://management.core.windows.net/$subscriptionId/$uri"
-                                                                                                                                              
-    $res = Invoke-RestMethod -Uri $URI -Method $method -Headers $headers
+    if (!$thumbprint) {                                                                                                                                          
+        $res = Invoke-RestMethod -Uri $URI -Method $method -Headers $headers
+    } else {
+       $res = Invoke-RestMethod -Uri $URI -Method $method -Headers $headers -CertificateThumbprint $thumbprint
+    }
     return $res
 }
 
-function InvokeManagementAPI_PUT($subscriptionId, $uri, $json)
+function InvokeManagementAPI_PUT([string]$subscriptionId, [string]$uri, [string]$json, [string]$thumbprint)
 {
     $headerDate = '2014-10-01'
-    $authHeader = $global:authResult.CreateAuthorizationHeader()
-    $headers = @{"x-ms-version"="$headerDate";"Authorization" = "$authHeader"; "Accept" = "application/json"}
+    if (!$thumbprint) {
+        $authHeader = $global:authResult.CreateAuthorizationHeader()
+        $headers = @{"x-ms-version"="$headerDate";"Authorization" = "$authHeader"; "Accept" = "application/json"}
+    } else {
+        $headers = @{"x-ms-version"="$headerDate"; "Accept" = "application/json"}
+    }
     $method = "PUT"
     $URI = "https://management.core.windows.net/$subscriptionId/$uri"
-                                                                                                                                              
-    $res = Invoke-RestMethod -Uri $URI -Method $method -Headers $headers -Body $json -ContentType 'application/json'
+    if (!$thumbprint) {                                                                                                                                          
+        $res = Invoke-RestMethod -Uri $URI -Method $method -Headers $headers -Body $json -ContentType 'application/json'
+    }
+    else {
+       $res = Invoke-RestMethod -Uri $URI -Method $method -Headers $headers -Body $json -CertificateThumbprint $thumbprint -ContentType 'application/json'
+    }
     return $res
 }
 
@@ -51,9 +67,9 @@ function InvokeMLAPI([string]$key, [string]$uri, [string]$method)
     return $res
 }
 
-function FindWorkspace([string]$subscriptionId, [string]$workspaceName)
+function FindWorkspace([string]$subscriptionId, [string]$workspaceName, [string]$thumbprint)
 {
-    $res = InvokeManagementAPI $subscriptionId "cloudservices/$workspaceName/resources/machinelearning/~/workspaces"
+    $res = InvokeManagementAPI $subscriptionId "cloudservices/$workspaceName/resources/machinelearning/~/workspaces" $thumbprint
     
     ForEach($wkSpace in $res)
     {
@@ -65,9 +81,9 @@ function FindWorkspace([string]$subscriptionId, [string]$workspaceName)
     return $null
 }
 
-function GetWorkspace([string] $subscriptionId, [string]$workspaceName, [string]$workspaceId)
+function GetWorkspace([string] $subscriptionId, [string]$workspaceName, [string]$workspaceId, [string]$thumbprint)
 {
-    $res = InvokeManagementAPI $subscriptionId "cloudservices/$workspaceName/resources/machinelearning/~/workspaces/$workspaceId"
+    $res = InvokeManagementAPI $subscriptionId "cloudservices/$workspaceName/resources/machinelearning/~/workspaces/$workspaceId" $thumbprint
     return $res
 }
 
@@ -134,7 +150,7 @@ function UnpackExperiment([string]$key, [string]$workspaceId, [string] $packageL
     until ($res.Status -eq  "Complete")
 }
 
-function CreateWorkspace([string]$subscriptionId, [string]$workspaceName, [string]$location, [string]$storageAccountName, [string]$storageAccountKey, [string]$ownerId)
+function CreateWorkspace([string]$subscriptionId, [string]$workspaceName, [string]$location, [string]$storageAccountName, [string]$storageAccountKey, [string]$ownerId, [string]$thumbprint)
 {
    $guid=[guid]::NewGuid().ToString('N')
    $json = @{
@@ -147,36 +163,39 @@ function CreateWorkspace([string]$subscriptionId, [string]$workspaceName, [strin
         Source= "$workpaceName"
    }|ConvertTo-Json
 
-   $res = InvokeManagementAPI_PUT $subscriptionId "cloudservices/$workspaceName/resources/machinelearning/~/workspaces/$guid" $json
+   $res = InvokeManagementAPI_PUT $subscriptionId "cloudservices/$workspaceName/resources/machinelearning/~/workspaces/$guid" $json $thumbprint
 } 
 
-function ImportExperiment()
+function ImportExperiment([string]$subscriptionId, [string]$workspaceName, [string]$location, [string]$storageAccountName, [string]$storageAccountKey, [string]$ownerId, [string]$packageLocation, [string]$thumbprint)
 {
-    Authenticate
+    if (!$thumbprint) {
+        Authenticate
+    }
 
     # Find original expriemenbt
 
-    $original = FindWorkspace $subscriptionId $workspaceName
+    $original = FindWorkspace $subscriptionId $workspaceName $thumbprint
 
     if ($original -eq $null)
     {
-        CreateWorkspace $subscriptionId $workspaceName $location $storageAccountName $storageAccountKey $ownerId
-        $original = FindWorkspace $subscriptionId $workspaceName
+        CreateWorkspace $subscriptionId $workspaceName $location $storageAccountName $storageAccountKey $ownerId $thumbprint
+        $original = FindWorkspace $subscriptionId $workspaceName $thumbprint
     }
 
-    $workspace = GetWorkspace $subscriptionId $workspaceName $original.Id
+    $workspace = GetWorkspace $subscriptionId $workspaceName $original.Id $thumbprint
 
     UnpackExperiment $workspace.AuthorizationToken.PrimaryToken $original.Id $packageLocation
 
 }
 
-function ExportExperiment([string]$subscriptionId, [string]$workspaceName, [string]$experimentName, [string]$mlKey)
+function ExportExperiment([string]$subscriptionId, [string]$workspaceName, [string]$experimentName, [string]$mlKey, [string]$thumbprint)
 {
-    Authenticate
-
+    if (!$thumbprint) {
+        Authenticate
+    }
     # Find original expriemenbt
 
-    $original = FindWorkspace $subscriptionId $workspaceName
+    $original = FindWorkspace $subscriptionId $workspaceName $thumbprint
 
     if ($original -eq $null)
     {
@@ -195,4 +214,5 @@ function ExportExperiment([string]$subscriptionId, [string]$workspaceName, [stri
 }
 
 #ExportExperiment "[subscription id]" "[workspace name]" "MyDriving [Predictive Exp.]" "[ML key]"
-ImportExperiment
+
+ImportExperiment $subscriptionId $workspaceName $location $storageAccountName $storageAccountKey $ownerId $packageLocation $thumbprint 
