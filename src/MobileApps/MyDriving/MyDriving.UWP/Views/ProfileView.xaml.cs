@@ -47,6 +47,7 @@ namespace MyDriving.UWP.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            App.SetTitle("PROFILE");
             // Enable back button behavior
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;

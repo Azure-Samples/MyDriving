@@ -74,6 +74,7 @@ namespace MyDriving.UWP.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            App.SetTitle("CURRENT TRIP");
             ViewModel.PropertyChanged += OnPropertyChanged;
             await StartTrackingAsync();
             UpdateStats();

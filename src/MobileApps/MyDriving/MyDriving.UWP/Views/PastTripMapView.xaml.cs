@@ -52,7 +52,7 @@ namespace MyDriving.UWP.Views
             var trip = e.Parameter as Trip;
             base.OnNavigatedTo(e);
             viewModel.Trip = trip;
-
+            App.SetTitle("PAST TRIPS");
             MyMap.Loaded += MyMap_Loaded;
             MyMap.MapElements.Clear();
             var success = await viewModel.ExecuteLoadTripCommandAsync(trip.Id);

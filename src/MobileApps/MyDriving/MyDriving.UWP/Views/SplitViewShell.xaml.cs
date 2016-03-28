@@ -105,5 +105,24 @@ namespace MyDriving.UWP.Views
         {
             PageTitle.Text = title;
         }
+
+        public void SetSelectedPage(string page)
+        {
+            switch (page)
+            {
+                case "PAST TRIPS":
+                    SelectControl(PastTrips);
+                    break;
+                case "PROFILE":
+                    SelectControl(Profile);
+                    break;
+                case "SETTINGS":
+                    SelectControl(Settings);
+                    break;
+                default:
+                    SelectControl(Current);
+                    break;
+            }
+        }
     }
 }
