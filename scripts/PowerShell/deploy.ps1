@@ -109,9 +109,11 @@ Write-Output "******************************************************************
 
 # Create required services
 $templateParams = New-Object -TypeName Hashtable
+$TemplateParams.Add(("dataFactoryStartDate"), (Get-Date).ToUniversalTime().AddDays(1).ToString("s"))
+$TemplateParams.Add(("dataFactoryEndDate"), (Get-Date).ToUniversalTime().AddDays(91).ToString("s"))
 if ($MobileAppRepositoryUrl) {
 	Write-Warning "Overriding the mobile app repository URL..."
-	$templateParams.Add("MobileAppRepositoryUrl", $MobileAppRepositoryUrl)
+	$templateParams.Add("mobileAppRepositoryUrl", $MobileAppRepositoryUrl)
 }
 
 Write-Output ""
