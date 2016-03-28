@@ -50,6 +50,7 @@ namespace MyDriving.iOS
         void UpdateUI()
         {
             lblDrivingSkills.Text = $"Driving Skills: {ViewModel.DrivingSkillsPlacementBucket.Description}";
+			lblScore.Text = $"Score: {ViewModel.DrivingSkills}%";
             PercentageView.Value = (ViewModel.DrivingSkills/100f)*360f;
             data = new List<DrivingStatistic>
             {
@@ -66,7 +67,6 @@ namespace MyDriving.iOS
         }
 
         #region UITableViewSource
-
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
             return 60;
@@ -86,7 +86,6 @@ namespace MyDriving.iOS
 
             return cell;
         }
-
         #endregion
     }
 }
