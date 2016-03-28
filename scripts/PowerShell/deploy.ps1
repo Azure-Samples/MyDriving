@@ -71,7 +71,7 @@ if ($Subscriptions.Length -gt 1) {
         }
     }
 } else {
-    $subscription = $Subscriptions.Get(0)
+    $subscription = $Subscriptions
 }
 
 # Create or update the resource group using the specified template file and template parameters file
@@ -147,14 +147,16 @@ Write-Output ""
 Write-Output "**************************************************************************************************"
 Write-Output "* Preparing the SQL databases..."
 Write-Output "**************************************************************************************************"
-Write-Output "Initializing the '$deployment2.Outputs.sqlDBName.Value' database..."
+$databaseName = $deployment2.Outputs.sqlDBName.Value
+Write-Output "Initializing the '$databaseName' database..."
 . .\scripts\setupDb.ps1 -ServerName $deployment2.Outputs.sqlServerFullyQualifiedDomainName.Value `
 						-AdminLogin $deployment2.Outputs.sqlServerAdminLogin.Value `
 						-AdminPassword $deployment2.Outputs.sqlServerAdminPassword.Value `
 						-DatabaseName $deployment2.Outputs.sqlDBName.Value `
 						-ScriptPath $dbSchemaDB
 
-Write-Output "Initializing the '$deployment2.Outputs.sqlAnalyticsDBName.Value' database..."
+$databaseName = $deployment2.Outputs.sqlAnalyticsDBName.Value
+Write-Output "Initializing the '$databaseName' database..."
 . .\scripts\setupDb.ps1 -ServerName $deployment2.Outputs.sqlAnalyticsFullyQualifiedDomainName.Value `
 						-AdminLogin $deployment2.Outputs.sqlAnalyticsServerAdminLogin.Value `
 						-AdminPassword $deployment2.Outputs.sqlAnalyticsServerAdminPassword.Value `

@@ -35,14 +35,14 @@ done
 # validate resource group was provided
 if [ -z ${RESOURCEGROUPNAME+x} ]; then
     echo "Please provide the resource name with the -n|--name parameter."
-    exit
+    exit 3
 fi
 
 # validate resource group location was provided
 if [ -z ${LOCATION+x} ]; then
     echo "Please provide the resource location with the -l|--location parameter."
     echo "You can get the list of supported locations with the command azure location list"
-    exit
+    exit 4
 fi
 
 # verify if user is logged in by querying his subscriptions.
@@ -69,7 +69,7 @@ fi
 if [ ${#SUBSCRIPTIONS[@]} -eq 2 ]; then
     echo "Login failed or there are no subscriptions available with your account."
     echo "Please logout using the command azure logout --user [username] and try again."
-    exit
+    exit 5
 fi
 
 # if the user has more than one subscriptions force the user to select one
@@ -113,8 +113,8 @@ if ! OUTPUT0=$(azure group deployment create \
 					--resource-group "${RESOURCEGROUPNAME}" \
 					--template-file "${PREREQ_TEMPLATEFILE}" \
 				| tee /dev/tty); then
-	echo "Failed to provision the storage account for the prerequisites. Review the output above to correct any errors and then run the deployment script again."
-	exit 1;
+	echo "Failed to provision the storage account for the prerequisites. Review the deployment status in the portal to identify and correct any errors and then run the deployment script again."
+	exit 1
 fi
 
 # parse the deployment output
@@ -160,8 +160,8 @@ if ! OUTPUT1=$(azure group deployment create \
                     --parameters-file "${PARAMETERSFILE}" \
 				| tee /dev/tty); then
 	echo "Skipping the storage and database initialization..."
-	echo "At least one resource could not be provisioned successfully. Review the output above to correct any errors and then run the deployment script again."
-	exit 2;
+	echo "At least one resource could not be provisioned successfully. Review the deployment status in the portal to identify and correct any errors and then run the deployment script again."
+	exit 2
 fi
 
 # parse the deployment output
@@ -176,7 +176,9 @@ eval $(echo "$OUTPUT1" | awk -F ': ' \
                 $2 ~ /sqlAnalyticsDBName/                   {split($2, a, " "); print "export SQLANALYTICS_DATABASE_NAME="               a[3] ";"} \
                 $2 ~ /storageAccountNameAnalytics/          {split($2, a, " "); print "export STORAGE_ACCOUNT_NAME_ANALYTICS="           a[3] ";"} \
 				$2 ~ /storageAccountKeyAnalytics/           {split($2, a, " "); print "export STORAGE_ACCOUNT_KEY_ANALYTICS="            a[3] ";"} \
-				$2 ~ /rawdataContainerName/                 {split($2, a, " "); print "export RAW_DATA_CONTAINER_NAME="                  a[3] ";"}')
+				$2 ~ /rawdataContainerName/                 {split($2, a, " "); print "export RAW_DATA_CONTAINER_NAME="                  a[3] ";"} \
+				$2 ~ /tripdataContainerName/                {split($2, a, " "); print "export TRIP_DATA_CONTAINER_NAME="                 a[3] ";"} \
+				$2 ~ /referenceContainerName/               {split($2, a, " "); print "export REFERENCE_CONTAINER_NAME="                 a[3] ";"}')
 
 echo
 echo "**************************************************************************************************"
@@ -185,6 +187,14 @@ echo "**************************************************************************
 # create the storage account container for raw data
 echo "Creating the '$RAW_DATA_CONTAINER_NAME' blob container..."
 azure storage container create $RAW_DATA_CONTAINER_NAME -a $STORAGE_ACCOUNT_NAME_ANALYTICS -k $STORAGE_ACCOUNT_KEY_ANALYTICS || :
+
+# create the storage account container for trip data
+echo "Creating the '$TRIP_DATA_CONTAINER_NAME' blob container..."
+azure storage container create $TRIP_DATA_CONTAINER_NAME -a $STORAGE_ACCOUNT_NAME_ANALYTICS -k $STORAGE_ACCOUNT_KEY_ANALYTICS || :
+
+# create the storage account container for reference data
+echo "Creating the '$REFERENCE_CONTAINER_NAME' blob container..."
+azure storage container create $REFERENCE_CONTAINER_NAME -a $STORAGE_ACCOUNT_NAME_ANALYTICS -k $STORAGE_ACCOUNT_KEY_ANALYTICS || :
 
 # Initialize SQL databases
 echo
