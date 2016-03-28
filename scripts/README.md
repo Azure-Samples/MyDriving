@@ -15,6 +15,9 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 * [Node.js](http://nodejs.org)
 * [An active Azure subscription](https://azure.microsoft.com) with at least 24 available cores (for on-demand HDInsight cluster)
 
+### Azure Management Certificate
+When copying Machine Learning work spaces, the script uses an Azure management certificate for authentication. You'll need to create and upload a management certificate and provides the certificate's thumbprint to the script when prompted. For details on creating a management certificate, please see [this article](https://azure.microsoft.com/en-us/documentation/articles/cloud-services-certs-create/). 
+
 ## Use PowerShell script
 Follow these steps to deploy the starter kit using PowerShell:
 
@@ -25,7 +28,8 @@ Follow these steps to deploy the starter kit using PowerShell:
 	* _< location >_ is the Azure datacenter where you want the services to be deployed, such as "WestUS".
 	* _< resource group name >_ is the name of the deployed resource group. 
 2. During deployment, the script will ask you to provide two SQL Database passwords: **sqlServerAdminPassword** and **sqlAnalyticsServerAdminPassword**. The first password is for the Mobile App back end database; the second password is for the analytic database that supports Power BI queries. 
-3. Once the service deployment is complete, the script will ask if you want to provision the Visual Studio Team Services continuous integration pipelines. If you answer 'y' (for yes), you'll be prompted to enter the following values before it copies the MyDriving source code to the specified local folder, creates a new VSTS project, checks in the source to the project, and creates all build definitions:
+3. Before the Machine Learning workspaces are imported, you'll be asked to provide the thumbprint of your Azure management certificate. Paste in the thumbprint and press [Enter] to continue. If you press [Enter] directly, the script will attempt to sign in using AAD. You can use the latter option if you are the owner of your subscription.
+4. Once the service deployment is complete, the script will ask if you want to provision the Visual Studio Team Services continuous integration pipelines. If you answer 'y' (for yes), you'll be prompted to enter the following values before it copies the MyDriving source code to the specified local folder, creates a new VSTS project, checks in the source to the project, and creates all build definitions:
 	* **your VSTS account**: The name of your VSTS account. It should have format of _https://[account name].visualstudio.com_.
 	* **your PAT**:  The personal access token (see [http://blog.devmatter.com/personal-access-tokens-vsts/](http://blog.devmatter.com/personal-access-tokens-vsts/)).
 	* **project name**: The name of the VSTS project to be created.
@@ -70,6 +74,12 @@ Follow these steps to deploy the starter kit using Bash:
 
 ## Manual Configuration
 
+### Start Azure Stream Analytics jobs
+
+1. In the [Azure classic portal](https://manage.windowsazure.com/), go to **Stream Analytics** and select **mydriving-archive**.
+2. Click the **START** button at the bottom of the page. 
+3. Similarly, start the **mydriving-vinlookup** job.
+ 
 ### Configuring Power BI Outputs for Azure Streaming Analytics
 
 1. In the [Azure classic portal](https://manage.windowsazure.com/), go to **Stream Analytics** and select **mydriving-hourlypbi**.
@@ -102,7 +112,7 @@ Follow these steps to deploy the starter kit using Bash:
 	- **Table Name**: TripPointData
 	- **Workspace**: You can use the default
 
-1. Start the remaining ASA jobs. Make sure that **mydriving-archive**, **mydriving-sqlpbi**, **mydriving-hourlypbi**, and **mydriving-vinlookup** are all running.
+1. Make sure that **mydriving-archive**, **mydriving-sqlpbi**, **mydriving-hourlypbi**, and **mydriving-vinlookup** are all running.
   
 ### Machine Learning configuration
 

@@ -109,9 +109,11 @@ Write-Output "******************************************************************
 
 # Create required services
 $templateParams = New-Object -TypeName Hashtable
+$TemplateParams.Add(("dataFactoryStartDate"), (Get-Date).ToUniversalTime().AddDays(1).ToString("s"))
+$TemplateParams.Add(("dataFactoryEndDate"), (Get-Date).ToUniversalTime().AddDays(91).ToString("s"))
 if ($MobileAppRepositoryUrl) {
 	Write-Warning "Overriding the mobile app repository URL..."
-	$templateParams.Add("MobileAppRepositoryUrl", $MobileAppRepositoryUrl)
+	$templateParams.Add("mobileAppRepositoryUrl", $MobileAppRepositoryUrl)
 }
 
 Write-Output ""
@@ -172,8 +174,10 @@ Write-Output "* Configuring ML..."
 Write-Output "**************************************************************************************************"
 	
 $context = Get-AzureRmContext
-.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/2e55da807f4a4273bfa99852d3d6e304/items'
-.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/a9fb6aeb3a164eedaaa28da34f02c3b0/items'
+$thumbprint = Read-Host "Please provide the thumbprint of your Azure management certificate. Press [Enter] directly to sign in using AAD."
+
+.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/2e55da807f4a4273bfa99852d3d6e304/items' $thumbprint
+.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/a9fb6aeb3a164eedaaa28da34f02c3b0/items' $thumbprint
 
 # Deploy VSTS build definitions
 $confirmation = Read-Host "Do you want to deploy VSTS CI? [y/n]"

@@ -42,6 +42,12 @@
     "mobileAppRepositoryUrl": {
       "type": "string",
       "defaultValue": "https://github.com/f2bo/f2botrips.git" /* TODO: REPLACE WITH mydriving APPLICATION - REMEMBER TO UPDATE scenario_complete.nocomments.json AS WELL */
+    },
+    "dataFactoryStartDate": {
+      "type": "string"
+    },
+    "dataFactoryEndDate": {
+      "type": "string"
     }
   },
   "variables": {
@@ -1524,8 +1530,8 @@
                 }
               }
             ],
-            "start": "2016-03-12T02:00:00Z",
-            "end": "2016-06-04T02:00:00Z",
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
             "isPaused": false,
             "pipelineMode": "Scheduled"
           },
@@ -1589,8 +1595,8 @@
                 }
               }
             ],
-            "start": "2016-03-12T02:00:00Z",
-            "end": "2016-06-04T02:00:00Z",
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
             "isPaused": false,
             "pipelineMode": "Scheduled"
           },
@@ -1678,8 +1684,8 @@
                 }
               }
             ],
-            "start": "2016-03-12T02:00:00Z",
-            "end": "2016-06-04T02:00:00Z",
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
             "isPaused": false,
             "pipelineMode": "Scheduled"
           },
@@ -1735,8 +1741,8 @@
                 }
               }
             ],
-            "start": "2016-03-12T02:00:00Z",
-            "end": "2016-06-04T02:00:00Z",
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
             "isPaused": false,
             "pipelineMode": "Scheduled"
           },
@@ -1788,8 +1794,8 @@
                 }
               }
             ],
-            "start": "2016-03-12T02:00:00Z",
-            "end": "2016-06-04T02:00:00Z",
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
             "isPaused": false,
             "pipelineMode": "Scheduled"
           },
@@ -1845,8 +1851,8 @@
                 }
               }
             ],
-            "start": "2016-03-12T02:00:00Z",
-            "end": "2016-06-04T02:00:00Z",
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
             "isPaused": false,
             "pipelineMode": "Scheduled"
           },
@@ -1902,8 +1908,8 @@
                 }
               }
             ],
-            "start": "2016-03-12T02:00:00Z",
-            "end": "2016-06-04T02:00:00Z",
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
             "isPaused": false,
             "pipelineMode": "Scheduled"
           },
@@ -2032,8 +2038,8 @@
                 }
               }
             ],
-            "start": "2016-03-12T02:00:00Z",
-            "end": "2016-06-04T02:00:00Z",
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
             "isPaused": false,
             "pipelineMode": "Scheduled"
           },
@@ -2116,8 +2122,8 @@
                 }
               }
             ],
-            "start": "2016-03-12T02:00:00Z",
-            "end": "2016-06-04T02:00:00Z",
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
             "isPaused": false,
             "pipelineMode": "Scheduled"
           },
@@ -2165,8 +2171,8 @@
                 }
               }
             ],
-            "start": "2016-03-12T02:00:00Z",
-            "end": "2016-06-04T02:00:00Z",
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
             "isPaused": false,
             "pipelineMode": "Scheduled"
           },
