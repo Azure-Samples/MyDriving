@@ -1,4 +1,4 @@
-﻿Param ([string] $subscriptionId, [string] $workspaceName, [string]$location, [string]$ownerId, [string] $storageAccountName, [string] $storageAccountKey, [string] $packageLocation, [string]$thumbprint)
+﻿Param ([string] $subscriptionId, [string] $workspaceName, [string]$location, [string]$ownerId, [string] $storageAccountName, [string] $storageAccountKey, [string] $packageLocation1, [string]$packageName1, [string]$packageLocation2, [string]$packageName2, [string]$thumbprint)
 
 $global:authResult = $null
 
@@ -14,7 +14,7 @@ function Authenticate()
     $resourceAppIdURI = "https://management.core.windows.net/"
     $authority = "https://login.windows.net/common/oauth2/authorize"
     $authContext = New-Object "Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext" -ArgumentList $authority
-    $global:authResult = $authContext.AcquireToken($resourceAppIdURI, $clientId, $redirectUri, "Always")
+    $global:authResult = $authContext.AcquireToken($resourceAppIdURI, $clientId, $redirectUri, "Auto")
 }
 
 function InvokeManagementAPI([string]$subscriptionId, [string]$uri, [string]$thumbprint)
@@ -57,13 +57,24 @@ function InvokeManagementAPI_PUT([string]$subscriptionId, [string]$uri, [string]
     return $res
 }
 
-function InvokeMLAPI([string]$key, [string]$uri, [string]$method)
+function InvokeMLAPI([string]$key, [string]$uri, [string]$method, [string]$json)
 {
 
     $URI = "https://studioapi.azureml.net/$uri"
     $headers = @{“x-ms-metaanalytics-authorizationtoken”= "$key"}
 
-    $res = Invoke-RestMethod -Uri $URI -Method $method -Headers $headers
+    if ($method -eq "POST") {
+       $res = Invoke-RestMethod -Uri $URI -Method $method -Headers $headers -Body $json -ContentType 'application/json'
+    }
+    else {
+        $res = Invoke-RestMethod -Uri $URI -Method $method -Headers $headers
+    }
+    return $res
+}
+
+function GetDataSources([string]$key, [string]$workspaceId)
+{
+    $res = InvokeMLAPI $key "api/workspaces/$workspaceId/datasources" "GET"
     return $res
 }
 
@@ -100,7 +111,33 @@ function FindExperiment([string]$key, [string]$workspaceId, [string]$experimentN
    }
    return $null
 }
+function GetExperiment([string]$key, [string]$workspaceId, [string]$experiementId)
+{
+    $res = InvokeMLAPI $key "api/workspaces/$workspaceId/experiments/$experimentId" "GET"
+    return $res
+}
+function CreateProject([string]$key, [string]$projectName, [string]$workspaceId, $trainingExperiment, $scoringExperiment)
+{
+    $payload = @{}
+    
+    $experiment1 = @{}
+    $experiment1.Add("ExperimentId", $trainingExperiment.ExperimentId)
+    $experiment1.Add("Role", "Training")
+    $experiment1.Add("Experiment", $trainingExperiment)
 
+    $experiment2 = @{}
+    $experiment2.Add("ExperimentId", $scoringExperiment.ExperimentId)
+    $experiment2.Add("Role", "Scoring")
+    $experiment2.Add("Experiment", $scoringExperiment)
+
+    $array = @($experiment1, $experiment2)
+    $payload.Add("Experiments", $array)
+
+    $json = $payload | ConvertTo-Json -Depth 5
+
+    $res = InvokeMLAPI $key "api/workspaces/$workspaceId/projects" "POST" $json
+
+}
 
 function PackageExperiment([string]$key, [string]$workspaceId, [string]$experimentId)
 {
@@ -148,6 +185,8 @@ function UnpackExperiment([string]$key, [string]$workspaceId, [string] $packageL
         }
     } 
     until ($res.Status -eq  "Complete")
+
+    return $res.ExperimentId
 }
 
 function CreateWorkspace([string]$subscriptionId, [string]$workspaceName, [string]$location, [string]$storageAccountName, [string]$storageAccountKey, [string]$ownerId, [string]$thumbprint)
@@ -166,7 +205,10 @@ function CreateWorkspace([string]$subscriptionId, [string]$workspaceName, [strin
    $res = InvokeManagementAPI_PUT $subscriptionId "cloudservices/$workspaceName/resources/machinelearning/~/workspaces/$guid" $json $thumbprint
 } 
 
-function ImportExperiment([string]$subscriptionId, [string]$workspaceName, [string]$location, [string]$storageAccountName, [string]$storageAccountKey, [string]$ownerId, [string]$packageLocation, [string]$thumbprint)
+function ImportExperiment([string]$subscriptionId, [string]$workspaceName, [string]$location, [string]$storageAccountName, [string]$storageAccountKey, [string]$ownerId, 
+                          [string]$packageLocation1, [string]$experimentName1, 
+                          [string]$packageLocation2, [string]$experimentName2,
+                          [string]$thumbprint)
 {
     if (!$thumbprint) {
         Authenticate
@@ -184,7 +226,13 @@ function ImportExperiment([string]$subscriptionId, [string]$workspaceName, [stri
 
     $workspace = GetWorkspace $subscriptionId $workspaceName $original.Id $thumbprint
 
-    UnpackExperiment $workspace.AuthorizationToken.PrimaryToken $original.Id $packageLocation
+    $experimentId1 = UnpackExperiment $workspace.AuthorizationToken.PrimaryToken $original.Id $packageLocation1
+    $exp1 = FindExperiment $workspace.AuthorizationToken.PrimaryToken $workspace.Id $experimentName1
+
+    $experimentId2 = UnpackExperiment $workspace.AuthorizationToken.PrimaryToken $original.Id $packageLocation2
+    $exp2 = FindExperiment $workspace.AuthorizationToken.PrimaryToken $workspace.Id $experimentName2
+
+    CreateProject $workspace.AuthorizationToken.PrimaryToken $workspaceName $workspace.Id $exp1 $exp2
 
 }
 
@@ -215,4 +263,4 @@ function ExportExperiment([string]$subscriptionId, [string]$workspaceName, [stri
 
 #ExportExperiment "[subscription id]" "[workspace name]" "MyDriving [Predictive Exp.]" "[ML key]"
 
-ImportExperiment $subscriptionId $workspaceName $location $storageAccountName $storageAccountKey $ownerId $packageLocation $thumbprint 
+ImportExperiment $subscriptionId $workspaceName $location $storageAccountName $storageAccountKey $ownerId $packageLocation1 $packageName1 $packageLocation2 $packageName2 $thumbprint 
