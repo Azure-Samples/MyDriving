@@ -132,9 +132,9 @@ echo "**************************************************************************
 uploadAssets() {
  for i in "$4"/*;do
     if [ -d "$i" ];then
-        uploadAssets $1 $2 $3 "$i"
+        uploadAssets $1 $2 $3 "$i" $5
     elif [ -f "$i" ]; then
-        blobName=${i: ${#4} + 1}
+        blobName=${i: ${#5} + 1}
         echo "Uploading file '$blobName' to blob storage..."
         azure storage blob upload -a $1 -k $2 -q $i $3 $blobName
     fi
@@ -147,7 +147,7 @@ azure storage container create $ASSETS_CONTAINER_NAME || :
 
 # upload the assets to the container
 echo "Copying the hive scripts in '$HIVE_SCRIPTS_DIRECTORY' to blob storage..."
-uploadAssets $AZURE_STORAGE_ACCOUNT $AZURE_STORAGE_ACCESS_KEY $ASSETS_CONTAINER_NAME $HIVE_SCRIPTS_DIRECTORY
+uploadAssets $AZURE_STORAGE_ACCOUNT $AZURE_STORAGE_ACCESS_KEY $ASSETS_CONTAINER_NAME $HIVE_SCRIPTS_DIRECTORY $HIVE_SCRIPTS_DIRECTORY
 
 # create the deployment with the solution template
 echo
@@ -200,7 +200,7 @@ azure storage container create $REFERENCE_CONTAINER_NAME -a $STORAGE_ACCOUNT_NAM
 
 # upload the assets to the container
 echo "Copying the sample data files '$SAMPLE_DATA_DIRECTORY' to blob storage..."
-uploadAssets $STORAGE_ACCOUNT_NAME_ANALYTICS $STORAGE_ACCOUNT_KEY_ANALYTICS $TRIP_DATA_CONTAINER_NAME $SAMPLE_DATA_DIRECTORY
+uploadAssets $STORAGE_ACCOUNT_NAME_ANALYTICS $STORAGE_ACCOUNT_KEY_ANALYTICS $TRIP_DATA_CONTAINER_NAME $SAMPLE_DATA_DIRECTORY $SAMPLE_DATA_DIRECTORY
 
 # Initialize SQL databases
 echo
