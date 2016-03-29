@@ -117,16 +117,16 @@ if ($deployment1 -and $deployment1.ProvisioningState -ne "Succeeded") {
 	exit 1
 }
 
-
 # Upload the HQL queries to the storage account container
 Write-Output ""
 Write-Output "**************************************************************************************************"
 Write-Output "* Uploading files to blob storage..."
 Write-Output "**************************************************************************************************"
+Write-Output "Uploading hive scripts..."
 . .\scripts\Copy-ArtifactsToBlobStorage.ps1 -StorageAccountName $deployment1.Outputs.storageAccountName.Value `
-                                        -StorageAccountKey $deployment1.Outputs.storageAccountKey.Value `
-                                        -StorageContainerName $deployment1.Outputs.assetsContainerName.Value
-
+											-StorageAccountKey $deployment1.Outputs.storageAccountKey.Value `
+											-StorageContainerName $deployment1.Outputs.assetsContainerName.Value `
+											-ArtifactsPath '..\..\..\src\HDInsight'
 
 # Create required services
 $templateParams = New-Object -TypeName Hashtable
@@ -164,6 +164,12 @@ $storageAccountKey = $deployment2.Outputs.storageAccountKeyAnalytics.Value
 . .\scripts\setupStorage.ps1 -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey -ContainerName $deployment2.Outputs.rawdataContainerName.Value
 . .\scripts\setupStorage.ps1 -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey -ContainerName $deployment2.Outputs.tripdataContainerName.Value
 . .\scripts\setupStorage.ps1 -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey -ContainerName $deployment2.Outputs.referenceContainerName.Value
+
+Write-Output "Uploading sample data..."
+. .\scripts\Copy-ArtifactsToBlobStorage.ps1 -StorageAccountName $storageAccountName `
+											-StorageAccountKey $storageAccountKey `
+											-StorageContainerName $deployment2.Outputs.tripdataContainerName.Value `
+											-ArtifactsPath '..\..\Assets'
 
 # Initialize SQL databases
 Write-Output ""
