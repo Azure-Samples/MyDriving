@@ -8,7 +8,7 @@ TEMPLATEFILE="../ARM/scenario_complete.nocomments.json"
 PREREQ_TEMPLATEFILE="../ARM/prerequisites.nocomments.json"
 PARAMETERSFILE="../ARM/scenario_complete.params.nocomments.json"
 HIVE_SCRIPTS_DIRECTORY="../../src/HDInsight"
-SAMPLE_DATA_DIRECTORY="../../Assets"
+SAMPLE_DATA_DIRECTORY="../Assets"
 SQLSERVER_DDL_SCRIPT="../../src/SQLDatabase/MyDrivingDB.sql"
 SQLANALYTICS_DDL_SCRIPT="../../src/SQLDatabase/MyDrivingAnalyticsDB.sql"
 
@@ -134,7 +134,7 @@ uploadAssets() {
     if [ -d "$i" ];then
         uploadAssets $1 $2 $3 "$i"
     elif [ -f "$i" ]; then
-        blobName=${i: ${#3} + 1}
+        blobName=${i: ${#4} + 1}
         echo "Uploading file '$blobName' to blob storage..."
         azure storage blob upload -a $1 -k $2 -q $i $3 $blobName
     fi
@@ -200,7 +200,7 @@ azure storage container create $REFERENCE_CONTAINER_NAME -a $STORAGE_ACCOUNT_NAM
 
 # upload the assets to the container
 echo "Copying the sample data files '$SAMPLE_DATA_DIRECTORY' to blob storage..."
-uploadAssets $STORAGE_ACCOUNT_NAME_ANALYTICS $STORAGE_ACCOUNT_KEY_ANALYTICS $REFERENCE_CONTAINER_NAME $SAMPLE_DATA_DIRECTORY
+uploadAssets $STORAGE_ACCOUNT_NAME_ANALYTICS $STORAGE_ACCOUNT_KEY_ANALYTICS $TRIP_DATA_CONTAINER_NAME $SAMPLE_DATA_DIRECTORY
 
 # Initialize SQL databases
 echo
