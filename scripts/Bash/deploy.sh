@@ -7,7 +7,8 @@ DEPLOYMENTNAME="scenario_complete-$(date -u +%m%d-%H%M)"
 TEMPLATEFILE="../ARM/scenario_complete.nocomments.json"
 PREREQ_TEMPLATEFILE="../ARM/prerequisites.nocomments.json"
 PARAMETERSFILE="../ARM/scenario_complete.params.nocomments.json"
-ASSETS_DIRECTORY="../../src/HDInsight"
+HIVE_SCRIPTS_DIRECTORY="../../src/HDInsight"
+SAMPLE_DATA_DIRECTORY="../../Assets"
 SQLSERVER_DDL_SCRIPT="../../src/SQLDatabase/MyDrivingDB.sql"
 SQLANALYTICS_DDL_SCRIPT="../../src/SQLDatabase/MyDrivingAnalyticsDB.sql"
 
@@ -129,13 +130,13 @@ echo "* Uploading files to blob storage..."
 echo "**************************************************************************************************"
 # uploads files in a specified directory
 uploadAssets() {
- for i in "$1"/*;do
+ for i in "$4"/*;do
     if [ -d "$i" ];then
-        uploadAssets "$i"
+        uploadAssets $1 $2 $3 "$i"
     elif [ -f "$i" ]; then
-        blobName=${i: ${#ASSETS_DIRECTORY} + 1}
+        blobName=${i: ${#3} + 1}
         echo "Uploading file '$blobName' to blob storage..."
-        azure storage blob upload -q $i $ASSETS_CONTAINER_NAME $blobName
+        azure storage blob upload -a $1 -k $2 -q $i $3 $blobName
     fi
  done
 }
@@ -145,8 +146,8 @@ echo "Creating the '$ASSETS_CONTAINER_NAME' blob container to store assets..."
 azure storage container create $ASSETS_CONTAINER_NAME || :
 
 # upload the assets to the container
-echo "Copying the assets in '$ASSETS_DIRECTORY' to blob storage..."
-uploadAssets $ASSETS_DIRECTORY
+echo "Copying the hive scripts in '$HIVE_SCRIPTS_DIRECTORY' to blob storage..."
+uploadAssets $AZURE_STORAGE_ACCOUNT $AZURE_STORAGE_ACCESS_KEY $ASSETS_CONTAINER_NAME $HIVE_SCRIPTS_DIRECTORY
 
 # create the deployment with the solution template
 echo
@@ -180,6 +181,7 @@ eval $(echo "$OUTPUT1" | awk -F ': ' \
 				$2 ~ /tripdataContainerName/                {split($2, a, " "); print "export TRIP_DATA_CONTAINER_NAME="                 a[3] ";"} \
 				$2 ~ /referenceContainerName/               {split($2, a, " "); print "export REFERENCE_CONTAINER_NAME="                 a[3] ";"}')
 
+
 echo
 echo "**************************************************************************************************"
 echo "* Initializing blob storage..."
@@ -195,6 +197,10 @@ azure storage container create $TRIP_DATA_CONTAINER_NAME -a $STORAGE_ACCOUNT_NAM
 # create the storage account container for reference data
 echo "Creating the '$REFERENCE_CONTAINER_NAME' blob container..."
 azure storage container create $REFERENCE_CONTAINER_NAME -a $STORAGE_ACCOUNT_NAME_ANALYTICS -k $STORAGE_ACCOUNT_KEY_ANALYTICS || :
+
+# upload the assets to the container
+echo "Copying the sample data files '$SAMPLE_DATA_DIRECTORY' to blob storage..."
+uploadAssets $STORAGE_ACCOUNT_NAME_ANALYTICS $STORAGE_ACCOUNT_KEY_ANALYTICS $REFERENCE_CONTAINER_NAME $SAMPLE_DATA_DIRECTORY
 
 # Initialize SQL databases
 echo
