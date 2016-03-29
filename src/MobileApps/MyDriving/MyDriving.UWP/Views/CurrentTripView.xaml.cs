@@ -221,7 +221,7 @@ namespace MyDriving.UWP.Views
 
         private async void SessionRevoked(object sender, ExtendedExecutionRevokedEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 switch (args.Reason)
                 {
@@ -235,6 +235,7 @@ namespace MyDriving.UWP.Views
                 }
 
                 ClearExtendedExecution();
+                await BeginExtendedExecution();
             });
         }
        
