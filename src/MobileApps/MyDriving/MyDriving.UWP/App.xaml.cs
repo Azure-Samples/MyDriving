@@ -51,7 +51,7 @@ namespace MyDriving.UWP
             if (shell == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                Frame rootFrame = new Frame(); 
+                Frame rootFrame = new Frame();
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 //Register platform specific implementations of shared interfaces
