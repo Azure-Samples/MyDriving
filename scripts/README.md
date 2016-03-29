@@ -82,7 +82,76 @@ Follow these steps to deploy the starter kit using Bash:
 1. In the [Azure classic portal](https://manage.windowsazure.com/), go to **Stream Analytics** and select **mydriving-archive**.
 2. Click the **START** button at the bottom of the page. 
 3. Similarly, start the **mydriving-vinlookup** job.
- 
+
+### Machine Learning Configuration
+1. At the portal, obtain the credentials for the storage account whose name is prefixed with **"mydrivingstr"**. It can be found under the resource group of the solution.
+
+   ![Storage Account](Images/storage-account.png?raw=true "Storage Account")
+   
+   _Storage Account_
+
+1. Go to the classic portal, select the **Machine Learning** service and then the **mydriving** workspace. Open the workspace by selecting **Sign-in to ML Studio**.
+
+1. Click the **Reader** module at the top of the experiment and set the **Account Name** and **Account Key** properties to the values obtained previously.
+
+   ![Configuring the ML Storage Account](Images/ml-storage-account.png?raw=true "Configuring the ML Storage Account")
+   
+   _Configuring the ML Storage Account_
+   
+1. Click **Run** to run the **MyDriving** experiment.
+
+1. Now, select the **Train Model** module, click **Setup Web Service**, and then **Deploy Web Service**. Reply **yes** when prompted for confirmation.
+   
+   ![Deploying an ML Web Service](Images/ml-deploy-web-service.png?raw=true "Deploying an ML Web Service")
+   
+   _Deploying an ML Web Service_
+
+1. Go back to the classic portal, select the **Machine Learning** service and then the **mydriving** workspace. Now switch to the **Web Services** tab and select the **MyDriving** web service.
+
+   ![Configuring ML Web Services](Images/ml-web-services.png?raw=true "Configuring ML Web Services")
+   
+   _Configuring ML Web Services_
+
+1. Click **Add Endpoint**, enter **_retrain_** as the name of the new endpoint, and then click the checkmark.
+
+   ![Adding an ML Web Service Endpoint](Images/ml-adding-endpoint.png?raw=true "Adding an ML Web Service Endpoint")
+   
+   _Adding an ML Web Service Endpoint_
+
+1. Select the newly added endpoint and copy the API key shown in the dashboard, under the **Quick Glance** section.
+
+1. Next, click **BATCH EXECUTION** to open the API documentation page and copy the **Request URI** of the **Submit (but not start) a Batch Execution job** operation.
+
+1. Make a note of the API Key and web service endpoint. You'll need them later to configure the Data Factory's **TrainingEndpoint-AMLLinkedService** linked service.
+
+### Azure Data Factory configuration
+
+1. At the portal, select the resource group where the solution is deployed and under **Resources**, select the Data Factory resource.
+
+   ![Data Factory](Images/data-factory.png?raw=true "Data Factory")
+   
+   _Data Factory_
+
+1. In the data factory blade, select the **Author and deploy** action.
+1. In the authoring blade, expand **Linked Services** and then select **AzureMLScoringandUpdateLinkedService**.
+   
+   ![Configuring the Data Factory](Images/configuring-data-factory.png?raw=true "Configuring the Data Factory")
+   
+   _Configuring the Data Factory_
+   
+1. Update the linked service definition by entering the following information from the Machine Learning experiment.
+
+   ![Configuring a Linked Service](Images/configuring-linked-service.png?raw=true "Configuring a Linked Service")
+
+    _Configuring a Linked Service_
+
+  - **mlEndpoint**: [TBD] endpoint for the Machine Learning experiment
+  - **apiKey**: [TBD] API key
+  - **updateResourceEndpoint**: [TBD]
+1. Click **Deploy**.
+
+1. Next, under **Linked Services**, select **TrainingEndpoint-AMLLinkedService** and enter the values of the **mlEndpoint** and **apiKey** of the **retrain** endpoint you obtained earlier when you configured the ML experiment. Click **Deploy**.
+
 ### Configuring Power BI Outputs for Azure Streaming Analytics
 
 1. In the [Azure classic portal](https://manage.windowsazure.com/), go to **Stream Analytics** and select **mydriving-hourlypbi**.
@@ -131,37 +200,6 @@ Follow these steps to deploy the starter kit using Bash:
    ![SQL Databases](Images/sql-databases.png?raw=true "SQL Databases")
    
    _SQL Databases_
-
-### Azure Data Factory configuration
-
-1. At the portal, select the resource group where the solution is deployed and under **Resources**, select the Data Factory resource.
-
-   ![Data Factory](Images/data-factory.png?raw=true "Data Factory")
-   
-   _Data Factory_
-
-1. In the data factory blade, select the **Author and deploy** action.
-1. In the authoring blade, expand **Linked Services** and then select **AzureMLScoringandUpdateLinkedService**.
-   
-   ![Configuring the Data Factory](Images/configuring-data-factory.png?raw=true "Configuring the Data Factory")
-   
-   _Configuring the Data Factory_
-   
-1. Update the linked service definition by entering the following information from the Machine Learning experiment.
-
-   ![Configuring a Linked Service](Images/configuring-linked-service.png?raw=true "Configuring a Linked Service")
-
-    _Configuring a Linked Service_
-
-  - **mlEndpoint**: [TBD] endpoint for the Machine Learning experiment
-  - **apiKey**: [TBD] API key
-  - **updateResourceEndpoint**: [TBD]
-1. Click **Deploy**.
-1. Next, under **Linked Services**, select **TrainingEndpoint-AMLLinkedService**.
-1. Update the linked service definition by entering the following information:
-  - **mlEndpoint**: [TBD] endpoint for the Machine Learning experiment
-  - **apiKey**: [TBD] API key  
-1. Click **Deploy**.
 
 ##### _Additional Information_
 You can use the supplied **scripts\PowerShell\scripts\copyMLExperiment.ps1** to import previously packaged ML experiments at these locations:
