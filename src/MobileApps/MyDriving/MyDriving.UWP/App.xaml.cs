@@ -45,7 +45,7 @@ namespace MyDriving.UWP
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             SplitViewShell shell = Window.Current.Content as SplitViewShell;
-            
+
             // Do not repeat app initialization when the Window is already present,
             // just ensure that the window is active
             if (shell == null)
@@ -53,7 +53,7 @@ namespace MyDriving.UWP
                 // Create a Frame to act as the navigation context and navigate to the first page
                 Frame rootFrame = new Frame();
                 shell = new SplitViewShell(rootFrame);
-             
+
                 //Register platform specific implementations of shared interfaces
                 ServiceLocator.Instance.Add<IAuthentication, Authentication>();
                 ServiceLocator.Instance.Add<Utils.Interfaces.ILogger, PlatformLogger>();
@@ -79,12 +79,13 @@ namespace MyDriving.UWP
                 }
 
                 // Place the shell in the current Window
-                Window.Current.Content = shell; 
+                Window.Current.Content = shell;
             }
 
             // Ensure the current window is active
             Window.Current.Activate();
         }
+ 
 
         /// <summary>
         ///     Invoked when Navigation to a certain page fails
