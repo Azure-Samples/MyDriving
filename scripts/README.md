@@ -16,7 +16,7 @@ Auto-deploy scripts allow you to deploy the entire starter kit service set on Az
 * [An active Azure subscription](https://azure.microsoft.com) with at least 24 available cores (for on-demand HDInsight cluster)
 
 ### Azure Management Certificate
-When copying Machine Learning work spaces, the script uses an Azure management certificate for authentication. You'll need to create and upload a management certificate and provides the certificate's thumbprint to the script when prompted. For details on creating a management certificate, please see [this article](https://azure.microsoft.com/en-us/documentation/articles/cloud-services-certs-create/). 
+When copying Machine Learning workspaces, the script uses an Azure management certificate for authentication. You'll need to create and upload a management certificate and provide the certificate's thumbprint to the script when prompted. For details on creating a management certificate, please see [this article](https://azure.microsoft.com/en-us/documentation/articles/cloud-services-certs-create/). 
 
 ## Use PowerShell script
 Follow these steps to deploy the starter kit using PowerShell:
@@ -27,10 +27,13 @@ Follow these steps to deploy the starter kit using PowerShell:
 
 	* _< location >_ is the Azure datacenter where you want the services to be deployed, such as "WestUS".
 	* _< resource group name >_ is the name of the deployed resource group. 
+
 2. During deployment, the script will ask you to provide two SQL Database passwords: **sqlServerAdminPassword** and **sqlAnalyticsServerAdminPassword**. The first password is for the Mobile App back end database; the second password is for the analytic database that supports Power BI queries. 
+
 3. Before the Machine Learning workspaces are imported, you'll be asked to provide the thumbprint of your Azure management certificate. Paste in the thumbprint and press [Enter] to continue. If you press [Enter] directly, the script will attempt to sign in using AAD. You can use the latter option if you are the owner of your subscription.
+
 4. Once the service deployment is complete, the script will ask if you want to provision the Visual Studio Team Services continuous integration pipelines. If you answer 'y' (for yes), you'll be prompted to enter the following values before it copies the MyDriving source code to the specified local folder, creates a new VSTS project, checks in the source to the project, and creates all build definitions:
-	* **your VSTS account**: The name of your VSTS account. It should have format of _https://[account name].visualstudio.com_.
+	* **your VSTS account**: The name of your VSTS account. It should have format of _https://[account-name].visualstudio.com_.
 	* **your PAT**:  The personal access token (see [http://blog.devmatter.com/personal-access-tokens-vsts/](http://blog.devmatter.com/personal-access-tokens-vsts/)).
 	* **project name**: The name of the VSTS project to be created.
 	* **local working folder**: The local folder where the MyDriving source code will be copied to.
@@ -42,16 +45,20 @@ Follow these steps to deploy the starter kit using PowerShell:
 Follow these steps to deploy the starter kit using Bash:
 
 1. Install [Node.js](http://nodejs.org).
+
 1. Install the [Azure CLI](https://azure.microsoft.com/en-us/documentation/articles/xplat-cli-install/).
+
 1. Open a Terminal window and go to the **scripts/bash** folder.
+
 1. Install the required dependencies.
 
     ```
     npm install
     ```
-1. Open **/scripts/ARM/scenario_complete.params.nocomments.json** in a text editor and update the  
-   **sqlServerAdminPassword** and **sqlAnalyticsServerAdminPassword** parameters. The first password is for the Mobile App back end database; the second password is for the analytic database that supports 
-   Power BI queries. Choose a suitable password for each one and save the updated file.
+1. Open **/scripts/ARM/scenario_complete.params.nocomments.json** in a text editor and update the **sqlServerAdminPassword** and **sqlAnalyticsServerAdminPassword** parameters. The first password is for the Mobile App back end database; the second password is for the analytic database that supports 
+   Power BI queries. Choose a suitable password for each one. 
+   
+   Next, set **dataFactoryStartDate** and **dataFactoryEndDate** to specify the period during which you intend to run the Azure Data Factory pipelines. Save the updated file.
    
     ```
     "parameters": {
@@ -59,9 +66,12 @@ Follow these steps to deploy the starter kit using Bash:
         "storageAccountType": { "value": "Standard_LRS" },
      ...
         "sqlServerAdminPassword": { "value": "<CHOOSE-A-PASSWORD>" },
-        "sqlAnalyticsServerAdminPassword": { "value": "<CHOOSE-A-PASSWORD>" }
+        "sqlAnalyticsServerAdminPassword": { "value": "<CHOOSE-A-PASSWORD>" },
+        "dataFactoryStartDate": { "value": "<CHOOSE-A-START-DATE>" ],
+        "dataFactoryEndDate": { "value": "<CHOOSE-AN-END-DATE>" ]
     }
     ```
+
 1. Launch the deployment script.
 
    ``` 
@@ -76,13 +86,15 @@ Follow these steps to deploy the starter kit using Bash:
 
 ### Start Azure Stream Analytics jobs
 
-1. In the [Azure classic portal](https://manage.windowsazure.com/), go to **Stream Analytics** and select **mydriving-archive**.
-2. Click the **START** button at the bottom of the page. 
-3. Similarly, start the **mydriving-vinlookup** job.
- 
-### Configuring Power BI Outputs for Azure Streaming Analytics
+1. In the [Azure classic portal](https://manage.windowsazure.com/), go to **Stream Analytics** and select the **mydriving-archive** job.
 
-1. In the [Azure classic portal](https://manage.windowsazure.com/), go to **Stream Analytics** and select **mydriving-hourlypbi**.
+2. Click the **START** button at the bottom of the page. 
+
+3. Similarly, start the **mydriving-vinlookup** job.
+
+### Configure Azure Streaming Analytics Power BI Outputs 
+
+1. In the [Azure classic portal](https://manage.windowsazure.com/), go to **Stream Analytics** and select the **mydriving-hourlypbi** job.
 
 1. Click the **STOP** button at the bottom of the page. You need to stop the job in order to add a new output.
 
@@ -96,48 +108,79 @@ Follow these steps to deploy the starter kit using Bash:
 
 	_Adding a Power BI output_
 
-1. Next, set the following values:
+1. Next, set the following values and click the checkmark:
 
 	- **Output Alias**: PowerBiSink
 	- **Dataset Name**: ASA-HourlyData
 	- **Table Name**: HourlyTripData
 	- **Workspace**: You can use the default
 
+	![Power BI output settings](Images/asa-powerbi-output-settings.png?raw=true "Power BI output settings")
+
+	_Power BI output settings_
+
 1. Click the **START** button to restart the job.
 
-1. Repeat the same steps to configure the **mydriving-sqlpbi** Stream Analytics job using the following values:
+1. Repeat the same steps to configure the **mydriving-sqlpbi** job using the following values:
 
 	- **Output Alias**: PowerBiSink
 	- **Dataset Name**: MyDriving-ASAdataset
 	- **Table Name**: TripPointData
 	- **Workspace**: You can use the default
 
-1. Make sure that **mydriving-archive**, **mydriving-sqlpbi**, **mydriving-hourlypbi**, and **mydriving-vinlookup** are all running.
-  
-### Machine Learning configuration
+1. Make sure that **mydriving-archive**, **mydriving-sqlpbi**, **mydriving-hourlypbi**, and **mydriving-vinlookup** jobs are all running.
 
-1. Open the Machine Learning workspace (named MyDriving).
-2. Modify the Reader components in both experiments to enter a storage account key. The storage account is under the same resource group and should have a name prefixed with **"mydrivingstr"**.
+### Machine Learning Configuration
+1. In the [Azure portal](https://portal.azure.com), obtain the credentials for the storage account whose name is prefixed with **"mydrivingstr"**. It can be found under the resource group of the solution.
 
    ![Storage Account](Images/storage-account.png?raw=true "Storage Account")
    
    _Storage Account_
 
-3. Modify the Writer components in both experiments to enter correct SQL Database connection info. You need to provide correct SQL Database server names and login credentials for both mydrivingDB database (on a server with a "mydrivingdbserver" prefix) and mydrivingAnalyticsDB (on a server with a "mydriving-dbserver" prefix). 
+1. Go to the [Azure classic portal](https://manage.windowsazure.com/), select the **Machine Learning** service and then the **mydriving** workspace. Open the workspace by selecting **Sign-in to ML Studio**.
 
-   ![SQL Databases](Images/sql-databases.png?raw=true "SQL Databases")
+1. Click the **Reader** module at the top of the experiment diagram to select it and in the **Properties** pane, set the **Account Name** and **Account Key** properties to the values obtained previously.
+
+   ![Configuring the ML Storage Account](Images/ml-storage-account.png?raw=true "Configuring the ML Storage Account")
    
-   _SQL Databases_
+   _Configuring the ML Storage Account_
+   
+1. Click **Run** at the bottom of the page to run the **MyDriving** experiment.
+
+1. Once the run is complete, select the **Train Model** module in the diagram, click **Setup Web Service**, and then **Deploy Web Service**. Reply **yes** when prompted for confirmation.
+   
+   ![Deploying an ML Web Service](Images/ml-deploy-web-service.png?raw=true "Deploying an ML Web Service")
+   
+   _Deploying an ML Web Service_
+
+1. Go back to the [Azure classic portal](https://manage.windowsazure.com/), select the **Machine Learning** service and then the **mydriving** workspace. Now switch to the **Web Services** tab and select the **MyDriving** web service.
+
+   ![Configuring ML Web Services](Images/ml-web-services.png?raw=true "Configuring ML Web Services")
+   
+   _Configuring ML Web Services_
+
+1. Click **Add Endpoint**, enter **_retrain_** as the name of the new endpoint, and then click the checkmark.
+
+   ![Adding an ML Web Service Endpoint](Images/ml-adding-endpoint.png?raw=true "Adding an ML Web Service Endpoint")
+   
+   _Adding an ML Web Service Endpoint_
+
+1. Select the newly added endpoint and copy the API key shown in the dashboard, under the **Quick Glance** section.
+
+1. Next, click **BATCH EXECUTION** to open the API documentation page and copy the **Request URI** of the **Submit (but not start) a Batch Execution job** operation.
+
+1. Make a note of the API Key and the request URI of the **retrain** endpoint. You'll need these values later to configure the Data Factory's **TrainingEndpoint-AMLLinkedService** linked service.
 
 ### Azure Data Factory configuration
 
-1. At the portal, select the resource group where the solution is deployed and under **Resources**, select the Data Factory resource.
+1. In the [Azure portal](https://portal.azure.com), select the resource group where the solution is deployed and under **Resources**, select the Data Factory resource.
 
    ![Data Factory](Images/data-factory.png?raw=true "Data Factory")
    
    _Data Factory_
 
 1. In the data factory blade, select the **Author and deploy** action.
+
 1. In the authoring blade, expand **Linked Services** and then select **AzureMLScoringandUpdateLinkedService**.
    
    ![Configuring the Data Factory](Images/configuring-data-factory.png?raw=true "Configuring the Data Factory")
@@ -153,12 +196,26 @@ Follow these steps to deploy the starter kit using Bash:
   - **mlEndpoint**: [TBD] endpoint for the Machine Learning experiment
   - **apiKey**: [TBD] API key
   - **updateResourceEndpoint**: [TBD]
+  
 1. Click **Deploy**.
-1. Next, under **Linked Services**, select **TrainingEndpoint-AMLLinkedService**.
-1. Update the linked service definition by entering the following information:
-  - **mlEndpoint**: [TBD] endpoint for the Machine Learning experiment
-  - **apiKey**: [TBD] API key  
-1. Click **Deploy**.
+
+1. Next, under **Linked Services**, select **TrainingEndpoint-AMLLinkedService** and enter the values of the **mlEndpoint** and **apiKey** of the **retrain** endpoint you obtained earlier when you configured the ML experiment. Click **Deploy**.
+  
+### Machine Learning configuration
+
+1. Open the Machine Learning workspace (named MyDriving).
+
+2. Modify the Reader components in both experiments to enter a storage account key. The storage account is under the same resource group and should have a name prefixed with **"mydrivingstr"**.
+
+   ![Storage Account](Images/storage-account.png?raw=true "Storage Account")
+   
+   _Storage Account_
+
+3. Modify the Writer components in both experiments to enter correct SQL Database connection info. You need to provide correct SQL Database server names and login credentials for both mydrivingDB database (on a server with a "mydrivingdbserver" prefix) and mydrivingAnalyticsDB (on a server with a "mydriving-dbserver" prefix). 
+
+   ![SQL Databases](Images/sql-databases.png?raw=true "SQL Databases")
+   
+   _SQL Databases_
 
 ##### _Additional Information_
 You can use the supplied **scripts\PowerShell\scripts\copyMLExperiment.ps1** to import previously packaged ML experiments at these locations:
@@ -172,7 +229,7 @@ For example:
 .\copyMLExperiment.ps1 "[your Azure subscription Id]" "[name of the workspace to be created]" "[location]" "[owner email]" "[storage account name]" "[storage account key]" "[experiement package URL (see above)]"
 ```
 
-The PowerShell script also provides other useful functions with several other tasks, such as finding a work space/experiment, and packaging an experiment. For example, to package an existing experiment (so that it can be unpacked to a new work space), use the following cmdlet:
+The PowerShell script also provides other useful functions with several other tasks, such as finding a workspace/experiment, and packaging an experiment. For example, to package an existing experiment (so that it can be unpacked to a new workspace), use the following cmdlet:
 
 ```
 ExportExperiment "[subscription id]" "[workspace name]" "[experiment name]" "[ML key]"
@@ -184,13 +241,14 @@ ExportExperiment "[subscription id]" "[workspace name]" "[experiment name]" "[ML
 This script copies the MyDriving source code into a working folder, creates a new VSTS project, checks in the code into the new project, and then imports all build definitions under the **scripts\VSTS** folder. Some build steps such as downloading certificates are removed from the build pipelines. After you import the build pipelines, you should review them and make the necessary adjustments before using them.
 
 1. Before using the following script to import the build definitions, you'll need to create a Personal Access Token (PAT) following the instructions on this page: [http://blog.devmatter.com/personal-access-tokens-vsts/](http://blog.devmatter.com/personal-access-tokens-vsts/).
+
 2. Launch **importVSTSBuildDefinition.ps1** under the **scripts\PowerShell\scripts** folder:
 
   ```
   .\importVSTSBuildDefinition.ps1 "<your VSTS account>" "<your PAT>" "<project name>" "<folder to the build definition files>" "<local working folder>"
   ```
   
-	* _< your VSTS account >_ is the name of your VSTS account. It should have format of _https://[account name].visualstuio.com_.
+	* _< your VSTS account >_ is the name of your VSTS account. It should have format of _https://[account-name].visualstudio.com_.
 	* _< your PAT >_ is the PAT you generated in step 1.
 	* _< project name >_ is the name of the VSTS project to be created.
 	* _< Folder to the build definition file >_ is the folder that holds exported build definition (JSON) files. You should point this to the **scripts\VSTS** folder.
@@ -202,6 +260,7 @@ Service Fabric is used as one of the possible extension processing unit hosts. I
 It's recommended that you protect your Service Fabric with a certificate. We provide a PowerShell script that helps you to create a self-signed certificate for testing purposes. For production environments, you should use a certificate from a trusted CA.
 
 1. In Windows PowerShell, sign in to your Azure subscription using the **Login-AzureRmAccount** cmdlet.
+
 2. Launch **setupCert.ps1** under the **scripts\PowerShell\scripts** folder:
 
   ```
@@ -221,6 +280,7 @@ It's recommended that you protect your Service Fabric with a certificate. We pro
   ```
   .\setupCert.ps1 mytest.westus.cloudapp.azure.com P@ssword456 testVault1h testKey1h testgrp "West US" c:\src\abc.pfx
   ```
+
 3. The above script generates several outputs, including the resource id of the Key Vault, the secret id and the certificate thumbprint. For example:
 
   ```
@@ -228,14 +288,14 @@ It's recommended that you protect your Service Fabric with a certificate. We pro
     Secret Id:  + https://testvault1h.vault.azure.net:443/secrets/testKeyh/xxxxxxxxxxxxxxxxx
     Cert Thumbprint:  xxxxxxxxxxx
   ```
+
 4. Use the Microsoft Azure Portal to create a new Service Fabric cluster. When configuring cluster security, enter the information items in step 3.
+
 5. Import the certificate to the Trusted People store.
   
   ```
   Import-PfxCertificate -Exportable -CertStoreLocation Cert:\CurrentUser\TrustedPeople -FilePath '[path to the .pfx file]' -Password $password
   ```
 6. Open **src\Extensions\ServiceFabirc\VINLookUpApplicaiton\VINLookUpApplicaiton.sln** in Visual Studio 2015.
+
 7. Right-click **VINLookUpApplication** and select the **Publish** menu to publish the application. Select the Service Fabric cluster you provisioned.
-
-
-
