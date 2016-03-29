@@ -52,40 +52,40 @@ namespace MyDriving.UWP
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 Frame rootFrame = new Frame();
-                rootFrame.NavigationFailed += OnNavigationFailed;
+                shell = new SplitViewShell(rootFrame);
 
                 //Register platform specific implementations of shared interfaces
                 ServiceLocator.Instance.Add<IAuthentication, Authentication>();
                 ServiceLocator.Instance.Add<Utils.Interfaces.ILogger, PlatformLogger>();
                 ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
                 if (Settings.Current.IsLoggedIn)
                 {
                     //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
                     MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
-
-                    // Create the shell and set it to current trip
-                    shell = new SplitViewShell(rootFrame);
                     shell.SetTitle("CURRENT TRIP");
                     shell.SetSelectedPage("CURRENT TRIP");
                     rootFrame.Navigate(typeof(CurrentTripView), e.Arguments);
-                    Window.Current.Content = shell;
                 }
                 else if (Settings.Current.FirstRun)
                 {
                     rootFrame.Navigate(typeof(GetStarted1), e.Arguments);
-                    Window.Current.Content = rootFrame;
                 }
                 else
                 {
                     rootFrame.Navigate(typeof(LoginView), e.Arguments);
-                    Window.Current.Content = rootFrame;
                 }
+
+                // Place the shell in the current Window
+                Window.Current.Content = shell;
             }
 
             // Ensure the current window is active
             Window.Current.Activate();
         }
+ 
 
         /// <summary>
         ///     Invoked when Navigation to a certain page fails
