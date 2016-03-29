@@ -7,7 +7,7 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Background="Transparent">
         <Image Name="Image" Style="{StaticResource SplitViewIconStyle}" Source="{x:Bind DefaultImageSource}"/>
         <TextBlock Name="Label" Style="{StaticResource SplitViewText}" Foreground="{x:Bind defaultTextColor}" Text="{x:Bind LabelText}"/>
     </StackPanel>

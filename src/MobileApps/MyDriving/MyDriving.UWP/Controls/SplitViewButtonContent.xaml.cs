@@ -9,7 +9,7 @@ namespace MyDriving.UWP.Controls
 {
     public sealed partial class SplitViewButtonContent
     {
-        readonly SolidColorBrush defaultTextColor = new SolidColorBrush(Color.FromArgb(0xFF, 0xad, 0xac, 0xac));
+        readonly SolidColorBrush defaultTextColor = new SolidColorBrush(Colors.White);
 
         readonly SolidColorBrush selectedTextColor = new SolidColorBrush(Color.FromArgb(0xFF, 0x1b, 0xa0, 0xe1));
         public BitmapImage DefaultImageSource;
