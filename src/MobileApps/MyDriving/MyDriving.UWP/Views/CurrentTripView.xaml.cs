@@ -27,7 +27,7 @@ namespace MyDriving.UWP.Views
     /// </summary>
     public sealed partial class CurrentTripView : INotifyPropertyChanged
     {
-     
+        private bool recordButtonIsBusy = false;
         private ImageSource recordButtonImage;
 
         private ExtendedExecutionSession session;
@@ -238,12 +238,14 @@ namespace MyDriving.UWP.Views
                 await BeginExtendedExecution();
             });
         }
-       
-  
+
+
         private async void StartRecordBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (ViewModel?.CurrentPosition == null || ViewModel.IsBusy)
+            if (ViewModel?.CurrentPosition == null || ViewModel.IsBusy || recordButtonIsBusy)
                 return;
+
+            recordButtonIsBusy = true;
 
             var basicGeoposition = new BasicGeoposition()
             {
@@ -257,7 +259,10 @@ namespace MyDriving.UWP.Views
                 UpdateMap_PositionChanged(basicGeoposition);
 
                 if (!await ViewModel.StopRecordingTrip())
+                {
+                    recordButtonIsBusy = false;
                     return;
+                }
 
                 // Need to add the end marker only when we are able to stop the trip. 
                 AddEndMarker(basicGeoposition);
@@ -267,13 +272,16 @@ namespace MyDriving.UWP.Views
                 var recordedTripSummary = ViewModel.TripSummary;
                 await ViewModel.SaveRecordingTripAsync();
                 // Launch Trip Summary Page. 
-               
-                Frame.Navigate(typeof (TripSummaryView), recordedTripSummary);
-        }
+
+                Frame.Navigate(typeof(TripSummaryView), recordedTripSummary);
+            }
             else
             {
                 if (!await ViewModel.StartRecordingTrip())
+                {
+                    recordButtonIsBusy = false;
                     return;
+                }
 
                 if (ViewModel.CurrentTrip.HasSimulatedOBDData)
                     App.SetTitle("CURRENT TRIP (SIMULATED OBD)");
@@ -286,6 +294,7 @@ namespace MyDriving.UWP.Views
                 UpdateMap_PositionChanged(basicGeoposition);
                 UpdateStats();
             }
+            recordButtonIsBusy = false;
         }
 
         private async void UpdateMap_PositionChanged(BasicGeoposition basicGeoposition)
