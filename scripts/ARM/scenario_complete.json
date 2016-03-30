@@ -41,7 +41,7 @@
     },
     "mobileAppRepositoryUrl": {
       "type": "string",
-      "defaultValue": "https://github.com/f2bo/f2botrips.git" /* TODO: REPLACE WITH mydriving APPLICATION - REMEMBER TO UPDATE scenario_complete.nocomments.json AS WELL */
+      "defaultValue": "https://github.com/Azure-Samples/MyDriving.git" 
     },
     "dataFactoryStartDate": {
       "type": "string"
