@@ -166,7 +166,7 @@ Follow these steps to deploy the starter kit using Bash:
    
 1. Switch to the **Predictive Experiment** tab and configure the **Reader** module property by updating the **Account Name** and **Account Key** properties with the same storage account information that you used previously to configure the **Training Experiment**.
  
-1. Select one of the two **Writer** modules in the diagram and in the **Properties** pane, update the **Database server name**, **Server user account name**, and **Server user account password** properties with the values obtained previously. Use the values corresponding to the database shown in the **Database name** property. For the **Server user account name** set the value as &lt;user name&gt;@&lt;server name&gt;.
+1. Select one of the two **Writer** modules in the diagram and in the **Properties** pane, update the **Database server name**, **Server user account name**, and **Server user account password** properties with the values obtained previously. Use the values corresponding to the database shown in the **Database name** property. For the **Server user account name** set the value as &lt;user name&gt;@&lt;server name&gt;. Use the password that you specified when you ran the deployment script.
  
   ![Configuring the ML Writer](Images/ml-configure-writer.png?raw=true "Configuring the ML Writer")
    
@@ -190,7 +190,7 @@ Follow these steps to deploy the starter kit using Bash:
    
    _Adding an ML Web Service Endpoint_
 
-1. Click **retrain** in the list of endpoints to shown its **Dashboard** and then copy the API key , under the **Quick Glance** section.
+1. Click **retrain** in the list of endpoints to shown its **Dashboard** and then copy the API key, under the **Quick Glance** section.
 
 1. Click **BATCH EXECUTION** to open the API documentation page and copy the **Request URI** of the **Submit (but not start) a Batch Execution job** operation.
 
@@ -198,7 +198,7 @@ Follow these steps to deploy the starter kit using Bash:
 
 1. Keep a record of the API Key and the batch execution and update resource request URIs of the **retrain** endpoint. You'll need these values later to configure the Data Factory's **AzureMLScoringandUpdateLinkedService** linked service. 
 
-1. Return to the **Web Services** list and select the **MyDriving** web service, then select the **default** endpoint to show its **Dashboard**, and then copy the API key , under the **Quick Glance** section.
+1. Return to the **Web Services** list and select the **MyDriving** web service, then select the **default** endpoint to show its **Dashboard**, and then copy the API key, under the **Quick Glance** section.
 
 1. Click **BATCH EXECUTION** to open the API documentation page and copy the **Request URI** of the **Submit (but not start) a Batch Execution job** operation.
 
