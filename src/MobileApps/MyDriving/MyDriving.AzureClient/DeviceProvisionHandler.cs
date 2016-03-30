@@ -48,7 +48,7 @@ namespace MyDriving.AzureClient
         private string GenerateDeviceId()
         {
             string id = CrossDeviceInfo.Current.Id;
-
+            int limit = 128;
             //remove unaccepted characters  - see https://azure.microsoft.com/en-us/documentation/articles/iot-hub-devguide/#device-identity-registry for accepted characters
 
             StringBuilder sb = new StringBuilder(id.Length);
@@ -57,6 +57,8 @@ namespace MyDriving.AzureClient
             {
                 if (IsAcceptedChar(c))
                     sb.Append(c);
+                if (sb.Length >= limit)
+                    break;
             }
             return sb.ToString();
         }
