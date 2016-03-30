@@ -131,19 +131,30 @@ Follow these steps to deploy the starter kit using Bash:
 1. Make sure that **mydriving-archive**, **mydriving-sqlpbi**, **mydriving-hourlypbi**, and **mydriving-vinlookup** jobs are all running.
 
 ### Machine Learning Configuration
-1. In the [Azure portal](https://portal.azure.com), obtain the credentials for the storage account whose name is prefixed with **"mydrivingstr"**. It can be found under the resource group of the solution.
+1. Before you can proceed, you need to obtain the credentials for the storage account and SQL databases in the solution. Go 
+   to the [Azure portal](https://portal.azure.com), click **Resource Groups**, select the solution's resource group, then **All Settings**, and then **Resources**. 
+    
+1. In the list of resources, click the storage account whose name is prefixed with **"mydrivingstr"**, then **All Settings**, and then **Access Keys**. Make a note of the **Storage Account Name** and **Key1**.
 
-   ![Storage Account](Images/storage-account.png?raw=true "Storage Account")
+   ![Storage Account Credentials](Images/storage-account-credentials.png?raw=true "Storage Account Credentials")
    
-   _Storage Account_
+   _Storage Account Credentials_
 
-1. Go to the [Azure classic portal](https://manage.windowsazure.com/), select the **Machine Learning** service and then the **mydriving** workspace. Open the workspace by selecting **Sign-in to ML Studio**.
-
-1. Click the **Reader** module at the top of the experiment diagram to select it and in the **Properties** pane, set the **Account Name** and **Account Key** properties to the values obtained previously.
-
-   ![Configuring the ML Storage Account](Images/ml-storage-account.png?raw=true "Configuring the ML Storage Account")
+1. Next, locate the **myDrivingAnalyticsDB** SQL Database in the solution, open its **All Settings** blade, and then its **Properties** blade. Make a note of the, database name, **Server Name** and **Server Admin Login** properties.
+  
+   ![SQL Database Credentials](Images/sql-database-credentials.png?raw=true "SQL Database Credentials")
    
-   _Configuring the ML Storage Account_
+   _SQL Database Credentials_
+ 
+1. Repeat the previous step to obtain the database name, **Server Name** and **Server Admin Login** properties of the **myDrivingDB** SQL Database.
+
+1. Now, go to the [Azure classic portal](https://manage.windowsazure.com/), select the **Machine Learning** service and then the **mydriving** workspace. Open the workspace by selecting **Sign-in to ML Studio**.
+
+1. Click the **Reader** module at the top of the experiment diagram to select it and in the **Properties** pane, set the **Account Name** and **Account Key** properties to the storage account values obtained previously.
+
+   ![Configuring the ML Reader](Images/ml-configure-reader.png?raw=true "Configuring the ML Reader")
+   
+   _Configuring the ML Reader_
    
 1. Click **Run** at the bottom of the page to run the **MyDriving** experiment.
 
@@ -152,8 +163,22 @@ Follow these steps to deploy the starter kit using Bash:
    ![Deploying an ML Web Service](Images/ml-deploy-web-service.png?raw=true "Deploying an ML Web Service")
    
    _Deploying an ML Web Service_
+   
+1. Switch to the **Predictive Experiment** tab and configure the **Reader** module property by updating the **Account Name** and **Account Key** properties with the same storage account information that you used previously to configure the **Training Experiment**.
+ 
+1. Select one of the two **Writer** modules in the diagram and in the **Properties** pane, update the **Database server name**, **Server user account name**, and **Server user account password** properties with the values obtained previously. Use the values corresponding to the database shown in the **Database name** property. For the **Server user account name** set the value as &lt;user name&gt;@&lt;server name&gt;.
+ 
+  ![Configuring the ML Writer](Images/ml-configure-writer.png?raw=true "Configuring the ML Writer")
+   
+  _Configuring the ML Writer_
+ 
+1. Repeat the previous step to configure the **Writer** module for the other database.
+ 
+1. Now, click **Run**
+ 
+1. After the run completes, click **Deploy Web Service**.
 
-1. Go back to the [Azure classic portal](https://manage.windowsazure.com/), select the **Machine Learning** service and then the **mydriving** workspace. Now switch to the **Web Services** tab and select the **MyDriving** web service.
+1. Go back to the [Azure classic portal](https://manage.windowsazure.com/), select the **Machine Learning** service and then the **mydriving** workspace. Now switch to the **Web Services** tab and select the **MyDriving [Predictive Exp.]** web service.
 
    ![Configuring ML Web Services](Images/ml-web-services.png?raw=true "Configuring ML Web Services")
    
@@ -165,11 +190,19 @@ Follow these steps to deploy the starter kit using Bash:
    
    _Adding an ML Web Service Endpoint_
 
-1. Select the newly added endpoint and copy the API key shown in the dashboard, under the **Quick Glance** section.
+1. Click **retrain** in the list of endpoints to shown its **Dashboard** and then copy the API key , under the **Quick Glance** section.
 
-1. Next, click **BATCH EXECUTION** to open the API documentation page and copy the **Request URI** of the **Submit (but not start) a Batch Execution job** operation.
+1. Click **BATCH EXECUTION** to open the API documentation page and copy the **Request URI** of the **Submit (but not start) a Batch Execution job** operation.
 
-1. Make a note of the API Key and the request URI of the **retrain** endpoint. You'll need these values later to configure the Data Factory's **TrainingEndpoint-AMLLinkedService** linked service.
+1. Return to the **retrain** endpoint dashboard, click **UPDATE RESOURCE** and copy the **Request URI** of the **Submit (but not start) a Batch Execution job** operation.
+
+1. Keep a record of the API Key and the batch execution and update resource request URIs of the **retrain** endpoint. You'll need these values later to configure the Data Factory's **AzureMLScoringandUpdateLinkedService** linked service. 
+
+1. Return to the **Web Services** list and select the **MyDriving** web service, then select the **default** endpoint to show its **Dashboard**, and then copy the API key , under the **Quick Glance** section.
+
+1. Click **BATCH EXECUTION** to open the API documentation page and copy the **Request URI** of the **Submit (but not start) a Batch Execution job** operation.
+
+1. Keep a record of the API Key and the batch execution request URI of the **default** endpoint. You'll need these values later to configure the Data Factory's **TrainingEndpoint-AMLLinkedService** linked service.
 
 ### Azure Data Factory configuration
 
@@ -187,35 +220,24 @@ Follow these steps to deploy the starter kit using Bash:
    
    _Configuring the Data Factory_
    
-1. Update the linked service definition by entering the following information from the Machine Learning experiment.
+1. Update the linked service definition by entering the information that you obtained previously from the **retrain** endpoint of the **MyDriving [Predictive Exp.]** web service. 
+
+  - **mlEndpoint**: request URI of the batch execution operation for the **retrain** endpoint of the **MyDriving [Predictive Exp.]** web service
+  - **apiKey**: API key for the **retrain** endpoint of the **MyDriving [Predictive Exp.]** web service
+  - **updateResourceEndpoint**: request URI of the update resource operation for the **retrain** endpoint of the **MyDriving [Predictive Exp.]** web service
 
    ![Configuring a Linked Service](Images/configuring-linked-service.png?raw=true "Configuring a Linked Service")
 
     _Configuring a Linked Service_
 
-  - **mlEndpoint**: [TBD] endpoint for the Machine Learning experiment
-  - **apiKey**: [TBD] API key
-  - **updateResourceEndpoint**: [TBD]
-  
 1. Click **Deploy**.
 
-1. Next, under **Linked Services**, select **TrainingEndpoint-AMLLinkedService** and enter the values of the **mlEndpoint** and **apiKey** of the **retrain** endpoint you obtained earlier when you configured the ML experiment. Click **Deploy**.
-  
-### Machine Learning configuration
+1. Next, under **Linked Services**, select **TrainingEndpoint-AMLLinkedService** and update its definition by entering the information that you obtained previously from the **default** endpoint of the **MyDriving** web service.
 
-1. Open the Machine Learning workspace (named MyDriving).
+  - **mlEndpoint**: request URI of the batch execution operation of the **default** endpoint of the **MyDriving** web service
+  - **apiKey**: API key for the **default** endpoint of the **MyDriving** web service
 
-2. Modify the Reader components in both experiments to enter a storage account key. The storage account is under the same resource group and should have a name prefixed with **"mydrivingstr"**.
-
-   ![Storage Account](Images/storage-account.png?raw=true "Storage Account")
-   
-   _Storage Account_
-
-3. Modify the Writer components in both experiments to enter correct SQL Database connection info. You need to provide correct SQL Database server names and login credentials for both mydrivingDB database (on a server with a "mydrivingdbserver" prefix) and mydrivingAnalyticsDB (on a server with a "mydriving-dbserver" prefix). 
-
-   ![SQL Databases](Images/sql-databases.png?raw=true "SQL Databases")
-   
-   _SQL Databases_
+1. Click **Deploy**.
 
 ##### _Additional Information_
 You can use the supplied **scripts\PowerShell\scripts\copyMLExperiment.ps1** to import previously packaged ML experiments at these locations:
