@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="2db66399-c05a-4736-b4dc-f7b061ebe028" Publisher="CN=james" Version="1.0.0.0" />
+  <Identity Name="2db66399-c05a-4736-b4dc-f7b061ebe028" Publisher="CN=james" Version="1.0.1.0" />
   <mp:PhoneIdentity PhoneProductId="2db66399-c05a-4736-b4dc-f7b061ebe028" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>MyDriving</DisplayName>
