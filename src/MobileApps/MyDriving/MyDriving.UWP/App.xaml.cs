@@ -12,6 +12,7 @@ using MyDriving.Shared;
 using MyDriving.Utils;
 using MyDriving.UWP.Helpers;
 using MyDriving.UWP.Views;
+using MyDriving.UWP.Controls;
 
 namespace MyDriving.UWP
 {
@@ -20,6 +21,7 @@ namespace MyDriving.UWP
     /// </summary>
     sealed partial class App
     {
+
         /// <summary>
         ///     Initializes the singleton application object.  This is the first line of authored code
         ///     executed, and as such is the logical equivalent of main() or WinMain().
@@ -42,58 +44,49 @@ namespace MyDriving.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
+            SplitViewShell shell = Window.Current.Content as SplitViewShell;
 
-            // Do not repeat app initialization when the Window already has content,
+            // Do not repeat app initialization when the Window is already present,
             // just ensure that the window is active
-            if (rootFrame == null)
+            if (shell == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                Frame rootFrame = new Frame();
+                rootFrame.NavigationFailed += OnNavigationFailed;
 
                 //Register platform specific implementations of shared interfaces
                 ServiceLocator.Instance.Add<IAuthentication, Authentication>();
                 ServiceLocator.Instance.Add<Utils.Interfaces.ILogger, PlatformLogger>();
                 ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
 
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: Load state from previously suspended application
-                }
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
-            }
-
-            if (rootFrame.Content == null)
-            {
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter
                 if (Settings.Current.IsLoggedIn)
                 {
                     //When the first screen of the app is launched after user has logged in, initialize the processor that manages connection to OBD Device and to the IOT Hub
                     MyDriving.Services.OBDDataProcessor.GetProcessor().Initialize(ViewModel.ViewModelBase.StoreManager);
 
-                    SplitViewShell shell = new SplitViewShell(rootFrame);
-                    Window.Current.Content = shell;
+                    // Create the shell and set it to current trip
+                    shell = new SplitViewShell(rootFrame);
                     shell.SetTitle("CURRENT TRIP");
+                    shell.SetSelectedPage("CURRENT TRIP");
                     rootFrame.Navigate(typeof(CurrentTripView), e.Arguments);
+                    Window.Current.Content = shell;
                 }
                 else if (Settings.Current.FirstRun)
                 {
-                    rootFrame.Navigate(typeof (GetStarted1), e.Arguments);
+                    rootFrame.Navigate(typeof(GetStarted1), e.Arguments);
+                    Window.Current.Content = rootFrame;
                 }
                 else
                 {
-                    rootFrame.Navigate(typeof (LoginView), e.Arguments);
+                    rootFrame.Navigate(typeof(LoginView), e.Arguments);
+                    Window.Current.Content = rootFrame;
                 }
             }
+
             // Ensure the current window is active
             Window.Current.Activate();
         }
+
 
         /// <summary>
         ///     Invoked when Navigation to a certain page fails
@@ -122,8 +115,12 @@ namespace MyDriving.UWP
         public static void SetTitle(string title)
         {
             SplitViewShell shell = Window.Current.Content as SplitViewShell;
-            if(shell != null)
+            if (shell != null)
+            {
                 shell.SetTitle(title);
+                shell.SetSelectedPage(title);
+            }
         }
+   
     }
 }

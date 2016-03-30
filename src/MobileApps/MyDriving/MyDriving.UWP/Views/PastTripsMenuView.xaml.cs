@@ -31,6 +31,7 @@ namespace MyDriving.UWP.Views
         {
             base.OnNavigatedTo(e);
 
+            App.SetTitle("PAST TRIPS");
             // Enable back button behavior
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested += SystemNavigationManager_BackRequested;

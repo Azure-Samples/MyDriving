@@ -43,7 +43,7 @@ namespace MyDriving.Shared
 #if __ANDROID__
             HockeyApp.Metrics.MetricsManager.TrackEvent(trackIdentifier);
 #elif __IOS__
-            HockeyApp.BITHockeyManager.SharedHockeyManager.MetricsManager.TrackEvent(trackIdentifier);
+            HockeyApp.BITHockeyManager.SharedHockeyManager?.MetricsManager?.TrackEvent(trackIdentifier);
 #endif
             base.Track(trackIdentifier, table);
         }
@@ -54,7 +54,7 @@ namespace MyDriving.Shared
 #if __ANDROID__
             HockeyApp.Metrics.MetricsManager.TrackEvent(trackIdentifier);
 #elif __IOS__
-            HockeyApp.BITHockeyManager.SharedHockeyManager.MetricsManager.TrackEvent(trackIdentifier);
+            HockeyApp.BITHockeyManager.SharedHockeyManager?.MetricsManager?.TrackEvent(trackIdentifier);
 #endif
             base.Track(trackIdentifier, key, value);
         }
