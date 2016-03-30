@@ -74,6 +74,27 @@ if ($Subscriptions.Length -gt 1) {
     $subscription = $Subscriptions
 }
 
+$numberOfDays = 0
+$inputOK = $false
+do
+{
+  try
+  {
+    [int]$numberOfDays = Read-Host "Enter the number of days you want to run the ADF pipeline"
+    if ($numberOfDays -gt 0) {
+        $inputOK = $true
+    }
+    else {
+        Write-Host -ForegroundColor red "Please enter a number greater than 0."
+    }
+  }
+  catch
+  {
+    Write-Host -ForegroundColor red "Please enter a numeric value."
+  } 
+}
+until ($inputOK)
+
 # Create or update the resource group using the specified template file and template parameters file
 Write-Output ""
 Write-Output "**************************************************************************************************"
@@ -96,21 +117,21 @@ if ($deployment1 -and $deployment1.ProvisioningState -ne "Succeeded") {
 	exit 1
 }
 
-
 # Upload the HQL queries to the storage account container
 Write-Output ""
 Write-Output "**************************************************************************************************"
 Write-Output "* Uploading files to blob storage..."
 Write-Output "**************************************************************************************************"
+Write-Output "Uploading hive scripts..."
 . .\scripts\Copy-ArtifactsToBlobStorage.ps1 -StorageAccountName $deployment1.Outputs.storageAccountName.Value `
-                                        -StorageAccountKey $deployment1.Outputs.storageAccountKey.Value `
-                                        -StorageContainerName $deployment1.Outputs.assetsContainerName.Value
-
+											-StorageAccountKey $deployment1.Outputs.storageAccountKey.Value `
+											-StorageContainerName $deployment1.Outputs.assetsContainerName.Value `
+											-ArtifactsPath '..\..\..\src\HDInsight'
 
 # Create required services
 $templateParams = New-Object -TypeName Hashtable
 $TemplateParams.Add(("dataFactoryStartDate"), (Get-Date).ToUniversalTime().AddDays(1).ToString("s"))
-$TemplateParams.Add(("dataFactoryEndDate"), (Get-Date).ToUniversalTime().AddDays(91).ToString("s"))
+$TemplateParams.Add(("dataFactoryEndDate"), (Get-Date).ToUniversalTime().AddDays($numberOfDays + 1).ToString("s"))
 if ($MobileAppRepositoryUrl) {
 	Write-Warning "Overriding the mobile app repository URL..."
 	$templateParams.Add("mobileAppRepositoryUrl", $MobileAppRepositoryUrl)
@@ -144,6 +165,12 @@ $storageAccountKey = $deployment2.Outputs.storageAccountKeyAnalytics.Value
 . .\scripts\setupStorage.ps1 -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey -ContainerName $deployment2.Outputs.tripdataContainerName.Value
 . .\scripts\setupStorage.ps1 -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey -ContainerName $deployment2.Outputs.referenceContainerName.Value
 
+Write-Output "Uploading sample data..."
+. .\scripts\Copy-ArtifactsToBlobStorage.ps1 -StorageAccountName $storageAccountName `
+											-StorageAccountKey $storageAccountKey `
+											-StorageContainerName $deployment2.Outputs.tripdataContainerName.Value `
+											-ArtifactsPath '..\..\Assets'
+
 # Initialize SQL databases
 Write-Output ""
 Write-Output "**************************************************************************************************"
@@ -176,8 +203,7 @@ Write-Output "******************************************************************
 $context = Get-AzureRmContext
 $thumbprint = Read-Host "Please provide the thumbprint of your Azure management certificate. Press [Enter] directly to sign in using AAD."
 
-.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/2e55da807f4a4273bfa99852d3d6e304/items' $thumbprint
-.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/a9fb6aeb3a164eedaaa28da34f02c3b0/items' $thumbprint
+.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/2e55da807f4a4273bfa99852d3d6e304/items' 'MyDriving' 'https://storage.azureml.net/directories/a9fb6aeb3a164eedaaa28da34f02c3b0/items' 'MyDriving [Predictive Exp.]' $thumbprint
 
 # Deploy VSTS build definitions
 $confirmation = Read-Host "Do you want to deploy VSTS CI? [y/n]"
