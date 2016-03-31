@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Plugin.DeviceInfo;
+using System.Text;
 
 namespace MyDriving.AzureClient
 {
@@ -24,7 +25,7 @@ namespace MyDriving.AzureClient
                 DeviceId = Settings.Current.DeviceId;
                 HostName = Settings.Current.HostName;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 //Occassionally, a System.IO.FileLoadException can occur
                 Logger.Instance.WriteLine("Unable to get device id and/or host name from user settings: " + e.Message);
@@ -33,8 +34,7 @@ namespace MyDriving.AzureClient
             if (String.IsNullOrEmpty(DeviceId))
             {
                 //generate device ID
-                
-                DeviceId = CrossDeviceInfo.Current.Id;
+                DeviceId = GenerateDeviceId();
                 Settings.Current.DeviceId = DeviceId;
             }
 
@@ -43,6 +43,34 @@ namespace MyDriving.AzureClient
                 HostName = DefaultHostName;
                 Settings.Current.HostName = HostName;
             }
+        }
+
+        private string GenerateDeviceId()
+        {
+            string id = CrossDeviceInfo.Current.Id;
+            int limit = 128;
+            //remove unaccepted characters  - see https://azure.microsoft.com/en-us/documentation/articles/iot-hub-devguide/#device-identity-registry for accepted characters
+
+            StringBuilder sb = new StringBuilder(id.Length);
+
+            foreach (char c in id)
+            {
+                if (IsAcceptedChar(c))
+                    sb.Append(c);
+                if (sb.Length >= limit)
+                    break;
+            }
+            return sb.ToString();
+        }
+
+        private bool IsAcceptedChar(char c)
+        {
+            List<char> accepted = new List<char>() { '-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '\'' };
+            if (Char.IsLetterOrDigit(c))
+                return true;
+            else if (accepted.Contains(c))
+                return true;
+            return false;
         }
 
         public string DeviceId { get; private set; }
