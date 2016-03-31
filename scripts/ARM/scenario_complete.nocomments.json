@@ -41,7 +41,7 @@
     },
     "mobileAppRepositoryUrl": {
       "type": "string",
-      "defaultValue": "https://github.com/f2bo/f2botrips.git"
+      "defaultValue": "https://github.com/Azure-Samples/MyDriving.git"
     },
     "dataFactoryStartDate": {
       "type": "string"
@@ -64,12 +64,12 @@
     "eventHubName": "[variables('baseName')]",
     "eventHubKeyName": "RootManageSharedAccessKey",
     "sqlServerName": "[toLower(concat(variables('baseName'), 'dbserver', '-', uniquestring(resourceGroup().id)))]",
-    "sqlServerAdminLogin": "scott",
+    "sqlServerAdminLogin": "YourUserName",
     "sqlDBName": "[concat(variables('baseName'), 'DB')]",
     "sqlDBEdition": "[parameters('sqlDBEdition')]",
     "sqlServiceObjectiveName": "[parameters('sqlServiceObjectiveName')]",
     "sqlAnalyticsServerName": "[toLower(concat(variables('baseName'), '-', 'dbserver', '-', uniquestring(resourceGroup().id)))]",
-    "sqlAnalyticsServerAdminLogin": "scott",
+    "sqlAnalyticsServerAdminLogin": "YourUserName",
     "sqlAnalyticsDBName": "[concat(variables('baseName'), 'AnalyticsDB')]",
     "sqlAnalyticsDBEdition": "[parameters('sqlDBEdition')]",
     "sqlAnalyticsServiceObjectiveName": "[parameters('sqlServiceObjectiveName')]",

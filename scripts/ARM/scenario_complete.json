@@ -41,7 +41,7 @@
     },
     "mobileAppRepositoryUrl": {
       "type": "string",
-      "defaultValue": "https://github.com/f2bo/f2botrips.git" /* TODO: REPLACE WITH mydriving APPLICATION - REMEMBER TO UPDATE scenario_complete.nocomments.json AS WELL */
+      "defaultValue": "https://github.com/Azure-Samples/MyDriving.git" 
     },
     "dataFactoryStartDate": {
       "type": "string"
@@ -68,13 +68,13 @@
     "eventHubKeyName": "RootManageSharedAccessKey",
     /* SQL Server settings */
     "sqlServerName": "[toLower(concat(variables('baseName'), 'dbserver', '-', uniquestring(resourceGroup().id)))]",
-    "sqlServerAdminLogin": "scott",
+    "sqlServerAdminLogin": "YourUserName",
     "sqlDBName": "[concat(variables('baseName'), 'DB')]",
     "sqlDBEdition": "[parameters('sqlDBEdition')]",
     "sqlServiceObjectiveName": "[parameters('sqlServiceObjectiveName')]",
     /* SQL Server settings - Analytics */
     "sqlAnalyticsServerName": "[toLower(concat(variables('baseName'), '-', 'dbserver', '-', uniquestring(resourceGroup().id)))]",
-    "sqlAnalyticsServerAdminLogin": "scott",
+    "sqlAnalyticsServerAdminLogin": "YourUserName",
     "sqlAnalyticsDBName": "[concat(variables('baseName'), 'AnalyticsDB')]",
     "sqlAnalyticsDBEdition": "[parameters('sqlDBEdition')]",
     "sqlAnalyticsServiceObjectiveName": "[parameters('sqlServiceObjectiveName')]",
