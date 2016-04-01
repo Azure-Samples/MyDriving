@@ -29,7 +29,7 @@ Refer to the [scripts readme](https://github.com/Azure-Samples/MyDriving/blob/ma
 
 ### [src](https://github.com/Azure-Samples/MyDriving/tree/master/src)
 
-**MyDriving.sln** makes it easy to view all the source in the repository in one place, including various queries and scripts that are used in the ARM templates to configure services. **NOTE**: this solution is just for reference and will not build all the projects in one go. Open the individual solutions in their respective folders to build and deploy.
+Open the individual solutions in their respective folders to build and deploy.
 
 More information on deploying to your own environment is given in the [Getting Started guide](https://azure.microsoft.com/documentation/articles/iot-solution-get-started/).
 
