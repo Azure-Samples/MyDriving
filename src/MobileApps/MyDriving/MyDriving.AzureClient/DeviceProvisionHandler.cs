@@ -48,29 +48,24 @@ namespace MyDriving.AzureClient
         private string GenerateDeviceId()
         {
             string id = CrossDeviceInfo.Current.Id;
+
+            if (id == null)
+                return id;
+
             int limit = 128;
-            //remove unaccepted characters  - see https://azure.microsoft.com/en-us/documentation/articles/iot-hub-devguide/#device-identity-registry for accepted characters
+            //remove unaccepted characters  - see https://azure.microsoft.com/en-us/documentation/articles/iot-hub-devguide/#device-identity-registry 
+            //Note due to bug in Microsoft.Azure.Devices.Client.PCL some characters such as '+' in DeviceID still cause trouble
 
             StringBuilder sb = new StringBuilder(id.Length);
 
             foreach (char c in id)
             {
-                if (IsAcceptedChar(c))
+                if (Char.IsLetterOrDigit(c))
                     sb.Append(c);
                 if (sb.Length >= limit)
                     break;
             }
             return sb.ToString();
-        }
-
-        private bool IsAcceptedChar(char c)
-        {
-            List<char> accepted = new List<char>() { '-', ':', '.', '+', '%', '_', '#', '*', '?', '!', '(', ')', ',', '=', '@', ';', '$', '\'' };
-            if (Char.IsLetterOrDigit(c))
-                return true;
-            else if (accepted.Contains(c))
-                return true;
-            return false;
         }
 
         public string DeviceId { get; private set; }
