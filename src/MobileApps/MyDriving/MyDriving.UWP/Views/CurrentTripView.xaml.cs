@@ -381,7 +381,7 @@ namespace MyDriving.UWP.Views
 
         private async void DrawPath(BasicGeoposition basicGeoposition)
         {
-            if (!ViewModel.IsRecording || ViewModel.CurrentTrip.Points.Count == 0)
+            if (!ViewModel.IsRecording || ViewModel.CurrentTrip?.Points?.Count == 0)
                 return;
 
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -393,8 +393,12 @@ namespace MyDriving.UWP.Views
                 {
                 Locations =
                     new List<BasicGeoposition>(
-                        ViewModel.CurrentTrip.Points.Select(
+                        ViewModel.CurrentTrip?.Points?.Select(
                             s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }));
+
+                    // If the viewmodel still has not added this point, then add it locally to the Locations collection.
+                    if (Locations.Count == 0)
+                        Locations.Add(basicGeoposition);
                 }
                 else
                     Locations.Add(basicGeoposition);
