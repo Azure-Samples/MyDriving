@@ -184,28 +184,38 @@ namespace MyDriving.UWP.Views
 
             ClearExtendedExecution();
 
-            var newSession = new ExtendedExecutionSession
+            try
             {
-                Reason = ExtendedExecutionReason.LocationTracking,
-                Description = "Tracking your location"
-            };
-            newSession.Revoked += SessionRevoked;
-            ExtendedExecutionResult result = await newSession.RequestExtensionAsync();
-            switch (result)
+                var newSession = new ExtendedExecutionSession
+                {
+                    Reason = ExtendedExecutionReason.LocationTracking,
+                    Description = "Tracking your location"
+                };
+                newSession.Revoked += SessionRevoked;
+                ExtendedExecutionResult result = await newSession.RequestExtensionAsync();
+                switch (result)
+                {
+                    case ExtendedExecutionResult.Allowed:
+                        session = newSession;
+                        ViewModel.Geolocator.AllowsBackgroundUpdates = true;
+                        ViewModel.StartTrackingTripCommand.Execute(null);
+
+                        break;
+
+                    default:
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to execute app in the background.",
+                          "Background execution denied.", "OK");
+
+                        newSession.Dispose();
+                        break;
+                }
+            }
+            catch (Exception ex)
             {
-                case ExtendedExecutionResult.Allowed:
-                    session = newSession;
-                    ViewModel.Geolocator.AllowsBackgroundUpdates = true;
-                    ViewModel.StartTrackingTripCommand.Execute(null);
-
-                    break;
-
-                default:
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to execute app in the background.",
-                      "Background execution denied.", "OK");
-
-                    newSession.Dispose();
-                    break;
+                // Sometimes while creating ExtendedExecution session you get Resource not ready exception. 
+                Logger.Instance.Report(ex);
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Will not be able to execute app in the background.",
+                        "Background execution session failed.", "OK");
             }
         }
 
