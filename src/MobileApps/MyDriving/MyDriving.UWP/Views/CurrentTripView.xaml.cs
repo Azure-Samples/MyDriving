@@ -184,28 +184,38 @@ namespace MyDriving.UWP.Views
 
             ClearExtendedExecution();
 
-            var newSession = new ExtendedExecutionSession
+            try
             {
-                Reason = ExtendedExecutionReason.LocationTracking,
-                Description = "Tracking your location"
-            };
-            newSession.Revoked += SessionRevoked;
-            ExtendedExecutionResult result = await newSession.RequestExtensionAsync();
-            switch (result)
+                var newSession = new ExtendedExecutionSession
+                {
+                    Reason = ExtendedExecutionReason.LocationTracking,
+                    Description = "Tracking your location"
+                };
+                newSession.Revoked += SessionRevoked;
+                ExtendedExecutionResult result = await newSession.RequestExtensionAsync();
+                switch (result)
+                {
+                    case ExtendedExecutionResult.Allowed:
+                        session = newSession;
+                        ViewModel.Geolocator.AllowsBackgroundUpdates = true;
+                        ViewModel.StartTrackingTripCommand.Execute(null);
+
+                        break;
+
+                    default:
+                        Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to execute app in the background.",
+                          "Background execution denied.", "OK");
+
+                        newSession.Dispose();
+                        break;
+                }
+            }
+            catch (Exception ex)
             {
-                case ExtendedExecutionResult.Allowed:
-                    session = newSession;
-                    ViewModel.Geolocator.AllowsBackgroundUpdates = true;
-                    ViewModel.StartTrackingTripCommand.Execute(null);
-
-                    break;
-
-                default:
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to execute app in the background.",
-                      "Background execution denied.", "OK");
-
-                    newSession.Dispose();
-                    break;
+                // Sometimes while creating ExtendedExecution session you get Resource not ready exception. 
+                Logger.Instance.Report(ex);
+                Acr.UserDialogs.UserDialogs.Instance.Alert("Will not be able to execute app in the background.",
+                        "Background execution session failed.", "OK");
             }
         }
 
@@ -371,7 +381,7 @@ namespace MyDriving.UWP.Views
 
         private async void DrawPath(BasicGeoposition basicGeoposition)
         {
-            if (!ViewModel.IsRecording || ViewModel.CurrentTrip.Points.Count == 0)
+            if (!ViewModel.IsRecording || ViewModel.CurrentTrip?.Points?.Count == 0)
                 return;
 
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -383,8 +393,12 @@ namespace MyDriving.UWP.Views
                 {
                 Locations =
                     new List<BasicGeoposition>(
-                        ViewModel.CurrentTrip.Points.Select(
+                        ViewModel.CurrentTrip?.Points?.Select(
                             s => new BasicGeoposition() { Latitude = s.Latitude, Longitude = s.Longitude }));
+
+                    // If the viewmodel still has not added this point, then add it locally to the Locations collection.
+                    if (Locations.Count == 0)
+                        Locations.Add(basicGeoposition);
                 }
                 else
                     Locations.Add(basicGeoposition);
