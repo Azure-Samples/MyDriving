@@ -291,7 +291,19 @@ namespace MyDriving.ViewModel
                 Logger.Instance.Report(ex);
             }
 
-            List<POI> poiList = new List<POI>(await StoreManager.POIStore.GetItemsAsync(CurrentTrip.Id));
+            List<POI> poiList = new List<POI>();
+            try
+            {
+                poiList = new List<POI>(await StoreManager.POIStore.GetItemsAsync(CurrentTrip.Id));
+            }
+            catch (Exception ex)
+            {
+                //Intermittently, Sqlite will cause a crash for WinPhone saying "unable to set temporary directory"
+                //If this call fails, simply use an empty list of POIs
+                Logger.Instance.WriteLine("Unable to get POI Store Items.");
+                Logger.Instance.Report(ex);
+            }
+           
             CurrentTrip.HardStops = poiList.Where(p => p.POIType == POIType.HardBrake).Count();
             CurrentTrip.HardAccelerations = poiList.Where(p => p.POIType == POIType.HardAcceleration).Count();
 
