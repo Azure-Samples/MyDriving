@@ -93,6 +93,7 @@
     "hostingPlanName": "[concat(variables('baseName'), 'Plan', '-', uniquestring(resourceGroup().id))]",
     "mobileAppName": "[concat(variables('baseName'), '-', uniquestring(resourceGroup().id))]",
     "mobileAppRepositoryBranch": "master",
+    "mobileAppProject": "src/MobileAppService/MyDrivingService/MyDrivingService.csproj",
     "appInsightsName": "[concat(variables('baseName'), 'API', '-', uniquestring(resourceGroup().id))]",
     "appInsightsLocation": "centralus",
     "dataFactoryName": "[concat(variables('baseName'), '-df', uniquestring(resourceGroup().id))]",
@@ -521,7 +522,8 @@
             "[resourceId('Microsoft.Web/Sites', variables('mobileAppName'))]"
           ],
           "properties": {
-            "IoTHubConnectionString": "[concat('HostName=', variables('iotHubName'), '.azure-devices.net;SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs/Iothubkeys', variables('iotHubName'), variables('iotHubKeyName')), '2016-02-03').primaryKey)]"
+            "IoTHubConnectionString": "[concat('HostName=', variables('iotHubName'), '.azure-devices.net;SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs/Iothubkeys', variables('iotHubName'), variables('iotHubKeyName')), '2016-02-03').primaryKey)]",
+            "Project": "[variables('mobileAppProject')]"
           }
         },
         {
