@@ -30,7 +30,6 @@ namespace MyDriving.UITests
 			App = AppInitializer.StartApp(platform);
 			OnAndroid = App.GetType() == typeof(AndroidApp);
 			OniOS = App.GetType() == typeof(iOSApp);
-
 			if (App.Query("Login with Facebook").Any())
 			{
 				new LoginPage ()
@@ -38,7 +37,6 @@ namespace MyDriving.UITests
 				
 				Thread.Sleep(2000);
 			}
-
             if (OniOS)
             {
                 if (App.Query("Allow").Any())
