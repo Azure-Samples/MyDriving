@@ -19,6 +19,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using MyDriving.ViewModel;
 using MyDriving.Utils;
+using Windows.Devices.Enumeration;
+using Windows.Devices.Bluetooth.Rfcomm;
 
 namespace MyDriving.UWP.Views
 {
@@ -151,6 +153,18 @@ namespace MyDriving.UWP.Views
 
         private async Task StartTrackingAsync()
         {
+            // Request permission to access bluetooth
+            try
+            {
+                DeviceInformationCollection deviceInfoCollection =
+                    await DeviceInformation.FindAllAsync(RfcommDeviceService.GetDeviceSelector(RfcommServiceId.SerialPort));
+                if (deviceInfoCollection.Count() > 0)
+                {
+                    DeviceInformation device = deviceInfoCollection[0];
+                    await RfcommDeviceService.FromIdAsync(device.Id);
+                }
+            }
+            catch (Exception) { }
             // Request permission to access location
             var accessStatus = await Geolocator.RequestAccessAsync();
 
