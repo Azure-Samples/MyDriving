@@ -109,7 +109,7 @@ namespace MyDriving.UWP.Views
         private bool TryGoBack()
         {
             bool navigated = false;
-            if (Frame.CanGoBack)
+            if (Frame.CanGoBack && !ViewModel.IsRecording)
             {
                 Frame.GoBack();
                 navigated = true;
