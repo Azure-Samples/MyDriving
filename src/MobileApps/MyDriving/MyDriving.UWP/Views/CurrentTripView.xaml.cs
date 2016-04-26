@@ -111,7 +111,7 @@ namespace MyDriving.UWP.Views
         private bool TryGoBack()
         {
             bool navigated = false;
-            if (Frame.CanGoBack)
+            if (Frame.CanGoBack && !ViewModel.IsRecording)
             {
                 Frame.GoBack();
                 navigated = true;
@@ -281,6 +281,11 @@ namespace MyDriving.UWP.Views
             {
                 // Need to update Map UI before we start saving. So that the entire trip is visible. 
                 UpdateMap_PositionChanged(basicGeoposition);
+               
+                // Changing the record button icon and andding end marker earlier to notify user about the stop process. 
+                recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
+                OnPropertyChanged(nameof(RecordButtonImage));
+                AddEndMarker(basicGeoposition);
 
                 if (!await ViewModel.StopRecordingTrip())
                 {
@@ -288,15 +293,10 @@ namespace MyDriving.UWP.Views
                     return;
                 }
 
-                // Need to add the end marker only when we are able to stop the trip. 
-                AddEndMarker(basicGeoposition);
-
-                recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StartRecord.png", UriKind.Absolute));
-                OnPropertyChanged(nameof(RecordButtonImage));
-                var recordedTripSummary = ViewModel.TripSummary;
                 await ViewModel.SaveRecordingTripAsync();
-                // Launch Trip Summary Page. 
 
+                var recordedTripSummary = ViewModel.TripSummary;
+                // Launch Trip Summary Page. 
                 Frame.Navigate(typeof(TripSummaryView), recordedTripSummary);
             }
             else
