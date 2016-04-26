@@ -35,7 +35,9 @@ namespace MyDriving.UITests
 
 				// PathToAPK is a property or an instance variable in the test class
 				apkPath = Path.Combine(dir, "MyDriving.Android", "bin", "XTC", "com.microsoft.mydriving-Signed.apk");
+
 				string keystorePath = Path.Combine(fi.Directory.FullName,"Build2016.keystore");
+
 				app = ConfigureApp
 					.Android
                     .ApkFile(apkPath)
@@ -45,10 +47,8 @@ namespace MyDriving.UITests
 			else
 			{
 				app = ConfigureApp
-					.iOS
-				//.AppBundle(appPath)
+					.iOS				
                     .InstalledApp ("com.microsoft.mydriving")
-					.Debug ()
 					.StartApp(Xamarin.UITest.Configuration.AppDataMode.Clear);
 			}
 

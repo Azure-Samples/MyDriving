@@ -12,7 +12,7 @@ namespace MyDriving.UITests
         {
         }
 
-        [Test]
+        //[Test]
         public void SkipAuthenticationTest()
         {
             ClearKeychain();

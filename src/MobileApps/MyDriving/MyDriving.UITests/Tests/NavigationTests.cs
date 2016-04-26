@@ -12,7 +12,7 @@ namespace MyDriving.UITests
         {
         }
 
-		[Test]
+		//[Test]
 		public void NavigateToProfileTabTest ()
 		{
             new CurrentTripPage()
@@ -22,7 +22,7 @@ namespace MyDriving.UITests
                 .AssertOnPage();
 		}
 
-		[Test]
+		//[Test]
 		public void NavigateToSettingsTest ()
 		{
             if (OnAndroid)
@@ -44,7 +44,7 @@ namespace MyDriving.UITests
                 .AssertOnPage();
 		}
 
-		[Test]
+		//[Test]
 		public void NavigateToPastTripsTabTest ()
 		{
             new CurrentTripPage()
@@ -54,7 +54,7 @@ namespace MyDriving.UITests
                 .AssertOnPage();
 		}
 
-		[Test]
+		//[Test]
 		public void NavigateToCurrentTripTabTest ()
 		{
             new CurrentTripPage()

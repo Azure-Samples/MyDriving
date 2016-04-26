@@ -12,7 +12,7 @@ namespace MyDriving.UITests
 		{
 		}
 
-		[Test]
+		//[Test]
 		public void PullToRefreshTest ()
 		{
             new CurrentTripPage()
@@ -22,7 +22,7 @@ namespace MyDriving.UITests
 				.PullToRefresh ();
 		}
 
-		[Test]
+		//[Test]
 		public void NavigateToDetailsTest ()
 		{
             new CurrentTripPage()
@@ -35,7 +35,7 @@ namespace MyDriving.UITests
                 .AssertOnPage();
 		}
 
-		[Test]
+		//[Test]
 		public void MoveTripSliderTest ()
 		{
             new CurrentTripPage()
@@ -48,7 +48,7 @@ namespace MyDriving.UITests
 				.MoveTripSlider ();
 		}
 
-		[Test]
+		//[Test]
 		public void ClickTripSliderEndpointsTest ()
 		{
             new CurrentTripPage()
