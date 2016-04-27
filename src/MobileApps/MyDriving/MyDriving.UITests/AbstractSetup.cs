@@ -30,6 +30,8 @@ namespace MyDriving.UITests
 			App = AppInitializer.StartApp(platform);
 			OnAndroid = App.GetType() == typeof(AndroidApp);
 			OniOS = App.GetType() == typeof(iOSApp);
+
+			this.App.Device.SetLocation (28.427925,-81.470973);
 			if (App.Query("Login with Facebook").Any())
 			{
 				new LoginPage ()

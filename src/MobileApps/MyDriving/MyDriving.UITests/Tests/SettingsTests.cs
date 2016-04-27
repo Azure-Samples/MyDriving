@@ -15,13 +15,14 @@ namespace MyDriving.UITests
 		[Test]
 		public void ChangeDistanceUnits ()
 		{
+			
             if (OnAndroid)
             {
                 new CurrentTripPage()
                     .NavigateTo("Settings");
             }
             if (OniOS)
-            {
+            {				
                 new CurrentTripPage()
                     .NavigateTo("Profile");
 

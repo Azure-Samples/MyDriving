@@ -34,6 +34,7 @@
     <AndroidSigningKeyAlias>Build2016</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>Build*1234</AndroidSigningKeyPass>
     <AssemblyName>MyDriving.Droid</AssemblyName>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -46,13 +47,14 @@
     <AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
     <AssemblyName>MyDriving.Droid</AssemblyName>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'XTC|AnyCPU' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\XTC</OutputPath>
     <DefineConstants>XTC</DefineConstants>
     <WarningLevel>4</WarningLevel>
-    <AndroidSupportedAbis>armeabi-v7a;x86;armeabi;arm64-v8a;x86_64</AndroidSupportedAbis>
+    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
     <AndroidFastDeploymentType>
     </AndroidFastDeploymentType>
     <AssemblyName>MyDriving.Android</AssemblyName>
@@ -63,6 +65,8 @@
     <AndroidSigningStorePass>Build*1234</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>Build2016</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>Build*1234</AndroidSigningKeyPass>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
