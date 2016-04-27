@@ -31,7 +31,12 @@ namespace MyDriving.UITests
 			OnAndroid = App.GetType() == typeof(AndroidApp);
 			OniOS = App.GetType() == typeof(iOSApp);
 
-			this.App.Device.SetLocation (28.427925,-81.470973);
+			double evolveLongitude =  28.427925;
+			double evolveLatitude  = -81.470973;
+
+			//go to Evolve 2016!
+			this.App.Device.SetLocation(evolveLatitude,evolveLongitude);
+
 			if (App.Query("Login with Facebook").Any())
 			{
 				new LoginPage ()
