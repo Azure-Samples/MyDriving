@@ -31,21 +31,13 @@ namespace MyDriving.UITests
 			OnAndroid = App.GetType() == typeof(AndroidApp);
 			OniOS = App.GetType() == typeof(iOSApp);
 
-			if (App.Query("Login with Facebook").Any())
-			{
-				new LoginPage ()
+			new LoginPage ()
 					.SkipAuthentication ();
 				
-				Thread.Sleep(2000);
-			}
-            if (OniOS)
-            {
-                if (App.Query("Allow").Any())
-                    App.Tap("Allow");
+			//Note: Sleep only there to let map
+			//load before screenshotting
+			Thread.Sleep(2000);
 
-				if (App.Query("Dismiss").Any())
-					App.Tap("Dismiss");
-            }
 			//double evolveLongitude =  28.427925;
 			//double evolveLatitude  = -81.470973;
 

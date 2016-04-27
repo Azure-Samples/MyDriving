@@ -32,7 +32,7 @@ namespace MyDriving.UITests
 
 		public void SkipAuthentication()
 		{
-			App.Tap (SkipAuthenticationButton);
+			App.Tap ("Skip Auth");
 			App.Screenshot ("Authentication Skipped");
 		}
 	}
