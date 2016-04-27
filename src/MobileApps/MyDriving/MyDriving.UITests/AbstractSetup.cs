@@ -31,12 +31,6 @@ namespace MyDriving.UITests
 			OnAndroid = App.GetType() == typeof(AndroidApp);
 			OniOS = App.GetType() == typeof(iOSApp);
 
-			double evolveLongitude =  28.427925;
-			double evolveLatitude  = -81.470973;
-
-			//go to Evolve 2016!
-			this.App.Device.SetLocation(evolveLatitude,evolveLongitude);
-
 			if (App.Query("Login with Facebook").Any())
 			{
 				new LoginPage ()
@@ -52,6 +46,12 @@ namespace MyDriving.UITests
 				if (App.Query("Dismiss").Any())
 					App.Tap("Dismiss");
             }
+			double evolveLongitude =  28.427925;
+			double evolveLatitude  = -81.470973;
+
+			//go to Evolve 2016!
+			this.App.Device.SetLocation(evolveLatitude,evolveLongitude);
+
         }
 
         public void ClearKeychain()
