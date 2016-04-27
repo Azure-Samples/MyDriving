@@ -46,11 +46,11 @@ namespace MyDriving.UITests
 				if (App.Query("Dismiss").Any())
 					App.Tap("Dismiss");
             }
-			double evolveLongitude =  28.427925;
-			double evolveLatitude  = -81.470973;
+			//double evolveLongitude =  28.427925;
+			//double evolveLatitude  = -81.470973;
 
 			//go to Evolve 2016!
-			this.App.Device.SetLocation(evolveLatitude,evolveLongitude);
+			//this.App.Device.SetLocation(evolveLatitude,evolveLongitude);
 
         }
 
