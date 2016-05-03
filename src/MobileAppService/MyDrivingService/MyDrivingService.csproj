@@ -258,13 +258,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Properties\PublishProfiles\motzMyDriving - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\mydriving - Web Deploy %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\mydriving - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\mydriving-test - Web Deploy %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\mydriving-test - Web Deploy %283%29.pubxml" />
-    <None Include="Properties\PublishProfiles\mydriving-test - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\SmartKar - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MyDriving - Web Deploy.pubxml" />
     <Content Include="Service References\Application Insights\ConnectedService.json" />
   </ItemGroup>
