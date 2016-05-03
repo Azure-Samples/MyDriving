@@ -11,6 +11,7 @@ using Microsoft.Azure.Devices.Common.Exceptions;
 using Microsoft.Azure.Mobile.Server;
 using Microsoft.Azure.Mobile.Server.Config;
 using MyDrivingService.Models;
+using Microsoft.ApplicationInsights;
 
 namespace MyDrivingService.Controllers
 {
@@ -35,6 +36,7 @@ namespace MyDrivingService.Controllers
         [Authorize]
         public async Task<IHttpActionResult> Post(string userId, string deviceName)
         {
+            var aiTelemetry = new TelemetryClient();
             Device device = null;
             EnsureRegistryManagerInitialized();
             MobileAppSettingsDictionary settings = Configuration.GetMobileAppSettingsProvider().GetMobileAppSettings();
@@ -56,6 +58,7 @@ namespace MyDrivingService.Controllers
 
             if (curUser.Devices.Count >= maxDevices)
             {
+                aiTelemetry.TrackEvent("Max number of devices reached for user = " + curUser.Id);
                 return BadRequest("You already have more than the maximum number of devices");
             }
 
@@ -64,9 +67,9 @@ namespace MyDrivingService.Controllers
             {
                 device = await registryManager.GetDeviceAsync(deviceName);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                aiTelemetry.TrackException(e);
             }
 
             if (device == null)  //device not found 
@@ -82,15 +85,20 @@ namespace MyDrivingService.Controllers
                     }
                     else  //registration failed
                     {
+                        aiTelemetry.TrackEvent(String.Format("Registration failed for device {0}", deviceName));
                         return BadRequest("Error. Cannot register device");
                     }
                 }
                 catch (Exception e)
                 {
+                    aiTelemetry.TrackException(e);
+                    aiTelemetry.TrackEvent(String.Format("Registration failed for device {0}", deviceName));
                     return BadRequest("Device provisioning failed on server with exception " + e.Message);
                 }
+                aiTelemetry.TrackEvent(String.Format("New device {0} registered for user {1}. Total devices: {2}", deviceName, curUser.Id, curUser.Devices.Count));
             }
 
+            
             return Created("api/provision", device?.Authentication?.SymmetricKey?.PrimaryKey);
         }
 

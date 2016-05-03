@@ -10,6 +10,7 @@ using Microsoft.Azure.Mobile.Server;
 using MyDriving.DataObjects;
 using MyDrivingService.Helpers;
 using MyDrivingService.Models;
+using Microsoft.ApplicationInsights;
 
 namespace MyDrivingService.Controllers
 {
@@ -82,6 +83,11 @@ namespace MyDrivingService.Controllers
                 dbContext.SaveChanges();
             }
 
+            //track large trips
+            var aiTelemetry = new TelemetryClient();
+            var pointsCount = trip?.Points?.Count ?? 0;
+            if(pointsCount > 1000)
+                aiTelemetry.TrackEvent(string.Format("Saved trip {0}. Points:{1}", current.Id, pointsCount));
 
             return CreatedAtRoute("Tables", new {id = current.Id}, current);
         }
