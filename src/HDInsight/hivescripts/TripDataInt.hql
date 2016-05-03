@@ -39,7 +39,7 @@ Runtime int
 INSERT INTO TABLE tripDataInt 
 SELECT TripId,
 UserId,
-vin,
+SUBSTR(vin, 0, 20) as vin,
 UNIX_TIMESTAMP(CONCAT(SPLIT(RecordedTimeStamp,'T')[0],' ',SUBSTR(SPLIT(RecordedTimeStamp,'T')[1],0,8)),'yyyy-MM-dd hh:mm:ss') as unixtimestamp,
 AVG(Lat) as cLat,
 AVG(Lon) as cLon,
