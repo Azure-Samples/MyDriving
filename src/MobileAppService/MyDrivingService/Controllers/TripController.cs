@@ -78,6 +78,11 @@ namespace MyDrivingService.Controllers
             {
                 current = await InsertAsync(trip);
             }
+            catch (HttpResponseException httpResponseException)
+            {
+                aiTelemetry.TrackException(httpResponseException);
+                aiTelemetry.TrackEvent("Caught HttpResponseException. Response:" + httpResponseException.Response);
+            }
             catch (System.Exception ex)
             {
                 aiTelemetry.TrackException(ex);
