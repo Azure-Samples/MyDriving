@@ -44,6 +44,8 @@ namespace MyDriving.Shared
             HockeyApp.Metrics.MetricsManager.TrackEvent(trackIdentifier);
 #elif __IOS__
             HockeyApp.BITHockeyManager.SharedHockeyManager?.MetricsManager?.TrackEvent(trackIdentifier);
+#elif WINDOWS_UWP
+            Microsoft.HockeyApp.HockeyClient.Current.TrackEvent(trackIdentifier);
 #endif
             base.Track(trackIdentifier, table);
         }
@@ -55,6 +57,8 @@ namespace MyDriving.Shared
             HockeyApp.Metrics.MetricsManager.TrackEvent(trackIdentifier);
 #elif __IOS__
             HockeyApp.BITHockeyManager.SharedHockeyManager?.MetricsManager?.TrackEvent(trackIdentifier);
+#elif WINDOWS_UWP
+            Microsoft.HockeyApp.HockeyClient.Current.TrackEvent(trackIdentifier);
 #endif
             base.Track(trackIdentifier, key, value);
         }

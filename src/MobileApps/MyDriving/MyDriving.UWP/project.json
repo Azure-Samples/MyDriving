@@ -1,7 +1,7 @@
 ﻿{
   "dependencies": {
     "Acr.UserDialogs": "4.3.4",
-    "HockeySDK.UWP": "3.1.1-build59744",
+    "HockeySDK.UWP": "4.0.0",
     "Humanizer.Core": "2.0.1",
     "Microsoft.Azure.Devices.Client.PCL": "1.0.3",
     "Microsoft.Azure.Mobile.Client.SQLiteStore": "2.0.1",
