@@ -173,7 +173,6 @@ namespace ObdLibUWP
                 }
                 if (socket != null)
                 {
-                    await socket.CancelIOAsync();
                     socket.Dispose();
                     socket = null;
                 }
