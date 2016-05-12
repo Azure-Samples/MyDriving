@@ -29,24 +29,16 @@ namespace MyDriving.iOS
             ServiceLocator.Instance.Add<IAuthentication, Authentication>();
             ServiceLocator.Instance.Add<ILogger, PlatformLogger>();
             ServiceLocator.Instance.Add<IOBDDevice, OBDDevice>();
-            
+
             Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             SQLitePCL.CurrentPlatform.Init();
 
 #if !XTC
             if (!string.IsNullOrWhiteSpace(Logger.HockeyAppiOS))
             {
-                Setup.EnableCustomCrashReporting(() =>
-                {
-                    var manager = BITHockeyManager.SharedHockeyManager;
-                    manager.Configure(Logger.HockeyAppiOS);
-                    manager.StartManager();
-                    manager.Authenticator.AuthenticateInstallation();
-                    AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
-                        Setup.ThrowExceptionAsNative(e.ExceptionObject);
-                    TaskScheduler.UnobservedTaskException += (sender, e) =>
-                        Setup.ThrowExceptionAsNative(e.Exception);
-                });
+                var manager = BITHockeyManager.SharedHockeyManager;
+                manager.Configure(Logger.HockeyAppiOS);
+                manager.StartManager();
             }
 #endif
 
@@ -57,21 +49,21 @@ namespace MyDriving.iOS
 		                                 .InstantiateViewController("loginViewController");
 		Window.RootViewController = viewController;
 #else
-				if (Settings.Current.FirstRun)
-				{
-					var viewController = UIStoryboard.FromName("Main", null)
-								 .InstantiateViewController("gettingStartedViewController");
-					var navigationController = new UINavigationController(viewController);
-					Window.RootViewController = navigationController;
+                if (Settings.Current.FirstRun)
+                {
+                    var viewController = UIStoryboard.FromName("Main", null)
+                                 .InstantiateViewController("gettingStartedViewController");
+                    var navigationController = new UINavigationController(viewController);
+                    Window.RootViewController = navigationController;
 
-					Settings.Current.FirstRun = false;
-				}
-				else
-				{
-					var viewController = UIStoryboard.FromName("Main", null)
-					                                 .InstantiateViewController("loginViewController");
-					Window.RootViewController = viewController;
-				}
+                    Settings.Current.FirstRun = false;
+                }
+                else
+                {
+                    var viewController = UIStoryboard.FromName("Main", null)
+                                                     .InstantiateViewController("loginViewController");
+                    Window.RootViewController = viewController;
+                }
 #endif
             }
             else
