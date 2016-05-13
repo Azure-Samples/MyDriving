@@ -1,0 +1,11 @@
+{
+    "name": "AzureStorageLinkedService",
+    "properties": {
+        "description": "",
+        "hubName": "mydriving-df_hub",
+        "type": "AzureStorage",
+        "typeProperties": {
+            "connectionString": "DefaultEndpointsProtocol=https;AccountName=mydrivingstr;AccountKey=**********"
+        }
+    }
+}

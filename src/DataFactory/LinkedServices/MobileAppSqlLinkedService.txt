@@ -1,0 +1,11 @@
+{
+    "name": "MobileAppSqlLinkedService",
+    "properties": {
+        "description": "",
+        "hubName": "mydriving-df_hub",
+        "type": "AzureSqlDatabase",
+        "typeProperties": {
+            "connectionString": "Data Source=tcp:mydrivingdbserver.database.windows.net,1433;Initial Catalog=mydrivingDB;Integrated Security=False;User ID=<username>@mydrivingdbserver;Password=**********;Connect Timeout=30;Encrypt=True"
+        }
+    }
+}

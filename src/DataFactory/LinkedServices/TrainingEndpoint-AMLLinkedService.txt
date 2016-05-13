@@ -1,0 +1,12 @@
+{
+    "name": "TrainingEndpoint-AMLLinkedService",
+    "properties": {
+        "description": "",
+        "hubName": "mydriving-df_hub",
+        "type": "AzureML",
+        "typeProperties": {
+            "mlEndpoint": "https://ussouthcentral.services.azureml.net/workspaces/****/services/****/jobs?api-version=2.0",
+            "apiKey": "**********"
+        }
+    }
+}

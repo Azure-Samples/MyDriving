@@ -1,0 +1,66 @@
+{
+    "name": "FactTripData-Blob",
+    "properties": {
+        "structure": [
+            {
+                "name": "TripId",
+                "type": "String"
+            },
+            {
+                "name": "UserId",
+                "type": "String"
+            },
+            {
+                "name": "vin",
+                "type": "String"
+            },
+            {
+                "name": "tripStartTime",
+                "type": "String"
+            },
+            {
+                "name": "AverageSpeed",
+                "type": "Double"
+            },
+            {
+                "name": "Hard_Accel",
+                "type": "Int32"
+            },
+            {
+                "name": "Hard_Brakes",
+                "type": "Int32"
+            },
+            {
+                "name": "DroveWithMILOn",
+                "type": "Double"
+            },
+            {
+                "name": "LengthOfTrip",
+                "type": "Timespan"
+            },
+            {
+                "name": "cLat",
+                "type": "Double"
+            },
+            {
+                "name": "cLon",
+                "type": "Double"
+            }
+        ],
+        "published": false,
+        "type": "AzureBlob",
+        "linkedServiceName": "AzureStorageLinkedService",
+        "typeProperties": {
+            "folderPath": "tripdata/tables/factTripDataoutput",
+            "format": {
+                "type": "TextFormat",
+                "rowDelimiter": "\n",
+                "columnDelimiter": "|"
+            }
+        },
+        "availability": {
+            "frequency": "Day",
+            "interval": 1
+        }
+    }
+}
