@@ -110,8 +110,6 @@ namespace MyDriving.ViewModel
             if (IsBusy)
                 return false;
 
-            Logger.Instance.Track("LoadPastTrip");
-
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading trip details...",
                 maskType: Acr.UserDialogs.MaskType.Clear);
 
@@ -143,15 +141,18 @@ namespace MyDriving.ViewModel
                     POIs.AddRange(await StoreManager.POIStore.GetItemsAsync(Trip.Id));
 
                     Title = Trip.Name;
+                    Logger.Instance.Track("LoadPastTrip");
                 }
                 else
                 {
+                    Logger.Instance.Track("LoadPastTrip: no trip points!");
                     error = true;
                 }
 
             }
             catch (Exception ex)
             {
+                Logger.Instance.Track("Error loading past trip!");
                 Logger.Instance.Report(ex);
                 error = true;
             }
