@@ -266,7 +266,7 @@ namespace MyDriving.ViewModel
                 IsBusy = false;
                 progress?.Dispose();
             }
-
+            Logger.Instance.Track("SaveRecording failed");
             return false;
         }
 
