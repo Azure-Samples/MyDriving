@@ -293,6 +293,8 @@ namespace MyDriving.UWP.Views
                     return;
                 }
 
+           
+
                 await ViewModel.SaveRecordingTripAsync();
 
                 var recordedTripSummary = ViewModel.TripSummary;
@@ -310,6 +312,7 @@ namespace MyDriving.UWP.Views
                 if (ViewModel.CurrentTrip.HasSimulatedOBDData)
                     App.SetTitle("CURRENT TRIP (SIMULATED OBD)");
 
+                CreateBackgroundException();
                 // Update UI to start recording.
                 recordButtonImage = new BitmapImage(new Uri("ms-appx:///Assets/StopRecord.png", UriKind.Absolute));
                 OnPropertyChanged(nameof(RecordButtonImage));
@@ -319,6 +322,14 @@ namespace MyDriving.UWP.Views
                 UpdateStats();
             }
             recordButtonIsBusy = false;
+        }
+
+        private void CreateBackgroundException()
+        {
+            TextFuel.Text = ViewModel.FuelConsumption;
+            TextFuelunits.Text = ViewModel.FuelConsumptionUnits;
+            TextDistance.Text = ViewModel.Distance;
+            TextDistanceunits.Text = ViewModel.DistanceUnits;
         }
 
         private async void UpdateMap_PositionChanged(BasicGeoposition basicGeoposition)

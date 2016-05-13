@@ -51,29 +51,29 @@
     }
   },
   "variables": {
-    "baseName": "mydriving",
+    "baseName": "mydrivingtest",
     /* Storage settings*/
-    "blobStorageAnalytics": "[substring(toLower(concat(variables('baseName'), 'str', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]",
-    "blobStorageHdiMetastore": "[substring(toLower(concat(variables('baseName'), 'logs', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]",
+    "blobStorageAnalytics": "[toLower(concat(variables('baseName'), 'str'))]",
+    "blobStorageHdiMetastore": "[toLower(concat(variables('baseName'), 'logs'))]",
     "assetsContainerName": "mydrivinghdi", /* if you change this value, remember to also update the same variable in prerequisites.json */
     "rawDataContainerName": "rawdata",
     "tripdataContainerName": "tripdata",
     "referenceContainerName": "reference",
     /* IoT Hub settings */
-    "iotHubName": "[concat(variables('baseName'), '-', uniquestring(resourceGroup().id))]",
+    "iotHubName": "[concat(variables('baseName'), '-IotHub')]",
     "iotHubKeyName": "iothubowner",
     /* Event Hub settings */
-    "eventHubNamespace": "[concat(variables('baseName'), '-', 'ns', '-', uniquestring(resourceGroup().id))]",
+    "eventHubNamespace": "[concat(variables('baseName'), '-', 'eventHubns')]",
     "eventHubName": "[variables('baseName')]",
     "eventHubKeyName": "RootManageSharedAccessKey",
     /* SQL Server settings */
-    "sqlServerName": "[toLower(concat(variables('baseName'), 'dbserver', '-', uniquestring(resourceGroup().id)))]",
+    "sqlServerName": "[toLower(concat(variables('baseName'), 'dbserver'))]",
     "sqlServerAdminLogin": "YourUserName",
     "sqlDBName": "[concat(variables('baseName'), 'DB')]",
     "sqlDBEdition": "[parameters('sqlDBEdition')]",
     "sqlServiceObjectiveName": "[parameters('sqlServiceObjectiveName')]",
     /* SQL Server settings - Analytics */
-    "sqlAnalyticsServerName": "[toLower(concat(variables('baseName'), '-', 'dbserver', '-', uniquestring(resourceGroup().id)))]",
+    "sqlAnalyticsServerName": "[toLower(concat(variables('baseName'), '-', 'Analyticsdbserver'))]",
     "sqlAnalyticsServerAdminLogin": "YourUserName",
     "sqlAnalyticsDBName": "[concat(variables('baseName'), 'AnalyticsDB')]",
     "sqlAnalyticsDBEdition": "[parameters('sqlDBEdition')]",
@@ -98,16 +98,16 @@
     "vinlookupJobQuery": "With VINData as \r\n(\r\nSELECT\r\n\tTripId,\r\n\tTripDataPoint.VIN,\r\n\tcount(*)\r\nFROM\r\n\tCarDeviceData\r\nWHERE\r\n\tTripId is not null AND\r\n\tTripDataPoint.VIN is not null AND\r\n\tTripId != '' AND\r\n\tTripDataPoint.VIN != ''\r\nGROUP BY \r\n\tTripId,\r\n\tTripDataPoint.VIN,\r\n\tTUMBLINGWINDOW(hour,1)\r\n)\r\n\r\nSELECT \r\n\tTripId,\r\n\tVIN\r\nINTO EHSink\r\nFROM VINData",
     "vinlookupJobConsumerGroupName": "asa-vinlookup",
     /* Hosting Plan settings */
-    "hostingPlanName": "[concat(variables('baseName'), 'Plan', '-', uniquestring(resourceGroup().id))]",
+    "hostingPlanName": "[concat(variables('baseName'), 'HostingPlan')]",
     /* Mobile App settings */
-    "mobileAppName": "[concat(variables('baseName'), '-', uniquestring(resourceGroup().id))]",
+    "mobileAppName": "[concat(variables('baseName'), '-MobileApp')]",
     "mobileAppRepositoryBranch": "master",
     "mobileAppProject": "src/MobileAppService/MyDrivingService/MyDrivingService.csproj",
     /* App Insights settings */
-    "appInsightsName": "[concat(variables('baseName'), 'API', '-', uniquestring(resourceGroup().id))]",
+    "appInsightsName": "[concat(variables('baseName'), '-ApiApp')]",
     "appInsightsLocation": "centralus", /* App Insights is currently only available in Central US */
     /* Data Factory settings */
-    "dataFactoryName": "[concat(variables('baseName'), '-df', uniquestring(resourceGroup().id))]",
+    "dataFactoryName": "[concat(variables('baseName'), '-datafactory')]",
     "mlScoringLinkedServiceName": "AzureMLScoringandUpdateLinkedService",
     "mlTrainingEndpointLinkedServiceName": "TrainingEndpoint-AMLLinkedService",
     "sqlAnalyticsLinkedServiceName": "AzureSqlLinkedService",

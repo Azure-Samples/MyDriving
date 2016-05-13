@@ -9,10 +9,10 @@
     }
   },
   "variables": {
-    "baseName": "mydriving",
-    "storageAccountName": "[substring(toLower(concat(variables('baseName'), 'logs', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]",
+     "baseName": "mydrivingTest",
+    "storageAccountName": "[toLower(concat(variables('baseName'), 'logs'))]",
     "assetsContainerName": "mydrivinghdi",
-    "mlStorageAccountName": "[substring(toLower(concat('ml', variables('baseName'), 'logs', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]"
+    "mlStorageAccountName": "[toLower(concat('ml', variables('baseName'), 'logs'))]"
   },
   "resources": [
     {
