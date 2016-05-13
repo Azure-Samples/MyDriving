@@ -1,0 +1,27 @@
+{
+    "name": "DailyComputeHDICluster",
+    "properties": {
+        "description": "",
+        "hubName": "mydriving-df_hub",
+        "type": "HDInsightOnDemand",
+        "typeProperties": {
+            "version": "3.1",
+            "clusterSize": 2,
+            "timeToLive": "00:10:00",
+            "osType": "Windows",
+            "coreConfiguration": {},
+            "hBaseConfiguration": {},
+            "hdfsConfiguration": {},
+            "hiveConfiguration": {},
+            "mapReduceConfiguration": {},
+            "oozieConfiguration": {},
+            "sparkConfiguration": {},
+            "stormConfiguration": {},
+            "yarnConfiguration": {},
+            "additionalLinkedServiceNames": [
+                "AzureStorageLinkedService"
+            ],
+            "linkedServiceName": "HDIMetastoreBlobLinkedService"
+        }
+    }
+}

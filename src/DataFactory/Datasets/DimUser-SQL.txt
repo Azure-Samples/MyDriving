@@ -1,0 +1,25 @@
+{
+    "name": "DimUser-SQL",
+    "properties": {
+        "structure": [
+            {
+                "name": "userId",
+                "type": "String"
+            },
+            {
+                "name": "vin",
+                "type": "Int32"
+            }
+        ],
+        "published": false,
+        "type": "AzureSqlTable",
+        "linkedServiceName": "AzureSqlLinkedService",
+        "typeProperties": {
+            "tableName": "dbo.dimUser"
+        },
+        "availability": {
+            "frequency": "Day",
+            "interval": 1
+        }
+    }
+}

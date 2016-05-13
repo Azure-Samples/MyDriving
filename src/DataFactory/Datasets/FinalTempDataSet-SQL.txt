@@ -1,0 +1,21 @@
+{
+    "name": "FinalTempDataSet-Sql",
+    "properties": {
+        "structure": [
+            {
+                "name": "tempCol",
+                "type": "String"
+            }
+        ],
+        "published": false,
+        "type": "AzureSqlTable",
+        "linkedServiceName": "AzureSqlLinkedService",
+        "typeProperties": {
+            "tableName": "dbo.dimTemp"
+        },
+        "availability": {
+            "frequency": "Day",
+            "interval": 1
+        }
+    }
+}

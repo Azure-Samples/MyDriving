@@ -70,9 +70,6 @@ namespace MyDriving.ViewModel
             if (IsBusy)
                 return;
 
-            var track = Logger.Instance.TrackTime("LoadTrips");
-            track?.Start();
-
             var progressDialog = UserDialogs.Instance.Loading("Loading trips...", maskType: MaskType.Clear);
 
             try
@@ -84,14 +81,15 @@ namespace MyDriving.ViewModel
                 Trips.ReplaceRange(items);
 
                 CanLoadMore = Trips.Count == 25;
+                Logger.Instance.Track("LoadTrips");
             }
             catch (Exception ex)
             {
                 Logger.Instance.Report(ex);
+                Logger.Instance.Track("Loading trips failed");
             }
             finally
             {
-                track?.Stop();
                 IsBusy = false;
 
                 progressDialog?.Dispose();

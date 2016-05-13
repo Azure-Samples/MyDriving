@@ -1,0 +1,76 @@
+{
+    "name": "AzureML-RetrainingPipeline",
+    "properties": {
+        "description": "Pipeline for retraining AzureML model",
+        "activities": [
+            {
+                "type": "AzureMLBatchExecution",
+                "typeProperties": {
+                    "webServiceOutputs": {
+                        "output1": "AML-iLearnerDataset"
+                    },
+                    "globalParameters": {
+                        "Account name": "mydrivingstr",
+                        "Account key": "*******",
+                        "Path to container, directory or blob": "tripdata/tables/mlinput/*000*",
+                        "File has header row": false
+                    }
+                },
+                "inputs": [
+                    {
+                        "name": "FactTripMLInputData-Blob"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "AML-iLearnerDataset"
+                    }
+                ],
+                "policy": {
+                    "timeout": "01:00:00",
+                    "concurrency": 1,
+                    "retry": 3
+                },
+                "scheduler": {
+                    "frequency": "Day",
+                    "interval": 1
+                },
+                "name": "AzureMLRetrainingActivity",
+                "linkedServiceName": "TrainingEndpoint-AMLLinkedService"
+            },
+            {
+                "type": "AzureMLUpdateResource",
+                "typeProperties": {
+                    "trainedModelDatasetName": "AML-iLearnerDataset",
+                    "trainedModelName": "MyDriving [trained model]"
+                },
+                "inputs": [
+                    {
+                        "name": "AML-iLearnerDataset"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "TempIntermediateDataset3-Blob"
+                    }
+                ],
+                "policy": {
+                    "timeout": "01:00:00",
+                    "concurrency": 1,
+                    "retry": 3
+                },
+                "scheduler": {
+                    "frequency": "Day",
+                    "interval": 1
+                },
+                "name": "AzureMLUpdateResourceActivity",
+                "linkedServiceName": "AzureMLScoringandUpdateLinkedService"
+            }
+        ],
+        "start": "2016-03-12T02:00:00Z",
+        "end": "2016-06-04T02:00:00Z",
+        "isPaused": false,
+        "hubName": "mydriving-df_hub",
+        "pipelineMode": "Scheduled"
+    }
+}

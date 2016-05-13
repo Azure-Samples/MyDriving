@@ -14,6 +14,8 @@ using MyDriving.Utils;
 using Android.Runtime;
 using System;
 using System.Threading.Tasks;
+using HockeyApp;
+
 
 namespace MyDriving.Droid
 {
@@ -82,19 +84,38 @@ namespace MyDriving.Droid
                 return;
 
             HockeyApp.CrashManager.Register(this, Logger.HockeyAppAndroid);
-            HockeyApp.UpdateManager.Register(this, Logger.HockeyAppAndroid);
             HockeyApp.Metrics.MetricsManager.Register(this, Application, Logger.HockeyAppAndroid);
-            HockeyApp.TraceWriter.Initialize();
+            HockeyApp.Metrics.MetricsManager.EnableUserMetrics();
 
-            AndroidEnvironment.UnhandledExceptionRaiser += (sender, args) =>
-            {
-                HockeyApp.TraceWriter.WriteTrace(args.Exception);
-                args.Handled = true;
-            };
-            AppDomain.CurrentDomain.UnhandledException +=
-                (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.ExceptionObject);
-            TaskScheduler.UnobservedTaskException += (sender, args) => HockeyApp.TraceWriter.WriteTrace(args.Exception);
+            CheckForUpdates();
+
         }
+
+        void CheckForUpdates()
+        {
+            // Remove this for store builds!
+            UpdateManager.Register(this, Logger.HockeyAppAndroid);
+        }
+
+        void UnregisterManagers()
+        {
+            UpdateManager.Unregister();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            UnregisterManagers();
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            UnregisterManagers();
+        }
+
 
         void ListItemClicked(int itemId)
         {

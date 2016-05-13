@@ -1,0 +1,29 @@
+{
+    "name": "FactTripMLData-MobileSQL",
+    "properties": {
+        "structure": [
+            {
+                "name": "tripId",
+                "type": "String"
+            },
+            {
+                "name": "userId",
+                "type": "String"
+            },
+            {
+                "name": "driverType",
+                "type": "String"
+            }
+        ],
+        "published": false,
+        "type": "AzureSqlTable",
+        "linkedServiceName": "MobileAppSqlLinkedService",
+        "typeProperties": {
+            "tableName": "dbo.factMLOutputData"
+        },
+        "availability": {
+            "frequency": "Day",
+            "interval": 1
+        }
+    }
+}
