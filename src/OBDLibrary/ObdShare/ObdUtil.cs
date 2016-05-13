@@ -110,7 +110,7 @@ namespace ObdShare
             }
             catch (Exception exp)
             {
-                return exp.Message;
+                return "PARSING FAILED";
             }
         }
 

@@ -10,6 +10,6 @@ LOCATION 'wasb://tripdata@${hiveconf:DataStorageAccount}.blob.core.windows.net/t
 
 INSERT INTO TABLE dimUser
 SELECT distinct UserId, 
-IF(vin is NULL,"Unknown",vin) as vin 
+IF(vin is NULL,"Unknown",SUBSTR(vin, 0, 20)) as vin 
 FROM tripdata WHERE year=${hiveconf:Year} and month=${hiveconf:Month} and day=${hiveconf:Day}
 and TripId is not null and TripId!='' and UserId is not null and UserId != '';
