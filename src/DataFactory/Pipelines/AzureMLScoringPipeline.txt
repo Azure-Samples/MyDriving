@@ -1,0 +1,57 @@
+{
+    "name": "AzureMLScoringPipeline",
+    "properties": {
+        "description": "This Pipeline performs batch scoring on the data.",
+        "activities": [
+            {
+                "type": "AzureMLBatchExecution",
+                "typeProperties": {
+                    "webServiceOutputs": {},
+                    "globalParameters": {
+                        "Account name": "mydrivingstr",
+                        "Account key": "******",
+                        "Path to container, directory or blob": "$$Text.Format('tripdata/tables/mlinput/{0:yyyy}/{1:MM}/{2:dd}/000*',SliceStart,SliceStart,SliceStart)",
+                        "File has header row": false,
+                        "Database server name": "mydrivingdbserver.database.windows.net",
+                        "Database name": "MyDrivingAnalyticsDB",
+                        "Server user account name": "<username>@mydrivingdbserver",
+                        "Server user account password": "******",
+                        "Data table name": "factMLOutputData"
+                    }
+                },
+                "inputs": [
+                    {
+                        "name": "FactTripMLInputData-Blob"
+                    },
+                    {
+                        "name": "TempIntermediateDataset3-Blob"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "FactTripMLData-SQL"
+                    },
+                    {
+                        "name": "FactTripMLData-MobileSQL"
+                    }
+                ],
+                "policy": {
+                    "timeout": "01:00:00",
+                    "concurrency": 1,
+                    "retry": 3
+                },
+                "scheduler": {
+                    "frequency": "Day",
+                    "interval": 1
+                },
+                "name": "DriverType-AzureMLExecutionActivity",
+                "linkedServiceName": "AzureMLScoringandUpdateLinkedService"
+            }
+        ],
+        "start": "2016-03-12T02:00:00Z",
+        "end": "2016-06-04T02:00:00Z",
+        "isPaused": false,
+        "hubName": "mydriving-df_hub",
+        "pipelineMode": "Scheduled"
+    }
+}

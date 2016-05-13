@@ -1,5 +1,5 @@
 {
-    "name": "FactTripData-Blob",
+    "name": "MyDrivingRawData-Blob",
     "properties": {
         "structure": [
             {
@@ -15,6 +15,10 @@
                 "type": "String"
             },
             {
+                "name": "TripPointId",
+                "type": "String"
+            },
+            {
                 "name": "Lat",
                 "type": "Double"
             },
@@ -23,32 +27,40 @@
                 "type": "Double"
             },
             {
-                "name": "AvgSpeed",
+                "name": "Speed",
                 "type": "Double"
             },
             {
-                "name": "AvgEngineRPM",
+                "name": "RecordedTimeStamp",
+                "type": "Datetime"
+            },
+            {
+                "name": "Sequence",
+                "type": "Int32"
+            },
+            {
+                "name": "EngineRPM",
                 "type": "Double"
             },
             {
-                "name": "AvgShortTermFuelBank",
+                "name": "ShortTermFuelBank",
                 "type": "Double"
             },
             {
-                "name": "AvgLargeTermFuelBank",
+                "name": "LargeTermFuelBank",
                 "type": "Double"
             },
             {
-                "name": "MaxThrottlePosition",
+                "name": "ThrottlePosition",
                 "type": "Double"
             },
             {
-                "name": "AvgRelativeThrottlePosition",
+                "name": "RelativeThrottlePosition",
                 "type": "Double"
             },
             {
                 "name": "Runtime",
-                "type": "Timespan"
+                "type": "Int32"
             },
             {
                 "name": "DistancewithMIL",
@@ -77,18 +89,46 @@
         ],
         "published": false,
         "type": "AzureBlob",
-        "linkedServiceName": "HDIMetastoreBlobLinkedService",
+        "linkedServiceName": "AzureStorageLinkedService",
         "typeProperties": {
-            "folderPath": "dailycomputehdicluster/hive/warehouse/factTripData",
+            "folderPath": "rawdata/tripdata/{Year}/{Month}/{Day}",
             "format": {
                 "type": "TextFormat",
                 "rowDelimiter": "\n",
-                "columnDelimiter": "|"
-            }
+                "columnDelimiter": ","
+            },
+            "partitionedBy": [
+                {
+                    "name": "Year",
+                    "value": {
+                        "type": "DateTime",
+                        "date": "SliceStart",
+                        "format": "yyyy"
+                    }
+                },
+                {
+                    "name": "Month",
+                    "value": {
+                        "type": "DateTime",
+                        "date": "SliceStart",
+                        "format": "MM"
+                    }
+                },
+                {
+                    "name": "Day",
+                    "value": {
+                        "type": "DateTime",
+                        "date": "SliceStart",
+                        "format": "dd"
+                    }
+                }
+            ]
         },
         "availability": {
             "frequency": "Day",
             "interval": 1
-        }
+        },
+        "external": true,
+        "policy": {}
     }
 }

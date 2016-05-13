@@ -1,0 +1,50 @@
+{
+    "name": "DimUserCompute-HDI",
+    "properties": {
+        "description": "Populates the DimUser table in Azure SQL DB. HDI is used as the compute engine.",
+        "activities": [
+            {
+                "type": "HDInsightHive",
+                "typeProperties": {
+                    "scriptPath": "mydrivinghdi/hivescripts/dimUserUpdate.hql",
+                    "scriptLinkedService": "HDIMetastoreBlobLinkedService",
+                    "defines": {
+                        "Year": "$$Text.Format('{0:yyyy}',SliceStart)",
+                        "Month": "$$Text.Format('{0:MM}',SliceStart)",
+                        "Day": "$$Text.Format('{0:dd}',SliceStart)",
+                        "DataStorageAccount": "mydrivingstr"
+                    }
+                },
+                "inputs": [
+                    {
+                        "name": "MyDrivingRawData-Blob"
+                    },
+                    {
+                        "name": "TempIntermediateDataset2-Blob"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "DimUser-Blob"
+                    }
+                ],
+                "policy": {
+                    "timeout": "01:00:00",
+                    "concurrency": 1,
+                    "retry": 3
+                },
+                "scheduler": {
+                    "frequency": "Day",
+                    "interval": 1
+                },
+                "name": "HiveActivityTemplate",
+                "linkedServiceName": "DailyComputeHDICluster"
+            }
+        ],
+        "start": "2016-03-12T02:00:00Z",
+        "end": "2016-06-04T02:00:00Z",
+        "isPaused": false,
+        "hubName": "mydriving-df_hub",
+        "pipelineMode": "Scheduled"
+    }
+}
