@@ -90,11 +90,12 @@ cLon double
 STORED AS TEXTFILE 
 LOCATION 'wasb://tripdata@${hiveconf:DataStorageAccount}.blob.core.windows.net/tables/factTripDataoutput';
 
+TRUNCATE TABLE tripdatafinal;
 
 INSERT INTO TABLE tripdatafinal
 SELECT a.TripId,
 a.UserId,
-IF(a.vin is NULL OR a.vin=='', "Unknown", a.vin) as vin,
+IF(a.vin is NULL OR a.vin=='', "Unknown", IF(length(a.vin)>20,substr(a.vin,0,19),a.vin)) as vin,
 a.tripStartTime,
 a.AverageSpeed,
 b.Hard_Accel,

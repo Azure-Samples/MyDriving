@@ -36,9 +36,7 @@ namespace MyDriving.Utils.Interfaces
         void Track(string trackIdentifier, string key, string value);
         ITrackHandle TrackTime(string identifier, IDictionary<string, string> table = null);
         ITrackHandle TrackTime(string identifier, string key, string value);
-        void Report(Exception exception = null, Severity warningLevel = Severity.Warning);
-        void Report(Exception exception, IDictionary extraData, Severity warningLevel = Severity.Warning);
-        void Report(Exception exception, string key, string value, Severity warningLevel = Severity.Warning);
+        void Report(Exception exception);
         Task Save();
         Task PurgePendingCrashReports();
     }

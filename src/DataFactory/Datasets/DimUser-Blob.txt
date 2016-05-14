@@ -1,0 +1,30 @@
+{
+    "name": "DimUser-Blob",
+    "properties": {
+        "structure": [
+            {
+                "name": "userId",
+                "type": "String"
+            },
+            {
+                "name": "vin",
+                "type": "Int32"
+            }
+        ],
+        "published": false,
+        "type": "AzureBlob",
+        "linkedServiceName": "AzureStorageLinkedService",
+        "typeProperties": {
+            "folderPath": "tripdata/tables/dimUser",
+            "format": {
+                "type": "TextFormat",
+                "rowDelimiter": "\n",
+                "columnDelimiter": "|"
+            }
+        },
+        "availability": {
+            "frequency": "Day",
+            "interval": 1
+        }
+    }
+}

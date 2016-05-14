@@ -36,6 +36,8 @@ DistanceWithMIL double,
 Runtime int
 ) LOCATION 'wasb://tripdata@${hiveconf:DataStorageAccount}.blob.core.windows.net/tables/onesecagg';
 
+TRUNCATE TABLE tripDataInt;
+
 INSERT INTO TABLE tripDataInt 
 SELECT TripId,
 UserId,
