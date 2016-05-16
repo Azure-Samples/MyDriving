@@ -145,7 +145,7 @@ namespace MyDriving.ViewModel
                 }
                 else
                 {
-                    Logger.Instance.Track("LoadPastTrip: no trip points!");
+                    Logger.Instance.Track("LoadPastTrip: no trip points! Trip id:" + id);
                     error = true;
                 }
 

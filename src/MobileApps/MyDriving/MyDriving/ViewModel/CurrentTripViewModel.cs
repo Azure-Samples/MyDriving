@@ -194,9 +194,9 @@ namespace MyDriving.ViewModel
             if (IsRecording)
                 return false;
 
-            var track = Logger.Instance.TrackTime("SaveRecording");
             IsBusy = true;
 
+            var tripId = CurrentTrip.Id;
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false,
                 maskType: Acr.UserDialogs.MaskType.Clear);
 
@@ -220,7 +220,6 @@ namespace MyDriving.ViewModel
                 {
                     CurrentTrip.Name = name;
                 }
-                track?.Start();
                 progress?.Show();
 
                 if (Logger.BingMapsAPIKey != "____BingMapsAPIKey____")
@@ -262,11 +261,10 @@ namespace MyDriving.ViewModel
             }
             finally
             {
-                track?.Stop();
                 IsBusy = false;
                 progress?.Dispose();
             }
-            Logger.Instance.Track("SaveRecording failed");
+            Logger.Instance.Track("SaveRecording failed for trip " + tripId);
             return false;
         }
 
