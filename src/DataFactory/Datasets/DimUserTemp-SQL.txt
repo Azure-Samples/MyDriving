@@ -1,0 +1,25 @@
+{
+    "name": "DimUserTemp-SQL",
+    "properties": {
+        "structure": [
+            {
+                "name": "userId",
+                "type": "String"
+            },
+            {
+                "name": "vin",
+                "type": "Int32"
+            }
+        ],
+        "published": false,
+        "type": "AzureSqlTable",
+        "linkedServiceName": "AzureSqlLinkedService",
+        "typeProperties": {
+            "tableName": "dbo.dimUserTemp"
+        },
+        "availability": {
+            "frequency": "Day",
+            "interval": 1
+        }
+    }
+}

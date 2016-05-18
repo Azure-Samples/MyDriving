@@ -9,6 +9,8 @@ using Microsoft.Azure.Mobile.Server.Authentication;
 using Microsoft.Azure.Mobile.Server.Config;
 using MyDrivingService.Models;
 using Owin;
+using Microsoft.ApplicationInsights;
+using System.Web.Http.ExceptionHandling;
 
 namespace MyDrivingService
 {
@@ -17,6 +19,7 @@ namespace MyDrivingService
         public static void ConfigureMobileApp(IAppBuilder app)
         {
             HttpConfiguration config = new HttpConfiguration();
+            config.Services.Add(typeof(IExceptionLogger), new AiExceptionLogger());
 
             //For more information on Web API tracing, see http://go.microsoft.com/fwlink/?LinkId=620686 
             config.EnableSystemDiagnosticsTracing();
@@ -45,6 +48,20 @@ namespace MyDrivingService
                 });
             }
             app.UseWebApi(config);
+        }
+    }
+
+    public class AiExceptionLogger : ExceptionLogger
+    {
+        public override void Log(ExceptionLoggerContext context)
+        {
+            if (context != null && context.Exception != null)
+            {
+                // Note: A single instance of telemetry client is sufficient to track multiple telemetry items.
+                var ai = new TelemetryClient();
+                ai.TrackException(context.Exception);
+            }
+            base.Log(context);
         }
     }
 

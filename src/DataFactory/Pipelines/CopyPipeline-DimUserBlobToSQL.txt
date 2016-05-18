@@ -1,0 +1,46 @@
+{
+    "name": "CopyPipeline-DimUserBlobToSQL",
+    "properties": {
+        "description": "Copies processed Data from Blob to Temp SQL tables",
+        "activities": [
+            {
+                "type": "Copy",
+                "typeProperties": {
+                    "source": {
+                        "type": "BlobSource"
+                    },
+                    "sink": {
+                        "type": "SqlSink",
+                        "writeBatchSize": 100,
+                        "writeBatchTimeout": "00:20:00"
+                    }
+                },
+                "inputs": [
+                    {
+                        "name": "DimUser-Blob"
+                    }
+                ],
+                "outputs": [
+                    {
+                        "name": "DimUserTemp-SQL"
+                    }
+                ],
+                "policy": {
+                    "timeout": "01:00:00",
+                    "concurrency": 1,
+                    "retry": 3
+                },
+                "scheduler": {
+                    "frequency": "Day",
+                    "interval": 1
+                },
+                "name": "DimUser-Data"
+            }
+        ],
+        "start": "2016-03-12T02:00:00Z",
+        "end": "2016-06-04T02:00:00Z",
+        "isPaused": false,
+        "hubName": "mydriving-df_hub",
+        "pipelineMode": "Scheduled"
+    }
+}

@@ -10,6 +10,7 @@ using Microsoft.Azure.Mobile.Server;
 using MyDriving.DataObjects;
 using MyDrivingService.Helpers;
 using MyDrivingService.Models;
+using Microsoft.ApplicationInsights;
 
 namespace MyDrivingService.Controllers
 {
@@ -53,11 +54,45 @@ namespace MyDrivingService.Controllers
         [Authorize]
         public async Task<IHttpActionResult> PostTrip(Trip trip)
         {
+            var aiTelemetry = new TelemetryClient();
             var id = await IdentitiyHelper.FindSidAsync(User, Request);
-            trip.UserId = id;
+            if (string.IsNullOrEmpty(id))
+            {
+                aiTelemetry.TrackEvent("UserId is null or empty!");
+            }
 
 
-            Trip current = await InsertAsync(trip);
+            if (trip != null)
+            {
+                trip.UserId = id;
+            }
+            else
+            {
+                aiTelemetry.TrackEvent("Trip is null!");
+                return BadRequest("Null trip");
+            }
+
+
+            Trip current = null;
+            try
+            {
+                current = await InsertAsync(trip);
+            }
+            catch (HttpResponseException httpResponseException)
+            {
+                aiTelemetry.TrackException(httpResponseException);
+                aiTelemetry.TrackEvent("Caught HttpResponseException. Response:" + httpResponseException.Response);
+            }
+            catch (System.Exception ex)
+            {
+                aiTelemetry.TrackException(ex);
+            }
+
+            if (current == null)
+            {
+                aiTelemetry.TrackEvent("Inserting trip failed!");
+                return BadRequest("Inserting trip failed");
+            }
 
             if (dbContext == null)
                 dbContext = new MyDrivingContext();
@@ -69,7 +104,7 @@ namespace MyDrivingService.Controllers
             {
                 curUser.FuelConsumption += trip.FuelUsed;
 
-                var max = trip?.Points.Max(s => s.Speed) ?? 0;
+                var max = trip?.Points?.Max(s => s.Speed) ?? 0;
                 if (max > curUser.MaxSpeed)
                     curUser.MaxSpeed = max;
 
@@ -77,13 +112,21 @@ namespace MyDrivingService.Controllers
                 curUser.HardAccelerations += trip.HardAccelerations;
                 curUser.HardStops += trip.HardStops;
                 curUser.TotalTrips++;
-                curUser.TotalTime += (long) (trip.EndTimeStamp - trip.RecordedTimeStamp).TotalSeconds;
+                curUser.TotalTime += (long)(trip.EndTimeStamp - trip.RecordedTimeStamp).TotalSeconds;
 
                 dbContext.SaveChanges();
             }
+            else
+            {
+                aiTelemetry.TrackEvent("Cannot find user " + id);
+            }
 
+            //track large trips      
+            var pointsCount = trip?.Points?.Count ?? 0;
+            if (pointsCount > 1000)
+                aiTelemetry.TrackEvent(string.Format("Saved large trip {0}. Points:{1}", current.Id, pointsCount));
 
-            return CreatedAtRoute("Tables", new {id = current.Id}, current);
+            return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }
 
         // DELETE tables/Trip/<id>
