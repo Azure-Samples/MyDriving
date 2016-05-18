@@ -168,7 +168,7 @@ namespace MyDriving.ViewModel
                     CurrentTrip.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
                 }
 
-                CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
+               CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
 
                 IsRecording = true;
                 Logger.Instance.Track("StartRecording");
@@ -179,7 +179,7 @@ namespace MyDriving.ViewModel
                     Latitude = CurrentPosition.Latitude,
                     Longitude = CurrentPosition.Longitude,
                     Sequence = CurrentTrip.Points.Count,
-                });
+                });  
             }
             catch (Exception ex)
             {
@@ -194,6 +194,11 @@ namespace MyDriving.ViewModel
             if (IsRecording)
                 return false;
 
+            if(CurrentTrip.Points?.Count < 1)
+            {
+                Logger.Instance.Track("Attempt to save a trip with no points!");
+                return false;
+            }
             IsBusy = true;
 
             var tripId = CurrentTrip.Id;
@@ -233,7 +238,7 @@ namespace MyDriving.ViewModel
                     CurrentTrip.MainPhotoUrl = string.Empty;
                 }
                 CurrentTrip.Rating = 90;
-
+               
                 await StoreManager.TripStore.InsertAsync(CurrentTrip);
 
                 foreach (var photo in photos)
