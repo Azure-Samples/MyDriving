@@ -303,7 +303,7 @@ namespace MyDriving.ViewModel
             {
                 //Intermittently, Sqlite will cause a crash for WinPhone saying "unable to set temporary directory"
                 //If this call fails, simply use an empty list of POIs
-                Logger.Instance.WriteLine("Unable to get POI Store Items.");
+                Logger.Instance.Track("Unable to get POI Store Items.");
                 Logger.Instance.Report(ex);
             }
            
@@ -460,7 +460,7 @@ namespace MyDriving.ViewModel
 
                 #if DEBUG
                 foreach (var kvp in obdData)
-                    Logger.Instance.WriteLine($"{kvp.Key} {kvp.Value}");
+                    Logger.Instance.Track($"{kvp.Key} {kvp.Value}");
                 #endif
 
                 point.HasOBDData = true;
