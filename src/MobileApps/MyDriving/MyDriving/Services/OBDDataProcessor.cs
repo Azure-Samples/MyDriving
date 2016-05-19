@@ -93,7 +93,7 @@ namespace MyDriving.Services
             if (!CrossConnectivity.Current.IsConnected)
             {
                 //If there is no network connection, save in buffer and try again
-                Logger.Instance.WriteLine("Unable to push data to IOT Hub - no network connection.");
+                Logger.Instance.Track("Unable to push data to IOT Hub - no network connection.");
                 await AddTripPointToBuffer(packagedBlob);
                 return;
             }
@@ -105,7 +105,7 @@ namespace MyDriving.Services
             catch (Exception e)
             {
                 //An exception will be thrown if the data isn't received by the IOT Hub; store data in buffer and try again
-                Logger.Instance.WriteLine("Unable to send data to IOT Hub: " + e.Message);
+                Logger.Instance.Track("Unable to send data to IOT Hub: " + e.Message);
                 AddTripPointToBuffer(packagedBlob);
             }
         }
@@ -158,7 +158,7 @@ namespace MyDriving.Services
                 catch (Exception e)
                 {
                     //An exception will be thrown if the data isn't received by the IOT Hub - wait a few seconds and try again
-                    Logger.Instance.WriteLine("Unable to send buffered data to IOT Hub: " + e.Message);
+                    Logger.Instance.Track("Unable to send buffered data to IOT Hub: " + e.Message);
                     await Task.Delay(3000);
                 }
                 finally
@@ -246,7 +246,7 @@ namespace MyDriving.Services
             }
             catch (Exception ex)
             {
-                Logger.Instance.WriteLine(ex.ToString());
+                Logger.Instance.Report(ex);
             }
             finally
             {
@@ -276,7 +276,7 @@ namespace MyDriving.Services
                     }
                     catch (Exception ex)
                     {
-                        Logger.Instance.WriteLine(ex.ToString());
+                        Logger.Instance.Report(ex);
                     }
                     
                 }

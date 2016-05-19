@@ -103,7 +103,7 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             catch (Exception e)
             {
-                Logger.Instance.WriteLine($"Unable to remove item {item.Id}:{e}");
+                Logger.Instance.Track($"Unable to remove item {item.Id}:{e}");
             }
 
             return result;
@@ -113,7 +113,7 @@ namespace MyDriving.DataStore.Azure.Stores
         {
             if (!CrossConnectivity.Current.IsConnected)
             {
-                Logger.Instance.WriteLine("Unable to pull items, we are offline");
+                Logger.Instance.Track("Unable to pull items, we are offline");
                 return false;
             }
             try
@@ -122,7 +122,7 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             catch (Exception ex)
             {
-                Logger.Instance.WriteLine("Unable to pull items, that is alright as we have offline capabilities: " + ex);
+                Logger.Instance.Track("PullLatestAsync: Unable to pull items: " + ex.Message);
                 return false;
             }
             return true;
@@ -133,7 +133,7 @@ namespace MyDriving.DataStore.Azure.Stores
         {
             if (!CrossConnectivity.Current.IsConnected)
             {
-                Logger.Instance.WriteLine("Unable to sync items, we are offline");
+                Logger.Instance.Track("Unable to sync items, we are offline");
                 return false;
             }
             try
@@ -141,7 +141,7 @@ namespace MyDriving.DataStore.Azure.Stores
                 var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
                 if (client == null)
                 {
-                    Logger.Instance.WriteLine("Unable to sync items, client is null");
+                    Logger.Instance.Track("Unable to sync items, client is null");
 
                     return false;
                 }
@@ -150,7 +150,7 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             catch (Exception ex)
             {
-                Logger.Instance.WriteLine("Unable to sync items, that is alright as we have offline capabilities: " + ex);
+                Logger.Instance.Track("SyncAsync: Unable to sync items: " + ex.Message);
                 return false;
             }
 

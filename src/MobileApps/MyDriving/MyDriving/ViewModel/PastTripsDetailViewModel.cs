@@ -114,6 +114,7 @@ namespace MyDriving.ViewModel
                 maskType: Acr.UserDialogs.MaskType.Clear);
 
             bool error = false;
+            string errorMessage = "Please check internet connection and try again.";
             try
             {
                 IsBusy = true;
@@ -145,7 +146,8 @@ namespace MyDriving.ViewModel
                 }
                 else
                 {
-                    Logger.Instance.Track("LoadPastTrip: no trip points!");
+                    Logger.Instance.Track("LoadPastTrip: no trip points! Trip id:" + id);
+                    errorMessage = "The trip does not have any points recorded";
                     error = true;
                 }
 
@@ -165,8 +167,8 @@ namespace MyDriving.ViewModel
             if (error)
             {
                 Acr.UserDialogs.UserDialogs.Instance.Alert(
-                          "Please check internet connection and try again.",
-                          "Unable to load Trip", "OK");
+                          errorMessage,
+                          "Error loading trip", "OK");
             }
 
             return !error;
