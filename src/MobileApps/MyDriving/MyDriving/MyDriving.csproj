@@ -56,7 +56,6 @@
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\TripSummaryViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="Interfaces\IAuthentication.cs" />
     <Compile Include="ViewModel\PastTripsDetailViewModel.cs" />
     <Compile Include="Helpers\UserProfile.cs" />
     <Compile Include="Interfaces\IGeocoder.cs" />

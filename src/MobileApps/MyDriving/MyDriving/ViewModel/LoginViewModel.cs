@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MyDriving.Utils;
 using MyDriving.Helpers;
-using MyDriving.Interfaces;
 using MyDriving.DataObjects;
 using Microsoft.WindowsAzure.MobileServices;
 using MyDriving.AzureClient;
 using System;
+using MyDriving.Utils.Interfaces;
 
 namespace MyDriving.ViewModel
 {

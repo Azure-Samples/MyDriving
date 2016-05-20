@@ -7,6 +7,7 @@ using MyDriving.Utils;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using MyDriving.Utils.Helpers;
 
 namespace MyDriving.ViewModel
 {
@@ -174,8 +175,8 @@ namespace MyDriving.ViewModel
             if (IsBusy)
                 return false;
 
-            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading profile...",
-                maskType: Acr.UserDialogs.MaskType.Clear);
+            ProgressDialogManager.LoadProgressDialog("Loading profile...");
+
             var error = false;
             try
             {
@@ -217,7 +218,7 @@ namespace MyDriving.ViewModel
             }
             finally
             {
-                progress?.Dispose();
+                ProgressDialogManager.DisposeProgressDialog();
                 IsBusy = false;
             }
 
