@@ -7,6 +7,7 @@ using Android.OS;
 using Android.Runtime;
 using Plugin.CurrentActivity;
 using MyDriving.Utils;
+using MyDriving.Utils.Interfaces;
 using MyDriving.Interfaces;
 using MyDriving.Droid.Helpers;
 using Acr.UserDialogs;

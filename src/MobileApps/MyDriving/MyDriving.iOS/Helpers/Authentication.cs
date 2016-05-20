@@ -4,9 +4,9 @@
 using System;
 using System.Threading.Tasks;
 using Foundation;
-using MyDriving.Interfaces;
 using MyDriving.Utils;
 using Microsoft.WindowsAzure.MobileServices;
+using MyDriving.Utils.Interfaces;
 
 namespace MyDriving.iOS.Helpers
 {
@@ -15,39 +15,41 @@ namespace MyDriving.iOS.Helpers
         public async Task<MobileServiceUser> LoginAsync(IMobileServiceClient client,
             MobileServiceAuthenticationProvider provider)
         {
-            try
+            MobileServiceUser user = null;
+
+            new NSObject().InvokeOnMainThread(async () =>
             {
-                var window = UIKit.UIApplication.SharedApplication.KeyWindow;
-                var root = window.RootViewController;
-                if (root != null)
+                try
                 {
-                    var current = root;
-                    while (current.PresentedViewController != null)
+                    var window = UIKit.UIApplication.SharedApplication.KeyWindow;
+                    var root = window.RootViewController;
+                    if (root != null)
                     {
-                        current = current.PresentedViewController;
+                        var current = root;
+                        while (current.PresentedViewController != null)
+                        {
+                            current = current.PresentedViewController;
+                        }
+
+                        Settings.Current.LoginAttempts++;
+
+                        user = await client.LoginAsync(current, provider);
+
+                        Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
+                        Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
                     }
-
-
-                    Settings.Current.LoginAttempts++;
-
-                    var user = await client.LoginAsync(current, provider);
-
-                    Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
-                    Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
-
-                    return user;
                 }
-            }
-            catch (Exception e)
-            {
-                if (!e.Message.Contains("cancelled"))
+                catch (Exception e)
                 {
-                    e.Data["method"] = "LoginAsync";
-                    Logger.Instance.Report(e);
+                    if (!e.Message.Contains("cancelled"))
+                    {
+                        e.Data["method"] = "LoginAsync";
+                        Logger.Instance.Report(e);
+                    }
                 }
-            }
+            });
 
-            return null;
+            return user;
         }
 
         public void ClearCookies()

@@ -7,6 +7,7 @@
     <ProjectGuid>{B09661C2-82A6-4D16-B4FD-7B23D0FFE1FE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>MyDriving.Droid</RootNamespace>
+    <AssemblyName>MyDriving.Droid</AssemblyName>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <AndroidResgenClass>Resource</AndroidResgenClass>

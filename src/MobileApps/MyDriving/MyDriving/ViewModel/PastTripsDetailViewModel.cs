@@ -9,6 +9,7 @@ using MyDriving.Helpers;
 using MyDriving.Utils;
 using MyDriving.DataObjects;
 using System.Collections.Generic;
+using MyDriving.Utils.Helpers;
 
 namespace MyDriving.ViewModel
 {
@@ -110,8 +111,7 @@ namespace MyDriving.ViewModel
             if (IsBusy)
                 return false;
 
-            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading trip details...",
-                maskType: Acr.UserDialogs.MaskType.Clear);
+            ProgressDialogManager.LoadProgressDialog("Loading trip details...");
 
             bool error = false;
             string errorMessage = "Please check internet connection and try again.";
@@ -160,7 +160,7 @@ namespace MyDriving.ViewModel
             }
             finally
             {
-                progress?.Dispose();
+                ProgressDialogManager.DisposeProgressDialog();
                 IsBusy = false;
             }
 

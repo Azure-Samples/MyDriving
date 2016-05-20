@@ -4,8 +4,8 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
-using MyDriving.Interfaces;
 using MyDriving.Utils;
+using MyDriving.Utils.Interfaces;
 
 namespace MyDriving.UWP.Helpers
 {

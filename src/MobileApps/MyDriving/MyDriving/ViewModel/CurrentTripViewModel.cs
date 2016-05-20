@@ -17,6 +17,7 @@ using Plugin.Media.Abstractions;
 using Plugin.Media;
 using Plugin.DeviceInfo;
 using MyDriving.Services;
+using MyDriving.Utils.Helpers;
 
 namespace MyDriving.ViewModel
 {
@@ -205,6 +206,8 @@ namespace MyDriving.ViewModel
             var tripId = CurrentTrip.Id;
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false,
                 maskType: Acr.UserDialogs.MaskType.Clear);
+
+            ProgressDialogManager.currentProgressDialog = progress;
 
             try
             {

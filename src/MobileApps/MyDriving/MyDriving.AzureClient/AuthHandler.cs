@@ -9,19 +9,37 @@ using Microsoft.WindowsAzure.MobileServices;
 using System.Threading;
 using MyDriving.Utils;
 using System.Text;
+using MyDriving.Utils.Interfaces;
+using MyDriving.Utils.Helpers;
 
 namespace MyDriving.AzureClient
 {
+    public static class AuthenticationManager
+    {
+        static readonly object authLock = new object();
+
+        public static bool IsLoggingIn
+        {
+            get; set;
+        }
+
+        internal static object AuthLock
+        {
+            get { return authLock; }
+        }
+    }
+
     class AuthHandler : DelegatingHandler
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
+            var authentication = ServiceLocator.Instance.Resolve<IAuthentication>();
             var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client as MobileServiceClient;
+
             if (client == null)
             {
-                throw new InvalidOperationException(
-                    "Make sure to set the ServiceLocator has an instance of IAzureClient");
+                throw new InvalidOperationException( "Make sure to set the ServiceLocator has an instance of IAzureClient");
             }
 
             // Cloning the request, in case we need to send it again
@@ -30,9 +48,23 @@ namespace MyDriving.AzureClient
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                // Oh noes, user is not logged in - we got a 401
-                // Log them in, this time hardcoded with Microsoft but you would
-                // trigger the login presentation in your application
+                //Use a lock to prevent the log-in screen from being displayed more than once
+                lock (AuthenticationManager.AuthLock)
+                {
+                    if (AuthenticationManager.IsLoggingIn)
+                    {
+                        return response;
+                    }
+                    else
+                    {
+                        AuthenticationManager.IsLoggingIn = true;
+                    }
+                }
+
+                //If there is a progress dialog open, hide it so that the UI isn't blocked 
+                ProgressDialogManager.HideProgressDialog();
+
+                // The user is not logged in - we got a 401 (token expired)
                 try
                 {
                     var accountType = MobileServiceAuthenticationProvider.MicrosoftAccount;
@@ -45,18 +77,18 @@ namespace MyDriving.AzureClient
                             accountType = MobileServiceAuthenticationProvider.Twitter;
                             break;
                     }
-                    var user = await client.LoginAsync(accountType, null);
-                    // we're now logged in again.
+
+                    // Prompt the user to log-in again 
+                    var user = await authentication.LoginAsync(client, accountType);
+
+                    //Reshow the progress dialog if needed
+                    ProgressDialogManager.ShowProgressDialog();
 
                     // Clone the request
                     clonedRequest = await CloneRequest(request);
 
-
-                    Settings.Current.AzureMobileUserId = user.UserId;
-                    Settings.Current.AuthToken = user.MobileServiceAuthenticationToken;
-
-                    clonedRequest.Headers.Remove("X-ZUMO-AUTH");
                     // Set the authentication header
+                    clonedRequest.Headers.Remove("X-ZUMO-AUTH");
                     clonedRequest.Headers.Add("X-ZUMO-AUTH", user.MobileServiceAuthenticationToken);
 
                     // Resend the request
@@ -98,3 +130,4 @@ namespace MyDriving.AzureClient
         }
     }
 }
+ 
