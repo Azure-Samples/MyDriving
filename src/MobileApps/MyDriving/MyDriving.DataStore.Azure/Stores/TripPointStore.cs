@@ -35,7 +35,7 @@ namespace MyDriving.DataStore.Azure.Stores
 
             if (!CrossConnectivity.Current.IsConnected)
             {
-                Logger.Instance.WriteLine("Unable to pull items, we are offline");
+                Logger.Instance.Track("Unable to pull items, we are offline");
                 return new List<TripPoint>();
             }
 
@@ -49,7 +49,7 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             catch (Exception ex)
             {
-                Logger.Instance.WriteLine("Unable to pull items, that is alright as we have offline capabilities: " + ex);
+                Logger.Instance.Track("TripPointStore: Unable to pull items: " + ex.Message);
             }
 
             return await Table.Where(s => s.TripId == id).OrderBy(p => p.Sequence).ToEnumerableAsync().ConfigureAwait(false);
@@ -59,7 +59,7 @@ namespace MyDriving.DataStore.Azure.Stores
         {
             if (!CrossConnectivity.Current.IsConnected)
             {
-                Logger.Instance.WriteLine("Unable to sync items, we are offline");
+                Logger.Instance.Track("Unable to sync items, we are offline");
                 return false;
             }
             try
@@ -69,7 +69,7 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             catch (Exception ex)
             {
-                Logger.Instance.WriteLine("Unable to sync items, that is alright as we have offline capabilities: " + ex);
+                Logger.Instance.Track("TripPointStore SyncAsync: Unable to sync items: " + ex.Message);
                 return false;
             }
 

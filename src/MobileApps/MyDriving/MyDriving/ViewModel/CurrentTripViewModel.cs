@@ -194,9 +194,15 @@ namespace MyDriving.ViewModel
             if (IsRecording)
                 return false;
 
-            var track = Logger.Instance.TrackTime("SaveRecording");
+            if (CurrentTrip.Points?.Count < 1)
+            {
+                Logger.Instance.Track("Attempt to save a trip with no points!");
+                return false;
+            }
             IsBusy = true;
 
+            var track = Logger.Instance.TrackTime("SaveRecording");
+            var tripId = CurrentTrip.Id;
             var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false,
                 maskType: Acr.UserDialogs.MaskType.Clear);
 
@@ -243,7 +249,7 @@ namespace MyDriving.ViewModel
                     await StoreManager.PhotoStore.InsertAsync(photo);
                 }
 
-                CurrentTrip = new Trip {Points = new ObservableRangeCollection<TripPoint>()};
+                CurrentTrip = new Trip { Points = new ObservableRangeCollection<TripPoint>() };
 
                 ElapsedTime = "0s";
                 Distance = "0.0";
@@ -266,7 +272,7 @@ namespace MyDriving.ViewModel
                 IsBusy = false;
                 progress?.Dispose();
             }
-            Logger.Instance.Track("SaveRecording failed");
+            Logger.Instance.Track("SaveRecording failed for trip " + tripId);
             return false;
         }
 
@@ -300,10 +306,10 @@ namespace MyDriving.ViewModel
             {
                 //Intermittently, Sqlite will cause a crash for WinPhone saying "unable to set temporary directory"
                 //If this call fails, simply use an empty list of POIs
-                Logger.Instance.WriteLine("Unable to get POI Store Items.");
+                Logger.Instance.Track("Unable to get POI Store Items.");
                 Logger.Instance.Report(ex);
             }
-           
+
             CurrentTrip.HardStops = poiList.Where(p => p.POIType == POIType.HardBrake).Count();
             CurrentTrip.HardAccelerations = poiList.Where(p => p.POIType == POIType.HardAcceleration).Count();
 
@@ -338,7 +344,7 @@ namespace MyDriving.ViewModel
                     await Geolocator.StopListeningAsync();
                 }
 
-				if (Geolocator.IsGeolocationAvailable && (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS || Geolocator.IsGeolocationEnabled))
+                if (Geolocator.IsGeolocationAvailable && (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS || Geolocator.IsGeolocationEnabled))
                 {
                     Geolocator.AllowsBackgroundUpdates = true;
                     Geolocator.DesiredAccuracy = 25;
@@ -381,9 +387,9 @@ namespace MyDriving.ViewModel
         {
             //Read data from the OBD device
             point.HasOBDData = false;
-            Dictionary<string,string> obdData = null;
+            Dictionary<string, string> obdData = null;
 
-            if(obdDataProcessor != null)
+            if (obdDataProcessor != null)
                 obdData = await obdDataProcessor.ReadOBDData();
 
             if (obdData != null)
@@ -403,7 +409,7 @@ namespace MyDriving.ViewModel
 
                 if (obdData.ContainsKey("el") && !string.IsNullOrWhiteSpace(obdData["el"]))
                 {
-                    if(!double.TryParse(obdData["el"], out el))
+                    if (!double.TryParse(obdData["el"], out el))
                         el = -255;
                 }
                 if (obdData.ContainsKey("stfb"))
@@ -455,10 +461,10 @@ namespace MyDriving.ViewModel
                 point.EngineFuelRate = efr;
                 point.VIN = vin;
 
-                #if DEBUG
+#if DEBUG
                 foreach (var kvp in obdData)
-                    Logger.Instance.WriteLine($"{kvp.Key} {kvp.Value}");
-                #endif
+                    Logger.Instance.Track($"{kvp.Key} {kvp.Value}");
+#endif
 
                 point.HasOBDData = true;
             }
@@ -480,33 +486,33 @@ namespace MyDriving.ViewModel
                     newDistance = DistanceUtils.CalculateDistance(userLocation.Latitude,
                         userLocation.Longitude, previous.Latitude, previous.Longitude);
 
-                    if(newDistance > 4) // if more than 4 miles then gps is off don't use
+                    if (newDistance > 4) // if more than 4 miles then gps is off don't use
                         return;
                 }
 
                 var point = new TripPoint
-                    {
-                        TripId = CurrentTrip.Id,
-                        RecordedTimeStamp = DateTime.UtcNow,
-                        Latitude = userLocation.Latitude,
-                        Longitude = userLocation.Longitude,
-                        Sequence = CurrentTrip.Points.Count,
-                        Speed = -255,
-                        RPM = -255,
-                        ShortTermFuelBank = -255,
-                        LongTermFuelBank = -255,
-                        ThrottlePosition = -255,
-                        RelativeThrottlePosition = -255,
-                        Runtime = -255,
-                        DistanceWithMalfunctionLight = -255,
-                        EngineLoad = -255,
-                        MassFlowRate = -255,
-                        EngineFuelRate = -255,
-                        VIN = "-255"
-                    };
-       
+                {
+                    TripId = CurrentTrip.Id,
+                    RecordedTimeStamp = DateTime.UtcNow,
+                    Latitude = userLocation.Latitude,
+                    Longitude = userLocation.Longitude,
+                    Sequence = CurrentTrip.Points.Count,
+                    Speed = -255,
+                    RPM = -255,
+                    ShortTermFuelBank = -255,
+                    LongTermFuelBank = -255,
+                    ThrottlePosition = -255,
+                    RelativeThrottlePosition = -255,
+                    Runtime = -255,
+                    DistanceWithMalfunctionLight = -255,
+                    EngineLoad = -255,
+                    MassFlowRate = -255,
+                    EngineFuelRate = -255,
+                    VIN = "-255"
+                };
+
                 //Add OBD data
-                if(obdDataProcessor != null)
+                if (obdDataProcessor != null)
                     point.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
                 await AddOBDDataToPoint(point);
 
@@ -532,8 +538,8 @@ namespace MyDriving.ViewModel
 
                     //calculate gas usage
                     var timeDif1 = point.RecordedTimeStamp - previous.RecordedTimeStamp;
-                    CurrentTrip.FuelUsed += fuelConsumptionRate*0.00002236413*timeDif1.TotalSeconds;                    
-                    if(CurrentTrip.FuelUsed == 0)
+                    CurrentTrip.FuelUsed += fuelConsumptionRate * 0.00002236413 * timeDif1.TotalSeconds;
+                    if (CurrentTrip.FuelUsed == 0)
                         FuelConsumption = "N/A";
                     else
                         FuelConsumption = Settings.MetricUnits
@@ -554,10 +560,10 @@ namespace MyDriving.ViewModel
                 else if (timeDif.TotalHours < 1)
                     ElapsedTime = $"{timeDif.Minutes}m {timeDif.Seconds}s";
                 else
-                    ElapsedTime = $"{(int) timeDif.TotalHours}h {timeDif.Minutes}m {timeDif.Seconds}s";
+                    ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m {timeDif.Seconds}s";
 
                 if (point.EngineLoad != -255)
-                    EngineLoad = $"{(int) point.EngineLoad}%";
+                    EngineLoad = $"{(int)point.EngineLoad}%";
 
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
                 DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";

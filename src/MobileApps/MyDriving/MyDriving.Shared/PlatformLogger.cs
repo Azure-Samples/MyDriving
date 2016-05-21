@@ -22,12 +22,6 @@ namespace MyDriving.Shared
             base.Identify(uid, table);
         }
 
-        public override void WriteLine(string line)
-        {
-            Debug.WriteLine(line);
-            base.WriteLine(line);
-        }
-
         public override void Identify(string uid, string key, string value)
         {
             Debug.WriteLine("Logger: Identify: " + uid + " key: " + key + " value: " + value);
