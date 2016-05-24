@@ -229,6 +229,15 @@ namespace MyDriving.Utils
             set { AppSettings.AddOrUpdateValue(AuthTokenKey, value); }
         }
 
+        const string TokenExpirationKey = "tokenexpiration";
+        static readonly DateTime TokenExpirationDefault = DateTime.Now.AddDays(-1).ToUniversalTime();
+
+        public DateTime TokenExpiration
+        {
+            get { return AppSettings.GetValueOrDefault(TokenExpirationKey, TokenExpirationDefault); }
+            set { AppSettings.AddOrUpdateValue(TokenExpirationKey, value); }
+        }
+
         const string FirstNameKey = "user_firstname";
         static readonly string FirstNameDefault = string.Empty;
 
