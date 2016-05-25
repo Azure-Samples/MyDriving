@@ -14,21 +14,6 @@ using MyDriving.Utils.Helpers;
 
 namespace MyDriving.AzureClient
 {
-    public static class AuthenticationManager
-    {
-        static readonly object authLock = new object();
-
-        public static bool IsLoggingIn
-        {
-            get; set;
-        }
-
-        internal static object AuthLock
-        {
-            get { return authLock; }
-        }
-    }
-
     class AuthHandler : DelegatingHandler
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
@@ -48,19 +33,6 @@ namespace MyDriving.AzureClient
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                //Use a lock to prevent the log-in screen from being displayed more than once
-                lock (AuthenticationManager.AuthLock)
-                {
-                    if (AuthenticationManager.IsLoggingIn)
-                    {
-                        return response;
-                    }
-                    else
-                    {
-                        AuthenticationManager.IsLoggingIn = true;
-                    }
-                }
-
                 //If there is a progress dialog open, hide it so that the UI isn't blocked 
                 ProgressDialogManager.HideProgressDialog();
 
@@ -78,25 +50,46 @@ namespace MyDriving.AzureClient
                             break;
                     }
 
+                    if (AuthenticationManager.IsAuthenticating)
+                    {
+                        return response;
+                    }
+                    else
+                    {
+                        AuthenticationManager.IsAuthenticating = true;
+                    }
+
                     // Prompt the user to log-in again 
                     var user = await authentication.LoginAsync(client, accountType);
 
-                    //Reshow the progress dialog if needed
-                    ProgressDialogManager.ShowProgressDialog();
+                    if (user != null) 
+                    {
+                        //TODO: There is still a problem with this code because it never gets executed after the user gets re-logged in
+                        //from the main UI thread...need to figure out how to address this.
+                        Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
+                        Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
 
-                    // Clone the request
-                    clonedRequest = await CloneRequest(request);
+                        AuthenticationManager.IsAuthenticating = false;
 
-                    // Set the authentication header
-                    clonedRequest.Headers.Remove("X-ZUMO-AUTH");
-                    clonedRequest.Headers.Add("X-ZUMO-AUTH", user.MobileServiceAuthenticationToken);
+                        //Reshow the progress dialog if needed
+                        ProgressDialogManager.ShowProgressDialog();
 
-                    // Resend the request
-                    response = await base.SendAsync(clonedRequest, cancellationToken);
+                        // Clone the request
+                        clonedRequest = await CloneRequest(request);
+
+                        // Set the authentication header
+                        clonedRequest.Headers.Remove("X-ZUMO-AUTH");
+                        clonedRequest.Headers.Add("X-ZUMO-AUTH", user.MobileServiceAuthenticationToken);
+
+                        // Resend the request
+                        response = await base.SendAsync(clonedRequest, cancellationToken);
+                    }
                 }
-                catch (InvalidOperationException)
+                catch 
                 {
-                    // user cancelled auth, so lets return the original response
+                    AuthenticationManager.IsAuthenticating = false;
+
+                    // Exception occurred, so return original response
                     return response;
                 }
             }

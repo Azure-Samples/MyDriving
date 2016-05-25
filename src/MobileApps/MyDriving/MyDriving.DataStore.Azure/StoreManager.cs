@@ -11,9 +11,41 @@ using MyDriving.DataObjects;
 using System.Collections.Generic;
 using System.Linq;
 using MyDriving.AzureClient;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Threading;
 
 namespace MyDriving.DataStore.Azure
 {
+    public class AzureMobileClientHandler : IMobileServiceSyncHandler
+    {
+        public async Task<JObject> ExecuteTableOperationAsync(IMobileServiceTableOperation operation)
+        {
+            JObject result = null;
+            try
+            {
+                result = await operation.ExecuteAsync();
+            }
+            catch (MobileServiceInvalidOperationException e)
+            {
+                if (e.Response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    //If the user isn't authenticated, clear all pending operations from the sync context's queue so that we don't
+                    //needlessly keep trying to send data requests to the backend.  Note that any unsynced data will still exist in the 
+                    //local Sqlite store, so that next time we attempt to sync with the backend, we'll try again to resend this data.
+                    operation.AbortPush();
+                }
+            }
+
+            return result;
+        }
+
+        public Task OnPushCompleteAsync(MobileServicePushCompletionResult result)
+        {
+            return Task.FromResult(0);
+        }
+    }
+
     public class StoreManager : IStoreManager
     {
         #region IStoreManager implementation
@@ -48,7 +80,8 @@ namespace MyDriving.DataStore.Azure
             store.DefineTable<POI>();
             store.DefineTable<IOTHubData>();
 
-            await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler()).ConfigureAwait(false);
+            //await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler()).ConfigureAwait(false);
+            await client.SyncContext.InitializeAsync(store, new AzureMobileClientHandler()).ConfigureAwait(false);
 
             IsInitialized = true;
         }

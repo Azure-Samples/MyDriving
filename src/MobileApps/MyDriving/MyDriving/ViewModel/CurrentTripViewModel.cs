@@ -18,6 +18,8 @@ using Plugin.Media;
 using Plugin.DeviceInfo;
 using MyDriving.Services;
 using MyDriving.Utils.Helpers;
+using MyDriving.AzureClient;
+using MyDriving.Utils.Interfaces;
 
 namespace MyDriving.ViewModel
 {
@@ -192,7 +194,7 @@ namespace MyDriving.ViewModel
 
         public async Task<bool> SaveRecordingTripAsync(string name = "")
         {
-            if (IsRecording)
+            if (IsRecording || AuthenticationManager.IsAuthenticating)
                 return false;
 
             if (CurrentTrip.Points?.Count < 1)
