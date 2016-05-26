@@ -17,15 +17,24 @@ namespace MyDriving.AzureClient
     public static class AuthenticationManager
     {
         static readonly object authLock = new object();
+        static bool isAuthenticating;
 
-        public static bool IsLoggingIn
+        public static bool IsAuthenticating
         {
-            get; set;
-        }
-
-        internal static object AuthLock
-        {
-            get { return authLock; }
+            get
+            {
+                lock (authLock)
+                {
+                    return isAuthenticating;
+                }
+            }
+            set
+            {
+                lock (authLock)
+                {
+                    isAuthenticating = value;
+                }
+            }
         }
     }
 

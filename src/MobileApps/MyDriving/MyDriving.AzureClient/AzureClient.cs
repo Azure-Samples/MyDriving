@@ -47,7 +47,7 @@ namespace MyDriving.AzureClient
                 }
                 catch (System.Exception e)
                 {
-                    Logger.Instance.WriteLine("CheckIsAuthTokenValid: " + e.Message);
+                   Logger.Instance.Report(e);
                 }
             }
         }

@@ -8,6 +8,7 @@ using MyDriving.Utils;
 using Microsoft.WindowsAzure.MobileServices;
 using MyDriving.Utils.Interfaces;
 using System.Threading;
+using MyDriving.AzureClient;
 
 namespace MyDriving.iOS.Helpers
 {
