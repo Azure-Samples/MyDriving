@@ -257,6 +257,10 @@
       <IsAppExtension>False</IsAppExtension>
       <IsWatchApp>False</IsWatchApp>
     </ProjectReference>
+    <ProjectReference Include="..\MyDriving.AzureClient\MyDriving.AzureClient.csproj">
+      <Project>{29B6B823-6639-4942-9723-0075BBEF7C69}</Project>
+      <Name>MyDriving.AzureClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyDriving.DataStore.Abstractions\MyDriving.DataStore.Abstractions.csproj">
       <Project>{649300CE-70EA-4606-983F-F4476FDD6C7E}</Project>
       <Name>MyDriving.DataStore.Abstractions</Name>

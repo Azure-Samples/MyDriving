@@ -18,6 +18,8 @@ using Plugin.Media;
 using Plugin.DeviceInfo;
 using MyDriving.Services;
 using MyDriving.Utils.Helpers;
+using MyDriving.AzureClient;
+using MyDriving.Utils.Interfaces;
 
 namespace MyDriving.ViewModel
 {
@@ -192,12 +194,16 @@ namespace MyDriving.ViewModel
 
         public async Task<bool> SaveRecordingTripAsync(string name = "")
         {
-            if (IsRecording)
+            if (IsRecording || AuthenticationManager.IsAuthenticating)
                 return false;
 
-            var track = Logger.Instance.TrackTime("SaveRecording");
+            if (CurrentTrip.Points?.Count < 1)
+            {
+                Logger.Instance.Track("Attempt to save a trip with no points!");
+                return false;
+            }
             IsBusy = true;
-
+            var tripId = CurrentTrip.Id;
             try
             {
                 if (string.IsNullOrWhiteSpace(name))
@@ -241,7 +247,7 @@ namespace MyDriving.ViewModel
                     await StoreManager.PhotoStore.InsertAsync(photo);
                 }
 
-                CurrentTrip = new Trip {Points = new ObservableRangeCollection<TripPoint>()};
+                CurrentTrip = new Trip { Points = new ObservableRangeCollection<TripPoint>() };
 
                 ElapsedTime = "0s";
                 Distance = "0.0";
@@ -264,7 +270,7 @@ namespace MyDriving.ViewModel
                 IsBusy = false;
                 ProgressDialogManager.DisposeProgressDialog();
             }
-            Logger.Instance.Track("SaveRecording failed");
+            Logger.Instance.Track("SaveRecording failed for trip " + tripId);
             return false;
         }
 
@@ -298,7 +304,7 @@ namespace MyDriving.ViewModel
             {
                 //Intermittently, Sqlite will cause a crash for WinPhone saying "unable to set temporary directory"
                 //If this call fails, simply use an empty list of POIs
-                Logger.Instance.WriteLine("Unable to get POI Store Items.");
+                Logger.Instance.Track("Unable to get POI Store Items.");
                 Logger.Instance.Report(ex);
             }
            
@@ -379,9 +385,9 @@ namespace MyDriving.ViewModel
         {
             //Read data from the OBD device
             point.HasOBDData = false;
-            Dictionary<string,string> obdData = null;
+            Dictionary<string, string> obdData = null;
 
-            if(obdDataProcessor != null)
+            if (obdDataProcessor != null)
                 obdData = await obdDataProcessor.ReadOBDData();
 
             if (obdData != null)
@@ -401,7 +407,7 @@ namespace MyDriving.ViewModel
 
                 if (obdData.ContainsKey("el") && !string.IsNullOrWhiteSpace(obdData["el"]))
                 {
-                    if(!double.TryParse(obdData["el"], out el))
+                    if (!double.TryParse(obdData["el"], out el))
                         el = -255;
                 }
                 if (obdData.ContainsKey("stfb"))
@@ -455,7 +461,7 @@ namespace MyDriving.ViewModel
 
                 #if DEBUG
                 foreach (var kvp in obdData)
-                    Logger.Instance.WriteLine($"{kvp.Key} {kvp.Value}");
+                    Logger.Instance.Track($"{kvp.Key} {kvp.Value}");
                 #endif
 
                 point.HasOBDData = true;
@@ -478,7 +484,7 @@ namespace MyDriving.ViewModel
                     newDistance = DistanceUtils.CalculateDistance(userLocation.Latitude,
                         userLocation.Longitude, previous.Latitude, previous.Longitude);
 
-                    if(newDistance > 4) // if more than 4 miles then gps is off don't use
+                    if (newDistance > 4) // if more than 4 miles then gps is off don't use
                         return;
                 }
 
@@ -504,7 +510,7 @@ namespace MyDriving.ViewModel
                     };
        
                 //Add OBD data
-                if(obdDataProcessor != null)
+                if (obdDataProcessor != null)
                     point.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
                 await AddOBDDataToPoint(point);
 
@@ -530,8 +536,8 @@ namespace MyDriving.ViewModel
 
                     //calculate gas usage
                     var timeDif1 = point.RecordedTimeStamp - previous.RecordedTimeStamp;
-                    CurrentTrip.FuelUsed += fuelConsumptionRate*0.00002236413*timeDif1.TotalSeconds;                    
-                    if(CurrentTrip.FuelUsed == 0)
+                    CurrentTrip.FuelUsed += fuelConsumptionRate * 0.00002236413 * timeDif1.TotalSeconds;
+                    if (CurrentTrip.FuelUsed == 0)
                         FuelConsumption = "N/A";
                     else
                         FuelConsumption = Settings.MetricUnits
@@ -552,10 +558,10 @@ namespace MyDriving.ViewModel
                 else if (timeDif.TotalHours < 1)
                     ElapsedTime = $"{timeDif.Minutes}m {timeDif.Seconds}s";
                 else
-                    ElapsedTime = $"{(int) timeDif.TotalHours}h {timeDif.Minutes}m {timeDif.Seconds}s";
+                    ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m {timeDif.Seconds}s";
 
                 if (point.EngineLoad != -255)
-                    EngineLoad = $"{(int) point.EngineLoad}%";
+                    EngineLoad = $"{(int)point.EngineLoad}%";
 
                 FuelConsumptionUnits = Settings.MetricUnits ? "Liters" : "Gallons";
                 DistanceUnits = Settings.MetricDistance ? "Kilometers" : "Miles";

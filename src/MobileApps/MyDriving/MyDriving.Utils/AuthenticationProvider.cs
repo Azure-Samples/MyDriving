@@ -18,24 +18,23 @@ namespace MyDriving.Utils
         public async Task<MobileServiceUser> LoginAsync(IMobileServiceClient client, MobileServiceAuthenticationProvider provider)
         {
             var user = await this.ServerLoginAsync(client, provider);
-            IsAuthenticated= (user == null || user.MobileServiceAuthenticationToken == string.Empty);
 
             return user;
         }
 
-        public bool IsAuthenticated
-        {
-            get { return isAuthenticated; }
-            set
-            {
-                if (isAuthenticated != value)
-                {
-                    lock (changeAuthLock)
-                    {
-                        isAuthenticated = value;
-                    }
-                }
-            }
-        }
+
+             ////Use a lock to prevent the log-in screen from being displayed more than once
+             //   lock (AuthenticationManager.AuthLock)
+             //   {
+             //       if (AuthenticationManager.IsLoggingIn)
+             //       {
+             //           return response;
+             //       }
+             //       else
+             //       {
+             //           AuthenticationManager.IsLoggingIn = true;
+             //       }
+             //   }
+
     }
 }

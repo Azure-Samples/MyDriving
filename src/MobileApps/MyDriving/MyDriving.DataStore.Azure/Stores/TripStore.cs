@@ -105,7 +105,7 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             catch (Exception e)
             {
-                Logger.Instance.WriteLine($"Unable to remove item {item.Id}:{e}");
+                Logger.Instance.Track($"Unable to remove item {item.Id}:{e}");
             }
 
             return result;

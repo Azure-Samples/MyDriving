@@ -25,10 +25,6 @@ namespace MyDriving.Utils
 
         #region ILogger implementation
 
-        public virtual void WriteLine(string line)
-        {
-        }
-
         public virtual void Identify(string uid, IDictionary<string, string> table = null)
         {
           

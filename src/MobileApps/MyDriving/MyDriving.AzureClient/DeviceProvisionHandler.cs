@@ -28,7 +28,7 @@ namespace MyDriving.AzureClient
             catch (Exception e)
             {
                 //Occassionally, a System.IO.FileLoadException can occur
-                Logger.Instance.WriteLine("Unable to get device id and/or host name from user settings: " + e.Message);
+                Logger.Instance.Track("Unable to get device id and/or host name from user settings: " + e.Message);
             }
 
             if (String.IsNullOrEmpty(DeviceId))
@@ -114,7 +114,7 @@ namespace MyDriving.AzureClient
                 }
                 catch (Exception e)
                 {
-                    Logger.Instance.WriteLine("Unable to provision device with IOT Hub: " + e.Message);
+                    Logger.Instance.Track("Unable to provision device with IOT Hub: " + e.Message);
                 }
 
                 Settings.Current.DeviceConnectionString = DeviceConnectionString;
