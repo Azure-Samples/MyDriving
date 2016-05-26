@@ -224,7 +224,7 @@ namespace MyDriving.ViewModel
                 {
                     CurrentTrip.Name = name;
                 }
-                track?.Start();
+                
                 ProgressDialogManager.LoadProgressDialog("Saving trip...");
 
                 if (Logger.BingMapsAPIKey != "____BingMapsAPIKey____")
@@ -266,7 +266,7 @@ namespace MyDriving.ViewModel
             }
             finally
             {
-                track?.Stop();
+                
                 IsBusy = false;
                 ProgressDialogManager.DisposeProgressDialog();
             }
