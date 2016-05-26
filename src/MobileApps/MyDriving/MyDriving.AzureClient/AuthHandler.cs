@@ -14,6 +14,21 @@ using MyDriving.Utils.Helpers;
 
 namespace MyDriving.AzureClient
 {
+    public static class AuthenticationManager
+    {
+        static readonly object authLock = new object();
+
+        public static bool IsLoggingIn
+        {
+            get; set;
+        }
+
+        internal static object AuthLock
+        {
+            get { return authLock; }
+        }
+    }
+
     class AuthHandler : DelegatingHandler
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
