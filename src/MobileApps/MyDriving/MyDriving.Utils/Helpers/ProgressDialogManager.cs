@@ -8,7 +8,7 @@ namespace MyDriving.Utils.Helpers
 {
     public static class ProgressDialogManager
     {
-        public static Acr.UserDialogs.IProgressDialog currentProgressDialog;
+        private static Acr.UserDialogs.IProgressDialog currentProgressDialog;
 
         public static void LoadProgressDialog(string title)
         {

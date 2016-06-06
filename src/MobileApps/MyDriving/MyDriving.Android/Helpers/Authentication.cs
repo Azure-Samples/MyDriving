@@ -12,8 +12,7 @@ namespace MyDriving.Droid.Helpers
 {
     public class Authentication : IAuthentication
     {
-        public async Task<MobileServiceUser> LoginAsync(IMobileServiceClient client,
-            MobileServiceAuthenticationProvider provider)
+        public async Task<MobileServiceUser> LoginAsync(IMobileServiceClient client, MobileServiceAuthenticationProvider provider)
         {
             try
             {
@@ -33,6 +32,12 @@ namespace MyDriving.Droid.Helpers
             }
 
             return null;
+        }
+
+        Task<MobileServiceUser> IAuthentication.LoginAsync(IMobileServiceClient client, MobileServiceAuthenticationProvider provider)
+        {
+            //TODO: Need to implement this so that it switches to main ui thread appropriately
+            throw new NotImplementedException();
         }
 
         public void ClearCookies()

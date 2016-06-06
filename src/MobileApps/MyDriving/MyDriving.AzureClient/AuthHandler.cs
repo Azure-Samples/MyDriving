@@ -14,46 +14,23 @@ using MyDriving.Utils.Helpers;
 
 namespace MyDriving.AzureClient
 {
-    public static class AuthenticationManager
-    {
-        static readonly object authLock = new object();
-        static bool isAuthenticating;
-
-        public static bool IsAuthenticating
-        {
-            get
-            {
-                lock (authLock)
-                {
-                    return isAuthenticating;
-                }
-            }
-            set
-            {
-                lock (authLock)
-                {
-                    isAuthenticating = value;
-                }
-            }
-        }
-    }
-
     class AuthHandler : DelegatingHandler
     {
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
-            CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var authentication = ServiceLocator.Instance.Resolve<IAuthentication>();
             var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client as MobileServiceClient;
 
             if (client == null)
             {
-                throw new InvalidOperationException( "Make sure to set the ServiceLocator has an instance of IAzureClient");
+                throw new InvalidOperationException("Make sure to set the ServiceLocator has an instance of IAzureClient");
             }
 
             // Cloning the request, in case we need to send it again
+            var response = await base.SendAsync(request, cancellationToken);
             var clonedRequest = await CloneRequest(request);
-            var response = await base.SendAsync(clonedRequest, cancellationToken);
+
+            client.CurrentUser.MobileServiceAuthenticationToken = String.Empty;
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
@@ -74,28 +51,12 @@ namespace MyDriving.AzureClient
                             break;
                     }
 
-                    if (AuthenticationManager.IsAuthenticating)
+                    MobileServiceUser user = await authentication.LoginAsync(client, accountType);
+
+                    //If user isn't reauthenticated, return the original response
+                    if (user != null)
                     {
-                        return response;
-                    }
-                    else
-                    {
-                        AuthenticationManager.IsAuthenticating = true;
-                    }
-
-                    // Prompt the user to log-in again 
-                    var user = await authentication.LoginAsync(client, accountType);
-
-                    if (user != null) 
-                    {
-                        //TODO: There is still a problem with this code because it never gets executed after the user gets re-logged in
-                        //from the main UI thread...need to figure out how to address this.
-                        Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
-                        Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
-
-                        AuthenticationManager.IsAuthenticating = false;
-
-                        //Reshow the progress dialog if needed
+                        //If there was a progress dialog previously open, show it again
                         ProgressDialogManager.ShowProgressDialog();
 
                         // Clone the request
@@ -103,16 +64,14 @@ namespace MyDriving.AzureClient
 
                         // Set the authentication header
                         clonedRequest.Headers.Remove("X-ZUMO-AUTH");
-                        clonedRequest.Headers.Add("X-ZUMO-AUTH", user.MobileServiceAuthenticationToken);
+                        clonedRequest.Headers.Add("X-ZUMO-AUTH", client.CurrentUser.MobileServiceAuthenticationToken);
 
                         // Resend the request
                         response = await base.SendAsync(clonedRequest, cancellationToken);
                     }
                 }
-                catch 
+                catch
                 {
-                    AuthenticationManager.IsAuthenticating = false;
-
                     // Exception occurred, so return original response
                     return response;
                 }
@@ -147,4 +106,3 @@ namespace MyDriving.AzureClient
         }
     }
 }
- 

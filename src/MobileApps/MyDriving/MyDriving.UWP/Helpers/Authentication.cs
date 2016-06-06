@@ -2,6 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for details.
 
 using System;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using MyDriving.Utils;
@@ -37,6 +39,12 @@ namespace MyDriving.UWP.Helpers
             }
 
             return null;
+        }
+
+        Task<MobileServiceUser> IAuthentication.LoginAsync(IMobileServiceClient client, MobileServiceAuthenticationProvider provider)
+        {
+            //TODO: Need to implement this so that it switches to main ui thread appropriately
+            throw new NotImplementedException();
         }
     }
 }

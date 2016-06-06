@@ -194,7 +194,7 @@ namespace MyDriving.ViewModel
 
         public async Task<bool> SaveRecordingTripAsync(string name = "")
         {
-            if (IsRecording || AuthenticationManager.IsAuthenticating)
+            if (IsRecording)
                 return false;
 
             if (CurrentTrip.Points?.Count < 1)
@@ -206,10 +206,6 @@ namespace MyDriving.ViewModel
 
             var track = Logger.Instance.TrackTime("SaveRecording");
             var tripId = CurrentTrip.Id;
-            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false,
-                maskType: Acr.UserDialogs.MaskType.Clear);
-
-            ProgressDialogManager.currentProgressDialog = progress;
 
             try
             {
@@ -232,7 +228,8 @@ namespace MyDriving.ViewModel
                     CurrentTrip.Name = name;
                 }
                 track?.Start();
-                progress?.Show();
+
+                ProgressDialogManager.LoadProgressDialog("Saving trip...");
 
                 if (Logger.BingMapsAPIKey != "____BingMapsAPIKey____")
                 {
@@ -275,7 +272,8 @@ namespace MyDriving.ViewModel
             {
                 track?.Stop();
                 IsBusy = false;
-                progress?.Dispose();
+
+                ProgressDialogManager.DisposeProgressDialog();
             }
             Logger.Instance.Track("SaveRecording failed for trip " + tripId);
             return false;
