@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
 using MyDriving.Utils;
 using MyDriving.Utils.Interfaces;
+using Windows.UI.Core;
 
 namespace MyDriving.UWP.Helpers
 {
@@ -20,14 +21,32 @@ namespace MyDriving.UWP.Helpers
         public async Task<MobileServiceUser> LoginAsync(IMobileServiceClient client,
             MobileServiceAuthenticationProvider provider)
         {
+            var coreWindow = Windows.ApplicationModel.Core.CoreApplication.MainView;
+            // Dispatcher needed to run on UI Thread
+            var dispatcher = coreWindow.CoreWindow.Dispatcher;
+
+            MobileServiceUser user = null;
+
+
             try
             {
-                var user = await client.LoginAsync(provider);
+                if (Settings.Current.IsLoggedIn)  //relogin
+                {
+                    await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        user = await client.LoginAsync(provider);
 
-                Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
-                Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
+                    });
+                }
+                else
+                    user = await client.LoginAsync(provider);
 
-                return user;
+                if (user != null)
+                {
+                    Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
+                    Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
+                }
+
             }
             catch (Exception e)
             {
@@ -38,7 +57,7 @@ namespace MyDriving.UWP.Helpers
                 }
             }
 
-            return null;
+            return user;
         }
 
         Task<MobileServiceUser> IAuthentication.LoginAsync(IMobileServiceClient client, MobileServiceAuthenticationProvider provider)
