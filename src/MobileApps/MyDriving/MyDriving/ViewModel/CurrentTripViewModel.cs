@@ -225,7 +225,6 @@ namespace MyDriving.ViewModel
                 {
                     CurrentTrip.Name = name;
                 }
-                track?.Start();
 
                 ProgressDialogManager.LoadProgressDialog("Saving trip...");
 
