@@ -28,64 +28,40 @@ namespace MyDriving.AzureClient
                 throw new InvalidOperationException("Make sure to set the ServiceLocator has an instance of IAzureClient");
             }
 
+            if (authentication == null)
+            {
+                throw new InvalidOperationException("Make sure to set the ServiceLocator has an instance of IAuthentication");
+            }
+
             //Send the request and check to see what the response is
             var response = await base.SendAsync(request, cancellationToken);
 
-            //If this is a refresh token request that failed, then the user needs to be prompted to log back in
-            if (request.RequestUri.AbsoluteUri.Contains("/.auth/refresh") && response.StatusCode != HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                //If there is a progress dialog open, hide it so that the UI isn't blocked 
+                //For MSA, attempt to refresh the token if we haven't already so that user doesn't have to log back in again.
+                //This isn't needed for Facebook since the token doesn't expire for 60 days. Similarly, for Twitter, the token never expires.
+                if (accountType == MobileServiceAuthenticationProvider.MicrosoftAccount)
+                {
+                    if (await RefreshToken(client, cancellationToken))
+                    {
+                        //Resend the request now that the token has been refreshed and return the response
+                        return await ResendRequest(client, request, cancellationToken);
+                    }
+                }
+
+                //Otherwise if refreshing the token failed or Facebook\Twitter is being used, prompt the user to log back in via the login screen
+                //First, make sure there isn't a progress dialog being displayed since this will block the main ui thread
                 ProgressDialogManager.HideProgressDialog();
 
-                //Prompt the user to log back in
-                MobileServiceUser user = await authentication.LoginAsync(client, accountType);
+                var user = await authentication.LoginAsync(client, accountType);
 
-                //Attempt to resend the request; however, if the user is still unauthenticated, then the original response is returned
+                //Redisplay the progress dialog if needed
+                ProgressDialogManager.ShowProgressDialog();
+
                 if (user != null)
                 {
-                    //If there was a progress dialog previously open, show it again and resend the request
-                    ProgressDialogManager.ShowProgressDialog();
-                    response = await ResendRequest(client, request, cancellationToken);
-                }
-            }
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                // The user is not logged in - we got a 401 (likely the token expired, but this can occur if the token was revoked for some other reason)
-                // 1.) If MSA is being used, this access token expires every hour; when this happens, attempt to get a refresh token so that the user 
-                //     doesn't need to re-login.
-                // 2.) If Facebook is being used, the access token expires every 60 days; since this is such a long period of time, simply prompt the user
-                //     to log back in when authentication fails.
-                // 3.) If Twitter is used, the access token never expires; however, the access token can still be revoked for other reasons, so simply prompt the user
-                //     to log back if authentication fails.
-                try
-                {
-                    MobileServiceUser user = null;
-
-                    if (accountType == MobileServiceAuthenticationProvider.MicrosoftAccount) 
-                    {
-                        user = await RefreshToken(client);
-                    }
-                    else
-                    {
-                        //If there is a progress dialog open, hide it so that the UI isn't blocked 
-                        ProgressDialogManager.HideProgressDialog();
-
-                        //Prompt the user to log back in
-                        user = await authentication.LoginAsync(client, accountType);
-                    }
-
-                    //Attempt to resend the request; however, if the user is still unauthenticated, then the original response is returned
-                    if (user != null)
-                    {
-                        //If there was a progress dialog previously open, show it again
-                        ProgressDialogManager.ShowProgressDialog();
-                        response = await ResendRequest(client, request, cancellationToken);
-                    }
-                }
-                catch
-                {
-                    // Exception occurred, so return original response
-                    return response;
+                    //Resend the request since the user has successfully logged in and return the response
+                    return await ResendRequest(client, request, cancellationToken);
                 }
             }
 
@@ -121,19 +97,36 @@ namespace MyDriving.AzureClient
             return await base.SendAsync(clonedRequest, cancellationToken);
         }
 
-        private async Task<MobileServiceUser> RefreshToken(IMobileServiceClient client)
+        private async Task<bool> RefreshToken(IMobileServiceClient client, CancellationToken cancellationToken)
         {
-            MobileServiceUser user = null;
-            JObject refreshJson = (JObject)await client.InvokeApiAsync("/.auth/refresh", HttpMethod.Get, null);
+            bool refreshSucceeded = false;
 
-            if (refreshJson != null)
+            try
             {
-                string newToken = refreshJson["authenticationToken"].Value<string>();
-                client.CurrentUser.MobileServiceAuthenticationToken = newToken;
-                user = client.CurrentUser;
-            }
+                //Refreshing the token could fail if this is attempted outside the timeframe of 72 hours after the access token expired
+                //or if the provider invalidated the token (for example, if the user changed their password).
+                HttpRequestMessage refreshTokenRequest = new HttpRequestMessage(HttpMethod.Get, client.MobileAppUri.AbsoluteUri + ".auth/refresh");
+                refreshTokenRequest.Headers.Remove("X-ZUMO-AUTH");
+                refreshTokenRequest.Headers.Add("X-ZUMO-AUTH", client.CurrentUser.MobileServiceAuthenticationToken);
 
-            return user;
+                var response = await base.SendAsync(refreshTokenRequest, cancellationToken);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string refreshContent = await response.Content.ReadAsStringAsync();
+                    JObject refreshJson = JObject.Parse(refreshContent);
+                    string newToken = refreshJson["authenticationToken"].Value<string>();
+                    client.CurrentUser.MobileServiceAuthenticationToken = newToken;
+                    Settings.Current.AuthToken = newToken;
+                    refreshSucceeded = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Instance.Report(e);
+            } 
+
+            return refreshSucceeded;
         }
 
         private async Task<HttpRequestMessage> CloneRequest(HttpRequestMessage request)
