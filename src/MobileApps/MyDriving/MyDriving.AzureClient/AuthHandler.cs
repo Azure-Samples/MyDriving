@@ -36,6 +36,8 @@ namespace MyDriving.AzureClient
             //Send the request and check to see what the response is
             var response = await base.SendAsync(request, cancellationToken);
 
+            client.CurrentUser.MobileServiceAuthenticationToken = String.Empty;
+
             //If the token is expired or invalidated, then we need to either refresh the token or prompt the user to log back in
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
@@ -43,7 +45,7 @@ namespace MyDriving.AzureClient
                 //This isn't needed for Facebook since the token doesn't expire for 60 days. Similarly, for Twitter, the token never expires
                 if (accountType == MobileServiceAuthenticationProvider.MicrosoftAccount)
                 {
-                    if (await RefreshToken(client, cancellationToken))
+                    if (RefreshToken(client, cancellationToken))
                     {
                         //Resend the request now that the token has been refreshed and return the response
                         return await ResendRequest(client, request, cancellationToken);
@@ -98,7 +100,7 @@ namespace MyDriving.AzureClient
             return await base.SendAsync(clonedRequest, cancellationToken);
         }
 
-        private async Task<bool> RefreshToken(IMobileServiceClient client, CancellationToken cancellationToken)
+        private bool RefreshToken(IMobileServiceClient client, CancellationToken cancellationToken)
         {
             bool refreshSucceeded = false;
 
@@ -115,7 +117,7 @@ namespace MyDriving.AzureClient
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string refreshContent = await response.Content.ReadAsStringAsync();
+                    string refreshContent = response.Content.ReadAsStringAsync().Result;
                     JObject refreshJson = JObject.Parse(refreshContent);
                     string newToken = refreshJson["authenticationToken"].Value<string>();
                     client.CurrentUser.MobileServiceAuthenticationToken = newToken;
