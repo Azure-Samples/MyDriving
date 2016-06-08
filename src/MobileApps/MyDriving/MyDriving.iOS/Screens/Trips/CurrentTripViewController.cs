@@ -14,6 +14,10 @@ using MyDriving.DataObjects;
 using MyDriving.ViewModel;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using MyDriving.Utils;
+using Microsoft.WindowsAzure.MobileServices;
+using MyDriving.iOS.Helpers;
+using MyDriving.AzureClient;
 
 namespace MyDriving.iOS
 {
@@ -49,7 +53,7 @@ namespace MyDriving.iOS
 
 			if (CurrentTripViewModel != null)
 			{
-				await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
+                await CurrentTripViewModel.ExecuteStartTrackingTripCommandAsync().ContinueWith(async (task) =>
 				{
 					// If we don't have permission from the user, prompt a dialog requesting permission.
 					await PromptPermissionsChangeDialog();
@@ -92,6 +96,14 @@ namespace MyDriving.iOS
 
             CurrentTripViewModel = new CurrentTripViewModel();
             CurrentTripViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
+
+            if (Settings.Current.LoginAccount != LoginAccount.None && !Settings.Current.IsLoggedIn)
+            {
+                //If the user has previously selected a login account, but isn't currently logged in; this means that their access token expired and they failed to log in again
+                //As a result, prompt the user to log in
+                var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
+                await new Authentication().LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
+            }
         }
 
         void AnimateTripInfoView()
