@@ -36,8 +36,6 @@ namespace MyDriving.AzureClient
             //Send the request and check to see what the response is
             var response = await base.SendAsync(request, cancellationToken);
 
-            client.CurrentUser.MobileServiceAuthenticationToken = String.Empty;
-
             //If the token is expired or invalidated, then we need to either refresh the token or prompt the user to log back in
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
