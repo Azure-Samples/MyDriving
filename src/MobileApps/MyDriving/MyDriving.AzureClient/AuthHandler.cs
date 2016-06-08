@@ -110,7 +110,8 @@ namespace MyDriving.AzureClient
                 refreshTokenRequest.Headers.Remove("X-ZUMO-AUTH");
                 refreshTokenRequest.Headers.Add("X-ZUMO-AUTH", client.CurrentUser.MobileServiceAuthenticationToken);
 
-                var response = await base.SendAsync(refreshTokenRequest, cancellationToken);
+                //Need to wait for the refresh token
+                var response = base.SendAsync(refreshTokenRequest, cancellationToken).Result;
 
                 if (response.IsSuccessStatusCode)
                 {
