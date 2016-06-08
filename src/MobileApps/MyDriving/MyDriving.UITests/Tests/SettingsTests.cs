@@ -15,52 +15,36 @@ namespace MyDriving.UITests
 		[Test]
 		public void ChangeDistanceUnits ()
 		{
-			
-            if (OnAndroid)
-            {
-                new CurrentTripPage()
-                    .NavigateTo("Settings");
-            }
-            if (OniOS)
-            {				
-                new CurrentTripPage()
-                    .NavigateTo("Profile");
-
-                new ProfilePage()
-                    .NavigateToSettings();
-            }
-
-            new SettingsPage()
-                .SetDistanceSetting()
-                .NavigateTo("Profile");
-
-            new ProfilePage()
-                .CheckDistanceMetric(true);
+			ToProfilePage().CheckDistanceMetric(true);
 		}
 
 		[Test]
 		public void ChangeCapacityUnits ()
 		{
-            if (OnAndroid)
-            {
-                new CurrentTripPage()
-                    .NavigateTo("Settings");
-            }
-            if (OniOS)
-            {
-                new CurrentTripPage()
-                    .NavigateTo("Profile");
+			ToProfilePage().CheckFuelMetric(true);
+		}
 
-                new ProfilePage()
-                    .NavigateToSettings();
-            }
+		public ProfilePage ToProfilePage()
+		{
+			if (OnAndroid)
+			{
+				new CurrentTripPage()
+					.NavigateTo("Settings");
+			}
+			if (OniOS)
+			{
+				new CurrentTripPage()
+					.NavigateTo("Profile");
 
-            new SettingsPage()
-                .SetCapacitySetting()
-                .NavigateTo("Profile");
+				new ProfilePage()
+					.NavigateToSettings();
+			}
 
-            new ProfilePage()
-                .CheckFuelMetric(true);
+			new SettingsPage()
+				.SetDistanceSetting()
+				.NavigateTo("Profile");
+
+			return new ProfilePage ();
 		}
 	}
 }
