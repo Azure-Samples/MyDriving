@@ -79,6 +79,7 @@
     <Compile Include="Pages\TripSummaryPage.cs" />
     <Compile Include="Pages\FacebookLoginPage.cs" />
     <Compile Include="Pages\PastTripDetailPage.cs" />
+    <Compile Include="Tests\ExampleTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
