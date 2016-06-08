@@ -36,10 +36,11 @@ namespace MyDriving.AzureClient
             //Send the request and check to see what the response is
             var response = await base.SendAsync(request, cancellationToken);
 
+            //If the token is expired or invalidated, then we need to either refresh the token or prompt the user to log back in
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
-                //For MSA, attempt to refresh the token if we haven't already so that user doesn't have to log back in again.
-                //This isn't needed for Facebook since the token doesn't expire for 60 days. Similarly, for Twitter, the token never expires.
+                //For MSA, attempt to refresh the token if we haven't already so that user doesn't have to log back in again
+                //This isn't needed for Facebook since the token doesn't expire for 60 days. Similarly, for Twitter, the token never expires
                 if (accountType == MobileServiceAuthenticationProvider.MicrosoftAccount)
                 {
                     if (await RefreshToken(client, cancellationToken))
