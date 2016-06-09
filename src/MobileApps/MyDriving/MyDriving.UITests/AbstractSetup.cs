@@ -37,13 +37,9 @@ namespace MyDriving.UITests
 			//Note: Sleep only there to let map
 			//load before screenshotting
 			Thread.Sleep(2000);
+		
 
-			//double evolveLongitude =  28.427925;
-			//double evolveLatitude  = -81.470973;
-
-			//go to Evolve 2016!
-			//this.App.Device.SetLocation(evolveLatitude,evolveLongitude);
-
+		
         }
 
         public void ClearKeychain()

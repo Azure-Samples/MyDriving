@@ -9,7 +9,7 @@ namespace MyDriving.iOS
     {
         public static void ApplyTheme()
         {
-            // Status Bar
+            // Status Bar	
             UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
 
             //NavigationBar

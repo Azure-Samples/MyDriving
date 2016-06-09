@@ -16,8 +16,7 @@ namespace MyDriving.UITests
 			this.platform = platform;
 			app = AppInitializer.StartApp(platform);
 		}
-
-
+			
 
 
 	}
