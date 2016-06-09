@@ -17,20 +17,22 @@ namespace MyDriving.iOS.Helpers
             TaskCompletionSource<MobileServiceUser> authCompletionSource = new TaskCompletionSource<MobileServiceUser>();
 
             MobileServiceUser user = null;
-            if (Thread.CurrentThread.IsBackground)
-            {
-                //The log-in screen cannot be redisplayed unless on the main UI thread
-                new NSObject().InvokeOnMainThread((async () =>
-                {
-                    user = await LoginAsyncHelper(client, provider);
-                    authCompletionSource.SetResult(user);
-                }));
-            }
-            else
-            {
+
+            //TODO: Likely don't need this code to run in background if we remove ConfigureAwait(false)
+            //if (Thread.CurrentThread.IsBackground)
+            //{
+            //    //The log-in screen cannot be redisplayed unless on the main UI thread
+            //    new NSObject().InvokeOnMainThread((async () =>
+            //    {
+            //        user = await LoginAsyncHelper(client, provider);
+            //        authCompletionSource.SetResult(user);
+            //    }));
+            //}
+            //else
+            //{
                 user = await LoginAsyncHelper(client, provider);
                 authCompletionSource.SetResult(user);
-            }
+            //}
 
             return await authCompletionSource.Task;
         }

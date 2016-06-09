@@ -119,7 +119,7 @@ namespace MyDriving.DataStore.Azure.Stores
                 //Note: A pull will implicitly invoke a push if there are unpending local changes.  As a result, explicitly calling push before or after 
                 //the pull is redundant - and in the scenario that the user is unauthenticated, this would needlessly prompt the user twice to login.
                 //Also, when the implicit push occurs, this will push changes across the entire sync context (e.g. all tables).
-                await Table.PullAsync($"all{Identifier}", Table.CreateQuery()).ConfigureAwait(false);
+                await Table.PullAsync($"all{Identifier}", Table.CreateQuery());
             }
             catch (Exception ex)
             {

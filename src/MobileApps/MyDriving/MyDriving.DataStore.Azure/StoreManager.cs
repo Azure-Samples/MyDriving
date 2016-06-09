@@ -80,8 +80,8 @@ namespace MyDriving.DataStore.Azure
             store.DefineTable<POI>();
             store.DefineTable<IOTHubData>();
 
-            //await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler()).ConfigureAwait(false);
-            await client.SyncContext.InitializeAsync(store, new AzureMobileClientHandler()).ConfigureAwait(false);
+            //await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler());
+            await client.SyncContext.InitializeAsync(store, new AzureMobileClientHandler());
 
             IsInitialized = true;
         }
@@ -93,7 +93,7 @@ namespace MyDriving.DataStore.Azure
 
             var taskList = new List<Task<bool>> {TripStore.SyncAsync()};
 
-            var successes = await Task.WhenAll(taskList).ConfigureAwait(false);
+            var successes = await Task.WhenAll(taskList);
             return successes.Any(x => !x); //if any were a failure.
         }
 
