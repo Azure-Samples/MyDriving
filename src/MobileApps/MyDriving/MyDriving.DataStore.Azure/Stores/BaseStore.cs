@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using MyDriving.DataObjects;
 using Plugin.Connectivity;
 using MyDriving.AzureClient;
+using MyDriving.Utils.Interfaces;
 
 namespace MyDriving.DataStore.Azure.Stores
 {
@@ -44,49 +45,47 @@ namespace MyDriving.DataStore.Azure.Stores
             return result;
         }
 
-
         public async Task InitializeStoreAsync()
         {
             if (storeManager == null)
                 storeManager = ServiceLocator.Instance.Resolve<IStoreManager>();
 
             if (!storeManager.IsInitialized)
-                await storeManager.InitializeAsync().ConfigureAwait(false);
+                await storeManager.InitializeAsync();
         }
 
         public virtual async Task<IEnumerable<T>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
-            await InitializeStoreAsync().ConfigureAwait(false);
+            await InitializeStoreAsync();
             if (forceRefresh)
             {
-                await SyncAsync().ConfigureAwait(false);
+                await SyncAsync();
             }
 
-            return await Table.ToEnumerableAsync().ConfigureAwait(false);
+            return await Table.ToEnumerableAsync();
         }
 
         public virtual async Task<T> GetItemAsync(string id)
         {
-            await InitializeStoreAsync().ConfigureAwait(false);
-            await PullLatestAsync().ConfigureAwait(false);
-            var item = await Table.LookupAsync(id).ConfigureAwait(false);
+            await InitializeStoreAsync();
+            await SyncAsync();
+            var item = await Table.LookupAsync(id);
             return item;
         }
 
         public virtual async Task<bool> InsertAsync(T item)
         {
-            await InitializeStoreAsync().ConfigureAwait(false);
-
-            await Table.InsertAsync(item).ConfigureAwait(false);
-            await SyncAsync();
+            await InitializeStoreAsync();
+            await Table.InsertAsync(item); //Insert into the local store
+            await SyncAsync(); //Send changes to the mobile service
             return true;
         }
 
         public virtual async Task<bool> UpdateAsync(T item)
         {
-            await InitializeStoreAsync().ConfigureAwait(false);
-            await Table.UpdateAsync(item).ConfigureAwait(false);
-            await SyncAsync().ConfigureAwait(false);
+            await InitializeStoreAsync();
+            await Table.UpdateAsync(item); //Delete from the local store
+            await SyncAsync(); //Send changes to the mobile service
             return true;
         }
 
@@ -95,10 +94,9 @@ namespace MyDriving.DataStore.Azure.Stores
             bool result = false;
             try
             {
-                await InitializeStoreAsync().ConfigureAwait(false);
-                await PullLatestAsync().ConfigureAwait(false);
-                await Table.DeleteAsync(item).ConfigureAwait(false);
-                await SyncAsync().ConfigureAwait(false);
+                await InitializeStoreAsync();
+                await Table.DeleteAsync(item); //Delete from the local store
+                await SyncAsync(); //Send changes to the mobile service
                 result = true;
             }
             catch (Exception e)
@@ -109,7 +107,7 @@ namespace MyDriving.DataStore.Azure.Stores
             return result;
         }
 
-        public virtual async Task<bool> PullLatestAsync()
+        public virtual async Task<bool> SyncAsync()
         {
             if (!CrossConnectivity.Current.IsConnected)
             {
@@ -118,43 +116,21 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             try
             {
+                //Note: A pull will implicitly invoke a push if there are unpending local changes.  As a result, explicitly calling push before or after 
+                //the pull is redundant - and in the scenario that the user is unauthenticated, this would needlessly prompt the user twice to login.
+                //Also, when the implicit push occurs, this will push changes across the entire sync context (e.g. all tables).
                 await Table.PullAsync($"all{Identifier}", Table.CreateQuery()).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                Logger.Instance.Track("PullLatestAsync: Unable to pull items: " + ex.Message);
+                Logger.Instance.Track("SyncAsync: Unable to push/pull items: " + ex.Message);
                 return false;
             }
             return true;
-        }
 
-
-        public virtual async Task<bool> SyncAsync()
-        {
-            if (!CrossConnectivity.Current.IsConnected)
-            {
-                Logger.Instance.Track("Unable to sync items, we are offline");
-                return false;
-            }
-            try
-            {
-                var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
-                if (client == null)
-                {
-                    Logger.Instance.Track("Unable to sync items, client is null");
-
-                    return false;
-                }
-                await PullLatestAsync().ConfigureAwait(false);
-                await client.SyncContext.PushAsync().ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.Track("SyncAsync: Unable to sync items: " + ex.Message);
-                return false;
-            }
-
-            return true;
+            //TODO: This uses a different pattern for handling expired tokens; if you uncomment this line of code, ensure that you unhook the 
+            //custom AuthHandler so that code isn't run with this.
+            //return await AuthenticationStore.AuthenticatedSyncAsync(Table, Identifier);
         }
 
         #endregion

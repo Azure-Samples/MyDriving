@@ -11,11 +11,6 @@ namespace MyDriving.DataStore.Azure.Stores
     {
         public override string Identifier => "IOTHub";
 
-        public override Task<bool> PullLatestAsync()
-        {
-            return Task.FromResult(true);
-        }
-
         public override Task<bool> SyncAsync()
         {
             return Task.FromResult(true);
