@@ -13,7 +13,7 @@ namespace MyDriving.iOS
             UIApplication.SharedApplication.StatusBarStyle = UIStatusBarStyle.LightContent;
 
             //NavigationBar
-			UINavigationBar.Appearance.BarTintColor = "000000".ToUIColor();
+			UINavigationBar.Appearance.BarTintColor = "0087D2".ToUIColor();
             UINavigationBar.Appearance.TintColor = UIColor.White;
 
             UINavigationBar.Appearance.SetTitleTextAttributes(new UITextAttributes
