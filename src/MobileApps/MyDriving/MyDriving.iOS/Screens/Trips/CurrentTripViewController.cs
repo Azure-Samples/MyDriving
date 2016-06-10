@@ -97,13 +97,7 @@ namespace MyDriving.iOS
             CurrentTripViewModel = new CurrentTripViewModel();
             CurrentTripViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
 
-            if (Settings.Current.LoginAccount != LoginAccount.None && !Settings.Current.IsLoggedIn)
-            {
-                //If the user has previously selected a login account, but isn't currently logged in; this means that their access token expired and they failed to log in again
-                //As a result, prompt the user to log in
-                var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
-                await new Authentication().LoginAsync(client, MobileServiceAuthenticationProvider.MicrosoftAccount);
-            }
+            await AzureClient.AzureClient.CheckIsAuthTokenValid();
         }
 
         void AnimateTripInfoView()

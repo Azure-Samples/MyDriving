@@ -43,7 +43,7 @@ namespace MyDriving.AzureClient
                 //This isn't needed for Facebook since the token doesn't expire for 60 day; similarly, for Twitter, the token never expires
                 if (accountType == MobileServiceAuthenticationProvider.MicrosoftAccount)
                 {
-                    if (RefreshToken(client, cancellationToken))
+                    if (await RefreshToken(client, cancellationToken))
                     {
                         //Resend the request now that the token has been refreshed and return the response
                         return await ResendRequest(client, request, cancellationToken);
@@ -98,9 +98,9 @@ namespace MyDriving.AzureClient
             return await base.SendAsync(clonedRequest, cancellationToken);
         }
 
-        private bool RefreshToken(IMobileServiceClient client, CancellationToken cancellationToken)
+        private async Task<bool> RefreshToken(IMobileServiceClient client, CancellationToken cancellationToken)
         {
-            bool refreshSucceeded = false;
+            TaskCompletionSource<bool> authCompletionSource = new TaskCompletionSource<bool>();
 
             try
             {
@@ -120,15 +120,20 @@ namespace MyDriving.AzureClient
                     string newToken = refreshJson["authenticationToken"].Value<string>();
                     client.CurrentUser.MobileServiceAuthenticationToken = newToken;
                     Settings.Current.AuthToken = newToken;
-                    refreshSucceeded = true;
+                    authCompletionSource.SetResult(true);
+                }
+                else
+                {
+                    authCompletionSource.SetResult(false);
                 }
             }
             catch (Exception e)
             {
+                authCompletionSource.SetResult(false);
                 Logger.Instance.Report(e);
             } 
 
-            return refreshSucceeded;
+            return await authCompletionSource.Task;
         }
 
         private async Task<HttpRequestMessage> CloneRequest(HttpRequestMessage request)

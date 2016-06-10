@@ -34,23 +34,13 @@ namespace MyDriving.AzureClient
 
         public static async Task CheckIsAuthTokenValid()
         {
-            if (Settings.Current.TokenExpiration <= DateTime.UtcNow)
+            //Check if the access token is valid by sending a general request to mobile service
+            var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
+            try
             {
-                var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
-                try
-                {
-                    JArray response = (JArray)await client.InvokeApiAsync("/.auth/me", HttpMethod.Get, null);
-
-                    JObject exp = (JObject)(response.First);
-                    var expiration = exp["expires_on"].Value<string>();
-
-                    Settings.Current.TokenExpiration = DateTime.Parse(expiration, null, System.Globalization.DateTimeStyles.AssumeUniversal);
-                }
-                catch (System.Exception e)
-                {
-                   Logger.Instance.Report(e);
-                }
+                await client.InvokeApiAsync("/.auth/me", HttpMethod.Get, null);
             }
+            catch { } //Eat any exceptions
         }
     }
 }

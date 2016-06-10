@@ -14,31 +14,6 @@ namespace MyDriving.iOS.Helpers
     {
         public async Task<MobileServiceUser> LoginAsync(IMobileServiceClient client, MobileServiceAuthenticationProvider provider)
         {
-            TaskCompletionSource<MobileServiceUser> authCompletionSource = new TaskCompletionSource<MobileServiceUser>();
-
-            MobileServiceUser user = null;
-
-            //TODO: Likely don't need this code to run in background if we remove ConfigureAwait(false)
-            //if (Thread.CurrentThread.IsBackground)
-            //{
-            //    //The log-in screen cannot be redisplayed unless on the main UI thread
-            //    new NSObject().InvokeOnMainThread((async () =>
-            //    {
-            //        user = await LoginAsyncHelper(client, provider);
-            //        authCompletionSource.SetResult(user);
-            //    }));
-            //}
-            //else
-            //{
-                user = await LoginAsyncHelper(client, provider);
-                authCompletionSource.SetResult(user);
-            //}
-
-            return await authCompletionSource.Task;
-        }
-
-        private async Task<MobileServiceUser> LoginAsyncHelper(IMobileServiceClient client, MobileServiceAuthenticationProvider provider)
-        {
             MobileServiceUser user = null;
 
             try
@@ -53,6 +28,8 @@ namespace MyDriving.iOS.Helpers
                 Settings.Current.LoginAttempts++;
 
                 user = await client.LoginAsync(current, provider);
+                Settings.Current.AuthToken = user.MobileServiceAuthenticationToken;
+                Settings.Current.AzureMobileUserId = user.UserId;
             }
             catch (Exception e)
             {
@@ -64,12 +41,13 @@ namespace MyDriving.iOS.Helpers
                     Logger.Instance.Report(e);
                 }
             }
-            finally
-            {
-                //If the user failed to authenticate, set the auth token and user id to empty string
-                Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
-                Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
-            }
+            //TODO: don't think we want to do this...
+            //finally
+            //{
+            //    //If the user failed to authenticate, set the auth token and user id to empty string
+            //    Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
+            //    Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
+            //}
 
             return user;
         }
