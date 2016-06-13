@@ -30,7 +30,11 @@ namespace MyDriving.UWP.Helpers
 
             try
             {
-                if (Settings.Current.IsLoggedIn)  //relogin
+                if (dispatcher.HasThreadAccess)  //is running on UI thread
+                {
+                    user = await client.LoginAsync(provider);
+                }
+                else
                 {
                     await dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
@@ -38,8 +42,6 @@ namespace MyDriving.UWP.Helpers
 
                     });
                 }
-                else
-                    user = await client.LoginAsync(provider);
 
                 if (user != null)
                 {
@@ -60,10 +62,5 @@ namespace MyDriving.UWP.Helpers
             return user;
         }
 
-        Task<MobileServiceUser> IAuthentication.LoginAsync(IMobileServiceClient client, MobileServiceAuthenticationProvider provider)
-        {
-            //TODO: Need to implement this so that it switches to main ui thread appropriately
-            throw new NotImplementedException();
-        }
     }
 }
