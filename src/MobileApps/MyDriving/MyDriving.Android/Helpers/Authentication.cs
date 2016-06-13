@@ -14,16 +14,19 @@ namespace MyDriving.Droid.Helpers
     {
         public async Task<MobileServiceUser> LoginAsync(IMobileServiceClient client, MobileServiceAuthenticationProvider provider)
         {
+            MobileServiceUser user = null;
+            
             try
             {
                 Settings.Current.LoginAttempts++;
-                var user = await client.LoginAsync(CrossCurrentActivity.Current.Activity, provider);
+
+                user = await client.LoginAsync(CrossCurrentActivity.Current.Activity, provider);
                 Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
                 Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
-                return user;
             }
             catch (Exception e)
             {
+                //Don't log if the user cancelled out of the login screen
                 if (!e.Message.Contains("cancelled"))
                 {
                     e.Data["method"] = "LoginAsync";
@@ -31,13 +34,7 @@ namespace MyDriving.Droid.Helpers
                 }
             }
 
-            return null;
-        }
-
-        Task<MobileServiceUser> IAuthentication.LoginAsync(IMobileServiceClient client, MobileServiceAuthenticationProvider provider)
-        {
-            //TODO: Need to implement this so that it switches to main ui thread appropriately
-            throw new NotImplementedException();
+            return user;
         }
 
         public void ClearCookies()

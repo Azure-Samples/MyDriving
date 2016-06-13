@@ -33,21 +33,13 @@ namespace MyDriving.iOS.Helpers
             }
             catch (Exception e)
             {
-                //InvalidOperationException thrown if the user chooses to cancel out of the log in screen
-                //Only log exception when other exception types are thrown
-                if (!(e is InvalidOperationException) && e.Message.Contains("cancelled"))
+                //Don't log if the user cancelled out of the login screen
+                if (!e.Message.Contains("cancelled"))
                 {
-                    e.Data["method"] = "LoginAsyncHelper";
+                    e.Data["method"] = "LoginAsync";
                     Logger.Instance.Report(e);
                 }
             }
-            //TODO: don't think we want to do this...
-            //finally
-            //{
-            //    //If the user failed to authenticate, set the auth token and user id to empty string
-            //    Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
-            //    Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
-            //}
 
             return user;
         }
