@@ -41,7 +41,8 @@ namespace MyDriving.AzureClient
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 //For MSA, attempt to refresh the token if we haven't already so that user doesn't have to log back in again
-                //This isn't needed for Facebook since the token doesn't expire for 60 days; similarly, for Twitter, the token never expires
+                //This isn't needed for Facebook since the token doesn't expire for 60 days and when redirecting to the login screen, Facebook automatically refreshes the token
+                //Similarly, for Twitter, the token never expires
                 if (accountType == MobileServiceAuthenticationProvider.MicrosoftAccount)
                 {
                     if (await RefreshToken(client, cancellationToken))
