@@ -116,9 +116,7 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             try
             {
-                //Note: A pull will implicitly invoke a push if there are unpending local changes.  As a result, explicitly calling push before or after 
-                //the pull is redundant - and in the scenario that the user is unauthenticated, this would needlessly prompt the user twice to login.
-                //Also, when the implicit push occurs, this will push changes across the entire sync context (e.g. all tables).
+                //Note: A pull will implicitly invoke a push if there are unpending local changes.  As a result, explicitly calling push before or after the pull is redundant
                 await Table.PullAsync($"all{Identifier}", Table.CreateQuery());
             }
             catch (Exception ex)
@@ -127,10 +125,6 @@ namespace MyDriving.DataStore.Azure.Stores
                 return false;
             }
             return true;
-
-            //TODO: This uses a different pattern for handling expired tokens; if you uncomment this line of code, ensure that you unhook the 
-            //custom AuthHandler so that code isn't run with this.
-            //return await AuthenticationStore.AuthenticatedSyncAsync(Table, Identifier);
         }
 
         #endregion
