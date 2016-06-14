@@ -1,5 +1,4 @@
 ﻿#Requires -Module AzureRM.Resources
-
 Param(
    [string] [Parameter(Mandatory=$true)] $ResourceGroupLocation,
    [string] [Parameter(Mandatory=$true)] $ResourceGroupName,
@@ -141,6 +140,10 @@ Write-Output ""
 Write-Output "**************************************************************************************************"
 Write-Output "* Deploying the resources in the ARM template. This operation may take several minutes..."
 Write-Output "**************************************************************************************************"
+
+Write-Warning "If asked for SQL Server password use strong password as defined here: https://msdn.microsoft.com/library/ms161962.aspx"
+Write-Warning "Is at least 8 characters long and combines letters, numbers, and symbol characters within the password"
+
 $deployment2 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-1" `
 													-ResourceGroupName $ResourceGroupName `
 													-TemplateFile $TemplateFile `
