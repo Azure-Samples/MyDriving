@@ -131,7 +131,7 @@
     "datasetTempIntermediateBlob": "TempIntermediateDataset-Blob",
     "datasetTempIntermediate2Blob": "TempIntermediateDataset2-Blob",
     "datasetTempIntermediate3Blob": "TempIntermediateDataset3-Blob",
-    "datasetFinalTempBlob": "FinalTempDataSet-Blob",
+    "datasetFinalTempSql": "FinalTempDataSet-Sql",
     "pipelineAzureMLDataPrep": "AzureMLDataPrep",
     "pipelineAzureMLScoring": "AzureMLScoringPipeline",
     "pipelineAzureMLRetrainingPipeline": "AzureML-RetrainingPipeline",
@@ -1464,26 +1464,28 @@
             "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
           ]
         },
-        /* Dataset: FinalTempDataSet-Blob */
+        /* Dataset: FinalTempDataSet-Sql */
         {
           "apiVersion": "2015-10-01",
           "type": "datasets",
-          "name": "[variables('datasetFinalTempBlob')]",
+          "name": "[variables('datasetFinalTempSql')]",
           "properties": {
-            "type": "AzureBlob",
-            "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
-            "typeProperties": {
-              "folderPath": "[concat(variables('rawDataContainerName'), '/intermediatefolder/tempfile.txt')]",
-              "format": {
-                "type": "TextFormat",
-                "columnDelimiter": ","
-              }
-            },
-            "published": false,
-            "availability": {
-              "frequency": "Day",
-              "interval": 1
-            }
+            "linkedServiceName": "[variables('sqlAnalyticsLinkedServiceName')]",
+			"structure": [
+			  {
+				"name": "tempCol",
+				"type": "String"
+			  }
+			],
+			"published": false,
+			"type": "AzureSqlTable",
+			"typeProperties": {
+			  "tableName": "dbo.dimTemp"
+			},
+			"availability": {
+			  "frequency": "Day",
+			  "interval": 1
+			}            
           },
           "dependsOn": [
             "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
@@ -2159,7 +2161,7 @@
                 ],
                 "outputs": [
                   {
-                    "name": "[variables('datasetFinalTempBlob')]"
+                    "name": "[variables('datasetFinalTempSql')]"
                   }
                 ],
                 "policy": {
@@ -2181,7 +2183,7 @@
           "dependsOn": [
             "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
             "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripDataSql'))]",
-            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFinalTempBlob'))]"
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFinalTempSql'))]"
           ]
         }
       ]
