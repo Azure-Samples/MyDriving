@@ -111,7 +111,7 @@ $deployment1 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-0" `
                                                  -TemplateFile $PreReqTemplateFile `
                                                  -Force -Verbose
 
-if ($deployment1 -and $deployment1.ProvisioningState -ne "Succeeded") {
+if ($deployment1.ProvisioningState -ne "Succeeded") {
 	Write-Error "Failed to provision the prerequisites storage account."
 	exit 1
 }
@@ -151,7 +151,7 @@ $deployment2 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-1" `
 													@templateParams `
 													-Force -Verbose
 
-if ($deployment2 -and $deployment2.ProvisioningState -ne "Succeeded") {
+if ($deployment2.ProvisioningState -ne "Succeeded") {
 	Write-Warning "Skipping the storage and database initialization..."
 	Write-Error "At least one resource could not be provisioned successfully. Review the output above to correct any errors and then run the deployment script again."
 	exit 2
