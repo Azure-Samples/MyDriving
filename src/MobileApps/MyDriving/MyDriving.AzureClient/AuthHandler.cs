@@ -38,8 +38,14 @@ namespace MyDriving.AzureClient
                         "Make sure to set the ServiceLocator has an instance of IAzureClient");
                 }
 
-
+                string authToken = client.CurrentUser.MobileServiceAuthenticationToken;
                 await semaphore.WaitAsync();
+                if (authToken != client.CurrentUser.MobileServiceAuthenticationToken)  // token was already renewed
+                {
+                    semaphore.Release();
+                    return await ResendRequest(client, request, cancellationToken);
+                }
+
                 isReauthenticating = true;
                 bool gotNewToken = false;
                 try
