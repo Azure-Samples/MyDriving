@@ -17,11 +17,9 @@ namespace MyDriving.AzureClient
 
         public IMobileServiceClient Client => client ?? (client = CreateClient());
 
-
         IMobileServiceClient CreateClient()
         {
             client = new MobileServiceClient(DefaultMobileServiceUrl, new AuthHandler())
-            //client = new MobileServiceClient(DefaultMobileServiceUrl)
             {
                 SerializerSettings = new MobileServiceJsonSerializerSettings()
                 {

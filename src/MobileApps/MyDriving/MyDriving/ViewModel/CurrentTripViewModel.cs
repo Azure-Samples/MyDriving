@@ -197,6 +197,9 @@ namespace MyDriving.ViewModel
             if (IsRecording)
                 return false;
 
+            //Since the current trip screen is typically the first screen opened, let's do an up-front check to ensure the user is authenticated
+            await AzureClient.AzureClient.CheckIsAuthTokenValid();
+
             if (CurrentTrip.Points?.Count < 1)
             {
                 Logger.Instance.Track("Attempt to save a trip with no points!");

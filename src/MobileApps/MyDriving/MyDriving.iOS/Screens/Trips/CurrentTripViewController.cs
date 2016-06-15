@@ -96,8 +96,7 @@ namespace MyDriving.iOS
 
             CurrentTripViewModel = new CurrentTripViewModel();
             CurrentTripViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
-
-            await AzureClient.AzureClient.CheckIsAuthTokenValid();
+                 
         }
 
         void AnimateTripInfoView()

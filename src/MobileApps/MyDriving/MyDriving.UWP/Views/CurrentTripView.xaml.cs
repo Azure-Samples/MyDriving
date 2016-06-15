@@ -75,7 +75,6 @@ namespace MyDriving.UWP.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            await AzureClient.AzureClient.CheckIsAuthTokenValid();
             base.OnNavigatedTo(e);
             App.SetTitle("CURRENT TRIP");
             ViewModel.PropertyChanged += OnPropertyChanged;
