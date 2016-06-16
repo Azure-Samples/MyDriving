@@ -33,7 +33,7 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             await pointStore.SyncAsync();*/
             return await base.InsertAsync(item);
- 
+
         }
 
         public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100,
@@ -71,8 +71,8 @@ namespace MyDriving.DataStore.Azure.Stores
             foreach (var photo in photos)
                 item.Photos.Add(photo);
 
-
-            item.Points = item.Points.OrderBy(p => p.Sequence).ToArray();
+            if (item.Points != null)
+                item.Points = item.Points.OrderBy(p => p.Sequence).ToArray();
 
             return item;
         }

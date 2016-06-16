@@ -121,7 +121,8 @@ namespace MyDriving.ViewModel
                 if (Trip == null)
                     Trip = await StoreManager.TripStore.GetItemAsync(id);
 
-                Trip.Points = new List<TripPoint>(await StoreManager.TripPointStore.GetPointsForTripAsync(id));
+                if (Trip.Points == null)
+                    Trip.Points = new List<TripPoint>(await StoreManager.TripPointStore.GetPointsForTripAsync(id));
 
 
                 if (Trip.Points != null && Trip.Points.Count > 0)
@@ -184,7 +185,7 @@ namespace MyDriving.ViewModel
             else if (timeDif.TotalHours < 1)
                 ElapsedTime = $"{timeDif.Minutes}m";
             else
-                ElapsedTime = $"{(int) timeDif.TotalHours}h {timeDif.Minutes}m";
+                ElapsedTime = $"{(int)timeDif.TotalHours}h {timeDif.Minutes}m";
 
             var previousPoints = Trip.Points.Where(p => p.RecordedTimeStamp <= position.RecordedTimeStamp).ToArray();
             var obdPoints = previousPoints.Where(p => p.HasOBDData && p.MassFlowRate > -1).ToArray();
@@ -195,14 +196,14 @@ namespace MyDriving.ViewModel
                 for (int i = 1; i < previousPoints.Length; i++)
                 {
                     var timeDif1 = previousPoints[i].RecordedTimeStamp - previousPoints[i - 1].RecordedTimeStamp;
-                    fuelUsedLiters += previousPoints[i].MassFlowRate*0.0000846572*timeDif1.TotalSeconds;
+                    fuelUsedLiters += previousPoints[i].MassFlowRate * 0.0000846572 * timeDif1.TotalSeconds;
                 }
                 if (fuelUsedLiters == 0)
                     FuelConsumption = "N/A";
                 else
                     FuelConsumption = Settings.MetricUnits
                     ? fuelUsedLiters.ToString("N2")
-                    : (fuelUsedLiters*.264172).ToString("N2");
+                    : (fuelUsedLiters * .264172).ToString("N2");
             }
             else
             {
@@ -216,7 +217,7 @@ namespace MyDriving.ViewModel
 
             if (currentSpeed != null)
             {
-                Speed = (Settings.Current.MetricDistance ? currentSpeed.Speed : currentSpeed.Speed/1.60934).ToString("f");
+                Speed = (Settings.Current.MetricDistance ? currentSpeed.Speed : currentSpeed.Speed / 1.60934).ToString("f");
             }
 
             SpeedUnits = Settings.MetricDistance ? "Kmh" : "Mph";
@@ -237,7 +238,7 @@ namespace MyDriving.ViewModel
                     longPrevious = current.Longitude;
                 }
 
-                Distance = (Settings.Current.MetricDistance ? (totalDistance*1.60934) : totalDistance).ToString("f");
+                Distance = (Settings.Current.MetricDistance ? (totalDistance * 1.60934) : totalDistance).ToString("f");
             }
             else
             {
