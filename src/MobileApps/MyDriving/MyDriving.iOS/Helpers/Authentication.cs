@@ -28,8 +28,8 @@ namespace MyDriving.iOS.Helpers
                 Settings.Current.LoginAttempts++;
 
                 user = await client.LoginAsync(current, provider);
-                Settings.Current.AuthToken = user.MobileServiceAuthenticationToken;
-                Settings.Current.AzureMobileUserId = user.UserId;
+                Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
+                Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
             }
             catch (Exception e)
             {

@@ -111,7 +111,7 @@ namespace MyDriving.DataStore.Azure.Stores
         {
             if (!CrossConnectivity.Current.IsConnected)
             {
-                Logger.Instance.Track("Unable to pull items, we are offline");
+                Logger.Instance.Track("Unable to sync items, we are offline");
                 return false;
             }
             try
