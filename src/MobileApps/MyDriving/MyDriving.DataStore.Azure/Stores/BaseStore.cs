@@ -68,7 +68,7 @@ namespace MyDriving.DataStore.Azure.Stores
         public virtual async Task<T> GetItemAsync(string id)
         {
             await InitializeStoreAsync();
-            await SyncAsync();
+            await PullLatestAsync();
             var item = await Table.LookupAsync(id);
             return item;
         }
@@ -95,6 +95,7 @@ namespace MyDriving.DataStore.Azure.Stores
             try
             {
                 await InitializeStoreAsync();
+                await PullLatestAsync(); //Pull latest changes from the mobile service
                 await Table.DeleteAsync(item); //Delete from the local store
                 await SyncAsync(); //Send changes to the mobile service
                 result = true;
@@ -107,6 +108,26 @@ namespace MyDriving.DataStore.Azure.Stores
             return result;
         }
 
+        public virtual async Task<bool> PullLatestAsync()
+        {
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                Logger.Instance.Track("Unable to pull items, we are offline");
+                return false;
+            }
+            try
+            {
+                await Table.PullAsync($"all{Identifier}", Table.CreateQuery()).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.Track("PullLatestAsync: Unable to pull items: " + ex.Message);
+                return false;
+            }
+            return true;
+        }
+
+
         public virtual async Task<bool> SyncAsync()
         {
             if (!CrossConnectivity.Current.IsConnected)
@@ -116,14 +137,23 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             try
             {
-                //Note: A pull will implicitly invoke a push if there are unpending local changes.  As a result, explicitly calling push before or after the pull is redundant
-                await Table.PullAsync($"all{Identifier}", Table.CreateQuery());
+                var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
+                if (client == null)
+                {
+                    Logger.Instance.Track("Unable to sync items, client is null");
+
+                    return false;
+                }
+
+                await client.SyncContext.PushAsync().ConfigureAwait(false);
+                await PullLatestAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                Logger.Instance.Track("SyncAsync: Unable to push/pull items: " + ex.Message);
+                Logger.Instance.Track("SyncAsync: Unable to sync items: " + ex.Message);
                 return false;
             }
+
             return true;
         }
 

@@ -90,6 +90,7 @@ namespace MyDriving.DataStore.Azure.Stores
                     await t.DeleteAsync(point);
                 }
 
+                await PullLatestAsync();
                 await Table.DeleteAsync(item); //Delete from the local store
                 await SyncAsync(); //Send changes to the mobile service
                 result = true;

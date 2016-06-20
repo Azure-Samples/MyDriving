@@ -32,6 +32,8 @@ namespace MyDriving.Droid.Helpers
                     e.Data["method"] = "LoginAsync";
                     Logger.Instance.Report(e);
                 }
+
+                throw;
             }
 
             return user;

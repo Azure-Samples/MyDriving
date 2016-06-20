@@ -18,5 +18,6 @@ namespace MyDriving.DataStore.Abstractions
         Task<bool> RemoveItemsAsync(IEnumerable<T> items);
         Task<bool> SyncAsync();
         Task<bool> DropTable();
+        Task<bool> PullLatestAsync();
     }
 }
