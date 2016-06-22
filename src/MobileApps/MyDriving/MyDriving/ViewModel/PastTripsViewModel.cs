@@ -51,7 +51,6 @@ namespace MyDriving.ViewModel
                 await StoreManager.TripStore.RemoveAsync(trip);
 
                 Trips.Remove(trip);
-                Settings.Logout();
             }
             catch (Exception ex)
             {
