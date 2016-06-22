@@ -32,18 +32,18 @@ namespace MyDriving.DataStore.Azure.Stores
         public override async Task<IEnumerable<Trip>> GetItemsAsync(int skip = 0, int take = 100,
             bool forceRefresh = false)
         {
-            await InitializeStoreAsync();
+            await InitializeStoreAsync().ConfigureAwait(false);
             if (forceRefresh)
             {
                 await SyncAsync();
             }
 
-            var items = await Table.Skip(skip).Take(take).OrderByDescending(s => s.RecordedTimeStamp).ToEnumerableAsync();
+            var items = await Table.Skip(skip).Take(take).OrderByDescending(s => s.RecordedTimeStamp).ToEnumerableAsync().ConfigureAwait(false);
 
             foreach (var item in items)
             {
                 item.Photos = new List<Photo>();
-                var photos = await photoStore.GetTripPhotos(item.Id);
+                var photos = await photoStore.GetTripPhotos(item.Id).ConfigureAwait(false);
                 foreach (var photo in photos)
                     item.Photos.Add(photo);
             }
@@ -75,7 +75,7 @@ namespace MyDriving.DataStore.Azure.Stores
             bool result = false;
             try
             {
-                await InitializeStoreAsync();
+                await InitializeStoreAsync().ConfigureAwait(false);
 
                 var t = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client?.GetSyncTable<TripPoint>();
 
@@ -87,10 +87,10 @@ namespace MyDriving.DataStore.Azure.Stores
 
                 foreach (var point in points)
                 {
-                    await t.DeleteAsync(point);
+                    await t.DeleteAsync(point).ConfigureAwait(false);
                 }
 
-                await Table.DeleteAsync(item); //Delete from the local store
+                await Table.DeleteAsync(item).ConfigureAwait(false);  //Delete from the local store
                 await SyncAsync(); //Send changes to the mobile service
                 result = true;
             }

@@ -14,9 +14,9 @@ namespace MyDriving.DataStore.Azure.Stores
         public async Task<IEnumerable<POI>> GetItemsAsync(string tripId)
         {
             //Always force refresh
-            await InitializeStoreAsync();
+            await InitializeStoreAsync().ConfigureAwait(false);
             await SyncAsync();
-            return await Table.CreateQuery().Where(p => p.TripId == tripId).ToEnumerableAsync();
+            return await Table.CreateQuery().Where(p => p.TripId == tripId).ToEnumerableAsync().ConfigureAwait(false);
         }
     }
 }

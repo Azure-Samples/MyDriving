@@ -51,40 +51,40 @@ namespace MyDriving.DataStore.Azure.Stores
                 storeManager = ServiceLocator.Instance.Resolve<IStoreManager>();
 
             if (!storeManager.IsInitialized)
-                await storeManager.InitializeAsync();
+                await storeManager.InitializeAsync().ConfigureAwait(false);
         }
 
         public virtual async Task<IEnumerable<T>> GetItemsAsync(int skip = 0, int take = 100, bool forceRefresh = false)
         {
-            await InitializeStoreAsync();
+            await InitializeStoreAsync().ConfigureAwait(false);
             if (forceRefresh)
             {
                 await SyncAsync();
             }
 
-            return await Table.ToEnumerableAsync();
+            return await Table.ToEnumerableAsync().ConfigureAwait(false);
         }
 
         public virtual async Task<T> GetItemAsync(string id)
         {
-            await InitializeStoreAsync();
+            await InitializeStoreAsync().ConfigureAwait(false);
             await SyncAsync();
-            var item = await Table.LookupAsync(id);
+            var item = await Table.LookupAsync(id).ConfigureAwait(false);
             return item;
         }
 
         public virtual async Task<bool> InsertAsync(T item)
         {
-            await InitializeStoreAsync();
-            await Table.InsertAsync(item); //Insert into the local store
+            await InitializeStoreAsync().ConfigureAwait(false);
+            await Table.InsertAsync(item).ConfigureAwait(false); //Insert into the local store
             await SyncAsync(); //Send changes to the mobile service
             return true;
         }
 
         public virtual async Task<bool> UpdateAsync(T item)
         {
-            await InitializeStoreAsync();
-            await Table.UpdateAsync(item); //Delete from the local store
+            await InitializeStoreAsync().ConfigureAwait(false);
+            await Table.UpdateAsync(item).ConfigureAwait(false); //Update the item
             await SyncAsync(); //Send changes to the mobile service
             return true;
         }
@@ -94,8 +94,8 @@ namespace MyDriving.DataStore.Azure.Stores
             bool result = false;
             try
             {
-                await InitializeStoreAsync();
-                await Table.DeleteAsync(item); //Delete from the local store
+                await InitializeStoreAsync().ConfigureAwait(false);
+                await Table.DeleteAsync(item).ConfigureAwait(false); //Delete from the local store
                 await SyncAsync(); //Send changes to the mobile service
                 result = true;
             }

@@ -18,16 +18,16 @@ namespace MyDriving.DataStore.Azure.Stores
 
         public override async Task<bool> InsertAsync(TripPoint item)
         {
-            await Table.InsertAsync(item);
+            await Table.InsertAsync(item).ConfigureAwait(false);  //Insert into the local store
             return true;
         }
 
         public async Task<IEnumerable<TripPoint>> GetPointsForTripAsync(string id)
         {
-            await InitializeStoreAsync();
+            await InitializeStoreAsync().ConfigureAwait(false);
 
             //first look locally for points.
-            var points = await Table.Where(s => s.TripId == id).OrderBy(p => p.Sequence).ToEnumerableAsync();
+            var points = await Table.Where(s => s.TripId == id).OrderBy(p => p.Sequence).ToEnumerableAsync().ConfigureAwait(false);
 
             if (points.Any())
                 return points;
@@ -52,7 +52,7 @@ namespace MyDriving.DataStore.Azure.Stores
                 Logger.Instance.Track("TripPointStore: Unable to pull items: " + ex.Message);
             }
 
-            return await Table.Where(s => s.TripId == id).OrderBy(p => p.Sequence).ToEnumerableAsync();
+            return await Table.Where(s => s.TripId == id).OrderBy(p => p.Sequence).ToEnumerableAsync().ConfigureAwait(false);
         }
 
         public override async Task<bool> SyncAsync()

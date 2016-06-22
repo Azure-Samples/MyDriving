@@ -51,7 +51,7 @@ namespace MyDriving.DataStore.Azure
             store.DefineTable<POI>();
             store.DefineTable<IOTHubData>();
 
-            await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler());
+            await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler()).ConfigureAwait(false);
 
             IsInitialized = true;
         }
