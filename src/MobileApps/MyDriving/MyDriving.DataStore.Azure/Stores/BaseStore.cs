@@ -116,7 +116,16 @@ namespace MyDriving.DataStore.Azure.Stores
             }
             try
             {
-                //Note: A pull will implicitly invoke a push if there are unpending local changes.  As a result, explicitly calling push before or after the pull is redundant
+                var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client; 
+                if (client == null)
+                {
+                    Logger.Instance.Track("Unable to sync items, client is null");
+
+                    return false;
+                }
+
+                //push changes on the sync context before pulling new items
+                await client.SyncContext.PushAsync();
                 await Table.PullAsync($"all{Identifier}", Table.CreateQuery());
             }
             catch (Exception ex)
