@@ -40,6 +40,7 @@ namespace MyDriving.AzureClient
 
                 string authToken = client.CurrentUser.MobileServiceAuthenticationToken;
                 await semaphore.WaitAsync();
+                //In case two threads enter this method at the same time, only one should do the refresh (or re-login), the other should just resend the request with an updated header.
                 if (authToken != client.CurrentUser.MobileServiceAuthenticationToken)  // token was already renewed
                 {
                     semaphore.Release();

@@ -107,6 +107,10 @@ namespace MyDriving.DataStore.Azure.Stores
             return result;
         }
 
+        //Note: do not call SyncAsync with ConfigureAwait(false) because when the authentication token expires,
+        //the thread running this method needs to open the Login UI.
+        //Also in the method which calls SyncAsync, do not use ConfigureAwait(false) before calling SyncAsync, because once ConfigureAwait(false) is used
+        //in the context of an async method, the rest of that method's code may also run on a background thread.
         public virtual async Task<bool> SyncAsync()
         {
             if (!CrossConnectivity.Current.IsConnected)
