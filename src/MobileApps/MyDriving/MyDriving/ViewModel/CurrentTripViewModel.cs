@@ -17,6 +17,9 @@ using Plugin.Media.Abstractions;
 using Plugin.Media;
 using Plugin.DeviceInfo;
 using MyDriving.Services;
+using MyDriving.Utils.Helpers;
+using MyDriving.AzureClient;
+using MyDriving.Utils.Interfaces;
 
 namespace MyDriving.ViewModel
 {
@@ -139,6 +142,9 @@ namespace MyDriving.ViewModel
             if (IsBusy || IsRecording)
                 return false;
 
+            //Since the current trip screen is typically the first screen opened, let's do an up-front check to ensure the user is authenticated
+            await AzureClient.AzureClient.CheckIsAuthTokenValid();
+
             try
             {
                 if (CurrentPosition == null)
@@ -200,11 +206,7 @@ namespace MyDriving.ViewModel
                 return false;
             }
             IsBusy = true;
-
-            var track = Logger.Instance.TrackTime("SaveRecording");
             var tripId = CurrentTrip.Id;
-            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Saving trip...", show: false,
-                maskType: Acr.UserDialogs.MaskType.Clear);
 
             try
             {
@@ -226,8 +228,8 @@ namespace MyDriving.ViewModel
                 {
                     CurrentTrip.Name = name;
                 }
-                track?.Start();
-                progress?.Show();
+
+                ProgressDialogManager.LoadProgressDialog("Saving trip...");
 
                 if (Logger.BingMapsAPIKey != "____BingMapsAPIKey____")
                 {
@@ -268,9 +270,10 @@ namespace MyDriving.ViewModel
             }
             finally
             {
-                track?.Stop();
+                
                 IsBusy = false;
-                progress?.Dispose();
+
+                ProgressDialogManager.DisposeProgressDialog();
             }
             Logger.Instance.Track("SaveRecording failed for trip " + tripId);
             return false;
@@ -309,7 +312,7 @@ namespace MyDriving.ViewModel
                 Logger.Instance.Track("Unable to get POI Store Items.");
                 Logger.Instance.Report(ex);
             }
-
+           
             CurrentTrip.HardStops = poiList.Where(p => p.POIType == POIType.HardBrake).Count();
             CurrentTrip.HardAccelerations = poiList.Where(p => p.POIType == POIType.HardAcceleration).Count();
 
@@ -344,7 +347,7 @@ namespace MyDriving.ViewModel
                     await Geolocator.StopListeningAsync();
                 }
 
-                if (Geolocator.IsGeolocationAvailable && (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS || Geolocator.IsGeolocationEnabled))
+				if (Geolocator.IsGeolocationAvailable && (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS || Geolocator.IsGeolocationEnabled))
                 {
                     Geolocator.AllowsBackgroundUpdates = true;
                     Geolocator.DesiredAccuracy = 25;
@@ -461,10 +464,10 @@ namespace MyDriving.ViewModel
                 point.EngineFuelRate = efr;
                 point.VIN = vin;
 
-#if DEBUG
+                #if DEBUG
                 foreach (var kvp in obdData)
                     Logger.Instance.Track($"{kvp.Key} {kvp.Value}");
-#endif
+                #endif
 
                 point.HasOBDData = true;
             }
@@ -491,26 +494,26 @@ namespace MyDriving.ViewModel
                 }
 
                 var point = new TripPoint
-                {
-                    TripId = CurrentTrip.Id,
-                    RecordedTimeStamp = DateTime.UtcNow,
-                    Latitude = userLocation.Latitude,
-                    Longitude = userLocation.Longitude,
-                    Sequence = CurrentTrip.Points.Count,
-                    Speed = -255,
-                    RPM = -255,
-                    ShortTermFuelBank = -255,
-                    LongTermFuelBank = -255,
-                    ThrottlePosition = -255,
-                    RelativeThrottlePosition = -255,
-                    Runtime = -255,
-                    DistanceWithMalfunctionLight = -255,
-                    EngineLoad = -255,
-                    MassFlowRate = -255,
-                    EngineFuelRate = -255,
-                    VIN = "-255"
-                };
-
+                    {
+                        TripId = CurrentTrip.Id,
+                        RecordedTimeStamp = DateTime.UtcNow,
+                        Latitude = userLocation.Latitude,
+                        Longitude = userLocation.Longitude,
+                        Sequence = CurrentTrip.Points.Count,
+                        Speed = -255,
+                        RPM = -255,
+                        ShortTermFuelBank = -255,
+                        LongTermFuelBank = -255,
+                        ThrottlePosition = -255,
+                        RelativeThrottlePosition = -255,
+                        Runtime = -255,
+                        DistanceWithMalfunctionLight = -255,
+                        EngineLoad = -255,
+                        MassFlowRate = -255,
+                        EngineFuelRate = -255,
+                        VIN = "-255"
+                    };
+       
                 //Add OBD data
                 if (obdDataProcessor != null)
                     point.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;

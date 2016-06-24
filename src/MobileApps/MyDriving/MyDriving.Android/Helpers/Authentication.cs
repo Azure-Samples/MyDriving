@@ -3,28 +3,30 @@
 
 using System;
 using MyDriving.Utils;
+using MyDriving.Utils.Interfaces;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.MobileServices;
-using MyDriving.Interfaces;
 using Plugin.CurrentActivity;
 
 namespace MyDriving.Droid.Helpers
 {
     public class Authentication : IAuthentication
     {
-        public async Task<MobileServiceUser> LoginAsync(IMobileServiceClient client,
-            MobileServiceAuthenticationProvider provider)
+        public async Task<MobileServiceUser> LoginAsync(IMobileServiceClient client, MobileServiceAuthenticationProvider provider)
         {
+            MobileServiceUser user = null;
+            
             try
             {
                 Settings.Current.LoginAttempts++;
-                var user = await client.LoginAsync(CrossCurrentActivity.Current.Activity, provider);
+
+                user = await client.LoginAsync(CrossCurrentActivity.Current.Activity, provider);
                 Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
                 Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
-                return user;
             }
             catch (Exception e)
             {
+                //Don't log if the user cancelled out of the login screen
                 if (!e.Message.Contains("cancelled"))
                 {
                     e.Data["method"] = "LoginAsync";
@@ -32,7 +34,7 @@ namespace MyDriving.Droid.Helpers
                 }
             }
 
-            return null;
+            return user;
         }
 
         public void ClearCookies()
