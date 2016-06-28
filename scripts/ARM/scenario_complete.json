@@ -1489,7 +1489,7 @@
           },
           "dependsOn": [
             "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
-            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlAnalyticsLinkedServiceName'))]"
           ]
         },
         /* Pipeline: AzureMLDataPrep */
