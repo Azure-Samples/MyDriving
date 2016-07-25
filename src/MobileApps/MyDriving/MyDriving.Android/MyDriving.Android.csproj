@@ -19,7 +19,7 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
@@ -28,12 +28,14 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
-    <AndroidKeyStore>True</AndroidKeyStore>
-    <AndroidSigningKeyStore>Build2016.keystore</AndroidSigningKeyStore>
-    <AndroidSigningStorePass>Build*1234</AndroidSigningStorePass>
-    <AndroidSigningKeyAlias>Build2016</AndroidSigningKeyAlias>
-    <AndroidSigningKeyPass>Build*1234</AndroidSigningKeyPass>
     <AssemblyName>MyDriving.Droid</AssemblyName>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <Debugger>Xamarin</Debugger>
+    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>

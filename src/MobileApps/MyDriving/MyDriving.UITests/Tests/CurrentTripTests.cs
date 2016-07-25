@@ -8,8 +8,10 @@ namespace MyDriving.UITests
 {
 	public class CurrentTripTests : AbstractSetup
 	{
+        IApp app;
 		public CurrentTripTests (Platform platform) : base (platform)
 		{
+            this.app = App;
 		}
 
         [Test]
@@ -26,5 +28,6 @@ namespace MyDriving.UITests
             new TripSummaryPage()
                 .AssertOnPage();
 		}
+        
 	}
 }

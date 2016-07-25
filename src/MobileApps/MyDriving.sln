@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDriving.iOS", "MyDriving\MyDriving.iOS\MyDriving.iOS.csproj", "{DE56E591-0655-43D7-A1B9-B3280F78B667}"
 EndProject
@@ -216,7 +216,6 @@ Global
 		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|iPhone.Deploy.0 = Debug|x86
 		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|iPhoneSimulator.ActiveCfg = Debug|x86
 		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|iPhoneSimulator.Build.0 = Debug|x86
-		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|iPhoneSimulator.Deploy.0 = Debug|x86 
 		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|Mixed Platforms.Deploy.0 = Debug|x86
