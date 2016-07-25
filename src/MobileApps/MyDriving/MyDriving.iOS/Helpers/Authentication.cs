@@ -4,42 +4,36 @@
 using System;
 using System.Threading.Tasks;
 using Foundation;
-using MyDriving.Interfaces;
 using MyDriving.Utils;
 using Microsoft.WindowsAzure.MobileServices;
-
+using MyDriving.Utils.Interfaces;
+using System.Threading;
 namespace MyDriving.iOS.Helpers
 {
     public class Authentication : IAuthentication
     {
-        public async Task<MobileServiceUser> LoginAsync(IMobileServiceClient client,
-            MobileServiceAuthenticationProvider provider)
+        public async Task<MobileServiceUser> LoginAsync(IMobileServiceClient client, MobileServiceAuthenticationProvider provider)
         {
+            MobileServiceUser user = null;
+
             try
             {
                 var window = UIKit.UIApplication.SharedApplication.KeyWindow;
-                var root = window.RootViewController;
-                if (root != null)
+                var current = window.RootViewController;
+                while (current.PresentedViewController != null)
                 {
-                    var current = root;
-                    while (current.PresentedViewController != null)
-                    {
-                        current = current.PresentedViewController;
-                    }
-
-
-                    Settings.Current.LoginAttempts++;
-
-                    var user = await client.LoginAsync(current, provider);
-
-                    Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
-                    Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
-
-                    return user;
+                    current = current.PresentedViewController;
                 }
+
+                Settings.Current.LoginAttempts++;
+
+                user = await client.LoginAsync(current, provider);
+                Settings.Current.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
+                Settings.Current.AzureMobileUserId = user?.UserId ?? string.Empty;
             }
             catch (Exception e)
             {
+                //Don't log if the user cancelled out of the login screen
                 if (!e.Message.Contains("cancelled"))
                 {
                     e.Data["method"] = "LoginAsync";
@@ -47,7 +41,7 @@ namespace MyDriving.iOS.Helpers
                 }
             }
 
-            return null;
+            return user;
         }
 
         public void ClearCookies()

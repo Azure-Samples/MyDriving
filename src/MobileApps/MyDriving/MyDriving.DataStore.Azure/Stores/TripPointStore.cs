@@ -18,16 +18,16 @@ namespace MyDriving.DataStore.Azure.Stores
 
         public override async Task<bool> InsertAsync(TripPoint item)
         {
-            await Table.InsertAsync(item).ConfigureAwait(false);
+            await Table.InsertAsync(item);
             return true;
         }
 
         public async Task<IEnumerable<TripPoint>> GetPointsForTripAsync(string id)
         {
-            await InitializeStoreAsync().ConfigureAwait(false);
+            await InitializeStoreAsync();
 
             //first look locally for points.
-            var points = await Table.Where(s => s.TripId == id).OrderBy(p => p.Sequence).ToEnumerableAsync().ConfigureAwait(false);
+            var points = await Table.Where(s => s.TripId == id).OrderBy(p => p.Sequence).ToEnumerableAsync();
 
             if (points.Any())
                 return points;
@@ -44,7 +44,7 @@ namespace MyDriving.DataStore.Azure.Stores
             {
                 //await SyncAsync();
                 var pullId = $"{id}";
-                await Table.PullAsync(pullId, Table.Where(s => s.TripId == id)).ConfigureAwait(false);
+                await Table.PullAsync(pullId, Table.Where(s => s.TripId == id));
 
             }
             catch (Exception ex)
@@ -52,7 +52,7 @@ namespace MyDriving.DataStore.Azure.Stores
                 Logger.Instance.Track("TripPointStore: Unable to pull items: " + ex.Message);
             }
 
-            return await Table.Where(s => s.TripId == id).OrderBy(p => p.Sequence).ToEnumerableAsync().ConfigureAwait(false);
+            return await Table.Where(s => s.TripId == id).OrderBy(p => p.Sequence).ToEnumerableAsync();
         }
 
         public override async Task<bool> SyncAsync()
@@ -65,7 +65,7 @@ namespace MyDriving.DataStore.Azure.Stores
             try
             {
                 var client = ServiceLocator.Instance.Resolve<IAzureClient>()?.Client;
-                await client.SyncContext.PushAsync().ConfigureAwait(false);
+                await client.SyncContext.PushAsync();
             }
             catch (Exception ex)
             {
