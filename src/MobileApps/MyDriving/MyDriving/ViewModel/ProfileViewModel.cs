@@ -54,7 +54,7 @@ namespace MyDriving.ViewModel
             set { SetProperty(ref drivingSkillsPlacementBucket, value); }
         }
 
-        public string FuelUnits => Settings.MetricUnits ? "L" : "gal.";
+        public string FuelUnits => Settings.MetricUnits ? "L" : "gal";
 
         public double FuelConverted => Settings.MetricUnits ? FuelUsed/.264172 : FuelUsed;
 
