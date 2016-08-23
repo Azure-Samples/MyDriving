@@ -59,7 +59,7 @@ namespace MyDriving.iOS
 					await PromptPermissionsChangeDialog();
 				});
 
-				if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
+				if (!CurrentTripViewModel.Locator.IsGeolocationEnabled)
 				{
 					tripMapView.Camera.CenterCoordinate = new CLLocationCoordinate2D(47.6204, -122.3491);
 					tripMapView.Camera.Altitude = 5000;
@@ -95,7 +95,7 @@ namespace MyDriving.iOS
             ResetTripInfoView();
 
             CurrentTripViewModel = new CurrentTripViewModel();
-            CurrentTripViewModel.Geolocator.PositionChanged += Geolocator_PositionChanged;
+            CurrentTripViewModel.Locator.PositionChanged += Geolocator_PositionChanged;
                  
         }
 
@@ -179,7 +179,7 @@ namespace MyDriving.iOS
 
         async void RecordButton_TouchUpInside(object sender, EventArgs e)
         {
-            if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
+            if (!CurrentTripViewModel.Locator.IsGeolocationEnabled)
             {
                 Acr.UserDialogs.UserDialogs.Instance.Alert(
                     "Please ensure that geolocation is enabled and permissions are allowed for MyDriving to start a recording.",

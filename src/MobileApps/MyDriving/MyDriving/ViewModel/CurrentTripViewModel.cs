@@ -27,6 +27,8 @@ namespace MyDriving.ViewModel
     {
         readonly OBDDataProcessor obdDataProcessor;
         readonly List<Photo> photos;
+        static ILocationProvider locationProvider;
+
         string distance = "0.0";
 
         string distanceUnits = "miles";
@@ -50,6 +52,15 @@ namespace MyDriving.ViewModel
         ICommand stopTrackingTripCommand;
 
         ICommand takePhotoCommand;
+
+        static CurrentTripViewModel()
+        {
+            // Initally set this to PlatformLocationProvider which wraps CrossGeolocator.Current, however if 
+            // we are simulated swap it for a fake one when trip starts so position changed event raised. 
+            // (Otherwise when simulate position changed events never raised).
+            //
+            locationProvider = PlatformLocationProvider.Instance;
+        }
 
         public CurrentTripViewModel()
         {
@@ -120,7 +131,7 @@ namespace MyDriving.ViewModel
         }
 
         public bool NeedSave { get; set; }
-        public IGeolocator Geolocator => CrossGeolocator.Current;
+        public ILocationProvider Locator => locationProvider;
         public IMedia Media => CrossMedia.Current;
 
         public TripSummaryViewModel TripSummary { get; set; }
@@ -170,8 +181,18 @@ namespace MyDriving.ViewModel
                 if (obdDataProcessor != null)
                 {
                     await obdDataProcessor.ConnectToObdDevice(true);
-
+                    
                     CurrentTrip.HasSimulatedOBDData = obdDataProcessor.IsObdDeviceSimulated;
+
+                    if (obdDataProcessor.IsObdDeviceSimulated)
+                    {
+                        // Create fake location provider to raise position changed event..
+                        var fakeLocationProvider = new FakeLocationProvider(CurrentPosition);
+                        fakeLocationProvider.PositionChanged += Geolocator_PositionChanged;
+                        fakeLocationProvider.TryStartAsync(); // NOTE: we cannot await this as it never returns untill stopped (yes its not great but easier than creating periodic timer in a PCL)
+
+                        locationProvider = fakeLocationProvider;
+                    }
                 }
 
                 CurrentTrip.RecordedTimeStamp = DateTime.UtcNow;
@@ -342,21 +363,14 @@ namespace MyDriving.ViewModel
 
             try
             {
-                if (Geolocator.IsListening)
+                if (locationProvider.IsListening)
                 {
-                    await Geolocator.StopListeningAsync();
+                    await locationProvider.TryStopAsync();
                 }
 
-				if (Geolocator.IsGeolocationAvailable && (CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS || Geolocator.IsGeolocationEnabled))
-                {
-                    Geolocator.AllowsBackgroundUpdates = true;
-                    Geolocator.DesiredAccuracy = 25;
-
-                    Geolocator.PositionChanged += Geolocator_PositionChanged;
-                    //every 3 second, 5 meters
-                    await Geolocator.StartListeningAsync(3000, 5);
-                }
-                else
+                locationProvider.PositionChanged += Geolocator_PositionChanged;
+                var started = await locationProvider.TryStartAsync();
+                if (!started)
                 {
                     Acr.UserDialogs.UserDialogs.Instance.Alert(
                         "Please ensure that geolocation is enabled and permissions are allowed for MyDriving to start a recording.",
@@ -377,8 +391,8 @@ namespace MyDriving.ViewModel
             try
             {
                 //Unsubscribe because we were recording and it is alright
-                Geolocator.PositionChanged -= Geolocator_PositionChanged;
-                await Geolocator.StopListeningAsync();
+                Locator.PositionChanged -= Geolocator_PositionChanged;
+                await Locator.TryStopAsync();
             }
             catch (Exception ex)
             {
@@ -592,7 +606,7 @@ namespace MyDriving.ViewModel
                     return;
                 }
 
-                var locationTask = Geolocator.GetPositionAsync(2500);
+                var locationTask = Locator.GetPositionAsync(TimeSpan.FromMilliseconds(2500));
                 var photo = await Media.TakePhotoAsync(new StoreCameraMediaOptions
                 {
                     DefaultCamera = CameraDevice.Rear,

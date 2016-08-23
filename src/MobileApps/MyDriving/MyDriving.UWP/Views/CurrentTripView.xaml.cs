@@ -211,7 +211,7 @@ namespace MyDriving.UWP.Views
                 {
                     case ExtendedExecutionResult.Allowed:
                         session = newSession;
-                        ViewModel.Geolocator.AllowsBackgroundUpdates = true;
+                        ViewModel.Locator.AllowsBackgroundUpdates = true;
                         ViewModel.StartTrackingTripCommand.Execute(null);
 
                         break;
