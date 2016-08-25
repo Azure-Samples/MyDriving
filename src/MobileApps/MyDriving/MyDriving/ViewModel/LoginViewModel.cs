@@ -103,7 +103,7 @@ namespace MyDriving.ViewModel
         {
             if (!Plugin.Connectivity.CrossConnectivity.Current.IsConnected)
             {
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Ensure you have internet connection to login.",
+                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Ensure you have internet connection to login.",
                     "No Connection", "OK");
 
                 return false;
@@ -139,7 +139,7 @@ namespace MyDriving.ViewModel
                 Settings.UserLastName = string.Empty;
 
                 Logger.Instance.Track("LoginError");
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to login or create account.", "Login error", "OK");
+                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Unable to login or create account.", "Login error", "OK");
                 return false;
             }
             else

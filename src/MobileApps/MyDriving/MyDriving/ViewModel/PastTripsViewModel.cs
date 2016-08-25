@@ -96,7 +96,7 @@ namespace MyDriving.ViewModel
 
             if (Trips.Count == 0)
             {
-                UserDialogs.Instance.Alert(
+                await UserDialogs.Instance.AlertAsync(
                     "Looks like you don't have any trips recorded yet, feel free to start one up.",
                     "No Past Trips", "OK");
             }

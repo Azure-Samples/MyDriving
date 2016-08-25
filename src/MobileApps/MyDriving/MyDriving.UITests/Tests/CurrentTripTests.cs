@@ -28,6 +28,14 @@ namespace MyDriving.UITests
             new TripSummaryPage()
                 .AssertOnPage();
 		}
+
+
+        [Test]
+        public void TestTrip()
+        {
+            App.Repl();
+        }
+      
         
 	}
 }

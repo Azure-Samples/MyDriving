@@ -19,7 +19,7 @@ namespace MyDriving.Utils
         /// You can generate a key from: www.bingmapsportal.com
         /// This enables maps to show on the Past Trips screen
         /// </summary>
-        public static string BingMapsAPIKey => "____BingMapsAPIKey____";
+        public static string BingMapsAPIKey => "J0glkbW63LO6FSVcKqr3~_qnRwBJkAvFYgT0SK7Nwyw~An57C8LonIvP00ncUAQrkNd_PNYvyT4-EnXiV0koE1KdDddafIAPFaL7NzXnELRn";
 
         public static ILogger Instance => _instance ?? (_instance = ServiceLocator.Instance.Resolve<ILogger>());
 

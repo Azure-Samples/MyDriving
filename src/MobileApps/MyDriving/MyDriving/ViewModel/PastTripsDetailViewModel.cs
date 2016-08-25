@@ -166,7 +166,7 @@ namespace MyDriving.ViewModel
 
             if (error)
             {
-                Acr.UserDialogs.UserDialogs.Instance.Alert(
+                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
                           errorMessage,
                           "Error loading trip", "OK");
             }

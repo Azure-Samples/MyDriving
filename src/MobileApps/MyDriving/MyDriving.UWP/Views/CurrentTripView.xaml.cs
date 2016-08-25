@@ -177,14 +177,14 @@ namespace MyDriving.UWP.Views
                     break;
 
                 case GeolocationAccessStatus.Denied:
-                    Acr.UserDialogs.UserDialogs.Instance.Alert(
+                    await Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
                         "Please ensure that geolocation is enabled and permissions are allowed for MyDriving to start a recording.",
                                                 "Geolocation Disabled", "OK");
                     StartRecordBtn.IsEnabled = false;
                     break;
 
                 case GeolocationAccessStatus.Unspecified:
-                    Acr.UserDialogs.UserDialogs.Instance.Alert("Unspecified Error...", "Geolocation Disabled", "OK");
+                    await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Unspecified Error...", "Geolocation Disabled", "OK");
                     StartRecordBtn.IsEnabled = false;
                     break;
             }
@@ -217,7 +217,7 @@ namespace MyDriving.UWP.Views
                         break;
 
                     default:
-                        Acr.UserDialogs.UserDialogs.Instance.Alert("Unable to execute app in the background.",
+                        await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Unable to execute app in the background.",
                           "Background execution denied.", "OK");
 
                         newSession.Dispose();
@@ -228,7 +228,7 @@ namespace MyDriving.UWP.Views
             {
                 // Sometimes while creating ExtendedExecution session you get Resource not ready exception. 
                 Logger.Instance.Report(ex);
-                Acr.UserDialogs.UserDialogs.Instance.Alert("Will not be able to execute app in the background.",
+                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Will not be able to execute app in the background.",
                         "Background execution session failed.", "OK");
             }
         }
@@ -253,7 +253,7 @@ namespace MyDriving.UWP.Views
                         break;
 
                     case ExtendedExecutionRevokedReason.SystemPolicy:
-                        Acr.UserDialogs.UserDialogs.Instance.Alert("Extended execution revoked due to system policy.",
+                        await Acr.UserDialogs.UserDialogs.Instance.AlertAsync("Extended execution revoked due to system policy.",
                                         "Background Execution revoked.", "OK");
                         break;
                 }

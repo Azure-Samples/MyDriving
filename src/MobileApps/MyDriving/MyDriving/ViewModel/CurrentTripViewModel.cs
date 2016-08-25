@@ -154,11 +154,11 @@ namespace MyDriving.ViewModel
                         CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.WindowsPhone)
                     {
                         Acr.UserDialogs.UserDialogs.Instance.Toast(
-                            new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success,
+                            new Acr.UserDialogs.ToastConfig(
                                 "Waiting for current location.")
                             {
                                 Duration = TimeSpan.FromSeconds(3),
-                                TextColor = System.Drawing.Color.White,
+                                MessageTextColor = System.Drawing.Color.White,
                                 BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139)
                             });
                     }
@@ -358,7 +358,7 @@ namespace MyDriving.ViewModel
                 }
                 else
                 {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert(
+                    await Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
                         "Please ensure that geolocation is enabled and permissions are allowed for MyDriving to start a recording.",
                         "Geolocation Disabled", "OK");
                 }
@@ -585,7 +585,7 @@ namespace MyDriving.ViewModel
 
                 if (!Media.IsCameraAvailable || !Media.IsTakePhotoSupported)
                 {
-                    Acr.UserDialogs.UserDialogs.Instance.Alert(
+                    await Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
                         "Please ensure that camera is enabled and permissions are allowed for MyDriving to take photos.",
                         "Camera Disabled", "OK");
 
@@ -611,10 +611,10 @@ namespace MyDriving.ViewModel
                     CrossDeviceInfo.Current.Platform == Plugin.DeviceInfo.Abstractions.Platform.iOS)
                 {
                     Acr.UserDialogs.UserDialogs.Instance.Toast(
-                        new Acr.UserDialogs.ToastConfig(Acr.UserDialogs.ToastEvent.Success, "Photo taken!")
+                        new Acr.UserDialogs.ToastConfig("Photo taken!")
                         {
                             Duration = TimeSpan.FromSeconds(3),
-                            TextColor = System.Drawing.Color.White,
+                            MessageTextColor = System.Drawing.Color.White,
                             BackgroundColor = System.Drawing.Color.FromArgb(96, 125, 139)
                         });
                 }

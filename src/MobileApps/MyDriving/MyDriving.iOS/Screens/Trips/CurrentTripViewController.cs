@@ -181,7 +181,7 @@ namespace MyDriving.iOS
         {
             if (!CurrentTripViewModel.Geolocator.IsGeolocationEnabled)
             {
-                Acr.UserDialogs.UserDialogs.Instance.Alert(
+                await Acr.UserDialogs.UserDialogs.Instance.AlertAsync(
                     "Please ensure that geolocation is enabled and permissions are allowed for MyDriving to start a recording.",
                     "Geolocation Disabled", "OK");
 

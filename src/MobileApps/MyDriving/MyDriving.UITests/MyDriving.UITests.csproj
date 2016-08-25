@@ -35,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -85,8 +86,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Pages\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Tests\" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyDriving.Android\MyDriving.Android.csproj">
+      <Project>{b09661c2-82a6-4d16-b4fd-7b23d0ffe1fe}</Project>
+      <Name>MyDriving.Android</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
