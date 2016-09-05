@@ -1,0 +1,2201 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "iotHubSku": {
+      "type": "object",
+      "defaultValue": {
+        "name": "F1",
+        "tier": "Free",
+        "capacity": 1
+      }
+    },
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [ "Standard_LRS", "Standard_ZRS", "Standard_GRS", "Standard_RAGRS", "Premium_LRS" ]
+    },
+    "sqlServiceObjectiveName": {
+      "type": "string",
+      "defaultValue": "Basic",
+      "allowedValues": [ "Basic", "S0", "S1", "S2", "S3", "P1", "P2", "P4", "P6", "P11", "ElasticPool" ]
+    },
+    "sqlDBEdition": {
+      "type": "string",
+      "defaultValue": "Basic",
+      "allowedValues": [ "Basic", "Standard", "Premium" ]
+    },
+    "sqlServerAdminPassword": {
+      "type": "securestring"
+    },
+    "sqlAnalyticsServerAdminPassword": {
+      "type": "securestring"
+    },
+    "hostingPlanSku": {
+      "type": "object",
+      "defaultValue": {
+        "tier": "Free",
+        "name": "F1",
+        "capacity": 0
+      }
+    },
+    "mobileAppRepositoryUrl": {
+      "type": "string",
+      "defaultValue": "https://github.com/Azure-Samples/MyDriving.git" 
+    },
+    "dataFactoryStartDate": {
+      "type": "string"
+    },
+    "dataFactoryEndDate": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "baseName": "mydriving",
+    "blobStorageAnalytics": "[substring(toLower(concat(variables('baseName'), 'str', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]",
+    "blobStorageHdiMetastore": "[substring(toLower(concat(variables('baseName'), 'logs', uniquestring(resourceGroup().id), '0000000000')), 0, 24)]",
+    "assetsContainerName": "mydrivinghdi",
+    "rawDataContainerName": "rawdata",
+    "tripdataContainerName": "tripdata",
+    "referenceContainerName": "reference",
+    "iotHubName": "[concat(variables('baseName'), '-', uniquestring(resourceGroup().id))]",
+    "iotHubKeyName": "iothubowner",
+    "eventHubNamespace": "[concat(variables('baseName'), '-', 'ns', '-', uniquestring(resourceGroup().id))]",
+    "eventHubName": "[variables('baseName')]",
+    "eventHubKeyName": "RootManageSharedAccessKey",
+    "sqlServerName": "[toLower(concat(variables('baseName'), 'dbserver', '-', uniquestring(resourceGroup().id)))]",
+    "sqlServerAdminLogin": "YourUserName",
+    "sqlDBName": "[concat(variables('baseName'), 'DB')]",
+    "sqlDBEdition": "[parameters('sqlDBEdition')]",
+    "sqlServiceObjectiveName": "[parameters('sqlServiceObjectiveName')]",
+    "sqlAnalyticsServerName": "[toLower(concat(variables('baseName'), '-', 'dbserver', '-', uniquestring(resourceGroup().id)))]",
+    "sqlAnalyticsServerAdminLogin": "YourUserName",
+    "sqlAnalyticsDBName": "[concat(variables('baseName'), 'AnalyticsDB')]",
+    "sqlAnalyticsDBEdition": "[parameters('sqlDBEdition')]",
+    "sqlAnalyticsServiceObjectiveName": "[parameters('sqlServiceObjectiveName')]",
+    "sqlServerVersion": "12.0",
+    "sqlFirewallIpStart": "0.0.0.0",
+    "sqlFirewallIpEnd": "255.255.255.255",
+    "sqlCollation": "SQL_Latin1_General_CP1_CI_AS",
+    "archiveJobName": "[concat(variables('baseName'), '-archive')]",
+    "archiveJobQuery": "SELECT\r\n\tTripId,\r\n\tUserId,\r\n\tName,\r\n\tTripDataPoint.TripPointId as TripPointId,\r\n\tTripDataPoint.Lat as Lat,\r\n\tTripDataPoint.Lon as Lon,\r\n\tTripDataPoint.Speed as Speed,\r\n\tTripDataPoint.RecordedTimeStamp as RecordedTimeStamp,\r\n\tTripDataPoint.Sequence as Sequence,\r\n\tTripDataPoint.EngineRPM as EngineRPM,\r\n\tTripDataPoint.ShortTermFuelBank1 as ShortTermFuelBank,\r\n\tTripDataPoint.LongTermFuelBank1 as LongTermFuelBank,\r\n\tTripDataPoint.ThrottlePosition as ThrottlePosition,\r\n\tTripDataPoint.RelativeThrottlePosition as RelativeThrottlePosition,\r\n\tTripDataPoint.Runtime as Runtime,\r\n\tTripDataPoint.DistancewithMIL as DistancewithMIL,\r\n\tTripDataPoint.EngineLoad as EngineLoad,\r\n\tTripDataPoint.MAFFlowRate as MAFFlowRate,\r\n\tTripDataPoint.OutsideTemperature as OutsideTemperature,\r\n\tTripDataPoint.EngineFuelRate as EngineFuelRate,\r\n\tTripDataPoint.VIN as vin\r\nINTO\r\n\tBlobSink\r\nFROM\r\n\tCarDeviceData\r\nWHERE\r\n\tTripId is not null\r\n\tand UserId is not null\r\n\tand TripId != ''\r\n\tand UserId != ''\r\n",
+    "archiveJobConsumerGroupName": "asa-blobarchive",
+    "hourlypbiJobName": "[concat(variables('baseName'), '-hourlypbi')]",
+    "hourlypbiJobQuery": "WITH TripPointRaw as \r\n(\r\nSELECT\r\n\tTripId,\r\n\tUserId,\r\n\tTripDataPoint.Lat as RawLat,\r\n\tTripDataPoint.Lon as RawLong,\r\n\tCAST(TripDataPoint.Speed as FLOAT) as spd,\r\n\tCAST(TripDataPoint.EngineRPM as FLOAT) as enginerpm,\r\n\tCAST(TripDataPoint.EngineLoad as FLOAT) as engineLoad,\r\n\tCAST(TripDataPoint.ShortTermFuelBank1 as FLOAT) as shortTermFuelBank,\r\n\tCAST(TripDataPoint.LongTermFuelBank1 as FLOAT) as longTermFuelBank,\r\n\tCAST(TripDataPoint.MAFFlowRate as FLOAT) as flowRate,\r\n\tCAST(TripDataPoint.ThrottlePosition as FLOAT) as throttlePos,\r\n\tCAST(TripDataPoint.Runtime as FLOAT) as runtime,\r\n\tCAST(TripDataPoint.DistanceWithMIL as FLOAT) as distanceWithMIL,\r\n\tCAST(TripDataPoint.RelativeThrottlePosition as FLOAT) as relativeThrottlePos,\r\n\tCAST(TripDataPoint.OutsideTemperature as FLOAT) as outsideTemperature,\r\n\tCAST(TripDataPoint.EngineFuelRate as FLOAT) as engineFuelRate,\r\n\tTripDataPoint.RecordedTimeStamp as actualTS,\r\n\tDATEADD(millisecond,- DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),DATEADD(second, 5 - CAST(CEILING(DATEPART(second, TripDataPoint.RecordedTimeStamp)%5) as BIGINT),TripDataPoint.RecordedTimeStamp)) as ts,\r\n\tDATEDIFF(millisecond, TripDataPoint.RecordedTimeStamp, DATEADD(millisecond,-DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),DATEADD(second, 5 - CAST(CEILING(DATEPART(second, TripDataPoint.RecordedTimeStamp)%5) as BIGINT),TripDataPoint.RecordedTimeStamp))) as tsDiff,\r\n\tTripDataPoint.VIN as vin,\r\n\tTripDataPoint.RelativeThrottlePosition as throttle\r\nFROM\r\n\tCarDeviceData TIMESTAMP by TripDataPoint.RecordedTimeStamp\r\nWHERE\r\n\tTripId is not null\r\n\tand TripId != ''\r\n\tand UserId is not null\r\n\tand UserId != ''\r\n),\r\nTripPointAgg as \r\n(\r\nSELECT \r\n\tTripId,\r\n\tUserId,\r\n\tvin,\r\n\tts,\r\n\tAVG(RawLat) as lat,\r\n\tAVG(RawLong) as lon,\r\n\tMIN(tsDiff) as lastRecTime,\r\n\tMAX(tsDiff) as firstRecTime,\r\n\tMIN(spd) as minSpeed,\r\n\tMAX(spd) as maxSpeed,\r\n\tAVG(spd) as avgSpeed,\r\n\tAVG(engineLoad) as avgEngineLoad,\r\n\tAVG(shortTermFuelBank) as avgShortTermFuelBank,\r\n\tAVG(longTermFuelBank) as avgLongTermFuelBank,\r\n\tMAX(enginerpm) as maxEngineRpm,\r\n\tAVG(flowRate) as avgFlowRate,\r\n\tAVG(throttlePos) as avgThrottlePos,\r\n\tMAX(runtime) as maxRuntime,\r\n\tMAX(distanceWithMIL) as maxDistanceWithMIL,\r\n\tAVG(relativeThrottlePos) as avgRelativeThrottlePos,\r\n\tAVG(outsideTemperature) as avgOutsideTemperature,\r\n\tAVG(engineFuelRate) as avgEngineFuelRate\r\nFROM\r\n\tTripPointRaw\r\nWHERE\r\n\tts is not null\r\nGROUP BY\r\n\tTripId,\r\n\tUserId,\r\n\tvin,\r\n\tts,\r\n\tTumblingWindow(hour,1)\t\r\n),\r\nRoughDrivingStats as \r\n(\r\nSELECT\r\n\tt1.TripId,\r\n\tt1.UserId,\r\n\tt1.lat,\r\n\tt1.lon,\r\n\tCASE\r\n\t\tWHEN t3.spd - t2.spd > 50 THEN 2\r\n\t\tWHEN t2.spd - t3.spd > 70 OR t1.maxSpeed - t1.minSpeed > 70 OR t1.maxSpeed - t1.avgSpeed > t1.avgSpeed - t1.minSpeed + 0.10*(t1.maxSpeed - t1.minSpeed) THEN 1\r\n\t\tELSE 0\r\n\tEND as POIType,\r\n\tt1.ts,\r\n\tt1.avgSpeed,\r\n\tt1.minSpeed,\r\n\tt1.maxSpeed,\r\n\tt1.avgEngineLoad,\r\n\tt1.avgShortTermFuelBank,\r\n\tt1.avgLongTermFuelBank,\r\n\tt1.maxEngineRpm,\r\n\tt1.avgFlowRate,\r\n\tt1.avgThrottlePos,\r\n\tt1.maxRuntime,\r\n\tt1.maxDistanceWithMIL,\r\n\tt1.avgRelativeThrottlePos,\r\n\tt1.avgOutsideTemperature,\r\n\tt1.avgEngineFuelRate,\r\n\tt3.spd as firstSpeed,\r\n\tt2.spd as lastSpeed\r\nFROM TripPointAgg t1\r\nJOIN TripPointRaw t2\r\nON t1.TripId = t2.TripId and \r\nt1.vin = t2.vin and \r\nt1.ts = t2.ts and\r\nt1.lastRecTime = t2.tsDiff and\r\nDATEDIFF(minute,t1,t2) BETWEEN 0 and 0\r\nJOIN TripPointRaw t3\r\nON t1.TripId = t3.TripId and \r\nt1.vin = t3.vin and \r\nt1.ts = t3.ts and\r\nt1.firstRecTime = t3.tsDiff and\r\nDATEDIFF(minute,t1,t3) BETWEEN 0 and 0\r\n)\r\n\r\nSELECT\r\n\tTripId,\r\n\tlat as Latitude,\r\n\tlon as Longitude,\r\n\tPOIType,\r\n\tts as RecordedTimeStamp\r\nINTO PowerBISink\r\nFROM RoughDrivingStats\r\nWHERE POIType > 0",
+    "hourlypbiJobConsumerGroupName": "asa-pbihourly",
+    "sqlpbiJobName": "[concat(variables('baseName'), '-sqlpbi')]",
+    "sqlpbiJobQuery": "WITH TripPointRaw as \r\n(\r\nSELECT\r\n    TripId,\r\n    UserId,\r\n    CASE \r\n     WHEN CAST(TripDataPoint.Lat as FLOAT) != 255 THEN CAST(TripDataPoint.Lat as FLOAT)\r\n     ELSE NULL\r\n    END as RawLat,\r\n    CASE \r\n     WHEN CAST(TripDataPoint.Lon as FLOAT) != 255 THEN CAST(TripDataPoint.Lon as FLOAT)\r\n     ELSE NULL\r\n    END as RawLong,\r\n    CASE  \r\n     WHEN CAST(TripDataPoint.Speed as FLOAT) >=0 THEN CAST(TripDataPoint.Speed as FLOAT)\r\n     ELSE NULL\r\n    END as spd,\r\n    CASE  \r\n     WHEN CAST(TripDataPoint.EngineRPM as FLOAT) != -255 THEN CAST(TripDataPoint.EngineRPM as FLOAT)\r\n     ELSE NULL\r\n    END as enginerpm,\r\n    CASE  \r\n     WHEN CAST(TripDataPoint.EngineLoad as FLOAT) != -255 THEN CAST(TripDataPoint.EngineLoad as FLOAT)\r\n     ELSE NULL\r\n    END as engineLoad,\r\n    CASE  \r\n     WHEN CAST(TripDataPoint.ShortTermFuelBank1 as FLOAT) != -255 THEN CAST(TripDataPoint.ShortTermFuelBank1 as FLOAT)\r\n     ELSE NULL\r\n    END as shortTermFuelBank,\r\n    CASE  \r\n     WHEN CAST(TripDataPoint.LongTermFuelBank1 as FLOAT) != -255 THEN CAST(TripDataPoint.LongTermFuelBank1 as FLOAT)\r\n     ELSE NULL\r\n    END as longTermFuelBank,\r\n    CASE  \r\n     WHEN CAST(TripDataPoint.MAFFlowRate as FLOAT) != -255 THEN CAST(TripDataPoint.MAFFlowRate as FLOAT)\r\n     ELSE NULL\r\n    END as flowRate,\r\n    CASE  \r\n     WHEN CAST(TripDataPoint.ThrottlePosition as FLOAT) != -255 THEN CAST(TripDataPoint.ThrottlePosition as FLOAT)\r\n     ELSE NULL\r\n    END as throttlePos,\r\n    CASE  \r\n     WHEN CAST(TripDataPoint.Runtime as FLOAT) >=0 THEN CAST(TripDataPoint.Runtime as FLOAT)\r\n     ELSE NULL\r\n    END as runtime,\r\n    CASE  \r\n     WHEN CAST(TripDataPoint.DistanceWithMIL as FLOAT) >=0 THEN CAST(TripDataPoint.DistanceWithMIL as FLOAT)\r\n     ELSE NULL\r\n    END as distanceWithMIL,\r\n    CASE  \r\n     WHEN CAST(TripDataPoint.RelativeThrottlePosition as FLOAT) != -255 THEN CAST(TripDataPoint.RelativeThrottlePosition as FLOAT)\r\n     ELSE NULL\r\n    END as relativeThrottlePos,\r\n    CASE  \r\n     WHEN CAST(TripDataPoint.OutsideTemperature as FLOAT) != -255 THEN CAST(TripDataPoint.OutsideTemperature as FLOAT)\r\n     ELSE NULL\r\n    END as outsideTemperature,\r\n    CASE  \r\n     WHEN CAST(TripDataPoint.EngineFuelRate as FLOAT) != -255 THEN CAST(TripDataPoint.EngineFuelRate as FLOAT)\r\n     ELSE NULL\r\n    END as engineFuelRate,\r\n    TripDataPoint.RecordedTimeStamp as actualTS,\r\n    DATEADD(millisecond,- DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),TripDataPoint.RecordedTimeStamp) as actualTSRounded,\r\n    DATEADD(millisecond,- DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),DATEADD(second, 5 - CAST(CEILING(DATEPART(second, TripDataPoint.RecordedTimeStamp)%5) as BIGINT),TripDataPoint.RecordedTimeStamp)) as ts,\r\n    DATEDIFF(millisecond, TripDataPoint.RecordedTimeStamp, DATEADD(millisecond,-DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),DATEADD(second, 5 - CAST(CEILING(DATEPART(second, TripDataPoint.RecordedTimeStamp)%5) as BIGINT),TripDataPoint.RecordedTimeStamp))) as tsDiff,\r\n    TripDataPoint.VIN as vin\r\nFROM\r\n    CarDeviceData TIMESTAMP by TripDataPoint.RecordedTimeStamp\r\nWHERE\r\n    TripId is not null\r\n    and TripId != ''\r\n    and UserId is not null\r\n    and UserId != ''\r\n),\r\nTripPointAgg as \r\n(SELECT \r\n    TripId,\r\n    UserId,\r\n    vin,\r\n    ts,\r\n    AVG(RawLat) as lat,\r\n    AVG(RawLong) as lon,\r\n    AVG(spd) as avgSpeed,\r\n    AVG(engineLoad) as avgEngineLoad,\r\n    AVG(shortTermFuelBank) as avgShortTermFuelBank,\r\n    AVG(longTermFuelBank) as avgLongTermFuelBank,\r\n    MAX(enginerpm) as maxEngineRpm,\r\n    AVG(flowRate) as avgFlowRate,\r\n    AVG(throttlePos) as avgThrottlePos,\r\n    MAX(runtime)/60 as maxRuntime,\r\n    MAX(distanceWithMIL) as maxDistanceWithMIL,\r\n    AVG(relativeThrottlePos) as avgRelativeThrottlePos,\r\n    AVG(outsideTemperature) as avgOutsideTemperature,\r\n    AVG(engineFuelRate) as avgEngineFuelRate\r\nFROM\r\n    TripPointRaw\r\nWHERE\r\n    ts is not null\r\nand runtime is not null\r\nGROUP BY\r\n    TripId,\r\n    UserId,\r\n    vin,\r\n    ts,\r\n    TumblingWindow(second,5)    \r\n),\r\nTripPointOneSecAgg as \r\n(\r\nSELECT \r\n    TripId,\r\n    UserId,\r\n    vin,\r\n    actualTSRounded,\r\n    AVG(RawLat) as lat,\r\n    AVG(RawLong) as lon,\r\n    AVG(spd) as avgSpeed\r\nFROM\r\n    TripPointRaw\r\nWHERE\r\n    actualTSRounded is not null\r\nGROUP BY\r\n    TripId,\r\n    UserId,\r\n    vin,\r\n    actualTSRounded,\r\n    TumblingWindow(second,1)    \r\n),\r\nTripMetrics as \r\n(SELECT TripId,\r\n    UserId,\r\n    vin,\r\n    actualTSRounded,\r\n    LAG(actualTSRounded) OVER (PARTITION BY TripId LIMIT DURATION (hour,5) WHEN actualTSRounded is not null) as lastTSRounded,\r\n    lat,\r\n    lon,\r\n    avgSpeed,\r\n    LAG(avgSpeed) OVER (PARTITION BY TripId LIMIT DURATION (hour,5) WHEN avgSpeed is not null and avgSpeed>=0) as lastSpeed\r\nFROM\r\n    TripPointOneSecAgg\r\nWHERE\r\n    avgSpeed is not null\r\n),\r\nRoughDrivingStats as    \r\n(SELECT TripId,\r\n    UserId,\r\n    vin,\r\n    actualTSRounded,\r\n    lat,\r\n    lon,\r\n    avgSpeed,\r\n    CASE\r\n      WHEN ((avgSpeed - lastSpeed)*0.278/DATEDIFF(second,lastTSRounded, actualTSRounded)) >= 6 THEN 1\r\n      WHEN ((avgSpeed - lastSpeed)*0.278/DATEDIFF(second,lastTSRounded, actualTSRounded)) <= -6 THEN 2\r\n      ELSE 0\r\n    END as POIType\r\nFROM\r\n    TripMetrics\r\n)\r\n\r\nSELECT\r\n    TripId,\r\n    CASE \r\n     WHEN lat is NOT NULL THEN lat\r\n     ELSE -255\r\n    END as Latitude,\r\n    CASE \r\n     WHEN lon is NOT NULL THEN lon\r\n     ELSE -255\r\n    END as Longitude,\r\n    POIType,\r\n    actualTSRounded as RecordedTimeStamp\r\nINTO SQLSink\r\nFROM RoughDrivingStats\r\nWHERE POIType > 0\r\n\r\nSELECT \r\n    TripId,\r\n    UserId,\r\n    vin,\r\n    ts as RecordedTimeStamp,\r\n    CASE \r\n     WHEN lat is NOT NULL THEN lat\r\n     ELSE -255\r\n    END as lat,\r\n    CASE \r\n     WHEN lon is NOT NULL THEN lon\r\n     ELSE -255\r\n    END as lon,\r\n    CASE \r\n     WHEN avgSpeed is NOT NULL THEN avgSpeed\r\n     ELSE -255\r\n    END as avgSpeed,\r\n    CASE \r\n     WHEN avgEngineLoad is NOT NULL THEN avgEngineLoad\r\n     ELSE -255\r\n    END as avgEngineLoad,\r\n    CASE \r\n     WHEN avgShortTermFuelBank is NOT NULL THEN avgShortTermFuelBank\r\n     ELSE -255\r\n    END as avgShortTermFuelBank,\r\n    CASE \r\n     WHEN avgLongTermFuelBank is NOT NULL THEN avgLongTermFuelBank\r\n     ELSE -255\r\n    END as avgLongTermFuelBank,\r\n    CASE \r\n     WHEN maxEngineRpm is NOT NULL THEN maxEngineRpm\r\n     ELSE -255\r\n    END as maxEngineRpm,\r\n    CASE \r\n     WHEN avgFlowRate is NOT NULL THEN avgFlowRate\r\n     ELSE -255\r\n    END as avgFlowRate,\r\n    CASE \r\n     WHEN avgThrottlePos is NOT NULL THEN avgThrottlePos\r\n     ELSE -255\r\n    END as avgThrottlePos,\r\n   CASE \r\n     WHEN maxRuntime is NOT NULL THEN maxRuntime\r\n     ELSE -255\r\n    END as maxRuntime,\r\n    CASE \r\n     WHEN maxDistanceWithMIL is NOT NULL THEN maxDistanceWithMIL\r\n     ELSE -255\r\n    END as maxDistanceWithMIL,\r\n    CASE \r\n     WHEN avgRelativeThrottlePos is NOT NULL THEN avgRelativeThrottlePos\r\n     ELSE -255\r\n    END as avgRelativeThrottlePos,\r\n    CASE \r\n     WHEN avgOutsideTemperature is NOT NULL THEN avgOutsideTemperature\r\n     ELSE -255\r\n    END as avgOutsideTemperature,\r\n    CASE \r\n     WHEN avgEngineFuelRate is NOT NULL THEN avgEngineFuelRate\r\n     ELSE -255\r\n    END as avgEngineFuelRate\r\nINTO PowerBISink\r\nFROM TripPointAgg",
+    "sqlpbiJobConsumerGroupName": "asa-sqlpbi",
+    "sqlpbiTableName": "dbo.POIs",
+    "vinlookupJobName": "[concat(variables('baseName'), '-vinlookup')]",
+    "vinlookupJobQuery": "With VINData as \r\n(\r\nSELECT\r\n\tTripId,\r\n\tTripDataPoint.VIN,\r\n\tcount(*)\r\nFROM\r\n\tCarDeviceData\r\nWHERE\r\n\tTripId is not null AND\r\n\tTripDataPoint.VIN is not null AND\r\n\tTripId != '' AND\r\n\tTripDataPoint.VIN != ''\r\nGROUP BY \r\n\tTripId,\r\n\tTripDataPoint.VIN,\r\n\tTUMBLINGWINDOW(hour,1)\r\n)\r\n\r\nSELECT \r\n\tTripId,\r\n\tVIN\r\nINTO EHSink\r\nFROM VINData",
+    "vinlookupJobConsumerGroupName": "asa-vinlookup",
+    "hostingPlanName": "[concat(variables('baseName'), 'Plan', '-', uniquestring(resourceGroup().id))]",
+    "mobileAppName": "[concat(variables('baseName'), '-', uniquestring(resourceGroup().id))]",
+    "mobileAppRepositoryBranch": "master",
+    "mobileAppProject": "src/MobileAppService/MyDrivingService/MyDrivingService.csproj",
+    "appInsightsName": "[concat(variables('baseName'), 'API', '-', uniquestring(resourceGroup().id))]",
+    "appInsightsLocation": "centralus",
+    "dataFactoryName": "[concat(variables('baseName'), '-df', uniquestring(resourceGroup().id))]",
+    "mlScoringLinkedServiceName": "AzureMLScoringandUpdateLinkedService",
+    "mlTrainingEndpointLinkedServiceName": "TrainingEndpoint-AMLLinkedService",
+    "sqlAnalyticsLinkedServiceName": "AzureSqlLinkedService",
+    "sqlMobileAppLinkedServiceName": "MobileAppSqlLinkedService",
+    "storageAsaLinkedServiceName": "AzureStorageLinkedService",
+    "hdiMetastoreLinkedServiceName": "HDIMetastoreBlobLinkedService",
+    "hdiOnDemandLinkedServiceName": "DailyComputeHDICluster",
+    "datasetAMLiLearner": "AML-iLearnerDataset",
+    "datasetDimUserBlob": "DimUser-Blob",
+    "datasetDimUserSql": "DimUser-SQL",
+    "datasetDimUserTempSql": "DimUserTemp-SQL",
+    "datasetFactTripDataBlob": "FactTripData-Blob",
+    "datasetFactTripDataSql": "FactTripData-SQL",
+    "datasetFactTripDataTempSql": "FactTripDataTemp-SQL",
+    "datasetFactTripMLDataMobileSql": "FactTripMLData-MobileSQL",
+    "datasetFactTripMLDataSql": "FactTripMLData-SQL",
+    "datasetFactTripMLInputDataBlob": "FactTripMLInputData-Blob",
+    "datasetFactTripMLOutputDataBlob": "FactTripMLOutputData-Blob",
+    "datasetMyDrivingRawDataBlob": "MyDrivingRawData-Blob",
+    "datasetRawDataOneSecAggregated": "RawDataOneSecAggregated",
+    "datasetTempIntermediateBlob": "TempIntermediateDataset-Blob",
+    "datasetTempIntermediate2Blob": "TempIntermediateDataset2-Blob",
+    "datasetTempIntermediate3Blob": "TempIntermediateDataset3-Blob",
+    "datasetFinalTempSql": "FinalTempDataSet-Sql",
+    "pipelineAzureMLDataPrep": "AzureMLDataPrep",
+    "pipelineAzureMLScoring": "AzureMLScoringPipeline",
+    "pipelineAzureMLRetrainingPipeline": "AzureML-RetrainingPipeline",
+    "pipelineCopyBlobToSql": "CopyPipeline-DimUserBlobToSQL",
+    "pipelineCopyFactTripDataBlobToSQL": "CopyPipeline-FactTripDataBlobToSQL",
+    "pipelineDimUserComputeHDI": "DimUserCompute-HDI",
+    "pipelineFactTripDataComputeHDI": "FactTripDataCompute-HDI",
+    "pipelineSetupHiveTables": "SetupHiveTablesPipeline",
+    "pipelineSQLSproc": "SQLSprocPipeline",
+    "pipelineSQLSprocCleanup": "SQLSprocCleanupPipeline",
+    "hdInsightScriptsFolder": "hivescripts",
+    "mlEndpoint": "https://ussouthcentral.services.azureml.net/workspaces/5aaa8b190e554515af1acc8d2a09cfdf/services/a9e38126472a442faa5e02cfb1a64da0/jobs?api-version=2.0",
+    "mlApiKey": "<TO-BE-COMPLETED>",
+    "mlUpdateResourceEndpoint": "https://management.azureml.net/workspaces/5aaa8b190e554515af1acc8d2a09cfdf/webservices/4fcc15b6ed0a453cbedea56d68c2bb2b/endpoints/retrain",
+    "mlTrainingEndpoint": "https://ussouthcentral.services.azureml.net/workspaces/5aaa8b190e554515af1acc8d2a09cfdf/services/ea7e392901e04517a395cf23192cf5fb/jobs?api-version=2.0",
+    "mlTrainingEndpointApiKey": "<TO-BE-COMPLETED>"
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('blobStorageAnalytics')]",
+      "location": "[resourceGroup().location]",
+      "properties": { "accountType": "[parameters('storageAccountType')]" }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[variables('blobStorageHdiMetastore')]",
+      "location": "[resourceGroup().location]",
+      "properties": { "accountType": "[parameters('storageAccountType')]" }
+    },
+    {
+      "apiVersion": "2016-02-03",
+      "type": "Microsoft.Devices/IotHubs",
+      "name": "[variables('iotHubName')]",
+      "location": "[resourceGroup().location]",
+      "sku": "[parameters('iotHubSku')]"
+    },
+    {
+      "apiVersion": "2016-02-03",
+      "name": "[concat(variables('iotHubName'), '/events/', variables('archiveJobConsumerGroupName'))]",
+      "type": "Microsoft.Devices/Iothubs/eventhubEndpoints/ConsumerGroups",
+      "dependsOn": [
+        "[concat('Microsoft.Devices/Iothubs/', variables('iotHubName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2016-02-03",
+      "name": "[concat(variables('iotHubName'), '/events/', variables('hourlypbiJobConsumerGroupName'))]",
+      "type": "Microsoft.Devices/Iothubs/eventhubEndpoints/ConsumerGroups",
+      "dependsOn": [
+        "[concat('Microsoft.Devices/Iothubs/', variables('iotHubName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2016-02-03",
+      "name": "[concat(variables('iotHubName'), '/events/', variables('sqlpbiJobConsumerGroupName'))]",
+      "type": "Microsoft.Devices/Iothubs/eventhubEndpoints/ConsumerGroups",
+      "dependsOn": [
+        "[concat('Microsoft.Devices/Iothubs/', variables('iotHubName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2016-02-03",
+      "name": "[concat(variables('iotHubName'), '/events/', variables('vinlookupJobConsumerGroupName'))]",
+      "type": "Microsoft.Devices/Iothubs/eventhubEndpoints/ConsumerGroups",
+      "dependsOn": [
+        "[concat('Microsoft.Devices/Iothubs/', variables('iotHubName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2014-09-01",
+      "type": "Microsoft.EventHub/namespaces",
+      "name": "[variables('eventHubNamespace')]",
+      "location": "[resourceGroup().location]",
+      "properties": { "region": "[resourceGroup().location]" },
+      "resources": [
+        {
+          "apiVersion": "2014-09-01",
+          "name": "[variables('eventHubName')]",
+          "type": "eventHubs",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [ "[resourceId('Microsoft.EventHub/namespaces', variables('eventHubNamespace'))]" ],
+          "properties": { "path": "[variables('eventHubName')]" }
+        }
+      ]
+    },
+    {
+      "apiVersion": "2014-04-01-preview",
+      "type": "Microsoft.Sql/servers",
+      "name": "[variables('sqlServerName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "administratorLogin": "[variables('sqlServerAdminLogin')]",
+        "administratorLoginPassword": "[parameters('sqlServerAdminPassword')]",
+        "version": "[variables('sqlServerVersion')]"
+      },
+      "resources": [
+        {
+          "apiVersion": "2014-04-01-preview",
+          "type": "databases",
+          "name": "[variables('sqlDBName')]",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "edition": "[variables('sqlDBEdition')]",
+            "requestedServiceObjectiveName": "[variables('sqlServiceObjectiveName')]",
+            "collation": "[variables('sqlCollation')]"
+          },
+          "dependsOn": [ "[resourceId('Microsoft.Sql/servers', variables('sqlServerName'))]" ]
+        },
+        {
+          "apiVersion": "2014-04-01-preview",
+          "type": "firewallrules",
+          "name": "ARMTemplateRule",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "startIpAddress": "[variables('sqlFirewallIpStart')]",
+            "endIpAddress": "[variables('sqlFirewallIpEnd')]"
+          },
+          "dependsOn": [ "[resourceId('Microsoft.Sql/servers', variables('sqlServerName'))]" ]
+        }
+      ]
+    },
+    {
+      "apiVersion": "2015-09-01",
+      "type": "Microsoft.StreamAnalytics/StreamingJobs",
+      "name": "[variables('archiveJobName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "sku": { "name": "Standard" },
+        "inputs": [
+          {
+            "name": "CarDeviceData",
+            "properties": {
+              "type": "stream",
+              "serialization": {
+                "type": "JSON",
+                "properties": { "encoding": "UTF8" }
+              },
+              "datasource": {
+                "type": "Microsoft.Devices/IotHubs",
+                "properties": {
+                  "iotHubNamespace": "[variables('iotHubName')]",
+                  "sharedAccessPolicyName": "[variables('iotHubKeyName')]",
+                  "sharedAccessPolicyKey": "[listKeys(resourceId('Microsoft.Devices/IotHubs/Iothubkeys', variables('iotHubName'), variables('iotHubKeyName')), '2016-02-03').primaryKey]",
+                  "consumerGroupName": "[variables('archiveJobConsumerGroupName')]"
+                }
+              }
+            }
+          }
+        ],
+        "transformation": {
+          "name": "[variables('archiveJobName')]",
+          "properties": {
+            "streamingUnits": 1,
+            "query": "[variables('archiveJobQuery')]"
+          }
+        },
+        "outputs": [
+          {
+            "name": "BlobSink",
+            "properties": {
+              "serialization": {
+                "type": "CSV",
+                "properties": {
+                  "fieldDelimiter": ",",
+                  "encoding": "UTF8"
+                }
+              },
+              "datasource": {
+                "type": "Microsoft.Storage/Blob",
+                "properties": {
+                  "storageAccounts": [
+                    {
+                      "accountName": "[variables('blobStorageAnalytics')]",
+                      "accountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageAnalytics')), '2015-06-15').key1]"
+                    }
+                  ],
+                  "container": "[variables('rawDataContainerName')]",
+                  "pathPattern": "tripdata/{date}",
+                  "dateFormat": "yyyy/MM/dd",
+                  "timeFormat": "HH"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Devices/IotHubs', variables('iotHubName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageAnalytics'))]"
+      ]
+    },
+    {
+      "apiVersion": "2015-09-01",
+      "type": "Microsoft.StreamAnalytics/StreamingJobs",
+      "name": "[variables('hourlypbiJobName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "sku": { "name": "Standard" },
+        "inputs": [
+          {
+            "name": "CarDeviceData",
+            "properties": {
+              "type": "stream",
+              "serialization": {
+                "type": "JSON",
+                "properties": { "encoding": "UTF8" }
+              },
+              "datasource": {
+                "type": "Microsoft.Devices/IotHubs",
+                "properties": {
+                  "iotHubNamespace": "[variables('iotHubName')]",
+                  "sharedAccessPolicyName": "[variables('iotHubKeyName')]",
+                  "sharedAccessPolicyKey": "[listKeys(resourceId('Microsoft.Devices/IotHubs/Iothubkeys', variables('iotHubName'), variables('iotHubKeyName')), '2016-02-03').primaryKey]",
+                  "consumerGroupName": "[variables('hourlypbiJobConsumerGroupName')]"
+                }
+              }
+            }
+          }
+        ],
+        "transformation": {
+          "name": "[variables('hourlypbiJobName')]",
+          "properties": {
+            "streamingUnits": 1,
+            "query": "[variables('hourlypbiJobQuery')]"
+          }
+        },
+        "outputs": [
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Devices/IotHubs', variables('iotHubName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2015-09-01",
+      "type": "Microsoft.StreamAnalytics/StreamingJobs",
+      "name": "[variables('sqlpbiJobName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "sku": { "name": "Standard" },
+        "inputs": [
+          {
+            "name": "CarDeviceData",
+            "properties": {
+              "type": "stream",
+              "serialization": {
+                "type": "JSON",
+                "properties": { "encoding": "UTF8" }
+              },
+              "datasource": {
+                "type": "Microsoft.Devices/IotHubs",
+                "properties": {
+                  "iotHubNamespace": "[variables('iotHubName')]",
+                  "sharedAccessPolicyName": "[variables('iotHubKeyName')]",
+                  "sharedAccessPolicyKey": "[listKeys(resourceId('Microsoft.Devices/IotHubs/Iothubkeys', variables('iotHubName'), variables('iotHubKeyName')), '2016-02-03').primaryKey]",
+                  "consumerGroupName": "[variables('sqlpbiJobConsumerGroupName')]"
+                }
+              }
+            }
+          }
+        ],
+        "transformation": {
+          "name": "[variables('sqlpbiJobName')]",
+          "properties": {
+            "streamingUnits": 1,
+            "query": "[variables('sqlpbiJobQuery')]"
+          }
+        },
+        "outputs": [
+          {
+            "name": "SQLSink",
+            "properties": {
+              "type": "stream",
+              "serialization": {
+                "type": "JSON",
+                "properties": { "encoding": "UTF8" }
+              },
+              "datasource": {
+                "type": "Microsoft.Sql/Server/Database",
+                "properties": {
+                  "server": "[variables('sqlServerName')]",
+                  "database": "[variables('sqlDBName')]",
+                  "user": "[variables('sqlServerAdminLogin')]",
+                  "password": "[parameters('sqlServerAdminPassword')]",
+                  "table": "[variables('sqlpbiTableName')]"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Devices/IotHubs', variables('iotHubName'))]",
+        "[resourceId('Microsoft.SQL/servers/databases', variables('sqlServerName'), variables('sqlDBName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2015-09-01",
+      "type": "Microsoft.StreamAnalytics/StreamingJobs",
+      "name": "[variables('vinlookupJobName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "sku": { "name": "Standard" },
+        "inputs": [
+          {
+            "name": "CarDeviceData",
+            "properties": {
+              "type": "stream",
+              "serialization": {
+                "type": "JSON",
+                "properties": { "encoding": "UTF8" }
+              },
+              "datasource": {
+                "type": "Microsoft.Devices/IotHubs",
+                "properties": {
+                  "iotHubNamespace": "[variables('iotHubName')]",
+                  "sharedAccessPolicyName": "[variables('iotHubKeyName')]",
+                  "sharedAccessPolicyKey": "[listKeys(resourceId('Microsoft.Devices/IotHubs/Iothubkeys', variables('iotHubName'), variables('iotHubKeyName')), '2016-02-03').primaryKey]",
+                  "consumerGroupName": "[variables('vinlookupJobConsumerGroupName')]"
+                }
+              }
+            }
+          }
+        ],
+        "transformation": {
+          "name": "[variables('vinlookupJobName')]",
+          "properties": {
+            "streamingUnits": 1,
+            "query": "[variables('vinlookupJobQuery')]"
+          }
+        },
+        "outputs": [
+          {
+            "name": "EHSink",
+            "properties": {
+              "type": "stream",
+              "serialization": {
+                "type": "JSON",
+                "properties": { "encoding": "UTF8" }
+              },
+              "datasource": {
+                "type": "Microsoft.ServiceBus/EventHub",
+                "properties": {
+                  "eventHubName": "[variables('eventHubName')]",
+                  "serviceBusNamespace": "[variables('eventHubNamespace')]",
+                  "sharedAccessPolicyName": "[variables('eventHubKeyName')]",
+                  "sharedAccessPolicyKey": "[listKeys(resourceId('Microsoft.Eventhub/namespaces/authorizationRules', variables('eventHubNamespace'), variables('eventHubKeyName')), '2014-09-01').primaryKey]"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Devices/IotHubs', variables('iotHubName'))]",
+        "[resourceId('Microsoft.EventHub/namespaces', variables('eventHubNamespace'))]"
+      ]
+    },
+    {
+      "apiVersion": "2015-08-01",
+      "type": "Microsoft.Web/serverfarms",
+      "name": "[variables('hostingPlanName')]",
+      "location": "[resourceGroup().location]",
+      "sku": "[parameters('hostingPlanSku')]",
+      "properties": { "numberOfWorkers": 1 }
+    },
+    {
+      "apiVersion": "2015-08-01",
+      "type": "Microsoft.Web/sites",
+      "name": "[variables('mobileAppName')]",
+      "location": "[resourceGroup().location]",
+      "kind": "mobileapp",
+      "properties": {
+        "name": "[variables('mobileAppName')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
+      },
+      "resources": [
+        {
+          "apiVersion": "2015-04-01",
+          "name": "web",
+          "type": "sourcecontrols",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', variables('mobileAppName'))]"
+          ],
+          "properties": {
+            "RepoUrl": "[parameters('mobileAppRepositoryUrl')]",
+            "branch": "[variables('mobileAppRepositoryBranch')]",
+            "IsManualIntegration": true
+          }
+        },
+        {
+          "apiVersion": "2015-08-01",
+          "name": "appsettings",
+          "type": "config",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', variables('mobileAppName'))]"
+          ],
+          "properties": {
+            "IoTHubConnectionString": "[concat('HostName=', variables('iotHubName'), '.azure-devices.net;SharedAccessKeyName=', variables('iotHubKeyName'), ';SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs/Iothubkeys', variables('iotHubName'), variables('iotHubKeyName')), '2016-02-03').primaryKey)]",
+            "Project": "[variables('mobileAppProject')]"
+          }
+        },
+        {
+          "apiVersion": "2015-08-01",
+          "name": "connectionstrings",
+          "type": "config",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', variables('mobileAppName'))]",
+            "[resourceId('Microsoft.Devices/IotHubs', variables('iotHubName'))]",
+            "[resourceId('Microsoft.Sql/servers/databases', variables('sqlServerName'), variables('sqlDBName'))]"
+          ],
+          "properties": {
+            "MS_TableConnectionString": {
+              "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('sqlDBName'), ';User Id=', variables('sqlServerAdminLogin'), '@', variables('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]",
+              "type": "SQLAzure"
+            }
+          }
+        }
+      ],
+      "dependsOn": [ "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]" ]
+    },
+    {
+      "apiVersion": "2015-05-01",
+      "type": "microsoft.insights/components",
+      "name": "[variables('appInsightsName')]",
+      "location": "[variables('appInsightsLocation')]",
+      "kind": "web",
+      "properties": { "ApplicationId": "[variables('appInsightsName')]" },
+      "dependsOn": [
+        "[concat('Microsoft.Web/sites/', variables('mobileAppName'))]"
+      ]
+    },
+    {
+      "apiVersion": "2014-04-01-preview",
+      "type": "Microsoft.Sql/servers",
+      "name": "[variables('sqlAnalyticsServerName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "administratorLogin": "[variables('sqlAnalyticsServerAdminLogin')]",
+        "administratorLoginPassword": "[parameters('sqlAnalyticsServerAdminPassword')]",
+        "version": "[variables('sqlServerVersion')]"
+      },
+      "resources": [
+        {
+          "apiVersion": "2014-04-01-preview",
+          "type": "databases",
+          "name": "[variables('sqlAnalyticsDBName')]",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "edition": "[variables('sqlAnalyticsDBEdition')]",
+            "requestedServiceObjectiveName": "[variables('sqlAnalyticsServiceObjectiveName')]",
+            "collation": "[variables('sqlCollation')]"
+          },
+          "dependsOn": [ "[resourceId('Microsoft.Sql/servers', variables('sqlAnalyticsServerName'))]" ]
+        },
+        {
+          "apiVersion": "2014-04-01-preview",
+          "type": "firewallrules",
+          "name": "ARMTemplateRule",
+          "location": "[resourceGroup().location]",
+          "properties": {
+            "startIpAddress": "[variables('sqlFirewallIpStart')]",
+            "endIpAddress": "[variables('sqlFirewallIpEnd')]"
+          },
+          "dependsOn": [ "[resourceId('Microsoft.Sql/servers', variables('sqlAnalyticsServerName'))]" ]
+        }
+      ]
+    },
+    {
+      "apiVersion": "2015-10-01",
+      "type": "Microsoft.DataFactory/datafactories",
+      "name": "[variables('dataFactoryName')]",
+      "location": "[resourceGroup().location]",
+      "resources": [
+        {
+          "apiVersion": "2015-10-01",
+          "type": "linkedservices",
+          "name": "[variables('sqlAnalyticsLinkedServiceName')]",
+          "properties": {
+            "description": "",
+            "type": "AzureSqlDatabase",
+            "typeProperties": {
+              "connectionString": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlAnalyticsServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('sqlAnalyticsDBName'), ';User Id=', variables('sqlAnalyticsServerAdminLogin'), '@', variables('sqlAnalyticsServerName'), ';Password=', parameters('sqlAnalyticsServerAdminPassword'), ';')]"
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.SQL/servers/databases', variables('sqlAnalyticsServerName'), variables('sqlAnalyticsDBName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "linkedservices",
+          "name": "[variables('sqlMobileAppLinkedServiceName')]",
+          "properties": {
+            "description": "",
+            "type": "AzureSqlDatabase",
+            "typeProperties": {
+              "connectionString": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('sqlDBName'), ';User Id=', variables('sqlServerAdminLogin'), '@', variables('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]"
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.SQL/servers/databases', variables('sqlServerName'), variables('sqlDBName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "linkedservices",
+          "name": "[variables('storageAsaLinkedServiceName')]",
+          "properties": {
+            "description": "",
+            "type": "AzureStorage",
+            "typeProperties": {
+              "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('blobStorageAnalytics'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageAnalytics')), '2015-06-15').key1)]"
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageAnalytics'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "linkedservices",
+          "name": "[variables('hdiMetastoreLinkedServiceName')]",
+          "properties": {
+            "description": "",
+            "type": "AzureStorage",
+            "typeProperties": {
+              "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('blobStorageHdiMetastore'),';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageHdiMetastore')), '2015-06-15').key1)]"
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageHdiMetastore'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "linkedservices",
+          "name": "[variables('hdiOnDemandLinkedServiceName')]",
+          "properties": {
+            "description": "",
+            "type": "HDInsightOnDemand",
+            "typeProperties": {
+              "version": "3.1",
+              "clusterSize": 4,
+              "timeToLive": "02:00:00",
+              "osType": "Windows",
+              "additionalLinkedServiceNames": [ "[variables('storageAsaLinkedServiceName')]" ],
+              "linkedServiceName": "[variables('hdiMetastoreLinkedServiceName')]"
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedservices', variables('dataFactoryName'), variables('hdiMetastoreLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedservices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "linkedservices",
+          "name": "[variables('mlScoringLinkedServiceName')]",
+          "properties": {
+            "description": "",
+            "type": "AzureML",
+            "typeProperties": {
+              "mlEndpoint": "[variables('mlEndpoint')]",
+              "apiKey": "[variables('mlApiKey')]",
+              "updateResourceEndpoint": "[variables('mlUpdateResourceEndpoint')]"
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "linkedservices",
+          "name": "[variables('mlTrainingEndpointLinkedServiceName')]",
+          "properties": {
+            "description": "",
+            "type": "AzureML",
+            "typeProperties": {
+              "mlEndpoint": "[variables('mlTrainingEndpoint')]",
+              "apiKey": "[variables('mlTrainingEndpointApiKey')]"
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetAMLiLearner')]",
+          "properties": {
+            "type": "AzureBlob",
+            "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
+            "typeProperties": {
+              "fileName": "model.ilearner",
+              "folderPath": "reference/AMLiLearner",
+              "format": {
+                "type": "TextFormat",
+                "rowDelimiter": "\n",
+                "columnDelimiter": ","
+              }
+            },
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetDimUserBlob')]",
+          "properties": {
+            "type": "AzureBlob",
+            "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
+            "typeProperties": {
+              "folderPath": "tripdata/tables/dimUser",
+              "format": {
+                "type": "TextFormat",
+                "rowDelimiter": "\n",
+                "columnDelimiter": "|"
+              }
+            },
+            "structure": [
+              {
+                "name": "userId",
+                "type": "String"
+              },
+              {
+                "name": "vin",
+                "type": "Int32"
+              }
+            ],
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetDimUserSql')]",
+          "properties": {
+            "type": "AzureSqlTable",
+            "linkedServiceName": "[variables('sqlAnalyticsLinkedServiceName')]",
+            "typeProperties": {
+              "tableName": "dbo.dimUser"
+            },
+            "structure": [
+              {
+                "name": "userId",
+                "type": "String"
+              },
+              {
+                "name": "vin",
+                "type": "Int32"
+              }
+            ],
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlAnalyticsLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetDimUserTempSql')]",
+          "properties": {
+            "type": "AzureSqlTable",
+            "linkedServiceName": "[variables('sqlAnalyticsLinkedServiceName')]",
+            "typeProperties": {
+              "tableName": "dbo.dimUserTemp"
+            },
+            "structure": [
+              {
+                "name": "userId",
+                "type": "String"
+              },
+              {
+                "name": "vin",
+                "type": "Int32"
+              }
+            ],
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlAnalyticsLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetFactTripDataBlob')]",
+          "properties": {
+            "type": "AzureBlob",
+            "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
+            "typeProperties": {
+              "folderPath": "tripdata/tables/factTripDataoutput",
+              "format": {
+                "type": "TextFormat",
+                "rowDelimiter": "\n",
+                "columnDelimiter": "|"
+              }
+            },
+            "structure": [
+              {
+                "name": "TripId",
+                "type": "String"
+              },
+              {
+                "name": "UserId",
+                "type": "String"
+              },
+              {
+                "name": "vin",
+                "type": "String"
+              },
+              {
+                "name": "tripStartTime",
+                "type": "String"
+              },
+              {
+                "name": "AverageSpeed",
+                "type": "Double"
+              },
+              {
+                "name": "Hard_Accel",
+                "type": "Int32"
+              },
+              {
+                "name": "Hard_Brakes",
+                "type": "Int32"
+              },
+              {
+                "name": "DroveWithMILOn",
+                "type": "Double"
+              },
+              {
+                "name": "LengthOfTrip",
+                "type": "Timespan"
+              },
+              {
+                "name": "cLat",
+                "type": "Double"
+              },
+              {
+                "name": "cLon",
+                "type": "Double"
+              }
+            ],
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetFactTripDataSql')]",
+          "properties": {
+            "type": "AzureSqlTable",
+            "linkedServiceName": "[variables('sqlAnalyticsLinkedServiceName')]",
+            "typeProperties": {
+              "tableName": "dbo.factTripData"
+            },
+            "structure": [
+              {
+                "name": "TripId",
+                "type": "String"
+              },
+              {
+                "name": "UserId",
+                "type": "String"
+              },
+              {
+                "name": "vin",
+                "type": "String"
+              },
+              {
+                "name": "tripStartTime",
+                "type": "String"
+              },
+              {
+                "name": "AverageSpeed",
+                "type": "Double"
+              },
+              {
+                "name": "Hard_Accel",
+                "type": "Int32"
+              },
+              {
+                "name": "Hard_Brakes",
+                "type": "Int32"
+              },
+              {
+                "name": "DroveWithMILOn",
+                "type": "Double"
+              },
+              {
+                "name": "LengthOfTrip",
+                "type": "Timespan"
+              },
+              {
+                "name": "cLat",
+                "type": "Double"
+              },
+              {
+                "name": "cLon",
+                "type": "Double"
+              }
+            ],
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlAnalyticsLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetFactTripDataTempSql')]",
+          "properties": {
+            "structure": [
+              {
+                "name": "TripId",
+                "type": "String"
+              },
+              {
+                "name": "UserId",
+                "type": "String"
+              },
+              {
+                "name": "vin",
+                "type": "String"
+              },
+              {
+                "name": "tripStartTime",
+                "type": "String"
+              },
+              {
+                "name": "AverageSpeed",
+                "type": "Double"
+              },
+              {
+                "name": "Hard_Accel",
+                "type": "Int32"
+              },
+              {
+                "name": "Hard_Brakes",
+                "type": "Int32"
+              },
+              {
+                "name": "DroveWithMILOn",
+                "type": "Double"
+              },
+              {
+                "name": "LengthOfTrip",
+                "type": "Timespan"
+              },
+              {
+                "name": "cLat",
+                "type": "Double"
+              },
+              {
+                "name": "cLon",
+                "type": "Double"
+              }
+            ],
+            "published": false,
+            "type": "AzureSqlTable",
+            "linkedServiceName": "[variables('sqlAnalyticsLinkedServiceName')]",
+            "typeProperties": {
+              "tableName": "dbo.factTripDataTemp"
+            },
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlAnalyticsLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetFactTripMLDataMobileSql')]",
+          "properties": {
+            "type": "AzureSqlTable",
+            "linkedServiceName": "[variables('sqlMobileAppLinkedServiceName')]",
+            "typeProperties": {
+              "tableName": "dbo.factMLOutputData"
+            },
+            "structure": [
+              {
+                "name": "tripId",
+                "type": "String"
+              },
+              {
+                "name": "userId",
+                "type": "String"
+              },
+              {
+                "name": "driverType",
+                "type": "String"
+              }
+            ],
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlMobileAppLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetFactTripMLDataSql')]",
+          "properties": {
+            "type": "AzureSqlTable",
+            "linkedServiceName": "[variables('sqlAnalyticsLinkedServiceName')]",
+            "typeProperties": {
+              "tableName": "dbo.factMLOutputData"
+            },
+            "structure": [
+              {
+                "name": "tripId",
+                "type": "String"
+              },
+              {
+                "name": "userId",
+                "type": "String"
+              },
+              {
+                "name": "driverType",
+                "type": "String"
+              }
+            ],
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlAnalyticsLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetFactTripMLInputDataBlob')]",
+          "properties": {
+            "type": "AzureBlob",
+            "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
+            "typeProperties": {
+              "fileName": "inputfile.csv",
+              "folderPath": "tripdata/tables/mlinput/{Year}/{Month}/{Day}",
+              "format": {
+                "type": "TextFormat",
+                "rowDelimiter": "\n",
+                "columnDelimiter": ","
+              },
+              "partitionedBy": [
+                {
+                  "name": "Year",
+                  "value": {
+                    "type": "DateTime",
+                    "date": "SliceStart",
+                    "format": "yyyy"
+                  }
+                },
+                {
+                  "name": "Month",
+                  "value": {
+                    "type": "DateTime",
+                    "date": "SliceStart",
+                    "format": "MM"
+                  }
+                },
+                {
+                  "name": "Day",
+                  "value": {
+                    "type": "DateTime",
+                    "date": "SliceStart",
+                    "format": "dd"
+                  }
+                }
+              ]
+            },
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetMyDrivingRawDataBlob')]",
+          "properties": {
+            "type": "AzureBlob",
+            "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
+            "typeProperties": {
+              "folderPath": "[concat(variables('rawDataContainerName'), '/tripdata/{Year}/{Month}/{Day}')]",
+              "format": {
+                "type": "TextFormat",
+                "rowDelimiter": "\n",
+                "columnDelimiter": ","
+              },
+              "partitionedBy": [
+                {
+                  "name": "Year",
+                  "value": {
+                    "type": "DateTime",
+                    "date": "SliceStart",
+                    "format": "yyyy"
+                  }
+                },
+                {
+                  "name": "Month",
+                  "value": {
+                    "type": "DateTime",
+                    "date": "SliceStart",
+                    "format": "MM"
+                  }
+                },
+                {
+                  "name": "Day",
+                  "value": {
+                    "type": "DateTime",
+                    "date": "SliceStart",
+                    "format": "dd"
+                  }
+                }
+              ]
+            },
+            "structure": [
+              {
+                "name": "TripId",
+                "type": "String"
+              },
+              {
+                "name": "UserId",
+                "type": "String"
+              },
+              {
+                "name": "Name",
+                "type": "String"
+              },
+              {
+                "name": "TripPointId",
+                "type": "String"
+              },
+              {
+                "name": "Lat",
+                "type": "Double"
+              },
+              {
+                "name": "Lon",
+                "type": "Double"
+              },
+              {
+                "name": "Speed",
+                "type": "Double"
+              },
+              {
+                "name": "RecordedTimeStamp",
+                "type": "Datetime"
+              },
+              {
+                "name": "Sequence",
+                "type": "Int32"
+              },
+              {
+                "name": "EngineRPM",
+                "type": "Double"
+              },
+              {
+                "name": "ShortTermFuelBank",
+                "type": "Double"
+              },
+              {
+                "name": "LargeTermFuelBank",
+                "type": "Double"
+              },
+              {
+                "name": "ThrottlePosition",
+                "type": "Double"
+              },
+              {
+                "name": "RelativeThrottlePosition",
+                "type": "Double"
+              },
+              {
+                "name": "Runtime",
+                "type": "Int32"
+              },
+              {
+                "name": "DistancewithMIL",
+                "type": "Double"
+              },
+              {
+                "name": "EngineLoad",
+                "type": "Double"
+              },
+              {
+                "name": "MAFFlowRate",
+                "type": "Double"
+              },
+              {
+                "name": "OutsideTemperature",
+                "type": "Double"
+              },
+              {
+                "name": "EngineFuelRate",
+                "type": "Double"
+              },
+              {
+                "name": "vin",
+                "type": "String"
+              }
+            ],
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            },
+            "external": true,
+            "policy": { }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetRawDataOneSecAggregated')]",
+          "properties": {
+            "type": "AzureBlob",
+            "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
+            "typeProperties": {
+              "folderPath": "tripdata/tables/onesecagg",
+              "format": {
+                "type": "TextFormat"
+              }
+            },
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetTempIntermediate2Blob')]",
+          "properties": {
+            "type": "AzureBlob",
+            "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
+            "typeProperties": {
+              "folderPath": "[concat(variables('rawDataContainerName'), '/intermediatefolder/tempfile-2.txt')]",
+              "format": {
+                "type": "TextFormat",
+                "columnDelimiter": ","
+              }
+            },
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetTempIntermediate3Blob')]",
+          "properties": {
+            "type": "AzureBlob",
+            "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
+            "typeProperties": {
+              "folderPath": "[concat(variables('rawDataContainerName'), '/intermediatefolder/tempfile-3.txt')]",
+              "format": {
+                "type": "TextFormat",
+                "columnDelimiter": ","
+              }
+            },
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetTempIntermediateBlob')]",
+          "properties": {
+            "type": "AzureBlob",
+            "linkedServiceName": "[variables('storageAsaLinkedServiceName')]",
+            "typeProperties": {
+              "folderPath": "[concat(variables('rawDataContainerName'), '/intermediatefolder/tempfile.txt')]",
+              "format": {
+                "type": "TextFormat",
+                "columnDelimiter": ","
+              }
+            },
+            "published": false,
+            "availability": {
+              "frequency": "Day",
+              "interval": 1
+            }
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datasets",
+          "name": "[variables('datasetFinalTempSql')]",
+          "properties": {
+            "linkedServiceName": "[variables('sqlAnalyticsLinkedServiceName')]",
+			"structure": [
+			  {
+				"name": "tempCol",
+				"type": "String"
+			  }
+			],
+			"published": false,
+			"type": "AzureSqlTable",
+			"typeProperties": {
+			  "tableName": "dbo.dimTemp"
+			},
+			"availability": {
+			  "frequency": "Day",
+			  "interval": 1
+			}            
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('sqlAnalyticsLinkedServiceName'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datapipelines",
+          "name": "[variables('pipelineAzureMLDataPrep')]",
+          "properties": {
+            "description": "This Pipeline prepares data and passes it onto AzureML for batch scoring.",
+            "activities": [
+              {
+                "type": "HDInsightHive",
+                "name": "HiveActivityTemplate",
+                "linkedServiceName": "[variables('hdiOnDemandLinkedServiceName')]",
+                "typeProperties": {
+                  "scriptPath": "[concat(variables('assetsContainerName'), '/', variables('hdInsightScriptsFolder'), '/mlinputdata.hql')]",
+                  "scriptLinkedService": "[variables('hdiMetastoreLinkedServiceName')]",
+                  "defines": {
+                    "Year": "$$Text.Format('{0:yyyy}',SliceStart)",
+                    "Month": "$$Text.Format('{0:MM}',SliceStart)",
+                    "Day": "$$Text.Format('{0:dd}',SliceStart)"
+                  }
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetRawDataOneSecAggregated')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetFactTripMLInputDataBlob')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              }
+            ],
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
+            "isPaused": false,
+            "pipelineMode": "Scheduled"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('hdiMetastoreLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('hdiOnDemandLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetRawDataOneSecAggregated'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripMLInputDataBlob'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datapipelines",
+          "name": "[variables('pipelineAzureMLScoring')]",
+          "properties": {
+            "description": "This Pipeline performs batch scoring on the data.",
+            "activities": [
+              {
+                "type": "AzureMLBatchExecution",
+                "name": "DriverType-AzureMLExecutionActivity",
+                "linkedServiceName": "[variables('mlScoringLinkedServiceName')]",
+                "typeProperties": {
+                  "globalParameters": {
+                    "Account name": "[variables('blobStorageAnalytics')]",
+                    "Account key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageAnalytics')), '2015-06-15').key1]",
+                    "Path to container, directory or blob": "$$Text.Format('tripdata/tables/mlinput/{0:yyyy}/{1:MM}/{2:dd}/000*',SliceStart,SliceStart,SliceStart)",
+                    "File has header row": false,
+                    "Database server name": "[reference(concat('Microsoft.Sql/servers/', variables('sqlAnalyticsServerName'))).fullyQualifiedDomainName]",
+                    "Database name": "[variables('sqlAnalyticsDBName')]",
+                    "Server user account name": "[concat(variables('sqlAnalyticsServerAdminLogin'), '@', variables('sqlAnalyticsServerName'))]",
+                    "Server user account password": "[parameters('sqlAnalyticsServerAdminPassword')]",
+                    "Data table name": "factMLOutputData"
+                  }
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetFactTripMLInputDataBlob')]"
+                  },
+                  {
+                    "name": "[variables('datasetTempIntermediate3Blob')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetFactTripMLDataSql')]"
+                  },
+                  {
+                    "name": "[variables('datasetFactTripMLDataMobileSql')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              }
+            ],
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
+            "isPaused": false,
+            "pipelineMode": "Scheduled"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('hdiMetastoreLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('hdiOnDemandLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('mlScoringLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripMLInputDataBlob'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetTempIntermediate3Blob'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripMLDataSql'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripMLDataMobileSql'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datapipelines",
+          "name": "[variables('pipelineAzureMLRetrainingPipeline')]",
+          "properties": {
+            "description": "Pipeline for retraining AzureML model",
+            "activities": [
+              {
+                "type": "AzureMLBatchExecution",
+                "name": "AzureMLRetrainingActivity",
+                "linkedServiceName": "[variables('mlTrainingEndpointLinkedServiceName')]",
+                "typeProperties": {
+                  "webServiceOutputs": {
+                    "output1": "[variables('datasetAMLiLearner')]"
+                  },
+                  "globalParameters": {
+                    "Account name": "[variables('blobStorageAnalytics')]",
+                    "Account key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageAnalytics')), '2015-06-15').key1]",
+                    "Path to container, directory or blob": "tripdata/tables/mlinput/*000*",
+                    "File has header row": false
+                  }
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetFactTripMLInputDataBlob')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetAMLiLearner')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              },
+              {
+                "type": "AzureMLUpdateResource",
+                "name": "AzureMLUpdateResourceActivity",
+                "linkedServiceName": "[variables('mlScoringLinkedServiceName')]",
+                "typeProperties": {
+                  "trainedModelDatasetName": "[variables('datasetAMLiLearner')]",
+                  "trainedModelName": "MyDriving [trained model]"
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetAMLiLearner')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetTempIntermediate3Blob')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              }
+            ],
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
+            "isPaused": false,
+            "pipelineMode": "Scheduled"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('mlTrainingEndpointLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('mlScoringLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('storageAsaLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetAMLiLearner'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripMLInputDataBlob'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetTempIntermediate3Blob'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datapipelines",
+          "name": "[variables('pipelineCopyBlobToSql')]",
+          "properties": {
+            "description": "Copies processed Data from Blob to Temp SQL tables",
+            "activities": [
+              {
+                "type": "Copy",
+                "name": "DimUser-Data",
+                "typeProperties": {
+                  "source": {
+                    "type": "BlobSource"
+                  },
+                  "sink": {
+                    "type": "SqlSink",
+                    "writeBatchSize": 100,
+                    "writeBatchTimeout": "00:20:00"
+                  }
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetDimUserBlob')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetDimUserTempSql')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              }
+            ],
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
+            "isPaused": false,
+            "pipelineMode": "Scheduled"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetDimUserBlob'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetDimUserTempSql'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datapipelines",
+          "name": "[variables('pipelineCopyFactTripDataBlobToSQL')]",
+          "properties": {
+            "description": "Copies processed FactTripData from Blob to Temp SQL tables",
+            "activities": [
+              {
+                "type": "Copy",
+                "name": "FactData-Copy",
+                "typeProperties": {
+                  "source": {
+                    "type": "BlobSource"
+                  },
+                  "sink": {
+                    "type": "SqlSink",
+                    "writeBatchSize": 100,
+                    "writeBatchTimeout": "00:20:00"
+                  }
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetFactTripDataBlob')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetFactTripDataTempSql')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              }
+            ],
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
+            "isPaused": false,
+            "pipelineMode": "Scheduled"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripDataBlob'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripDataTempSql'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datapipelines",
+          "name": "[variables('pipelineDimUserComputeHDI')]",
+          "properties": {
+            "description": "Populates the DimUser table in Azure SQL DB. HDI is used as the compute engine.",
+            "activities": [
+              {
+                "type": "HDInsightHive",
+                "name": "HiveActivityTemplate",
+                "linkedServiceName": "[variables('hdiOnDemandLinkedServiceName')]",
+                "typeProperties": {
+                  "scriptPath": "[concat(variables('assetsContainerName'), '/', variables('hdInsightScriptsFolder'), '/dimUserUpdate.hql')]",
+                  "scriptLinkedService": "[variables('hdiMetastoreLinkedServiceName')]",
+                  "defines": {
+                    "Year": "$$Text.Format('{0:yyyy}',SliceStart)",
+                    "Month": "$$Text.Format('{0:MM}',SliceStart)",
+                    "Day": "$$Text.Format('{0:dd}',SliceStart)",
+                    "DataStorageAccount": "[variables('blobStorageAnalytics')]"
+                  }
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetMyDrivingRawDataBlob')]"
+                  },
+                  {
+                    "name": "[variables('datasetTempIntermediate2Blob')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetDimUserBlob')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              }
+            ],
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
+            "isPaused": false,
+            "pipelineMode": "Scheduled"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('hdiMetastoreLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('hdiOnDemandLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetMyDrivingRawDataBlob'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetTempIntermediate2Blob'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetDimUserBlob'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datapipelines",
+          "name": "[variables('pipelineFactTripDataComputeHDI')]",
+          "properties": {
+            "description": "This pipeline executes the hive queries needed to transform the data.",
+            "activities": [
+              {
+                "type": "HDInsightHive",
+                "name": "factTripData-Hive",
+                "linkedServiceName": "[variables('hdiOnDemandLinkedServiceName')]",
+                "typeProperties": {
+                  "scriptPath": "[concat(variables('assetsContainerName'), '/', variables('hdInsightScriptsFolder'), '/factTripData.hql')]",
+                  "scriptLinkedService": "[variables('hdiMetastoreLinkedServiceName')]",
+                  "defines": {
+                    "Year": "$$Text.Format('{0:yyyy}',SliceStart)",
+                    "Month": "$$Text.Format('{0:MM}',SliceStart)",
+                    "Day": "$$Text.Format('{0:dd}',SliceStart)",
+                    "DataStorageAccount": "[variables('blobStorageAnalytics')]"
+                  }
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetRawDataOneSecAggregated')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetFactTripDataBlob')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              }
+            ],
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
+            "isPaused": false,
+            "pipelineMode": "Scheduled"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('hdiMetastoreLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('hdiOnDemandLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetRawDataOneSecAggregated'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripDataBlob'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datapipelines",
+          "name": "[variables('pipelineSetupHiveTables')]",
+          "properties": {
+            "description": "This pipeline will setup the Hive tables for processing",
+            "activities": [
+              {
+                "type": "HDInsightHive",
+                "name": "CreateRawTable-Hive",
+                "linkedServiceName": "[variables('hdiOnDemandLinkedServiceName')]",
+                "typeProperties": {
+                  "scriptPath": "[concat(variables('assetsContainerName'), '/', variables('hdInsightScriptsFolder'), '/CreateRawTable.hql')]",
+                  "scriptLinkedService": "[variables('hdiMetastoreLinkedServiceName')]",
+                  "defines": {
+                    "Year": "$$Text.Format('{0:yyyy}',SliceStart)",
+                    "Month": "$$Text.Format('{0:MM}',SliceStart)",
+                    "Day": "$$Text.Format('{0:dd}',SliceStart)",
+                    "DataStorageAccount": "[variables('blobStorageAnalytics')]"
+                  }
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetMyDrivingRawDataBlob')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetTempIntermediateBlob')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              },
+              {
+                "type": "HDInsightHive",
+                "name": "CreatePartitions-Hive",
+                "linkedServiceName": "[variables('hdiOnDemandLinkedServiceName')]",
+                "typeProperties": {
+                  "scriptPath": "[concat(variables('assetsContainerName'), '/', variables('hdInsightScriptsFolder'), '/AddPartitionsHive.hql')]",
+                  "scriptLinkedService": "[variables('hdiMetastoreLinkedServiceName')]",
+                  "defines": {
+                    "Year": "$$Text.Format('{0:yyyy}',SliceStart)",
+                    "Month": "$$Text.Format('{0:MM}',SliceStart)",
+                    "Day": "$$Text.Format('{0:dd}',SliceStart)",
+                    "DataStorageAccount": "[variables('blobStorageAnalytics')]"
+                  }
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetMyDrivingRawDataBlob')]"
+                  },
+                  {
+                    "name": "[variables('datasetTempIntermediateBlob')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetTempIntermediate2Blob')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              },
+              {
+                "type": "HDInsightHive",
+                "name": "CreateOneSecAggTable-Hive",
+                "linkedServiceName": "[variables('hdiOnDemandLinkedServiceName')]",
+                "typeProperties": {
+                  "scriptPath": "[concat(variables('assetsContainerName'), '/', variables('hdInsightScriptsFolder'), '/TripDataInt.hql')]",
+                  "scriptLinkedService": "[variables('hdiMetastoreLinkedServiceName')]",
+                  "defines": {
+                    "Year": "$$Text.Format('{0:yyyy}',SliceStart)",
+                    "Month": "$$Text.Format('{0:MM}',SliceStart)",
+                    "Day": "$$Text.Format('{0:dd}',SliceStart)",
+                    "DataStorageAccount": "[variables('blobStorageAnalytics')]"
+                  }
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetMyDrivingRawDataBlob')]"
+                  },
+                  {
+                    "name": "[variables('datasetTempIntermediate2Blob')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetRawDataOneSecAggregated')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              }
+            ],
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
+            "isPaused": false,
+            "pipelineMode": "Scheduled"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('hdiMetastoreLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/linkedServices', variables('dataFactoryName'), variables('hdiOnDemandLinkedServiceName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetMyDrivingRawDataBlob'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetTempIntermediateBlob'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetTempIntermediate2Blob'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetMyDrivingRawDataBlob'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetRawDataOneSecAggregated'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datapipelines",
+          "name": "[variables('pipelineSQLSproc')]",
+          "properties": {
+            "description": "This SP will be used to move data from the Temp SQL Tables to the actual tables",
+            "activities": [
+              {
+                "type": "SqlServerStoredProcedure",
+                "name": "DimUser-SP",
+                "typeProperties": {
+                  "storedProcedureName": "sp_mergeDimUser",
+                  "storedProcedureParameters": { }
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetDimUserTempSql')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetDimUserSql')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              },
+              {
+                "type": "SqlServerStoredProcedure",
+                "name": "FactTripData-SP",
+                "typeProperties": {
+                  "storedProcedureName": "sp_mergeFactTripData"
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetFactTripDataTempSql')]"
+                  },
+                  {
+                    "name": "[variables('datasetDimUserSql')]"
+                  },
+                  {
+                    "name": "[variables('datasetFactTripMLDataSql')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetFactTripDataSql')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              }
+            ],
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
+            "isPaused": false,
+            "pipelineMode": "Scheduled"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetDimUserTempSql'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetDimUserSql'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripDataTempSql'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripMLDataSql'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripDataSql'))]"
+          ]
+        },
+        {
+          "apiVersion": "2015-10-01",
+          "type": "datapipelines",
+          "name": "[variables('pipelineSQLSprocCleanup')]",
+          "properties": {
+            "description": "This SP will be used to truncate the temp tables",
+            "activities": [
+              {
+                "type": "SqlServerStoredProcedure",
+                "name": "Cleanup-SP",
+                "typeProperties": {
+                  "storedProcedureName": "sp_cleanupTempTables"
+                },
+                "inputs": [
+                  {
+                    "name": "[variables('datasetFactTripDataSql')]"
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "[variables('datasetFinalTempSql')]"
+                  }
+                ],
+                "policy": {
+                  "timeout": "01:00:00",
+                  "concurrency": 1,
+                  "retry": 3
+                },
+                "scheduler": {
+                  "frequency": "Day",
+                  "interval": 1
+                }
+              }
+            ],
+            "start": "[parameters('dataFactoryStartDate')]",
+            "end": "[parameters('dataFactoryEndDate')]",
+            "isPaused": false,
+            "pipelineMode": "Scheduled"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.DataFactory/datafactories', variables('dataFactoryName'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFactTripDataSql'))]",
+            "[resourceId('Microsoft.DataFactory/datafactories/datasets', variables('dataFactoryName'), variables('datasetFinalTempSql'))]"
+          ]
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "sqlServerName": {
+      "type": "string",
+      "value": "[variables('sqlServerName')]"
+    },
+    "sqlServerFullyQualifiedDomainName": {
+      "type": "string",
+      "value": "[reference(concat('Microsoft.Sql/servers/', variables('sqlServerName'))).fullyQualifiedDomainName]"
+    },
+    "sqlServerAdminLogin": {
+      "type": "string",
+      "value": "[concat(variables('sqlServerAdminLogin'), '@', variables('sqlServerName'))]"
+    },
+    "sqlServerAdminPassword": {
+      "type": "string",
+      "value": "[parameters('sqlServerAdminPassword')]"
+    },
+    "sqlDBName": {
+      "type": "string",
+      "value": "[variables('sqlDBName')]"
+    },
+    "sqlAnalyticsServerName": {
+      "type": "string",
+      "value": "[variables('sqlAnalyticsServerName')]"
+    },
+    "sqlAnalyticsFullyQualifiedDomainName": {
+      "type": "string",
+      "value": "[reference(concat('Microsoft.Sql/servers/', variables('sqlAnalyticsServerName'))).fullyQualifiedDomainName]"
+    },
+    "sqlAnalyticsServerAdminLogin": {
+      "type": "string",
+      "value": "[concat(variables('sqlAnalyticsServerAdminLogin'), '@', variables('sqlAnalyticsServerName'))]"
+    },
+    "sqlAnalyticsServerAdminPassword": {
+      "type": "string",
+      "value": "[parameters('sqlAnalyticsServerAdminPassword')]"
+    },
+    "sqlAnalyticsDBName": {
+      "type": "string",
+      "value": "[variables('sqlAnalyticsDBName')]"
+    },
+    "storageAccountNameAnalytics": {
+      "type": "string",
+      "value": "[variables('blobStorageAnalytics')]"
+    },
+    "storageAccountKeyAnalytics": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageAnalytics')), '2015-06-15').key1]"
+    },
+    "storageAccountNameHdiMetastore": {
+      "type": "string",
+      "value": "[variables('blobStorageHdiMetastore')]"
+    },
+    "storageAccountKeyHdiMetastore": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageHdiMetastore')), '2015-06-15').key1]"
+    },
+    "assetsContainerName": {
+      "type": "string",
+      "value": "[variables('assetsContainerName')]"
+    },
+    "rawdataContainerName": {
+      "type": "string",
+      "value": "[variables('rawDataContainerName')]"
+    },
+    "tripdataContainerName": {
+      "type": "string",
+      "value": "[variables('tripdataContainerName')]"
+    },
+    "referenceContainerName": {
+      "type": "string",
+      "value": "[variables('referenceContainerName')]"
+    }
+  }
+}
