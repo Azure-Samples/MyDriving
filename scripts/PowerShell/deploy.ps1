@@ -1,5 +1,4 @@
 ﻿#Requires -Module AzureRM.Resources
-
 Param(
    [string] [Parameter(Mandatory=$true)] $ResourceGroupLocation,
    [string] [Parameter(Mandatory=$true)] $ResourceGroupName,
@@ -112,7 +111,7 @@ $deployment1 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-0" `
                                                  -TemplateFile $PreReqTemplateFile `
                                                  -Force -Verbose
 
-if ($deployment1 -and $deployment1.ProvisioningState -ne "Succeeded") {
+if ($deployment1.ProvisioningState -ne "Succeeded") {
 	Write-Error "Failed to provision the prerequisites storage account."
 	exit 1
 }
@@ -141,6 +140,10 @@ Write-Output ""
 Write-Output "**************************************************************************************************"
 Write-Output "* Deploying the resources in the ARM template. This operation may take several minutes..."
 Write-Output "**************************************************************************************************"
+
+Write-Warning "If asked for SQL Server password use strong password as defined here: https://msdn.microsoft.com/library/ms161962.aspx"
+Write-Warning "Is at least 8 characters long and combines letters, numbers, and symbol characters within the password"
+
 $deployment2 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-1" `
 													-ResourceGroupName $ResourceGroupName `
 													-TemplateFile $TemplateFile `
@@ -148,7 +151,7 @@ $deployment2 = New-AzureRmResourceGroupDeployment -Name "$DeploymentName-1" `
 													@templateParams `
 													-Force -Verbose
 
-if ($deployment2 -and $deployment2.ProvisioningState -ne "Succeeded") {
+if ($deployment2.ProvisioningState -ne "Succeeded") {
 	Write-Warning "Skipping the storage and database initialization..."
 	Write-Error "At least one resource could not be provisioned successfully. Review the output above to correct any errors and then run the deployment script again."
 	exit 2

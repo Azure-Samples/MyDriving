@@ -9,6 +9,7 @@ using MyDriving.Helpers;
 using MyDriving.Utils;
 using MyDriving.DataObjects;
 using System.Collections.Generic;
+using MyDriving.Utils.Helpers;
 
 namespace MyDriving.ViewModel
 {
@@ -110,10 +111,10 @@ namespace MyDriving.ViewModel
             if (IsBusy)
                 return false;
 
-            var progress = Acr.UserDialogs.UserDialogs.Instance.Loading("Loading trip details...",
-                maskType: Acr.UserDialogs.MaskType.Clear);
+            ProgressDialogManager.LoadProgressDialog("Loading trip details...");
 
             bool error = false;
+            string errorMessage = "Please check internet connection and try again.";
             try
             {
                 IsBusy = true;
@@ -145,7 +146,8 @@ namespace MyDriving.ViewModel
                 }
                 else
                 {
-                    Logger.Instance.Track("LoadPastTrip: no trip points!");
+                    Logger.Instance.Track("LoadPastTrip: no trip points! Trip id:" + id);
+                    errorMessage = "The trip does not have any points recorded";
                     error = true;
                 }
 
@@ -158,15 +160,15 @@ namespace MyDriving.ViewModel
             }
             finally
             {
-                progress?.Dispose();
+                ProgressDialogManager.DisposeProgressDialog();
                 IsBusy = false;
             }
 
             if (error)
             {
                 Acr.UserDialogs.UserDialogs.Instance.Alert(
-                          "Please check internet connection and try again.",
-                          "Unable to load Trip", "OK");
+                          errorMessage,
+                          "Error loading trip", "OK");
             }
 
             return !error;

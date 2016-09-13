@@ -11,6 +11,9 @@ using MyDriving.DataObjects;
 using System.Collections.Generic;
 using System.Linq;
 using MyDriving.AzureClient;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Threading;
 
 namespace MyDriving.DataStore.Azure
 {
@@ -48,7 +51,7 @@ namespace MyDriving.DataStore.Azure
             store.DefineTable<POI>();
             store.DefineTable<IOTHubData>();
 
-            await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler()).ConfigureAwait(false);
+            await client.SyncContext.InitializeAsync(store, new MobileServiceSyncHandler());
 
             IsInitialized = true;
         }
@@ -60,7 +63,7 @@ namespace MyDriving.DataStore.Azure
 
             var taskList = new List<Task<bool>> {TripStore.SyncAsync()};
 
-            var successes = await Task.WhenAll(taskList).ConfigureAwait(false);
+            var successes = await Task.WhenAll(taskList);
             return successes.Any(x => !x); //if any were a failure.
         }
 
