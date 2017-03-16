@@ -4,7 +4,7 @@ platforms: dotnet, ios, android, xamarin
 author: alinapopa
 ---
 
-# MyDriving - An Azure IOT and Mobile Sample Application
+# MyDriving - An Azure IoT and Mobile Sample Application
 
 This repository contains the MyDriving sample that demonstrates the design and implementation of a comprehensive Internet of Things (IoT) solution that gathers telemetry from devices, processes that data in the cloud, and applies machine learning to provide an adaptive response. The demonstration logs data about your car trips using both your mobile phone and an On-Board Diagnostics (OBD) adaptor that collects information from your vehicle's control system. The Azure backend uses this data to provide feedback on your driving style in comparison to other users.
 
