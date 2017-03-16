@@ -1,7 +1,7 @@
 ---
 services: iot-hub, applications-insights, app-service, data-factory, hdinsight, hockeyapp, key-vault, machine-learning, power-bi, sql-database, storage, stream-analytics, visual-studio-team-services 
 platforms: dotnet, ios, android, xamarin
-author: harikm86
+author: alinapopa
 ---
 
 # MyDriving - An Azure IOT and Mobile Sample Application
