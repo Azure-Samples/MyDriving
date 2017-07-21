@@ -64,7 +64,7 @@ if ($Subscriptions.Length -gt 1) {
         $intInput = -1
 
         if ([int]::TryParse($input, [ref]$intInput) -and ($intInput -ge 1 -and $intInput -le $Subscriptions.Length)) {
-            Select-AzureRmSubscription -SubscriptionId $($Subscriptions.Get($intInput-1).SubscriptionId)
+            Select-AzureRmSubscription -SubscriptionId $($Subscriptions.Get($intInput-1).Id)
             $subscription = $Subscriptions.Get($intInput-1)
             break;
         }
@@ -206,7 +206,7 @@ Write-Output "******************************************************************
 $context = Get-AzureRmContext
 $thumbprint = Read-Host "Please provide the thumbprint of your Azure management certificate. Press [Enter] directly to sign in using AAD."
 
-.\scripts\CopyMLExperiment.ps1 $subscription.SubscriptionId 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/2e55da807f4a4273bfa99852d3d6e304/items' 'MyDriving' 'https://storage.azureml.net/directories/a9fb6aeb3a164eedaaa28da34f02c3b0/items' 'MyDriving [Predictive Exp.]' $thumbprint
+.\scripts\CopyMLExperiment.ps1 $subscription.Id 'MyDriving' $ResourceGroupLocation $context.Account.Id $deployment1.Outputs.mlStorageAccountName.Value $deployment1.Outputs.mlStorageAccountKey.Value 'https://storage.azureml.net/directories/2e55da807f4a4273bfa99852d3d6e304/items' 'MyDriving' 'https://storage.azureml.net/directories/a9fb6aeb3a164eedaaa28da34f02c3b0/items' 'MyDriving [Predictive Exp.]' $thumbprint
 
 # Deploy VSTS build definitions
 $confirmation = Read-Host "Do you want to deploy VSTS CI? [y/n]"
