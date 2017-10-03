@@ -21,10 +21,7 @@ There's a detailed account of the architecture in the [MyDriving Reference Guide
 
 So, let's see how we set up all of that. 
 
-> [!NOTE] 
-> Many of the following steps are optional.
->
->
+> Note: Many of the following steps are optional.
 
 ## Sign up for accounts
 * [Visual Studio Dev Essentials](https://www.visualstudio.com/products/visual-studio-dev-essentials-vs.aspx). This free program provides easy access to many developer tools and services, including Visual Studio, Visual Studio Team Services, and Azure. It gives you a $25/month credit on Azure for 12 months. It also includes subscriptions to Pluralsight training and Xamarin University. You can also sign up separately for free tiers of [Azure](https://azure.com) and [Visual Studio Team Services](https://www.visualstudio.com/products/visual-studio-team-services-vs.aspx), but these do not provide Azure credits.
@@ -33,10 +30,7 @@ So, let's see how we set up all of that.
 * [GitHub](https://github.com/Azure-Samples/MyDriving/) (optional), to create free public repositories for your own code (private repositories are paid). Alternatively, you can use the basic plan in Visual Studio Team Services for private repositories.
 * [Power BI](https://powerbi.microsoft.com/) (optional), to create rich visualizations of data across the entire system.
 
-> [!NOTE]
-> You don't need a GitHub account to access the MyDriving code in [the GitHub MyDriving repository](https://github.com/Azure-Samples/MyDriving).
-> 
-> 
+> Note: You don't need a GitHub account to access the MyDriving code in [the GitHub MyDriving repository](https://github.com/Azure-Samples/MyDriving).
 
 ## Install development tools
 The following setup is for developing the full solution: an iOS, Android, and Windows 10 Mobile cross-platform app, with an Azure back end.
@@ -183,10 +177,8 @@ It's possible to create and interconnect Azure services manually, but it's much 
 
 You'll find the template for the MyDriving system in the GitHub repository under [scripts/ARM](https://github.com/Azure-Samples/MyDriving/tree/master/scripts/ARM). It provides a comprehensive and concise view of how the different services in our architecture are interconnected. We explain all these in detail in the [MyDriving Reference Guide](http://aka.ms/mydrivingdocs), but you can learn a lot just by reading through the template itself.
 
-> [!NOTE]
-> Most Azure services have an associated cost, depending on the pricing tier. If you're new to Azure, you can [try it out for free](https://azure.microsoft.com/free/). However, if you don't plan to use certain components in the MyDriving system, be sure to remove them to avoid incurring costs. The "Estimate operational costs" section later in this article provides a summary of typical service expenses.
-> 
-> 
+> Note: Most Azure services have an associated cost, depending on the pricing tier. If you're new to Azure, you can [try it out for free](https://azure.microsoft.com/free/). However, if you don't plan to use certain components in the MyDriving system, be sure to remove them to avoid incurring costs. The "Estimate operational costs" section later in this article provides a summary of typical service expenses.
+
 
 ### Edit the template
 To customize your deployment, perhaps to remove unneeded components or to add others, first make a copies of scenario\_complete.params.json and scenario\_complete.json in which to make changes.
@@ -335,10 +327,7 @@ We assume:
 * Running for about a month.
 * 100 users with four trips per day.
 
-> [!NOTE]
-> If you're new to Azure, there's a [free account](https://azure.microsoft.com/free/).
-> 
-> 
+> Note: If you're new to Azure, there's a [free account](https://azure.microsoft.com/free/).
 
 | **Service/component** | **Notes** | **Cost/month** |
 | --- | --- | --- |
