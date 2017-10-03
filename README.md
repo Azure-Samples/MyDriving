@@ -13,8 +13,8 @@ This repository contains the MyDriving sample that demonstrates the design and i
 In addition to the readme documentation included in this repository, please see:
 
 - [MyDriving home page](http://azure.com/mydriving)
-- [Try out the MyDriving solution as a user](https://azure.microsoft.com/documentation/articles/iot-solution-get-started/)
-- [Build and deploy your own MyDriving solution](https://azure.microsoft.com/documentation/articles/iot-solution-build-system/)
+- [Try out the MyDriving solution as a user](docs/iot-solution-get-started.md)
+- [Build and deploy your own MyDriving solution](docs/iot-solution-build-system.md)
 - [MyDriving Reference Guide: Building Integrated IoT Systems that Collect, Process, and Visualize Data](http://download.microsoft.com/download/F/E/4/FE484B73-061C-4171-B95B-D16A500BDAC6/MyDriving%20Reference%20Guide.pdf)
 
 ## Repository contents
@@ -31,7 +31,7 @@ Refer to the [scripts readme](https://github.com/Azure-Samples/MyDriving/blob/ma
 
 Open the individual solutions in their respective folders to build and deploy.
 
-More information on deploying to your own environment is given in the [Getting Started guide](https://azure.microsoft.com/documentation/articles/iot-solution-get-started/).
+More information on deploying to your own environment is given in the [Getting Started guide](docs/iot-solution-get-started.md).
 
 #### [src/DataFactory](https://github.com/Azure-Samples/MyDriving/tree/master/src/DataFactory)
 
