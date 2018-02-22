@@ -56,7 +56,7 @@ $subscription
 # if the user has more than one subscriptions force the user to select one
 if ($Subscriptions.Length -gt 1) {
     $i = 1
-    $Subscriptions | % { Write-Host "$i) $($_.SubscriptionName)"; $i++ }
+     $Subscriptions | % { Write-Host "$i) $($_.Name)"; $i++ }
 
     while($true)
     {
