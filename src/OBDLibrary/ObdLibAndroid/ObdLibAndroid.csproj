@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ObdLibAndroid</RootNamespace>
     <AssemblyName>ObdLibAndroid</AssemblyName>
-    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
@@ -25,9 +25,12 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidLinkMode>None</AndroidLinkMode>
-    <AndroidSupportedAbis></AndroidSupportedAbis>
-    <EmbedAssembliesIntoApk></EmbedAssembliesIntoApk>
-    <AndroidFastDeploymentType></AndroidFastDeploymentType>
+    <AndroidSupportedAbis>
+    </AndroidSupportedAbis>
+    <EmbedAssembliesIntoApk>
+    </EmbedAssembliesIntoApk>
+    <AndroidFastDeploymentType>
+    </AndroidFastDeploymentType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -36,9 +39,12 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <AndroidSupportedAbis></AndroidSupportedAbis>
-    <EmbedAssembliesIntoApk></EmbedAssembliesIntoApk>
-    <AndroidFastDeploymentType></AndroidFastDeploymentType>
+    <AndroidSupportedAbis>
+    </AndroidSupportedAbis>
+    <EmbedAssembliesIntoApk>
+    </EmbedAssembliesIntoApk>
+    <AndroidFastDeploymentType>
+    </AndroidFastDeploymentType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

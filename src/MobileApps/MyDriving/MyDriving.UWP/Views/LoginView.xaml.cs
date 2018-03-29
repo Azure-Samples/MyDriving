@@ -81,5 +81,11 @@ namespace MyDriving.UWP.Views
         {
             ProfileImage.Source = new BitmapImage(new Uri(Settings.Current.UserProfileUrl));
         }
+
+        private void SkipButtonLogin_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.InitFakeUser();
+            this.Frame.Navigate(typeof(CurrentTripView));
+        }
     }
 }
