@@ -9,6 +9,7 @@
     "Newtonsoft.Json": "8.0.3",
     "Plugin.Share": "4.0.0",
     "Refractored.MvvmHelpers": "1.0.1",
+    "SQLite.uwp": "3.22.0",
     "Xam.Plugin.Connectivity": "2.1.2",
     "Xam.Plugin.DeviceInfo": "2.0.2",
     "Xam.Plugin.Geolocator": "3.0.4",
@@ -16,7 +17,7 @@
     "Xam.Plugins.Settings": "2.1.0"
   },
   "frameworks": {
-    "uap10.0": {}
+    "uap10.0.10240": {}
   },
   "runtimes": {
     "win10-arm": {},

@@ -52,6 +52,15 @@
                 </StackPanel>
 
             </Button>
+
+            <Button x:Name="SkipButtonLogin" Style="{StaticResource LoginButtonStyle}" Click="SkipButtonLogin_Click"
+                    Background="DarkSlateGray"  >
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,0,0">
+                    <TextBlock Text="Skip Authentication"  Style="{StaticResource LoginButtonTextStyle}" />
+                </StackPanel>
+
+            </Button>
         </StackPanel>
 
         <Button x:Name="ContinueButton" HorizontalAlignment="Center" Margin="0,10,0,0"  Content="Continue"  Click="Continue_Click" Grid.Row="2" VerticalAlignment="Top" Visibility="Collapsed" />
