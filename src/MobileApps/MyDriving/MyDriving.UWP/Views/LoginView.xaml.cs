@@ -85,7 +85,8 @@ namespace MyDriving.UWP.Views
         private void SkipButtonLogin_Click(object sender, RoutedEventArgs e)
         {
             viewModel.InitFakeUser();
-            this.Frame.Navigate(typeof(CurrentTripView));
+            viewModel.IsLoggedIn = true;
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
     }
 }
