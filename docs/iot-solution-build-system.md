@@ -1,3 +1,6 @@
+# This is old sample from year 2017 and some parts won't work (like ML experiment). This is not production ready product. # 
+
+
 # Build and deploy the MyDriving solution to your environment
 MyDriving is an Internet of Things (IoT) solution that gathers data from your car, processes it by using machine learning, and presents it on your mobile phone. The back end consists of a variety of services provided by Microsoft Azure. The clients can be Android, iOS, or Windows 10 phones.
 
