@@ -1,7 +1,13 @@
 ---
-services: iot-hub, applications-insights, app-service, data-factory, hdinsight, hockeyapp, key-vault, machine-learning, power-bi, sql-database, storage, stream-analytics, visual-studio-team-services 
-platforms: dotnet, ios, android, xamarin
-author: alinapopa
+page_type: sample
+languages:
+- csharp
+- java
+- powershell
+products:
+- azure
+description: "This repository contains the MyDriving sample that demonstrates the design and implementation of a comprehensive Internet of Things (IoT) solution that gathers telemetry from devices,"
+urlFragment: MyDriving
 ---
 
 # MyDriving - An Azure IOT and Mobile Sample Application
