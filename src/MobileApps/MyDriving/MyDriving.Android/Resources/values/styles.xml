@@ -30,7 +30,7 @@
         <item name="colorAccent">@color/accent</item>
     </style>
 
-    <style name="MyThemeDark.ActionBar" parent="style/Widget.AppCompat.ActionBar.Solid">
+    <style name="MyThemeDark.ActionBar" parent="Widget.AppCompat.ActionBar.Solid">
         <!-- remove shadow below action bar -->
         <!-- <item name="android:elevation">0dp</item> -->
         <!-- Support library compatibility -->
@@ -66,7 +66,7 @@
 		  <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
-    <style name="MyTheme.ActionBar" parent="style/Widget.AppCompat.Light.ActionBar.Solid">
+    <style name="MyTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
         <!-- remove shadow below action bar -->
         <!-- <item name="android:elevation">0dp</item> -->
         <!-- Support library compatibility -->
