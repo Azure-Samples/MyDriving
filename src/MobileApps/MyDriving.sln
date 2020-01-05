@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDriving.iOS", "MyDriving\MyDriving.iOS\MyDriving.iOS.csproj", "{DE56E591-0655-43D7-A1B9-B3280F78B667}"
 EndProject
@@ -43,12 +43,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObdLibiOS", "..\OBDLibrary\
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		MyDriving\MyDriving.DataObjects\MyDriving.DataObjects.projitems*{bd4403c0-6cd5-4030-b1a3-7ad98b9b80ca}*SharedItemsImports = 13
 		MyDriving\MyDriving.Shared\MyDriving.Shared.projitems*{219edca6-56bb-4ebd-ae46-c691f0aed767}*SharedItemsImports = 4
 		MyDriving\MyDriving.DataObjects\MyDriving.DataObjects.projitems*{649300ce-70ea-4606-983f-f4476fdd6c7e}*SharedItemsImports = 4
-		MyDriving\MyDriving.Shared\MyDriving.Shared.projitems*{efa3478d-88c0-41a8-ad5e-5878e42fe3e2}*SharedItemsImports = 13
 		MyDriving\MyDriving.Shared\MyDriving.Shared.projitems*{b09661c2-82a6-4d16-b4fd-7b23d0ffe1fe}*SharedItemsImports = 4
+		MyDriving\MyDriving.DataObjects\MyDriving.DataObjects.projitems*{bd4403c0-6cd5-4030-b1a3-7ad98b9b80ca}*SharedItemsImports = 13
 		MyDriving\MyDriving.Shared\MyDriving.Shared.projitems*{de56e591-0655-43d7-a1b9-b3280f78b667}*SharedItemsImports = 4
+		MyDriving\MyDriving.Shared\MyDriving.Shared.projitems*{efa3478d-88c0-41a8-ad5e-5878e42fe3e2}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		AppStore|Any CPU = AppStore|Any CPU
@@ -216,7 +216,6 @@ Global
 		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|iPhone.Deploy.0 = Debug|x86
 		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|iPhoneSimulator.ActiveCfg = Debug|x86
 		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|iPhoneSimulator.Build.0 = Debug|x86
-		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|iPhoneSimulator.Deploy.0 = Debug|x86 
 		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{219EDCA6-56BB-4EBD-AE46-C691F0AED767}.Debug|Mixed Platforms.Deploy.0 = Debug|x86
