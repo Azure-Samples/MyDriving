@@ -259,6 +259,11 @@ BEGIN
 ALTER TABLE [dbo].[Devices] ADD  DEFAULT (sysutcdatetime()) FOR [CreatedAt]
 END
 
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Deleted' AND object_id = object_id('dbo.Devices')) IS NULL
+BEGIN
+ALTER TABLE [dbo].[Devices] ADD  DEFAULT (0) FOR [Deleted]
+END
+
 GO
 --IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__IOTHubDatas__Id__36B12243]') AND type = 'D')
 IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Id' AND object_id = object_id('dbo.IOTHubDatas')) IS NULL
@@ -271,6 +276,11 @@ GO
 IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='CreatedAt' AND object_id = object_id('dbo.IOTHubDatas')) IS NULL
 BEGIN
 ALTER TABLE [dbo].[IOTHubDatas] ADD  DEFAULT (sysutcdatetime()) FOR [CreatedAt]
+END
+
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Deleted' AND object_id = object_id('dbo.IOTHubDatas')) IS NULL
+BEGIN
+ALTER TABLE [dbo].[IOTHubDatas] ADD  DEFAULT (0) FOR [Deleted]
 END
 
 GO
@@ -294,6 +304,12 @@ BEGIN
 ALTER TABLE [dbo].[POIs] ADD  DEFAULT ('1900-01-01T00:00:00.000') FOR [Timestamp]
 END
 
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Deleted' AND object_id = object_id('dbo.POIs')) IS NULL
+BEGIN
+ALTER TABLE [dbo].[POIs] ADD  DEFAULT (0) FOR [Deleted]
+END
+
+
 GO
 --IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__TripPoints__Id__403A8C7D]') AND type = 'D')
 IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Id' AND object_id = object_id('dbo.TripPoints')) IS NULL
@@ -307,6 +323,12 @@ IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns W
 BEGIN
 ALTER TABLE [dbo].[TripPoints] ADD  DEFAULT (sysutcdatetime()) FOR [CreatedAt]
 END
+
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Deleted' AND object_id = object_id('dbo.TripPoints')) IS NULL
+BEGIN
+ALTER TABLE [dbo].[TripPoints] ADD  DEFAULT (0) FOR [Deleted]
+END
+
 
 GO
 --IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Trips__Id__44FF419A]') AND type = 'D')
@@ -322,6 +344,11 @@ BEGIN
 ALTER TABLE [dbo].[Trips] ADD  DEFAULT (sysutcdatetime()) FOR [CreatedAt]
 END
 
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Deleted' AND object_id = object_id('dbo.Trips')) IS NULL
+BEGIN
+ALTER TABLE [dbo].[Trips] ADD  DEFAULT (0) FOR [Deleted]
+END
+
 GO
 --IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__UserProfiles__Id__49C3F6B7]') AND type = 'D')
 IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Id' AND object_id = object_id('dbo.UserProfiles')) IS NULL
@@ -335,6 +362,12 @@ IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns W
 BEGIN
 ALTER TABLE [dbo].[UserProfiles] ADD  DEFAULT (sysutcdatetime()) FOR [CreatedAt]
 END
+
+IF (SELECT object_definition(default_object_id) AS definition FROM sys.columns WHERE name ='Deleted' AND object_id = object_id('dbo.UserProfiles')) IS NULL
+BEGIN
+ALTER TABLE [dbo].[UserProfiles] ADD  DEFAULT (0) FOR [Deleted]
+END
+
 
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_dbo.Devices_dbo.UserProfiles_UserProfile_Id]') AND parent_object_id = OBJECT_ID(N'[dbo].[Devices]'))

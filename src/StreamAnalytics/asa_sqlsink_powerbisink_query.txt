@@ -1,27 +1,68 @@
 WITH TripPointRaw as 
 (
 SELECT
-    TripId,
+	TripId,
     UserId,
-    TripDataPoint.Lat as RawLat,
-    TripDataPoint.Lon as RawLong,
-    CAST(TripDataPoint.Speed as FLOAT) as spd,
-    CAST(TripDataPoint.EngineRPM as FLOAT) as enginerpm,
-    CAST(TripDataPoint.EngineLoad as FLOAT) as engineLoad,
-    CAST(TripDataPoint.ShortTermFuelBank1 as FLOAT) as shortTermFuelBank,
-    CAST(TripDataPoint.LongTermFuelBank1 as FLOAT) as longTermFuelBank,
-    CAST(TripDataPoint.MAFFlowRate as FLOAT) as flowRate,
-    CAST(TripDataPoint.ThrottlePosition as FLOAT) as throttlePos,
-    CAST(TripDataPoint.Runtime as FLOAT) as runtime,
-    CAST(TripDataPoint.DistanceWithMIL as FLOAT) as distanceWithMIL,
-    CAST(TripDataPoint.RelativeThrottlePosition as FLOAT) as relativeThrottlePos,
-    CAST(TripDataPoint.OutsideTemperature as FLOAT) as outsideTemperature,
-    CAST(TripDataPoint.EngineFuelRate as FLOAT) as engineFuelRate,
+    CASE 
+     WHEN CAST(TripDataPoint.Lat as FLOAT) != 255 THEN CAST(TripDataPoint.Lat as FLOAT)
+     ELSE NULL
+    END as RawLat,
+    CASE 
+     WHEN CAST(TripDataPoint.Lon as FLOAT) != 255 THEN CAST(TripDataPoint.Lon as FLOAT)
+     ELSE NULL
+    END as RawLong,
+    CASE  
+     WHEN CAST(TripDataPoint.Speed as FLOAT) >=0 THEN CAST(TripDataPoint.Speed as FLOAT)
+     ELSE NULL
+    END as spd,
+    CASE  
+     WHEN CAST(TripDataPoint.EngineRPM as FLOAT) != -255 THEN CAST(TripDataPoint.EngineRPM as FLOAT)
+     ELSE NULL
+    END as enginerpm,
+    CASE  
+     WHEN CAST(TripDataPoint.EngineLoad as FLOAT) != -255 THEN CAST(TripDataPoint.EngineLoad as FLOAT)
+     ELSE NULL
+    END as engineLoad,
+    CASE  
+     WHEN CAST(TripDataPoint.ShortTermFuelBank1 as FLOAT) != -255 THEN CAST(TripDataPoint.ShortTermFuelBank1 as FLOAT)
+     ELSE NULL
+    END as shortTermFuelBank,
+    CASE  
+     WHEN CAST(TripDataPoint.LongTermFuelBank1 as FLOAT) != -255 THEN CAST(TripDataPoint.LongTermFuelBank1 as FLOAT)
+     ELSE NULL
+    END as longTermFuelBank,
+    CASE  
+     WHEN CAST(TripDataPoint.MAFFlowRate as FLOAT) != -255 THEN CAST(TripDataPoint.MAFFlowRate as FLOAT)
+     ELSE NULL
+    END as flowRate,
+    CASE  
+     WHEN CAST(TripDataPoint.ThrottlePosition as FLOAT) != -255 THEN CAST(TripDataPoint.ThrottlePosition as FLOAT)
+     ELSE NULL
+    END as throttlePos,
+    CASE  
+     WHEN CAST(TripDataPoint.Runtime as FLOAT) >=0 THEN CAST(TripDataPoint.Runtime as FLOAT)
+     ELSE NULL
+    END as runtime,
+    CASE  
+     WHEN CAST(TripDataPoint.DistanceWithMIL as FLOAT) >=0 THEN CAST(TripDataPoint.DistanceWithMIL as FLOAT)
+     ELSE NULL
+    END as distanceWithMIL,
+    CASE  
+     WHEN CAST(TripDataPoint.RelativeThrottlePosition as FLOAT) != -255 THEN CAST(TripDataPoint.RelativeThrottlePosition as FLOAT)
+     ELSE NULL
+    END as relativeThrottlePos,
+    CASE  
+     WHEN CAST(TripDataPoint.OutsideTemperature as FLOAT) != -255 THEN CAST(TripDataPoint.OutsideTemperature as FLOAT)
+     ELSE NULL
+    END as outsideTemperature,
+    CASE  
+     WHEN CAST(TripDataPoint.EngineFuelRate as FLOAT) != -255 THEN CAST(TripDataPoint.EngineFuelRate as FLOAT)
+     ELSE NULL
+    END as engineFuelRate,
+	TripDataPoint.VIN as vin,
     TripDataPoint.RecordedTimeStamp as actualTS,
     DATEADD(millisecond,- DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),DATEADD(second, 5 - CAST(CEILING(DATEPART(second, TripDataPoint.RecordedTimeStamp)%5) as BIGINT),TripDataPoint.RecordedTimeStamp)) as ts,
-    DATEDIFF(millisecond, TripDataPoint.RecordedTimeStamp, DATEADD(millisecond,-DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),DATEADD(second, 5 - CAST(CEILING(DATEPART(second, TripDataPoint.RecordedTimeStamp)%5) as BIGINT),TripDataPoint.RecordedTimeStamp))) as tsDiff,
-    TripDataPoint.VIN as vin,
-    TripDataPoint.RelativeThrottlePosition as throttle
+    DATEDIFF(millisecond, TripDataPoint.RecordedTimeStamp, DATEADD(millisecond,-DATEPART(millisecond,TripDataPoint.RecordedTimeStamp),DATEADD(second, 5 - CAST(CEILING(DATEPART(second, TripDataPoint.RecordedTimeStamp)%5) as BIGINT),TripDataPoint.RecordedTimeStamp))) as tsDiff
 FROM
     CarDeviceData TIMESTAMP by TripDataPoint.RecordedTimeStamp
 WHERE
