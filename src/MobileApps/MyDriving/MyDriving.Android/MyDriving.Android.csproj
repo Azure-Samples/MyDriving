@@ -28,11 +28,6 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
-    <AndroidKeyStore>True</AndroidKeyStore>
-    <AndroidSigningKeyStore>Build2016.keystore</AndroidSigningKeyStore>
-    <AndroidSigningStorePass>Build*1234</AndroidSigningStorePass>
-    <AndroidSigningKeyAlias>Build2016</AndroidSigningKeyAlias>
-    <AndroidSigningKeyPass>Build*1234</AndroidSigningKeyPass>
     <AssemblyName>MyDriving.Droid</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
